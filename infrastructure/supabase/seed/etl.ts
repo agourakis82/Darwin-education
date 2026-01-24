@@ -9,13 +9,19 @@ import { runPlugin, runPluginsInParallel } from './etl-core/registry/plugin-runn
 
 // Import plugins
 import { ENAMED2025Plugin } from './sources/enamed-2025/plugin';
+import { ENAREPlugin } from './sources/enare-2024/plugin';
+import { USPFUVESTPlugin } from './sources/usp-fuvest/plugin';
+import { REVALIDAPlugin } from './sources/revalida/plugin';
 
 async function main() {
   const registry = new PluginRegistry();
 
   // Register all available plugins
   registry.register(new ENAMED2025Plugin());
-  // ENARE, USP, REVALIDA, Regional plugins will be registered here as they're implemented
+  registry.register(new ENAREPlugin());
+  registry.register(new USPFUVESTPlugin());
+  registry.register(new REVALIDAPlugin());
+  // Regional plugin will be registered here as it's implemented
 
   const command = process.argv[2];
   const args = process.argv.slice(3);
