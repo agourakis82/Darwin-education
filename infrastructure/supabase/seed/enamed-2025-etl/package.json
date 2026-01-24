@@ -1,0 +1,23 @@
+{
+  "name": "@darwin-education/enamed-2025-etl",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ETL pipeline for ENAMED 2025 microdata",
+  "type": "module",
+  "scripts": {
+    "start": "npx tsx index.ts",
+    "scrape": "npx tsx index.ts --scrape",
+    "parse": "npx tsx index.ts --parse",
+    "validate": "npx tsx index.ts --validate",
+    "irt-only": "npx tsx index.ts --irt-only",
+    "full": "npx tsx index.ts --full"
+  },
+  "dependencies": {
+    "pdf-parse": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0"
+  }
+}
