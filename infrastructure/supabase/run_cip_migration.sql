@@ -1,0 +1,498 @@
+-- ============================================
+-- CIP Complete Migration + Seed Data
+-- ============================================
+-- Run this in Supabase SQL Editor to set up CIP feature.
+-- Combines: migrations/001_cip_schema.sql + seed/06_cip_sample_data.sql
+-- ============================================
+
+-- ============================================
+-- PART 1: SCHEMA
+-- ============================================
+
+-- CIP Findings Table
+CREATE TABLE IF NOT EXISTS cip_findings (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  text_pt TEXT NOT NULL,
+  text_en TEXT,
+  section TEXT NOT NULL CHECK (section IN (
+    'medical_history', 'physical_exam', 'laboratory', 'imaging', 'pathology', 'treatment'
+  )),
+  icd10_codes TEXT[] DEFAULT '{}',
+  atc_codes TEXT[] DEFAULT '{}',
+  tags TEXT[] DEFAULT '{}',
+  is_ai_generated BOOLEAN DEFAULT FALSE,
+  validated_by TEXT CHECK (validated_by IN ('community', 'expert', 'both')),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_cip_findings_section ON cip_findings(section);
+CREATE INDEX IF NOT EXISTS idx_cip_findings_icd10 ON cip_findings USING gin(icd10_codes);
+CREATE INDEX IF NOT EXISTS idx_cip_findings_atc ON cip_findings USING gin(atc_codes);
+CREATE INDEX IF NOT EXISTS idx_cip_findings_tags ON cip_findings USING gin(tags);
+
+-- CIP Diagnoses Table
+CREATE TABLE IF NOT EXISTS cip_diagnoses (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  name_pt TEXT NOT NULL,
+  name_en TEXT,
+  icd10_code TEXT NOT NULL,
+  icd10_codes_secondary TEXT[] DEFAULT '{}',
+  area TEXT NOT NULL CHECK (area IN (
+    'clinica_medica', 'cirurgia', 'ginecologia_obstetricia', 'pediatria', 'saude_coletiva'
+  )),
+  subspecialty TEXT,
+  difficulty_tier INTEGER DEFAULT 3 CHECK (difficulty_tier >= 1 AND difficulty_tier <= 5),
+  keywords TEXT[] DEFAULT '{}',
+  is_active BOOLEAN DEFAULT TRUE,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_cip_diagnoses_area ON cip_diagnoses(area);
+CREATE INDEX IF NOT EXISTS idx_cip_diagnoses_icd10 ON cip_diagnoses(icd10_code);
+CREATE INDEX IF NOT EXISTS idx_cip_diagnoses_active ON cip_diagnoses(is_active);
+
+-- Diagnosis-Finding Junction Table
+CREATE TABLE IF NOT EXISTS cip_diagnosis_findings (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  diagnosis_id UUID NOT NULL REFERENCES cip_diagnoses(id) ON DELETE CASCADE,
+  finding_id UUID NOT NULL REFERENCES cip_findings(id) ON DELETE CASCADE,
+  section TEXT NOT NULL CHECK (section IN (
+    'medical_history', 'physical_exam', 'laboratory', 'imaging', 'pathology', 'treatment'
+  )),
+  priority INTEGER DEFAULT 0,
+  is_primary BOOLEAN DEFAULT FALSE,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  CONSTRAINT unique_diagnosis_finding UNIQUE (diagnosis_id, finding_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_cip_diagnosis_findings_diagnosis ON cip_diagnosis_findings(diagnosis_id);
+CREATE INDEX IF NOT EXISTS idx_cip_diagnosis_findings_finding ON cip_diagnosis_findings(finding_id);
+CREATE INDEX IF NOT EXISTS idx_cip_diagnosis_findings_section ON cip_diagnosis_findings(section);
+
+-- CIP Puzzles Table
+CREATE TABLE IF NOT EXISTS cip_puzzles (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  title TEXT NOT NULL,
+  description TEXT,
+  difficulty TEXT NOT NULL CHECK (difficulty IN (
+    'muito_facil', 'facil', 'medio', 'dificil', 'muito_dificil'
+  )),
+  settings JSONB NOT NULL DEFAULT '{
+    "diagnosisCount": 5,
+    "sections": ["medical_history", "physical_exam", "laboratory", "treatment"],
+    "distractorCount": 3,
+    "allowReuse": false
+  }',
+  diagnosis_ids UUID[] NOT NULL,
+  areas TEXT[] NOT NULL,
+  options_per_section JSONB NOT NULL,
+  irt_difficulty NUMERIC(5,3) DEFAULT 0,
+  irt_discrimination NUMERIC(5,3) DEFAULT 1.2,
+  irt_guessing NUMERIC(5,3) DEFAULT 0.1,
+  time_limit_minutes INTEGER DEFAULT 30,
+  type TEXT DEFAULT 'practice' CHECK (type IN ('practice', 'exam', 'custom')),
+  is_public BOOLEAN DEFAULT TRUE,
+  is_ai_generated BOOLEAN DEFAULT FALSE,
+  validated_by TEXT CHECK (validated_by IN ('community', 'expert', 'both')),
+  created_by UUID REFERENCES profiles(id) ON DELETE SET NULL,
+  times_attempted INTEGER DEFAULT 0,
+  times_completed INTEGER DEFAULT 0,
+  avg_score NUMERIC(5,2),
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_cip_puzzles_difficulty ON cip_puzzles(difficulty);
+CREATE INDEX IF NOT EXISTS idx_cip_puzzles_areas ON cip_puzzles USING gin(areas);
+CREATE INDEX IF NOT EXISTS idx_cip_puzzles_type ON cip_puzzles(type);
+CREATE INDEX IF NOT EXISTS idx_cip_puzzles_public ON cip_puzzles(is_public);
+
+-- CIP Puzzle Grid (Correct Answers)
+CREATE TABLE IF NOT EXISTS cip_puzzle_grid (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  puzzle_id UUID NOT NULL REFERENCES cip_puzzles(id) ON DELETE CASCADE,
+  row_index INTEGER NOT NULL,
+  section TEXT NOT NULL CHECK (section IN (
+    'medical_history', 'physical_exam', 'laboratory', 'imaging', 'pathology', 'treatment'
+  )),
+  correct_finding_id UUID NOT NULL REFERENCES cip_findings(id),
+  irt_difficulty NUMERIC(5,3),
+  CONSTRAINT unique_puzzle_cell UNIQUE (puzzle_id, row_index, section)
+);
+
+CREATE INDEX IF NOT EXISTS idx_cip_puzzle_grid_puzzle ON cip_puzzle_grid(puzzle_id);
+
+-- CIP Attempts Table
+CREATE TABLE IF NOT EXISTS cip_attempts (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  puzzle_id UUID NOT NULL REFERENCES cip_puzzles(id) ON DELETE CASCADE,
+  user_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
+  grid_state JSONB NOT NULL DEFAULT '{}',
+  time_per_cell JSONB DEFAULT '{}',
+  total_time_seconds INTEGER,
+  theta NUMERIC(5,3),
+  standard_error NUMERIC(5,3),
+  scaled_score INTEGER,
+  passed BOOLEAN,
+  correct_count INTEGER,
+  total_cells INTEGER,
+  section_breakdown JSONB,
+  diagnosis_breakdown JSONB,
+  started_at TIMESTAMPTZ DEFAULT NOW(),
+  completed_at TIMESTAMPTZ,
+  CONSTRAINT unique_active_cip_attempt UNIQUE (puzzle_id, user_id, completed_at)
+);
+
+CREATE INDEX IF NOT EXISTS idx_cip_attempts_user ON cip_attempts(user_id);
+CREATE INDEX IF NOT EXISTS idx_cip_attempts_puzzle ON cip_attempts(puzzle_id);
+CREATE INDEX IF NOT EXISTS idx_cip_attempts_completed ON cip_attempts(completed_at);
+
+-- ============================================
+-- RLS Policies
+-- ============================================
+
+ALTER TABLE cip_findings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE cip_diagnoses ENABLE ROW LEVEL SECURITY;
+ALTER TABLE cip_diagnosis_findings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE cip_puzzles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE cip_puzzle_grid ENABLE ROW LEVEL SECURITY;
+ALTER TABLE cip_attempts ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS cip_findings_select ON cip_findings;
+CREATE POLICY cip_findings_select ON cip_findings FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS cip_diagnoses_select ON cip_diagnoses;
+CREATE POLICY cip_diagnoses_select ON cip_diagnoses FOR SELECT USING (is_active = true);
+
+DROP POLICY IF EXISTS cip_diagnosis_findings_select ON cip_diagnosis_findings;
+CREATE POLICY cip_diagnosis_findings_select ON cip_diagnosis_findings FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS cip_puzzles_select ON cip_puzzles;
+CREATE POLICY cip_puzzles_select ON cip_puzzles FOR SELECT USING (is_public = true);
+
+DROP POLICY IF EXISTS cip_puzzle_grid_select ON cip_puzzle_grid;
+CREATE POLICY cip_puzzle_grid_select ON cip_puzzle_grid FOR SELECT USING (
+  EXISTS (SELECT 1 FROM cip_puzzles WHERE id = cip_puzzle_grid.puzzle_id AND is_public = true)
+);
+
+DROP POLICY IF EXISTS cip_attempts_select ON cip_attempts;
+CREATE POLICY cip_attempts_select ON cip_attempts FOR SELECT USING (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS cip_attempts_insert ON cip_attempts;
+CREATE POLICY cip_attempts_insert ON cip_attempts FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+DROP POLICY IF EXISTS cip_attempts_update ON cip_attempts;
+CREATE POLICY cip_attempts_update ON cip_attempts FOR UPDATE USING (auth.uid() = user_id);
+
+-- ============================================
+-- Triggers
+-- ============================================
+
+CREATE OR REPLACE FUNCTION update_cip_updated_at()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = NOW();
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS cip_findings_updated_at ON cip_findings;
+CREATE TRIGGER cip_findings_updated_at
+  BEFORE UPDATE ON cip_findings
+  FOR EACH ROW EXECUTE FUNCTION update_cip_updated_at();
+
+DROP TRIGGER IF EXISTS cip_diagnoses_updated_at ON cip_diagnoses;
+CREATE TRIGGER cip_diagnoses_updated_at
+  BEFORE UPDATE ON cip_diagnoses
+  FOR EACH ROW EXECUTE FUNCTION update_cip_updated_at();
+
+CREATE OR REPLACE FUNCTION update_cip_puzzle_stats()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.completed_at IS NOT NULL AND OLD.completed_at IS NULL THEN
+    UPDATE cip_puzzles SET
+      times_completed = times_completed + 1,
+      avg_score = (
+        SELECT AVG(scaled_score)::NUMERIC(5,2)
+        FROM cip_attempts WHERE puzzle_id = NEW.puzzle_id AND completed_at IS NOT NULL
+      )
+    WHERE id = NEW.puzzle_id;
+  END IF;
+  IF TG_OP = 'INSERT' THEN
+    UPDATE cip_puzzles SET times_attempted = times_attempted + 1 WHERE id = NEW.puzzle_id;
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS cip_attempts_stats ON cip_attempts;
+CREATE TRIGGER cip_attempts_stats
+  AFTER INSERT OR UPDATE ON cip_attempts
+  FOR EACH ROW EXECUTE FUNCTION update_cip_puzzle_stats();
+
+-- ============================================
+-- PART 2: SEED DATA
+-- ============================================
+
+-- CIP Diagnoses
+INSERT INTO cip_diagnoses (id, name_pt, name_en, icd10_code, icd10_codes_secondary, area, subspecialty, difficulty_tier, keywords) VALUES
+('diag-dm2', 'Diabetes Mellitus tipo 2', 'Type 2 Diabetes Mellitus', 'E11', ARRAY['E11.9', 'E11.65'], 'clinica_medica', 'endocrinologia', 3, ARRAY['diabetes', 'glicemia', 'insulina', 'metformina']),
+('diag-has', 'Hipertensão Arterial Sistêmica', 'Systemic Arterial Hypertension', 'I10', ARRAY['I11', 'I12'], 'clinica_medica', 'cardiologia', 2, ARRAY['pressão', 'hipertensão', 'cardiovascular']),
+('diag-icc', 'Insuficiência Cardíaca Congestiva', 'Congestive Heart Failure', 'I50', ARRAY['I50.0', 'I50.9'], 'clinica_medica', 'cardiologia', 4, ARRAY['dispneia', 'edema', 'congestão', 'BNP']),
+('diag-dpoc', 'Doença Pulmonar Obstrutiva Crônica', 'Chronic Obstructive Pulmonary Disease', 'J44', ARRAY['J44.0', 'J44.1'], 'clinica_medica', 'pneumologia', 3, ARRAY['tabagismo', 'dispneia', 'broncodilatador']),
+('diag-pneumonia', 'Pneumonia Adquirida na Comunidade', 'Community-Acquired Pneumonia', 'J18', ARRAY['J15', 'J13'], 'clinica_medica', 'pneumologia', 2, ARRAY['febre', 'tosse', 'infiltrado', 'antibiótico']),
+('diag-apendicite', 'Apendicite Aguda', 'Acute Appendicitis', 'K35', ARRAY['K35.8', 'K35.9'], 'cirurgia', 'cirurgia_geral', 2, ARRAY['dor abdominal', 'McBurney', 'apendicectomia']),
+('diag-colecistite', 'Colecistite Aguda', 'Acute Cholecystitis', 'K81', ARRAY['K81.0', 'K80'], 'cirurgia', 'cirurgia_geral', 3, ARRAY['cólica biliar', 'Murphy', 'colecistectomia']),
+('diag-hda', 'Hemorragia Digestiva Alta', 'Upper Gastrointestinal Bleeding', 'K92.2', ARRAY['K25', 'K26'], 'cirurgia', 'cirurgia_geral', 4, ARRAY['melena', 'hematêmese', 'endoscopia']),
+('diag-pre-eclampsia', 'Pré-eclâmpsia', 'Preeclampsia', 'O14', ARRAY['O14.0', 'O14.1'], 'ginecologia_obstetricia', 'obstetricia', 4, ARRAY['hipertensão', 'gestação', 'proteinúria', 'sulfato']),
+('diag-itu-gestante', 'Infecção Urinária na Gestação', 'Urinary Tract Infection in Pregnancy', 'O23', ARRAY['O23.0', 'O23.4'], 'ginecologia_obstetricia', 'obstetricia', 2, ARRAY['disúria', 'bacteriúria', 'gestação']),
+('diag-mioma', 'Leiomioma Uterino', 'Uterine Leiomyoma', 'D25', ARRAY['D25.0', 'D25.1'], 'ginecologia_obstetricia', 'ginecologia', 3, ARRAY['sangramento', 'útero', 'miomectomia']),
+('diag-bva', 'Bronquiolite Viral Aguda', 'Acute Viral Bronchiolitis', 'J21', ARRAY['J21.0', 'J21.9'], 'pediatria', 'pneumologia_pediatrica', 2, ARRAY['VSR', 'lactente', 'sibilância', 'oxigênio']),
+('diag-dda', 'Doença Diarreica Aguda', 'Acute Diarrheal Disease', 'A09', ARRAY['A08', 'A09'], 'pediatria', 'gastro_pediatrica', 2, ARRAY['diarreia', 'desidratação', 'SRO']),
+('diag-meningite-bact', 'Meningite Bacteriana', 'Bacterial Meningitis', 'G00', ARRAY['G00.0', 'G00.9'], 'pediatria', 'infectologia_pediatrica', 5, ARRAY['febre', 'rigidez nucal', 'LCR', 'ceftriaxona']),
+('diag-tb-pulmonar', 'Tuberculose Pulmonar', 'Pulmonary Tuberculosis', 'A15', ARRAY['A15.0', 'A15.3'], 'saude_coletiva', 'vigilancia', 3, ARRAY['tosse', 'BAAR', 'rifampicina', 'notificação']),
+('diag-dengue', 'Dengue', 'Dengue Fever', 'A90', ARRAY['A91'], 'saude_coletiva', 'vigilancia', 2, ARRAY['febre', 'mialgia', 'plaquetopenia', 'Aedes'])
+ON CONFLICT (id) DO NOTHING;
+
+-- CIP Findings
+INSERT INTO cip_findings (id, text_pt, text_en, section, icd10_codes, atc_codes, tags, is_ai_generated) VALUES
+-- Medical History
+('find-hist-polidipsia', 'Polidipsia e poliúria há 3 meses', 'Polydipsia and polyuria for 3 months', 'medical_history', ARRAY['R63.1'], ARRAY[]::TEXT[], ARRAY['diabetes', 'sintomas'], false),
+('find-hist-cefaleia-has', 'Cefaleia occipital matinal há 2 semanas', 'Morning occipital headache for 2 weeks', 'medical_history', ARRAY['R51'], ARRAY[]::TEXT[], ARRAY['hipertensão', 'cefaleia'], false),
+('find-hist-dispneia-esforco', 'Dispneia aos esforços progressiva há 1 mês', 'Progressive exertional dyspnea for 1 month', 'medical_history', ARRAY['R06.0'], ARRAY[]::TEXT[], ARRAY['ICC', 'dispneia'], false),
+('find-hist-tabagismo', 'Tabagismo 40 maços-ano, tosse crônica', 'Smoking 40 pack-years, chronic cough', 'medical_history', ARRAY['F17'], ARRAY[]::TEXT[], ARRAY['DPOC', 'tabagismo'], false),
+('find-hist-febre-tosse', 'Febre e tosse produtiva há 5 dias', 'Fever and productive cough for 5 days', 'medical_history', ARRAY['R50', 'R05'], ARRAY[]::TEXT[], ARRAY['pneumonia', 'infecção'], false),
+('find-hist-dor-fid', 'Dor abdominal em fossa ilíaca direita há 24h', 'Right lower quadrant pain for 24h', 'medical_history', ARRAY['R10.3'], ARRAY[]::TEXT[], ARRAY['apendicite', 'abdome'], false),
+('find-hist-colica-biliar', 'Dor em hipocôndrio direito pós-prandial', 'Right upper quadrant pain after meals', 'medical_history', ARRAY['R10.1'], ARRAY[]::TEXT[], ARRAY['colecistite', 'biliar'], false),
+('find-hist-melena', 'Melena há 2 dias, fraqueza', 'Melena for 2 days, weakness', 'medical_history', ARRAY['K92.1'], ARRAY[]::TEXT[], ARRAY['HDA', 'sangramento'], false),
+('find-hist-gestante-pa', 'Gestante 32 semanas, PA elevada em consulta', 'Pregnant 32 weeks, elevated BP at visit', 'medical_history', ARRAY['O14'], ARRAY[]::TEXT[], ARRAY['pré-eclâmpsia', 'gestação'], false),
+('find-hist-disuria-gest', 'Gestante com disúria e polaciúria', 'Pregnant with dysuria and frequency', 'medical_history', ARRAY['O23'], ARRAY[]::TEXT[], ARRAY['ITU', 'gestação'], false),
+('find-hist-menorragia', 'Sangramento menstrual aumentado há 6 meses', 'Increased menstrual bleeding for 6 months', 'medical_history', ARRAY['N92'], ARRAY[]::TEXT[], ARRAY['mioma', 'sangramento'], false),
+('find-hist-lactente-coriza', 'Lactente 6 meses, coriza e tosse há 3 dias', 'Infant 6 months, runny nose and cough for 3 days', 'medical_history', ARRAY['J21'], ARRAY[]::TEXT[], ARRAY['bronquiolite', 'VSR'], false),
+('find-hist-diarreia-crianca', 'Criança 2 anos, diarreia líquida e vômitos', 'Child 2 years, watery diarrhea and vomiting', 'medical_history', ARRAY['A09'], ARRAY[]::TEXT[], ARRAY['DDA', 'desidratação'], false),
+('find-hist-febre-rigidez', 'Criança com febre alta e irritabilidade', 'Child with high fever and irritability', 'medical_history', ARRAY['G00'], ARRAY[]::TEXT[], ARRAY['meningite', 'febre'], false),
+('find-hist-tosse-3sem', 'Tosse há mais de 3 semanas, sudorese noturna', 'Cough for over 3 weeks, night sweats', 'medical_history', ARRAY['A15'], ARRAY[]::TEXT[], ARRAY['tuberculose', 'tosse'], false),
+('find-hist-febre-mialgia', 'Febre, mialgia intensa e cefaleia há 4 dias', 'Fever, intense myalgia and headache for 4 days', 'medical_history', ARRAY['A90'], ARRAY[]::TEXT[], ARRAY['dengue', 'arbovirose'], false),
+-- Physical Exam
+('find-exam-acantose', 'Acantose nigricans em região cervical', 'Acanthosis nigricans in cervical region', 'physical_exam', ARRAY['L83'], ARRAY[]::TEXT[], ARRAY['diabetes', 'resistência insulínica'], false),
+('find-exam-pa-elevada', 'PA 180x110 mmHg, fundoscopia com exsudatos', 'BP 180x110 mmHg, fundoscopy with exudates', 'physical_exam', ARRAY['I10'], ARRAY[]::TEXT[], ARRAY['hipertensão', 'lesão órgão-alvo'], false),
+('find-exam-turgencia', 'Turgência jugular, edema de membros inferiores', 'Jugular venous distension, lower extremity edema', 'physical_exam', ARRAY['I50'], ARRAY[]::TEXT[], ARRAY['ICC', 'congestão'], false),
+('find-exam-mv-diminuido', 'MV diminuído bilateralmente, expiração prolongada', 'Decreased breath sounds bilaterally, prolonged expiration', 'physical_exam', ARRAY['J44'], ARRAY[]::TEXT[], ARRAY['DPOC', 'obstrução'], false),
+('find-exam-crepitacoes', 'Crepitações em base pulmonar direita', 'Crackles at right lung base', 'physical_exam', ARRAY['J18'], ARRAY[]::TEXT[], ARRAY['pneumonia', 'consolidação'], false),
+('find-exam-blumberg', 'Sinal de Blumberg positivo', 'Positive Blumberg sign', 'physical_exam', ARRAY['K35'], ARRAY[]::TEXT[], ARRAY['apendicite', 'peritonite'], false),
+('find-exam-murphy', 'Sinal de Murphy positivo', 'Positive Murphy sign', 'physical_exam', ARRAY['K81'], ARRAY[]::TEXT[], ARRAY['colecistite', 'vesícula'], false),
+('find-exam-palidez', 'Palidez cutâneo-mucosa importante, taquicardia', 'Significant pallor, tachycardia', 'physical_exam', ARRAY['R23.1'], ARRAY[]::TEXT[], ARRAY['HDA', 'anemia aguda'], false),
+('find-exam-edema-gest', 'Edema de face e mãos, hiperreflexia', 'Facial and hand edema, hyperreflexia', 'physical_exam', ARRAY['O14'], ARRAY[]::TEXT[], ARRAY['pré-eclâmpsia', 'gravidade'], false),
+('find-exam-giordano', 'Sinal de Giordano positivo à direita', 'Positive right Giordano sign', 'physical_exam', ARRAY['N10'], ARRAY[]::TEXT[], ARRAY['pielonefrite', 'ITU'], false),
+('find-exam-utero-aumentado', 'Útero aumentado, irregular à palpação', 'Enlarged uterus, irregular on palpation', 'physical_exam', ARRAY['D25'], ARRAY[]::TEXT[], ARRAY['mioma', 'massa'], false),
+('find-exam-tiragem', 'Tiragem subcostal, sibilos difusos', 'Subcostal retractions, diffuse wheezing', 'physical_exam', ARRAY['J21'], ARRAY[]::TEXT[], ARRAY['bronquiolite', 'desconforto'], false),
+('find-exam-desidratacao', 'Olhos encovados, turgor diminuído, mucosas secas', 'Sunken eyes, decreased skin turgor, dry mucosa', 'physical_exam', ARRAY['E86'], ARRAY[]::TEXT[], ARRAY['desidratação', 'DDA'], false),
+('find-exam-rigidez-nucal', 'Rigidez de nuca, Kernig e Brudzinski positivos', 'Neck stiffness, positive Kernig and Brudzinski', 'physical_exam', ARRAY['G00'], ARRAY[]::TEXT[], ARRAY['meningite', 'irritação meníngea'], false),
+('find-exam-linfonodos', 'Linfonodos cervicais aumentados, indolores', 'Enlarged, painless cervical lymph nodes', 'physical_exam', ARRAY['A15'], ARRAY[]::TEXT[], ARRAY['tuberculose', 'adenopatia'], false),
+('find-exam-prova-laco', 'Prova do laço positiva, petéquias', 'Positive tourniquet test, petechiae', 'physical_exam', ARRAY['A91'], ARRAY[]::TEXT[], ARRAY['dengue', 'plaquetopenia'], false),
+-- Laboratory
+('find-lab-glicemia-alta', 'Glicemia de jejum 280 mg/dL, HbA1c 10%', 'Fasting glucose 280 mg/dL, HbA1c 10%', 'laboratory', ARRAY['R73'], ARRAY[]::TEXT[], ARRAY['diabetes', 'hiperglicemia'], false),
+('find-lab-creatinina', 'Creatinina 1.8 mg/dL, proteinúria 300 mg/24h', 'Creatinine 1.8 mg/dL, proteinuria 300 mg/24h', 'laboratory', ARRAY['N18'], ARRAY[]::TEXT[], ARRAY['nefropatia', 'DRC'], false),
+('find-lab-bnp', 'BNP 1500 pg/mL, Rx tórax com cardiomegalia', 'BNP 1500 pg/mL, CXR with cardiomegaly', 'laboratory', ARRAY['I50'], ARRAY[]::TEXT[], ARRAY['ICC', 'marcador'], false),
+('find-lab-gasometria', 'Gasometria: pH 7.32, pCO2 55, HCO3 28', 'ABG: pH 7.32, pCO2 55, HCO3 28', 'laboratory', ARRAY['J96'], ARRAY[]::TEXT[], ARRAY['DPOC', 'acidose respiratória'], false),
+('find-lab-leucocitose', 'Leucócitos 18.000, PCR 150 mg/L', 'WBC 18,000, CRP 150 mg/L', 'laboratory', ARRAY['R77'], ARRAY[]::TEXT[], ARRAY['infecção', 'inflamação'], false),
+('find-lab-pct', 'Procalcitonina 2.5 ng/mL', 'Procalcitonin 2.5 ng/mL', 'laboratory', ARRAY['R50'], ARRAY[]::TEXT[], ARRAY['sepse', 'infecção bacteriana'], false),
+('find-lab-amilase', 'Amilase e lipase normais, leucocitose', 'Normal amylase and lipase, leukocytosis', 'laboratory', ARRAY['K35'], ARRAY[]::TEXT[], ARRAY['apendicite', 'abdome agudo'], false),
+('find-lab-bilirrubinas', 'Bilirrubinas elevadas, FA e GGT aumentadas', 'Elevated bilirubin, increased ALP and GGT', 'laboratory', ARRAY['K81'], ARRAY[]::TEXT[], ARRAY['colestase', 'colecistite'], false),
+('find-lab-hb-baixa', 'Hemoglobina 6.5 g/dL, ureia elevada', 'Hemoglobin 6.5 g/dL, elevated BUN', 'laboratory', ARRAY['D64'], ARRAY[]::TEXT[], ARRAY['anemia', 'HDA'], false),
+('find-lab-proteinuria-gest', 'Proteinúria 500 mg/24h, plaquetas 110.000', 'Proteinuria 500 mg/24h, platelets 110,000', 'laboratory', ARRAY['O14'], ARRAY[]::TEXT[], ARRAY['pré-eclâmpsia', 'HELLP'], false),
+('find-lab-urocultura', 'Urocultura: E. coli > 100.000 UFC/mL', 'Urine culture: E. coli > 100,000 CFU/mL', 'laboratory', ARRAY['N39'], ARRAY[]::TEXT[], ARRAY['ITU', 'bacteriúria'], false),
+('find-lab-hb-ferritina', 'Hemoglobina 9 g/dL, ferritina baixa', 'Hemoglobin 9 g/dL, low ferritin', 'laboratory', ARRAY['D50'], ARRAY[]::TEXT[], ARRAY['anemia ferropriva', 'sangramento'], false),
+('find-lab-sat-o2', 'Saturação O2 88% em ar ambiente', 'O2 saturation 88% on room air', 'laboratory', ARRAY['J96'], ARRAY[]::TEXT[], ARRAY['hipoxemia', 'bronquiolite'], false),
+('find-lab-na-baixo', 'Sódio 128 mEq/L, osmolaridade baixa', 'Sodium 128 mEq/L, low osmolality', 'laboratory', ARRAY['E87'], ARRAY[]::TEXT[], ARRAY['hiponatremia', 'desidratação'], false),
+('find-lab-lcr', 'LCR: pleocitose neutrofílica, glicose baixa, proteína alta', 'CSF: neutrophilic pleocytosis, low glucose, high protein', 'laboratory', ARRAY['G00'], ARRAY[]::TEXT[], ARRAY['meningite bacteriana', 'LCR'], false),
+('find-lab-baar', 'BAAR positivo no escarro, 2 amostras', 'Positive AFB smear in sputum, 2 samples', 'laboratory', ARRAY['A15'], ARRAY[]::TEXT[], ARRAY['tuberculose', 'diagnóstico'], false),
+('find-lab-plaquetopenia', 'Plaquetas 45.000, hematócrito aumentando', 'Platelets 45,000, rising hematocrit', 'laboratory', ARRAY['A91'], ARRAY[]::TEXT[], ARRAY['dengue grave', 'alarme'], false),
+-- Treatment
+('find-trat-metformina', 'Metformina 850mg 2x/dia + orientação dietética', 'Metformin 850mg twice daily + dietary counseling', 'treatment', ARRAY[]::TEXT[], ARRAY['A10BA02'], ARRAY['diabetes', 'primeira linha'], false),
+('find-trat-anti-hipertensivo', 'Losartana 50mg + HCTZ 12.5mg', 'Losartan 50mg + HCTZ 12.5mg', 'treatment', ARRAY[]::TEXT[], ARRAY['C09DA01', 'C03AA03'], ARRAY['hipertensão', 'combinação'], false),
+('find-trat-furosemida', 'Furosemida 40mg IV + restrição hídrica', 'Furosemide 40mg IV + fluid restriction', 'treatment', ARRAY[]::TEXT[], ARRAY['C03CA01'], ARRAY['ICC', 'diurético'], false),
+('find-trat-broncodilatador', 'Salbutamol + brometo de ipratrópio + corticoide inalatório', 'Albuterol + ipratropium + inhaled corticosteroid', 'treatment', ARRAY[]::TEXT[], ARRAY['R03AC02', 'R03BB01', 'R03BA'], ARRAY['DPOC', 'broncodilatadores'], false),
+('find-trat-amoxicilina', 'Amoxicilina + clavulanato 875/125mg 12/12h', 'Amoxicillin-clavulanate 875/125mg every 12h', 'treatment', ARRAY[]::TEXT[], ARRAY['J01CR02'], ARRAY['pneumonia', 'antibiótico'], false),
+('find-trat-apendicectomia', 'Apendicectomia laparoscópica + antibioticoprofilaxia', 'Laparoscopic appendectomy + antibiotic prophylaxis', 'treatment', ARRAY[]::TEXT[], ARRAY[]::TEXT[], ARRAY['apendicite', 'cirurgia'], false),
+('find-trat-colecistectomia', 'Colecistectomia videolaparoscópica eletiva', 'Elective laparoscopic cholecystectomy', 'treatment', ARRAY[]::TEXT[], ARRAY[]::TEXT[], ARRAY['colecistite', 'cirurgia'], false),
+('find-trat-eda', 'EDA urgente + IBP IV em dose alta', 'Urgent EGD + high-dose IV PPI', 'treatment', ARRAY[]::TEXT[], ARRAY['A02BC01'], ARRAY['HDA', 'endoscopia'], false),
+('find-trat-sulfato-mg', 'Sulfato de magnésio + anti-hipertensivo + parto', 'Magnesium sulfate + antihypertensive + delivery', 'treatment', ARRAY[]::TEXT[], ARRAY['A12CC02', 'C02'], ARRAY['pré-eclâmpsia', 'prevenção convulsão'], false),
+('find-trat-nitrofurantoina', 'Nitrofurantoína 100mg 6/6h por 7 dias', 'Nitrofurantoin 100mg every 6h for 7 days', 'treatment', ARRAY[]::TEXT[], ARRAY['J01XE01'], ARRAY['ITU', 'gestação seguro'], false),
+('find-trat-acido-tranexamico', 'Ácido tranexâmico + DIU hormonal', 'Tranexamic acid + hormonal IUD', 'treatment', ARRAY[]::TEXT[], ARRAY['B02AA02'], ARRAY['sangramento', 'mioma'], false),
+('find-trat-suporte-bva', 'Oxigenoterapia + hidratação + aspiração nasal', 'Oxygen therapy + hydration + nasal suctioning', 'treatment', ARRAY[]::TEXT[], ARRAY[]::TEXT[], ARRAY['bronquiolite', 'suporte'], false),
+('find-trat-sro', 'Solução de reidratação oral - Plano B', 'Oral rehydration solution - Plan B', 'treatment', ARRAY[]::TEXT[], ARRAY['A07CA'], ARRAY['DDA', 'reidratação'], false),
+('find-trat-ceftriaxona', 'Ceftriaxona 100mg/kg/dia + dexametasona', 'Ceftriaxone 100mg/kg/day + dexamethasone', 'treatment', ARRAY[]::TEXT[], ARRAY['J01DD04', 'H02AB02'], ARRAY['meningite', 'antibiótico'], false),
+('find-trat-ripe', 'RIPE: Rifampicina + Isoniazida + Pirazinamida + Etambutol', 'RIPE: Rifampin + Isoniazid + Pyrazinamide + Ethambutol', 'treatment', ARRAY[]::TEXT[], ARRAY['J04AM02'], ARRAY['tuberculose', 'esquema básico'], false),
+('find-trat-sintomatico-dengue', 'Hidratação oral vigorosa + paracetamol (evitar AINEs)', 'Vigorous oral hydration + acetaminophen (avoid NSAIDs)', 'treatment', ARRAY[]::TEXT[], ARRAY['N02BE01'], ARRAY['dengue', 'sintomático'], false)
+ON CONFLICT (id) DO NOTHING;
+
+-- Diagnosis-Finding Links
+INSERT INTO cip_diagnosis_findings (diagnosis_id, finding_id, section, is_primary) VALUES
+('diag-dm2', 'find-hist-polidipsia', 'medical_history', true),
+('diag-dm2', 'find-exam-acantose', 'physical_exam', true),
+('diag-dm2', 'find-lab-glicemia-alta', 'laboratory', true),
+('diag-dm2', 'find-trat-metformina', 'treatment', true),
+('diag-has', 'find-hist-cefaleia-has', 'medical_history', true),
+('diag-has', 'find-exam-pa-elevada', 'physical_exam', true),
+('diag-has', 'find-lab-creatinina', 'laboratory', true),
+('diag-has', 'find-trat-anti-hipertensivo', 'treatment', true),
+('diag-icc', 'find-hist-dispneia-esforco', 'medical_history', true),
+('diag-icc', 'find-exam-turgencia', 'physical_exam', true),
+('diag-icc', 'find-lab-bnp', 'laboratory', true),
+('diag-icc', 'find-trat-furosemida', 'treatment', true),
+('diag-dpoc', 'find-hist-tabagismo', 'medical_history', true),
+('diag-dpoc', 'find-exam-mv-diminuido', 'physical_exam', true),
+('diag-dpoc', 'find-lab-gasometria', 'laboratory', true),
+('diag-dpoc', 'find-trat-broncodilatador', 'treatment', true),
+('diag-pneumonia', 'find-hist-febre-tosse', 'medical_history', true),
+('diag-pneumonia', 'find-exam-crepitacoes', 'physical_exam', true),
+('diag-pneumonia', 'find-lab-leucocitose', 'laboratory', true),
+('diag-pneumonia', 'find-trat-amoxicilina', 'treatment', true),
+('diag-apendicite', 'find-hist-dor-fid', 'medical_history', true),
+('diag-apendicite', 'find-exam-blumberg', 'physical_exam', true),
+('diag-apendicite', 'find-lab-amilase', 'laboratory', true),
+('diag-apendicite', 'find-trat-apendicectomia', 'treatment', true),
+('diag-colecistite', 'find-hist-colica-biliar', 'medical_history', true),
+('diag-colecistite', 'find-exam-murphy', 'physical_exam', true),
+('diag-colecistite', 'find-lab-bilirrubinas', 'laboratory', true),
+('diag-colecistite', 'find-trat-colecistectomia', 'treatment', true),
+('diag-hda', 'find-hist-melena', 'medical_history', true),
+('diag-hda', 'find-exam-palidez', 'physical_exam', true),
+('diag-hda', 'find-lab-hb-baixa', 'laboratory', true),
+('diag-hda', 'find-trat-eda', 'treatment', true),
+('diag-pre-eclampsia', 'find-hist-gestante-pa', 'medical_history', true),
+('diag-pre-eclampsia', 'find-exam-edema-gest', 'physical_exam', true),
+('diag-pre-eclampsia', 'find-lab-proteinuria-gest', 'laboratory', true),
+('diag-pre-eclampsia', 'find-trat-sulfato-mg', 'treatment', true),
+('diag-itu-gestante', 'find-hist-disuria-gest', 'medical_history', true),
+('diag-itu-gestante', 'find-exam-giordano', 'physical_exam', true),
+('diag-itu-gestante', 'find-lab-urocultura', 'laboratory', true),
+('diag-itu-gestante', 'find-trat-nitrofurantoina', 'treatment', true),
+('diag-mioma', 'find-hist-menorragia', 'medical_history', true),
+('diag-mioma', 'find-exam-utero-aumentado', 'physical_exam', true),
+('diag-mioma', 'find-lab-hb-ferritina', 'laboratory', true),
+('diag-mioma', 'find-trat-acido-tranexamico', 'treatment', true),
+('diag-bva', 'find-hist-lactente-coriza', 'medical_history', true),
+('diag-bva', 'find-exam-tiragem', 'physical_exam', true),
+('diag-bva', 'find-lab-sat-o2', 'laboratory', true),
+('diag-bva', 'find-trat-suporte-bva', 'treatment', true),
+('diag-dda', 'find-hist-diarreia-crianca', 'medical_history', true),
+('diag-dda', 'find-exam-desidratacao', 'physical_exam', true),
+('diag-dda', 'find-lab-na-baixo', 'laboratory', true),
+('diag-dda', 'find-trat-sro', 'treatment', true),
+('diag-meningite-bact', 'find-hist-febre-rigidez', 'medical_history', true),
+('diag-meningite-bact', 'find-exam-rigidez-nucal', 'physical_exam', true),
+('diag-meningite-bact', 'find-lab-lcr', 'laboratory', true),
+('diag-meningite-bact', 'find-trat-ceftriaxona', 'treatment', true),
+('diag-tb-pulmonar', 'find-hist-tosse-3sem', 'medical_history', true),
+('diag-tb-pulmonar', 'find-exam-linfonodos', 'physical_exam', true),
+('diag-tb-pulmonar', 'find-lab-baar', 'laboratory', true),
+('diag-tb-pulmonar', 'find-trat-ripe', 'treatment', true),
+('diag-dengue', 'find-hist-febre-mialgia', 'medical_history', true),
+('diag-dengue', 'find-exam-prova-laco', 'physical_exam', true),
+('diag-dengue', 'find-lab-plaquetopenia', 'laboratory', true),
+('diag-dengue', 'find-trat-sintomatico-dengue', 'treatment', true)
+ON CONFLICT DO NOTHING;
+
+-- Sample Puzzles
+INSERT INTO cip_puzzles (
+  id, title, description, areas, difficulty, diagnosis_ids, options_per_section, settings,
+  time_limit_minutes, irt_difficulty, type, created_by
+) VALUES (
+  'puzzle-clinica-01',
+  'Clínica Médica - Doenças Crônicas',
+  'Associe os achados clínicos aos diagnósticos de doenças crônicas comuns.',
+  ARRAY['clinica_medica'],
+  'medio',
+  ARRAY['diag-dm2', 'diag-has', 'diag-icc', 'diag-dpoc']::UUID[],
+  '{"medical_history": ["find-hist-polidipsia", "find-hist-cefaleia-has", "find-hist-dispneia-esforco", "find-hist-tabagismo", "find-hist-febre-tosse", "find-hist-dor-fid"], "physical_exam": ["find-exam-acantose", "find-exam-pa-elevada", "find-exam-turgencia", "find-exam-mv-diminuido", "find-exam-crepitacoes", "find-exam-blumberg"], "laboratory": ["find-lab-glicemia-alta", "find-lab-creatinina", "find-lab-bnp", "find-lab-gasometria", "find-lab-leucocitose", "find-lab-amilase"], "treatment": ["find-trat-metformina", "find-trat-anti-hipertensivo", "find-trat-furosemida", "find-trat-broncodilatador", "find-trat-amoxicilina", "find-trat-apendicectomia"]}'::jsonb,
+  '{"diagnosisCount": 4, "sections": ["medical_history", "physical_exam", "laboratory", "treatment"], "distractorCount": 2, "allowReuse": false}'::jsonb,
+  20, 0.5, 'practice', NULL
+), (
+  'puzzle-cirurgia-01',
+  'Cirurgia - Abdome Agudo',
+  'Associe os achados clínicos aos diagnósticos de urgências abdominais.',
+  ARRAY['cirurgia'],
+  'medio',
+  ARRAY['diag-apendicite', 'diag-colecistite', 'diag-hda']::UUID[],
+  '{"medical_history": ["find-hist-dor-fid", "find-hist-colica-biliar", "find-hist-melena", "find-hist-febre-tosse", "find-hist-dispneia-esforco"], "physical_exam": ["find-exam-blumberg", "find-exam-murphy", "find-exam-palidez", "find-exam-crepitacoes", "find-exam-turgencia"], "laboratory": ["find-lab-amilase", "find-lab-bilirrubinas", "find-lab-hb-baixa", "find-lab-leucocitose", "find-lab-bnp"], "treatment": ["find-trat-apendicectomia", "find-trat-colecistectomia", "find-trat-eda", "find-trat-amoxicilina", "find-trat-furosemida"]}'::jsonb,
+  '{"diagnosisCount": 3, "sections": ["medical_history", "physical_exam", "laboratory", "treatment"], "distractorCount": 2, "allowReuse": false}'::jsonb,
+  15, 0.6, 'practice', NULL
+), (
+  'puzzle-pediatria-01',
+  'Pediatria - Urgências Pediátricas',
+  'Associe os achados clínicos aos diagnósticos de emergências pediátricas comuns.',
+  ARRAY['pediatria'],
+  'dificil',
+  ARRAY['diag-bva', 'diag-dda', 'diag-meningite-bact']::UUID[],
+  '{"medical_history": ["find-hist-lactente-coriza", "find-hist-diarreia-crianca", "find-hist-febre-rigidez", "find-hist-febre-tosse", "find-hist-polidipsia"], "physical_exam": ["find-exam-tiragem", "find-exam-desidratacao", "find-exam-rigidez-nucal", "find-exam-crepitacoes", "find-exam-acantose"], "laboratory": ["find-lab-sat-o2", "find-lab-na-baixo", "find-lab-lcr", "find-lab-leucocitose", "find-lab-glicemia-alta"], "treatment": ["find-trat-suporte-bva", "find-trat-sro", "find-trat-ceftriaxona", "find-trat-amoxicilina", "find-trat-metformina"]}'::jsonb,
+  '{"diagnosisCount": 3, "sections": ["medical_history", "physical_exam", "laboratory", "treatment"], "distractorCount": 2, "allowReuse": false}'::jsonb,
+  15, 0.8, 'practice', NULL
+)
+ON CONFLICT (id) DO NOTHING;
+
+-- Puzzle Grids
+INSERT INTO cip_puzzle_grid (puzzle_id, row_index, section, correct_finding_id, irt_difficulty) VALUES
+-- Puzzle Clínica 01
+('puzzle-clinica-01', 0, 'medical_history', 'find-hist-polidipsia', 0.3),
+('puzzle-clinica-01', 0, 'physical_exam', 'find-exam-acantose', 0.4),
+('puzzle-clinica-01', 0, 'laboratory', 'find-lab-glicemia-alta', 0.2),
+('puzzle-clinica-01', 0, 'treatment', 'find-trat-metformina', 0.3),
+('puzzle-clinica-01', 1, 'medical_history', 'find-hist-cefaleia-has', 0.4),
+('puzzle-clinica-01', 1, 'physical_exam', 'find-exam-pa-elevada', 0.3),
+('puzzle-clinica-01', 1, 'laboratory', 'find-lab-creatinina', 0.5),
+('puzzle-clinica-01', 1, 'treatment', 'find-trat-anti-hipertensivo', 0.3),
+('puzzle-clinica-01', 2, 'medical_history', 'find-hist-dispneia-esforco', 0.5),
+('puzzle-clinica-01', 2, 'physical_exam', 'find-exam-turgencia', 0.4),
+('puzzle-clinica-01', 2, 'laboratory', 'find-lab-bnp', 0.4),
+('puzzle-clinica-01', 2, 'treatment', 'find-trat-furosemida', 0.3),
+('puzzle-clinica-01', 3, 'medical_history', 'find-hist-tabagismo', 0.3),
+('puzzle-clinica-01', 3, 'physical_exam', 'find-exam-mv-diminuido', 0.4),
+('puzzle-clinica-01', 3, 'laboratory', 'find-lab-gasometria', 0.6),
+('puzzle-clinica-01', 3, 'treatment', 'find-trat-broncodilatador', 0.4),
+-- Puzzle Cirurgia 01
+('puzzle-cirurgia-01', 0, 'medical_history', 'find-hist-dor-fid', 0.3),
+('puzzle-cirurgia-01', 0, 'physical_exam', 'find-exam-blumberg', 0.4),
+('puzzle-cirurgia-01', 0, 'laboratory', 'find-lab-amilase', 0.5),
+('puzzle-cirurgia-01', 0, 'treatment', 'find-trat-apendicectomia', 0.3),
+('puzzle-cirurgia-01', 1, 'medical_history', 'find-hist-colica-biliar', 0.4),
+('puzzle-cirurgia-01', 1, 'physical_exam', 'find-exam-murphy', 0.3),
+('puzzle-cirurgia-01', 1, 'laboratory', 'find-lab-bilirrubinas', 0.5),
+('puzzle-cirurgia-01', 1, 'treatment', 'find-trat-colecistectomia', 0.4),
+('puzzle-cirurgia-01', 2, 'medical_history', 'find-hist-melena', 0.4),
+('puzzle-cirurgia-01', 2, 'physical_exam', 'find-exam-palidez', 0.3),
+('puzzle-cirurgia-01', 2, 'laboratory', 'find-lab-hb-baixa', 0.4),
+('puzzle-cirurgia-01', 2, 'treatment', 'find-trat-eda', 0.5),
+-- Puzzle Pediatria 01
+('puzzle-pediatria-01', 0, 'medical_history', 'find-hist-lactente-coriza', 0.4),
+('puzzle-pediatria-01', 0, 'physical_exam', 'find-exam-tiragem', 0.5),
+('puzzle-pediatria-01', 0, 'laboratory', 'find-lab-sat-o2', 0.4),
+('puzzle-pediatria-01', 0, 'treatment', 'find-trat-suporte-bva', 0.5),
+('puzzle-pediatria-01', 1, 'medical_history', 'find-hist-diarreia-crianca', 0.3),
+('puzzle-pediatria-01', 1, 'physical_exam', 'find-exam-desidratacao', 0.4),
+('puzzle-pediatria-01', 1, 'laboratory', 'find-lab-na-baixo', 0.5),
+('puzzle-pediatria-01', 1, 'treatment', 'find-trat-sro', 0.3),
+('puzzle-pediatria-01', 2, 'medical_history', 'find-hist-febre-rigidez', 0.5),
+('puzzle-pediatria-01', 2, 'physical_exam', 'find-exam-rigidez-nucal', 0.4),
+('puzzle-pediatria-01', 2, 'laboratory', 'find-lab-lcr', 0.6),
+('puzzle-pediatria-01', 2, 'treatment', 'find-trat-ceftriaxona', 0.5)
+ON CONFLICT DO NOTHING;
+
+-- ============================================
+-- Verification
+-- ============================================
+
+SELECT 'CIP Migration Complete!' AS status;
+
+SELECT
+  'cip_diagnoses' AS table_name, COUNT(*) AS count FROM cip_diagnoses
+UNION ALL SELECT
+  'cip_findings', COUNT(*) FROM cip_findings
+UNION ALL SELECT
+  'cip_diagnosis_findings', COUNT(*) FROM cip_diagnosis_findings
+UNION ALL SELECT
+  'cip_puzzles', COUNT(*) FROM cip_puzzles
+UNION ALL SELECT
+  'cip_puzzle_grid', COUNT(*) FROM cip_puzzle_grid;
