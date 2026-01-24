@@ -12,6 +12,7 @@ import { ENAMED2025Plugin } from './sources/enamed-2025/plugin';
 import { ENAREPlugin } from './sources/enare-2024/plugin';
 import { USPFUVESTPlugin } from './sources/usp-fuvest/plugin';
 import { REVALIDAPlugin } from './sources/revalida/plugin';
+import { RegionalPlugin } from './sources/regional/plugin';
 
 async function main() {
   const registry = new PluginRegistry();
@@ -21,7 +22,7 @@ async function main() {
   registry.register(new ENAREPlugin());
   registry.register(new USPFUVESTPlugin());
   registry.register(new REVALIDAPlugin());
-  // Regional plugin will be registered here as it's implemented
+  registry.register(new RegionalPlugin());
 
   const command = process.argv[2];
   const args = process.argv.slice(3);
