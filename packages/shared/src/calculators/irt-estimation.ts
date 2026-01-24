@@ -67,7 +67,7 @@ export function estimateIRTFromMetadata(
 
   // 5. Area adjustment
   if (metadata.area) {
-    const areaAdj = config.difficulty.areaAdjustment[metadata.area] ?? 0;
+    const areaAdj = config.difficulty.areaAdjustment[metadata.area as keyof typeof config.difficulty.areaAdjustment] ?? 0;
     difficulty += areaAdj;
     difficultyComponents.area = areaAdj;
   }
@@ -102,7 +102,7 @@ export function estimateIRTFromMetadata(
 
   // GUESSING PARAMETER
   const guessing =
-    config.guessing.optionCountMap[metadata.optionCount] ?? 0.25;
+    config.guessing.optionCountMap[metadata.optionCount as keyof typeof config.guessing.optionCountMap] ?? 0.25;
 
   // CONFIDENCE CALCULATION
   let confidence = 0.6; // Base confidence

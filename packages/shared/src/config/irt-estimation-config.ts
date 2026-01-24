@@ -1,6 +1,25 @@
 /**
  * IRT Parameter Estimation Configuration
  * Metadata-based heuristics for estimating IRT parameters
+ *
+ * VALIDATION BASELINE (2025-01-24):
+ * Bootstrap validation against ENAMED 2025 microdata reveals:
+ * - Difficulty MAE: 1.501 (target: < 0.3) — Model undershoots variance
+ * - Difficulty Correlation: 0.148 (target: > 0.7) — Weak position predictivity
+ * - Discrimination MAE: 0.417 (target: < 0.25) — Constant discrimination issue
+ * - Discrimination Correlation: 0.000 (target: > 0.6) — No variance in model
+ *
+ * ROOT CAUSE: Linear metadata model generates ~1.8 units variance, but empirical
+ * ENAMED spans -3.5 to +2.4 (5.9 units). Tuning attempts (0.4→0.6, 0.3→0.5) show
+ * minimal improvement, suggesting model architecture limitation rather than coefficient tuning issue.
+ *
+ * RECOMMENDATION: Implement Phase 2 improvements:
+ * 1. Polynomial position adjustment (pos + pos² + pos³) instead of linear
+ * 2. Area × Institution interaction terms
+ * 3. Discrimination variance via position-based multiplier
+ * 4. Consider empirical lookup tables for well-validated question sources
+ *
+ * See VALIDATION_RESULTS.md for detailed analysis and Phase 2 roadmap.
  */
 
 export const IRT_ESTIMATION_CONFIG = {
@@ -32,6 +51,11 @@ export const IRT_ESTIMATION_CONFIG = {
 
     // Position-based adjustment (early questions easier)
     // Q1: -0.3, middle: 0, Q100: +0.3
+    //
+    // NOTE: Bootstrap validation shows this linear model is INSUFFICIENT.
+    // Position explains only 2% of empirical difficulty variance (r²=0.014).
+    // Empirical pattern is non-monotonic; linear assumption incorrect.
+    // Future: Replace with polynomial: difficulty += f(pos) = a*pos + b*pos² + c*pos³
     positionMaxAdjustment: 0.3,
 
     // Area-specific adjustment
@@ -50,6 +74,12 @@ export const IRT_ESTIMATION_CONFIG = {
     maxValue: 1.4,
 
     // Institution multiplier (better-written questions discriminate better)
+    //
+    // NOTE: Bootstrap validation shows discrimination has ZERO variance in current model.
+    // All ENAMED questions estimated as 1.38 discrimination (constant).
+    // Empirical data spans 0.3 to 1.95 (6x range).
+    // Current model cannot express question-level discrimination differences.
+    // Future: Add position-based multiplier + difficulty-based adjustments
     institutionMultiplier: {
       TIER_1_NATIONAL: 1.2,
       TIER_2_REGIONAL_STRONG: 1.05,

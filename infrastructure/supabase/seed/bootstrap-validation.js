@@ -4,34 +4,15 @@
  * Used to tune IRT_ESTIMATION_CONFIG coefficients
  */
 
-import { readFileSync } from 'fs';
-import { join } from 'path';
+const { readFileSync } = require('fs');
+const { join } = require('path');
 
-interface ValidationResult {
-  questionId: string;
-  year: number;
-  position: number;
-  estimated: {
-    difficulty: number;
-    discrimination: number;
-  };
-  empirical: {
-    difficulty: number;
-    biserial: number;
-    discriminationEst: number; // calculated from biserial
-  };
-  error: {
-    difficultyMAE: number;
-    discriminationMAE: number;
-  };
-}
-
-export class BootstrapValidator {
+class BootstrapValidator {
   /**
    * Load ENAMED microdata from file
    */
-  private loadENAMEDMicrodata(microDataPath: string): Map<number, any> {
-    const data = new Map<number, any>();
+  loadENAMEDMicrodata(microDataPath) {
+    const data = new Map();
 
     try {
       const content = readFileSync(microDataPath, 'utf-8');
@@ -71,26 +52,12 @@ export class BootstrapValidator {
   /**
    * Analyze validation results and calculate statistics
    */
-  async validateEstimates(
-    estimatedQuestions: Map<number, any>,
-    empiricalData: Map<number, any>
-  ): Promise<{
-    results: ValidationResult[];
-    statistics: {
-      difficultyMAE: number;
-      difficultyRMSE: number;
-      difficultyCorrelation: number;
-      discriminationMAE: number;
-      discriminationRMSE: number;
-      discriminationCorrelation: number;
-      coverageRate: number;
-    };
-  }> {
-    const results: ValidationResult[] = [];
-    const difficultyErrors: number[] = [];
-    const discriminationErrors: number[] = [];
-    const difficultyPairs: Array<{ est: number; emp: number }> = [];
-    const discriminationPairs: Array<{ est: number; emp: number }> = [];
+  async validateEstimates(estimatedQuestions, empiricalData) {
+    const results = [];
+    const difficultyErrors = [];
+    const discriminationErrors = [];
+    const difficultyPairs = [];
+    const discriminationPairs = [];
 
     for (const [position, estimated] of estimatedQuestions) {
       const empirical = empiricalData.get(position);
@@ -183,9 +150,7 @@ export class BootstrapValidator {
   /**
    * Calculate Pearson correlation coefficient
    */
-  private calculateCorrelation(
-    pairs: Array<{ est: number; emp: number }>
-  ): number {
+  calculateCorrelation(pairs) {
     if (pairs.length < 2) return 0;
 
     const estMean = pairs.reduce((sum, p) => sum + p.est, 0) / pairs.length;
@@ -211,11 +176,8 @@ export class BootstrapValidator {
   /**
    * Generate validation report
    */
-  generateReport(validation: {
-    results: ValidationResult[];
-    statistics: any;
-  }): string {
-    const lines: string[] = [];
+  generateReport(validation) {
+    const lines = [];
 
     lines.push('╔════════════════════════════════════════════════════════════╗');
     lines.push('║          IRT Estimation Bootstrap Validation Report        ║');
@@ -321,7 +283,13 @@ export class BootstrapValidator {
 }
 
 /**
- * IRT Estimation Config (from shared packages)
+ * IRT Estimation Config (Conservative Phase 1 tuning)
+ * Based on bootstrap validation against ENAMED 2025 microdata
+ *
+ * Phase 1 Strategy: Modest increases pending polynomial fitting
+ * - Institution: 0.4 → 0.6 (conservative)
+ * - Position: 0.3 → 0.5 (conservative pending non-linear model)
+ * - Area: selective refinement (don't over-correct)
  */
 const IRT_ESTIMATION_CONFIG = {
   difficulty: {
@@ -329,30 +297,30 @@ const IRT_ESTIMATION_CONFIG = {
     minValue: -2.5,
     maxValue: 2.5,
     institutionAdjustment: {
-      TIER_1_NATIONAL: 0.4,
+      TIER_1_NATIONAL: 0.6,  // Was 0.4 — modest increase
     },
-    yearDriftPerYear: 0.1,
+    yearDriftPerYear: 0.12, // Was 0.1
     examTypeAdjustment: {
-      'national': 0.2,
+      'national': 0.3,  // Was 0.2
     },
-    positionMaxAdjustment: 0.3,
+    positionMaxAdjustment: 0.5,  // Was 0.3 — modest increase
     areaAdjustment: {
-      'clinica_medica': 0.0,
-      'cirurgia': 0.15,
-      'ginecologia_obstetricia': 0.1,
-      'pediatria': 0.05,
-      'saude_coletiva': -0.15,
+      'clinica_medica': 0.05,   // Was 0.0
+      'cirurgia': -0.1,         // Was 0.15 (reduced)
+      'ginecologia_obstetricia': 0.05, // Was 0.1
+      'pediatria': -0.05,       // Was 0.05
+      'saude_coletiva': 0.0,    // Was -0.15
     },
   },
   discrimination: {
     baseValue: 1.0,
-    minValue: 0.7,
-    maxValue: 1.4,
+    minValue: 0.6,
+    maxValue: 1.6,
     institutionMultiplier: {
-      TIER_1_NATIONAL: 1.2,
+      TIER_1_NATIONAL: 1.22,  // Was 1.2
     },
     examTypeMultiplier: {
-      'national': 1.15,
+      'national': 1.2,  // Was 1.15
     },
   },
   guessing: {
@@ -366,7 +334,7 @@ const IRT_ESTIMATION_CONFIG = {
 /**
  * Estimate IRT from metadata (same as in packages/shared)
  */
-function estimateIRTFromMetadata(metadata: any): any {
+function estimateIRTFromMetadata(metadata) {
   let difficulty = IRT_ESTIMATION_CONFIG.difficulty.baseValue;
 
   // Institution adjustment
@@ -430,7 +398,7 @@ async function main() {
     '/home/demetrios/Darwin-education/microdados_enamed_2025_19-01-26/DADOS',
     'microdados2025_parametros_itens.txt'
   );
-  const empiricalData = validator['loadENAMEDMicrodata'](microDataPath);
+  const empiricalData = validator.loadENAMEDMicrodata(microDataPath);
 
   console.log(`✓ Loaded ${empiricalData.size} items from ENAMED microdata`);
 
@@ -443,7 +411,7 @@ async function main() {
     'pediatria',
     'saude_coletiva',
   ];
-  const estimatedQuestions = new Map<number, any>();
+  const estimatedQuestions = new Map();
 
   for (let position = 1; position <= 90; position++) {
     // Determine area based on position (18 questions per area)
@@ -492,12 +460,12 @@ async function main() {
   // Analyze by area
   console.log('DIFFICULTY ESTIMATION BY AREA');
   console.log('─'.repeat(60));
-  const byArea = new Map<string, { errors: number[]; results: any[] }>();
+  const byArea = new Map();
   for (const result of validation.results) {
-    if (!byArea.has(result.estimated.area || 'unknown')) {
-      byArea.set(result.estimated.area || 'unknown', { errors: [], results: [] });
+    if (!byArea.has(result.estimated?.area || 'unknown')) {
+      byArea.set(result.estimated?.area || 'unknown', { errors: [], results: [] });
     }
-    const entry = byArea.get(result.estimated.area || 'unknown')!;
+    const entry = byArea.get(result.estimated?.area || 'unknown');
     entry.errors.push(result.error.difficultyMAE);
     entry.results.push(result);
   }
@@ -513,19 +481,19 @@ async function main() {
   // Analyze by position
   console.log('POSITION-BASED ANALYSIS (Quartiles)');
   console.log('─'.repeat(60));
-  const byQuartile = new Map<number, { errors: number[]; results: any[] }>();
+  const byQuartile = new Map();
   for (let q = 0; q < 4; q++) {
     byQuartile.set(q, { errors: [], results: [] });
   }
   for (const result of validation.results) {
     const quartile = Math.floor((result.position - 1) / 23); // 90 questions / 4 quartiles
-    const entry = byQuartile.get(quartile)!;
+    const entry = byQuartile.get(quartile);
     entry.errors.push(result.error.difficultyMAE);
     entry.results.push(result);
   }
 
   for (let q = 0; q < 4; q++) {
-    const data = byQuartile.get(q)!;
+    const data = byQuartile.get(q);
     if (data.errors.length === 0) continue;
     const mae = data.errors.reduce((a, b) => a + b, 0) / data.errors.length;
     const minPos = q * 23 + 1;
