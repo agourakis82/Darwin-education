@@ -1,0 +1,421 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import { useParams, useRouter } from 'next/navigation'
+import { createClient } from '@/lib/supabase/client'
+import { useExamStore } from '@/lib/stores/examStore'
+import { ExamTimer } from '../components/ExamTimer'
+import { QuestionNavigation } from '../components/QuestionNavigation'
+import { ExamQuestion } from '../components/ExamQuestion'
+import { Button } from '@/components/ui/Button'
+import { Modal } from '@/components/ui/Modal'
+import type { ENAMEDQuestion, IRTParameters, QuestionOntology, DifficultyLevel } from '@darwin-education/shared'
+
+interface ExamData {
+  id: string
+  title: string
+  description: string | null
+  question_count: number
+  time_limit_minutes: number
+  question_ids: string[]
+  type: string
+  created_by: string | null
+  is_public: boolean
+  created_at: string
+}
+
+interface ExamAttemptData {
+  id: string
+  exam_id: string
+  user_id: string
+  answers: Record<string, any>
+  marked_for_review: string[]
+  completed_at: string | null
+}
+
+export default function ExamPage() {
+  const params = useParams()
+  const router = useRouter()
+  const examId = params.examId as string
+
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [showSubmitModal, setShowSubmitModal] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+
+  const {
+    currentExam,
+    currentQuestionIndex,
+    answers,
+    remainingTime,
+    startExam,
+    selectAnswer,
+    toggleFlagQuestion,
+    goToQuestion,
+    nextQuestion,
+    previousQuestion,
+    updateRemainingTime,
+    resetExam,
+  } = useExamStore()
+
+  useEffect(() => {
+    async function loadExam() {
+      const supabase = createClient()
+
+      // Check for existing in-progress attempt
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        router.push('/login?redirectTo=/simulado/' + examId)
+        return
+      }
+
+      // Fetch exam details
+      const { data: exam, error: examError } = await supabase
+        .from('exams')
+        .select('*')
+        .eq('id', examId)
+        .single() as { data: ExamData | null; error: any }
+
+      if (examError || !exam) {
+        setError('Simulado não encontrado')
+        setLoading(false)
+        return
+      }
+
+      // Fetch questions for this exam
+      const { data: questions, error: questionsError } = await supabase
+        .from('questions')
+        .select('*')
+        .in('id', exam.question_ids) as { data: any[] | null; error: any }
+
+      if (questionsError || !questions) {
+        setError('Erro ao carregar questões')
+        setLoading(false)
+        return
+      }
+
+      // Transform database questions to ENAMEDQuestion format
+      const transformedQuestions: ENAMEDQuestion[] = questions.map((q: any) => ({
+        id: q.id,
+        bankId: q.bank_id,
+        year: q.year,
+        stem: q.stem,
+        options: q.options,
+        correctIndex: q.correct_index,
+        explanation: q.explanation,
+        irt: {
+          difficulty: q.irt_difficulty,
+          discrimination: q.irt_discrimination,
+          guessing: q.irt_guessing,
+          infit: q.irt_infit,
+          outfit: q.irt_outfit,
+        } as IRTParameters,
+        difficulty: q.difficulty as DifficultyLevel,
+        ontology: {
+          area: q.area,
+          subspecialty: q.subspecialty || '',
+          topic: q.topic || '',
+          icd10: q.icd10_codes,
+          atcCodes: q.atc_codes,
+        } as QuestionOntology,
+        references: q.references,
+        isAIGenerated: q.is_ai_generated,
+        validatedBy: q.validated_by,
+      }))
+
+      // Sort questions by the order in exam.question_ids
+      const orderedQuestions = exam.question_ids
+        .map((id: string) => transformedQuestions.find(q => q.id === id))
+        .filter(Boolean) as ENAMEDQuestion[]
+
+      // Check for existing attempt or create new one
+      const { data: existingAttempt } = await supabase
+        .from('exam_attempts')
+        .select('*')
+        .eq('exam_id', examId)
+        .eq('user_id', user.id)
+        .is('completed_at', null)
+        .single() as { data: ExamAttemptData | null; error: any }
+
+      let attemptId: string
+
+      if (existingAttempt) {
+        attemptId = existingAttempt.id
+        // Restore state from existing attempt
+        // TODO: restore answers from existingAttempt.answers
+      } else {
+        // Create new attempt
+        const { data: newAttempt, error: attemptError } = await supabase
+          .from('exam_attempts')
+          .insert({
+            exam_id: examId,
+            user_id: user.id,
+            answers: {},
+            marked_for_review: [],
+          } as any)
+          .select()
+          .single() as { data: ExamAttemptData | null; error: any }
+
+        if (attemptError || !newAttempt) {
+          setError('Erro ao iniciar simulado')
+          setLoading(false)
+          return
+        }
+
+        attemptId = newAttempt.id
+      }
+
+      // Initialize exam store
+      startExam(
+        {
+          id: examId,
+          title: exam.title,
+          questions: orderedQuestions,
+          timeLimit: exam.time_limit_minutes * 60, // Convert to seconds
+        },
+        attemptId
+      )
+
+      setLoading(false)
+    }
+
+    loadExam()
+  }, [examId, router, startExam])
+
+  const handleSubmit = async () => {
+    if (!currentExam) return
+
+    setSubmitting(true)
+
+    try {
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+
+      if (!user) {
+        router.push('/login')
+        return
+      }
+
+      // Calculate results using TRI
+      const { calculateTRIScore } = await import('@darwin-education/shared')
+
+      // Prepare responses for TRI calculation
+      const responses = currentExam.questions.map((q) => ({
+        questionId: q.id,
+        correct: answers[q.id]?.selectedAnswer === q.options[q.correctIndex]?.text,
+        area: q.ontology.area,
+      }))
+
+      // Create a Map of IRT parameters keyed by question ID
+      const irtParams = new Map(
+        currentExam.questions.map(q => [q.id, q.irt])
+      )
+
+      const triScore = calculateTRIScore(responses, irtParams)
+
+      // Update attempt with results
+      const attemptId = useExamStore.getState().attemptId
+      const { error: updateError } = await (supabase
+        .from('exam_attempts') as any)
+        .update({
+          answers: Object.fromEntries(
+            Object.entries(answers).map(([qId, ans]) => [
+              qId,
+              currentExam.questions.findIndex(
+                q => q.id === qId && q.options.findIndex(o => o.text === ans.selectedAnswer)
+              ),
+            ])
+          ),
+          completed_at: new Date().toISOString(),
+          theta: triScore.theta,
+          standard_error: triScore.standardError,
+          scaled_score: triScore.scaledScore,
+          passed: triScore.passed,
+          correct_count: triScore.correctCount,
+          area_breakdown: triScore.areaBreakdown,
+          total_time_seconds: (currentExam.timeLimit - remainingTime),
+        })
+        .eq('id', attemptId)
+
+      if (updateError) {
+        console.error('Error saving results:', updateError)
+      }
+
+      // Navigate to results page
+      router.push(`/simulado/${examId}/result`)
+    } catch (err) {
+      console.error('Error submitting exam:', err)
+      setError('Erro ao enviar simulado')
+    } finally {
+      setSubmitting(false)
+      setShowSubmitModal(false)
+    }
+  }
+
+  const handleTimeUp = () => {
+    setShowSubmitModal(true)
+    handleSubmit()
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-slate-400">Carregando simulado...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-400 mb-4">{error}</p>
+          <Button onClick={() => router.push('/simulado')}>Voltar</Button>
+        </div>
+      </div>
+    )
+  }
+
+  if (!currentExam) {
+    return null
+  }
+
+  const currentQuestion = currentExam.questions[currentQuestionIndex]
+  const answeredCount = Object.values(answers).filter(a => a.selectedAnswer !== null).length
+
+  return (
+    <div className="min-h-screen bg-slate-950">
+      {/* Top Bar */}
+      <div className="sticky top-0 z-40 bg-slate-900 border-b border-slate-800">
+        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <h1 className="text-lg font-semibold text-white hidden sm:block">
+              {currentExam.title}
+            </h1>
+            <span className="text-sm text-slate-400">
+              {answeredCount}/{currentExam.questions.length} respondidas
+            </span>
+          </div>
+
+          <div className="flex items-center gap-4">
+            <ExamTimer
+              initialTime={remainingTime}
+              onTimeUp={handleTimeUp}
+              onTick={updateRemainingTime}
+            />
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setShowSubmitModal(true)}
+            >
+              Finalizar
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Question Navigation - Desktop Sidebar */}
+          <div className="hidden lg:block">
+            <div className="sticky top-24">
+              <QuestionNavigation
+                questions={currentExam.questions}
+                currentIndex={currentQuestionIndex}
+                answers={answers}
+                onSelectQuestion={goToQuestion}
+              />
+            </div>
+          </div>
+
+          {/* Main Question Area */}
+          <div className="lg:col-span-3">
+            <ExamQuestion
+              question={currentQuestion}
+              questionNumber={currentQuestionIndex + 1}
+              totalQuestions={currentExam.questions.length}
+              selectedAnswer={answers[currentQuestion.id]?.selectedAnswer}
+              isFlagged={answers[currentQuestion.id]?.flagged}
+              onAnswerSelect={(answer) => selectAnswer(currentQuestion.id, answer)}
+              onToggleFlag={() => toggleFlagQuestion(currentQuestion.id)}
+            />
+
+            {/* Navigation Buttons */}
+            <div className="flex justify-between mt-6">
+              <Button
+                variant="outline"
+                onClick={previousQuestion}
+                disabled={currentQuestionIndex === 0}
+              >
+                Anterior
+              </Button>
+
+              <Button
+                onClick={nextQuestion}
+                disabled={currentQuestionIndex === currentExam.questions.length - 1}
+              >
+                Próxima
+              </Button>
+            </div>
+
+            {/* Mobile Question Navigation */}
+            <div className="lg:hidden mt-6">
+              <QuestionNavigation
+                questions={currentExam.questions}
+                currentIndex={currentQuestionIndex}
+                answers={answers}
+                onSelectQuestion={goToQuestion}
+                compact
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Submit Confirmation Modal */}
+      <Modal
+        isOpen={showSubmitModal}
+        onClose={() => !submitting && setShowSubmitModal(false)}
+        title="Finalizar Simulado"
+      >
+        <div className="text-slate-300">
+          <p className="mb-4">
+            Você respondeu <strong>{answeredCount}</strong> de{' '}
+            <strong>{currentExam.questions.length}</strong> questões.
+          </p>
+
+          {answeredCount < currentExam.questions.length && (
+            <p className="text-yellow-400 mb-4">
+              Atenção: {currentExam.questions.length - answeredCount} questões não foram
+              respondidas e serão consideradas erradas.
+            </p>
+          )}
+
+          <p>Deseja realmente finalizar o simulado?</p>
+
+          <div className="flex gap-3 mt-6">
+            <Button
+              variant="outline"
+              onClick={() => setShowSubmitModal(false)}
+              disabled={submitting}
+              fullWidth
+            >
+              Continuar
+            </Button>
+            <Button
+              variant="primary"
+              onClick={handleSubmit}
+              loading={submitting}
+              fullWidth
+            >
+              Finalizar
+            </Button>
+          </div>
+        </div>
+      </Modal>
+    </div>
+  )
+}

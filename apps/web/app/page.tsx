@@ -45,6 +45,15 @@ export default function HomePage() {
           color="green"
         />
 
+        {/* CIP - Clinical Integrative Puzzle */}
+        <FeatureCard
+          href="/cip"
+          icon="🧩"
+          title="Quebra-Cabeça Clínico"
+          description="Integre diagnóstico, exame e tratamento em puzzles"
+          color="purple"
+        />
+
         {/* Custom Exam Builder */}
         <FeatureCard
           href="/montar-prova"
@@ -101,6 +110,7 @@ function FeatureCard({
     primary: 'hover:border-primary-500/50 hover:shadow-primary-500/20',
     accent: 'hover:border-accent-500/50 hover:shadow-accent-500/20',
     green: 'hover:border-green-500/50 hover:shadow-green-500/20',
+    purple: 'hover:border-purple-500/50 hover:shadow-purple-500/20',
     orange: 'hover:border-orange-500/50 hover:shadow-orange-500/20',
     cyan: 'hover:border-cyan-500/50 hover:shadow-cyan-500/20',
     rose: 'hover:border-rose-500/50 hover:shadow-rose-500/20',

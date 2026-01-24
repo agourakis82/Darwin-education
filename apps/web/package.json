@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@darwin-education/shared": "workspace:*",
-    "@darwin-mfc/medical-data": "^1.0.0",
+    "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.45.0",
     "framer-motion": "^11.0.0",
     "next": "15.1.0",
