@@ -30,6 +30,13 @@ Thumbs.db
 npm-debug.log*
 pnpm-debug.log*
 
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+
 # Testing
 coverage/
 .nyc_output/

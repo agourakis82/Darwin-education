@@ -1,66 +1,73 @@
 'use client'
 
-import type { ReviewQuality } from '@darwin-education/shared'
+import { FSRS } from '@darwin-education/shared'
+
+type FSRSRating = FSRS.FSRSRating
 
 interface ReviewButtonsProps {
-  onReview: (quality: ReviewQuality) => void
+  onReview: (rating: FSRSRating) => void
+  /** Show next review intervals for each button */
+  intervals?: {
+    again: string
+    hard: string
+    good: string
+    easy: string
+  }
 }
 
 const reviewOptions: Array<{
-  quality: ReviewQuality
+  rating: FSRSRating
   label: string
   description: string
   color: string
   shortcut: string
+  intervalKey: 'again' | 'hard' | 'good' | 'easy'
 }> = [
   {
-    quality: 1,
+    rating: 1,
     label: 'Errei',
     description: 'Não lembrei',
     color: 'bg-red-600 hover:bg-red-500 border-red-500',
     shortcut: '1',
+    intervalKey: 'again',
   },
   {
-    quality: 2,
+    rating: 2,
     label: 'Difícil',
     description: 'Lembrei com dificuldade',
     color: 'bg-orange-600 hover:bg-orange-500 border-orange-500',
     shortcut: '2',
+    intervalKey: 'hard',
   },
   {
-    quality: 3,
-    label: 'Regular',
-    description: 'Lembrei com esforço',
-    color: 'bg-yellow-600 hover:bg-yellow-500 border-yellow-500',
-    shortcut: '3',
-  },
-  {
-    quality: 4,
+    rating: 3,
     label: 'Bom',
-    description: 'Lembrei bem',
+    description: 'Lembrei com esforço',
     color: 'bg-emerald-600 hover:bg-emerald-500 border-emerald-500',
-    shortcut: '4',
+    shortcut: '3',
+    intervalKey: 'good',
   },
   {
-    quality: 5,
+    rating: 4,
     label: 'Fácil',
     description: 'Lembrei facilmente',
     color: 'bg-blue-600 hover:bg-blue-500 border-blue-500',
-    shortcut: '5',
+    shortcut: '4',
+    intervalKey: 'easy',
   },
 ]
 
-export function ReviewButtons({ onReview }: ReviewButtonsProps) {
+export function ReviewButtons({ onReview, intervals }: ReviewButtonsProps) {
   return (
     <div className="space-y-3">
       <p className="text-center text-sm text-slate-400">
         Como você se saiu?
       </p>
-      <div className="grid grid-cols-5 gap-2">
+      <div className="grid grid-cols-4 gap-2">
         {reviewOptions.map((option) => (
           <button
-            key={option.quality}
-            onClick={() => onReview(option.quality)}
+            key={option.rating}
+            onClick={() => onReview(option.rating)}
             className={`
               relative p-3 rounded-lg border transition-all
               ${option.color}
@@ -72,6 +79,11 @@ export function ReviewButtons({ onReview }: ReviewButtonsProps) {
             <div className="text-xs opacity-75 hidden md:block">
               {option.description}
             </div>
+            {intervals && (
+              <div className="text-xs opacity-60 mt-1">
+                {intervals[option.intervalKey]}
+              </div>
+            )}
             <span className="absolute top-1 right-1 text-xs opacity-50 font-mono">
               {option.shortcut}
             </span>
@@ -79,7 +91,7 @@ export function ReviewButtons({ onReview }: ReviewButtonsProps) {
         ))}
       </div>
       <p className="text-center text-xs text-slate-500">
-        Use as teclas 1-5 para avaliar rapidamente
+        Use as teclas 1-4 para avaliar rapidamente
       </p>
     </div>
   )
