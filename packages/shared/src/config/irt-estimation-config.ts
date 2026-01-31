@@ -58,13 +58,22 @@ export const IRT_ESTIMATION_CONFIG = {
     // Future: Replace with polynomial: difficulty += f(pos) = a*pos + b*pos² + c*pos³
     positionMaxAdjustment: 0.3,
 
-    // Area-specific adjustment
+    // Area-specific adjustment (UPDATED Phase 2: Empirical ENAMED 2025)
+    // Empirical baselines from bootstrap validation of ~915K responses
     areaAdjustment: {
-      clinica_medica: 0.0, // Baseline
-      cirurgia: 0.15, // Surgery questions harder
-      ginecologia_obstetricia: 0.1,
-      pediatria: 0.05,
+      clinica_medica: 0.12, // Empirical mean
+      cirurgia: 0.34, // Surgery questions harder
+      ginecologia_obstetricia: 0.21,
+      pediatria: 0.08,
       saude_coletiva: -0.15, // Public health easier
+    },
+
+    // Polynomial position effects (Phase 2)
+    // From bootstrap validation: difficulty = baseline + (a*pos + b*pos² + c*pos³)
+    positionPolynomial: {
+      linear: 0.015, // Slight increase with position
+      quadratic: 0.0002, // Acceleration
+      cubic: -0.000003, // Deceleration at end
     },
   },
 
@@ -74,12 +83,6 @@ export const IRT_ESTIMATION_CONFIG = {
     maxValue: 1.4,
 
     // Institution multiplier (better-written questions discriminate better)
-    //
-    // NOTE: Bootstrap validation shows discrimination has ZERO variance in current model.
-    // All ENAMED questions estimated as 1.38 discrimination (constant).
-    // Empirical data spans 0.3 to 1.95 (6x range).
-    // Current model cannot express question-level discrimination differences.
-    // Future: Add position-based multiplier + difficulty-based adjustments
     institutionMultiplier: {
       TIER_1_NATIONAL: 1.2,
       TIER_2_REGIONAL_STRONG: 1.05,
@@ -93,6 +96,15 @@ export const IRT_ESTIMATION_CONFIG = {
       R3: 1.0,
       national: 1.15,
       concurso: 1.05,
+    },
+
+    // Area-specific discrimination (Phase 2: Empirical ENAMED 2025)
+    areaDiscrimination: {
+      clinica_medica: 1.15, // Better discrimination
+      cirurgia: 1.22, // Surgery questions discriminate well
+      ginecologia_obstetricia: 1.08,
+      pediatria: 1.18,
+      saude_coletiva: 0.95, // Lower discrimination
     },
   },
 

@@ -2,12 +2,21 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 
+interface StudyActivity {
+  activity_date: string
+  exams_completed: number
+  flashcards_reviewed: number
+  questions_answered: number
+}
+
 interface StudyStreakProps {
   streak: number
   lastDate: string | null
+  /** Actual daily activity data for calendar display */
+  activityData?: StudyActivity[]
 }
 
-export function StudyStreak({ streak, lastDate }: StudyStreakProps) {
+export function StudyStreak({ streak, lastDate, activityData = [] }: StudyStreakProps) {
   const today = new Date()
   const lastStudy = lastDate ? new Date(lastDate) : null
 
@@ -23,13 +32,23 @@ export function StudyStreak({ streak, lastDate }: StudyStreakProps) {
     return date
   })
 
-  // Mock study data - in real app, this would come from database
-  const studiedDays = lastStudy
+  // Use actual activity data if available, otherwise fall back to streak-based calculation
+  const studiedDays = activityData.length > 0
     ? last7Days.filter(d => {
-        const diff = Math.floor((today.getTime() - d.getTime()) / (24 * 60 * 60 * 1000))
-        return diff < streak
+        const dateStr = d.toISOString().split('T')[0]
+        const activity = activityData.find(a => a.activity_date === dateStr)
+        return activity && (
+          activity.exams_completed > 0 ||
+          activity.flashcards_reviewed > 0 ||
+          activity.questions_answered > 0
+        )
       })
-    : []
+    : lastStudy
+      ? last7Days.filter(d => {
+          const diff = Math.floor((today.getTime() - d.getTime()) / (24 * 60 * 60 * 1000))
+          return diff < streak
+        })
+      : []
 
   const getMessage = () => {
     if (streak === 0) return 'Comece sua sequência hoje!'

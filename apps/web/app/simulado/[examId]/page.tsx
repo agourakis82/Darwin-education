@@ -118,7 +118,7 @@ export default function ExamPage() {
           icd10: q.icd10_codes,
           atcCodes: q.atc_codes,
         } as QuestionOntology,
-        references: q.references,
+        references: q.reference_list,
         isAIGenerated: q.is_ai_generated,
         validatedBy: q.validated_by,
       }))
@@ -219,12 +219,11 @@ export default function ExamPage() {
         .from('exam_attempts') as any)
         .update({
           answers: Object.fromEntries(
-            Object.entries(answers).map(([qId, ans]) => [
-              qId,
-              currentExam.questions.findIndex(
-                q => q.id === qId && q.options.findIndex(o => o.text === ans.selectedAnswer)
-              ),
-            ])
+            Object.entries(answers).map(([qId, ans]) => {
+              const question = currentExam.questions.find(q => q.id === qId)
+              const optionIndex = question?.options.findIndex(o => o.text === ans.selectedAnswer)
+              return [qId, optionIndex ?? -1]
+            })
           ),
           completed_at: new Date().toISOString(),
           theta: triScore.theta,
@@ -239,6 +238,35 @@ export default function ExamPage() {
 
       if (updateError) {
         console.error('Error saving results:', updateError)
+      }
+
+      // Track study activity for streak calculation
+      const today = new Date().toISOString().split('T')[0]
+      const questionsCount = currentExam.questions.length
+      const timeSpent = currentExam.timeLimit - remainingTime
+      try {
+        const { error: rpcError } = await (supabase as any).rpc('update_study_activity', {
+          p_user_id: user!.id,
+          p_exams: 1,
+          p_flashcards: 0,
+          p_questions: questionsCount,
+          p_time_seconds: timeSpent,
+        })
+
+        if (rpcError) {
+          // Fall back to direct upsert if RPC doesn't exist
+          await (supabase.from('study_activity') as any).upsert({
+            user_id: user!.id,
+            activity_date: today,
+            exams_completed: 1,
+            questions_answered: questionsCount,
+            time_spent_seconds: timeSpent,
+          }, {
+            onConflict: 'user_id,activity_date',
+          })
+        }
+      } catch {
+        // Ignore errors - study activity is non-critical
       }
 
       // Navigate to results page

@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
     // Enable React 19 features
     reactCompiler: false,
   },
+  // Enable standalone output for Docker production builds
+  output: process.env.NODE_ENV === 'production' ? 'standalone' : undefined,
 };
 
 export default nextConfig;
