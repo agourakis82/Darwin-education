@@ -35,6 +35,13 @@ interface PerformanceStats {
   latestTheta: number
 }
 
+interface StudyActivity {
+  activity_date: string
+  exams_completed: number
+  flashcards_reviewed: number
+  questions_answered: number
+}
+
 const areaLabels: Record<ENAMEDArea, string> = {
   clinica_medica: 'Clínica Médica',
   cirurgia: 'Cirurgia',
@@ -49,6 +56,7 @@ export default function DesempenhoPage() {
   const [attempts, setAttempts] = useState<ExamAttempt[]>([])
   const [stats, setStats] = useState<PerformanceStats | null>(null)
   const [areaPerformance, setAreaPerformance] = useState<Record<ENAMEDArea, number>>({} as Record<ENAMEDArea, number>)
+  const [studyActivity, setStudyActivity] = useState<StudyActivity[]>([])
 
   useEffect(() => {
     loadPerformanceData()
@@ -92,6 +100,20 @@ export default function DesempenhoPage() {
         .select('current_streak, last_activity_date')
         .eq('user_id', user.id)
         .single()
+
+      // Fetch study activity for last 7 days (for calendar view)
+      const sevenDaysAgo = new Date()
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
+      const { data: activityData } = await (supabase
+        .from('study_activity') as any)
+        .select('activity_date, exams_completed, flashcards_reviewed, questions_answered')
+        .eq('user_id', user.id)
+        .gte('activity_date', sevenDaysAgo.toISOString().split('T')[0])
+        .order('activity_date', { ascending: false })
+
+      if (activityData) {
+        setStudyActivity(activityData)
+      }
 
       setStats({
         totalExams,
@@ -260,7 +282,11 @@ export default function DesempenhoPage() {
                 <PassPrediction theta={stats?.latestTheta || 0} totalQuestions={stats?.totalQuestions || 0} />
 
                 {/* Study Streak */}
-                <StudyStreak streak={stats?.studyStreak || 0} lastDate={stats?.lastStudyDate || null} />
+                <StudyStreak
+                  streak={stats?.studyStreak || 0}
+                  lastDate={stats?.lastStudyDate || null}
+                  activityData={studyActivity}
+                />
 
                 {/* Weak Areas */}
                 <WeakAreas performance={areaPerformance} />
