@@ -36,3 +36,10 @@ export {
   selectDiagnosisProgress,
   getCellKey,
 } from './cipStore'
+
+export {
+  useQuestionGenStore,
+  selectCanGenerate,
+  selectHasResult,
+  selectTotalCost,
+} from './questionGenStore'

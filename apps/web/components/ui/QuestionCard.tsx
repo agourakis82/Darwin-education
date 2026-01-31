@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import type { ENAMEDQuestion, ENAMEDArea, DifficultyLevel } from '@darwin-education/shared'
+import { ExplanationPanel } from '@/components/ai/ExplanationPanel'
 
 interface QuestionCardProps {
   question: ENAMEDQuestion
@@ -12,6 +13,7 @@ interface QuestionCardProps {
   showCorrectAnswer?: boolean
   disabled?: boolean
   showExplanation?: boolean
+  showAIExplanation?: boolean
 }
 
 const areaLabels: Record<ENAMEDArea, string> = {
@@ -47,6 +49,7 @@ export function QuestionCard({
   showCorrectAnswer = false,
   disabled = false,
   showExplanation = false,
+  showAIExplanation = false,
 }: QuestionCardProps) {
   const [localSelected, setLocalSelected] = useState<string | null>(null)
   const selected = selectedAnswer ?? localSelected
@@ -191,6 +194,21 @@ export function QuestionCard({
           <h4 className="text-sm font-medium text-emerald-400 mb-2">Explicação</h4>
           <p className="text-slate-300 text-sm leading-relaxed">{question.explanation}</p>
         </div>
+      )}
+
+      {/* AI Explanation */}
+      {showAIExplanation && showCorrectAnswer && (
+        <ExplanationPanel
+          stem={question.stem}
+          options={question.options}
+          correctIndex={question.correctIndex}
+          selectedIndex={
+            selected
+              ? question.options.findIndex((o) => o.text === selected)
+              : undefined
+          }
+          staticExplanation={showExplanation ? undefined : question.explanation}
+        />
       )}
     </div>
   )

@@ -87,7 +87,7 @@ CREATE TABLE questions (
   difficulty TEXT CHECK (difficulty IN ('muito_facil', 'facil', 'medio', 'dificil', 'muito_dificil')),
   is_ai_generated BOOLEAN DEFAULT FALSE,
   validated_by TEXT CHECK (validated_by IN ('community', 'expert', 'both')),
-  references TEXT[] DEFAULT '{}',
+  reference_list TEXT[] DEFAULT '{}',
 
   -- Stats
   times_answered INTEGER DEFAULT 0,
