@@ -26,20 +26,15 @@ export * from './calculators/cip-scoring';
 export * as SM2 from './calculators/sm2';
 export * as FSRS from './calculators/fsrs';
 
-// Algorithms
-export * from './algorithms/cat';
-
-// AI services
-export * from './services/ai';
-
-// Analyzers
-export * from './analyzers/enamed-parser';
-export * from './analyzers/question-patterns';
-
-// Generators
-export * from './generators/template-engine';
-export * from './generators/question-generator';
-export * from './generators/distractor-generator';
-
 // Config
 export * from './config/irt-estimation-config';
+
+// Advanced features (temporarily disabled for pilot deployment)
+// Uncomment when these modules are committed to git:
+// export * from './algorithms/cat';
+// export * from './services/ai';
+// export * from './analyzers/enamed-parser';
+// export * from './analyzers/question-patterns';
+// export * from './generators/template-engine';
+// export * from './generators/question-generator';
+// export * from './generators/distractor-generator';
