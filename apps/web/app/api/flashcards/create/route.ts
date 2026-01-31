@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
         .select('id')
         .eq('user_id', user.id)
         .eq('name', 'Erros de Simulado')
-        .maybeSingle()
+        .maybeSingle<{ id: string }>()
 
       if (existingDeck) {
         targetDeckId = existingDeck.id
@@ -72,9 +72,9 @@ export async function POST(request: NextRequest) {
             name: 'Erros de Simulado',
             description: 'Questões que errei nos simulados',
             is_public: false,
-          })
+          } as any)
           .select('id')
-          .single()
+          .single<{ id: string }>()
 
         if (deckError || !newDeck) {
           console.error('Error creating deck:', deckError)
@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
         .select('id')
         .eq('deck_id', targetDeckId)
         .eq('question_id', questionId)
-        .maybeSingle()
+        .maybeSingle<{ id: string }>()
 
       if (existing) {
         return NextResponse.json({
@@ -118,9 +118,9 @@ export async function POST(request: NextRequest) {
         topic,
         question_id: questionId,
         tags: tags || [],
-      })
+      } as any)
       .select('id')
-      .single()
+      .single<{ id: string }>()
 
     if (cardError || !flashcard) {
       console.error('Error creating flashcard:', cardError)

@@ -1,0 +1,810 @@
+{
+  "metadata": {
+    "version": "2024",
+    "language": "en-US",
+    "source": "WHO ATC/DDD Index",
+    "lastUpdated": "2024-01-01",
+    "description": "ATC WHO Classification - Hierarchical structure for medical drugs"
+  },
+  "nodes": {
+    "A": {
+      "code": "A",
+      "name": "Alimentary tract and metabolism",
+      "englishName": "Alimentary tract and metabolism",
+      "level": 1,
+      "parent": null,
+      "children": ["A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09", "A10", "A11", "A12"],
+      "depth": 0
+    },
+    "A02": {
+      "code": "A02",
+      "name": "Drugs for acid related disorders",
+      "englishName": "Drugs for acid related disorders",
+      "level": 2,
+      "parent": "A",
+      "children": ["A02A", "A02B"],
+      "depth": 1
+    },
+    "A02B": {
+      "code": "A02B",
+      "name": "Drugs for peptic ulcer and gastro-oesophageal reflux disease",
+      "englishName": "Drugs for peptic ulcer and gastro-oesophageal reflux disease",
+      "level": 3,
+      "parent": "A02",
+      "children": ["A02BA", "A02BB", "A02BC", "A02BD", "A02BX"],
+      "depth": 2
+    },
+    "A02BC": {
+      "code": "A02BC",
+      "name": "Proton pump inhibitors",
+      "englishName": "Proton pump inhibitors",
+      "level": 4,
+      "parent": "A02B",
+      "children": ["A02BC01", "A02BC02", "A02BC03", "A02BC04", "A02BC05"],
+      "depth": 3
+    },
+    "A02BC01": {
+      "code": "A02BC01",
+      "name": "Omeprazole",
+      "englishName": "Omeprazole",
+      "level": 5,
+      "parent": "A02BC",
+      "children": [],
+      "depth": 4
+    },
+    "A02BC02": {
+      "code": "A02BC02",
+      "name": "Pantoprazole",
+      "englishName": "Pantoprazole",
+      "level": 5,
+      "parent": "A02BC",
+      "children": [],
+      "depth": 4
+    },
+    "A02BC03": {
+      "code": "A02BC03",
+      "name": "Lansoprazole",
+      "englishName": "Lansoprazole",
+      "level": 5,
+      "parent": "A02BC",
+      "children": [],
+      "depth": 4
+    },
+    "A02BC04": {
+      "code": "A02BC04",
+      "name": "Rabeprazole",
+      "englishName": "Rabeprazole",
+      "level": 5,
+      "parent": "A02BC",
+      "children": [],
+      "depth": 4
+    },
+    "A02BC05": {
+      "code": "A02BC05",
+      "name": "Esomeprazole",
+      "englishName": "Esomeprazole",
+      "level": 5,
+      "parent": "A02BC",
+      "children": [],
+      "depth": 4
+    },
+    "A10": {
+      "code": "A10",
+      "name": "Drugs used in diabetes",
+      "englishName": "Drugs used in diabetes",
+      "level": 2,
+      "parent": "A",
+      "children": ["A10A", "A10B"],
+      "depth": 1
+    },
+    "A10B": {
+      "code": "A10B",
+      "name": "Blood glucose lowering drugs, excl. insulins",
+      "englishName": "Blood glucose lowering drugs, excl. insulins",
+      "level": 3,
+      "parent": "A10",
+      "children": ["A10BA", "A10BB", "A10BC", "A10BD", "A10BF", "A10BG", "A10BH", "A10BX"],
+      "depth": 2
+    },
+    "A10BA": {
+      "code": "A10BA",
+      "name": "Biguanides",
+      "englishName": "Biguanides",
+      "level": 4,
+      "parent": "A10B",
+      "children": ["A10BA01", "A10BA02", "A10BA03"],
+      "depth": 3
+    },
+    "A10BA01": {
+      "code": "A10BA01",
+      "name": "Metformin",
+      "englishName": "Metformin",
+      "level": 5,
+      "parent": "A10BA",
+      "children": [],
+      "depth": 4
+    },
+    "A10BA02": {
+      "code": "A10BA02",
+      "name": "Phenformin",
+      "englishName": "Phenformin",
+      "level": 5,
+      "parent": "A10BA",
+      "children": [],
+      "depth": 4
+    },
+    "A10BA03": {
+      "code": "A10BA03",
+      "name": "Buformin",
+      "englishName": "Buformin",
+      "level": 5,
+      "parent": "A10BA",
+      "children": [],
+      "depth": 4
+    },
+    "A10BB": {
+      "code": "A10BB",
+      "name": "Sulfonylureas",
+      "englishName": "Sulfonylureas",
+      "level": 4,
+      "parent": "A10B",
+      "children": ["A10BB01", "A10BB02", "A10BB03", "A10BB04", "A10BB05", "A10BB06", "A10BB07", "A10BB08", "A10BB09", "A10BB10", "A10BB11", "A10BB12"],
+      "depth": 3
+    },
+    "A10BB01": {
+      "code": "A10BB01",
+      "name": "Glibenclamide",
+      "englishName": "Glibenclamide",
+      "level": 5,
+      "parent": "A10BB",
+      "children": [],
+      "depth": 4
+    },
+    "A10BB02": {
+      "code": "A10BB02",
+      "name": "Chlorpropamide",
+      "englishName": "Chlorpropamide",
+      "level": 5,
+      "parent": "A10BB",
+      "children": [],
+      "depth": 4
+    },
+    "A10BB03": {
+      "code": "A10BB03",
+      "name": "Tolbutamide",
+      "englishName": "Tolbutamide",
+      "level": 5,
+      "parent": "A10BB",
+      "children": [],
+      "depth": 4
+    },
+    "A10BB04": {
+      "code": "A10BB04",
+      "name": "Glibornuride",
+      "englishName": "Glibornuride",
+      "level": 5,
+      "parent": "A10BB",
+      "children": [],
+      "depth": 4
+    },
+    "A10BB05": {
+      "code": "A10BB05",
+      "name": "Tolazamide",
+      "englishName": "Tolazamide",
+      "level": 5,
+      "parent": "A10BB",
+      "children": [],
+      "depth": 4
+    },
+    "A10BB06": {
+      "code": "A10BB06",
+      "name": "Glipizide",
+      "englishName": "Glipizide",
+      "level": 5,
+      "parent": "A10BB",
+      "children": [],
+      "depth": 4
+    },
+    "A10BB07": {
+      "code": "A10BB07",
+      "name": "Gliquidone",
+      "englishName": "Gliquidone",
+      "level": 5,
+      "parent": "A10BB",
+      "children": [],
+      "depth": 4
+    },
+    "A10BB08": {
+      "code": "A10BB08",
+      "name": "Gliclazide",
+      "englishName": "Gliclazide",
+      "level": 5,
+      "parent": "A10BB",
+      "children": [],
+      "depth": 4
+    },
+    "A10BB09": {
+      "code": "A10BB09",
+      "name": "Glibenclamide",
+      "englishName": "Glibenclamide",
+      "level": 5,
+      "parent": "A10BB",
+      "children": [],
+      "depth": 4
+    },
+    "A10BB10": {
+      "code": "A10BB10",
+      "name": "Gliclazide",
+      "englishName": "Gliclazide",
+      "level": 5,
+      "parent": "A10BB",
+      "children": [],
+      "depth": 4
+    },
+    "A10BB11": {
+      "code": "A10BB11",
+      "name": "Glimepiride",
+      "englishName": "Glimepiride",
+      "level": 5,
+      "parent": "A10BB",
+      "children": [],
+      "depth": 4
+    },
+    "A10BB12": {
+      "code": "A10BB12",
+      "name": "Glipizide",
+      "englishName": "Glipizide",
+      "level": 5,
+      "parent": "A10BB",
+      "children": [],
+      "depth": 4
+    },
+    "C": {
+      "code": "C",
+      "name": "Cardiovascular system",
+      "englishName": "Cardiovascular system",
+      "level": 1,
+      "parent": null,
+      "children": ["C01", "C02", "C03", "C04", "C05", "C06", "C07", "C08", "C09", "C10"],
+      "depth": 0
+    },
+    "C07": {
+      "code": "C07",
+      "name": "Beta blocking agents",
+      "englishName": "Beta blocking agents",
+      "level": 2,
+      "parent": "C",
+      "children": ["C07A", "C07B"],
+      "depth": 1
+    },
+    "C07A": {
+      "code": "C07A",
+      "name": "Beta blocking agents",
+      "englishName": "Beta blocking agents",
+      "level": 3,
+      "parent": "C07",
+      "children": ["C07AA", "C07AB", "C07AG"],
+      "depth": 2
+    },
+    "C07AA": {
+      "code": "C07AA",
+      "name": "Non-selective beta blocking agents",
+      "englishName": "Non-selective beta blocking agents",
+      "level": 4,
+      "parent": "C07A",
+      "children": ["C07AA01", "C07AA02", "C07AA03", "C07AA04", "C07AA05", "C07AA06", "C07AA07", "C07AA08", "C07AA09", "C07AA10", "C07AA11", "C07AA12", "C07AA13", "C07AA14", "C07AA15", "C07AA16", "C07AA17", "C07AA18", "C07AA19"],
+      "depth": 3
+    },
+    "C07AA01": {
+      "code": "C07AA01",
+      "name": "Propranolol",
+      "englishName": "Propranolol",
+      "level": 5,
+      "parent": "C07AA",
+      "children": [],
+      "depth": 4
+    },
+    "C07AA02": {
+      "code": "C07AA02",
+      "name": "Sotalol",
+      "englishName": "Sotalol",
+      "level": 5,
+      "parent": "C07AA",
+      "children": [],
+      "depth": 4
+    },
+    "C07AA03": {
+      "code": "C07AA03",
+      "name": "Nadolol",
+      "englishName": "Nadolol",
+      "level": 5,
+      "parent": "C07AA",
+      "children": [],
+      "depth": 4
+    },
+    "C07AA04": {
+      "code": "C07AA04",
+      "name": "Pindolol",
+      "englishName": "Pindolol",
+      "level": 5,
+      "parent": "C07AA",
+      "children": [],
+      "depth": 4
+    },
+    "C07AA05": {
+      "code": "C07AA05",
+      "name": "Timolol",
+      "englishName": "Timolol",
+      "level": 5,
+      "parent": "C07AA",
+      "children": [],
+      "depth": 4
+    },
+    "C07AA06": {
+      "code": "C07AA06",
+      "name": "Alprenolol",
+      "englishName": "Alprenolol",
+      "level": 5,
+      "parent": "C07AA",
+      "children": [],
+      "depth": 4
+    },
+    "C07AA07": {
+      "code": "C07AA07",
+      "name": "Oxprenolol",
+      "englishName": "Oxprenolol",
+      "level": 5,
+      "parent": "C07AA",
+      "children": [],
+      "depth": 4
+    },
+    "C07AA08": {
+      "code": "C07AA08",
+      "name": "Penbutolol",
+      "englishName": "Penbutolol",
+      "level": 5,
+      "parent": "C07AA",
+      "children": [],
+      "depth": 4
+    },
+    "C07AA09": {
+      "code": "C07AA09",
+      "name": "Bucindolol",
+      "englishName": "Bucindolol",
+      "level": 5,
+      "parent": "C07AA",
+      "children": [],
+      "depth": 4
+    },
+    "C07AA10": {
+      "code": "C07AA10",
+      "name": "Carteolol",
+      "englishName": "Carteolol",
+      "level": 5,
+      "parent": "C07AA",
+      "children": [],
+      "depth": 4
+    },
+    "C07AA11": {
+      "code": "C07AA11",
+      "name": "Labetalol",
+      "englishName": "Labetalol",
+      "level": 5,
+      "parent": "C07AA",
+      "children": [],
+      "depth": 4
+    },
+    "C07AA12": {
+      "code": "C07AA12",
+      "name": "Carvedilol",
+      "englishName": "Carvedilol",
+      "level": 5,
+      "parent": "C07AA",
+      "children": [],
+      "depth": 4
+    },
+    "C07AA13": {
+      "code": "C07AA13",
+      "name": "Nebivolol",
+      "englishName": "Nebivolol",
+      "level": 5,
+      "parent": "C07AA",
+      "children": [],
+      "depth": 4
+    },
+    "C07AA14": {
+      "code": "C07AA14",
+      "name": "Bisoprolol",
+      "englishName": "Bisoprolol",
+      "level": 5,
+      "parent": "C07AA",
+      "children": [],
+      "depth": 4
+    },
+    "C07AA15": {
+      "code": "C07AA15",
+      "name": "Acebutolol",
+      "englishName": "Acebutolol",
+      "level": 5,
+      "parent": "C07AA",
+      "children": [],
+      "depth": 4
+    },
+    "C07AA16": {
+      "code": "C07AA16",
+      "name": "Atenolol",
+      "englishName": "Atenolol",
+      "level": 5,
+      "parent": "C07AA",
+      "children": [],
+      "depth": 4
+    },
+    "C07AA17": {
+      "code": "C07AA17",
+      "name": "Metoprolol",
+      "englishName": "Metoprolol",
+      "level": 5,
+      "parent": "C07AA",
+      "children": [],
+      "depth": 4
+    },
+    "C07AA18": {
+      "code": "C07AA18",
+      "name": "Esmolol",
+      "englishName": "Esmolol",
+      "level": 5,
+      "parent": "C07AA",
+      "children": [],
+      "depth": 4
+    },
+    "C07AA19": {
+      "code": "C07AA19",
+      "name": "Betaxolol",
+      "englishName": "Betaxolol",
+      "level": 5,
+      "parent": "C07AA",
+      "children": [],
+      "depth": 4
+    },
+    "C07AB": {
+      "code": "C07AB",
+      "name": "Selective beta blocking agents",
+      "englishName": "Selective beta blocking agents",
+      "level": 4,
+      "parent": "C07A",
+      "children": ["C07AB01", "C07AB02", "C07AB03", "C07AB04", "C07AB05", "C07AB06", "C07AB07"],
+      "depth": 3
+    },
+    "C07AB01": {
+      "code": "C07AB01",
+      "name": "Practolol",
+      "englishName": "Practolol",
+      "level": 5,
+      "parent": "C07AB",
+      "children": [],
+      "depth": 4
+    },
+    "C07AB02": {
+      "code": "C07AB02",
+      "name": "Metoprolol",
+      "englishName": "Metoprolol",
+      "level": 5,
+      "parent": "C07AB",
+      "children": [],
+      "depth": 4
+    },
+    "C07AB03": {
+      "code": "C07AB03",
+      "name": "Atenolol",
+      "englishName": "Atenolol",
+      "level": 5,
+      "parent": "C07AB",
+      "children": [],
+      "depth": 4
+    },
+    "C07AB04": {
+      "code": "C07AB04",
+      "name": "Acebutolol",
+      "englishName": "Acebutolol",
+      "level": 5,
+      "parent": "C07AB",
+      "children": [],
+      "depth": 4
+    },
+    "C07AB05": {
+      "code": "C07AB05",
+      "name": "Bisoprolol",
+      "englishName": "Bisoprolol",
+      "level": 5,
+      "parent": "C07AB",
+      "children": [],
+      "depth": 4
+    },
+    "C07AB06": {
+      "code": "C07AB06",
+      "name": "Esmolol",
+      "englishName": "Esmolol",
+      "level": 5,
+      "parent": "C07AB",
+      "children": [],
+      "depth": 4
+    },
+    "C07AB07": {
+      "code": "C07AB07",
+      "name": "Nebivolol",
+      "englishName": "Nebivolol",
+      "level": 5,
+      "parent": "C07AB",
+      "children": [],
+      "depth": 4
+    },
+    "C07AG": {
+      "code": "C07AG",
+      "name": "Alpha and beta blocking agents",
+      "englishName": "Alpha and beta blocking agents",
+      "level": 4,
+      "parent": "C07A",
+      "children": ["C07AG01", "C07AG02"],
+      "depth": 3
+    },
+    "C07AG01": {
+      "code": "C07AG01",
+      "name": "Labetalol",
+      "englishName": "Labetalol",
+      "level": 5,
+      "parent": "C07AG",
+      "children": [],
+      "depth": 4
+    },
+    "C07AG02": {
+      "code": "C07AG02",
+      "name": "Carvedilol",
+      "englishName": "Carvedilol",
+      "level": 5,
+      "parent": "C07AG",
+      "children": [],
+      "depth": 4
+    },
+    "C08": {
+      "code": "C08",
+      "name": "Calcium channel blockers",
+      "englishName": "Calcium channel blockers",
+      "level": 2,
+      "parent": "C",
+      "children": ["C08A", "C08B", "C08C", "C08D", "C08E"],
+      "depth": 1
+    },
+    "C08A": {
+      "code": "C08A",
+      "name": "Calcium channel blockers with mainly vascular effects",
+      "englishName": "Calcium channel blockers with mainly vascular effects",
+      "level": 3,
+      "parent": "C08",
+      "children": ["C08AA", "C08AB", "C08AX"],
+      "depth": 2
+    },
+    "C08AA": {
+      "code": "C08AA",
+      "name": "Dihydropyridine derivatives",
+      "englishName": "Dihydropyridine derivatives",
+      "level": 4,
+      "parent": "C08A",
+      "children": ["C08AA01", "C08AA02", "C08AA03", "C08AA04", "C08AA05", "C08AA06", "C08AA07", "C08AA08", "C08AA09", "C08AA10"],
+      "depth": 3
+    },
+    "C08AA01": {
+      "code": "C08AA01",
+      "name": "Amlodipine",
+      "englishName": "Amlodipine",
+      "level": 5,
+      "parent": "C08AA",
+      "children": [],
+      "depth": 4
+    },
+    "C08AA02": {
+      "code": "C08AA02",
+      "name": "Felodipine",
+      "englishName": "Felodipine",
+      "level": 5,
+      "parent": "C08AA",
+      "children": [],
+      "depth": 4
+    },
+    "C08AA03": {
+      "code": "C08AA03",
+      "name": "Nifedipine",
+      "englishName": "Nifedipine",
+      "level": 5,
+      "parent": "C08AA",
+      "children": [],
+      "depth": 4
+    },
+    "C08AA04": {
+      "code": "C08AA04",
+      "name": "Nitrendipine",
+      "englishName": "Nitrendipine",
+      "level": 5,
+      "parent": "C08AA",
+      "children": [],
+      "depth": 4
+    },
+    "C08AA05": {
+      "code": "C08AA05",
+      "name": "Nicardipine",
+      "englishName": "Nicardipine",
+      "level": 5,
+      "parent": "C08AA",
+      "children": [],
+      "depth": 4
+    },
+    "C08AA06": {
+      "code": "C08AA06",
+      "name": "Nisoldipine",
+      "englishName": "Nisoldipine",
+      "level": 5,
+      "parent": "C08AA",
+      "children": [],
+      "depth": 4
+    },
+    "C08AA07": {
+      "code": "C08AA07",
+      "name": "Isradipine",
+      "englishName": "Isradipine",
+      "level": 5,
+      "parent": "C08AA",
+      "children": [],
+      "depth": 4
+    },
+    "C08AA08": {
+      "code": "C08AA08",
+      "name": "Lercanidipine",
+      "englishName": "Lercanidipine",
+      "level": 5,
+      "parent": "C08AA",
+      "children": [],
+      "depth": 4
+    },
+    "C08AA09": {
+      "code": "C08AA09",
+      "name": "Lacidipine",
+      "englishName": "Lacidipine",
+      "level": 5,
+      "parent": "C08AA",
+      "children": [],
+      "depth": 4
+    },
+    "C08AA10": {
+      "code": "C08AA10",
+      "name": "Manidipine",
+      "englishName": "Manidipine",
+      "level": 5,
+      "parent": "C08AA",
+      "children": [],
+      "depth": 4
+    },
+    "C09": {
+      "code": "C09",
+      "name": "Agents acting on renin-angiotensin system",
+      "englishName": "Agents acting on renin-angiotensin system",
+      "level": 2,
+      "parent": "C",
+      "children": ["C09A", "C09B", "C09C", "C09D", "C09X"],
+      "depth": 1
+    },
+    "C09A": {
+      "code": "C09A",
+      "name": "ACE inhibitors, plain",
+      "englishName": "ACE inhibitors, plain",
+      "level": 3,
+      "parent": "C09",
+      "children": ["C09AA", "C09AB", "C09AC", "C09AD", "C09AF"],
+      "depth": 2
+    },
+    "C09AA": {
+      "code": "C09AA",
+      "name": "ACE inhibitors, plain",
+      "englishName": "ACE inhibitors, plain",
+      "level": 4,
+      "parent": "C09A",
+      "children": ["C09AA01", "C09AA02", "C09AA03", "C09AA04", "C09AA05", "C09AA06", "C09AA07", "C09AA08", "C09AA09", "C09AA10"],
+      "depth": 3
+    },
+    "C09AA01": {
+      "code": "C09AA01",
+      "name": "Captopril",
+      "englishName": "Captopril",
+      "level": 5,
+      "parent": "C09AA",
+      "children": [],
+      "depth": 4
+    },
+    "C09AA02": {
+      "code": "C09AA02",
+      "name": "Enalapril",
+      "englishName": "Enalapril",
+      "level": 5,
+      "parent": "C09AA",
+      "children": [],
+      "depth": 4
+    },
+    "C09AA03": {
+      "code": "C09AA03",
+      "name": "Lisinopril",
+      "englishName": "Lisinopril",
+      "level": 5,
+      "parent": "C09AA",
+      "children": [],
+      "depth": 4
+    },
+    "C09AA04": {
+      "code": "C09AA04",
+      "name": "Perindopril",
+      "englishName": "Perindopril",
+      "level": 5,
+      "parent": "C09AA",
+      "children": [],
+      "depth": 4
+    },
+    "C09AA05": {
+      "code": "C09AA05",
+      "name": "Ramipril",
+      "englishName": "Ramipril",
+      "level": 5,
+      "parent": "C09AA",
+      "children": [],
+      "depth": 4
+    },
+    "C09AA06": {
+      "code": "C09AA06",
+      "name": "Quinapril",
+      "englishName": "Quinapril",
+      "level": 5,
+      "parent": "C09AA",
+      "children": [],
+      "depth": 4
+    },
+    "C09AA07": {
+      "code": "C09AA07",
+      "name": "Benazepril",
+      "englishName": "Benazepril",
+      "level": 5,
+      "parent": "C09AA",
+      "children": [],
+      "depth": 4
+    },
+    "C09AA08": {
+      "code": "C09AA08",
+      "name": "Cilazapril",
+      "englishName": "Cilazapril",
+      "level": 5,
+      "parent": "C09AA",
+      "children": [],
+      "depth": 4
+    },
+    "C09AA09": {
+      "code": "C09AA09",
+      "name": "Fosinopril",
+      "englishName": "Fosinopril",
+      "level": 5,
+      "parent": "C09AA",
+      "children": [],
+      "depth": 4
+    },
+    "C09AA10": {
+      "code": "C09AA10",
+      "name": "Trandolapril",
+      "englishName": "Trandolapril",
+      "level": 5,
+      "parent": "C09AA",
+      "children": [],
+      "depth": 4
+    }
+  },
+  "enamedMapping": {
+    "clinica_medica": ["A", "C", "N"],
+    "cirurgia": ["B", "C", "M"],
+    "ginecologia_obstetricia": ["A", "G", "J"],
+    "pediatria": ["A", "C", "J"],
+    "saude_coletiva": ["A", "J", "V"]
+  }
+}

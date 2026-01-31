@@ -1,0 +1,679 @@
+{
+  "metadata": {
+    "version": "2019",
+    "language": "pt-BR",
+    "source": "WHO ICD-10 Classification",
+    "lastUpdated": "2024-01-01",
+    "description": "ICD-10 WHO Classification - Hierarchical structure for medical ontology"
+  },
+  "nodes": {
+    "I": {
+      "code": "I",
+      "name": "Algumas doenças infecciosas e parasitárias",
+      "englishName": "Certain infectious and parasitic diseases",
+      "level": "chapter",
+      "codeRange": "A00-B99",
+      "parent": null,
+      "children": ["A00-A09", "A15-A19", "A20-A28", "A30-A49", "A50-A64", "A65-A69", "A70-A74", "A75-A79", "A80-A89", "A90-A99"],
+      "depth": 0
+    },
+    "A00-A09": {
+      "code": "A00-A09",
+      "name": "Doenças intestinais infecciosas e parasitárias",
+      "englishName": "Intestinal infectious diseases",
+      "level": "block",
+      "parent": "I",
+      "children": ["A00", "A01", "A02", "A03", "A04", "A05", "A06", "A07", "A08", "A09"],
+      "depth": 1
+    },
+    "A00": {
+      "code": "A00",
+      "name": "Cólera",
+      "englishName": "Cholera",
+      "level": "category",
+      "parent": "A00-A09",
+      "children": ["A000", "A001", "A009"],
+      "depth": 2
+    },
+    "A000": {
+      "code": "A000",
+      "name": "Cólera devida a Vibrio cholerae 01, biovar cholerae",
+      "englishName": "Cholera due to Vibrio cholerae 01, biovar cholerae",
+      "level": "subcategory",
+      "parent": "A00",
+      "children": [],
+      "depth": 3
+    },
+    "A001": {
+      "code": "A001",
+      "name": "Cólera devida a Vibrio cholerae 01, biovar El Tor",
+      "englishName": "Cholera due to Vibrio cholerae 01, biovar El Tor",
+      "level": "subcategory",
+      "parent": "A00",
+      "children": [],
+      "depth": 3
+    },
+    "A009": {
+      "code": "A009",
+      "name": "Cólera não especificada",
+      "englishName": "Cholera, unspecified",
+      "level": "subcategory",
+      "parent": "A00",
+      "children": [],
+      "depth": 3
+    },
+    "A01": {
+      "code": "A01",
+      "name": "Febres tifóide e paratifóide",
+      "englishName": "Typhoid and paratyphoid fevers",
+      "level": "category",
+      "parent": "A00-A09",
+      "children": ["A010", "A011", "A012", "A019"],
+      "depth": 2
+    },
+    "A010": {
+      "code": "A010",
+      "name": "Febre tifóide",
+      "englishName": "Typhoid fever",
+      "level": "subcategory",
+      "parent": "A01",
+      "children": [],
+      "depth": 3
+    },
+    "A011": {
+      "code": "A011",
+      "name": "Febre paratifóide A",
+      "englishName": "Paratyphoid fever A",
+      "level": "subcategory",
+      "parent": "A01",
+      "children": [],
+      "depth": 3
+    },
+    "A012": {
+      "code": "A012",
+      "name": "Febre paratifóide B",
+      "englishName": "Paratyphoid fever B",
+      "level": "subcategory",
+      "parent": "A01",
+      "children": [],
+      "depth": 3
+    },
+    "A019": {
+      "code": "A019",
+      "name": "Febre paratifóide não especificada",
+      "englishName": "Paratyphoid fever, unspecified",
+      "level": "subcategory",
+      "parent": "A01",
+      "children": [],
+      "depth": 3
+    },
+    "A02": {
+      "code": "A02",
+      "name": "Outras infecções intestinais",
+      "englishName": "Other Salmonella infections",
+      "level": "category",
+      "parent": "A00-A09",
+      "children": ["A020", "A021", "A022", "A028", "A029"],
+      "depth": 2
+    },
+    "A020": {
+      "code": "A020",
+      "name": "Enterite por Salmonella",
+      "englishName": "Salmonella enteritis",
+      "level": "subcategory",
+      "parent": "A02",
+      "children": [],
+      "depth": 3
+    },
+    "A021": {
+      "code": "A021",
+      "name": "Septicemia por Salmonella",
+      "englishName": "Salmonella sepsis",
+      "level": "subcategory",
+      "parent": "A02",
+      "children": [],
+      "depth": 3
+    },
+    "A022": {
+      "code": "A022",
+      "name": "Meningite por Salmonella",
+      "englishName": "Salmonella meningitis",
+      "level": "subcategory",
+      "parent": "A02",
+      "children": [],
+      "depth": 3
+    },
+    "A028": {
+      "code": "A028",
+      "name": "Outras infecções por Salmonella",
+      "englishName": "Other Salmonella infections",
+      "level": "subcategory",
+      "parent": "A02",
+      "children": [],
+      "depth": 3
+    },
+    "A029": {
+      "code": "A029",
+      "name": "Infecção por Salmonella não especificada",
+      "englishName": "Salmonella infection, unspecified",
+      "level": "subcategory",
+      "parent": "A02",
+      "children": [],
+      "depth": 3
+    },
+    "A15-A19": {
+      "code": "A15-A19",
+      "name": "Tuberculose",
+      "englishName": "Tuberculosis",
+      "level": "block",
+      "parent": "I",
+      "children": ["A15", "A16", "A17", "A18", "A19"],
+      "depth": 1
+    },
+    "A15": {
+      "code": "A15",
+      "name": "Tuberculose respiratória confirmada bacteriologicamente e histologicamente",
+      "englishName": "Respiratory tuberculosis, confirmed bacteriologically and histologically",
+      "level": "category",
+      "parent": "A15-A19",
+      "children": ["A150", "A151", "A152", "A153", "A154", "A155", "A156", "A157", "A158", "A159"],
+      "depth": 2
+    },
+    "A150": {
+      "code": "A150",
+      "name": "Tuberculose pulmonar, confirmada por exame microscópico de escarro",
+      "englishName": "Pulmonary tuberculosis, confirmed by sputum microscopy",
+      "level": "subcategory",
+      "parent": "A15",
+      "children": [],
+      "depth": 3
+    },
+    "A151": {
+      "code": "A151",
+      "name": "Tuberculose pulmonar, confirmada apenas por cultura",
+      "englishName": "Pulmonary tuberculosis, confirmed only by culture",
+      "level": "subcategory",
+      "parent": "A15",
+      "children": [],
+      "depth": 3
+    },
+    "A152": {
+      "code": "A152",
+      "name": "Tuberculose pulmonar, confirmada por exame histológico",
+      "englishName": "Pulmonary tuberculosis, confirmed by histological examination",
+      "level": "subcategory",
+      "parent": "A15",
+      "children": [],
+      "depth": 3
+    },
+    "A16": {
+      "code": "A16",
+      "name": "Tuberculose respiratória não confirmada bacteriologicamente ou histologicamente",
+      "englishName": "Respiratory tuberculosis, not confirmed bacteriologically or histologically",
+      "level": "category",
+      "parent": "A15-A19",
+      "children": ["A160", "A161", "A162", "A163", "A164", "A165", "A166", "A167", "A168", "A169"],
+      "depth": 2
+    },
+    "A160": {
+      "code": "A160",
+      "name": "Tuberculose pulmonar com exame bacteriológico e histológico negativos",
+      "englishName": "Pulmonary tuberculosis with negative bacteriological and histological examination",
+      "level": "subcategory",
+      "parent": "A16",
+      "children": [],
+      "depth": 3
+    },
+    "A161": {
+      "code": "A161",
+      "name": "Tuberculose pulmonar sem exame bacteriológico ou histológico",
+      "englishName": "Pulmonary tuberculosis without bacteriological or histological examination",
+      "level": "subcategory",
+      "parent": "A16",
+      "children": [],
+      "depth": 3
+    },
+    "A162": {
+      "code": "A162",
+      "name": "Tuberculose pulmonar sem menção de confirmação bacteriológica ou histológica",
+      "englishName": "Pulmonary tuberculosis without mention of bacteriological or histological confirmation",
+      "level": "subcategory",
+      "parent": "A16",
+      "children": [],
+      "depth": 3
+    },
+    "II": {
+      "code": "II",
+      "name": "Neoplasias (tumores)",
+      "englishName": "Neoplasms",
+      "level": "chapter",
+      "codeRange": "C00-D48",
+      "parent": null,
+      "children": ["C00-C14", "C15-C26", "C30-C39", "C40-C41", "C42-C43", "C44", "C45-C49", "C50", "C51-C58", "C60-C63", "C64-C68", "C69-C72", "C73-C75", "C76-C80", "C81-C96", "C97", "D00-D09", "D10-D36", "D37-D48"],
+      "depth": 0
+    },
+    "IX": {
+      "code": "IX",
+      "name": "Doenças do sistema circulatório",
+      "englishName": "Diseases of the circulatory system",
+      "level": "chapter",
+      "codeRange": "I00-I99",
+      "parent": null,
+      "children": ["I00-I02", "I05-I09", "I10-I15", "I20-I25", "I26-I28", "I30-I52", "I60-I69", "I70-I79", "I80-I89", "I90-I99"],
+      "depth": 0
+    },
+    "I10-I15": {
+      "code": "I10-I15",
+      "name": "Doenças hipertensivas",
+      "englishName": "Hypertensive diseases",
+      "level": "block",
+      "parent": "IX",
+      "children": ["I10", "I11", "I12", "I13", "I15"],
+      "depth": 1
+    },
+    "I10": {
+      "code": "I10",
+      "name": "Hipertensão arterial essencial (primária)",
+      "englishName": "Essential (primary) hypertension",
+      "level": "category",
+      "parent": "I10-I15",
+      "children": ["I100", "I101", "I109"],
+      "depth": 2
+    },
+    "I100": {
+      "code": "I100",
+      "name": "Hipertensão arterial essencial maligna",
+      "englishName": "Malignant essential hypertension",
+      "level": "subcategory",
+      "parent": "I10",
+      "children": [],
+      "depth": 3
+    },
+    "I101": {
+      "code": "I101",
+      "name": "Hipertensão arterial essencial benigna",
+      "englishName": "Benign essential hypertension",
+      "level": "subcategory",
+      "parent": "I10",
+      "children": [],
+      "depth": 3
+    },
+    "I109": {
+      "code": "I109",
+      "name": "Hipertensão arterial essencial não especificada",
+      "englishName": "Essential hypertension, unspecified",
+      "level": "subcategory",
+      "parent": "I10",
+      "children": [],
+      "depth": 3
+    },
+    "I11": {
+      "code": "I11",
+      "name": "Doença cardíaca hipertensiva",
+      "englishName": "Hypertensive heart disease",
+      "level": "category",
+      "parent": "I10-I15",
+      "children": ["I110", "I119"],
+      "depth": 2
+    },
+    "I110": {
+      "code": "I110",
+      "name": "Doença cardíaca hipertensiva com insuficiência cardíaca",
+      "englishName": "Hypertensive heart disease with heart failure",
+      "level": "subcategory",
+      "parent": "I11",
+      "children": [],
+      "depth": 3
+    },
+    "I119": {
+      "code": "I119",
+      "name": "Doença cardíaca hipertensiva sem insuficiência cardíaca",
+      "englishName": "Hypertensive heart disease without heart failure",
+      "level": "subcategory",
+      "parent": "I11",
+      "children": [],
+      "depth": 3
+    },
+    "I12": {
+      "code": "I12",
+      "name": "Doença renal hipertensiva",
+      "englishName": "Hypertensive renal disease",
+      "level": "category",
+      "parent": "I10-I15",
+      "children": ["I120", "I129"],
+      "depth": 2
+    },
+    "I120": {
+      "code": "I120",
+      "name": "Doença renal hipertensiva com insuficiência renal",
+      "englishName": "Hypertensive renal disease with renal failure",
+      "level": "subcategory",
+      "parent": "I12",
+      "children": [],
+      "depth": 3
+    },
+    "I129": {
+      "code": "I129",
+      "name": "Doença renal hipertensiva sem insuficiência renal",
+      "englishName": "Hypertensive renal disease without renal failure",
+      "level": "subcategory",
+      "parent": "I12",
+      "children": [],
+      "depth": 3
+    },
+    "I20-I25": {
+      "code": "I20-I25",
+      "name": "Doenças isquêmicas do coração",
+      "englishName": "Ischemic heart diseases",
+      "level": "block",
+      "parent": "IX",
+      "children": ["I20", "I21", "I22", "I23", "I24", "I25"],
+      "depth": 1
+    },
+    "I20": {
+      "code": "I20",
+      "name": "Angina pectoris",
+      "englishName": "Angina pectoris",
+      "level": "category",
+      "parent": "I20-I25",
+      "children": ["I200", "I201", "I208", "I209"],
+      "depth": 2
+    },
+    "I200": {
+      "code": "I200",
+      "name": "Angina instável",
+      "englishName": "Unstable angina",
+      "level": "subcategory",
+      "parent": "I20",
+      "children": [],
+      "depth": 3
+    },
+    "I201": {
+      "code": "I201",
+      "name": "Angina pectoris com espasmo documentado",
+      "englishName": "Angina pectoris with documented spasm",
+      "level": "subcategory",
+      "parent": "I20",
+      "children": [],
+      "depth": 3
+    },
+    "I208": {
+      "code": "I208",
+      "name": "Outras formas de angina pectoris",
+      "englishName": "Other forms of angina pectoris",
+      "level": "subcategory",
+      "parent": "I20",
+      "children": [],
+      "depth": 3
+    },
+    "I209": {
+      "code": "I209",
+      "name": "Angina pectoris não especificada",
+      "englishName": "Angina pectoris, unspecified",
+      "level": "subcategory",
+      "parent": "I20",
+      "children": [],
+      "depth": 3
+    },
+    "I21": {
+      "code": "I21",
+      "name": "Infarto agudo do miocárdio",
+      "englishName": "Acute myocardial infarction",
+      "level": "category",
+      "parent": "I20-I25",
+      "children": ["I210", "I211", "I212", "I213", "I214", "I219"],
+      "depth": 2
+    },
+    "I210": {
+      "code": "I210",
+      "name": "Infarto agudo do miocárdio da parede anterior",
+      "englishName": "Acute myocardial infarction of anterior wall",
+      "level": "subcategory",
+      "parent": "I21",
+      "children": [],
+      "depth": 3
+    },
+    "I211": {
+      "code": "I211",
+      "name": "Infarto agudo do miocárdio da parede inferior",
+      "englishName": "Acute myocardial infarction of inferior wall",
+      "level": "subcategory",
+      "parent": "I21",
+      "children": [],
+      "depth": 3
+    },
+    "I212": {
+      "code": "I212",
+      "name": "Infarto agudo do miocárdio de outras localizações",
+      "englishName": "Acute myocardial infarction of other specified sites",
+      "level": "subcategory",
+      "parent": "I21",
+      "children": [],
+      "depth": 3
+    },
+    "I213": {
+      "code": "I213",
+      "name": "Infarto agudo do miocárdio de localização não especificada",
+      "englishName": "Acute myocardial infarction of unspecified site",
+      "level": "subcategory",
+      "parent": "I21",
+      "children": [],
+      "depth": 3
+    },
+    "I219": {
+      "code": "I219",
+      "name": "Infarto agudo do miocárdio não especificado",
+      "englishName": "Acute myocardial infarction, unspecified",
+      "level": "subcategory",
+      "parent": "I21",
+      "children": [],
+      "depth": 3
+    },
+    "X": {
+      "code": "X",
+      "name": "Doenças do sistema respiratório",
+      "englishName": "Diseases of the respiratory system",
+      "level": "chapter",
+      "codeRange": "J00-J99",
+      "parent": null,
+      "children": ["J00-J06", "J09-J18", "J20-J22", "J30-J39", "J40-J47", "J60-J70", "J80-J84", "J85-J86", "J90-J94", "J95-J99"],
+      "depth": 0
+    },
+    "J09-J18": {
+      "code": "J09-J18",
+      "name": "Gripe e pneumonia",
+      "englishName": "Influenza and pneumonia",
+      "level": "block",
+      "parent": "X",
+      "children": ["J09", "J10", "J11", "J12", "J13", "J14", "J15", "J16", "J17", "J18"],
+      "depth": 1
+    },
+    "J09": {
+      "code": "J09",
+      "name": "Gripe devida a vírus da gripe identificado",
+      "englishName": "Influenza due to identified influenza virus",
+      "level": "category",
+      "parent": "J09-J18",
+      "children": ["J090", "J091", "J098", "J099"],
+      "depth": 2
+    },
+    "J090": {
+      "code": "J090",
+      "name": "Gripe devida a vírus da gripe aviária A subtipo H5N1",
+      "englishName": "Influenza due to avian influenza A virus subtype H5N1",
+      "level": "subcategory",
+      "parent": "J09",
+      "children": [],
+      "depth": 3
+    },
+    "J10": {
+      "code": "J10",
+      "name": "Gripe devida a vírus da gripe sazonal identificado",
+      "englishName": "Influenza due to identified seasonal influenza virus",
+      "level": "category",
+      "parent": "J09-J18",
+      "children": ["J100", "J101", "J108", "J109"],
+      "depth": 2
+    },
+    "J100": {
+      "code": "J100",
+      "name": "Gripe com pneumonia devida a vírus da gripe sazonal",
+      "englishName": "Influenza with pneumonia due to identified seasonal influenza virus",
+      "level": "subcategory",
+      "parent": "J10",
+      "children": [],
+      "depth": 3
+    },
+    "J12": {
+      "code": "J12",
+      "name": "Pneumonia viral não classificada em outra parte",
+      "englishName": "Viral pneumonia, not elsewhere classified",
+      "level": "category",
+      "parent": "J09-J18",
+      "children": ["J120", "J121", "J128", "J129"],
+      "depth": 2
+    },
+    "J120": {
+      "code": "J120",
+      "name": "Pneumonia devida a adenovírus",
+      "englishName": "Pneumonia due to adenovirus",
+      "level": "subcategory",
+      "parent": "J12",
+      "children": [],
+      "depth": 3
+    },
+    "J121": {
+      "code": "J121",
+      "name": "Pneumonia devida a vírus sincicial respiratório",
+      "englishName": "Pneumonia due to respiratory syncytial virus",
+      "level": "subcategory",
+      "parent": "J12",
+      "children": [],
+      "depth": 3
+    },
+    "J13": {
+      "code": "J13",
+      "name": "Pneumonia devida a Streptococcus pneumoniae",
+      "englishName": "Pneumonia due to Streptococcus pneumoniae",
+      "level": "category",
+      "parent": "J09-J18",
+      "children": [],
+      "depth": 2
+    },
+    "J14": {
+      "code": "J14",
+      "name": "Pneumonia devida a Haemophilus influenzae",
+      "englishName": "Pneumonia due to Haemophilus influenzae",
+      "level": "category",
+      "parent": "J09-J18",
+      "children": [],
+      "depth": 2
+    },
+    "J15": {
+      "code": "J15",
+      "name": "Pneumonia bacteriana não classificada em outra parte",
+      "englishName": "Bacterial pneumonia, not elsewhere classified",
+      "level": "category",
+      "parent": "J09-J18",
+      "children": ["J150", "J151", "J152", "J153", "J154", "J155", "J156", "J157", "J158", "J159"],
+      "depth": 2
+    },
+    "J150": {
+      "code": "J150",
+      "name": "Pneumonia devida a Klebsiella pneumoniae",
+      "englishName": "Pneumonia due to Klebsiella pneumoniae",
+      "level": "subcategory",
+      "parent": "J15",
+      "children": [],
+      "depth": 3
+    },
+    "J151": {
+      "code": "J151",
+      "name": "Pneumonia devida a Pseudomonas",
+      "englishName": "Pneumonia due to Pseudomonas",
+      "level": "subcategory",
+      "parent": "J15",
+      "children": [],
+      "depth": 3
+    },
+    "J152": {
+      "code": "J152",
+      "name": "Pneumonia devida a Staphylococcus",
+      "englishName": "Pneumonia due to Staphylococcus",
+      "level": "subcategory",
+      "parent": "J15",
+      "children": [],
+      "depth": 3
+    },
+    "J153": {
+      "code": "J153",
+      "name": "Pneumonia devida a Streptococcus do grupo B",
+      "englishName": "Pneumonia due to Streptococcus, group B",
+      "level": "subcategory",
+      "parent": "J15",
+      "children": [],
+      "depth": 3
+    },
+    "J154": {
+      "code": "J154",
+      "name": "Pneumonia devida a outros estreptococos",
+      "englishName": "Pneumonia due to other streptococci",
+      "level": "subcategory",
+      "parent": "J15",
+      "children": [],
+      "depth": 3
+    },
+    "J155": {
+      "code": "J155",
+      "name": "Pneumonia devida a Escherichia coli",
+      "englishName": "Pneumonia due to Escherichia coli",
+      "level": "subcategory",
+      "parent": "J15",
+      "children": [],
+      "depth": 3
+    },
+    "J156": {
+      "code": "J156",
+      "name": "Pneumonia devida a outras bactérias aeróbias Gram-negativas",
+      "englishName": "Pneumonia due to other aerobic Gram-negative bacteria",
+      "level": "subcategory",
+      "parent": "J15",
+      "children": [],
+      "depth": 3
+    },
+    "J157": {
+      "code": "J157",
+      "name": "Pneumonia devida a Mycoplasma pneumoniae",
+      "englishName": "Pneumonia due to Mycoplasma pneumoniae",
+      "level": "subcategory",
+      "parent": "J15",
+      "children": [],
+      "depth": 3
+    },
+    "J158": {
+      "code": "J158",
+      "name": "Outras pneumonias bacterianas",
+      "englishName": "Other bacterial pneumonia",
+      "level": "subcategory",
+      "parent": "J15",
+      "children": [],
+      "depth": 3
+    },
+    "J159": {
+      "code": "J159",
+      "name": "Pneumonia bacteriana não especificada",
+      "englishName": "Bacterial pneumonia, unspecified",
+      "level": "subcategory",
+      "parent": "J15",
+      "children": [],
+      "depth": 3
+    }
+  },
+  "enamedMapping": {
+    "clinica_medica": ["I", "II", "IX", "X"],
+    "cirurgia": ["II", "IX", "XI"],
+    "ginecologia_obstetricia": ["XIV", "XV"],
+    "pediatria": ["I", "II", "X", "XVI"],
+    "saude_coletiva": ["I", "II", "IV", "XXI"]
+  }
+}
