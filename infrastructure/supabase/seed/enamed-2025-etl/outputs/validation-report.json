@@ -1,0 +1,26 @@
+{
+  "generatedAt": "2026-01-31T18:52:02.825Z",
+  "summary": {
+    "totalParticipants": 0,
+    "validParticipants": 0,
+    "passed": false
+  },
+  "correlation": {
+    "pearson": 0,
+    "spearman": 0
+  },
+  "errors": {
+    "mae": 0,
+    "rmse": 0,
+    "max": 0
+  },
+  "distribution": {
+    "within01": 0,
+    "within025": 0,
+    "within05": 0
+  },
+  "worstCases": [],
+  "recommendations": [
+    "No valid participants found for validation"
+  ]
+}

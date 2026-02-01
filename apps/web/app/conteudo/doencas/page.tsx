@@ -5,15 +5,7 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { ContentSearch } from '../components/ContentSearch'
-
-interface Disease {
-  id: string
-  name: string
-  icd10: string
-  area: string
-  subspecialty: string | null
-  summary: string
-}
+import { diseases as allDiseases, type Disease } from '@/lib/data/diseases'
 
 const areas = [
   'Todas',
@@ -22,88 +14,19 @@ const areas = [
   'Pediatria',
   'Ginecologia e Obstetrícia',
   'Saúde Coletiva',
-  'Emergência',
-]
-
-// Mock data - in real app, this would come from @darwin-mfc/medical-data
-const mockDiseases: Disease[] = [
-  {
-    id: '1',
-    name: 'Insuficiência Cardíaca Congestiva',
-    icd10: 'I50',
-    area: 'Clínica Médica',
-    subspecialty: 'Cardiologia',
-    summary: 'Síndrome clínica complexa resultante de qualquer comprometimento estrutural ou funcional do enchimento ou ejeção ventricular.',
-  },
-  {
-    id: '2',
-    name: 'Diabetes Mellitus Tipo 2',
-    icd10: 'E11',
-    area: 'Clínica Médica',
-    subspecialty: 'Endocrinologia',
-    summary: 'Distúrbio metabólico caracterizado por hiperglicemia crônica com alterações no metabolismo de carboidratos, lipídios e proteínas.',
-  },
-  {
-    id: '3',
-    name: 'Pneumonia Adquirida na Comunidade',
-    icd10: 'J18',
-    area: 'Clínica Médica',
-    subspecialty: 'Pneumologia',
-    summary: 'Infecção aguda do parênquima pulmonar adquirida fora do ambiente hospitalar.',
-  },
-  {
-    id: '4',
-    name: 'Apendicite Aguda',
-    icd10: 'K35',
-    area: 'Cirurgia',
-    subspecialty: 'Cirurgia Geral',
-    summary: 'Inflamação aguda do apêndice vermiforme, sendo a causa mais comum de abdome agudo cirúrgico.',
-  },
-  {
-    id: '5',
-    name: 'Pré-eclâmpsia',
-    icd10: 'O14',
-    area: 'Ginecologia e Obstetrícia',
-    subspecialty: 'Obstetrícia',
-    summary: 'Síndrome hipertensiva específica da gestação, caracterizada por hipertensão arterial e proteinúria após 20 semanas.',
-  },
-  {
-    id: '6',
-    name: 'Bronquiolite Viral Aguda',
-    icd10: 'J21',
-    area: 'Pediatria',
-    subspecialty: 'Pneumologia Pediátrica',
-    summary: 'Infecção viral das vias aéreas inferiores, comum em lactentes menores de 2 anos.',
-  },
-  {
-    id: '7',
-    name: 'Hipertensão Arterial Sistêmica',
-    icd10: 'I10',
-    area: 'Clínica Médica',
-    subspecialty: 'Cardiologia',
-    summary: 'Condição clínica multifatorial caracterizada por elevação sustentada dos níveis pressóricos.',
-  },
-  {
-    id: '8',
-    name: 'Colecistite Aguda',
-    icd10: 'K81',
-    area: 'Cirurgia',
-    subspecialty: 'Cirurgia Geral',
-    summary: 'Inflamação aguda da vesícula biliar, geralmente associada à colelitíase.',
-  },
 ]
 
 function DoencasContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const [diseases, setDiseases] = useState<Disease[]>(mockDiseases)
+  const [diseases, setDiseases] = useState<Disease[]>(allDiseases)
   const [loading, setLoading] = useState(false)
   const [selectedArea, setSelectedArea] = useState(searchParams.get('area') || 'Todas')
   const query = searchParams.get('q') || ''
 
   useEffect(() => {
     // Filter diseases based on search and area
-    let filtered = mockDiseases
+    let filtered = allDiseases
 
     if (query) {
       const lowerQuery = query.toLowerCase()

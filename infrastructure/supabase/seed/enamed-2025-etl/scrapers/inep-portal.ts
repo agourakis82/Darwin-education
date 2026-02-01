@@ -12,17 +12,17 @@ const CACHE_DIR = path.join(OUTPUT_DIR, 'pdfs');
 
 /**
  * Known ENAMED 2025 PDF URLs
- * These may change if INEP restructures their portal
+ * Updated January 2026 with correct INEP portal paths
  */
 const ENAMED_2025_URLS = {
-  // Caderno de Prova (exam booklets)
+  // Caderno de Prova (exam booklets) - preliminar versions
   caderno1:
-    'https://download.inep.gov.br/enamed/provas/2025/ENAMED_2025_CADERNO_1.pdf',
+    'https://download.inep.gov.br/enamed/provas_e_gabaritos/2025_caderno_1_preliminar.pdf',
   caderno2:
-    'https://download.inep.gov.br/enamed/provas/2025/ENAMED_2025_CADERNO_2.pdf',
-  // Gabarito oficial
+    'https://download.inep.gov.br/enamed/provas_e_gabaritos/2025_caderno_2_preliminar.pdf',
+  // Gabarito oficial - Caderno 1
   gabarito:
-    'https://download.inep.gov.br/enamed/gabaritos/2025/ENAMED_2025_GABARITO.pdf',
+    'https://download.inep.gov.br/enamed/provas_e_gabaritos/2025_gabarito_caderno_1.pdf',
 };
 
 /**
@@ -30,11 +30,11 @@ const ENAMED_2025_URLS = {
  */
 const ALTERNATIVE_URLS = {
   caderno1:
-    'https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enamed/provas-e-gabaritos/caderno1-2025.pdf',
+    'https://download.inep.gov.br/enamed/provas_e_gabaritos/2025_caderno_1_preliminar.pdf',
   caderno2:
-    'https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enamed/provas-e-gabaritos/caderno2-2025.pdf',
+    'https://download.inep.gov.br/enamed/provas_e_gabaritos/2025_caderno_2_preliminar.pdf',
   gabarito:
-    'https://www.gov.br/inep/pt-br/areas-de-atuacao/avaliacao-e-exames-educacionais/enamed/provas-e-gabaritos/gabarito-2025.pdf',
+    'https://download.inep.gov.br/enamed/provas_e_gabaritos/2025_gabarito_caderno_1.pdf',
 };
 
 /**

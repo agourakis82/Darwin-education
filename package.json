@@ -16,7 +16,10 @@
     "type-check": "turbo type-check",
     "clean": "turbo clean && rm -rf node_modules",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "etl": "tsx infrastructure/supabase/seed/etl.ts"
+    "etl": "tsx infrastructure/supabase/seed/etl.ts",
+    "harvest": "pnpm --filter @darwin-education/shared harvest",
+    "harvest:test": "pnpm --filter @darwin-education/shared harvest:test",
+    "harvest:sources": "pnpm --filter @darwin-education/shared harvest:sources"
   },
   "devDependencies": {
     "prettier": "^3.2.0",

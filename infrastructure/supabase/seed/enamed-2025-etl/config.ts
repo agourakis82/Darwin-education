@@ -3,6 +3,11 @@
  */
 
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+// ESM compatibility for __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Paths
 export const MICRODATA_BASE_PATH = path.resolve(

@@ -10,6 +10,7 @@ import type { ExtractedQuestion, QuestionOption, Gabarito } from '../types';
 
 /**
  * Parse a single question from extracted text
+ * Improved for ENAMED 2025 format
  */
 function parseQuestionBlock(
   block: string,
@@ -17,36 +18,62 @@ function parseQuestionBlock(
   caderno: 1 | 2
 ): ExtractedQuestion | null {
   try {
-    // Clean up the block
-    const cleaned = block.trim();
+    // Clean up the block - normalize whitespace but preserve structure
+    let cleaned = block
+      .replace(/\r\n/g, '\n')
+      .replace(/[ \t]+/g, ' ')
+      .trim();
+
     if (!cleaned) return null;
 
-    // Extract options (A, B, C, D patterns)
-    const optionPattern = /\(([A-D])\)\s*([^(]+?)(?=\([A-D]\)|$)/gs;
     const options: QuestionOption[] = [];
-    let match;
 
-    while ((match = optionPattern.exec(cleaned)) !== null) {
-      options.push({
-        letter: match[1] as 'A' | 'B' | 'C' | 'D',
-        text: match[2].trim(),
-      });
-    }
+    // ENAMED format: "(A) text" - extract each option
+    // Match (A), (B), (C), (D) followed by text until next option or end
+    const optionMatches = cleaned.matchAll(/\(([A-D])\)\s*([\s\S]*?)(?=\([A-D]\)|$)/g);
 
-    // If no options found with (A) pattern, try A) pattern
-    if (options.length === 0) {
-      const altPattern = /([A-D])\)\s*([^A-D]+?)(?=[A-D]\)|$)/gs;
-      while ((match = altPattern.exec(cleaned)) !== null) {
-        options.push({
-          letter: match[1] as 'A' | 'B' | 'C' | 'D',
-          text: match[2].trim(),
-        });
+    for (const match of optionMatches) {
+      const letter = match[1] as 'A' | 'B' | 'C' | 'D';
+      let text = match[2]
+        .replace(/\n/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+
+      // Remove trailing punctuation if it's just a period
+      text = text.replace(/\.$/, '').trim();
+
+      if (text) {
+        options.push({ letter, text });
       }
     }
 
     // Extract stem (everything before first option)
-    const stemEnd = cleaned.search(/\([A-D]\)|[A-D]\)/);
-    const stem = stemEnd > 0 ? cleaned.substring(0, stemEnd).trim() : cleaned;
+    const stemEnd = cleaned.search(/\([A-D]\)/);
+    let stem = stemEnd > 0 ? cleaned.substring(0, stemEnd).trim() : cleaned;
+
+    // Clean up stem - normalize line breaks to spaces
+    stem = stem.replace(/\n/g, ' ').replace(/\s+/g, ' ').trim();
+
+    // If we have less than 4 options, try an alternative approach
+    if (options.length < 4) {
+      // Try matching each letter individually
+      const letterA = cleaned.match(/\(A\)\s*([\s\S]*?)(?=\(B\)|$)/);
+      const letterB = cleaned.match(/\(B\)\s*([\s\S]*?)(?=\(C\)|$)/);
+      const letterC = cleaned.match(/\(C\)\s*([\s\S]*?)(?=\(D\)|$)/);
+      const letterD = cleaned.match(/\(D\)\s*([\s\S]*?)$/);
+
+      const altOptions: QuestionOption[] = [];
+
+      if (letterA?.[1]) altOptions.push({ letter: 'A', text: letterA[1].replace(/\n/g, ' ').replace(/\s+/g, ' ').trim().replace(/\.$/, '') });
+      if (letterB?.[1]) altOptions.push({ letter: 'B', text: letterB[1].replace(/\n/g, ' ').replace(/\s+/g, ' ').trim().replace(/\.$/, '') });
+      if (letterC?.[1]) altOptions.push({ letter: 'C', text: letterC[1].replace(/\n/g, ' ').replace(/\s+/g, ' ').trim().replace(/\.$/, '') });
+      if (letterD?.[1]) altOptions.push({ letter: 'D', text: letterD[1].replace(/\n/g, ' ').replace(/\s+/g, ' ').trim().replace(/\.$/, '') });
+
+      if (altOptions.length === 4) {
+        options.length = 0;
+        options.push(...altOptions);
+      }
+    }
 
     if (options.length < 4) {
       console.warn(
@@ -68,7 +95,7 @@ function parseQuestionBlock(
 
 /**
  * Extract questions from PDF text
- * This is a heuristic parser that may need adjustment based on actual PDF format
+ * Optimized for ENAMED 2025 format
  */
 function extractQuestionsFromText(
   text: string,
@@ -76,13 +103,16 @@ function extractQuestionsFromText(
 ): ExtractedQuestion[] {
   const questions: ExtractedQuestion[] = [];
 
-  // Try to find question boundaries
-  // Common patterns: "QUESTÃO 1", "Questão 1", "1.", "1 -", etc.
+  // Normalize text - replace multiple spaces with single space but preserve newlines
+  const normalizedText = text.replace(/[ \t]+/g, ' ');
+
+  // ENAMED uses "QUESTÃO  1" format (with variable spaces)
+  // Match QUESTÃO followed by number, capture everything until next QUESTÃO or end
   const questionPattern =
-    /(?:QUESTÃO|Questão|QUEST[ÃA]O)\s*(\d+)[^\n]*\n([\s\S]*?)(?=(?:QUESTÃO|Questão|QUEST[ÃA]O)\s*\d+|$)/gi;
+    /QUEST[ÃA]O\s+(\d+)\s*([\s\S]*?)(?=QUEST[ÃA]O\s+\d+|$)/gi;
 
   let match;
-  while ((match = questionPattern.exec(text)) !== null) {
+  while ((match = questionPattern.exec(normalizedText)) !== null) {
     const questionNumber = parseInt(match[1], 10);
     const questionText = match[2];
 
@@ -115,37 +145,36 @@ function extractQuestionsFromText(
 
 /**
  * Parse gabarito (answer key) from PDF text
+ * ENAMED format: "1A11Anulada21A" (compact, no spaces)
  */
 function extractGabaritoFromText(text: string, caderno: 1 | 2): Gabarito {
   const answers: Record<number, 'A' | 'B' | 'C' | 'D' | null> = {};
 
-  // Common gabarito patterns:
-  // "1 - A", "1. A", "01 A", "1: A", "1 A"
-  const patterns = [
-    /(\d+)\s*[-.:]\s*([A-D])/gi, // "1 - A", "1. A", "1: A"
-    /(\d+)\s+([A-D])(?:\s|$)/gi, // "1 A"
-    /^(\d+)\s*([A-D])$/gm, // Line-based
-  ];
+  // ENAMED 2025 gabarito format is compact: "1A", "11Anulada", "21A"
+  // Need to match number followed directly by single letter A-D OR "Anulada"
+  // Pattern: one or more digits, followed by A/B/C/D or "Anulada"
+  const compactPattern = /(\d+)(A|B|C|D|Anulada)(?=\d|$|\s|Questão|GABARITO)/gi;
 
-  for (const pattern of patterns) {
-    let match;
-    while ((match = pattern.exec(text)) !== null) {
-      const num = parseInt(match[1], 10);
-      const answer = match[2].toUpperCase() as 'A' | 'B' | 'C' | 'D';
+  let match;
+  while ((match = compactPattern.exec(text)) !== null) {
+    const num = parseInt(match[1], 10);
+    const answer = match[2].toUpperCase();
 
-      if (num >= 1 && num <= 100 && !answers[num]) {
-        answers[num] = answer;
+    if (num >= 1 && num <= 100 && !answers[num]) {
+      if (answer === 'A' || answer === 'B' || answer === 'C' || answer === 'D') {
+        answers[num] = answer as 'A' | 'B' | 'C' | 'D';
+      } else if (answer === 'ANULADA') {
+        answers[num] = null; // Mark as annulled
       }
-    }
-
-    // If we found enough answers, stop trying other patterns
-    if (Object.keys(answers).length >= 90) {
-      break;
     }
   }
 
+  // Count valid answers (non-null)
+  const validCount = Object.values(answers).filter(a => a !== null).length;
+  const annulledCount = Object.values(answers).filter(a => a === null).length;
+
   console.log(
-    `Extracted ${Object.keys(answers).length} answers for caderno ${caderno}`
+    `Extracted ${validCount} valid answers and ${annulledCount} annulled for caderno ${caderno}`
   );
   return { caderno, answers };
 }

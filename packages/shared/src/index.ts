@@ -29,6 +29,9 @@ export * as FSRS from './calculators/fsrs';
 // Config
 export * from './config/irt-estimation-config';
 
+// Question Harvester (Super Scraper for medical exams)
+export * as Harvester from './harvester';
+
 // Advanced features (temporarily disabled for pilot deployment)
 // Uncomment when these modules are committed to git:
 // export * from './algorithms/cat';

@@ -5,116 +5,19 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Card, CardContent } from '@/components/ui/Card'
 import { ContentSearch } from '../components/ContentSearch'
-
-interface Medication {
-  id: string
-  name: string
-  genericName: string
-  atcCode: string
-  drugClass: string
-  mechanism: string
-  summary: string
-}
-
-const drugClasses = [
-  'Todas',
-  'Antibióticos',
-  'Anti-hipertensivos',
-  'Analgésicos',
-  'Antidiabéticos',
-  'Psicotrópicos',
-  'Anti-inflamatórios',
-  'Anticoagulantes',
-  'Broncodilatadores',
-]
-
-// Mock data - in real app, this would come from @darwin-mfc/medical-data
-const mockMedications: Medication[] = [
-  {
-    id: '1',
-    name: 'Amoxicilina',
-    genericName: 'Amoxicilina',
-    atcCode: 'J01CA04',
-    drugClass: 'Antibióticos',
-    mechanism: 'Inibição da síntese de parede celular bacteriana',
-    summary: 'Antibiótico beta-lactâmico de amplo espectro, primeira escolha para infecções respiratórias comunitárias.',
-  },
-  {
-    id: '2',
-    name: 'Losartana',
-    genericName: 'Losartana Potássica',
-    atcCode: 'C09CA01',
-    drugClass: 'Anti-hipertensivos',
-    mechanism: 'Bloqueio do receptor AT1 da angiotensina II',
-    summary: 'Antagonista do receptor de angiotensina II (BRA), usado no tratamento de hipertensão e nefropatia diabética.',
-  },
-  {
-    id: '3',
-    name: 'Metformina',
-    genericName: 'Cloridrato de Metformina',
-    atcCode: 'A10BA02',
-    drugClass: 'Antidiabéticos',
-    mechanism: 'Redução da gliconeogênese hepática e aumento da sensibilidade à insulina',
-    summary: 'Primeira linha no tratamento do diabetes tipo 2, com benefícios cardiovasculares comprovados.',
-  },
-  {
-    id: '4',
-    name: 'Omeprazol',
-    genericName: 'Omeprazol',
-    atcCode: 'A02BC01',
-    drugClass: 'Outros',
-    mechanism: 'Inibição irreversível da bomba de prótons (H+/K+-ATPase)',
-    summary: 'Inibidor da bomba de prótons para tratamento de DRGE, úlceras e profilaxia de gastropatia.',
-  },
-  {
-    id: '5',
-    name: 'Dipirona',
-    genericName: 'Dipirona Sódica',
-    atcCode: 'N02BB02',
-    drugClass: 'Analgésicos',
-    mechanism: 'Inibição central da síntese de prostaglandinas',
-    summary: 'Analgésico e antipirético amplamente utilizado no Brasil, com boa tolerabilidade.',
-  },
-  {
-    id: '6',
-    name: 'Salbutamol',
-    genericName: 'Sulfato de Salbutamol',
-    atcCode: 'R03AC02',
-    drugClass: 'Broncodilatadores',
-    mechanism: 'Agonista beta-2 adrenérgico seletivo',
-    summary: 'Broncodilatador de ação rápida para alívio de sintomas de asma e DPOC.',
-  },
-  {
-    id: '7',
-    name: 'Enalapril',
-    genericName: 'Maleato de Enalapril',
-    atcCode: 'C09AA02',
-    drugClass: 'Anti-hipertensivos',
-    mechanism: 'Inibição da enzima conversora de angiotensina (ECA)',
-    summary: 'IECA usado no tratamento de hipertensão, insuficiência cardíaca e nefropatia diabética.',
-  },
-  {
-    id: '8',
-    name: 'Warfarina',
-    genericName: 'Warfarina Sódica',
-    atcCode: 'B01AA03',
-    drugClass: 'Anticoagulantes',
-    mechanism: 'Inibição da vitamina K epóxido redutase',
-    summary: 'Anticoagulante oral antagonista da vitamina K, requer monitorização do INR.',
-  },
-]
+import { medications as allMedications, drugClasses, type Medication } from '@/lib/data/medications'
 
 function MedicamentosContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const [medications, setMedications] = useState<Medication[]>(mockMedications)
+  const [medications, setMedications] = useState<Medication[]>(allMedications)
   const [loading, setLoading] = useState(false)
   const [selectedClass, setSelectedClass] = useState(searchParams.get('classe') || 'Todas')
   const query = searchParams.get('q') || ''
 
   useEffect(() => {
     // Filter medications based on search and class
-    let filtered = mockMedications
+    let filtered = allMedications
 
     if (query) {
       const lowerQuery = query.toLowerCase()
