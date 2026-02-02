@@ -72,6 +72,15 @@ export default function HomePage() {
           color="cyan"
         />
 
+        {/* AI Guidance */}
+        <FeatureCard
+          href="/ia-orientacao"
+          icon="🤖"
+          title="IA Orientação"
+          description="Recomendações personalizadas de estudo baseadas em IA"
+          color="indigo"
+        />
+
         {/* Medical Data */}
         <FeatureCard
           href="/conteudo"
