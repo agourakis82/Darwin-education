@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 
 export default function ConteudoPage() {
-  const [activeTab, setActiveTab] = useState<'doencas' | 'medicamentos'>('doencas')
+  const [activeTab, setActiveTab] = useState<'doencas' | 'medicamentos' | 'teoria'>('doencas')
 
   const sections = [
     {
@@ -33,6 +33,19 @@ export default function ConteudoPage() {
       color: 'blue',
       stats: { count: 690, label: 'medicamentos' },
       href: '/conteudo/medicamentos',
+    },
+    {
+      id: 'teoria' as const,
+      title: 'Teoria Clínica',
+      description: 'Conteúdo teórico estruturado para guiar seu aprendizado e questões relacionadas',
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C6.5 6.253 2 10.998 2 17s4.5 10.747 10 10.747c5.5 0 10-4.998 10-10.747S17.5 6.253 12 6.253z" />
+        </svg>
+      ),
+      color: 'violet',
+      stats: { count: 45, label: 'tópicos' },
+      href: '/conteudo/teoria',
     },
   ]
 

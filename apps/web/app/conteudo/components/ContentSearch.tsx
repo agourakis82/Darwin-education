@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 
 interface ContentSearchProps {
   placeholder?: string
-  type: 'doencas' | 'medicamentos'
+  type: 'doencas' | 'medicamentos' | 'teoria'
   onSearch?: (query: string) => void
 }
 
