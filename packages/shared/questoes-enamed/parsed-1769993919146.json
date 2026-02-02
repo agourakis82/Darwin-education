@@ -1,0 +1,879 @@
+[
+  {
+    "id": "q-/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf-1",
+    "sourceId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "documentId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "stem": "Mulher de 58 anos, com diagnóstico de hipertensão arterial sistêmica (HAS) e em tratamento irregular, é encaminhada ao ambulatório de clínica médica de atenção secundária. Queixa-se de fadiga e dispneia aos esforços, com piora progressiva. Ao exame físico, é observado ritmo cardíaco regular em 4 tempos (B3 + B4), sem sopros no precórdio, mas com crépitos em bases pulmonares; pressão arterial: 148 x 90 mmHg. Ecocardiograma transtorácico evidencia hipertrofia ventricular esquerda concêntrica, associada com fração de ejeção de 38% (por Simpson). Exames laboratoriais normais, salvo pela elevação sérica de peptídeo natriurético tipo B (BNP). Para melhorar o controle da HAS e o prognóstico da paciente, o tratamento com inibidor da enzima conversora de angiotensina foi mantido, e o especialista optou por associar determinado fármaco, devido ao impacto positivo no prognóstico de sobrevida dessa paciente. O fármaco introduzido no tratamento da paciente foi",
+    "options": [
+      {
+        "letter": "A",
+        "text": "espironolactona.",
+        "isCorrect": false
+      },
+      {
+        "letter": "B",
+        "text": "clortalidona.",
+        "isCorrect": false
+      },
+      {
+        "letter": "C",
+        "text": "hidralazina.",
+        "isCorrect": false
+      },
+      {
+        "letter": "D",
+        "text": "clonidina.",
+        "isCorrect": false
+      }
+    ],
+    "correctAnswer": null,
+    "area": "Clínica Médica",
+    "subspecialty": "Cardiologia",
+    "topics": [
+      "Insuficiência Cardíaca",
+      "Hipertensão Arterial",
+      "Tratamento Farmacológico"
+    ],
+    "difficulty": "medium",
+    "icd10Codes": [
+      "I10",
+      "I50"
+    ],
+    "atcCodes": [
+      "C03DA01"
+    ],
+    "confidence": 0.95,
+    "needsReview": false,
+    "parsedAt": "2026-02-02T00:58:39.145Z"
+  },
+  {
+    "id": "q-/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf-2",
+    "sourceId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "documentId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "stem": "Lactente de 4 meses é levado ao serviço de emergência com história de vômitos, poliúria, episódios de fraqueza intensa e febre. Ao exame físico, apresenta-se com desidratação grave e déficit de crescimento significativo. Encontram-se, ainda, sinais radiológicos de osteopenia e raquitismo resistente à vitamina D. Com base na principal hipótese diagnóstica, o distúrbio ácido básico relacionado ao caso é",
+    "options": [
+      {
+        "letter": "A",
+        "text": "alcalose respiratória hipoclorêmica.",
+        "isCorrect": false
+      },
+      {
+        "letter": "B",
+        "text": "acidose metabólica hiperclorêmica.",
+        "isCorrect": false
+      },
+      {
+        "letter": "C",
+        "text": "alcalose respiratória hipocalêmica.",
+        "isCorrect": false
+      },
+      {
+        "letter": "D",
+        "text": "acidose metabólica hipercalêmica.",
+        "isCorrect": false
+      }
+    ],
+    "correctAnswer": null,
+    "area": "Pediatria",
+    "subspecialty": "Endocrinologia Pediátrica",
+    "topics": [
+      "Acidose Tubular Renal",
+      "Raquitismo"
+    ],
+    "difficulty": "medium",
+    "icd10Codes": [
+      "E72.0",
+      "M83"
+    ],
+    "atcCodes": [],
+    "confidence": 0.95,
+    "needsReview": false,
+    "parsedAt": "2026-02-02T00:58:39.145Z"
+  },
+  {
+    "id": "q-/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf-3",
+    "sourceId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "documentId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "stem": "Homem de 45 anos foi encontrado inconsciente por familiares junto a uma escada de sua casa. Familiares o conduziram em carro próprio, sem medidas-padrão de atendimento pré-hospitalar. Não sabem por quanto tempo ficou desacordado e nem sobre o histórico de saúde. Quando deu entrada no pronto-socorro, encontrava-se inconsciente, com equimose e escoriações na região orbital e palpebral direita, além de escoriações na região cervical posterior e em membros à direita. Não apresentava resposta ao comando verbal, mas respirava espontaneamente com frequência normal. Pressão arterial de 140 x 90 mmHg e pupilas isocóricas. Durante a avaliação, abriu os olhos e começou a se mexer, ainda sem responder a questões ou comandos. Após 30 minutos começou a responder, mas informava não se lembrar de ter caído da escada. Considerando o quadro, a conduta adequada é",
+    "options": [
+      {
+        "letter": "A",
+        "text": "tomografia de crânio, face e coluna cervical; radiografia de membros; manter o paciente em observação por 12 horas.",
+        "isCorrect": false
+      },
+      {
+        "letter": "B",
+        "text": "radiografia de crânio, coluna cervical e membros em duas posições; internar o paciente para observação.",
+        "isCorrect": false
+      },
+      {
+        "letter": "C",
+        "text": "tomografia de crânio, face e radiografia de membros; liberar o paciente para observação domiciliar.",
+        "isCorrect": false
+      },
+      {
+        "letter": "D",
+        "text": "radiografia de crânio e face; radiografia de membros; internar o paciente por 24 horas.",
+        "isCorrect": false
+      }
+    ],
+    "correctAnswer": null,
+    "area": "Clínica Médica",
+    "subspecialty": "Neurologia",
+    "topics": [
+      "Trauma Crânio-Encefálico",
+      "Avaliação Neurológica"
+    ],
+    "difficulty": "medium",
+    "icd10Codes": [
+      "S06"
+    ],
+    "atcCodes": [],
+    "confidence": 0.95,
+    "needsReview": false,
+    "parsedAt": "2026-02-02T00:58:39.145Z"
+  },
+  {
+    "id": "q-/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf-4",
+    "sourceId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "documentId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "stem": "Paciente de 30 anos procurou consultório de ginecologia relatando fadiga, dismenorreia progressiva e dispareunia de profundidade. Toque vaginal: útero de volume normal, retroversofletido, dor à mobilização do colo. Com base nessas informações, a principal hipótese diagnóstica é",
+    "options": [
+      {
+        "letter": "A",
+        "text": "doença inflamatória pélvica.",
+        "isCorrect": false
+      },
+      {
+        "letter": "B",
+        "text": "miomatose uterina.",
+        "isCorrect": false
+      },
+      {
+        "letter": "C",
+        "text": "cisto hemorrágico.",
+        "isCorrect": false
+      },
+      {
+        "letter": "D",
+        "text": "endometriose.",
+        "isCorrect": false
+      }
+    ],
+    "correctAnswer": null,
+    "area": "Ginecologia e Obstetrícia",
+    "subspecialty": "Ginecologia",
+    "topics": [
+      "Endometriose",
+      "Dismenorreia"
+    ],
+    "difficulty": "easy",
+    "icd10Codes": [
+      "N80"
+    ],
+    "atcCodes": [],
+    "confidence": 0.95,
+    "needsReview": false,
+    "parsedAt": "2026-02-02T00:58:39.145Z"
+  },
+  {
+    "id": "q-/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf-5",
+    "sourceId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "documentId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "stem": "Homem de 28 anos, estudante universitário, residente em zona urbana, comparece à Unidade Básica de Saúde (UBS) referindo aparecimento de lesão cutânea em região dorsal da mão, cerca de 1 mês após ter sofrido arranhadura de gato de rua. A lesão apresenta úlceras com presença de crostas além de nodulações próximas. Foi submetido à biópsia da lesão cutânea e cultura de material. Observou-se dermatite granulomatosa difusa, presença de corpos asteroides e material eosinofílico ao redor de células características. Qual é a principal hipótese diagnóstica e o respectivo tratamento para esse caso?",
+    "options": [
+      {
+        "letter": "A",
+        "text": "Furunculose; cefalexina por 7 dias.",
+        "isCorrect": false
+      },
+      {
+        "letter": "B",
+        "text": "Herpes-zoster; aciclovir por 10 dias.",
+        "isCorrect": false
+      },
+      {
+        "letter": "C",
+        "text": "Esporotricose; itraconazol por 120 dias.",
+        "isCorrect": false
+      },
+      {
+        "letter": "D",
+        "text": "Paracoccidioidomicose; anfotericina B por 30 dias.",
+        "isCorrect": false
+      }
+    ],
+    "correctAnswer": null,
+    "area": "Clínica Médica",
+    "subspecialty": "Dermatologia",
+    "topics": [
+      "Esporotricose",
+      "Micose Subcutânea"
+    ],
+    "difficulty": "medium",
+    "icd10Codes": [
+      "B35.1"
+    ],
+    "atcCodes": [
+      "J02AC02"
+    ],
+    "confidence": 0.95,
+    "needsReview": false,
+    "parsedAt": "2026-02-02T00:58:39.145Z"
+  },
+  {
+    "id": "q-/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf-6",
+    "sourceId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "documentId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "stem": "Observe o encaminhamento realizado por um médico de família. “À cardiologia, Encaminho o Sr. J. L. S., de 56 anos, com diagnóstico de cardiopatia isquêmica, que sofreu um infarto agudo do miocárdio há 3 meses. Tem orientação para o uso de antiagregantes plaquetários, mas tem história de úlcera péptica e teve reação alérgica ao clopidogrel e à ticlopidina. Desta forma, solicito orientação quanto à conduta preventiva.” Ao ser assistido pelo cardiologista, o paciente será atendido em qual nível de atenção e receberá que tipo de prevenção, respectivamente?",
+    "options": [
+      {
+        "letter": "A",
+        "text": "Primário; secundário.",
+        "isCorrect": false
+      },
+      {
+        "letter": "B",
+        "text": "Secundário; secundário.",
+        "isCorrect": false
+      },
+      {
+        "letter": "C",
+        "text": "Terciário; terciário.",
+        "isCorrect": false
+      },
+      {
+        "letter": "D",
+        "text": "Quaternário; terciário.",
+        "isCorrect": false
+      }
+    ],
+    "correctAnswer": null,
+    "area": "Saúde Coletiva",
+    "subspecialty": "Medicina de Família",
+    "topics": [
+      "Níveis de Atenção",
+      "Prevenção Cardiovascular"
+    ],
+    "difficulty": "easy",
+    "icd10Codes": [
+      "I25"
+    ],
+    "atcCodes": [],
+    "confidence": 0.95,
+    "needsReview": false,
+    "parsedAt": "2026-02-02T00:58:39.145Z"
+  },
+  {
+    "id": "q-/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf-7",
+    "sourceId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "documentId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "stem": "Homem de 20 anos, com diagnóstico de esquizofrenia, chega à Unidade de Pronto Atendimento (UPA) acompanhado de familiares, que descrevem que o paciente acordou “torto”. Há 5 dias, foi realizada a troca de risperidona por haloperidol, pois aquela estava em falta na farmácia. Paciente nega outras queixas clínicas. Ao exame, apresenta contratura de região cervical e fácies de dor. Quais são, respectivamente, a hipótese diagnóstica mais provável e a conduta mais adequada?",
+    "options": [
+      {
+        "letter": "A",
+        "text": "Distonia; biperideno intramuscular.",
+        "isCorrect": false
+      },
+      {
+        "letter": "B",
+        "text": "Acatisia; haloperidol intramuscular.",
+        "isCorrect": false
+      },
+      {
+        "letter": "C",
+        "text": "Discinesia tardia; diazepam intramuscular.",
+        "isCorrect": false
+      },
+      {
+        "letter": "D",
+        "text": "Síndrome extrapiramidal; prometazina intramuscular.",
+        "isCorrect": false
+      }
+    ],
+    "correctAnswer": null,
+    "area": "Psiquiatria",
+    "subspecialty": "Psicofarmacologia",
+    "topics": [
+      "Efeitos Adversos Antipsicóticos",
+      "Distonia"
+    ],
+    "difficulty": "medium",
+    "icd10Codes": [
+      "F20"
+    ],
+    "atcCodes": [],
+    "confidence": 0.95,
+    "needsReview": false,
+    "parsedAt": "2026-02-02T00:58:39.145Z"
+  },
+  {
+    "id": "q-/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf-8",
+    "sourceId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "documentId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "stem": "Mulher de 20 anos procura atendimento médico no ambulatório de clínica médica de referência devido a quadro iniciado há 3 meses, com dor e edema articular acometendo articulações das mãos (interfalangeanas proximais, metacarpofalangeanas e punhos), assim como cotovelos, joelhos e tornozelos. Relata rigidez matinal que persiste por mais de 2 horas. O exame físico confirma dor e edema nas articulações descritas, além de mucosas hipocoradas (++/4+), sem outras alterações. A hipótese diagnóstica a ser considerada, o achado laboratorial esperado e a primeira linha de tratamento indicada são, respectivamente,",
+    "options": [
+      {
+        "letter": "A",
+        "text": "esclerose sistêmica; níveis elevados de creatina quinase; prednisona.",
+        "isCorrect": false
+      },
+      {
+        "letter": "B",
+        "text": "artrite reumatoide; pesquisa de fator reumatoide (FR) positivo; metotrexato.",
+        "isCorrect": false
+      },
+      {
+        "letter": "C",
+        "text": "lúpus eritematoso sistêmico; FAN com padrão nuclear pontilhado fino denso; cloroquina.",
+        "isCorrect": false
+      },
+      {
+        "letter": "D",
+        "text": "doença mista do tecido conjuntivo; FAN com padrão nuclear pontilhado fino; azatioprina.",
+        "isCorrect": false
+      }
+    ],
+    "correctAnswer": null,
+    "area": "Clínica Médica",
+    "subspecialty": "Reumatologia",
+    "topics": [
+      "Artrite Reumatoide",
+      "Diagnóstico",
+      "Tratamento"
+    ],
+    "difficulty": "medium",
+    "icd10Codes": [
+      "M06.9"
+    ],
+    "atcCodes": [
+      "L04AX03"
+    ],
+    "confidence": 0.95,
+    "needsReview": false,
+    "parsedAt": "2026-02-02T00:58:39.145Z"
+  },
+  {
+    "id": "q-/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf-9",
+    "sourceId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "documentId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "stem": "Paciente de 7 anos, na 4ª semana de tratamento quimioterápico para leucemia linfocítica aguda, é admitido em hospital terciário com história de febre há 12 horas (temperatura axilar de 39 °C), tosse e dispneia. Após 24 horas da admissão, segue febril, apesar de ter usado dipirona há 1 hora, e mantém diurese de 2 mL/kg/h. Exame físico: hidratado; pálido; orientado no tempo e no espaço; frequência cardíaca de 130 bpm; temperatura axilar de 39 °C; frequência respiratória de 36 irpm; pressão arterial de 90 x 60 mmHg; boa perfusão periférica; murmúrio vesicular diminuído em base de hemitórax à direita, com crepitações; bulhas taquicárdicas; fígado a 4 cm do rebordo costal direito e 5 cm do apêndice xifoide; baço a 4 cm do rebordo costal esquerdo. Os exames laboratoriais evidenciam lactato aumentado, acidose metabólica e hemograma com leucocitose com desvio à esquerda. Com base no quadro descrito, o diagnóstico é",
+    "options": [
+      {
+        "letter": "A",
+        "text": "sepse.",
+        "isCorrect": false
+      },
+      {
+        "letter": "B",
+        "text": "choque séptico.",
+        "isCorrect": false
+      },
+      {
+        "letter": "C",
+        "text": "disfunção de múltiplos órgãos.",
+        "isCorrect": false
+      },
+      {
+        "letter": "D",
+        "text": "síndrome da resposta inflamatória sistêmica.",
+        "isCorrect": false
+      }
+    ],
+    "correctAnswer": null,
+    "area": "Pediatria",
+    "subspecialty": "Onco-Hematologia Pediátrica",
+    "topics": [
+      "Sepse",
+      "Neutropenia Febril"
+    ],
+    "difficulty": "hard",
+    "icd10Codes": [
+      "C91.0",
+      "A41"
+    ],
+    "atcCodes": [],
+    "confidence": 0.95,
+    "needsReview": false,
+    "parsedAt": "2026-02-02T00:58:39.145Z"
+  },
+  {
+    "id": "q-/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf-10",
+    "sourceId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "documentId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "stem": "Paciente feminina de 78 anos, com 24 horas de evolução de dor e abaulamento progressivo em região inguinal direita. Apresentou também alguns episódios de vômitos e diminuição da eliminação de flatos. Antecedentes: neoplasia de mama há 30 anos, diabetes mellitus há 20 anos e tabagista de 40 maços/ano. Ao exame estava normotensa, eucárdica, afebril, eupneica. Índice de massa corporal de 35 kg/m2. Abdome globoso, depressível, com abaulamento não redutível e desconforto à palpação em região inguinal direita, com discreta hiperemia local e sem sinais de irritação peritoneal. Resultados dos exames laboratoriais: [tabela com Hemoglobina 13 g/dL, Leucócitos 10.300/mL, Plaquetas 261.000/mm3, Creatinina 1,8 mg/dL, Ureia 65 mg/dL]. A hipótese diagnóstica mais provável é",
+    "options": [
+      {
+        "letter": "A",
+        "text": "isquemia mesentérica.",
+        "isCorrect": false
+      },
+      {
+        "letter": "B",
+        "text": "hérnia inguinal indireta.",
+        "isCorrect": false
+      },
+      {
+        "letter": "C",
+        "text": "hérnia femoral encarcerada.",
+        "isCorrect": false
+      },
+      {
+        "letter": "D",
+        "text": "neoplasia de cólon obstrutiva.",
+        "isCorrect": false
+      }
+    ],
+    "correctAnswer": null,
+    "area": "Cirurgia",
+    "subspecialty": "Cirurgia Geral",
+    "topics": [
+      "Hérnia",
+      "Encarceramento"
+    ],
+    "difficulty": "medium",
+    "icd10Codes": [
+      "K41",
+      "E11",
+      "C50"
+    ],
+    "atcCodes": [],
+    "confidence": 0.95,
+    "needsReview": false,
+    "parsedAt": "2026-02-02T00:58:39.145Z"
+  },
+  {
+    "id": "q-/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf-11",
+    "sourceId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "documentId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "stem": "Paciente de 25 anos, com duas gestações e um parto, no segundo trimestre de gestação, compareceu à primeira consulta de pré-natal sem queixas. Após orientações e realização dos testes rápidos, verificou-se que o teste para sífilis foi positivo e imediatamente a paciente recebeu 2,4 milhões UI de penicilina benzatina intramuscular. Paciente nega diagnóstico e tratamento prévios para sífilis. Em relação ao acompanhamento da paciente, é correto afirmar que",
+    "options": [
+      {
+        "letter": "A",
+        "text": "com o tratamento instituído, o feto não terá sequelas.",
+        "isCorrect": false
+      },
+      {
+        "letter": "B",
+        "text": "titulações menores ou iguais a um quarto indicarão cicatriz sorológica.",
+        "isCorrect": false
+      },
+      {
+        "letter": "C",
+        "text": "a queda de duas titulações do VDRL indicará efetividade de tratamento.",
+        "isCorrect": false
+      },
+      {
+        "letter": "D",
+        "text": "o exame de FTA-Abs reagente indicará doença ativa.",
+        "isCorrect": false
+      }
+    ],
+    "correctAnswer": null,
+    "area": "Ginecologia e Obstetrícia",
+    "subspecialty": "Obstetrícia",
+    "topics": [
+      "Sífilis na Gravidez",
+      "Tratamento"
+    ],
+    "difficulty": "medium",
+    "icd10Codes": [
+      "A50",
+      "O98.0"
+    ],
+    "atcCodes": [
+      "J01CE08"
+    ],
+    "confidence": 0.95,
+    "needsReview": false,
+    "parsedAt": "2026-02-02T00:58:39.145Z"
+  },
+  {
+    "id": "q-/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf-12",
+    "sourceId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "documentId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "stem": "Homem de 52 anos, branco, solteiro, comparece à consulta agendada na Unidade Básica de Saúde (UBS) desejando realizar revisão clínica e exames laboratoriais. Desde os 35 anos não faz acompanhamento de saúde. Relata história familiar de diabetes e hipertensão, e a mãe faleceu com câncer de pulmão. Sem história familiar de câncer de próstata. Fuma cerca de 2 maços por dia há 21 anos. Exame físico: pressão arterial de 120 x 80 mmHg, índice de massa corporal de 23 kg/m2, sem outras alterações. Considerando as recomendações de rastreamento para esse paciente, o médico de família e comunidade deve",
+    "options": [
+      {
+        "letter": "A",
+        "text": "solicitar exames de colesterol total e frações, hemograma, glicemia de jejum, creatinina, PSA, radiografia de tórax, colonoscopia, realizar toque retal; orientar sobre a prática de atividade física regular.",
+        "isCorrect": false
+      },
+      {
+        "letter": "B",
+        "text": "solicitar exames de colesterol total, glicemia de jejum, pesquisa de sangue oculto nas fezes, PSA, ofertar anti-HIV e HBsAg, realizar toque retal; orientar sobre participação no grupo na UBS para abandono do tabagismo.",
+        "isCorrect": false
+      },
+      {
+        "letter": "C",
+        "text": "abordar mudanças no estilo de vida e cessação do tabagismo; acompanhar, em consultas longitudinais, as futuras possibilidades de exames complementares, quando o paciente atingir faixa etária para investigações adicionais.",
+        "isCorrect": false
+      },
+      {
+        "letter": "D",
+        "text": "solicitar exames de colesterol total, HDL e triglicerídeos, glicemia de jejum, pesquisa de sangue oculto nas fezes, ofertar testes rápidos para HIV, sífilis e hepatites B e C; realizar abordagem sobre possibilidade de cessação do tabagismo.",
+        "isCorrect": false
+      }
+    ],
+    "correctAnswer": null,
+    "area": "Saúde Coletiva",
+    "subspecialty": "Medicina Preventiva",
+    "topics": [
+      "Rastreamento",
+      "Tabagismo"
+    ],
+    "difficulty": "medium",
+    "icd10Codes": [
+      "Z12"
+    ],
+    "atcCodes": [],
+    "confidence": 0.95,
+    "needsReview": false,
+    "parsedAt": "2026-02-02T00:58:39.145Z"
+  },
+  {
+    "id": "q-/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf-13",
+    "sourceId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "documentId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "stem": "Mulher de 32 anos, parda, ensino fundamental incompleto, trabalhadora rural, diarista no plantio de morango, procura Unidade Básica de Saúde (UBS) com queixas de tonturas, dores de cabeça, cansaço, náuseas e falta de ar. Ela referiu que desde os 20 anos sofre com dores de cabeça frequentes, mas há 2 semanas, após uma pulverização de agrotóxicos, começou a apresentar os sintomas descritos. Disse ainda que sua colega de trabalho apresentava queixas similares. Ao ouvir esses relatos, a médica da UBS suspeita de intoxicação aguda por agrotóxicos. Nessa situação, qual é a conduta adequada a ser adotada na assistência?",
+    "options": [
+      {
+        "letter": "A",
+        "text": "Encaminhar como caso suspeito ao centro de referência em saúde do trabalhador estadual e formalizar denúncia ao Ministério Público do Trabalho.",
+        "isCorrect": false
+      },
+      {
+        "letter": "B",
+        "text": "Estabelecer nexo causal entre os sintomas e os resultados de exames complementares, para confirmar diagnóstico de intoxicação por agrotóxicos, e notificar a Vigilância em Saúde municipal.",
+        "isCorrect": false
+      },
+      {
+        "letter": "C",
+        "text": "Tratar os sintomas, solicitar exames complementares, notificar o caso no Sistema de Notificação de Agravos e Doenças (Sinan), conceder atestado médico e solicitar matriciamento à Vigilância em Saúde do Trabalhador.",
+        "isCorrect": false
+      },
+      {
+        "letter": "D",
+        "text": "Informar não ser responsável pelo preenchimento da comunicação de acidente de trabalho (CAT), por ser atribuição exclusiva da medicina do trabalho, no centro municipal de referência em saúde do trabalhador.",
+        "isCorrect": false
+      }
+    ],
+    "correctAnswer": null,
+    "area": "Saúde Coletiva",
+    "subspecialty": "Saúde do Trabalhador",
+    "topics": [
+      "Intoxicação por Agrotóxicos",
+      "Notificação"
+    ],
+    "difficulty": "medium",
+    "icd10Codes": [
+      "T60",
+      "Z57.4"
+    ],
+    "atcCodes": [],
+    "confidence": 0.95,
+    "needsReview": false,
+    "parsedAt": "2026-02-02T00:58:39.145Z"
+  },
+  {
+    "id": "q-/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf-14",
+    "sourceId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "documentId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "stem": "Pais de um menino de 10 anos levam a criança para avaliação médica em Unidade Básica de Saúde (UBS). Relatam que seu filho se dá bem com a família até que não lhe seja permitido fazer algo que deseja. Quando isso ocorre, ele fica irritado, impulsivamente agressivo e agitado por várias horas. Assim que se acalma ou consegue o que quer, fica feliz e agradável novamente. Os pais entendem que o filho parece agir deliberadamente para aborrecer os outros e nunca assume a culpa por seus próprios erros ou mau comportamento. Relatam ainda que ele discute com adultos ou figuras de autoridade e em várias situações não aceita as regras de boa convivência com os familiares. Considerando o caso descrito, qual é o diagnóstico mais provável?",
+    "options": [
+      {
+        "letter": "A",
+        "text": "Transtorno afetivo bipolar.",
+        "isCorrect": false
+      },
+      {
+        "letter": "B",
+        "text": "Transtorno de oposição desafiante.",
+        "isCorrect": false
+      },
+      {
+        "letter": "C",
+        "text": "Transtorno disruptivo da desregulação do humor.",
+        "isCorrect": false
+      },
+      {
+        "letter": "D",
+        "text": "Transtorno do déficit de atenção e hiperatividade.",
+        "isCorrect": false
+      }
+    ],
+    "correctAnswer": null,
+    "area": "Pediatria",
+    "subspecialty": "Psiquiatria Infantil",
+    "topics": [
+      "Transtorno Oposicional Desafiante"
+    ],
+    "difficulty": "medium",
+    "icd10Codes": [
+      "F91.3"
+    ],
+    "atcCodes": [],
+    "confidence": 0.95,
+    "needsReview": false,
+    "parsedAt": "2026-02-02T00:58:39.145Z"
+  },
+  {
+    "id": "q-/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf-15",
+    "sourceId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "documentId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "stem": "Homem de 50 anos, queixando-se de astenia e constipação com fezes em fita. Há 15 dias, apresenta edema de membros inferiores até a raiz da região crural, bilateralmente, com pouca melhora à elevação dos membros. Ele perdeu 10 kg em 6 meses. Nega hipertensão arterial e diabetes mellitus e não faz uso de medicamento. Os exames do paciente apresentaram os seguintes resultados: [tabela com PA 130x80, Peso 70kg, Ht 35%, Glic 88, Alb 1.8, Cr 1.2, TG 200, Prot 24h 3.6g, Sedimentos prot +++ hem 5/campo]. Dentre esses achados laboratoriais, quais são necessários para a definição da síndrome renal do paciente?",
+    "options": [
+      {
+        "letter": "A",
+        "text": "Proteína urinária de 24 horas = 3,6 g e albumina sérica = 1,8 g/dL.",
+        "isCorrect": false
+      },
+      {
+        "letter": "B",
+        "text": "Proteína urinária de 24 horas = 3,6 g e triglicerídeos = 200 mg/dL.",
+        "isCorrect": false
+      },
+      {
+        "letter": "C",
+        "text": "Hematúria e triglicerídeos = 200 mg/dL.",
+        "isCorrect": false
+      },
+      {
+        "letter": "D",
+        "text": "Hematúria e albumina sérica = 1,8 g/dL.",
+        "isCorrect": false
+      }
+    ],
+    "correctAnswer": null,
+    "area": "Clínica Médica",
+    "subspecialty": "Nefrologia",
+    "topics": [
+      "Síndrome Nefrótica"
+    ],
+    "difficulty": "easy",
+    "icd10Codes": [
+      "N04"
+    ],
+    "atcCodes": [],
+    "confidence": 0.95,
+    "needsReview": false,
+    "parsedAt": "2026-02-02T00:58:39.145Z"
+  },
+  {
+    "id": "q-/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf-16",
+    "sourceId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "documentId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "stem": "Recém-nascido de 15 dias, a termo, Apgar 8/9, peso e comprimento ao nascer de 2.600 g e 46 cm, respectivamente, com síndrome de Down, e cuja gestação não apresentou outras intercorrências. Está na consulta de puericultura com peso e comprimento atuais de 2.900 g e 47 cm, respectivamente. Para o acompanhamento pôndero-estatural, os dados devem ser plotados nas",
+    "options": [
+      {
+        "letter": "A",
+        "text": "curvas de crescimento da OMS desde o nascimento até a adolescência.",
+        "isCorrect": false
+      },
+      {
+        "letter": "B",
+        "text": "curvas de crescimento específicas para síndrome de Down desde o nascimento.",
+        "isCorrect": false
+      },
+      {
+        "letter": "C",
+        "text": "curvas de crescimento da OMS, corrigindo o peso e o comprimento para síndrome de Down.",
+        "isCorrect": false
+      },
+      {
+        "letter": "D",
+        "text": "curvas de crescimento da OMS até os dois anos e, a partir daí, em curvas específicas para síndrome de Down.",
+        "isCorrect": false
+      }
+    ],
+    "correctAnswer": null,
+    "area": "Pediatria",
+    "subspecialty": "Puericultura",
+    "topics": [
+      "Síndrome de Down",
+      "Curvas de Crescimento"
+    ],
+    "difficulty": "easy",
+    "icd10Codes": [
+      "Q90"
+    ],
+    "atcCodes": [],
+    "confidence": 0.95,
+    "needsReview": false,
+    "parsedAt": "2026-02-02T00:58:39.145Z"
+  },
+  {
+    "id": "q-/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf-17",
+    "sourceId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "documentId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "stem": "Paciente de 20 anos, sexo masculino, vítima de colisão “automóvel a muro”, sem cinto de segurança, é atendido ainda na cena pelo Serviço Móvel de Atendimento de Urgência (SAMU). Exame físico: paciente torporoso; saturação de O2 de 60%, em ar ambiente; frequência respiratória de 28 irpm; frequência cardíaca de 112 bpm; pressão arterial de 90 x 50 mmHg. Desvio da traqueia para a direita, turgência de veias jugulares, hipofonese de bulhas cardíacas e diminuição acentuada do murmúrio vesicular à esquerda. Qual é a conduta adequada no atendimento pré-hospitalar?",
+    "options": [
+      {
+        "letter": "A",
+        "text": "Reposição volêmica.",
+        "isCorrect": false
+      },
+      {
+        "letter": "B",
+        "text": "Cricotireoidostomia.",
+        "isCorrect": false
+      },
+      {
+        "letter": "C",
+        "text": "Pericardiocentese.",
+        "isCorrect": false
+      },
+      {
+        "letter": "D",
+        "text": "Toracocentese.",
+        "isCorrect": false
+      }
+    ],
+    "correctAnswer": null,
+    "area": "Cirurgia",
+    "subspecialty": "Cirurgia Torácica",
+    "topics": [
+      "Pneumotórax Hipertensivo",
+      "ATLS"
+    ],
+    "difficulty": "medium",
+    "icd10Codes": [
+      "S27.1"
+    ],
+    "atcCodes": [],
+    "confidence": 0.95,
+    "needsReview": false,
+    "parsedAt": "2026-02-02T00:58:39.145Z"
+  },
+  {
+    "id": "q-/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf-18",
+    "sourceId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "documentId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "stem": "Paciente de 16 anos comparece ao ambulatório para mostrar os resultados dos exames complementares solicitados na consulta anterior. Está preocupada porque todas as colegas da mesma idade já menstruaram e ela não. O fenótipo é feminino, com pelos pubianos e axilares esparsos. Os exames complementares evidenciam ausência do útero à ultrassonografia pélvica, dosagem sérica do hormônio folículo estimulante (FSH) normal, dosagem de testosterona sérica compatível com níveis do sexo masculino e cariótipo 46 XY. Com base no quadro clínico e nos dados apresentados, a principal hipótese diagnóstica dessa paciente é",
+    "options": [
+      {
+        "letter": "A",
+        "text": "disgenesia gonadal.",
+        "isCorrect": false
+      },
+      {
+        "letter": "B",
+        "text": "malformação Mulleriana.",
+        "isCorrect": false
+      },
+      {
+        "letter": "C",
+        "text": "obstrução do trato genital.",
+        "isCorrect": false
+      },
+      {
+        "letter": "D",
+        "text": "insensibilidade androgênica.",
+        "isCorrect": false
+      }
+    ],
+    "correctAnswer": null,
+    "area": "Ginecologia e Obstetrícia",
+    "subspecialty": "Endocrinologia Ginecológica",
+    "topics": [
+      "Síndrome de Insensibilidade Androgênica"
+    ],
+    "difficulty": "hard",
+    "icd10Codes": [
+      "E34.5"
+    ],
+    "atcCodes": [],
+    "confidence": 0.95,
+    "needsReview": false,
+    "parsedAt": "2026-02-02T00:58:39.145Z"
+  },
+  {
+    "id": "q-/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf-19",
+    "sourceId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "documentId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "stem": "Mulher de 82 anos, sem história prévia de hipertensão, comparece à consulta preocupada porque aferiu a pressão na farmácia há 1 semana e estava em 146 x 86 mmHg. Em outra aferição, há 2 semanas, na unidade de saúde, a pressão estava em 144 x 88 mmHg. No momento da consulta, a pressão está em 148 x 88 mmHg. Não apresenta sintomas nem está em acompanhamento de outros agravos neste momento. Qual é a abordagem adequada nesse caso?",
+    "options": [
+      {
+        "letter": "A",
+        "text": "Referenciar ao cardiologista para um manejo específico.",
+        "isCorrect": false
+      },
+      {
+        "letter": "B",
+        "text": "Solicitar holter 24 horas e ecocardiograma para ampliar a avaliação.",
+        "isCorrect": false
+      },
+      {
+        "letter": "C",
+        "text": "Prescrever losartana 50 mg, 1 comprimido à noite, com monitoramento da pressão arterial na unidade.",
+        "isCorrect": false
+      },
+      {
+        "letter": "D",
+        "text": "Realizar uma conduta expectante, sem necessidade de medicamentos, com monitoramento de pressão arterial na unidade.",
+        "isCorrect": false
+      }
+    ],
+    "correctAnswer": null,
+    "area": "Clínica Médica",
+    "subspecialty": "Cardiologia",
+    "topics": [
+      "Hipertensão Essencial",
+      "Idosos"
+    ],
+    "difficulty": "easy",
+    "icd10Codes": [
+      "I10"
+    ],
+    "atcCodes": [
+      "C09CA01"
+    ],
+    "confidence": 0.95,
+    "needsReview": false,
+    "parsedAt": "2026-02-02T00:58:39.145Z"
+  },
+  {
+    "id": "q-/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf-20",
+    "sourceId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "documentId": "/home/demetrios/Darwin-education/infrastructure/supabase/seed/enamed-2025-etl/outputs/pdfs/enamed_2025_caderno1.pdf",
+    "stem": "Mulher travesti de 28 anos, profissional do sexo, comparece à Unidade Básica de Saúde (UBS) em demanda espontânea. Relata relações sexuais frequentes com diferentes parceiros, com uso inconsistente de preservativos, principalmente durante relações anais receptivas. Há 2 dias teve uma relação sexual desprotegida com um cliente que se recusou a usar camisinha. Nunca utilizou medicamento para profilaxia pré-exposição (PrEP) ou pós-exposição (PEP) à infecção pelo HIV. Considerando que a paciente está assintomática no momento, qual a melhor estratégia de prevenção?",
+    "options": [
+      {
+        "letter": "A",
+        "text": "Prescrever PrEP após resultado não reagente para HIV; indicar PEP após tratamento inicial e orientar rastreamento de ISTs a cada 3 meses.",
+        "isCorrect": false
+      },
+      {
+        "letter": "B",
+        "text": "Oferecer teste rápido para HIV e sífilis; prescrever PrEP de início imediato; orientar sobre as vacinas disponíveis no SUS para seu grupo populacional.",
+        "isCorrect": false
+      },
+      {
+        "letter": "C",
+        "text": "Realizar testagem rápida para HIV e sífilis; prescrever PEP mediante resultado não reagente para HIV e programar início da PrEP após término da PEP.",
+        "isCorrect": false
+      },
+      {
+        "letter": "D",
+        "text": "Prescrever PEP e PrEP de forma concomitante; solicitar sorologias para ISTs; agendar retorno para analisar os resultados e revisar adesão ao tratamento.",
+        "isCorrect": false
+      }
+    ],
+    "correctAnswer": null,
+    "area": "Saúde Coletiva",
+    "subspecialty": "IST/HIV",
+    "topics": [
+      "PrEP",
+      "PEP",
+      "Prevenção HIV"
+    ],
+    "difficulty": "medium",
+    "icd10Codes": [
+      "Z20.6"
+    ],
+    "atcCodes": [],
+    "confidence": 0.95,
+    "needsReview": false,
+    "parsedAt": "2026-02-02T00:58:39.145Z"
+  }
+]

@@ -9,6 +9,8 @@ import { AreaRadar } from './components/AreaRadar'
 import { PassPrediction } from './components/PassPrediction'
 import { StudyStreak } from './components/StudyStreak'
 import { WeakAreas } from './components/WeakAreas'
+import { ExportData } from './components/ExportData'
+import { LoadingSkeleton } from './components/LoadingSkeleton'
 import type { ENAMEDArea } from '@darwin-education/shared'
 
 interface ExamAttempt {
@@ -50,17 +52,37 @@ const areaLabels: Record<ENAMEDArea, string> = {
   saude_coletiva: 'Saúde Coletiva',
 }
 
+type TimePeriod = '7days' | '30days' | 'all'
+
 export default function DesempenhoPage() {
   const router = useRouter()
   const [loading, setLoading] = useState(true)
   const [attempts, setAttempts] = useState<ExamAttempt[]>([])
+  const [filteredAttempts, setFilteredAttempts] = useState<ExamAttempt[]>([])
   const [stats, setStats] = useState<PerformanceStats | null>(null)
   const [areaPerformance, setAreaPerformance] = useState<Record<ENAMEDArea, number>>({} as Record<ENAMEDArea, number>)
   const [studyActivity, setStudyActivity] = useState<StudyActivity[]>([])
+  const [timePeriod, setTimePeriod] = useState<TimePeriod>('all')
 
   useEffect(() => {
     loadPerformanceData()
   }, [])
+
+  // Filter attempts based on time period
+  useEffect(() => {
+    const now = new Date()
+    let filtered = attempts
+
+    if (timePeriod === '7days') {
+      const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
+      filtered = attempts.filter(a => new Date(a.completed_at) >= sevenDaysAgo)
+    } else if (timePeriod === '30days') {
+      const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
+      filtered = attempts.filter(a => new Date(a.completed_at) >= thirtyDaysAgo)
+    }
+
+    setFilteredAttempts(filtered)
+  }, [timePeriod, attempts])
 
   async function loadPerformanceData() {
     const supabase = createClient()
@@ -81,6 +103,7 @@ export default function DesempenhoPage() {
 
     if (attemptsData && attemptsData.length > 0) {
       setAttempts(attemptsData)
+      setFilteredAttempts(attemptsData)
 
       // Calculate stats
       const totalExams = attemptsData.length
@@ -168,22 +191,21 @@ export default function DesempenhoPage() {
   }
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500" />
-      </div>
-    )
+    return <LoadingSkeleton />
   }
 
   return (
     <div className="min-h-screen bg-slate-950 text-white">
       {/* Header */}
       <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <h1 className="text-2xl font-bold">Desempenho</h1>
-          <p className="text-sm text-slate-400 mt-1">
-            Acompanhe seu progresso e identifique áreas para melhorar
-          </p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold">Desempenho</h1>
+            <p className="text-sm text-slate-400 mt-1">
+              Acompanhe seu progresso e identifique áreas para melhorar
+            </p>
+          </div>
+          {stats && stats.totalExams > 0 && <ExportData attempts={attempts} stats={stats} />}
         </div>
       </header>
 
@@ -255,13 +277,51 @@ export default function DesempenhoPage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Left Column */}
               <div className="lg:col-span-2 space-y-6">
-                {/* Score History Chart */}
+                {/* Score History Chart with Time Period Filter */}
                 <Card>
-                  <CardHeader>
+                  <CardHeader className="flex items-center justify-between">
                     <CardTitle>Histórico de Pontuação</CardTitle>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => setTimePeriod('7days')}
+                        className={`px-3 py-1 text-sm rounded-lg transition-colors ${
+                          timePeriod === '7days'
+                            ? 'bg-emerald-500/20 text-emerald-400'
+                            : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
+                        }`}
+                      >
+                        7 dias
+                      </button>
+                      <button
+                        onClick={() => setTimePeriod('30days')}
+                        className={`px-3 py-1 text-sm rounded-lg transition-colors ${
+                          timePeriod === '30days'
+                            ? 'bg-emerald-500/20 text-emerald-400'
+                            : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
+                        }`}
+                      >
+                        30 dias
+                      </button>
+                      <button
+                        onClick={() => setTimePeriod('all')}
+                        className={`px-3 py-1 text-sm rounded-lg transition-colors ${
+                          timePeriod === 'all'
+                            ? 'bg-emerald-500/20 text-emerald-400'
+                            : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
+                        }`}
+                      >
+                        Tudo
+                      </button>
+                    </div>
                   </CardHeader>
                   <CardContent>
-                    <ScoreHistory attempts={attempts} />
+                    {filteredAttempts.length > 0 ? (
+                      <ScoreHistory attempts={filteredAttempts} />
+                    ) : (
+                      <div className="h-64 flex items-center justify-center text-slate-400">
+                        Nenhum simulado neste período
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
 
@@ -278,8 +338,12 @@ export default function DesempenhoPage() {
 
               {/* Right Column */}
               <div className="space-y-6">
-                {/* Pass Prediction */}
-                <PassPrediction theta={stats?.latestTheta || 0} totalQuestions={stats?.totalQuestions || 0} />
+                {/* Pass Prediction with Timeline */}
+                <PassPrediction
+                  theta={stats?.latestTheta || 0}
+                  totalQuestions={stats?.totalQuestions || 0}
+                  attempts={attempts}
+                />
 
                 {/* Study Streak */}
                 <StudyStreak
@@ -296,59 +360,67 @@ export default function DesempenhoPage() {
             {/* Recent Attempts Table */}
             <Card>
               <CardHeader>
-                <CardTitle>Últimos Simulados</CardTitle>
+                <CardTitle>
+                  {timePeriod === '7days' ? 'Últimos 7 dias' : timePeriod === '30days' ? 'Últimos 30 dias' : 'Todos os simulados'}
+                </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="overflow-x-auto">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="text-left text-sm text-slate-400 border-b border-slate-800">
-                        <th className="pb-3 font-medium">Data</th>
-                        <th className="pb-3 font-medium">Pontuação</th>
-                        <th className="pb-3 font-medium">Acertos</th>
-                        <th className="pb-3 font-medium">Tempo</th>
-                        <th className="pb-3 font-medium">Status</th>
-                      </tr>
-                    </thead>
-                    <tbody className="text-sm">
-                      {attempts.slice(0, 10).map((attempt) => {
-                        const totalQuestions = attempt.area_breakdown
-                          ? Object.values(attempt.area_breakdown).reduce((s, a) => s + (a?.total || 0), 0)
-                          : 0
+                {filteredAttempts.length === 0 ? (
+                  <div className="py-8 text-center text-slate-400">
+                    Nenhum simulado neste período
+                  </div>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="text-left text-sm text-slate-400 border-b border-slate-800">
+                          <th className="pb-3 font-medium">Data</th>
+                          <th className="pb-3 font-medium">Pontuação</th>
+                          <th className="pb-3 font-medium">Acertos</th>
+                          <th className="pb-3 font-medium">Tempo</th>
+                          <th className="pb-3 font-medium">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody className="text-sm">
+                        {filteredAttempts.slice(0, 10).map((attempt) => {
+                          const totalQuestions = attempt.area_breakdown
+                            ? Object.values(attempt.area_breakdown).reduce((s, a) => s + (a?.total || 0), 0)
+                            : 0
 
-                        return (
-                          <tr key={attempt.id} className="border-b border-slate-800/50">
-                            <td className="py-3 text-slate-300">
-                              {new Date(attempt.completed_at).toLocaleDateString('pt-BR')}
-                            </td>
-                            <td className="py-3">
-                              <span className={`font-medium ${attempt.passed ? 'text-emerald-400' : 'text-slate-300'}`}>
-                                {Math.round(attempt.scaled_score)}
-                              </span>
-                            </td>
-                            <td className="py-3 text-slate-300">
-                              {attempt.correct_count}/{totalQuestions}
-                            </td>
-                            <td className="py-3 text-slate-400">
-                              {Math.floor(attempt.total_time_seconds / 60)}min
-                            </td>
-                            <td className="py-3">
-                              {attempt.passed ? (
-                                <span className="px-2 py-1 text-xs bg-emerald-500/20 text-emerald-400 rounded-full">
-                                  Aprovado
+                          return (
+                            <tr key={attempt.id} className="border-b border-slate-800/50 hover:bg-slate-800/30 transition-colors">
+                              <td className="py-3 text-slate-300">
+                                {new Date(attempt.completed_at).toLocaleDateString('pt-BR')}
+                              </td>
+                              <td className="py-3">
+                                <span className={`font-medium ${attempt.passed ? 'text-emerald-400' : 'text-slate-300'}`}>
+                                  {Math.round(attempt.scaled_score)}
                                 </span>
-                              ) : (
-                                <span className="px-2 py-1 text-xs bg-red-500/20 text-red-400 rounded-full">
-                                  Reprovado
-                                </span>
-                              )}
-                            </td>
-                          </tr>
-                        )
-                      })}
-                    </tbody>
-                  </table>
-                </div>
+                              </td>
+                              <td className="py-3 text-slate-300">
+                                {attempt.correct_count}/{totalQuestions}
+                              </td>
+                              <td className="py-3 text-slate-400">
+                                {Math.floor(attempt.total_time_seconds / 60)}min
+                              </td>
+                              <td className="py-3">
+                                {attempt.passed ? (
+                                  <span className="px-2 py-1 text-xs bg-emerald-500/20 text-emerald-400 rounded-full">
+                                    Aprovado
+                                  </span>
+                                ) : (
+                                  <span className="px-2 py-1 text-xs bg-red-500/20 text-red-400 rounded-full">
+                                    Reprovado
+                                  </span>
+                                )}
+                              </td>
+                            </tr>
+                          )
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>

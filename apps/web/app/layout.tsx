@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Navigation } from '@/components/Navigation';
+import { ToastProvider } from '@/components/ui/Toast';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,10 +21,12 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className="dark">
       <body className={inter.className}>
-        <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black">
-          <Navigation />
-          {children}
-        </div>
+        <ToastProvider>
+          <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black">
+            <Navigation />
+            {children}
+          </div>
+        </ToastProvider>
       </body>
     </html>
   );

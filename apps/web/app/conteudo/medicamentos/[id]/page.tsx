@@ -5,93 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
-
-interface MedicationDetail {
-  id: string
-  name: string
-  genericName: string
-  atcCode: string
-  drugClass: string
-  mechanism: string
-  summary: string
-  pharmacokinetics: {
-    absorption: string
-    distribution: string
-    metabolism: string
-    elimination: string
-    halfLife: string
-  }
-  indications: string[]
-  contraindications: string[]
-  adverseEffects: string[]
-  interactions: string[]
-  dosing: {
-    adult: string
-    pediatric?: string
-    renal?: string
-    hepatic?: string
-  }
-  pregnancy: string
-  monitoring: string[]
-}
-
-// Mock data
-const mockMedicationDetail: MedicationDetail = {
-  id: '1',
-  name: 'Amoxicilina',
-  genericName: 'Amoxicilina',
-  atcCode: 'J01CA04',
-  drugClass: 'Antibióticos (Penicilinas)',
-  mechanism: 'A amoxicilina inibe a síntese da parede celular bacteriana ao se ligar às proteínas ligadoras de penicilina (PBPs), enzimas essenciais para a síntese de peptidoglicano. Isso resulta em lise osmótica e morte da bactéria.',
-  summary: 'Antibiótico beta-lactâmico de amplo espectro, primeira escolha para infecções respiratórias comunitárias.',
-  pharmacokinetics: {
-    absorption: 'Bem absorvida por via oral (biodisponibilidade ~95%), não afetada por alimentos',
-    distribution: 'Boa penetração em tecidos, incluindo ouvido médio, seios paranasais, amígdalas. Atravessa barreira hematoencefálica em meninges inflamadas.',
-    metabolism: 'Metabolismo hepático limitado (~30%)',
-    elimination: 'Principalmente renal (60-70% inalterada na urina)',
-    halfLife: '1-1.5 horas (aumentada em insuficiência renal)',
-  },
-  indications: [
-    'Infecções do trato respiratório superior: otite média, sinusite, faringite bacteriana',
-    'Infecções do trato respiratório inferior: pneumonia adquirida na comunidade',
-    'Infecções urinárias não complicadas',
-    'Erradicação de H. pylori (em combinação)',
-    'Profilaxia de endocardite bacteriana',
-    'Doença de Lyme (estágios iniciais)',
-  ],
-  contraindications: [
-    'Hipersensibilidade a penicilinas',
-    'História de reação alérgica grave a cefalosporinas (contraindicação relativa)',
-    'Mononucleose infecciosa (risco de rash)',
-  ],
-  adverseEffects: [
-    'Gastrointestinais: diarreia (muito comum), náusea, vômitos',
-    'Dermatológicos: rash maculopapular, urticária',
-    'Hipersensibilidade: anafilaxia (raro), angioedema',
-    'Colite por Clostridioides difficile',
-    'Superinfecção por Candida',
-  ],
-  interactions: [
-    'Metotrexato: redução da excreção renal do metotrexato',
-    'Alopurinol: aumento do risco de rash',
-    'Anticoagulantes orais: possível aumento do efeito anticoagulante',
-    'Contraceptivos orais: possível redução da eficácia (controverso)',
-    'Probenecida: aumento dos níveis séricos de amoxicilina',
-  ],
-  dosing: {
-    adult: '250-500 mg a cada 8 horas ou 500-875 mg a cada 12 horas. Dose máxima: 3g/dia',
-    pediatric: '25-50 mg/kg/dia divididos em 8-12 horas. Para otite média: 80-90 mg/kg/dia',
-    renal: 'ClCr 10-30: intervalo de 12h. ClCr <10: intervalo de 24h',
-    hepatic: 'Não requer ajuste',
-  },
-  pregnancy: 'Categoria B. Considerada segura na gestação. Atravessa a barreira placentária, mas não há evidência de teratogenicidade.',
-  monitoring: [
-    'Sinais de reação alérgica nas primeiras doses',
-    'Função renal em tratamentos prolongados',
-    'Sinais de superinfecção',
-    'Resposta clínica após 48-72 horas',
-  ],
-}
+import { getMedicationById, type MedicationDetail } from '@/lib/adapters/medical-data'
 
 export default function MedicationDetailPage() {
   const params = useParams()
@@ -103,8 +17,9 @@ export default function MedicationDetailPage() {
   const [activeSection, setActiveSection] = useState('overview')
 
   useEffect(() => {
-    // In real app, fetch from API or medical-data package
-    setMedication(mockMedicationDetail)
+    // Fetch medication from @darwin-mfc/medical-data
+    const medicationData = getMedicationById(medicationId)
+    setMedication(medicationData)
     setLoading(false)
   }, [medicationId])
 

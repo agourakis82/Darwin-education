@@ -50,11 +50,21 @@ export function AreaRadar({ performance }: AreaRadarProps) {
   // Grid circles
   const gridLevels = [20, 40, 60, 80, 100]
 
+  // Check if there's any data
+  const hasData = Object.values(performance).some(v => v > 0)
+
   return (
     <div className="flex flex-col md:flex-row items-center gap-6">
       {/* Radar Chart */}
-      <div className="flex-shrink-0">
+      <div className="flex-shrink-0 bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-lg p-4">
         <svg width="300" height="300" viewBox="0 0 300 300">
+          <defs>
+            <linearGradient id="radarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="rgba(16, 185, 129, 0.3)" />
+              <stop offset="100%" stopColor="rgba(59, 130, 246, 0.2)" />
+            </linearGradient>
+          </defs>
+
           {/* Grid circles */}
           {gridLevels.map((level) => (
             <circle
@@ -64,8 +74,9 @@ export function AreaRadar({ performance }: AreaRadarProps) {
               r={(level / 100) * maxRadius}
               fill="none"
               stroke="rgb(51, 65, 85)"
-              strokeWidth="1"
+              strokeWidth={level === 60 ? '1.5' : '1'}
               strokeDasharray={level === 60 ? '4,4' : 'none'}
+              opacity={0.6}
             />
           ))}
 
@@ -82,30 +93,48 @@ export function AreaRadar({ performance }: AreaRadarProps) {
                 y2={endPoint.y}
                 stroke="rgb(51, 65, 85)"
                 strokeWidth="1"
+                opacity={0.5}
               />
             )
           })}
 
           {/* Data polygon */}
-          <polygon
-            points={polygonPoints}
-            fill="rgba(16, 185, 129, 0.2)"
-            stroke="rgb(16, 185, 129)"
-            strokeWidth="2"
-          />
+          {hasData && (
+            <>
+              <polygon
+                points={polygonPoints}
+                fill="url(#radarGradient)"
+                stroke="rgb(16, 185, 129)"
+                strokeWidth="2.5"
+              />
 
-          {/* Data points */}
-          {dataPoints.map((point, i) => (
-            <circle
-              key={i}
-              cx={point.x}
-              cy={point.y}
-              r="5"
-              fill={areaColors[areas[i]]}
-              stroke="white"
-              strokeWidth="2"
-            />
-          ))}
+              {/* Data points with glow */}
+              {dataPoints.map((point, i) => {
+                const value = performance[areas[i]] || 0
+                return (
+                  <g key={i}>
+                    <circle
+                      cx={point.x}
+                      cy={point.y}
+                      r="7"
+                      fill={areaColors[areas[i]]}
+                      opacity="0.2"
+                    />
+                    <circle
+                      cx={point.x}
+                      cy={point.y}
+                      r="5"
+                      fill={areaColors[areas[i]]}
+                      stroke="white"
+                      strokeWidth="2"
+                      className="drop-shadow-lg"
+                    />
+                    <title>{areaLabels[areas[i]]}: {value}%</title>
+                  </g>
+                )
+              })}
+            </>
+          )}
 
           {/* Labels */}
           {areas.map((area, i) => {
@@ -122,7 +151,7 @@ export function AreaRadar({ performance }: AreaRadarProps) {
                 y={labelPoint.y}
                 textAnchor={textAnchor}
                 dominantBaseline="middle"
-                className="text-xs fill-slate-400"
+                className="text-xs fill-slate-300 font-medium"
               >
                 {areaLabels[area]}
               </text>
@@ -147,29 +176,34 @@ export function AreaRadar({ performance }: AreaRadarProps) {
         {areas.map((area) => {
           const value = performance[area] || 0
           const isWeak = value < 60
+          const isGood = value >= 80
 
           return (
-            <div key={area} className="flex items-center gap-3">
-              <div
-                className="w-3 h-3 rounded-full flex-shrink-0"
-                style={{ backgroundColor: areaColors[area] }}
-              />
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-slate-300 truncate">{areaLabels[area]}</span>
-                  <span className={`text-sm font-medium ${isWeak ? 'text-red-400' : 'text-emerald-400'}`}>
+            <div key={area} className="p-3 bg-slate-800/30 rounded-lg hover:bg-slate-800/50 transition-colors">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <div
+                    className="w-3 h-3 rounded-full flex-shrink-0 shadow-md"
+                    style={{ backgroundColor: areaColors[area] }}
+                  />
+                  <span className="text-sm text-slate-300 font-medium">{areaLabels[area]}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className={`text-sm font-bold ${isGood ? 'text-emerald-400' : isWeak ? 'text-red-400' : 'text-yellow-400'}`}>
                     {value}%
                   </span>
+                  {isGood && <span className="text-xs text-emerald-400">✓</span>}
+                  {isWeak && <span className="text-xs text-red-400">!</span>}
                 </div>
-                <div className="mt-1 h-1.5 bg-slate-700 rounded-full overflow-hidden">
-                  <div
-                    className="h-full rounded-full transition-all"
-                    style={{
-                      width: `${value}%`,
-                      backgroundColor: areaColors[area],
-                    }}
-                  />
-                </div>
+              </div>
+              <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
+                <div
+                  className="h-full rounded-full transition-all shadow-lg"
+                  style={{
+                    width: `${value}%`,
+                    backgroundColor: areaColors[area],
+                  }}
+                />
               </div>
             </div>
           )

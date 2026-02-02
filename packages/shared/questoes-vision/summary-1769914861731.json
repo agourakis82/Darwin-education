@@ -1,0 +1,118 @@
+{
+  "totalFiles": 18,
+  "processed": 17,
+  "failed": 1,
+  "totalQuestions": 1665,
+  "files": [
+    {
+      "filename": "ENARE-2025.pdf",
+      "source": "enare",
+      "questionsFound": 91,
+      "success": true
+    },
+    {
+      "filename": "PROVAO-CERMAM-2025_1_impressao-OK.pdf",
+      "source": "cermam",
+      "questionsFound": 85,
+      "success": true
+    },
+    {
+      "filename": "Prova-Enare-R1.pdf",
+      "source": "enare",
+      "questionsFound": 95,
+      "success": true
+    },
+    {
+      "filename": "UNIFESP-2024-Objetiva-R1.pdf",
+      "source": "unifesp",
+      "questionsFound": 86,
+      "success": true
+    },
+    {
+      "filename": "UNIFESP-2025-Objetiva-1.pdf",
+      "source": "unifesp",
+      "questionsFound": 86,
+      "success": true
+    },
+    {
+      "filename": "fmusp-2024-12-01_rm2025_prova-areasbasicasedeacessodireto_grupo-a1.pdf",
+      "source": "fmusp",
+      "questionsFound": 120,
+      "success": true
+    },
+    {
+      "filename": "fmusp-2024-12-01_rm2025_prova-especialidadesclinicas_grupo-b.pdf",
+      "source": "fmusp",
+      "questionsFound": 119,
+      "success": true
+    },
+    {
+      "filename": "fmusp-USP-SP-2025-Objetiva.pdf",
+      "source": "fmusp",
+      "questionsFound": 98,
+      "success": true
+    },
+    {
+      "filename": "fmusp-rm2026-prova-AD1-areasbasicas-acessodireto.pdf",
+      "source": "fmusp",
+      "questionsFound": 114,
+      "success": true
+    },
+    {
+      "filename": "fmusp-rm2026-prova-AD2-areasbasicas-acessodireto.pdf",
+      "source": "fmusp",
+      "questionsFound": 112,
+      "success": true
+    },
+    {
+      "filename": "fmusp-rm2026-prova-AD3-areasbasicas-acessodireto.pdf",
+      "source": "fmusp",
+      "questionsFound": 110,
+      "success": true
+    },
+    {
+      "filename": "fmusp-rm2026-prova-ECM-especialidades-clinicas.pdf",
+      "source": "fmusp",
+      "questionsFound": 102,
+      "success": true
+    },
+    {
+      "filename": "fmusp-rm2026-prova-EPD-especialidades-pediatricas-v2.pdf",
+      "source": "fmusp",
+      "questionsFound": 110,
+      "success": true
+    },
+    {
+      "filename": "santacasa-SCMSP-2025-Objetiva.pdf",
+      "source": "santacasa",
+      "questionsFound": 92,
+      "success": true
+    },
+    {
+      "filename": "simulados-06_12_2024_Simulado_Final_SUS-SP_Caderno_de_Questoes.pdf",
+      "source": "sussp",
+      "questionsFound": 50,
+      "success": true
+    },
+    {
+      "filename": "simulados-12_07_2024_100_DIAS_PARA_O_ENARE_-_SIMULADO_INEDITO_FGV_Caderno_de_Questoes_Atualizado.pdf",
+      "source": "enare",
+      "questionsFound": 50,
+      "success": true
+    },
+    {
+      "filename": "sussp-1_SES-SP_RM_2024_gabarito_definitivo.pdf",
+      "source": "sussp",
+      "questionsFound": 0,
+      "success": false,
+      "error": "Nenhuma questão extraída"
+    },
+    {
+      "filename": "ufrj-PROVA_DE_CONHECIMENTOS_GERAIS_2024_-_FINAL_compressed.pdf",
+      "source": "ufrj",
+      "questionsFound": 145,
+      "success": true
+    }
+  ],
+  "generatedAt": "2026-02-01T03:01:01.731Z"
+}

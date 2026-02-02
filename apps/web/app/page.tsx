@@ -80,6 +80,24 @@ export default function HomePage() {
           description="368 doenças e 690 medicamentos do Darwin-MFC"
           color="rose"
         />
+
+        {/* DDL - Learning Gap Diagnosis */}
+        <FeatureCard
+          href="/ddl"
+          icon="🎯"
+          title="Diagnóstico de Lacunas"
+          description="Identifique lacunas epistêmicas, emocionais e de integração"
+          color="teal"
+        />
+
+        {/* QGen - Question Generation */}
+        <FeatureCard
+          href="/qgen"
+          icon="✨"
+          title="QGen DDL"
+          description="Geração de questões com validação IRT e integração DDL"
+          color="indigo"
+        />
       </div>
 
       {/* Stats */}
@@ -114,6 +132,8 @@ function FeatureCard({
     orange: 'hover:border-orange-500/50 hover:shadow-orange-500/20',
     cyan: 'hover:border-cyan-500/50 hover:shadow-cyan-500/20',
     rose: 'hover:border-rose-500/50 hover:shadow-rose-500/20',
+    teal: 'hover:border-teal-500/50 hover:shadow-teal-500/20',
+    indigo: 'hover:border-indigo-500/50 hover:shadow-indigo-500/20',
   };
 
   return (

@@ -19,6 +19,7 @@ import {
   getKnownUrlsCount,
 } from './scrapers/residencia-scraper';
 import { LLMQuestionParser, classifyArea } from './parsers/llm-question-parser';
+import { VisionQuestionParser, createVisionParser, type GabaritoEntry } from './parsers/vision-question-parser';
 import { createOCR, needsOCR } from './ocr/tesseract-ocr';
 import {
   BatchDownloader,
@@ -97,19 +98,25 @@ ${colors.bright}DOWNLOAD MASSIVO${colors.reset}
 ${colors.bright}PROCESSAMENTO${colors.reset}
   --process [dir]     Processar PDFs baixados e extrair questões (padrão: ./provas-downloaded)
                       Gera JSON e SQL prontos para importação
+  --vision            🔬 Usar Vision Parser (SOTA++) - processa PDFs como imagens
+                      Melhor para PDFs escaneados, layouts complexos, tabelas
 
 ${colors.bright}OPÇÕES${colors.reset}
   --year <ano>        Filtrar por ano (ex: 2024)
   --max <n>           Máximo de documentos (padrão: 10)
   --ocr               Forçar OCR mesmo em PDFs com texto
+  --vision            Usar Vision-Language Model para extração (requer ANTHROPIC_API_KEY ou OPENAI_API_KEY)
   --output <dir>      Diretório para salvar resultados
   --concurrency <n>   Número de downloads paralelos (padrão: 5)
   --skip-existing     Pular arquivos já baixados (padrão: true)
 
 ${colors.bright}VARIÁVEIS DE AMBIENTE${colors.reset}
-  GROK_API_KEY        API key do Grok (para parsing LLM)
-  MINIMAX_API_KEY     API key do Minimax (alternativa)
-  MINIMAX_GROUP_ID    Group ID do Minimax
+  TOGETHER_API_KEY    API key do Together AI (Llama Vision - MAIS BARATO $0.18/M)
+  GROK_API_KEY        API key do Grok/xAI (texto E vision - $2-10/M)
+  GROQ_API_KEY        API key do Groq (alternativa gratuita para texto)
+  OPENAI_API_KEY      API key do OpenAI GPT-4o ($2.50-10/M)
+  ANTHROPIC_API_KEY   API key do Claude ($3-15/M)
+  MINIMAX_API_KEY     API key do Minimax (alternativa para texto)
   BRAVE_API_KEY       API key do Brave Search (opcional)
 
 ${colors.bright}EXEMPLOS${colors.reset}
@@ -127,6 +134,10 @@ ${colors.bright}EXEMPLOS${colors.reset}
   ${colors.bright}Processamento de PDFs:${colors.reset}
   pnpm harvest --process ./provas --output ./questoes
   pnpm harvest --process --ocr --output ./questoes
+
+  ${colors.bright}Vision Parser (SOTA++):${colors.reset}
+  GROK_API_KEY=xxx pnpm harvest --process --vision --output ./questoes
+  ANTHROPIC_API_KEY=xxx pnpm harvest --process --vision
 
 ${colors.bright}FONTES SUPORTADAS${colors.reset}
 ${RESIDENCIA_SOURCES.map((s) => `  - ${s.id.padEnd(12)} ${s.name}`).join('\n')}
@@ -164,13 +175,14 @@ async function harvestFromSource(
 
   log(`\n🔍 Coletando questões de ${source.name}...`, colors.bright);
 
-  const apiKey = process.env.GROK_API_KEY || process.env.MINIMAX_API_KEY;
+  const apiKey = process.env.GROK_API_KEY || process.env.GROQ_API_KEY || process.env.MINIMAX_API_KEY;
   if (!apiKey) {
     logWarning('Nenhuma API key configurada. O parsing será limitado.');
   }
 
+  const llmProvider = process.env.GROK_API_KEY ? 'grok' : process.env.GROQ_API_KEY ? 'groq' : 'minimax';
   const pipeline = createHarvesterPipeline({
-    llmProvider: process.env.GROK_API_KEY ? 'grok' : 'minimax',
+    llmProvider,
     maxDocumentsPerJob: options.max || 10,
   });
 
@@ -233,7 +245,7 @@ async function searchAndHarvest(
     }
 
     // Parsear documentos se tiver API key
-    const apiKey = process.env.GROK_API_KEY || process.env.MINIMAX_API_KEY;
+    const apiKey = process.env.GROK_API_KEY || process.env.GROQ_API_KEY || process.env.MINIMAX_API_KEY;
     if (apiKey && result.documents.length > 0) {
       await parseDocuments(result.documents, apiKey, options);
     }
@@ -250,7 +262,7 @@ async function parseDocuments(
   log('\n🤖 Iniciando parsing com LLM...', colors.bright);
 
   const parser = new LLMQuestionParser({
-    provider: process.env.GROK_API_KEY ? 'grok' : 'minimax',
+    provider: process.env.GROK_API_KEY ? 'grok' : process.env.GROQ_API_KEY ? 'groq' : 'minimax',
     apiKey,
     groupId: process.env.MINIMAX_GROUP_ID,
   });
@@ -342,7 +354,7 @@ async function runTests(): Promise<void> {
 
   // Teste 2: Parser LLM
   log('\n🤖 Teste 2: Parser LLM');
-  const apiKey = process.env.GROK_API_KEY || process.env.MINIMAX_API_KEY;
+  const apiKey = process.env.GROK_API_KEY || process.env.GROQ_API_KEY || process.env.MINIMAX_API_KEY;
 
   if (!apiKey) {
     logWarning('Pule o teste de LLM (nenhuma API key configurada)');
@@ -362,7 +374,7 @@ Qual a conduta imediata mais adequada?
 `;
 
     const parser = new LLMQuestionParser({
-      provider: process.env.GROK_API_KEY ? 'grok' : 'minimax',
+      provider: process.env.GROK_API_KEY ? 'grok' : process.env.GROQ_API_KEY ? 'groq' : 'minimax',
       apiKey,
       groupId: process.env.MINIMAX_GROUP_ID,
     });
@@ -415,7 +427,7 @@ async function parseLocalFile(filePath: string, options: CLIOptions): Promise<vo
     return;
   }
 
-  const apiKey = process.env.GROK_API_KEY || process.env.MINIMAX_API_KEY;
+  const apiKey = process.env.GROK_API_KEY || process.env.GROQ_API_KEY || process.env.MINIMAX_API_KEY;
   if (!apiKey) {
     logError('API key necessária para parsing. Configure GROK_API_KEY ou MINIMAX_API_KEY');
     return;
@@ -460,7 +472,7 @@ async function parseLocalFile(filePath: string, options: CLIOptions): Promise<vo
 
   // Parser LLM
   const parser = new LLMQuestionParser({
-    provider: process.env.GROK_API_KEY ? 'grok' : 'minimax',
+    provider: process.env.GROK_API_KEY ? 'grok' : process.env.GROQ_API_KEY ? 'groq' : 'minimax',
     apiKey,
     groupId: process.env.MINIMAX_GROUP_ID,
   });
@@ -614,14 +626,53 @@ async function processDownloadedPDFs(options: CLIOptions): Promise<void> {
   const inputDir = typeof options.process === 'string' ? options.process : './provas-downloaded';
   const outputDir = options.output || './parsed-questions';
 
+  // Check for vision mode
+  const useVision = options.vision === true;
+
   log('\n🔬 PROCESSAMENTO DE PDFs BAIXADOS', colors.bright);
+  if (useVision) {
+    log('🎯 Modo: VISION PARSER (SOTA++)', colors.cyan);
+  }
   console.log('═'.repeat(50));
 
-  // Check API key
-  const apiKey = process.env.GROK_API_KEY || process.env.MINIMAX_API_KEY;
-  if (!apiKey) {
-    logError('API key necessária. Configure GROK_API_KEY ou MINIMAX_API_KEY');
-    return;
+  // Check API key based on mode
+  let apiKey: string | undefined;
+  let visionProvider: 'claude' | 'openai' | 'grok' | 'meta' = 'claude';
+
+  if (useVision) {
+    // Vision mode - check for vision API keys (cheapest first)
+    if (process.env.TOGETHER_API_KEY) {
+      apiKey = process.env.TOGETHER_API_KEY;
+      visionProvider = 'meta';
+      logInfo('Usando Meta Llama 3.2 Vision (Together AI) - $0.18/M tokens');
+    } else if (process.env.GROK_API_KEY) {
+      apiKey = process.env.GROK_API_KEY;
+      visionProvider = 'grok';
+      logInfo('Usando Grok Vision (xAI) - $2/M input, $10/M output');
+    } else if (process.env.ANTHROPIC_API_KEY) {
+      apiKey = process.env.ANTHROPIC_API_KEY;
+      visionProvider = 'claude';
+      logInfo('Usando Claude Vision (Anthropic) - $3/M input, $15/M output');
+    } else if (process.env.OPENAI_API_KEY) {
+      apiKey = process.env.OPENAI_API_KEY;
+      visionProvider = 'openai';
+      logInfo('Usando GPT-4o (OpenAI) - $2.50/M input, $10/M output');
+    } else {
+      logError('API key para Vision necessária.');
+      logInfo('Configure uma das seguintes variáveis (ordem por custo):');
+      logInfo('  TOGETHER_API_KEY (Llama 3.2 Vision - MAIS BARATO $0.18/M)');
+      logInfo('  GROK_API_KEY (Grok Vision - $2-10/M)');
+      logInfo('  OPENAI_API_KEY (GPT-4o - $2.50-10/M)');
+      logInfo('  ANTHROPIC_API_KEY (Claude - $3-15/M)');
+      return;
+    }
+  } else {
+    // Text mode - check for text API keys
+    apiKey = process.env.GROK_API_KEY || process.env.GROQ_API_KEY || process.env.MINIMAX_API_KEY;
+    if (!apiKey) {
+      logError('API key necessária. Configure GROK_API_KEY, GROQ_API_KEY ou MINIMAX_API_KEY');
+      return;
+    }
   }
 
   // Check input directory
@@ -647,14 +698,21 @@ async function processDownloadedPDFs(options: CLIOptions): Promise<void> {
   // Create output directory
   fs.mkdirSync(outputDir, { recursive: true });
 
-  // Initialize parser
-  const parser = new LLMQuestionParser({
-    provider: process.env.GROK_API_KEY ? 'grok' : 'minimax',
-    apiKey,
-    groupId: process.env.MINIMAX_GROUP_ID,
-  });
+  // Initialize parsers based on mode
+  let textParser: LLMQuestionParser | null = null;
+  let visionParser: VisionQuestionParser | null = null;
 
-  // Initialize OCR if needed
+  if (useVision) {
+    visionParser = createVisionParser(visionProvider, apiKey!);
+  } else {
+    textParser = new LLMQuestionParser({
+      provider: process.env.GROK_API_KEY ? 'grok' : process.env.GROQ_API_KEY ? 'groq' : 'minimax',
+      apiKey: apiKey!,
+      groupId: process.env.MINIMAX_GROUP_ID,
+    });
+  }
+
+  // Initialize OCR if needed (only for text mode)
   let ocr: import('./ocr/tesseract-ocr').TesseractOCR | null = null;
 
   const summary: ProcessingSummary = {
@@ -675,64 +733,18 @@ async function processDownloadedPDFs(options: CLIOptions): Promise<void> {
 
     try {
       const buffer = fs.readFileSync(filePath);
-      let text: string;
-
-      // Check if needs OCR
-      const requiresOCR = options.ocr || (await needsOCR(buffer));
-
-      if (requiresOCR) {
-        logInfo('  Executando OCR...');
-        if (!ocr) {
-          ocr = createOCR();
-          await ocr.initialize();
-        }
-        const ocrResult = await ocr.processPDF(buffer);
-        text = ocrResult.text;
-        log(`  OCR: ${ocrResult.pages.length} páginas, ${(ocrResult.confidence * 100).toFixed(0)}% confiança`);
-      } else {
-        // Extract text directly
-        try {
-          const pdfParse = await (Function('return import("pdf-parse")')() as Promise<{
-            default: (buf: Buffer) => Promise<{ text: string }>;
-          }>);
-          const data = await pdfParse.default(buffer);
-          text = data.text;
-          log(`  Texto extraído: ${text.length} caracteres`);
-        } catch {
-          logWarning('  pdf-parse falhou, tentando OCR...');
-          if (!ocr) {
-            ocr = createOCR();
-            await ocr.initialize();
-          }
-          const ocrResult = await ocr.processPDF(buffer);
-          text = ocrResult.text;
-        }
-      }
-
-      if (text.length < 100) {
-        logWarning('  Texto muito curto, pulando...');
-        summary.files.push({
-          filename,
-          source: inferSourceFromFilename(filename),
-          questionsFound: 0,
-          success: false,
-          error: 'Texto muito curto',
-        });
-        summary.failed++;
-        continue;
-      }
-
-      // Parse with LLM (split into chunks if needed)
-      log('  🤖 Parseando com LLM...');
-      const chunks = splitTextIntoChunks(text, 12000);
       let fileQuestions: import('./types').ParsedQuestion[] = [];
 
-      for (let c = 0; c < chunks.length; c++) {
-        if (chunks.length > 1) {
-          log(`    Chunk ${c + 1}/${chunks.length}...`);
-        }
+      if (useVision && visionParser) {
+        // ============================================
+        // VISION MODE: PDF → Images → VLM
+        // ============================================
+        log('  🔬 Usando Vision Parser...', colors.cyan);
 
-        const result = await parser.parseText(chunks[c], filename);
+        const result = await visionParser.parsePDF(
+          buffer,
+          inferSourceFromFilename(filename)
+        );
 
         if (result.success && result.questions.length > 0) {
           // Enrich with source info
@@ -742,11 +754,96 @@ async function processDownloadedPDFs(options: CLIOptions): Promise<void> {
             documentId: filename,
           }));
           fileQuestions.push(...enriched);
+
+          log(`  📊 Tokens: ${result.tokensUsed}, Tempo: ${(result.processingTimeMs / 1000).toFixed(1)}s`);
         }
 
-        // Rate limiting
-        if (c < chunks.length - 1) {
-          await new Promise((r) => setTimeout(r, 2000));
+        if (result.errors && result.errors.length > 0) {
+          for (const err of result.errors) {
+            logWarning(`    Vision error: ${err}`);
+          }
+        }
+      } else if (textParser) {
+        // ============================================
+        // TEXT MODE: PDF → Text → LLM
+        // ============================================
+        let text: string;
+
+        // Check if needs OCR
+        const requiresOCR = options.ocr || (await needsOCR(buffer));
+
+        if (requiresOCR) {
+          logInfo('  Executando OCR...');
+          if (!ocr) {
+            ocr = createOCR();
+            await ocr.initialize();
+          }
+          const ocrResult = await ocr.processPDF(buffer);
+          text = ocrResult.text;
+          log(`  OCR: ${ocrResult.pages.length} páginas, ${(ocrResult.confidence * 100).toFixed(0)}% confiança`);
+        } else {
+          // Extract text directly
+          try {
+            const pdfParse = await (Function('return import("pdf-parse")')() as Promise<{
+              default: (buf: Buffer) => Promise<{ text: string }>;
+            }>);
+            const data = await pdfParse.default(buffer);
+            text = data.text;
+            log(`  Texto extraído: ${text.length} caracteres`);
+          } catch {
+            logWarning('  pdf-parse falhou, tentando OCR...');
+            if (!ocr) {
+              ocr = createOCR();
+              await ocr.initialize();
+            }
+            const ocrResult = await ocr.processPDF(buffer);
+            text = ocrResult.text;
+          }
+        }
+
+        if (text.length < 100) {
+          logWarning('  Texto muito curto, pulando...');
+          summary.files.push({
+            filename,
+            source: inferSourceFromFilename(filename),
+            questionsFound: 0,
+            success: false,
+            error: 'Texto muito curto',
+          });
+          summary.failed++;
+          continue;
+        }
+
+        // Parse with LLM (split into chunks if needed)
+        log('  🤖 Parseando com LLM...');
+        const chunks = splitTextIntoChunks(text, 12000);
+
+        for (let c = 0; c < chunks.length; c++) {
+          if (chunks.length > 1) {
+            log(`    Chunk ${c + 1}/${chunks.length}...`);
+          }
+
+          const result = await textParser.parseText(chunks[c], filename);
+
+          if (result.success && result.questions.length > 0) {
+            // Enrich with source info
+            const enriched = result.questions.map((q) => ({
+              ...q,
+              sourceId: inferSourceFromFilename(filename),
+              documentId: filename,
+            }));
+            fileQuestions.push(...enriched);
+          } else if (result.errors && result.errors.length > 0) {
+            // Show parsing errors
+            for (const err of result.errors) {
+              logWarning(`    Parse error: ${err}`);
+            }
+          }
+
+          // Rate limiting
+          if (c < chunks.length - 1) {
+            await new Promise((r) => setTimeout(r, 2000));
+          }
         }
       }
 
@@ -1006,6 +1103,7 @@ interface CLIOptions {
   skipExisting?: boolean;
   // Processing options
   process?: boolean | string;
+  vision?: boolean; // Use Vision-Language Model for extraction
 }
 
 function parseArgs(): CLIOptions {
@@ -1077,6 +1175,9 @@ function parseArgs(): CLIOptions {
         } else {
           options.process = true;
         }
+        break;
+      case '--vision':
+        options.vision = true;
         break;
     }
   }

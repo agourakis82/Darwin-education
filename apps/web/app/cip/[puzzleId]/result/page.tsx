@@ -22,6 +22,7 @@ interface CIPAttemptResultRow {
   passed?: boolean
   correct_count?: number
   total_cells?: number
+  total_time_seconds?: number
   section_breakdown?: Record<string, { correct: number; total: number; percentage: number }>
   diagnosis_breakdown?: CIPDiagnosisPerformance[]
 }
@@ -87,6 +88,7 @@ export default function CIPResultPage() {
   const [showGrid, setShowGrid] = useState(false)
   const [loadedScore, setLoadedScore] = useState<CIPScore | null>(null)
   const [loadedPuzzle, setLoadedPuzzle] = useState<CIPPuzzle | null>(null)
+  const [totalTimeSeconds, setTotalTimeSeconds] = useState<number | undefined>(undefined)
 
   const { currentPuzzle, result, isSubmitted, resetPuzzle } = useCIPStore()
 
@@ -96,6 +98,10 @@ export default function CIPResultPage() {
       if (isSubmitted && result && currentPuzzle?.id === puzzleId) {
         setLoadedScore(result)
         setLoadedPuzzle(currentPuzzle)
+        // Calculate time from puzzle time limit and remaining time in store
+        const remainingTime = useCIPStore.getState().remainingTime
+        const totalTime = currentPuzzle.timeLimitMinutes * 60 - remainingTime
+        setTotalTimeSeconds(totalTime)
         setLoading(false)
         return
       }
@@ -290,6 +296,7 @@ export default function CIPResultPage() {
 
       setLoadedScore(score)
       setLoadedPuzzle(puzzle)
+      setTotalTimeSeconds(attempt.total_time_seconds)
       setLoading(false)
     }
 
@@ -347,6 +354,7 @@ export default function CIPResultPage() {
         {/* Results Component */}
         <CIPResults
           score={loadedScore}
+          totalTimeSeconds={totalTimeSeconds}
           onRetry={handleRetry}
           onBackToList={handleBackToList}
         />

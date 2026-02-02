@@ -16,6 +16,14 @@ const areaLabels: Record<ENAMEDArea, string> = {
   saude_coletiva: 'Saúde Coletiva',
 }
 
+const areaRecommendations: Record<ENAMEDArea, string> = {
+  clinica_medica: 'Revise tópicos de doenças sistêmicas e fisiologia clínica',
+  cirurgia: 'Pratique casos clínicos cirúrgicos e indicações de procedimentos',
+  ginecologia_obstetricia: 'Estude gestação de alto risco e síndromes obstétricas',
+  pediatria: 'Aprofunde-se em vacinação, crescimento e desenvolvimento',
+  saude_coletiva: 'Revise epidemiologia e políticas de saúde pública',
+}
+
 export function WeakAreas({ performance }: WeakAreasProps) {
   // Find areas with performance below 60%
   const weakAreas = (Object.entries(performance) as [ENAMEDArea, number][])
@@ -70,19 +78,22 @@ export function WeakAreas({ performance }: WeakAreasProps) {
         <CardTitle className="text-sm">Áreas para Melhorar</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-3">
+        <div className="space-y-4">
           {weakAreas.map(([area, score]) => (
-            <div key={area} className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+            <div key={area} className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg hover:border-red-500/40 transition-colors">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-slate-300">{areaLabels[area]}</span>
+                <span className="text-sm text-slate-300 font-medium">{areaLabels[area]}</span>
                 <span className="text-sm font-medium text-red-400">{score}%</span>
               </div>
-              <div className="w-full h-1.5 bg-slate-700 rounded-full overflow-hidden">
+              <div className="w-full h-1.5 bg-slate-700 rounded-full overflow-hidden mb-2">
                 <div
-                  className="h-full bg-red-500 rounded-full"
+                  className="h-full bg-gradient-to-r from-red-500 to-red-400 rounded-full transition-all"
                   style={{ width: `${score}%` }}
                 />
               </div>
+              <p className="text-xs text-slate-400">
+                <span className="font-medium text-slate-300">Recomendação:</span> {areaRecommendations[area]}
+              </p>
             </div>
           ))}
         </div>
@@ -91,16 +102,16 @@ export function WeakAreas({ performance }: WeakAreasProps) {
         <div className="mt-4 space-y-2">
           <Link
             href={`/montar-prova?areas=${weakAreas.map(([a]) => a).join(',')}`}
-            className="flex items-center justify-center gap-2 w-full py-2 px-3 bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors text-sm"
+            className="flex items-center justify-center gap-2 w-full py-2 px-3 bg-emerald-600 hover:bg-emerald-500 rounded-lg transition-colors text-sm text-white font-medium"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
             Praticar estas áreas
           </Link>
           <Link
             href="/trilhas"
-            className="flex items-center justify-center gap-2 w-full py-2 px-3 text-slate-400 hover:text-slate-300 text-sm transition-colors"
+            className="flex items-center justify-center gap-2 w-full py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition-colors text-sm"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
@@ -112,9 +123,8 @@ export function WeakAreas({ performance }: WeakAreasProps) {
         {/* Tips */}
         <div className="mt-4 p-3 bg-slate-800/50 rounded-lg">
           <p className="text-xs text-slate-400">
-            <span className="font-medium text-slate-300">Dica:</span> Foque nas áreas com menor
-            desempenho primeiro. Questões de diferentes níveis de dificuldade ajudam a
-            consolidar o conhecimento.
+            <span className="font-medium text-slate-300">Dica:</span> Comece pela área com menor
+            desempenho. Pratique regularmente para consolidar o conhecimento.
           </p>
         </div>
       </CardContent>

@@ -5,69 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
-
-interface DiseaseDetail {
-  id: string
-  name: string
-  icd10: string
-  area: string
-  subspecialty: string | null
-  summary: string
-  epidemiology: string
-  pathophysiology: string
-  clinicalPresentation: string[]
-  diagnosis: string[]
-  treatment: string[]
-  complications: string[]
-  prognosis: string
-  relatedQuestions: string[]
-}
-
-// Mock data - in real app, would come from @darwin-mfc/medical-data
-const mockDiseaseDetail: DiseaseDetail = {
-  id: '1',
-  name: 'Insuficiência Cardíaca Congestiva',
-  icd10: 'I50',
-  area: 'Clínica Médica',
-  subspecialty: 'Cardiologia',
-  summary: 'Síndrome clínica complexa resultante de qualquer comprometimento estrutural ou funcional do enchimento ou ejeção ventricular.',
-  epidemiology: 'Afeta aproximadamente 1-2% da população adulta em países desenvolvidos, com prevalência aumentando com a idade. Cerca de 6-10% em pessoas acima de 65 anos.',
-  pathophysiology: 'Resulta de disfunção sistólica (fração de ejeção reduzida) ou diastólica (fração de ejeção preservada). Mecanismos compensatórios incluem ativação do sistema renina-angiotensina-aldosterona e sistema nervoso simpático.',
-  clinicalPresentation: [
-    'Dispneia aos esforços, ortopneia, dispneia paroxística noturna',
-    'Edema de membros inferiores',
-    'Fadiga e intolerância ao exercício',
-    'Tosse seca, especialmente ao deitar',
-    'Ganho de peso por retenção hídrica',
-    'Turgência jugular',
-    'Hepatomegalia e ascite (em casos avançados)',
-  ],
-  diagnosis: [
-    'Ecocardiograma: avaliação da fração de ejeção e função valvar',
-    'BNP/NT-proBNP: marcadores de estresse miocárdico',
-    'Radiografia de tórax: cardiomegalia, congestão pulmonar',
-    'ECG: pode revelar etiologia (IAM prévio, arritmias)',
-    'Exames laboratoriais: função renal, eletrólitos, hemograma',
-  ],
-  treatment: [
-    'Medidas não farmacológicas: restrição de sódio, controle de líquidos, atividade física supervisionada',
-    'IECA ou BRA: primeira linha para disfunção sistólica',
-    'Betabloqueadores: carvedilol, metoprolol succinato, bisoprolol',
-    'Diuréticos de alça: controle da congestão',
-    'Antagonistas da aldosterona: espironolactona, eplerenona',
-    'Inibidores de SGLT2: empagliflozina, dapagliflozina',
-    'Dispositivos: CDI, TRC em casos selecionados',
-  ],
-  complications: [
-    'Arritmias (fibrilação atrial, arritmias ventriculares)',
-    'Insuficiência renal cardiorrenal',
-    'Caquexia cardíaca',
-    'Tromboembolismo',
-    'Morte súbita',
-  ],
-  prognosis: 'Variável dependendo da etiologia e tratamento. Mortalidade de 50% em 5 anos se não tratada adequadamente. Terapias modernas melhoraram significativamente a sobrevida.',
-  relatedQuestions: ['q1', 'q2', 'q3'],
-}
+import { getDiseaseById, type DiseaseDetail } from '@/lib/adapters/medical-data'
 
 export default function DiseaseDetailPage() {
   const params = useParams()
@@ -79,8 +17,9 @@ export default function DiseaseDetailPage() {
   const [activeSection, setActiveSection] = useState('overview')
 
   useEffect(() => {
-    // In real app, fetch from API or medical-data package
-    setDisease(mockDiseaseDetail)
+    // Fetch disease from @darwin-mfc/medical-data
+    const diseaseData = getDiseaseById(diseaseId)
+    setDisease(diseaseData)
     setLoading(false)
   }, [diseaseId])
 

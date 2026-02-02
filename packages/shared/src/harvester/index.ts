@@ -28,6 +28,19 @@ export {
   classifyArea,
 } from './parsers/llm-question-parser';
 
+// Vision Parser (SOTA++)
+export {
+  VisionQuestionParser,
+  createVisionParser,
+  fetchGabaritoFromURL,
+} from './parsers/vision-question-parser';
+
+export type {
+  VisionParserConfig,
+  PageImage,
+  GabaritoEntry,
+} from './parsers/vision-question-parser';
+
 // Scrapers
 export {
   BaseScraper,

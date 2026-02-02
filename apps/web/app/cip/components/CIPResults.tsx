@@ -8,6 +8,7 @@ import { CIP_SECTION_LABELS_PT, generateCIPInsights } from '@darwin-education/sh
 
 interface CIPResultsProps {
   score: CIPScore
+  totalTimeSeconds?: number
   onRetry?: () => void
   onBackToList?: () => void
 }
@@ -21,7 +22,21 @@ const sectionColors: Record<CIPSection, string> = {
   treatment: 'bg-emerald-500',
 }
 
-export function CIPResults({ score, onRetry, onBackToList }: CIPResultsProps) {
+function formatTime(seconds: number): string {
+  const hours = Math.floor(seconds / 3600)
+  const minutes = Math.floor((seconds % 3600) / 60)
+  const secs = seconds % 60
+
+  if (hours > 0) {
+    return `${hours}h ${minutes}m ${secs}s`
+  } else if (minutes > 0) {
+    return `${minutes}m ${secs}s`
+  } else {
+    return `${secs}s`
+  }
+}
+
+export function CIPResults({ score, totalTimeSeconds, onRetry, onBackToList }: CIPResultsProps) {
   // Generate insights
   const insights = useMemo(() => generateCIPInsights(score), [score])
 
@@ -105,7 +120,7 @@ export function CIPResults({ score, onRetry, onBackToList }: CIPResultsProps) {
             </div>
 
             {/* Summary stats */}
-            <div className="flex justify-center gap-8 mt-6 text-sm">
+            <div className="flex justify-center gap-8 mt-6 text-sm flex-wrap">
               <div className="text-center">
                 <div className="text-2xl font-semibold text-white">
                   {score.correctCount}/{score.totalCells}
@@ -122,6 +137,14 @@ export function CIPResults({ score, onRetry, onBackToList }: CIPResultsProps) {
                 <div className="text-2xl font-semibold text-white">{score.passThreshold}</div>
                 <div className="text-slate-400">Mínimo p/ aprovação</div>
               </div>
+              {totalTimeSeconds !== undefined && (
+                <div className="text-center">
+                  <div className="text-2xl font-semibold text-white">
+                    {formatTime(totalTimeSeconds)}
+                  </div>
+                  <div className="text-slate-400">Tempo decorrido</div>
+                </div>
+              )}
             </div>
           </div>
         </CardContent>

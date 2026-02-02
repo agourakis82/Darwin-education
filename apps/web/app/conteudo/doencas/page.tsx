@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { ContentSearch } from '../components/ContentSearch'
-import { diseases as allDiseases, type Disease } from '@/lib/data/diseases'
+import { diseases as allDiseases, type Disease } from '@/lib/adapters/medical-data'
 
 const areas = [
   'Todas',

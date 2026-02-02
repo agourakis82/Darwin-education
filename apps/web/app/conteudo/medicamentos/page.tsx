@@ -5,12 +5,14 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Card, CardContent } from '@/components/ui/Card'
 import { ContentSearch } from '../components/ContentSearch'
-import { medications as allMedications, drugClasses, type Medication } from '@/lib/data/medications'
+import { medications as allMedications, getAllDrugClasses, type MedicationItem } from '@/lib/adapters/medical-data'
+
+const drugClasses = ['Todas', ...getAllDrugClasses()]
 
 function MedicamentosContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const [medications, setMedications] = useState<Medication[]>(allMedications)
+  const [medications, setMedications] = useState<MedicationItem[]>(allMedications)
   const [loading, setLoading] = useState(false)
   const [selectedClass, setSelectedClass] = useState(searchParams.get('classe') || 'Todas')
   const query = searchParams.get('q') || ''

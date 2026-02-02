@@ -153,7 +153,7 @@ export interface HarvestError {
 
 export interface HarvesterConfig {
   // LLM para parsing
-  llmProvider: 'grok' | 'minimax';
+  llmProvider: 'grok' | 'groq' | 'minimax';
   llmApiKey?: string;
 
   // OCR

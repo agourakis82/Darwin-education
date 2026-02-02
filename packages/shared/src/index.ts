@@ -11,6 +11,7 @@ export * from './types/cip';
 export * from './types/ontology';
 export * from './types/schema-medical';
 export * from './types/ai';
+export * from './types/qgen';
 
 // Data loaders
 export * from './data/ontology-loaders';
@@ -29,8 +30,9 @@ export * as FSRS from './calculators/fsrs';
 // Config
 export * from './config/irt-estimation-config';
 
-// Question Harvester (Super Scraper for medical exams)
-export * as Harvester from './harvester';
+// Question Harvester (CLI-only, not exported to web bundle)
+// Import directly from '@darwin-education/shared/harvester' for CLI usage
+// export * as Harvester from './harvester';
 
 // Advanced features (temporarily disabled for pilot deployment)
 // Uncomment when these modules are committed to git:

@@ -92,7 +92,7 @@ interface MinimaxAPIResponse {
 // ============================================
 
 export interface LLMParserConfig {
-  provider: 'grok' | 'minimax';
+  provider: 'grok' | 'minimax' | 'groq';
   apiKey: string;
   groupId?: string; // Para Minimax
   model?: string;
@@ -105,7 +105,7 @@ export class LLMQuestionParser {
 
   constructor(config: LLMParserConfig) {
     this.config = {
-      maxTokens: 4096,
+      maxTokens: 8192, // Increased to avoid JSON truncation
       temperature: 0.1, // Baixa temperatura para parsing preciso
       ...config,
     };
@@ -116,6 +116,7 @@ export class LLMQuestionParser {
    */
   async parseText(text: string, sourceId: string): Promise<LLMParseResult> {
     const startTime = Date.now();
+    const debug = process.env.DEBUG_LLM === 'true';
 
     try {
       const prompt = EXTRACTION_PROMPT.replace('{text}', text);
@@ -124,11 +125,24 @@ export class LLMQuestionParser {
 
       if (this.config.provider === 'grok') {
         response = await this.callGrokAPI(prompt);
+      } else if (this.config.provider === 'groq') {
+        response = await this.callGroqAPI(prompt);
       } else {
         response = await this.callMinimaxAPI(prompt);
       }
 
+      if (debug) {
+        console.log('\n[DEBUG LLM] Raw response length:', response.content.length);
+        console.log('[DEBUG LLM] First 500 chars:', response.content.substring(0, 500));
+        console.log('[DEBUG LLM] Tokens used:', response.tokens);
+      }
+
       const parsed = this.parseJSONResponse(response.content, sourceId);
+
+      if (debug) {
+        console.log('[DEBUG LLM] Questions parsed:', parsed.questions.length);
+        console.log('[DEBUG LLM] Parse errors:', parsed.errors);
+      }
 
       return {
         success: true,
@@ -139,13 +153,17 @@ export class LLMQuestionParser {
         errors: parsed.errors,
       };
     } catch (error) {
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      if (debug) {
+        console.log('[DEBUG LLM] API call error:', errorMsg);
+      }
       return {
         success: false,
         questions: [],
         rawResponse: '',
         tokensUsed: 0,
         processingTimeMs: Date.now() - startTime,
-        errors: [error instanceof Error ? error.message : String(error)],
+        errors: [errorMsg],
       };
     }
   }
@@ -189,6 +207,13 @@ export class LLMQuestionParser {
   private async callGrokAPI(
     prompt: string
   ): Promise<{ content: string; tokens: number }> {
+    const debug = process.env.DEBUG_LLM === 'true';
+    const model = this.config.model || process.env.GROK_MODEL || 'grok-4-1-fast-reasoning';
+
+    if (debug) {
+      console.log(`[DEBUG Grok] Using model: ${model}`);
+    }
+
     const response = await fetch('https://api.x.ai/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -196,7 +221,7 @@ export class LLMQuestionParser {
         Authorization: `Bearer ${this.config.apiKey}`,
       },
       body: JSON.stringify({
-        model: this.config.model || 'grok-3',
+        model,
         messages: [
           { role: 'system', content: SYSTEM_PROMPT },
           { role: 'user', content: prompt },
@@ -207,6 +232,11 @@ export class LLMQuestionParser {
     });
 
     if (!response.ok) {
+      const errorText = await response.text();
+      if (debug) {
+        console.log(`[DEBUG Grok] Error ${response.status}:`, errorText.substring(0, 200));
+        console.log(`[DEBUG Grok] Retry-After header:`, response.headers.get('retry-after'));
+      }
       throw new Error(`Grok API error: ${response.status}`);
     }
 
@@ -219,13 +249,62 @@ export class LLMQuestionParser {
   }
 
   /**
-   * Chama API do Minimax
+   * Chama API do Groq (free tier, OpenAI-compatible)
+   */
+  private async callGroqAPI(
+    prompt: string
+  ): Promise<{ content: string; tokens: number }> {
+    const debug = process.env.DEBUG_LLM === 'true';
+    const model = this.config.model || process.env.GROQ_MODEL || 'llama-3.3-70b-versatile';
+
+    if (debug) {
+      console.log(`[DEBUG Groq] Using model: ${model}`);
+    }
+
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${this.config.apiKey}`,
+      },
+      body: JSON.stringify({
+        model,
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'user', content: prompt },
+        ],
+        max_tokens: this.config.maxTokens,
+        temperature: this.config.temperature,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      if (debug) {
+        console.log(`[DEBUG Groq] Error ${response.status}:`, errorText.substring(0, 200));
+      }
+      throw new Error(`Groq API error: ${response.status} - ${errorText.substring(0, 100)}`);
+    }
+
+    const data: GrokAPIResponse = await response.json(); // Same format as OpenAI
+
+    return {
+      content: data.choices[0]?.message?.content || '',
+      tokens: data.usage?.total_tokens || 0,
+    };
+  }
+
+  /**
+   * Chama API do Minimax (v2.1 OpenAI-compatible format)
    */
   private async callMinimaxAPI(
     prompt: string
   ): Promise<{ content: string; tokens: number }> {
+    const debug = process.env.DEBUG_LLM === 'true';
+
+    // Use OpenAI-compatible endpoint for Minimax 2.1
     const response = await fetch(
-      `https://api.minimax.chat/v1/text/chatcompletion_v2?GroupId=${this.config.groupId}`,
+      'https://api.minimax.chat/v1/chat/completions',
       {
         method: 'POST',
         headers: {
@@ -235,25 +314,90 @@ export class LLMQuestionParser {
         body: JSON.stringify({
           model: this.config.model || 'abab6.5s-chat',
           messages: [
-            { sender_type: 'SYSTEM', text: SYSTEM_PROMPT },
-            { sender_type: 'USER', text: prompt },
+            { role: 'system', content: SYSTEM_PROMPT },
+            { role: 'user', content: prompt },
           ],
-          tokens_to_generate: this.config.maxTokens,
+          max_tokens: this.config.maxTokens,
           temperature: this.config.temperature,
         }),
       }
     );
 
     if (!response.ok) {
-      throw new Error(`Minimax API error: ${response.status}`);
+      const errorText = await response.text();
+      if (debug) {
+        console.log('[DEBUG Minimax] Error response:', errorText);
+      }
+      throw new Error(`Minimax API error: ${response.status} - ${errorText.substring(0, 100)}`);
     }
 
-    const data: MinimaxAPIResponse = await response.json();
+    const data = await response.json();
 
-    return {
-      content: data.reply || '',
-      tokens: data.usage?.total_tokens || 0,
-    };
+    if (debug) {
+      console.log('[DEBUG Minimax] Response structure:', Object.keys(data));
+    }
+
+    // OpenAI-compatible format uses choices[0].message.content
+    const content = data.choices?.[0]?.message?.content || data.reply || '';
+    const tokens = data.usage?.total_tokens || 0;
+
+    return { content, tokens };
+  }
+
+  /**
+   * Attempt to repair truncated JSON
+   */
+  private repairJSON(json: string): string {
+    let repaired = json.trim();
+
+    // Try to close unclosed arrays and objects
+    let openBraces = 0;
+    let openBrackets = 0;
+    let inString = false;
+    let escape = false;
+
+    for (const char of repaired) {
+      if (escape) {
+        escape = false;
+        continue;
+      }
+      if (char === '\\') {
+        escape = true;
+        continue;
+      }
+      if (char === '"') {
+        inString = !inString;
+        continue;
+      }
+      if (inString) continue;
+
+      if (char === '{') openBraces++;
+      if (char === '}') openBraces--;
+      if (char === '[') openBrackets++;
+      if (char === ']') openBrackets--;
+    }
+
+    // If we're in a string, close it
+    if (inString) {
+      repaired += '"';
+    }
+
+    // Remove trailing incomplete elements
+    repaired = repaired.replace(/,\s*$/, '');
+    repaired = repaired.replace(/,\s*"[^"]*$/, '');
+    repaired = repaired.replace(/,\s*\{[^}]*$/, '');
+
+    // Close arrays and objects
+    while (openBrackets > 0) {
+      repaired += ']';
+      openBrackets--;
+    }
+    while (openBraces > 0) {
+      repaired += '}';
+      openBraces--;
+    }
+
+    return repaired;
   }
 
   /**
@@ -265,31 +409,67 @@ export class LLMQuestionParser {
   ): { questions: ParsedQuestion[]; errors: string[] } {
     const errors: string[] = [];
     const questions: ParsedQuestion[] = [];
+    const debug = process.env.DEBUG_LLM === 'true';
 
     try {
       // Extrair JSON da resposta (pode ter texto extra)
       const jsonMatch = content.match(/\{[\s\S]*\}/);
       if (!jsonMatch) {
         errors.push('Não foi possível encontrar JSON na resposta');
+        if (debug) {
+          console.log('[DEBUG JSON] No JSON found in content');
+          console.log('[DEBUG JSON] Content type:', typeof content);
+          console.log('[DEBUG JSON] Content preview:', content.substring(0, 200));
+        }
         return { questions, errors };
       }
 
-      const parsed = JSON.parse(jsonMatch[0]);
+      if (debug) {
+        console.log('[DEBUG JSON] JSON match length:', jsonMatch[0].length);
+      }
+
+      let jsonStr = jsonMatch[0];
+      let parsed: { questions?: unknown[]; parseErrors?: string[] };
+
+      try {
+        parsed = JSON.parse(jsonStr);
+      } catch {
+        // Try to repair truncated JSON
+        if (debug) {
+          console.log('[DEBUG JSON] Attempting JSON repair...');
+        }
+        jsonStr = this.repairJSON(jsonStr);
+        parsed = JSON.parse(jsonStr);
+        if (debug) {
+          console.log('[DEBUG JSON] JSON repair successful');
+        }
+      }
+
+      if (debug) {
+        console.log('[DEBUG JSON] Parsed object keys:', Object.keys(parsed));
+        console.log('[DEBUG JSON] Has questions array:', Array.isArray(parsed.questions));
+        console.log('[DEBUG JSON] Questions count:', parsed.questions?.length || 0);
+      }
 
       if (!parsed.questions || !Array.isArray(parsed.questions)) {
         errors.push('Resposta não contém array de questões');
+        if (debug) {
+          console.log('[DEBUG JSON] parsed.questions value:', parsed.questions);
+        }
         return { questions, errors };
       }
 
-      for (const q of parsed.questions) {
+      for (const q of parsed.questions as Record<string, unknown>[]) {
         try {
           const question = this.normalizeQuestion(q, sourceId);
           if (question) {
             questions.push(question);
+          } else if (debug) {
+            console.log('[DEBUG JSON] Question normalization returned null for:', JSON.stringify(q).substring(0, 100));
           }
         } catch (e) {
           errors.push(
-            `Erro ao normalizar questão ${q.number}: ${e instanceof Error ? e.message : String(e)}`
+            `Erro ao normalizar questão ${(q as { number?: unknown }).number}: ${e instanceof Error ? e.message : String(e)}`
           );
         }
       }
@@ -301,6 +481,9 @@ export class LLMQuestionParser {
       errors.push(
         `Erro ao parsear JSON: ${e instanceof Error ? e.message : String(e)}`
       );
+      if (debug) {
+        console.log('[DEBUG JSON] Parse error:', e instanceof Error ? e.message : String(e));
+      }
     }
 
     return { questions, errors };
@@ -376,7 +559,7 @@ export class LLMQuestionParser {
 // ============================================
 
 export function createQuestionParser(
-  provider: 'grok' | 'minimax',
+  provider: 'grok' | 'minimax' | 'groq',
   apiKey: string,
   groupId?: string
 ): LLMQuestionParser {

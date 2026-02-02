@@ -36,7 +36,7 @@ import { TesseractOCR, needsOCR } from './ocr/tesseract-ocr';
 // ============================================
 
 const DEFAULT_CONFIG: HarvesterConfig = {
-  llmProvider: 'grok',
+  llmProvider: 'groq', // Default to Groq for free tier access
   ocrProvider: 'tesseract',
   maxConcurrentJobs: 2,
   maxDocumentsPerJob: 50,

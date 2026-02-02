@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { useExamStore } from '@/lib/stores/examStore'
 import { ExamResults } from '../../components/ExamResults'
+import { ExamDDLResults } from '@/components/ddl/ExamDDLResults'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent } from '@/components/ui/Card'
 import type { TRIScore, ENAMEDArea, AreaPerformance } from '@darwin-education/shared'
@@ -29,8 +30,9 @@ export default function ExamResultPage() {
   const [loading, setLoading] = useState(true)
   const [result, setResult] = useState<AttemptResult | null>(null)
   const [examTitle, setExamTitle] = useState('')
+  const [attemptId, setAttemptId] = useState<string | null>(null)
 
-  const { result: storeResult, currentExam, resetExam } = useExamStore()
+  const { result: storeResult, currentExam, resetExam, attemptId: storeAttemptId } = useExamStore()
 
   useEffect(() => {
     async function loadResult() {
@@ -47,6 +49,7 @@ export default function ExamResultPage() {
           timeSpent: storeResult.timeSpent,
         })
         setExamTitle(currentExam.title)
+        if (storeAttemptId) setAttemptId(storeAttemptId)
         setLoading(false)
         return
       }
@@ -71,21 +74,26 @@ export default function ExamResultPage() {
         exams: { title: string; question_count: number } | null
       }
 
+      interface AttemptRowWithId extends AttemptRow {
+        id: string
+      }
+
       const { data: attempt, error } = await supabase
         .from('exam_attempts')
-        .select('*, exams(title, question_count)')
+        .select('id, *, exams(title, question_count)')
         .eq('exam_id', examId)
         .eq('user_id', user.id)
         .not('completed_at', 'is', null)
         .order('completed_at', { ascending: false })
         .limit(1)
-        .single() as { data: AttemptRow | null; error: any }
+        .single() as { data: AttemptRowWithId | null; error: any }
 
       if (error || !attempt) {
         router.push(`/simulado/${examId}`)
         return
       }
 
+      setAttemptId(attempt.id)
       setResult({
         theta: attempt.theta,
         standardError: attempt.standard_error,
@@ -204,6 +212,13 @@ export default function ExamResultPage() {
 
         {/* Area Breakdown */}
         <ExamResults areaBreakdown={result.areaBreakdown} />
+
+        {/* DDL Analysis Results */}
+        {attemptId && (
+          <div className="mt-8">
+            <ExamDDLResults examAttemptId={attemptId} />
+          </div>
+        )}
 
         {/* Time Stats */}
         <Card className="mt-8">

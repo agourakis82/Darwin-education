@@ -1,59 +1,28 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { createClient } from '@/lib/supabase/client'
-import { FlashcardViewer } from '../components/FlashcardViewer'
-import { ReviewButtons } from '../components/ReviewButtons'
 import { DeckStats } from '../components/DeckStats'
-import type { ReviewQuality } from '@darwin-education/shared'
+import type { ENAMEDArea } from '@darwin-education/shared'
 
-// SM-2 constants
-const MIN_EASE_FACTOR = 1.3
-const INITIAL_INTERVAL = 1
+const areaLabels: Record<ENAMEDArea, string> = {
+  clinica_medica: 'Clínica Médica',
+  cirurgia: 'Cirurgia',
+  ginecologia_obstetricia: 'Ginecologia e Obstetrícia',
+  pediatria: 'Pediatria',
+  saude_coletiva: 'Saúde Coletiva',
+}
 
-/**
- * Process a review using the SM-2 algorithm
- * Returns new ease_factor, interval, and repetitions
- */
-function processSM2Review(
-  easeFactor: number,
-  interval: number,
-  repetitions: number,
-  quality: ReviewQuality
-): { easeFactor: number; interval: number; repetitions: number } {
-  // Quality < 3 means failed recall - reset
-  if (quality < 3) {
-    return {
-      easeFactor: Math.max(MIN_EASE_FACTOR, easeFactor - 0.2),
-      interval: INITIAL_INTERVAL,
-      repetitions: 0,
-    }
-  }
-
-  // Calculate new ease factor: EF' = EF + (0.1 - (5-q) * (0.08 + (5-q) * 0.02))
-  const newEaseFactor = Math.max(
-    MIN_EASE_FACTOR,
-    easeFactor + (0.1 - (5 - quality) * (0.08 + (5 - quality) * 0.02))
-  )
-
-  // Calculate new interval
-  let newInterval: number
-  if (repetitions === 0) {
-    newInterval = 1
-  } else if (repetitions === 1) {
-    newInterval = 6
-  } else {
-    newInterval = Math.round(interval * newEaseFactor)
-  }
-
-  return {
-    easeFactor: newEaseFactor,
-    interval: newInterval,
-    repetitions: repetitions + 1,
-  }
+const areaColors: Record<ENAMEDArea, string> = {
+  clinica_medica: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+  cirurgia: 'bg-red-500/20 text-red-400 border-red-500/30',
+  ginecologia_obstetricia: 'bg-pink-500/20 text-pink-400 border-pink-500/30',
+  pediatria: 'bg-green-500/20 text-green-400 border-green-500/30',
+  saude_coletiva: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
 }
 
 interface FlashcardData {
@@ -70,22 +39,24 @@ interface DeckData {
   id: string
   title: string
   description: string | null
-  area: string | null
+  area: ENAMEDArea | null
+  created_at: string
 }
 
-export default function DeckStudyPage() {
+interface CardPreviewState {
+  [key: string]: boolean
+}
+
+export default function DeckViewPage() {
   const params = useParams()
   const router = useRouter()
   const deckId = params.deckId as string
 
   const [deck, setDeck] = useState<DeckData | null>(null)
   const [cards, setCards] = useState<FlashcardData[]>([])
-  const [dueCards, setDueCards] = useState<FlashcardData[]>([])
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [isFlipped, setIsFlipped] = useState(false)
   const [loading, setLoading] = useState(true)
-  const [sessionComplete, setSessionComplete] = useState(false)
-  const [reviewedCount, setReviewedCount] = useState(0)
+  const [flippedCards, setFlippedCards] = useState<CardPreviewState>({})
+  const [dueCount, setDueCount] = useState(0)
 
   useEffect(() => {
     loadDeck()
@@ -113,89 +84,26 @@ export default function DeckStudyPage() {
       .from('flashcards')
       .select('*')
       .eq('deck_id', deckId)
-      .order('next_review', { ascending: true }) as { data: FlashcardData[] | null; error: any }
+      .order('created_at', { ascending: true }) as { data: FlashcardData[] | null; error: any }
 
     if (cardsData) {
       setCards(cardsData)
 
-      // Filter due cards
+      // Count due cards
       const now = new Date().toISOString()
-      const due = cardsData.filter((c: FlashcardData) => c.next_review <= now)
-      setDueCards(due)
-
-      if (due.length === 0) {
-        setSessionComplete(true)
-      }
+      const due = cardsData.filter((c: FlashcardData) => c.next_review <= now).length
+      setDueCount(due)
     }
 
     setLoading(false)
   }
 
-  const currentCard = dueCards[currentIndex]
-
-  const handleFlip = useCallback(() => {
-    setIsFlipped((prev) => !prev)
-  }, [])
-
-  const handleReview = useCallback(async (quality: ReviewQuality) => {
-    if (!currentCard) return
-
-    const supabase = createClient()
-
-    // Process review using SM-2 algorithm
-    const newState = processSM2Review(
-      currentCard.ease_factor,
-      currentCard.interval,
-      currentCard.repetitions,
-      quality
-    )
-
-    // Calculate next review date
-    const nextReview = new Date()
-    nextReview.setDate(nextReview.getDate() + newState.interval)
-
-    // Update card in database
-    await (supabase
-      .from('flashcards') as any)
-      .update({
-        ease_factor: newState.easeFactor,
-        interval: newState.interval,
-        repetitions: newState.repetitions,
-        next_review: nextReview.toISOString(),
-      })
-      .eq('id', currentCard.id)
-
-    // Move to next card
-    setReviewedCount((prev) => prev + 1)
-    setIsFlipped(false)
-
-    if (currentIndex + 1 >= dueCards.length) {
-      setSessionComplete(true)
-    } else {
-      setCurrentIndex((prev) => prev + 1)
-    }
-  }, [currentCard, currentIndex, dueCards.length])
-
-  // Keyboard shortcuts
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (sessionComplete) return
-
-      if (e.code === 'Space') {
-        e.preventDefault()
-        handleFlip()
-      } else if (isFlipped) {
-        if (e.key === '1') handleReview(1)
-        else if (e.key === '2') handleReview(2)
-        else if (e.key === '3') handleReview(3)
-        else if (e.key === '4') handleReview(4)
-        else if (e.key === '5') handleReview(5)
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [isFlipped, sessionComplete, handleFlip, handleReview])
+  const toggleCardFlip = (cardId: string) => {
+    setFlippedCards((prev) => ({
+      ...prev,
+      [cardId]: !prev[cardId],
+    }))
+  }
 
   if (loading) {
     return (
@@ -205,15 +113,41 @@ export default function DeckStudyPage() {
     )
   }
 
+  if (!deck) {
+    return (
+      <div className="min-h-screen bg-slate-950 text-white">
+        <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <button
+              onClick={() => router.back()}
+              className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+          </div>
+        </header>
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <Card>
+            <CardContent className="py-12 text-center">
+              <p className="text-slate-400">Deck não encontrado</p>
+            </CardContent>
+          </Card>
+        </main>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-slate-950 text-white">
       {/* Header */}
       <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
-                onClick={() => router.push('/flashcards')}
+                onClick={() => router.back()}
                 className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -221,110 +155,218 @@ export default function DeckStudyPage() {
                 </svg>
               </button>
               <div>
-                <h1 className="text-lg font-bold">{deck?.title}</h1>
-                <p className="text-sm text-slate-400">
-                  {sessionComplete
-                    ? `${reviewedCount} cards revisados`
-                    : `${currentIndex + 1} de ${dueCards.length} para revisar`}
+                <h1 className="text-2xl font-bold">{deck.title}</h1>
+                <p className="text-sm text-slate-400 mt-1">
+                  {cards.length} cards
                 </p>
               </div>
             </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => router.push(`/flashcards/${deckId}/edit`)}
-            >
-              <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-              </svg>
-              Editar
-            </Button>
+            <div className="flex gap-2">
+              <Link href={`/flashcards/${deckId}/edit`}>
+                <Button variant="secondary" size="sm">
+                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  </svg>
+                  Editar
+                </Button>
+              </Link>
+              {dueCount > 0 && (
+                <Link href="/flashcards/study">
+                  <Button size="sm">
+                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Estudar ({dueCount})
+                  </Button>
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Main Study Area */}
-          <div className="lg:col-span-2">
-            {sessionComplete ? (
-              <Card>
-                <CardContent className="py-12 text-center">
-                  <div className="w-20 h-20 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <svg className="w-10 h-10 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Deck Info */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Informações do Deck</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {deck.description && (
+                  <div>
+                    <h3 className="text-sm font-medium text-slate-300 mb-1">Descrição</h3>
+                    <p className="text-slate-400">{deck.description}</p>
                   </div>
-                  <h2 className="text-2xl font-bold mb-2">Sessão Completa!</h2>
-                  <p className="text-slate-400 mb-6">
-                    Você revisou {reviewedCount} cards. Continue assim!
-                  </p>
-                  <div className="flex gap-4 justify-center">
-                    <Button variant="secondary" onClick={() => router.push('/flashcards')}>
-                      Voltar aos Decks
-                    </Button>
-                    <Button onClick={() => window.location.reload()}>
-                      Estudar Novamente
-                    </Button>
+                )}
+                <div className="flex gap-4">
+                  {deck.area && (
+                    <div>
+                      <h3 className="text-sm font-medium text-slate-300 mb-1">Área</h3>
+                      <span className={`inline-block px-3 py-1 text-sm rounded border ${areaColors[deck.area]}`}>
+                        {areaLabels[deck.area]}
+                      </span>
+                    </div>
+                  )}
+                  <div>
+                    <h3 className="text-sm font-medium text-slate-300 mb-1">Criado em</h3>
+                    <p className="text-slate-400">
+                      {new Date(deck.created_at).toLocaleDateString('pt-BR')}
+                    </p>
                   </div>
-                </CardContent>
-              </Card>
-            ) : currentCard ? (
-              <div className="space-y-6">
-                {/* Progress Bar */}
-                <div className="w-full bg-slate-800 rounded-full h-2">
-                  <div
-                    className="bg-emerald-500 h-2 rounded-full transition-all duration-300"
-                    style={{ width: `${(currentIndex / dueCards.length) * 100}%` }}
-                  />
                 </div>
+              </CardContent>
+            </Card>
 
-                {/* Flashcard */}
-                <FlashcardViewer
-                  front={currentCard.front}
-                  back={currentCard.back}
-                  isFlipped={isFlipped}
-                  onFlip={handleFlip}
-                />
+            {/* Cards List */}
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle>Flashcards ({cards.length})</CardTitle>
+                </div>
+              </CardHeader>
+              <CardContent>
+                {cards.length === 0 ? (
+                  <div className="text-center py-8">
+                    <p className="text-slate-400">Nenhum card neste deck ainda</p>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {cards.map((card) => {
+                      const isFlipped = flippedCards[card.id] || false
+                      const now = new Date()
+                      const nextReview = new Date(card.next_review)
+                      const isDue = nextReview <= now
 
-                {/* Review Buttons */}
-                {isFlipped && (
-                  <ReviewButtons onReview={handleReview} />
+                      return (
+                        <div
+                          key={card.id}
+                          onClick={() => toggleCardFlip(card.id)}
+                          className="p-4 bg-slate-800/50 border border-slate-700 rounded-lg cursor-pointer
+                            hover:border-slate-600 transition-all hover:bg-slate-800/70"
+                        >
+                          <div className="flex items-start justify-between gap-4">
+                            <div className="flex-1">
+                              <div className="text-sm text-slate-400 mb-2 flex gap-2">
+                                {card.repetitions === 0 && (
+                                  <span className="px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded text-xs">
+                                    Novo
+                                  </span>
+                                )}
+                                {card.repetitions > 0 && card.interval < 21 && (
+                                  <span className="px-2 py-0.5 bg-yellow-500/20 text-yellow-400 rounded text-xs">
+                                    Aprendendo
+                                  </span>
+                                )}
+                                {card.interval >= 21 && (
+                                  <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-xs">
+                                    Maduro
+                                  </span>
+                                )}
+                                {isDue && (
+                                  <span className="px-2 py-0.5 bg-red-500/20 text-red-400 rounded text-xs">
+                                    Para revisar
+                                  </span>
+                                )}
+                              </div>
+                              <p className={`text-sm leading-relaxed transition-opacity ${isFlipped ? 'opacity-60' : ''}`}>
+                                {isFlipped ? card.back : card.front}
+                              </p>
+                            </div>
+                            <svg
+                              className={`w-4 h-4 text-slate-500 flex-shrink-0 transition-transform ${
+                                isFlipped ? 'rotate-180' : ''
+                              }`}
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                              />
+                            </svg>
+                          </div>
+
+                          {/* Card Stats */}
+                          <div className="mt-3 pt-3 border-t border-slate-700 text-xs text-slate-500 flex gap-4">
+                            <span>
+                              Repetições: <span className="text-slate-300">{card.repetitions}</span>
+                            </span>
+                            <span>
+                              Intervalo: <span className="text-slate-300">{card.interval}d</span>
+                            </span>
+                            <span>
+                              Fator: <span className="text-slate-300">{card.ease_factor.toFixed(2)}</span>
+                            </span>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
                 )}
-
-                {/* Flip instruction */}
-                {!isFlipped && (
-                  <p className="text-center text-slate-400 text-sm">
-                    Clique no card ou pressione <kbd className="px-2 py-1 bg-slate-800 rounded text-xs">Espaço</kbd> para ver a resposta
-                  </p>
-                )}
-              </div>
-            ) : (
-              <Card>
-                <CardContent className="py-12 text-center">
-                  <p className="text-slate-400">Nenhum card para revisar agora</p>
-                </CardContent>
-              </Card>
-            )}
+              </CardContent>
+            </Card>
           </div>
 
           {/* Sidebar */}
           <div className="space-y-4">
             <DeckStats cards={cards} />
 
-            {/* Keyboard Shortcuts */}
+            {/* Quick Actions */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-sm">Atalhos</CardTitle>
+                <CardTitle className="text-sm">Ações Rápidas</CardTitle>
               </CardHeader>
-              <CardContent className="text-sm space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-slate-400">Virar card</span>
-                  <kbd className="px-2 py-1 bg-slate-800 rounded text-xs">Espaço</kbd>
+              <CardContent className="space-y-2">
+                <Link href={`/flashcards/${deckId}/edit`} className="block">
+                  <Button variant="secondary" size="sm" className="w-full">
+                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                    </svg>
+                    Adicionar Cards
+                  </Button>
+                </Link>
+                {dueCount > 0 && (
+                  <Link href="/flashcards/study" className="block">
+                    <Button size="sm" className="w-full">
+                      Estudar Agora
+                    </Button>
+                  </Link>
+                )}
+                {dueCount === 0 && cards.length > 0 && (
+                  <div className="p-3 bg-slate-800/50 rounded-lg text-center text-sm text-slate-400">
+                    Todos os cards foram revisados
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Study Tips */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-sm">Dicas de Estudo</CardTitle>
+              </CardHeader>
+              <CardContent className="text-xs text-slate-400 space-y-2">
+                <div className="flex gap-2">
+                  <div className="w-1 h-1 bg-slate-600 rounded-full mt-1 flex-shrink-0" />
+                  <p>Azul = novos cards, nunca revisados</p>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-400">Avaliar (1-5)</span>
-                  <kbd className="px-2 py-1 bg-slate-800 rounded text-xs">1-5</kbd>
+                <div className="flex gap-2">
+                  <div className="w-1 h-1 bg-slate-600 rounded-full mt-1 flex-shrink-0" />
+                  <p>Amarelo = em aprendizado (intervalo {'<'} 21 dias)</p>
+                </div>
+                <div className="flex gap-2">
+                  <div className="w-1 h-1 bg-slate-600 rounded-full mt-1 flex-shrink-0" />
+                  <p>Verde = maduros (intervalo {'≥'} 21 dias)</p>
+                </div>
+                <div className="flex gap-2">
+                  <div className="w-1 h-1 bg-slate-600 rounded-full mt-1 flex-shrink-0" />
+                  <p>Vermelho = para revisar hoje</p>
                 </div>
               </CardContent>
             </Card>
