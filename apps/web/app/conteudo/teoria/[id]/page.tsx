@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { getTopicById } from '@/lib/data/theory-content'
+import { QuestionGenerator } from './QuestionGenerator'
 import { notFound } from 'next/navigation'
 
 export default function TeoriaDetailPage({ params }: { params: { id: string } }) {
@@ -216,6 +217,9 @@ export default function TeoriaDetailPage({ params }: { params: { id: string } })
             </CardContent>
           </Card>
         )}
+
+        {/* Question Generator */}
+        <QuestionGenerator topic={topic} />
 
         {/* Navigation */}
         <div className="mt-8 flex gap-4">
