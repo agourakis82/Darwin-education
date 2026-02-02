@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { Suspense, useState, useMemo } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -22,7 +22,7 @@ const difficulties = [
   { value: 'avancado', label: 'Avançado' },
 ]
 
-export default function TeoriaPage() {
+function TeoriaPageContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [selectedArea, setSelectedArea] = useState(searchParams.get('area') || 'Todas')
@@ -78,7 +78,7 @@ export default function TeoriaPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <>
       {/* Header */}
       <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -248,6 +248,16 @@ export default function TeoriaPage() {
           </CardContent>
         </Card>
       </main>
+    </>
+  )
+}
+
+export default function TeoriaPage() {
+  return (
+    <div className="min-h-screen bg-slate-950 text-white">
+      <Suspense fallback={<div className="p-8 text-center">Carregando...</div>}>
+        <TeoriaPageContent />
+      </Suspense>
     </div>
   )
 }

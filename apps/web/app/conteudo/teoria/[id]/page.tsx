@@ -2,15 +2,16 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { getTopicById } from '@/lib/data/theory-content'
 import { QuestionGenerator } from './QuestionGenerator'
 import { notFound } from 'next/navigation'
 
-export default function TeoriaDetailPage({ params }: { params: { id: string } }) {
+export default function TeoriaDetailPage() {
   const router = useRouter()
-  const topic = getTopicById(params.id)
+  const params = useParams()
+  const topic = getTopicById(params.id as string)
   const [expandedSection, setExpandedSection] = useState<string | null>('definition')
 
   if (!topic) {
