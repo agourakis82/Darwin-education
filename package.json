@@ -19,7 +19,11 @@
     "etl": "tsx infrastructure/supabase/seed/etl.ts",
     "harvest": "pnpm --filter @darwin-education/shared harvest",
     "harvest:test": "pnpm --filter @darwin-education/shared harvest:test",
-    "harvest:sources": "pnpm --filter @darwin-education/shared harvest:sources"
+    "harvest:sources": "pnpm --filter @darwin-education/shared harvest:sources",
+    "db:push": "bash deploy.sh",
+    "db:login": "supabase login",
+    "db:link": "cd infrastructure/supabase && supabase link --project-ref jpzkjkwcoudaxscrukye",
+    "db:status": "cd infrastructure/supabase && supabase status"
   },
   "devDependencies": {
     "prettier": "^3.2.0",
