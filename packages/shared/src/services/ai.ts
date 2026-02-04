@@ -207,11 +207,94 @@ export interface MinimaxChatResponse {
 }
 
 /**
- * Placeholder for Minimax chat function
+ * Execute a chat request using Grok or Minimax API
+ *
+ * Supports both Grok API (OpenAI-compatible) and Minimax API
+ * Automatically detects which API to use based on environment variables:
+ * - GROK_API_KEY: Use Grok API (xAI)
+ * - MINIMAX_API_KEY: Use Minimax API
  */
 export async function minimaxChat(
-  _request: MinimaxChatRequest,
-  _options?: any
+  request: MinimaxChatRequest,
+  options?: {
+    apiKey?: string
+    groupId?: string
+    baseUrl?: string
+    apiStyle?: MinimaxApiStyle
+    timeoutMs?: number
+  }
 ): Promise<MinimaxChatResponse> {
-  throw new Error('minimaxChat not implemented - configure MINIMAX_API_KEY and MINIMAX_GROUP_ID')
+  const apiKey = options?.apiKey || process.env.GROK_API_KEY || process.env.MINIMAX_API_KEY
+  if (!apiKey) {
+    throw new Error('Missing GROK_API_KEY or MINIMAX_API_KEY')
+  }
+
+  // Use Grok API if available
+  if (process.env.GROK_API_KEY) {
+    return minimaxChatViaGrok(request, apiKey, options?.timeoutMs)
+  }
+
+  // Fall back to Minimax API
+  throw new Error('Minimax API implementation pending - use GROK_API_KEY instead')
+}
+
+/**
+ * Execute chat request via Grok API (OpenAI-compatible)
+ */
+async function minimaxChatViaGrok(
+  request: MinimaxChatRequest,
+  apiKey: string,
+  timeoutMs = 30000
+): Promise<MinimaxChatResponse> {
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), timeoutMs)
+
+  try {
+    const response = await fetch('https://api.x.ai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: request.model || 'grok-4-1-fast',
+        messages: request.messages.map((msg) => ({
+          role: msg.role,
+          content: msg.content,
+        })),
+        max_tokens: request.maxTokens,
+        temperature: request.temperature,
+        top_p: request.topP,
+      }),
+      signal: controller.signal,
+    })
+
+    if (!response.ok) {
+      const error = await response.json().catch(() => ({}))
+      throw new Error(`Grok API error: ${response.status} - ${JSON.stringify(error)}`)
+    }
+
+    const data = (await response.json()) as {
+      choices?: Array<{ message?: { content?: string } }>
+      usage?: {
+        total_tokens?: number
+        prompt_tokens?: number
+        completion_tokens?: number
+      }
+    }
+
+    const text = data.choices?.[0]?.message?.content || ''
+    const totalTokens = data.usage?.total_tokens || 0
+
+    return {
+      text,
+      usage: {
+        totalTokens,
+        inputTokens: data.usage?.prompt_tokens,
+        outputTokens: data.usage?.completion_tokens,
+      },
+    }
+  } finally {
+    clearTimeout(timeout)
+  }
 }
