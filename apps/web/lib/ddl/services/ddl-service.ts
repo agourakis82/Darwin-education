@@ -35,14 +35,20 @@ import type {
 // ============================================================
 
 export class DDLService {
-  private supabase: SupabaseClient<any, any, any>
+  private _supabase: SupabaseClient<any, any, any> | null = null
   private modelId: string = 'grok-4-1-fast-reasoning'
 
-  constructor() {
-    this.supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    )
+  // Lazy initialization to avoid build-time errors
+  private get supabase(): SupabaseClient<any, any, any> {
+    if (!this._supabase) {
+      const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+      const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+      if (!url || !key) {
+        throw new Error('Supabase configuration missing')
+      }
+      this._supabase = createClient(url, key)
+    }
+    return this._supabase
   }
 
   // ============================================================
