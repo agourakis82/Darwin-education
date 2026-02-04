@@ -12,6 +12,7 @@ export * from './types/ontology';
 export * from './types/schema-medical';
 export * from './types/ai';
 export * from './types/qgen';
+export * from './types/theory-generation';
 
 // Data loaders
 export * from './data/ontology-loaders';

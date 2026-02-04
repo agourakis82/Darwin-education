@@ -34,6 +34,138 @@ interface ClassificationResult {
 
 type DDLPhase = 'intro' | 'select' | 'answer' | 'analyzing' | 'feedback'
 
+// Adaptive Question CTA Component
+function AdaptiveQuestionCTA({ classification }: { classification: ClassificationResult }) {
+  const [loading, setLoading] = useState(false)
+  const [adaptiveQuestion, setAdaptiveQuestion] = useState<{
+    question: {
+      stem: string
+      options: Array<{ text: string; isCorrect: boolean }>
+      explanation?: string
+    }
+    adaptiveRationale: string
+    targetedMisconceptions: string[]
+  } | null>(null)
+  const [error, setError] = useState<string | null>(null)
+
+  const generateAdaptiveQuestion = async () => {
+    setLoading(true)
+    setError(null)
+
+    try {
+      const res = await fetch('/api/qgen/adaptive', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          studentId: 'current-user',
+          ddlClassification: {
+            primary_type: classification.type,
+            primary_confidence: classification.confidence,
+            confidence: classification.probability,
+          },
+          currentTheta: 0,
+          preferences: {
+            targetArea: 'clinica_medica',
+          },
+        }),
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        throw new Error(data.error || 'Falha ao gerar questao')
+      }
+
+      const data = await res.json()
+      setAdaptiveQuestion(data)
+    } catch (err) {
+      setError((err as Error).message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (adaptiveQuestion) {
+    return (
+      <div className="mt-6 p-6 bg-indigo-900/30 border border-indigo-700 rounded-lg">
+        <div className="flex items-center gap-3 mb-4">
+          <span className="text-2xl">✨</span>
+          <h3 className="text-lg font-semibold text-white">Questao Adaptativa para Voce</h3>
+        </div>
+
+        <p className="text-sm text-indigo-300 mb-4">{adaptiveQuestion.adaptiveRationale}</p>
+
+        <div className="bg-gray-800/50 rounded-lg p-4 mb-4">
+          <p className="text-white mb-4">{adaptiveQuestion.question.stem}</p>
+          <div className="space-y-2">
+            {adaptiveQuestion.question.options.map((opt, idx) => (
+              <div
+                key={idx}
+                className={`p-3 rounded-lg border ${
+                  opt.isCorrect
+                    ? 'bg-green-900/30 border-green-700'
+                    : 'bg-gray-700/50 border-gray-600'
+                }`}
+              >
+                <span className="font-medium text-gray-300 mr-2">
+                  {String.fromCharCode(65 + idx)}.
+                </span>
+                <span className={opt.isCorrect ? 'text-green-300' : 'text-white'}>{opt.text}</span>
+              </div>
+            ))}
+          </div>
+          {adaptiveQuestion.question.explanation && (
+            <div className="mt-4 p-3 bg-blue-900/30 rounded-lg">
+              <p className="text-sm text-blue-200">{adaptiveQuestion.question.explanation}</p>
+            </div>
+          )}
+        </div>
+
+        <button
+          onClick={generateAdaptiveQuestion}
+          className="text-sm text-indigo-400 hover:text-indigo-300 hover:underline"
+        >
+          Gerar outra questao
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <div className="mt-6 p-6 bg-gradient-to-r from-indigo-900/30 to-violet-900/30 border border-indigo-700/50 rounded-lg">
+      <div className="flex items-center gap-4">
+        <div className="w-12 h-12 bg-indigo-600/20 rounded-lg flex items-center justify-center flex-shrink-0">
+          <span className="text-2xl">✨</span>
+        </div>
+        <div className="flex-1">
+          <h4 className="font-semibold text-white mb-1">Pratique com Questoes Adaptativas</h4>
+          <p className="text-sm text-gray-400">
+            Com base no seu diagnostico ({classification.type}), o QGen pode gerar questoes
+            personalizadas para ajudar a superar suas lacunas.
+          </p>
+        </div>
+        <button
+          onClick={generateAdaptiveQuestion}
+          disabled={loading}
+          className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500
+                   transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+        >
+          {loading ? (
+            <>
+              <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              Gerando...
+            </>
+          ) : (
+            'Gerar Questao'
+          )}
+        </button>
+      </div>
+      {error && (
+        <p className="mt-3 text-sm text-red-400">{error}</p>
+      )}
+    </div>
+  )
+}
+
 export default function DDLPage() {
   const [phase, setPhase] = useState<DDLPhase>('intro')
   const [questions, setQuestions] = useState<PilotQuestion[]>([])
@@ -386,8 +518,17 @@ export default function DDLPage() {
 
             <DDLFeedback feedbackId={feedbackId} classification={classification} />
 
+            {/* Adaptive Question CTA */}
+            <AdaptiveQuestionCTA classification={classification} />
+
             {/* Action buttons */}
             <div className="mt-8 flex justify-center gap-4">
+              <Link
+                href="/qgen"
+                className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition-colors"
+              >
+                Ir para QGen
+              </Link>
               <Link
                 href="/trilhas"
                 className="px-6 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors"
