@@ -1,0 +1,41 @@
+cff-version: 1.2.0
+title: Darwin Education
+message: "If you use this software, please cite it using these metadata."
+type: software
+authors:
+  - family-names: Agourakis
+    given-names: Demetrios Chiuratto
+    orcid: "https://orcid.org/0009-0001-8671-8878"
+    affiliation: "PUC-SP, Brazil"
+contributors:
+  - family-names: Amalcaburio
+    given-names: Isadora Casagrande
+    orcid: "https://orcid.org/0009-0005-6883-1809"
+    affiliation: "Faculdade São Leopoldo Mandic, Brazil"
+    roles:
+      - co-author
+      - reviewer
+identifiers:
+  - type: url
+    value: "https://github.com/darwin-mfc/darwin-education"
+repository-code: "https://github.com/darwin-mfc/darwin-education"
+url: "https://darwin-education.vercel.app"
+repository: "https://github.com/darwin-mfc/darwin-education"
+abstract: "Medical exam preparation platform for ENAMED (Exame Nacional de Avaliação da Formação Médica) and other medical licensing exams. Features include exam simulator with TRI (Item Response Theory) scoring, flashcards with SM-2 spaced repetition, AI-powered study paths, and progress analytics."
+keywords:
+  - medical-education
+  - exam-preparation
+  - ENAMED
+  - item-response-theory
+  - spaced-repetition
+  - machine-learning
+  - healthcare
+version: 0.2.0
+date-released: 2025-02-04
+license: MIT
+references:
+  - type: reference
+    authors:
+      - family-names: "Darwin-MFC"
+    title: "Darwin-MFC: Family Medicine Reference Platform"
+    url: "https://github.com/darwin-mfc/darwin-MFC"
