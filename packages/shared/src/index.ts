@@ -35,10 +35,12 @@ export * from './config/irt-estimation-config';
 // Import directly from '@darwin-education/shared/harvester' for CLI usage
 // export * as Harvester from './harvester';
 
+// AI Services
+export * from './services/ai';
+
 // Advanced features (temporarily disabled for pilot deployment)
 // Uncomment when these modules are committed to git:
 // export * from './algorithms/cat';
-// export * from './services/ai';
 // export * from './analyzers/enamed-parser';
 // export * from './analyzers/question-patterns';
 // export * from './generators/template-engine';
