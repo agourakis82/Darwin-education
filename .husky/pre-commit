@@ -1,0 +1,42 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "🔍 Running pre-commit checks..."
+
+# Check for staged files containing secrets
+echo "🔐 Checking for secrets..."
+if git diff --cached --name-only | xargs grep -l "GROK_API_KEY\|MINIMAX_API_KEY\|supabase" 2>/dev/null; then
+  echo "❌ Found potential secrets in staged files!"
+  echo "Do not commit API keys or credentials."
+  exit 1
+fi
+
+# Check for large files
+echo "📦 Checking for large files..."
+LARGE_FILES=$(git diff --cached --name-only --diff-filter=ACM | while read file; do
+  size=$(git ls-files --stage "$file" | awk '{print $4}')
+  if [ "$size" -gt 52428800 ]; then  # 50MB
+    echo "$file"
+  fi
+done)
+
+if [ -n "$LARGE_FILES" ]; then
+  echo "❌ Found large files:"
+  echo "$LARGE_FILES"
+  echo "Large files should not be committed."
+  exit 1
+fi
+
+# Type-check TypeScript
+echo "📝 Type-checking TypeScript..."
+pnpm type-check || exit 1
+
+# Lint changed files
+echo "🎨 Linting code..."
+pnpm lint --fix || exit 1
+
+# Run tests for changed packages
+echo "🧪 Running tests..."
+pnpm test --passWithNoTests || exit 1
+
+echo "✅ All checks passed!"

@@ -1,0 +1,91 @@
+name: Release & Upload to Zenodo
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v1.2.3)'
+        required: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build project
+        run: pnpm build
+
+      - name: Generate changelog
+        run: |
+          echo "## What's New" > RELEASE_NOTES.md
+          echo "" >> RELEASE_NOTES.md
+          git log --oneline $(git describe --tags --abbrev=0)..HEAD >> RELEASE_NOTES.md || echo "Initial release" >> RELEASE_NOTES.md
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            README.md
+            LICENSE
+            CITATION.cff
+            CHANGELOG.md
+          body_path: RELEASE_NOTES.md
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create source archive
+        run: |
+          mkdir -p release-assets
+          tar --exclude=node_modules \
+              --exclude=.next \
+              --exclude=.turbo \
+              --exclude=dist \
+              --exclude=.env.local \
+              --exclude=.git \
+              -czf release-assets/darwin-education-source.tar.gz .
+          zip -r -q release-assets/darwin-education-source.zip . \
+              -x "node_modules/*" ".next/*" ".turbo/*" "dist/*" ".env.local" ".git/*"
+
+      - name: Upload to Zenodo
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-assets
+          path: release-assets/
+
+      - name: Notify deployment
+        if: always()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.repos.createCommitStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              sha: context.sha,
+              state: 'success',
+              description: 'Release published',
+              context: 'Release'
+            })

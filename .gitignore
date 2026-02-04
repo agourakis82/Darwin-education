@@ -44,3 +44,25 @@ coverage/
 # Misc
 *.tgz
 *.bak
+*.tsbuildinfo
+
+# Claude Code local settings
+.claude/settings.local.json
+
+# Temporary test files
+test-*.mjs
+
+# Data and extraction artifacts
+microdados_*/
+questoes-*/
+provas/
+data/extracts/
+
+# Turbo cache (additional backup)
+.turbo/cache/
+
+# pnpm store
+.pnpm/
+
+# PM2 logs
+logs/

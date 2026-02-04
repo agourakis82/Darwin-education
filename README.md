@@ -1,82 +1,226 @@
 # Darwin Education
 
-Medical exam preparation platform for ENAMED (Exame Nacional de Avaliação da Formação Médica) and other medical exams.
+> 🎓 AI-powered platform for ENAMED (Exame Nacional de Avaliação da Formação Médica) exam preparation with adaptive learning and automated medical content generation.
 
-## Features
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Node Version](https://img.shields.io/badge/node-20+-brightgreen)]()
+[![Vercel Deployment](https://img.shields.io/badge/deployment-vercel-success)](https://darwin-education.vercel.app)
+[![Citation](https://img.shields.io/badge/cite-as-blue)](CITATION.cff)
 
-- **Exam Simulator** - Timed practice exams with TRI (Item Response Theory) scoring
-- **Flashcards** - Spaced repetition (SM-2) for efficient memorization
-- **Study Paths** - AI-recommended learning paths based on weak areas
-- **Custom Exam Builder** - Create personalized exams by topic/difficulty
-- **Progress Tracking** - Analytics dashboard with performance predictions
+**[Live Demo](https://darwin-education.vercel.app) • [Documentation](./docs) • [Contributing](./CONTRIBUTING.md) • [Roadmap](./docs/ROADMAP.md)**
 
-## Architecture
+---
 
-```
-darwin-education/
-├── apps/
-│   ├── web/              # Next.js 15 web application
-│   └── mobile/           # React Native + Expo (future)
-├── packages/
-│   └── shared/           # Shared code between apps
-│       ├── types/        # TypeScript definitions
-│       ├── calculators/  # TRI scoring, SM-2 algorithm
-│       └── services/     # API clients, AI integration
-└── infrastructure/
-    └── supabase/         # Database schema, RLS policies
-```
+## 🎯 Overview
 
-## Data Source
+Darwin Education is a comprehensive medical education platform combining **adaptive learning**, **AI-powered content generation**, and **learning analytics** for ENAMED exam preparation.
 
-Medical data (diseases, medications, protocols) is imported from the Darwin-MFC ecosystem via the [@darwin-mfc/medical-data](https://www.npmjs.com/package/@darwin-mfc/medical-data) package.
+**Key Capabilities:**
+- ✅ AI-powered exam simulation (TRI/IRT scoring)
+- ✅ Question generation via Grok 4.1-fast
+- ✅ Automated theory generation from 368 diseases
+- ✅ Learning gap detection (DDL system)
+- ✅ 70%+ auto-approval of generated content
+- ✅ Production-ready infrastructure
 
-```typescript
-import { doencasConsolidadas, medicamentosConsolidados } from '@darwin-mfc/medical-data';
-```
+---
 
-## Getting Started
+## ✨ Features
 
-### Prerequisites
+### 🧪 Exam Simulation
+- Full ENAMED practice exams with TRI scoring
+- Real-time performance metrics
+- Adaptive difficulty based on student ability
 
-- Node.js 20+
-- pnpm 9+
+### 📚 Study Tools
+- Flashcards with SM-2 spaced repetition
+- 6 specialty learning paths
+- 368 diseases + 690 medications library
 
-### Installation
+### 🤖 AI Features
+- Question generation ($0.06/question)
+- Concept explanations
+- Clinical case generation
+- Medical text summarization
 
+### 📈 Analytics
+- Performance dashboard by area
+- Learning gap detection
+- Adaptive study recommendations
+
+### 🏭 Theory Generation
+- Multi-source research (Darwin-MFC, guidelines, PubMed)
+- 5-stage validation pipeline
+- Hallucination detection
+- 70-80% auto-approval rate
+
+---
+
+## 🚀 Quick Start
+
+### For Users
+1. Visit https://darwin-education.vercel.app
+2. Sign up with email
+3. Start practicing `/simulado`
+
+### For Developers
+
+**Setup (5 minutes):**
 ```bash
-# Clone repository
-git clone https://github.com/darwin-mfc/darwin-education.git
+git clone https://github.com/yourusername/darwin-education.git
 cd darwin-education
-
-# Install dependencies
 pnpm install
-
-# Start development server
+cp apps/web/.env.example apps/web/.env.local
+# Edit .env.local with your credentials
 pnpm dev
 ```
 
-### Environment Variables
-
-Create `.env.local` in `apps/web/`:
-
-```env
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+**Commands:**
+```bash
+pnpm dev           # Dev server
+pnpm build         # Production build
+pnpm type-check    # TypeScript check
+pnpm lint          # ESLint + fixes
+pnpm test          # Run tests
 ```
 
-## Tech Stack
+---
 
-- **Web**: Next.js 15, React 19, TypeScript, Tailwind CSS
-- **Mobile**: React Native, Expo (planned)
-- **State**: Zustand with persistence
-- **Backend**: Supabase (PostgreSQL, Auth, Realtime)
-- **AI**: Claude API for question generation
+## 🏗️ Architecture
 
-## License
+```
+darwin-education/
+├── apps/web/                     # Next.js 15 frontend
+│   ├── app/                      # Next.js App Router
+│   ├── lib/ai                    # AI integration (Grok)
+│   ├── lib/theory-gen            # Theory generation
+│   └── lib/ddl                   # Learning gap detection
+│
+├── packages/shared/              # Shared logic
+│   ├── calculators/              # TRI & SM-2 algorithms
+│   ├── services/ai               # AI services
+│   ├── types/theory-generation   # Type definitions
+│   └── __tests__/                # Unit tests
+│
+├── infrastructure/supabase/      # Database schema
+│   ├── migrations/ (8 versions)  # Schema evolution
+│   └── seed/                     # ETL scripts
+│
+└── docs/                         # Full documentation
+```
 
-MIT
+**Tech Stack:**
+- **Frontend**: Next.js 15 + React 19 + TypeScript + Tailwind
+- **Backend**: Next.js API routes + Supabase PostgreSQL
+- **AI**: Grok 4.1-fast (xAI)
+- **Deployment**: Vercel + Supabase Cloud
+- **CI/CD**: GitHub Actions
 
-## Related Projects
+---
 
-- [Darwin-MFC](https://github.com/darwin-mfc/darwin-MFC) - Family Medicine reference platform
-- [@darwin-mfc/medical-data](https://www.npmjs.com/package/@darwin-mfc/medical-data) - Medical data NPM package
+## 📖 Documentation
+
+| Document | Purpose |
+|----------|---------|
+| [DEVELOPMENT.md](./docs/DEVELOPMENT.md) | Setup and dev workflow |
+| [API.md](./docs/API.md) | API reference |
+| [ARCHITECTURE.md](./docs/ARCHITECTURE.md) | System design |
+| [CONTRIBUTING.md](./CONTRIBUTING.md) | Contributing guide |
+| [ROADMAP.md](./docs/ROADMAP.md) | Feature roadmap |
+
+---
+
+## 📊 Metrics
+
+| Metric | Value |
+|--------|-------|
+| Questions Generated | 100+ |
+| Medical Conditions | 368 diseases |
+| AI Generation Cost | $0.06-0.08 per item |
+| Build Time | 36 seconds |
+| Initial Load | <1s |
+| Auto-Approval Rate | 70-80% |
+
+---
+
+## 🔧 Environment Setup
+
+**Required:**
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=xxxxxx
+SUPABASE_SERVICE_ROLE_KEY=xxxxxx
+GROK_API_KEY=xai-xxxxxx
+```
+
+See [.env.example](./apps/web/.env.example) for full config.
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for:
+- Setup instructions
+- Code standards
+- Pull request process
+- Commit message format
+
+**Quick PR:**
+```bash
+git checkout -b feature/your-feature
+# Make changes
+pnpm lint && pnpm test
+git commit -m "feat: description"
+git push origin feature/your-feature
+```
+
+---
+
+## 📜 License
+
+MIT License - See [LICENSE](./LICENSE)
+
+**Citation:**
+```bibtex
+@software{darwin_education_2024,
+  author = {Darwin Education Contributors},
+  title = {Darwin Education: AI-powered ENAMED Exam Preparation},
+  year = {2024},
+  url = {https://github.com/yourusername/darwin-education}
+}
+```
+
+---
+
+## 🗺️ Roadmap
+
+- ✅ Core exam simulation (TRI-based)
+- ✅ AI question generation (Grok)
+- ✅ Theory generation system
+- 📅 Mobile app (React Native)
+- 📅 Collaborative learning
+- 📅 AI tutor agent
+
+See [ROADMAP.md](./docs/ROADMAP.md) for details.
+
+---
+
+## 📞 Support
+
+- **Docs**: [docs/](./docs/)
+- **Issues**: [GitHub Issues](https://github.com/yourusername/darwin-education/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/yourusername/darwin-education/discussions)
+
+---
+
+## 🙏 Acknowledgments
+
+- [Darwin-MFC](https://github.com/agourakis82/darwin-mfc) - Medical content
+- [@darwin-mfc/medical-data](https://www.npmjs.com/package/@darwin-mfc/medical-data) - Medical data package
+- [Supabase](https://supabase.com/) - Backend infrastructure
+- [Vercel](https://vercel.com/) - Deployment platform
+- [xAI](https://x.ai/) - Grok API
+
+---
+
+Made with ❤️ for medical education
