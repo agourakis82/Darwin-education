@@ -3,6 +3,7 @@
 > 🎓 AI-powered platform for ENAMED (Exame Nacional de Avaliação da Formação Médica) exam preparation with adaptive learning and automated medical content generation.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18487442.svg)](https://doi.org/10.5281/zenodo.18487442)
 [![Node Version](https://img.shields.io/badge/node-20+-brightgreen)]()
 [![Vercel Deployment](https://img.shields.io/badge/deployment-vercel-success)](https://darwin-education.vercel.app)
 [![Citation](https://img.shields.io/badge/cite-as-blue)](CITATION.cff)
@@ -182,11 +183,13 @@ MIT License - See [LICENSE](./LICENSE)
 
 **Citation:**
 ```bibtex
-@software{darwin_education_2024,
-  author = {Darwin Education Contributors},
+@software{darwin_education_2025,
+  author = {Agourakis, Demetrios Chiuratto and Amalcaburio, Isadora Casagrande},
   title = {Darwin Education: AI-powered ENAMED Exam Preparation},
-  year = {2024},
-  url = {https://github.com/yourusername/darwin-education}
+  year = {2025},
+  url = {https://github.com/darwin-mfc/darwin-education},
+  doi = {10.5281/zenodo.18487442},
+  version = {1.0.0}
 }
 ```
 

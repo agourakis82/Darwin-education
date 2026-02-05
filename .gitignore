@@ -66,3 +66,4 @@ data/extracts/
 
 # PM2 logs
 logs/
+*.tar.gz

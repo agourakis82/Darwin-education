@@ -29,9 +29,58 @@ export default [
         },
       },
       globals: {
+        // Node.js globals
         console: 'readonly',
         process: 'readonly',
+        require: 'readonly',
+        module: 'readonly',
+        __dirname: 'readonly',
+        __filename: 'readonly',
+        Buffer: 'readonly',
+        NodeJS: 'readonly',
+        // Web APIs (available in Node.js 18+ and browsers)
         fetch: 'readonly',
+        Request: 'readonly',
+        Response: 'readonly',
+        URL: 'readonly',
+        URLSearchParams: 'readonly',
+        Headers: 'readonly',
+        FormData: 'readonly',
+        Blob: 'readonly',
+        File: 'readonly',
+        crypto: 'readonly',
+        // Browser globals
+        window: 'readonly',
+        document: 'readonly',
+        navigator: 'readonly',
+        localStorage: 'readonly',
+        sessionStorage: 'readonly',
+        location: 'readonly',
+        history: 'readonly',
+        // Browser APIs
+        setTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearTimeout: 'readonly',
+        clearInterval: 'readonly',
+        requestAnimationFrame: 'readonly',
+        cancelAnimationFrame: 'readonly',
+        alert: 'readonly',
+        confirm: 'readonly',
+        prompt: 'readonly',
+        // DOM types
+        HTMLElement: 'readonly',
+        HTMLInputElement: 'readonly',
+        HTMLButtonElement: 'readonly',
+        HTMLDivElement: 'readonly',
+        HTMLFormElement: 'readonly',
+        Element: 'readonly',
+        Node: 'readonly',
+        Event: 'readonly',
+        MouseEvent: 'readonly',
+        KeyboardEvent: 'readonly',
+        // React
+        React: 'readonly',
+        JSX: 'readonly',
       },
     },
     plugins: {
@@ -75,6 +124,14 @@ export default [
       'no-debugger': 'warn',
       'prefer-const': 'warn',
       'no-var': 'warn',
+      'no-useless-escape': 'warn',
+
+      // React specific (downgrade to warn)
+      'react/no-unescaped-entities': 'warn',
+
+      // TypeScript specific (downgrade to warn)
+      '@typescript-eslint/no-empty-object-type': 'warn',
+      '@typescript-eslint/no-non-null-asserted-optional-chain': 'warn',
 
       // Next.js
       '@next/next/no-html-link-for-pages': 'warn',

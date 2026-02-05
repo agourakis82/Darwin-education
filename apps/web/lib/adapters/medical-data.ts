@@ -1,63 +1,123 @@
 /**
  * Medical Data Adapter
  *
- * Maps @darwin-mfc/medical-data types to local interfaces
- * used by the Conteudo pages.
- *
- * Falls back to empty data when the package is unavailable (e.g., Vercel deployment).
+ * Provides medical data types and functions for the Conteudo pages.
+ * Currently uses stub data as the @darwin-mfc/medical-data package is not yet published.
  */
 
-import type {
-  Doenca,
-  Medicamento,
-  CategoriaDoenca,
-} from '@darwin-mfc/medical-data';
+// ============================================================================
+// LOCAL TYPE DEFINITIONS (mirrors @darwin-mfc/medical-data types)
+// ============================================================================
 
-// Dynamic import with fallback for when package is unavailable
-let mfcData: {
-  doencasConsolidadas: Doenca[];
-  medicamentosConsolidados: Medicamento[];
-  getDoencaById: (id: string) => Doenca | undefined;
-  getMedicamentoById: (id: string) => Medicamento | undefined;
-  searchDoencas: (query: string) => Doenca[];
-  searchMedicamentos: (query: string) => Medicamento[];
-} | null = null;
+export type CategoriaDoenca =
+  | 'cardiovascular'
+  | 'metabolico'
+  | 'respiratorio'
+  | 'musculoesqueletico'
+  | 'saude_mental'
+  | 'infecciosas'
+  | 'dermatologico'
+  | 'gastrointestinal'
+  | 'neurologico'
+  | 'endocrino'
+  | 'hematologico'
+  | 'urologico'
+  | 'ginecologico'
+  | 'pediatrico'
+  | 'geriatrico'
+  | 'outros';
 
-// Try to load the real package, fall back to stub if unavailable
-try {
-  // This require is wrapped in try-catch because the package may not be available
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const realMfcData = require('@darwin-mfc/medical-data');
-  mfcData = {
-    doencasConsolidadas: realMfcData.doencasConsolidadas || [],
-    medicamentosConsolidados: realMfcData.medicamentosConsolidados || [],
-    getDoencaById: realMfcData.getDoencaById || ((_id: string) => undefined),
-    getMedicamentoById: realMfcData.getMedicamentoById || ((_id: string) => undefined),
-    searchDoencas: realMfcData.searchDoencas || ((_query: string) => []),
-    searchMedicamentos: realMfcData.searchMedicamentos || ((_query: string) => []),
+export interface Doenca {
+  id: string;
+  titulo: string;
+  cid10: string[];
+  categoria: CategoriaDoenca;
+  subcategoria?: string;
+  quickView: {
+    definicao: string;
+    tratamentoPrimeiraLinha: {
+      naoFarmacologico: string[];
+      farmacologico: string[];
+    };
+    redFlags?: string[];
   };
-} catch {
-  // Package not available, use empty fallbacks
-  console.warn('[Medical Data] @darwin-mfc/medical-data not available, using empty fallbacks');
-  mfcData = {
-    doencasConsolidadas: [],
-    medicamentosConsolidados: [],
-    getDoencaById: (_id: string) => undefined,
-    getMedicamentoById: (_id: string) => undefined,
-    searchDoencas: (_query: string) => [],
-    searchMedicamentos: (_query: string) => [],
+  fullContent: {
+    epidemiologia?: {
+      prevalencia?: string;
+      faixaEtaria?: string;
+      fatoresRisco?: string[];
+    };
+    fisiopatologia?: {
+      texto?: string;
+    };
+    quadroClinico: {
+      sintomasPrincipais: string[];
+      sinaisExameFisico: string[];
+    };
+    diagnostico: {
+      criterios: string[];
+      examesLaboratoriais?: string[];
+      examesImagem?: string[];
+    };
+    tratamento: {
+      farmacologico: {
+        primeiraLinha: Array<{ classe: string; medicamentos: string[] }>;
+      };
+    };
+    acompanhamento: {
+      metasTerapeuticas: string[];
+    };
   };
 }
 
-// Extract for convenience
-const {
-  doencasConsolidadas,
-  medicamentosConsolidados,
-  getDoencaById: getMfcDoencaById,
-  getMedicamentoById: getMfcMedicamentoById,
-  searchDoencas: mfcSearchDoencas,
-  searchMedicamentos: mfcSearchMedicamentos,
-} = mfcData;
+export interface Medicamento {
+  id: string;
+  nomeGenerico: string;
+  nomeComercial?: string;
+  codigoATC?: string;
+  classeTerapeutica: string;
+  mecanismoAcao?: {
+    resumo?: string;
+  };
+  indicacoesPrincipais?: string[];
+  contraindicacoes?: {
+    absolutas?: string[];
+  };
+  efeitosAdversos?: {
+    comuns?: string[];
+  };
+  interacoes?: Array<{ medicamento: string; descricao: string }>;
+  farmacocinetica?: {
+    absorcao?: string;
+    distribuicao?: string;
+    metabolismo?: string;
+    eliminacao?: string;
+    meiaVida?: string;
+  };
+  categoriaGestacao?: string;
+  monitoramento?: string[];
+  posologia?: {
+    adultos?: string;
+    pediatrico?: string;
+  };
+  ajusteRenal?: {
+    descricao?: string;
+  };
+  ajusteHepatico?: string;
+}
+
+// ============================================================================
+// STUB DATA (empty arrays until package is published)
+// ============================================================================
+
+const doencasConsolidadas: Doenca[] = [];
+const medicamentosConsolidados: Medicamento[] = [];
+
+const getMfcDoencaById = (_id: string): Doenca | undefined => undefined;
+const getMfcMedicamentoById = (_id: string): Medicamento | undefined => undefined;
+const mfcSearchDoencas = (_query: string): Doenca[] => [];
+const mfcSearchMedicamentos = (_query: string): Medicamento[] => [];
+
 
 // Local Disease interface (simplified for list display)
 export interface Disease {

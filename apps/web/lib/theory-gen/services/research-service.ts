@@ -193,14 +193,10 @@ export class ResearchService {
       `${topic} consensus statement 2024`,
     ];
 
-    try {
-      // In real implementation, this would call WebSearch with domain restrictions
-      // For now, return empty array - will be implemented with actual WebSearch
-      return [];
-    } catch (error) {
-      console.error('Error searching international guidelines:', error);
-      return [];
-    }
+    // TODO: In real implementation, this would call WebSearch with domain restrictions
+    // For now, return empty array - will be implemented with actual WebSearch
+    void queries; // Mark as intentionally unused
+    return [];
   }
 
   /**
@@ -215,14 +211,10 @@ export class ResearchService {
       `${topic} evidence review 2024`,
     ];
 
-    try {
-      // In real implementation, this would call WebSearch
-      // For now, return empty array - will be implemented with actual WebSearch
-      return [];
-    } catch (error) {
-      console.error('Error searching recent research:', error);
-      return [];
-    }
+    // TODO: In real implementation, this would call WebSearch
+    // For now, return empty array - will be implemented with actual WebSearch
+    void queries; // Mark as intentionally unused
+    return [];
   }
 
   /**
@@ -308,14 +300,10 @@ export class ResearchService {
   /**
    * Validate citation URL accessibility (optional, can be async background job)
    */
-  async validateCitationAccessibility(url: string): Promise<boolean> {
-    try {
-      // In real implementation, would check HTTP status
-      // For now, assume all are accessible
-      return true;
-    } catch (error) {
-      return false;
-    }
+  async validateCitationAccessibility(_url: string): Promise<boolean> {
+    // TODO: In real implementation, would check HTTP status
+    // For now, assume all are accessible
+    return true;
   }
 }
 

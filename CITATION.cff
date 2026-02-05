@@ -16,6 +16,9 @@ contributors:
       - co-author
       - reviewer
 identifiers:
+  - type: doi
+    value: "10.5281/zenodo.18487442"
+    description: "Zenodo software release"
   - type: url
     value: "https://github.com/darwin-mfc/darwin-education"
 repository-code: "https://github.com/darwin-mfc/darwin-education"
@@ -30,7 +33,7 @@ keywords:
   - spaced-repetition
   - machine-learning
   - healthcare
-version: 0.2.0
+version: 1.0.0
 date-released: 2025-02-04
 license: MIT
 references:
