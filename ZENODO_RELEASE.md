@@ -448,7 +448,7 @@ Permission to use, modify, and distribute for any purpose, including commercial 
   title = {Darwin Education: AI-Powered ENAMED Exam Preparation Platform},
   year = {2025},
   url = {https://github.com/agourakis82/darwin-education},
-  doi = {https://doi.org/xxxxx},
+  doi = {https://doi.org/10.5281/zenodo.18487442},
   version = {1.0.0}
 }
 ```
@@ -508,8 +508,8 @@ See CITATION.cff for full metadata in CFF format.
 ## Zenodo Repository
 
 **This version is archived at Zenodo**:
-- DOI: https://doi.org/xxxxx (assigned upon submission)
-- URL: https://zenodo.org/records/xxxxx
+- DOI: https://doi.org/10.5281/zenodo.18487442 (assigned upon submission)
+- URL: https://zenodo.org/records/18487442
 - Permanent record maintained by CERN
 
 **Future versions** will be submitted with updated DOI numbers.

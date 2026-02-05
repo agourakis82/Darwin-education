@@ -327,7 +327,7 @@ MIT License - Open source and freely available
   title = {Darwin Education: AI-Powered ENAMED Exam Preparation Platform},
   year = {2025},
   url = {https://github.com/agourakis82/darwin-education},
-  doi = {https://doi.org/xxxxx}
+  doi = {https://doi.org/10.5281/zenodo.18487442}
 }
 ```
 
@@ -393,8 +393,8 @@ Before submitting, verify:
 
 **Example README update:**
 ```markdown
-[![Zenodo](https://img.shields.io/badge/zenodo-v1.0.0-blue)](https://zenodo.org/records/xxxxx)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.xxxxx.svg)](https://doi.org/10.5281/zenodo.xxxxx)
+[![Zenodo](https://img.shields.io/badge/zenodo-v1.0.0-blue)](https://zenodo.org/records/18487442)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18487442.svg)](https://doi.org/10.5281/zenodo.18487442)
 ```
 
 **Update CITATION.cff:**
@@ -402,7 +402,7 @@ Before submitting, verify:
 identifiers:
   - description: Zenodo software release
     type: doi
-    value: "10.5281/zenodo.xxxxx"
+    value: "10.5281/zenodo.18487442"
 ```
 
 ### 2. Register DOI
@@ -449,7 +449,7 @@ A: Yes, Zenodo allows updates. New versions get new record IDs but same version 
 A: Permanent - CERN maintains all records indefinitely.
 
 **Q: Will it get a DOI?**
-A: Yes, automatic upon publication. Example: 10.5281/zenodo.xxxxx
+A: Yes, automatic upon publication. Example: 10.5281/zenodo.18487442
 
 **Q: Can I delete it?**
 A: No, published records are permanent. You can mark as "restricted" if needed.

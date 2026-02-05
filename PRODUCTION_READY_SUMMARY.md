@@ -306,7 +306,7 @@ Performance:
 |----------|-----|
 | Live Platform | https://darwin-education.vercel.app |
 | GitHub Repository | https://github.com/agourakis82/darwin-education |
-| Zenodo (after submission) | https://zenodo.org/records/xxxxx |
+| Zenodo (after submission) | https://zenodo.org/records/18487442 |
 | Submit to Zenodo | https://zenodo.org/upload |
 
 ---
