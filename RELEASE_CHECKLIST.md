@@ -80,7 +80,7 @@
 
 ## ✅ Deployment Status
 
-- [x] **Live URL**: https://darwin-education.vercel.app
+- [x] **Live URL**: https://darwinhub.org
 - [x] **Build**: Successful (36 seconds)
 - [x] **Routes**: 48 routes compiled
 - [x] **API endpoints**: 15+ active
@@ -167,7 +167,7 @@
 ### 1. Verify Live Deployment
 ```bash
 # Check Vercel deployment
-curl https://darwin-education.vercel.app
+curl https://darwinhub.org
 
 # Should return homepage HTML without errors
 ```
@@ -249,7 +249,7 @@ Production Ready:     ✅ YES
 ## 📞 Support & Communication
 
 - **Repository**: https://github.com/agourakis82/darwin-education
-- **Live Site**: https://darwin-education.vercel.app
+- **Live Site**: https://darwinhub.org
 - **Issues**: GitHub Issues
 - **Discussions**: GitHub Discussions
 - **Email**: contact@darwineducation.com (if applicable)

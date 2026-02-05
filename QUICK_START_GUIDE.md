@@ -7,7 +7,7 @@
 ## 🚀 Access the Application
 
 ### Live Deployment
-- **URL**: https://darwin-education.vercel.app
+- **URL**: https://darwinhub.org
 - **Status**: ✅ Live on Vercel
 - **Last Deploy**: 2025-02-04 09:37:54 UTC
 
@@ -429,4 +429,4 @@ GET /api/theory-gen/stats
 4. Generate theory content
 5. Track performance
 
-**Start at**: https://darwin-education.vercel.app
+**Start at**: https://darwinhub.org

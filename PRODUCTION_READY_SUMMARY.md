@@ -50,7 +50,7 @@
 ✅ RELEASE_CHECKLIST.md (quality verification)
 
 ### Deployment Verified
-✅ Live on Vercel: https://darwin-education.vercel.app
+✅ Live on Vercel: https://darwinhub.org
 ✅ All 48 routes building
 ✅ 15+ API endpoints active
 ✅ Database connected (Supabase)
@@ -304,7 +304,7 @@ Performance:
 
 | Resource | URL |
 |----------|-----|
-| Live Platform | https://darwin-education.vercel.app |
+| Live Platform | https://darwinhub.org |
 | GitHub Repository | https://github.com/agourakis82/darwin-education |
 | Zenodo (after submission) | https://zenodo.org/records/18487442 |
 | Submit to Zenodo | https://zenodo.org/upload |

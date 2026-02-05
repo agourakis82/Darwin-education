@@ -22,7 +22,7 @@ identifiers:
   - type: url
     value: "https://github.com/darwin-mfc/darwin-education"
 repository-code: "https://github.com/darwin-mfc/darwin-education"
-url: "https://darwin-education.vercel.app"
+url: "https://darwinhub.org"
 repository: "https://github.com/darwin-mfc/darwin-education"
 abstract: "Medical exam preparation platform for ENAMED (Exame Nacional de Avaliação da Formação Médica) and other medical licensing exams. Features include exam simulator with TRI (Item Response Theory) scoring, flashcards with SM-2 spaced repetition, AI-powered study paths, and progress analytics."
 keywords:

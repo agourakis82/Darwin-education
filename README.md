@@ -5,10 +5,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18487442.svg)](https://doi.org/10.5281/zenodo.18487442)
 [![Node Version](https://img.shields.io/badge/node-20+-brightgreen)]()
-[![Vercel Deployment](https://img.shields.io/badge/deployment-vercel-success)](https://darwin-education.vercel.app)
+[![Vercel Deployment](https://img.shields.io/badge/deployment-vercel-success)](https://darwinhub.org)
 [![Citation](https://img.shields.io/badge/cite-as-blue)](CITATION.cff)
 
-**[Live Demo](https://darwin-education.vercel.app) • [Documentation](./docs) • [Contributing](./CONTRIBUTING.md) • [Roadmap](./docs/ROADMAP.md)**
+**[Live Demo](https://darwinhub.org) • [Documentation](./docs) • [Contributing](./CONTRIBUTING.md) • [Roadmap](./docs/ROADMAP.md)**
 
 ---
 
@@ -60,7 +60,7 @@ Darwin Education is a comprehensive medical education platform combining **adapt
 ## 🚀 Quick Start
 
 ### For Users
-1. Visit https://darwin-education.vercel.app
+1. Visit https://darwinhub.org
 2. Sign up with email
 3. Start practicing `/simulado`
 

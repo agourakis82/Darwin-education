@@ -12,7 +12,7 @@
 - Fixed build configuration (`vercel.json`)
 - Resolved module-level Supabase initialization
 - Implemented lazy initialization pattern
-- **Result**: Live at https://darwin-education.vercel.app
+- **Result**: Live at https://darwinhub.org
 
 ✅ **AI Features Restoration**
 - Restored 5 AI API routes
@@ -131,7 +131,7 @@
 ```
 Platform: Vercel (Next.js)
 Status: ✅ Live
-URL: https://darwin-education.vercel.app
+URL: https://darwinhub.org
 Build Time: 36 seconds
 Routes: 48 (static + dynamic)
 Build Size: ~2MB gzipped
@@ -230,7 +230,7 @@ Deployment:
 ## 🚀 How to Use
 
 ### For Students
-1. Visit https://darwin-education.vercel.app
+1. Visit https://darwinhub.org
 2. Sign up with email
 3. Start with `/simulado` (practice exam)
 4. Use `/flashcards` for studying
@@ -317,7 +317,7 @@ git push origin main       # Auto-deploys to Vercel
 - [CLAUDE.md](./CLAUDE.md) - Architecture & development guide
 
 ### URLs
-- **Live App**: https://darwin-education.vercel.app
+- **Live App**: https://darwinhub.org
 - **GitHub**: Repository at specified location
 - **Vercel Dashboard**: https://vercel.com (admin account)
 - **Supabase Dashboard**: https://app.supabase.com (admin account)

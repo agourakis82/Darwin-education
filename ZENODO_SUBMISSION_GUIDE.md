@@ -112,7 +112,7 @@ Technology Stack:
 This is v1.0.0 - the initial production release.
 For source code, documentation, and live platform, see:
 - GitHub: https://github.com/agourakis82/darwin-education
-- Live: https://darwin-education.vercel.app
+- Live: https://darwinhub.org
 ```
 
 **Additional Details:**
@@ -197,7 +197,7 @@ Select:
 - **Publication Date**: 2025-02-04
 - **Journal**: (Leave blank - Software)
 - **GitHub URL**: https://github.com/agourakis82/darwin-education
-- **Website**: https://darwin-education.vercel.app
+- **Website**: https://darwinhub.org
 
 ---
 
@@ -311,7 +311,7 @@ pnpm dev
 
 ## Live Platform
 
-- **URL**: https://darwin-education.vercel.app
+- **URL**: https://darwinhub.org
 - **Signup**: Free for all users
 - **Access**: Open to all medical students
 
@@ -435,7 +435,7 @@ identifiers:
 | https://zenodo.org | Zenodo homepage |
 | https://zenodo.org/upload | New upload page |
 | https://github.com/agourakis82/darwin-education | GitHub repo |
-| https://darwin-education.vercel.app | Live platform |
+| https://darwinhub.org | Live platform |
 | https://github.com/agourakis82/darwin-mfc | Related Darwin-MFC |
 
 ---

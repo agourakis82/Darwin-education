@@ -194,7 +194,7 @@ The following are not included but can be obtained separately:
 ### How to Access
 
 **Live Platform:**
-- URL: https://darwin-education.vercel.app
+- URL: https://darwinhub.org
 - Signup: Free for all users
 - No academic/institutional login required
 
@@ -258,7 +258,7 @@ pnpm test --coverage
 ### Production Deployment
 
 Platform is deployed on:
-- **Frontend**: Vercel (https://darwin-education.vercel.app)
+- **Frontend**: Vercel (https://darwinhub.org)
 - **Database**: Supabase Cloud
 - **CI/CD**: GitHub Actions
 
@@ -372,7 +372,7 @@ Documentation: 5000+ lines
 
 ### For Students
 
-1. Visit https://darwin-education.vercel.app
+1. Visit https://darwinhub.org
 2. Create account
 3. Start practicing exams
 4. Use AI features (limited free credits daily)
@@ -499,7 +499,7 @@ See CITATION.cff for full metadata in CFF format.
 ## Contact
 
 **Project Repository**: https://github.com/agourakis82/darwin-education
-**Live Platform**: https://darwin-education.vercel.app
+**Live Platform**: https://darwinhub.org
 **Issues & Discussions**: GitHub Issues & Discussions
 **Email**: [Contact info if available]
 
