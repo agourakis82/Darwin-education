@@ -4,20 +4,21 @@
 -- Study Path 1: Clínica Médica Essencial
 INSERT INTO study_paths (id, title, description, areas, estimated_hours, difficulty, is_public)
 VALUES (
-  'p1000000-0000-0000-0000-000000000001',
+  'a1000000-0000-0000-0000-000000000001',
   'Clínica Médica Essencial',
   'Domine os principais temas de Clínica Médica cobrados no ENAMED. Inclui Cardiologia, Endocrinologia, Pneumologia, Nefrologia e Infectologia.',
   ARRAY['clinica_medica'],
   40.0,
   'medio',
   TRUE
-);
+)
+ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO study_modules (id, path_id, title, type, content, estimated_minutes, order_index)
 VALUES
   (
-    'm1000000-0000-0000-0001-000000000001',
-    'p1000000-0000-0000-0000-000000000001',
+    'b1000000-0000-0000-0001-000000000001',
+    'a1000000-0000-0000-0000-000000000001',
     'Hipertensão Arterial Sistêmica',
     'reading',
     '# Hipertensão Arterial Sistêmica
@@ -47,8 +48,8 @@ PA ≥ 140/90 mmHg em duas ou mais aferições.
     1
   ),
   (
-    'm1000000-0000-0000-0001-000000000002',
-    'p1000000-0000-0000-0000-000000000001',
+    'b1000000-0000-0000-0001-000000000002',
+    'a1000000-0000-0000-0000-000000000001',
     'Quiz: Hipertensão',
     'quiz',
     NULL,
@@ -56,8 +57,8 @@ PA ≥ 140/90 mmHg em duas ou mais aferições.
     2
   ),
   (
-    'm1000000-0000-0000-0001-000000000003',
-    'p1000000-0000-0000-0000-000000000001',
+    'b1000000-0000-0000-0001-000000000003',
+    'a1000000-0000-0000-0000-000000000001',
     'Diabetes Mellitus',
     'reading',
     '# Diabetes Mellitus
@@ -86,8 +87,8 @@ PA ≥ 140/90 mmHg em duas ou mais aferições.
     3
   ),
   (
-    'm1000000-0000-0000-0001-000000000004',
-    'p1000000-0000-0000-0000-000000000001',
+    'b1000000-0000-0000-0001-000000000004',
+    'a1000000-0000-0000-0000-000000000001',
     'Flashcards: Endocrinologia',
     'flashcards',
     NULL,
@@ -95,8 +96,8 @@ PA ≥ 140/90 mmHg em duas ou mais aferições.
     4
   ),
   (
-    'm1000000-0000-0000-0001-000000000005',
-    'p1000000-0000-0000-0000-000000000001',
+    'b1000000-0000-0000-0001-000000000005',
+    'a1000000-0000-0000-0000-000000000001',
     'DPOC e Asma',
     'reading',
     '# Doenças Obstrutivas
@@ -130,25 +131,27 @@ PA ≥ 140/90 mmHg em duas ou mais aferições.
 - LABA como add-on',
     40,
     5
-  );
+  )
+ON CONFLICT (id) DO NOTHING;
 
 -- Study Path 2: Cirurgia para o ENAMED
 INSERT INTO study_paths (id, title, description, areas, estimated_hours, difficulty, is_public)
 VALUES (
-  'p1000000-0000-0000-0000-000000000002',
+  'a1000000-0000-0000-0000-000000000002',
   'Cirurgia para o ENAMED',
   'Temas cirúrgicos mais cobrados: abdome agudo, trauma, hérnias, oncologia cirúrgica e urgências.',
   ARRAY['cirurgia'],
   35.0,
   'medio',
   TRUE
-);
+)
+ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO study_modules (id, path_id, title, type, content, estimated_minutes, order_index)
 VALUES
   (
-    'm1000000-0000-0000-0002-000000000001',
-    'p1000000-0000-0000-0000-000000000002',
+    'b1000000-0000-0000-0002-000000000001',
+    'a1000000-0000-0000-0000-000000000002',
     'Abdome Agudo',
     'reading',
     '# Abdome Agudo
@@ -178,8 +181,8 @@ VALUES
     1
   ),
   (
-    'm1000000-0000-0000-0002-000000000002',
-    'p1000000-0000-0000-0000-000000000002',
+    'b1000000-0000-0000-0002-000000000002',
+    'a1000000-0000-0000-0000-000000000002',
     'Trauma - ATLS',
     'reading',
     '# Atendimento ao Trauma
@@ -211,32 +214,34 @@ VALUES
     2
   ),
   (
-    'm1000000-0000-0000-0002-000000000003',
-    'p1000000-0000-0000-0000-000000000002',
+    'b1000000-0000-0000-0002-000000000003',
+    'a1000000-0000-0000-0000-000000000002',
     'Quiz: Trauma e Urgências',
     'quiz',
     NULL,
     25,
     3
-  );
+  )
+ON CONFLICT (id) DO NOTHING;
 
 -- Study Path 3: GO Completo
 INSERT INTO study_paths (id, title, description, areas, estimated_hours, difficulty, is_public)
 VALUES (
-  'p1000000-0000-0000-0000-000000000003',
+  'a1000000-0000-0000-0000-000000000003',
   'Ginecologia e Obstetrícia Completo',
   'Pré-natal, parto, puerpério, patologias ginecológicas e oncologia ginecológica.',
   ARRAY['ginecologia_obstetricia'],
   45.0,
   'medio',
   TRUE
-);
+)
+ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO study_modules (id, path_id, title, type, content, estimated_minutes, order_index)
 VALUES
   (
-    'm1000000-0000-0000-0003-000000000001',
-    'p1000000-0000-0000-0000-000000000003',
+    'b1000000-0000-0000-0003-000000000001',
+    'a1000000-0000-0000-0000-000000000003',
     'Pré-Natal de Baixo Risco',
     'reading',
     '# Assistência Pré-Natal
@@ -271,8 +276,8 @@ VALUES
     1
   ),
   (
-    'm1000000-0000-0000-0003-000000000002',
-    'p1000000-0000-0000-0000-000000000003',
+    'b1000000-0000-0000-0003-000000000002',
+    'a1000000-0000-0000-0000-000000000003',
     'Síndromes Hipertensivas',
     'reading',
     '# Síndromes Hipertensivas na Gestação
@@ -305,25 +310,27 @@ VALUES
 - Interrupção conforme idade gestacional',
     35,
     2
-  );
+  )
+ON CONFLICT (id) DO NOTHING;
 
 -- Study Path 4: Pediatria Essencial
 INSERT INTO study_paths (id, title, description, areas, estimated_hours, difficulty, is_public)
 VALUES (
-  'p1000000-0000-0000-0000-000000000004',
+  'a1000000-0000-0000-0000-000000000004',
   'Pediatria Essencial',
   'Puericultura, neonatologia, doenças infecciosas e urgências pediátricas.',
   ARRAY['pediatria'],
   38.0,
   'medio',
   TRUE
-);
+)
+ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO study_modules (id, path_id, title, type, content, estimated_minutes, order_index)
 VALUES
   (
-    'm1000000-0000-0000-0004-000000000001',
-    'p1000000-0000-0000-0000-000000000004',
+    'b1000000-0000-0000-0004-000000000001',
+    'a1000000-0000-0000-0000-000000000004',
     'Aleitamento Materno',
     'reading',
     '# Aleitamento Materno
@@ -360,8 +367,8 @@ VALUES
     1
   ),
   (
-    'm1000000-0000-0000-0004-000000000002',
-    'p1000000-0000-0000-0000-000000000004',
+    'b1000000-0000-0000-0004-000000000002',
+    'a1000000-0000-0000-0000-000000000004',
     'Calendário Vacinal',
     'reading',
     '# Calendário Nacional de Vacinação
@@ -408,25 +415,27 @@ VALUES
 - Tetra viral',
     35,
     2
-  );
+  )
+ON CONFLICT (id) DO NOTHING;
 
 -- Study Path 5: Saúde Coletiva
 INSERT INTO study_paths (id, title, description, areas, estimated_hours, difficulty, is_public)
 VALUES (
-  'p1000000-0000-0000-0000-000000000005',
+  'a1000000-0000-0000-0000-000000000005',
   'Saúde Coletiva e Epidemiologia',
   'SUS, vigilância, epidemiologia, bioestatística e ética médica.',
   ARRAY['saude_coletiva'],
   30.0,
   'medio',
   TRUE
-);
+)
+ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO study_modules (id, path_id, title, type, content, estimated_minutes, order_index)
 VALUES
   (
-    'm1000000-0000-0000-0005-000000000001',
-    'p1000000-0000-0000-0000-000000000005',
+    'b1000000-0000-0000-0005-000000000001',
+    'a1000000-0000-0000-0000-000000000005',
     'Sistema Único de Saúde',
     'reading',
     '# Sistema Único de Saúde
@@ -460,8 +469,8 @@ VALUES
     1
   ),
   (
-    'm1000000-0000-0000-0005-000000000002',
-    'p1000000-0000-0000-0000-000000000005',
+    'b1000000-0000-0000-0005-000000000002',
+    'a1000000-0000-0000-0000-000000000005',
     'Epidemiologia Básica',
     'reading',
     '# Epidemiologia
@@ -509,26 +518,28 @@ VALUES
 - Depende da prevalência',
     45,
     2
-  );
+  )
+ON CONFLICT (id) DO NOTHING;
 
 -- Study Path 6: Preparação Intensiva ENAMED
 INSERT INTO study_paths (id, title, description, areas, estimated_hours, difficulty, prerequisites, is_public)
 VALUES (
-  'p1000000-0000-0000-0000-000000000006',
+  'a1000000-0000-0000-0000-000000000006',
   'Preparação Intensiva ENAMED',
   'Revisão completa das 5 áreas com foco nos temas mais cobrados. Ideal para reta final.',
   ARRAY['clinica_medica', 'cirurgia', 'ginecologia_obstetricia', 'pediatria', 'saude_coletiva'],
   80.0,
   'dificil',
-  ARRAY['p1000000-0000-0000-0000-000000000001'::uuid, 'p1000000-0000-0000-0000-000000000002'::uuid],
+  ARRAY['a1000000-0000-0000-0000-000000000001'::uuid, 'a1000000-0000-0000-0000-000000000002'::uuid],
   TRUE
-);
+)
+ON CONFLICT (id) DO NOTHING;
 
 INSERT INTO study_modules (id, path_id, title, type, content, estimated_minutes, order_index)
 VALUES
   (
-    'm1000000-0000-0000-0006-000000000001',
-    'p1000000-0000-0000-0000-000000000006',
+    'b1000000-0000-0000-0006-000000000001',
+    'a1000000-0000-0000-0000-000000000006',
     'Simulado Diagnóstico',
     'quiz',
     NULL,
@@ -536,8 +547,8 @@ VALUES
     1
   ),
   (
-    'm1000000-0000-0000-0006-000000000002',
-    'p1000000-0000-0000-0000-000000000006',
+    'b1000000-0000-0000-0006-000000000002',
+    'a1000000-0000-0000-0000-000000000006',
     'Revisão: Clínica Médica',
     'reading',
     '# Revisão Rápida: Clínica Médica
@@ -566,11 +577,12 @@ VALUES
     2
   ),
   (
-    'm1000000-0000-0000-0006-000000000003',
-    'p1000000-0000-0000-0000-000000000006',
+    'b1000000-0000-0000-0006-000000000003',
+    'a1000000-0000-0000-0000-000000000006',
     'Simulado Final',
     'quiz',
     NULL,
     300,
     3
-  );
+  )
+ON CONFLICT (id) DO NOTHING;

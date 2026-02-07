@@ -23,6 +23,7 @@ export * from './calculators/similarity';
 export * from './calculators/distractor';
 export * from './calculators/cip';
 export * from './calculators/cip-scoring';
+export * from './calculators/cip-image-scoring';
 
 // Spaced Repetition (with namespaces to avoid conflicts)
 export * as SM2 from './calculators/sm2';

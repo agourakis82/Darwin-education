@@ -154,7 +154,7 @@ export default function GerarQuestaoPage() {
         discrimination: q.irt?.discrimination ?? 1.0,
         guessing: q.irt?.guessing ?? 0.25,
         question_bank: 'ai_generated',
-        ai_provider: 'minimax',
+        ai_provider: 'grok',
         ai_generation_cost: store.result.costBRL,
         status: 'pending_review',
         created_by: userData.user.id,

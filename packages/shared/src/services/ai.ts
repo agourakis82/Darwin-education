@@ -224,18 +224,18 @@ export async function minimaxChat(
     timeoutMs?: number
   }
 ): Promise<MinimaxChatResponse> {
-  const apiKey = options?.apiKey || process.env.GROK_API_KEY || process.env.MINIMAX_API_KEY
+  const apiKey = options?.apiKey || process.env.GROK_API_KEY || process.env.XAI_API_KEY || process.env.MINIMAX_API_KEY
   if (!apiKey) {
-    throw new Error('Missing GROK_API_KEY or MINIMAX_API_KEY')
+    throw new Error('Missing GROK_API_KEY, XAI_API_KEY, or MINIMAX_API_KEY')
   }
 
-  // Use Grok API if available
-  if (process.env.GROK_API_KEY) {
+  // Use Grok API if available (supports both env var names)
+  if (process.env.GROK_API_KEY || process.env.XAI_API_KEY) {
     return minimaxChatViaGrok(request, apiKey, options?.timeoutMs)
   }
 
   // Fall back to Minimax API
-  throw new Error('Minimax API implementation pending - use GROK_API_KEY instead')
+  throw new Error('Minimax API implementation pending - use XAI_API_KEY or GROK_API_KEY instead')
 }
 
 /**

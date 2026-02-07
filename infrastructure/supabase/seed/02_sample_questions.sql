@@ -10,7 +10,7 @@ INSERT INTO questions (id, bank_id, stem, options, correct_index, explanation, a
 VALUES
 -- CM1: Diabetes (Fácil)
 (
-  'q1000000-0000-0000-0001-000000000001',
+  'c1000000-0000-0000-0001-000000000001',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente de 52 anos, obeso, com glicemia de jejum de 142 mg/dL em duas ocasiões distintas. Qual o diagnóstico mais provável?',
   '[{"letter": "A", "text": "Glicemia de jejum alterada"}, {"letter": "B", "text": "Diabetes mellitus tipo 2"}, {"letter": "C", "text": "Diabetes mellitus tipo 1"}, {"letter": "D", "text": "Intolerância à glicose"}, {"letter": "E", "text": "Diabetes gestacional"}]',
@@ -22,7 +22,7 @@ VALUES
 
 -- CM2: Hipertensão (Médio)
 (
-  'q1000000-0000-0000-0001-000000000002',
+  'c1000000-0000-0000-0001-000000000002',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente hipertenso de 65 anos com creatinina de 2.1 mg/dL e proteinúria de 1.2 g/24h. Qual a classe de anti-hipertensivo preferencial?',
   '[{"letter": "A", "text": "Betabloqueador"}, {"letter": "B", "text": "Tiazídico"}, {"letter": "C", "text": "IECA ou BRA"}, {"letter": "D", "text": "Bloqueador de canal de cálcio"}, {"letter": "E", "text": "Alfa-bloqueador"}]',
@@ -34,7 +34,7 @@ VALUES
 
 -- CM3: Pneumologia (Difícil)
 (
-  'q1000000-0000-0000-0001-000000000003',
+  'c1000000-0000-0000-0001-000000000003',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente de 58 anos, tabagista de longa data, com dispneia progressiva e tosse crônica. Espirometria: VEF1/CVF = 0.62 e VEF1 = 48% do previsto pós-broncodilatador. Qual a classificação GOLD?',
   '[{"letter": "A", "text": "GOLD 1 - Leve"}, {"letter": "B", "text": "GOLD 2 - Moderado"}, {"letter": "C", "text": "GOLD 3 - Grave"}, {"letter": "D", "text": "GOLD 4 - Muito grave"}, {"letter": "E", "text": "Não é DPOC"}]',
@@ -46,7 +46,7 @@ VALUES
 
 -- CM4: Cardiologia (Médio)
 (
-  'q1000000-0000-0000-0001-000000000004',
+  'c1000000-0000-0000-0001-000000000004',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente com FA permanente, 68 anos, hipertenso e diabético. Qual o escore CHA2DS2-VASc e a conduta antitrombótica?',
   '[{"letter": "A", "text": "Score 2, considerar anticoagulação"}, {"letter": "B", "text": "Score 3, anticoagulação indicada"}, {"letter": "C", "text": "Score 4, anticoagulação indicada"}, {"letter": "D", "text": "Score 5, anticoagulação indicada"}, {"letter": "E", "text": "Score 1, AAS suficiente"}]',
@@ -58,7 +58,7 @@ VALUES
 
 -- CM5: Nefrologia (Muito Difícil)
 (
-  'q1000000-0000-0000-0001-000000000005',
+  'c1000000-0000-0000-0001-000000000005',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente com DRC estágio 4, apresenta K+ = 6.8 mEq/L e alterações eletrocardiográficas. Qual a sequência correta de tratamento?',
   '[{"letter": "A", "text": "Gluconato de cálcio → Insulina + glicose → Furosemida"}, {"letter": "B", "text": "Insulina + glicose → Gluconato de cálcio → Diálise"}, {"letter": "C", "text": "Bicarbonato de sódio → Sorcal → Diálise"}, {"letter": "D", "text": "Furosemida → Insulina → Gluconato de cálcio"}, {"letter": "E", "text": "Sorcal → Gluconato de cálcio → Insulina"}]',
@@ -70,7 +70,7 @@ VALUES
 
 -- CM6: Infectologia (Fácil)
 (
-  'q1000000-0000-0000-0001-000000000006',
+  'c1000000-0000-0000-0001-000000000006',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente HIV+ com CD4 = 150 células/mm³. Qual profilaxia primária está indicada?',
   '[{"letter": "A", "text": "Sulfametoxazol-trimetoprim para Pneumocystis jirovecii"}, {"letter": "B", "text": "Azitromicina para MAC"}, {"letter": "C", "text": "Fluconazol para Candida"}, {"letter": "D", "text": "Ganciclovir para CMV"}, {"letter": "E", "text": "Nenhuma profilaxia necessária"}]',
@@ -82,7 +82,7 @@ VALUES
 
 -- CM7: Gastroenterologia (Médio)
 (
-  'q1000000-0000-0000-0001-000000000007',
+  'c1000000-0000-0000-0001-000000000007',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente cirrótico com ascite tensa. Paracentese retira 6 litros. Qual a conduta para prevenção de disfunção circulatória?',
   '[{"letter": "A", "text": "Albumina 8g/L de ascite retirada"}, {"letter": "B", "text": "Soro fisiológico 500mL"}, {"letter": "C", "text": "Reposição não necessária"}, {"letter": "D", "text": "Dextran 70"}, {"letter": "E", "text": "Plasma fresco"}]',
@@ -94,7 +94,7 @@ VALUES
 
 -- CM8: Reumatologia (Difícil)
 (
-  'q1000000-0000-0000-0001-000000000008',
+  'c1000000-0000-0000-0001-000000000008',
   'a1000000-0000-0000-0000-000000000001',
   'Mulher de 35 anos com artrite simétrica de mãos, rigidez matinal >1h, nódulos subcutâneos e fator reumatoide positivo. Anti-CCP negativo. Qual a principal diferença prognóstica em relação a pacientes anti-CCP positivos?',
   '[{"letter": "A", "text": "Menor chance de erosões ósseas"}, {"letter": "B", "text": "Maior chance de manifestações extra-articulares"}, {"letter": "C", "text": "Menor resposta ao metotrexato"}, {"letter": "D", "text": "Maior mortalidade cardiovascular"}, {"letter": "E", "text": "Não há diferença prognóstica"}]',
@@ -106,7 +106,7 @@ VALUES
 
 -- CM9: Hematologia (Muito Fácil)
 (
-  'q1000000-0000-0000-0001-000000000009',
+  'c1000000-0000-0000-0001-000000000009',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente com anemia, VCM = 68 fL, ferritina = 8 ng/mL. Qual o tipo de anemia?',
   '[{"letter": "A", "text": "Anemia ferropriva"}, {"letter": "B", "text": "Anemia de doença crônica"}, {"letter": "C", "text": "Talassemia minor"}, {"letter": "D", "text": "Anemia sideroblástica"}, {"letter": "E", "text": "Anemia megaloblástica"}]',
@@ -118,7 +118,7 @@ VALUES
 
 -- CM10: Neurologia (Médio)
 (
-  'q1000000-0000-0000-0001-000000000010',
+  'c1000000-0000-0000-0001-000000000010',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente de 70 anos com AVC isquêmico há 2 horas, sem contraindicações. PA = 185x105 mmHg. Qual a conduta antes da trombólise?',
   '[{"letter": "A", "text": "Reduzir PA para <185/110 mmHg"}, {"letter": "B", "text": "Não há necessidade de controle pressórico"}, {"letter": "C", "text": "Reduzir PA para <140/90 mmHg"}, {"letter": "D", "text": "Contraindicação absoluta à trombólise"}, {"letter": "E", "text": "Iniciar anti-hipertensivo VO"}]',
@@ -134,7 +134,7 @@ VALUES
 
 -- CIR1: Abdome Agudo (Fácil)
 (
-  'q1000000-0000-0000-0002-000000000001',
+  'c1000000-0000-0000-0002-000000000001',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente de 25 anos com dor em fossa ilíaca direita, náuseas e febre. Sinal de Blumberg positivo. Qual o diagnóstico mais provável?',
   '[{"letter": "A", "text": "Apendicite aguda"}, {"letter": "B", "text": "Colecistite aguda"}, {"letter": "C", "text": "Diverticulite"}, {"letter": "D", "text": "Pancreatite aguda"}, {"letter": "E", "text": "Úlcera perfurada"}]',
@@ -146,7 +146,7 @@ VALUES
 
 -- CIR2: Trauma (Médio)
 (
-  'q1000000-0000-0000-0002-000000000002',
+  'c1000000-0000-0000-0002-000000000002',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente vítima de acidente automobilístico, estável hemodinamicamente, com FAST positivo no quadrante superior esquerdo. TC mostra laceração esplênica grau III. Conduta?',
   '[{"letter": "A", "text": "Tratamento não operatório com observação"}, {"letter": "B", "text": "Laparotomia imediata"}, {"letter": "C", "text": "Arteriografia com embolização"}, {"letter": "D", "text": "Videolaparoscopia diagnóstica"}, {"letter": "E", "text": "Repetir FAST em 6 horas"}]',
@@ -158,7 +158,7 @@ VALUES
 
 -- CIR3: Coloproctologia (Difícil)
 (
-  'q1000000-0000-0000-0002-000000000003',
+  'c1000000-0000-0000-0002-000000000003',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente de 60 anos com obstrução intestinal por adenocarcinoma de cólon sigmoide. Tumor irressecável com metástases hepáticas. Qual a conduta cirúrgica paliativa preferencial?',
   '[{"letter": "A", "text": "Colostomia em alça"}, {"letter": "B", "text": "Prótese colônica endoscópica"}, {"letter": "C", "text": "Ressecção paliativa com anastomose primária"}, {"letter": "D", "text": "Derivação ileocólica"}, {"letter": "E", "text": "Cecostomia"}]',
@@ -170,7 +170,7 @@ VALUES
 
 -- CIR4: Hérnias (Fácil)
 (
-  'q1000000-0000-0000-0002-000000000004',
+  'c1000000-0000-0000-0002-000000000004',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente de 45 anos com abaulamento em região inguinal direita que aumenta com Valsalva e reduz espontaneamente. Qual o diagnóstico?',
   '[{"letter": "A", "text": "Hérnia inguinal indireta redutível"}, {"letter": "B", "text": "Hérnia inguinal direta"}, {"letter": "C", "text": "Hérnia femoral"}, {"letter": "D", "text": "Varicocele"}, {"letter": "E", "text": "Hidrocele"}]',
@@ -182,7 +182,7 @@ VALUES
 
 -- CIR5: Cirurgia Bariátrica (Muito Difícil)
 (
-  'q1000000-0000-0000-0002-000000000005',
+  'c1000000-0000-0000-0002-000000000005',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente pós bypass gástrico em Y de Roux há 3 anos apresenta dor abdominal intermitente, náuseas e vômitos biliosos. TC sem alterações. Qual a hipótese diagnóstica e conduta?',
   '[{"letter": "A", "text": "Hérnia interna de Petersen - exploração laparoscópica"}, {"letter": "B", "text": "Estenose da anastomose - EDA com dilatação"}, {"letter": "C", "text": "Úlcera marginal - IBP e erradicação de H. pylori"}, {"letter": "D", "text": "Dumping tardio - ajuste dietético"}, {"letter": "E", "text": "Aderências - tratamento conservador"}]',
@@ -194,7 +194,7 @@ VALUES
 
 -- CIR6: Cirurgia Vascular (Médio)
 (
-  'q1000000-0000-0000-0002-000000000006',
+  'c1000000-0000-0000-0002-000000000006',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente de 68 anos, tabagista, com claudicação intermitente a 100 metros. ITB = 0.6. Qual a conduta inicial?',
   '[{"letter": "A", "text": "Tratamento clínico com cilostazol e estatina"}, {"letter": "B", "text": "Angioplastia com stent"}, {"letter": "C", "text": "Bypass femoropoplíteo"}, {"letter": "D", "text": "Simpatectomia lombar"}, {"letter": "E", "text": "Amputação primária"}]',
@@ -206,7 +206,7 @@ VALUES
 
 -- CIR7: Cirurgia Torácica (Difícil)
 (
-  'q1000000-0000-0000-0002-000000000007',
+  'c1000000-0000-0000-0002-000000000007',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente de 55 anos com nódulo pulmonar solitário de 2.5 cm no lobo superior direito. PET-CT com SUV = 8.5. Estadiamento negativo para metástases. Qual a conduta?',
   '[{"letter": "A", "text": "Lobectomia com linfadenectomia mediastinal"}, {"letter": "B", "text": "Quimioterapia neoadjuvante"}, {"letter": "C", "text": "Segmentectomia"}, {"letter": "D", "text": "Radioterapia estereotáxica"}, {"letter": "E", "text": "Biópsia por EBUS antes de cirurgia"}]',
@@ -218,7 +218,7 @@ VALUES
 
 -- CIR8: Urgências (Muito Fácil)
 (
-  'q1000000-0000-0000-0002-000000000008',
+  'c1000000-0000-0000-0002-000000000008',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente com ferimento por arma branca em tórax esquerdo, PA = 80x50 mmHg, turgência jugular, bulhas abafadas. Diagnóstico?',
   '[{"letter": "A", "text": "Tamponamento cardíaco"}, {"letter": "B", "text": "Pneumotórax hipertensivo"}, {"letter": "C", "text": "Hemotórax maciço"}, {"letter": "D", "text": "Contusão miocárdica"}, {"letter": "E", "text": "Lesão de grandes vasos"}]',
@@ -230,7 +230,7 @@ VALUES
 
 -- CIR9: Via Biliar (Médio)
 (
-  'q1000000-0000-0000-0002-000000000009',
+  'c1000000-0000-0000-0002-000000000009',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente com colecistite aguda litiásica há 72 horas, sem peritonite. Quando realizar colecistectomia?',
   '[{"letter": "A", "text": "Precoce, durante a mesma internação"}, {"letter": "B", "text": "Após 6-8 semanas de tratamento clínico"}, {"letter": "C", "text": "Após resolução da dor"}, {"letter": "D", "text": "Apenas se recorrência"}, {"letter": "E", "text": "Colecistostomia percutânea primeiro"}]',
@@ -242,7 +242,7 @@ VALUES
 
 -- CIR10: Oncologia Cirúrgica (Difícil)
 (
-  'q1000000-0000-0000-0002-000000000010',
+  'c1000000-0000-0000-0002-000000000010',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente com adenocarcinoma gástrico do antro, T2N1M0. Qual a extensão da linfadenectomia recomendada?',
   '[{"letter": "A", "text": "D2"}, {"letter": "B", "text": "D1"}, {"letter": "C", "text": "D0"}, {"letter": "D", "text": "D3"}, {"letter": "E", "text": "Linfadenectomia não indicada"}]',
@@ -258,7 +258,7 @@ VALUES
 
 -- GO1: Pré-Natal (Fácil)
 (
-  'q1000000-0000-0000-0003-000000000001',
+  'c1000000-0000-0000-0003-000000000001',
   'a1000000-0000-0000-0000-000000000001',
   'Gestante de 24 semanas com glicemia de jejum de 98 mg/dL no primeiro trimestre. Qual a conduta?',
   '[{"letter": "A", "text": "Realizar TOTG 75g entre 24-28 semanas"}, {"letter": "B", "text": "Diagnosticar diabetes gestacional"}, {"letter": "C", "text": "Iniciar insulina"}, {"letter": "D", "text": "Repetir glicemia de jejum"}, {"letter": "E", "text": "Considerar normal, sem necessidade de investigação"}]',
@@ -270,7 +270,7 @@ VALUES
 
 -- GO2: Parto (Médio)
 (
-  'q1000000-0000-0000-0003-000000000002',
+  'c1000000-0000-0000-0003-000000000002',
   'a1000000-0000-0000-0000-000000000001',
   'Gestante de 39 semanas em trabalho de parto, dilatação 8 cm, BCF = 100 bpm com desacelerações tardias repetitivas. Conduta?',
   '[{"letter": "A", "text": "Cesárea de emergência"}, {"letter": "B", "text": "Amniotomia"}, {"letter": "C", "text": "Ocitocina"}, {"letter": "D", "text": "Fórcipe de alívio"}, {"letter": "E", "text": "Aguardar evolução"}]',
@@ -282,7 +282,7 @@ VALUES
 
 -- GO3: Oncologia Ginecológica (Difícil)
 (
-  'q1000000-0000-0000-0003-000000000003',
+  'c1000000-0000-0000-0003-000000000003',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente de 45 anos com sangramento uterino anormal. Histeroscopia mostra pólipo endometrial. Anatomopatológico: adenocarcinoma de endométrio grau 1 limitado ao pólipo. Qual a conduta?',
   '[{"letter": "A", "text": "Histerectomia total com salpingo-ooforectomia bilateral"}, {"letter": "B", "text": "Apenas acompanhamento"}, {"letter": "C", "text": "Nova polipectomia com margens"}, {"letter": "D", "text": "Radioterapia pélvica"}, {"letter": "E", "text": "Quimioterapia adjuvante"}]',
@@ -294,7 +294,7 @@ VALUES
 
 -- GO4: Sangramento 1º Trimestre (Fácil)
 (
-  'q1000000-0000-0000-0003-000000000004',
+  'c1000000-0000-0000-0003-000000000004',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente com 8 semanas de amenorreia, beta-hCG = 2000 mUI/mL, USG transvaginal sem saco gestacional intrauterino. Qual a principal hipótese?',
   '[{"letter": "A", "text": "Gravidez ectópica"}, {"letter": "B", "text": "Gestação inicial viável"}, {"letter": "C", "text": "Aborto completo"}, {"letter": "D", "text": "Mola hidatiforme"}, {"letter": "E", "text": "Gravidez anembrionada"}]',
@@ -306,7 +306,7 @@ VALUES
 
 -- GO5: Pré-eclâmpsia (Muito Difícil)
 (
-  'q1000000-0000-0000-0003-000000000005',
+  'c1000000-0000-0000-0003-000000000005',
   'a1000000-0000-0000-0000-000000000001',
   'Gestante de 32 semanas com pré-eclâmpsia grave. PA = 170x110 mmHg, proteinúria 3+, plaquetas = 85.000, TGO = 250, DHL = 800, esquizócitos no sangue periférico. Conduta?',
   '[{"letter": "A", "text": "Interrupção imediata da gestação após estabilização"}, {"letter": "B", "text": "Corticoide e aguardar 48h"}, {"letter": "C", "text": "Sulfato de magnésio e anti-hipertensivo apenas"}, {"letter": "D", "text": "Plasmaférese"}, {"letter": "E", "text": "Transfusão de plaquetas e observação"}]',
@@ -318,7 +318,7 @@ VALUES
 
 -- GO6: Ginecologia Geral (Médio)
 (
-  'q1000000-0000-0000-0003-000000000006',
+  'c1000000-0000-0000-0003-000000000006',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente de 28 anos com corrimento vaginal amarelo-esverdeado, bolhoso, com odor fétido. pH vaginal = 6.0, teste das aminas positivo. Agente etiológico?',
   '[{"letter": "A", "text": "Trichomonas vaginalis"}, {"letter": "B", "text": "Gardnerella vaginalis"}, {"letter": "C", "text": "Candida albicans"}, {"letter": "D", "text": "Neisseria gonorrhoeae"}, {"letter": "E", "text": "Chlamydia trachomatis"}]',
@@ -330,7 +330,7 @@ VALUES
 
 -- GO7: Contracepção (Fácil)
 (
-  'q1000000-0000-0000-0003-000000000007',
+  'c1000000-0000-0000-0003-000000000007',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente de 35 anos, tabagista de 25 cigarros/dia, deseja contracepção hormonal. Qual método é contraindicado?',
   '[{"letter": "A", "text": "Contraceptivo combinado oral"}, {"letter": "B", "text": "Implante subdérmico"}, {"letter": "C", "text": "DIU hormonal"}, {"letter": "D", "text": "Minipílula"}, {"letter": "E", "text": "Injetável trimestral"}]',
@@ -342,7 +342,7 @@ VALUES
 
 -- GO8: Mama (Difícil)
 (
-  'q1000000-0000-0000-0003-000000000008',
+  'c1000000-0000-0000-0003-000000000008',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente de 52 anos com nódulo mamário de 2 cm, móvel. Mamografia: BI-RADS 4B. Core biopsy: carcinoma ductal invasivo, RE+, RP+, HER2 negativo, Ki-67 = 15%. Classificação molecular?',
   '[{"letter": "A", "text": "Luminal A"}, {"letter": "B", "text": "Luminal B HER2 negativo"}, {"letter": "C", "text": "Luminal B HER2 positivo"}, {"letter": "D", "text": "HER2 superexpresso"}, {"letter": "E", "text": "Triplo negativo"}]',
@@ -354,7 +354,7 @@ VALUES
 
 -- GO9: Puerpério (Médio)
 (
-  'q1000000-0000-0000-0003-000000000009',
+  'c1000000-0000-0000-0003-000000000009',
   'a1000000-0000-0000-0000-000000000001',
   'Puérpera de 5 dias com febre 39°C, útero doloroso e subinvoluído, lóquios piossanguinolentos fétidos. Diagnóstico e tratamento?',
   '[{"letter": "A", "text": "Endometrite - Clindamicina + Gentamicina"}, {"letter": "B", "text": "Mastite - Cefalexina"}, {"letter": "C", "text": "ITU - Ciprofloxacino"}, {"letter": "D", "text": "Tromboflebite pélvica - Anticoagulação"}, {"letter": "E", "text": "Restos placentários - Curetagem"}]',
@@ -366,7 +366,7 @@ VALUES
 
 -- GO10: Infertilidade (Muito Fácil)
 (
-  'q1000000-0000-0000-0003-000000000010',
+  'c1000000-0000-0000-0003-000000000010',
   'a1000000-0000-0000-0000-000000000001',
   'Casal com infertilidade há 2 anos. Espermograma com azoospermia. Qual o próximo passo?',
   '[{"letter": "A", "text": "Dosagem de FSH e testosterona"}, {"letter": "B", "text": "Histerossalpingografia"}, {"letter": "C", "text": "USG transvaginal seriada"}, {"letter": "D", "text": "Laparoscopia"}, {"letter": "E", "text": "Indução de ovulação"}]',
@@ -382,7 +382,7 @@ VALUES
 
 -- PED1: Neonatologia (Fácil)
 (
-  'q1000000-0000-0000-0004-000000000001',
+  'c1000000-0000-0000-0004-000000000001',
   'a1000000-0000-0000-0000-000000000001',
   'RN de 34 semanas, desconforto respiratório precoce, gasometria com PaO2 = 45 mmHg. Raio-X com infiltrado reticulogranular difuso e broncogramas aéreos. Diagnóstico?',
   '[{"letter": "A", "text": "Síndrome do desconforto respiratório"}, {"letter": "B", "text": "Taquipneia transitória do RN"}, {"letter": "C", "text": "Pneumonia neonatal"}, {"letter": "D", "text": "Síndrome de aspiração meconial"}, {"letter": "E", "text": "Persistência do canal arterial"}]',
@@ -394,7 +394,7 @@ VALUES
 
 -- PED2: Puericultura (Muito Fácil)
 (
-  'q1000000-0000-0000-0004-000000000002',
+  'c1000000-0000-0000-0004-000000000002',
   'a1000000-0000-0000-0000-000000000001',
   'Lactente de 6 meses em aleitamento materno exclusivo. Qual a suplementação obrigatória?',
   '[{"letter": "A", "text": "Vitamina D"}, {"letter": "B", "text": "Ferro"}, {"letter": "C", "text": "Vitamina A"}, {"letter": "D", "text": "Zinco"}, {"letter": "E", "text": "Nenhuma suplementação necessária"}]',
@@ -406,7 +406,7 @@ VALUES
 
 -- PED3: Infectologia Pediátrica (Médio)
 (
-  'q1000000-0000-0000-0004-000000000003',
+  'c1000000-0000-0000-0004-000000000003',
   'a1000000-0000-0000-0000-000000000001',
   'Criança de 4 anos com febre alta há 5 dias, conjuntivite bilateral não purulenta, língua em framboesa, linfadenopatia cervical unilateral >1.5 cm, exantema polimórfico e edema de extremidades. Qual o diagnóstico e a complicação mais temida?',
   '[{"letter": "A", "text": "Doença de Kawasaki - Aneurismas coronarianos"}, {"letter": "B", "text": "Escarlatina - Glomerulonefrite"}, {"letter": "C", "text": "Sarampo - Encefalite"}, {"letter": "D", "text": "Mononucleose - Ruptura esplênica"}, {"letter": "E", "text": "Rubéola - Trombocitopenia"}]',
@@ -418,7 +418,7 @@ VALUES
 
 -- PED4: Pneumologia Pediátrica (Médio)
 (
-  'q1000000-0000-0000-0004-000000000004',
+  'c1000000-0000-0000-0004-000000000004',
   'a1000000-0000-0000-0000-000000000001',
   'Lactente de 8 meses, primeiro episódio de sibilância, coriza e febre baixa há 3 dias. FR = 48 irpm, SatO2 = 93%, tiragem subcostal. Qual o diagnóstico e tratamento?',
   '[{"letter": "A", "text": "Bronquiolite viral aguda - Suporte e oxigênio"}, {"letter": "B", "text": "Asma - Beta-2 agonista"}, {"letter": "C", "text": "Pneumonia bacteriana - Amoxicilina"}, {"letter": "D", "text": "Coqueluche - Azitromicina"}, {"letter": "E", "text": "Laringite - Corticoide"}]',
@@ -430,7 +430,7 @@ VALUES
 
 -- PED5: Emergência Pediátrica (Difícil)
 (
-  'q1000000-0000-0000-0004-000000000005',
+  'c1000000-0000-0000-0004-000000000005',
   'a1000000-0000-0000-0000-000000000001',
   'Criança de 3 anos com diarreia há 5 dias, olhos fundos, sinal da prega presente mas retorna lentamente, bebe água com avidez. Qual o grau de desidratação e a reposição inicial?',
   '[{"letter": "A", "text": "Desidratação moderada - TRO supervisionada"}, {"letter": "B", "text": "Desidratação grave - SF 0.9% 20 mL/kg em bolus"}, {"letter": "C", "text": "Desidratação leve - TRO domiciliar"}, {"letter": "D", "text": "Sem desidratação - Apenas orientações"}, {"letter": "E", "text": "Desidratação grave - Soro glicosado"}]',
@@ -442,7 +442,7 @@ VALUES
 
 -- PED6: Neurologia Pediátrica (Difícil)
 (
-  'q1000000-0000-0000-0004-000000000006',
+  'c1000000-0000-0000-0004-000000000006',
   'a1000000-0000-0000-0000-000000000001',
   'Criança de 18 meses com febre de 39.5°C há 1 hora apresenta crise tônico-clônica generalizada de 3 minutos com recuperação completa. Sem história prévia de convulsões. Conduta?',
   '[{"letter": "A", "text": "Investigar foco infeccioso e orientar recorrência"}, {"letter": "B", "text": "TC de crânio urgente"}, {"letter": "C", "text": "Iniciar anticonvulsivante profilático"}, {"letter": "D", "text": "Punção lombar"}, {"letter": "E", "text": "EEG de urgência"}]',
@@ -454,7 +454,7 @@ VALUES
 
 -- PED7: Gastroenterologia Pediátrica (Médio)
 (
-  'q1000000-0000-0000-0004-000000000007',
+  'c1000000-0000-0000-0004-000000000007',
   'a1000000-0000-0000-0000-000000000001',
   'Lactente de 2 meses com regurgitações frequentes após mamadas, sem perda ponderal, sem irritabilidade ou recusa alimentar. Diagnóstico e conduta?',
   '[{"letter": "A", "text": "Refluxo gastroesofágico fisiológico - Orientações posturais"}, {"letter": "B", "text": "DRGE - Omeprazol"}, {"letter": "C", "text": "Estenose hipertrófica de piloro - USG"}, {"letter": "D", "text": "Alergia à proteína do leite de vaca - Fórmula hidrolisada"}, {"letter": "E", "text": "Má rotação intestinal - Trânsito intestinal"}]',
@@ -466,7 +466,7 @@ VALUES
 
 -- PED8: Cardiologia Pediátrica (Muito Difícil)
 (
-  'q1000000-0000-0000-0004-000000000008',
+  'c1000000-0000-0000-0004-000000000008',
   'a1000000-0000-0000-0000-000000000001',
   'RN com cianose central desde o nascimento, piora com choro, SatO2 = 75% em ar ambiente que não melhora com O2 100%. Raio-X com área cardíaca normal e trama vascular pulmonar diminuída. Sopro sistólico em BEE. Provável diagnóstico?',
   '[{"letter": "A", "text": "Tetralogia de Fallot"}, {"letter": "B", "text": "Transposição das grandes artérias"}, {"letter": "C", "text": "Coarctação da aorta"}, {"letter": "D", "text": "Comunicação interventricular"}, {"letter": "E", "text": "Persistência do canal arterial"}]',
@@ -478,7 +478,7 @@ VALUES
 
 -- PED9: Imunização (Fácil)
 (
-  'q1000000-0000-0000-0004-000000000009',
+  'c1000000-0000-0000-0004-000000000009',
   'a1000000-0000-0000-0000-000000000001',
   'Criança de 15 meses comparece à UBS para vacinação. Quais vacinas do calendário devem ser aplicadas nesta idade?',
   '[{"letter": "A", "text": "Tríplice viral, Hepatite A, Tetra viral"}, {"letter": "B", "text": "Pentavalente, VIP, Pneumo 10"}, {"letter": "C", "text": "DTP, VOP, Febre amarela"}, {"letter": "D", "text": "Meningo C, Pneumo 23"}, {"letter": "E", "text": "BCG e Hepatite B"}]',
@@ -490,7 +490,7 @@ VALUES
 
 -- PED10: Nefrologia Pediátrica (Difícil)
 (
-  'q1000000-0000-0000-0004-000000000010',
+  'c1000000-0000-0000-0004-000000000010',
   'a1000000-0000-0000-0000-000000000001',
   'Criança de 5 anos com edema palpebral matinal que evoluiu para anasarca. Urina I: proteína 4+, sem hematúria. Albumina sérica = 1.8 g/dL, colesterol = 380 mg/dL. Diagnóstico e tratamento inicial?',
   '[{"letter": "A", "text": "Síndrome nefrótica - Prednisona"}, {"letter": "B", "text": "Síndrome nefrítica - Restrição hídrica"}, {"letter": "C", "text": "Glomerulonefrite pós-estreptocócica - Penicilina"}, {"letter": "D", "text": "Síndrome hemolítico-urêmica - Suporte"}, {"letter": "E", "text": "Nefropatia por IgA - IECA"}]',
@@ -506,7 +506,7 @@ VALUES
 
 -- SC1: Epidemiologia (Fácil)
 (
-  'q1000000-0000-0000-0005-000000000001',
+  'c1000000-0000-0000-0005-000000000001',
   'a1000000-0000-0000-0000-000000000001',
   'Em um estudo sobre COVID-19, 100 pessoas foram acompanhadas por 1 ano. 20 desenvolveram a doença. Qual a taxa de incidência?',
   '[{"letter": "A", "text": "20%"}, {"letter": "B", "text": "0.2 por pessoa-ano"}, {"letter": "C", "text": "20 casos"}, {"letter": "D", "text": "80%"}, {"letter": "E", "text": "Não é possível calcular"}]',
@@ -518,7 +518,7 @@ VALUES
 
 -- SC2: Vigilância (Médio)
 (
-  'q1000000-0000-0000-0005-000000000002',
+  'c1000000-0000-0000-0005-000000000002',
   'a1000000-0000-0000-0000-000000000001',
   'Médico atende caso suspeito de sarampo. Qual a conduta quanto à notificação?',
   '[{"letter": "A", "text": "Notificação imediata em até 24 horas"}, {"letter": "B", "text": "Notificação semanal"}, {"letter": "C", "text": "Notificação apenas se confirmado"}, {"letter": "D", "text": "Não é doença de notificação compulsória"}, {"letter": "E", "text": "Notificação mensal"}]',
@@ -530,7 +530,7 @@ VALUES
 
 -- SC3: SUS (Médio)
 (
-  'q1000000-0000-0000-0005-000000000003',
+  'c1000000-0000-0000-0005-000000000003',
   'a1000000-0000-0000-0000-000000000001',
   'Sobre os princípios do SUS, qual alternativa corresponde corretamente a um princípio organizativo?',
   '[{"letter": "A", "text": "Descentralização"}, {"letter": "B", "text": "Universalidade"}, {"letter": "C", "text": "Integralidade"}, {"letter": "D", "text": "Equidade"}, {"letter": "E", "text": "Preservação da autonomia"}]',
@@ -542,7 +542,7 @@ VALUES
 
 -- SC4: Bioestatística (Difícil)
 (
-  'q1000000-0000-0000-0005-000000000004',
+  'c1000000-0000-0000-0005-000000000004',
   'a1000000-0000-0000-0000-000000000001',
   'Um teste diagnóstico para HIV tem sensibilidade de 99% e especificidade de 98%. Em uma população com prevalência de 1%, qual o valor preditivo positivo aproximado?',
   '[{"letter": "A", "text": "33%"}, {"letter": "B", "text": "50%"}, {"letter": "C", "text": "75%"}, {"letter": "D", "text": "99%"}, {"letter": "E", "text": "98%"}]',
@@ -554,7 +554,7 @@ VALUES
 
 -- SC5: Atenção Primária (Fácil)
 (
-  'q1000000-0000-0000-0005-000000000005',
+  'c1000000-0000-0000-0005-000000000005',
   'a1000000-0000-0000-0000-000000000001',
   'Qual o número máximo recomendado de pessoas adstritas a uma equipe de Saúde da Família?',
   '[{"letter": "A", "text": "4.000 pessoas"}, {"letter": "B", "text": "2.000 pessoas"}, {"letter": "C", "text": "1.000 pessoas"}, {"letter": "D", "text": "5.000 pessoas"}, {"letter": "E", "text": "3.500 pessoas"}]',
@@ -566,7 +566,7 @@ VALUES
 
 -- SC6: Medicina do Trabalho (Médio)
 (
-  'q1000000-0000-0000-0005-000000000006',
+  'c1000000-0000-0000-0005-000000000006',
   'a1000000-0000-0000-0000-000000000001',
   'Trabalhador exposto a ruído de 90 dB por 8 horas diárias. Qual a conduta quanto ao PCMSO?',
   '[{"letter": "A", "text": "Audiometria admissional, periódica e demissional"}, {"letter": "B", "text": "Apenas audiometria anual"}, {"letter": "C", "text": "Audiometria a cada 2 anos"}, {"letter": "D", "text": "Exame clínico apenas"}, {"letter": "E", "text": "Dispensa acompanhamento audiométrico"}]',
@@ -578,7 +578,7 @@ VALUES
 
 -- SC7: Epidemiologia Descritiva (Difícil)
 (
-  'q1000000-0000-0000-0005-000000000007',
+  'c1000000-0000-0000-0005-000000000007',
   'a1000000-0000-0000-0000-000000000001',
   'Um estudo comparou fumantes e não fumantes quanto ao desenvolvimento de câncer de pulmão. RR = 10. Qual a fração atribuível no grupo exposto?',
   '[{"letter": "A", "text": "90%"}, {"letter": "B", "text": "80%"}, {"letter": "C", "text": "10%"}, {"letter": "D", "text": "50%"}, {"letter": "E", "text": "100%"}]',
@@ -590,7 +590,7 @@ VALUES
 
 -- SC8: Ética Médica (Muito Fácil)
 (
-  'q1000000-0000-0000-0005-000000000008',
+  'c1000000-0000-0000-0005-000000000008',
   'a1000000-0000-0000-0000-000000000001',
   'Paciente competente recusa transfusão sanguínea por motivos religiosos. Qual a conduta correta?',
   '[{"letter": "A", "text": "Respeitar a decisão e buscar alternativas"}, {"letter": "B", "text": "Realizar transfusão compulsória"}, {"letter": "C", "text": "Solicitar autorização judicial"}, {"letter": "D", "text": "Transferir para outro hospital"}, {"letter": "E", "text": "Aguardar perda de consciência para transfundir"}]',
@@ -602,7 +602,7 @@ VALUES
 
 -- SC9: Epidemiologia Analítica (Muito Difícil)
 (
-  'q1000000-0000-0000-0005-000000000009',
+  'c1000000-0000-0000-0005-000000000009',
   'a1000000-0000-0000-0000-000000000001',
   'Ensaio clínico randomizado avalia nova droga vs placebo. 200 pacientes em cada grupo. Droga: 40 eventos. Placebo: 80 eventos. Qual o NNT?',
   '[{"letter": "A", "text": "5"}, {"letter": "B", "text": "10"}, {"letter": "C", "text": "20"}, {"letter": "D", "text": "2.5"}, {"letter": "E", "text": "4"}]',
@@ -614,7 +614,7 @@ VALUES
 
 -- SC10: Planejamento em Saúde (Médio)
 (
-  'q1000000-0000-0000-0005-000000000010',
+  'c1000000-0000-0000-0005-000000000010',
   'a1000000-0000-0000-0000-000000000001',
   'Na Programação Pactuada Integrada (PPI), qual o papel do município na organização da atenção?',
   '[{"letter": "A", "text": "Garantir acesso à atenção básica e referenciar para média/alta complexidade"}, {"letter": "B", "text": "Apenas executar ações de vigilância"}, {"letter": "C", "text": "Ofertar apenas alta complexidade"}, {"letter": "D", "text": "Definir políticas nacionais"}, {"letter": "E", "text": "Financiar a atenção hospitalar"}]',
@@ -622,4 +622,5 @@ VALUES
   'Município é responsável pela atenção básica de sua população e deve pactuar referências para média e alta complexidade.',
   'saude_coletiva', 'Políticas de Saúde', 'Regionalização', 'medio',
   0.3, 1.4, 0.20, 2022, 'expert'
-);
+)
+ON CONFLICT (id) DO NOTHING;

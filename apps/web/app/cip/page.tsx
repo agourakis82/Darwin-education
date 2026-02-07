@@ -128,7 +128,23 @@ export default async function CIPPage() {
         </Card>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+          <Link href="/cip/interpretacao">
+            <Card hover className="h-full">
+              <CardContent>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-blue-600/20 rounded-lg flex items-center justify-center">
+                    <span className="text-2xl">🩻</span>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-white">Interpretação de Imagem</h3>
+                    <p className="text-sm text-slate-400">Raio-X, TC, ECG, USG, RMN</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+
           <Link href="/cip/pratica?difficulty=facil">
             <Card hover className="h-full">
               <CardContent>

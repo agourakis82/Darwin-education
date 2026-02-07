@@ -8,6 +8,7 @@
  */
 
 import { GeneratedTheoryTopic } from '@darwin-education/shared';
+import { grokChat, extractJSON } from '@/lib/ddl/services/grok-client';
 
 export interface LLMGenerationOptions {
   temperature?: number;
@@ -16,7 +17,7 @@ export interface LLMGenerationOptions {
 }
 
 export class LLMClient {
-  private model: string = 'grok-4-fast-reasoning';
+  private model: string = 'grok-4-1-fast-reasoning';
   private temperature: number = 0.7;
 
   constructor(model?: string) {
@@ -27,26 +28,30 @@ export class LLMClient {
 
   /**
    * Generate theory content using LLM
-   * This would integrate with actual LLM provider (Minimax, Grok, etc)
    */
   async generateTheoryContent(
     prompt: string,
     options?: LLMGenerationOptions
   ): Promise<GeneratedTheoryTopic> {
     try {
-      // In production, this would call actual LLM API
-      // For now, return a structured response that demonstrates the format
-      // The actual implementation would use:
-      // - Anthropic API for Claude models
-      // - Minimax API for Grok models
-      // - Or other configured LLM provider
+      const responseText = await grokChat(
+        [
+          {
+            role: 'system',
+            content:
+              'You are an expert medical educator for ENAMED preparation. Generate comprehensive, accurate medical theory content. Always respond with valid JSON.',
+          },
+          { role: 'user', content: prompt },
+        ],
+        {
+          model: options?.model || this.model,
+          maxTokens: options?.maxTokens || 4096,
+          temperature: options?.temperature || this.temperature,
+        }
+      );
 
-      console.log('[LLM] Generating theory content with prompt length:', prompt.length);
-
-      // Placeholder: This should be replaced with actual LLM call
-      const mockResponse = this.createMockResponse(prompt);
-
-      return mockResponse;
+      const jsonStr = extractJSON(responseText);
+      return JSON.parse(jsonStr) as GeneratedTheoryTopic;
     } catch (error) {
       console.error('Error generating content:', error);
       throw new Error('Failed to generate theory content');
@@ -80,12 +85,24 @@ Provide a JSON response with:
 }
 `;
 
-      // Placeholder for actual LLM call
-      return {
-        isValid: true,
-        score: 0.85,
-        issues: [],
-      };
+      const responseText = await grokChat(
+        [
+          {
+            role: 'system',
+            content:
+              'You are a medical content validator. Evaluate content accuracy and completeness. Respond with valid JSON only.',
+          },
+          { role: 'user', content: prompt },
+        ],
+        {
+          model: this.model,
+          maxTokens: 1024,
+          temperature: 0.2,
+        }
+      );
+
+      const jsonStr = extractJSON(responseText);
+      return JSON.parse(jsonStr);
     } catch (error) {
       console.error('Error validating content:', error);
       throw error;
@@ -108,60 +125,27 @@ Citation: ${citation}
 Respond with just a number between 0 and 1.
 `;
 
-      // Placeholder for actual LLM call
-      return 0.85;
+      const responseText = await grokChat(
+        [
+          {
+            role: 'system',
+            content: 'You are a medical literature expert. Rate citation relevance. Respond with only a number between 0 and 1.',
+          },
+          { role: 'user', content: prompt },
+        ],
+        {
+          model: this.model,
+          maxTokens: 32,
+          temperature: 0.1,
+        }
+      );
+
+      const score = parseFloat(responseText.trim());
+      return isNaN(score) ? 0.5 : Math.min(1, Math.max(0, score));
     } catch (error) {
       console.error('Error scoring relevance:', error);
       return 0.5;
     }
-  }
-
-  /**
-   * Create mock response for testing
-   */
-  private createMockResponse(prompt: string): GeneratedTheoryTopic {
-    // Extract information from prompt to create a reasonable mock response
-    const topicMatch = prompt.match(/Topic Title:\s*(.+)/);
-    const areaMatch = prompt.match(/Area:\s*(.+)/);
-    const difficultyMatch = prompt.match(/Difficulty:\s*(.+)/);
-
-    const title = topicMatch ? topicMatch[1].trim() : 'Topic Title';
-    const area = (areaMatch ? areaMatch[1].trim() : 'clinica_medica') as any;
-    const difficulty = (difficultyMatch ? difficultyMatch[1].trim() : 'intermediario') as any;
-
-    return {
-      topicId: title.toLowerCase().replace(/\s+/g, '-'),
-      title,
-      description: `Comprehensive guide to ${title} for ENAMED preparation.`,
-      area,
-      difficulty,
-      sections: {
-        definition: `${title} is a clinical condition characterized by specific clinical features and manifestations important for ENAMED evaluation.`,
-        epidemiology: 'Epidemiological data and prevalence information would be included here.',
-        pathophysiology: 'The pathophysiological mechanisms underlying the condition would be detailed here.',
-        clinicalPresentation: 'Clinical presentation, signs, and symptoms would be comprehensively covered.',
-        diagnosis: 'Diagnostic criteria, investigations, and clinical examination findings.',
-        treatment: 'Evidence-based treatment approaches and therapeutic interventions.',
-        complications: 'Potential complications and red flags to recognize.',
-        prognosis: 'Expected prognosis and long-term outcomes.',
-      },
-      keyPoints: [
-        'Key clinical feature 1',
-        'Key clinical feature 2',
-        'Key diagnostic criterion',
-        'Evidence-based treatment recommendation',
-        'Important prognostic factor',
-      ],
-      estimatedReadTime: 15,
-      citations: [],
-      citationProvenance: {},
-      generationMetadata: {
-        sourceType: 'manual',
-        generatedAt: new Date(),
-        validationScore: 0.85,
-        status: 'draft',
-      },
-    };
   }
 }
 

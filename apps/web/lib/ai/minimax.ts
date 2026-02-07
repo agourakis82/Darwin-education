@@ -5,12 +5,12 @@ import {
   type MinimaxApiStyle,
 } from '@darwin-education/shared'
 
-const DEFAULT_MODEL = 'abab6.5-chat'
+const DEFAULT_MODEL = 'grok-4-1-fast'
 
 export async function runMinimaxChat(request: MinimaxChatRequest): Promise<MinimaxChatResponse> {
-  const apiKey = process.env.MINIMAX_API_KEY
+  const apiKey = process.env.MINIMAX_API_KEY || process.env.XAI_API_KEY || process.env.GROK_API_KEY
   if (!apiKey) {
-    throw new Error('Missing MINIMAX_API_KEY')
+    throw new Error('Missing MINIMAX_API_KEY, XAI_API_KEY, or GROK_API_KEY')
   }
 
   const baseUrl = process.env.MINIMAX_API_URL

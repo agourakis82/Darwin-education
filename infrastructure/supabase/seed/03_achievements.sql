@@ -7,7 +7,8 @@ INSERT INTO achievements (id, name, description, icon, xp_reward, category) VALU
   ('first_exam', 'Primeiro Simulado', 'Complete seu primeiro simulado', '📝', 50, 'exam'),
   ('first_flashcard', 'Primeira Revisão', 'Revise seu primeiro flashcard', '🗂️', 10, 'learning'),
   ('first_deck', 'Criador de Baralhos', 'Crie seu primeiro deck de flashcards', '✨', 25, 'learning'),
-  ('first_path', 'Desbravador', 'Inicie sua primeira trilha de estudos', '🗺️', 25, 'learning');
+  ('first_path', 'Desbravador', 'Inicie sua primeira trilha de estudos', '🗺️', 25, 'learning')
+ON CONFLICT (id) DO NOTHING;
 
 -- Streak Achievements
 INSERT INTO achievements (id, name, description, icon, xp_reward, category) VALUES
@@ -16,7 +17,8 @@ INSERT INTO achievements (id, name, description, icon, xp_reward, category) VALU
   ('streak_14', 'Determinado', 'Mantenha uma sequência de 14 dias', '🔥', 150, 'streak'),
   ('streak_30', 'Incansável', 'Mantenha uma sequência de 30 dias', '🔥', 300, 'streak'),
   ('streak_60', 'Imparável', 'Mantenha uma sequência de 60 dias', '🔥', 600, 'streak'),
-  ('streak_100', 'Lendário', 'Mantenha uma sequência de 100 dias', '🏆', 1000, 'streak');
+  ('streak_100', 'Lendário', 'Mantenha uma sequência de 100 dias', '🏆', 1000, 'streak')
+ON CONFLICT (id) DO NOTHING;
 
 -- Exam Achievements
 INSERT INTO achievements (id, name, description, icon, xp_reward, category) VALUES
@@ -28,7 +30,8 @@ INSERT INTO achievements (id, name, description, icon, xp_reward, category) VALU
   ('exams_5', 'Persistente', 'Complete 5 simulados', '📚', 100, 'exam'),
   ('exams_10', 'Veterano', 'Complete 10 simulados', '📚', 200, 'exam'),
   ('exams_25', 'Experiente', 'Complete 25 simulados', '📚', 500, 'exam'),
-  ('exams_50', 'Mestre', 'Complete 50 simulados', '👑', 1000, 'exam');
+  ('exams_50', 'Mestre', 'Complete 50 simulados', '👑', 1000, 'exam')
+ON CONFLICT (id) DO NOTHING;
 
 -- Flashcard Achievements
 INSERT INTO achievements (id, name, description, icon, xp_reward, category) VALUES
@@ -38,7 +41,8 @@ INSERT INTO achievements (id, name, description, icon, xp_reward, category) VALU
   ('cards_5000', 'Memória de Elefante', 'Revise 5000 flashcards', '🐘', 750, 'learning'),
   ('mature_10', 'Memorizado', 'Tenha 10 cards maduros', '🧠', 50, 'learning'),
   ('mature_50', 'Boa Memória', 'Tenha 50 cards maduros', '🧠', 150, 'learning'),
-  ('mature_100', 'Retenção Total', 'Tenha 100 cards maduros', '🧠', 300, 'learning');
+  ('mature_100', 'Retenção Total', 'Tenha 100 cards maduros', '🧠', 300, 'learning')
+ON CONFLICT (id) DO NOTHING;
 
 -- Milestone Achievements
 INSERT INTO achievements (id, name, description, icon, xp_reward, category) VALUES
@@ -54,7 +58,8 @@ INSERT INTO achievements (id, name, description, icon, xp_reward, category) VALU
   ('level_10', 'Intermediário', 'Alcance o nível 10', '📈', 100, 'milestone'),
   ('level_25', 'Avançado', 'Alcance o nível 25', '📈', 250, 'milestone'),
   ('level_50', 'Expert', 'Alcance o nível 50', '📈', 500, 'milestone'),
-  ('level_100', 'Mestre Darwin', 'Alcance o nível 100', '🦉', 1000, 'milestone');
+  ('level_100', 'Mestre Darwin', 'Alcance o nível 100', '🦉', 1000, 'milestone')
+ON CONFLICT (id) DO NOTHING;
 
 -- Area Mastery Achievements
 INSERT INTO achievements (id, name, description, icon, xp_reward, category) VALUES
@@ -63,7 +68,8 @@ INSERT INTO achievements (id, name, description, icon, xp_reward, category) VALU
   ('master_go', 'Mestre em GO', 'Acerte 80%+ em 50 questões de GO', '👶', 300, 'exam'),
   ('master_pediatria', 'Mestre em Pediatria', 'Acerte 80%+ em 50 questões de Pediatria', '🧒', 300, 'exam'),
   ('master_coletiva', 'Mestre em Saúde Coletiva', 'Acerte 80%+ em 50 questões de Saúde Coletiva', '🌍', 300, 'exam'),
-  ('complete_master', 'Médico Completo', 'Seja mestre em todas as 5 áreas', '👨‍⚕️', 1000, 'exam');
+  ('complete_master', 'Médico Completo', 'Seja mestre em todas as 5 áreas', '👨‍⚕️', 1000, 'exam')
+ON CONFLICT (id) DO NOTHING;
 
 -- Social Achievements (for future features)
 INSERT INTO achievements (id, name, description, icon, xp_reward, category) VALUES
@@ -71,4 +77,5 @@ INSERT INTO achievements (id, name, description, icon, xp_reward, category) VALU
   ('deck_popular', 'Popular', 'Tenha um deck com 10+ favoritos', '❤️', 100, 'social'),
   ('deck_viral', 'Viral', 'Tenha um deck com 100+ favoritos', '🚀', 300, 'social'),
   ('helper', 'Ajudante', 'Contribua com 10 questões validadas', '🙋', 150, 'social'),
-  ('contributor', 'Contribuidor', 'Contribua com 50 questões validadas', '📖', 400, 'social');
+  ('contributor', 'Contribuidor', 'Contribua com 50 questões validadas', '📖', 400, 'social')
+ON CONFLICT (id) DO NOTHING;

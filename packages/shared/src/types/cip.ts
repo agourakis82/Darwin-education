@@ -407,3 +407,188 @@ export interface DistractorCandidate {
   /** How well it matches target difficulty (0-1, higher = better match) */
   difficultyMatch: number;
 }
+
+// ============================================
+// Image Interpretation Types
+// ============================================
+
+/**
+ * Imaging modality types for interpretation cases
+ */
+export type ImageModality = 'xray' | 'ct' | 'ekg' | 'ultrasound' | 'mri';
+
+/**
+ * Steps in the image interpretation wizard
+ */
+export type ImageInterpretationStep =
+  | 'modality'
+  | 'findings'
+  | 'diagnosis'
+  | 'next_step'
+  | 'completed';
+
+/**
+ * Modality display labels in Portuguese
+ */
+export const IMAGE_MODALITY_LABELS_PT: Record<ImageModality, string> = {
+  xray: 'Raio-X',
+  ct: 'Tomografia (TC)',
+  ekg: 'Eletrocardiograma (ECG)',
+  ultrasound: 'Ultrassonografia (USG)',
+  mri: 'Ressonância (RMN)',
+};
+
+/**
+ * Modality display labels in English
+ */
+export const IMAGE_MODALITY_LABELS_EN: Record<ImageModality, string> = {
+  xray: 'X-Ray',
+  ct: 'CT Scan',
+  ekg: 'ECG/EKG',
+  ultrasound: 'Ultrasound',
+  mri: 'MRI',
+};
+
+/**
+ * Step display labels in Portuguese
+ */
+export const IMAGE_STEP_LABELS_PT: Record<ImageInterpretationStep, string> = {
+  modality: 'Modalidade',
+  findings: 'Achados',
+  diagnosis: 'Diagnóstico',
+  next_step: 'Conduta',
+  completed: 'Concluído',
+};
+
+/**
+ * All image interpretation steps in order
+ */
+export const IMAGE_STEP_ORDER: ImageInterpretationStep[] = [
+  'modality',
+  'findings',
+  'diagnosis',
+  'next_step',
+];
+
+/**
+ * All available imaging modalities
+ */
+export const ALL_IMAGE_MODALITIES: ImageModality[] = [
+  'xray',
+  'ct',
+  'ekg',
+  'ultrasound',
+  'mri',
+];
+
+/**
+ * A multiple-choice option for image interpretation steps
+ */
+export interface ImageOption {
+  id: string;
+  textPt: string;
+  isCorrect: boolean;
+}
+
+/**
+ * An image interpretation case definition
+ */
+export interface CIPImageCase {
+  id: string;
+  titlePt: string;
+  titleEn?: string;
+  clinicalContextPt: string;
+  clinicalContextEn?: string;
+  modality: ImageModality;
+  imageDescriptionPt: string;
+  imageDescriptionEn?: string;
+  asciiArt?: string;
+  imageUrl?: string;
+  area: import('./education').ENAMEDArea;
+  subspecialty?: string;
+  difficulty: DifficultyLevel;
+  correctFindings: string[];
+  correctDiagnosis: string;
+  correctNextStep: string;
+  modalityOptions: ImageOption[];
+  findingsOptions: ImageOption[];
+  diagnosisOptions: ImageOption[];
+  nextStepOptions: ImageOption[];
+  explanationPt?: string;
+  explanationEn?: string;
+  irt: IRTParameters;
+  isPublic: boolean;
+  isAIGenerated: boolean;
+  validatedBy?: 'community' | 'expert' | 'both';
+  timesAttempted: number;
+  timesCompleted: number;
+  avgScore?: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+/**
+ * A user's attempt at an image interpretation case
+ */
+export interface CIPImageAttempt {
+  id: string;
+  caseId: string;
+  userId: string;
+  selectedModality: string | null;
+  selectedFindings: string[];
+  selectedDiagnosis: string | null;
+  selectedNextStep: string | null;
+  modalityCorrect: boolean | null;
+  findingsCorrectCount: number | null;
+  findingsTotalCount: number | null;
+  diagnosisCorrect: boolean | null;
+  nextStepCorrect: boolean | null;
+  totalScore: number | null;
+  scaledScore: number | null;
+  theta: number | null;
+  standardError: number | null;
+  totalTimeSeconds: number | null;
+  stepTimes: Record<ImageInterpretationStep, number>;
+  currentStep: ImageInterpretationStep;
+  startedAt: Date;
+  completedAt: Date | null;
+}
+
+/**
+ * Step-level result for an image interpretation case
+ */
+export interface ImageStepResult {
+  step: ImageInterpretationStep;
+  label: string;
+  correct: boolean;
+  partialCredit?: number;
+  selectedAnswer: string | string[];
+  correctAnswer: string | string[];
+  weight: number;
+  weightedScore: number;
+}
+
+/**
+ * Complete score result for an image interpretation case
+ */
+export interface CIPImageScore {
+  theta: number;
+  standardError: number;
+  scaledScore: number;
+  passThreshold: number;
+  passed: boolean;
+  totalScore: number;
+  percentageCorrect: number;
+  stepResults: ImageStepResult[];
+  insights: string[];
+}
+
+/**
+ * Scoring weights for each interpretation step
+ */
+export const IMAGE_SCORING_WEIGHTS: Record<Exclude<ImageInterpretationStep, 'completed'>, number> = {
+  modality: 0.10,
+  findings: 0.30,
+  diagnosis: 0.35,
+  next_step: 0.25,
+};

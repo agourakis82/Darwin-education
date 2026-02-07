@@ -25,7 +25,8 @@ VALUES
     ARRAY['clinica_medica', 'cirurgia', 'ginecologia_obstetricia', 'pediatria', 'saude_coletiva'],
     FALSE,
     TRUE
-  );
+  )
+ON CONFLICT (id) DO NOTHING;
 
 -- Residência Médica Questions
 INSERT INTO question_banks (id, name, description, source, year_start, year_end, areas, is_premium, is_active)
@@ -62,7 +63,8 @@ VALUES
     ARRAY['clinica_medica', 'cirurgia', 'saude_coletiva'],
     TRUE,
     TRUE
-  );
+  )
+ON CONFLICT (id) DO NOTHING;
 
 -- Practice Question Banks
 INSERT INTO question_banks (id, name, description, source, areas, is_premium, is_active)
@@ -111,7 +113,8 @@ VALUES
     ARRAY['saude_coletiva'],
     FALSE,
     TRUE
-  );
+  )
+ON CONFLICT (id) DO NOTHING;
 
 -- Community Question Bank
 INSERT INTO question_banks (id, name, description, source, areas, is_premium, is_active)
@@ -124,4 +127,5 @@ VALUES
     ARRAY['clinica_medica', 'cirurgia', 'ginecologia_obstetricia', 'pediatria', 'saude_coletiva'],
     FALSE,
     TRUE
-  );
+  )
+ON CONFLICT (id) DO NOTHING;

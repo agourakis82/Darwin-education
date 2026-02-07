@@ -78,7 +78,7 @@ export class QGenGenerationService {
     this.promptBuilder = new PromptBuilderService();
     this.corpusAnalyzer = new CorpusAnalysisService();
     this.config = {
-      llmModel: config.llmModel || 'grok-3',
+      llmModel: config.llmModel || 'grok-4-1-fast',
       maxRetries: config.maxRetries || 3,
       retryDelayMs: config.retryDelayMs || 1000,
       maxParallelRequests: config.maxParallelRequests || 5,
@@ -397,7 +397,7 @@ export class QGenGenerationService {
         'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: config.llmModel || this.config.llmModel || 'grok-3',
+        model: config.llmModel || this.config.llmModel || 'grok-4-1-fast',
         messages: [
           {
             role: 'system',

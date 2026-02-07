@@ -179,7 +179,7 @@ export class MedicalVerificationService {
   private grokApiUrl: string;
 
   constructor() {
-    this.grokApiKey = process.env.GROK_API_KEY || '';
+    this.grokApiKey = process.env.GROK_API_KEY || process.env.XAI_API_KEY || '';
     this.grokApiUrl = process.env.GROK_API_URL || 'https://api.x.ai/v1';
   }
 

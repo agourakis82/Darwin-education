@@ -43,3 +43,12 @@ export {
   selectHasResult,
   selectTotalCost,
 } from './questionGenStore'
+
+export {
+  useCIPImageStore,
+  selectImageStepIndex,
+  selectImageProgress,
+  selectCanAdvance,
+  selectIsLastStep,
+  selectIsFirstStep,
+} from './cipImageStore'
