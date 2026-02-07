@@ -1,5 +1,8 @@
 'use client';
 
+import { Check } from 'lucide-react'
+import { AREA_LABELS } from '@/lib/area-colors'
+
 interface QuestionPreviewProps {
   question: {
     id: string;
@@ -26,14 +29,6 @@ const BLOOM_LABELS: Record<string, string> = {
   ANALYSIS: 'Análise',
   SYNTHESIS: 'Síntese',
   EVALUATION: 'Avaliação',
-};
-
-const AREA_LABELS: Record<string, string> = {
-  clinica_medica: 'Clínica Médica',
-  cirurgia: 'Cirurgia',
-  ginecologia_obstetricia: 'GO',
-  pediatria: 'Pediatria',
-  saude_coletiva: 'Saúde Coletiva',
 };
 
 export function QGenQuestionPreview({ question, showAnswer = true }: QuestionPreviewProps) {
@@ -98,7 +93,7 @@ export function QGenQuestionPreview({ question, showAnswer = true }: QuestionPre
               {option.text}
             </span>
             {showAnswer && option.isCorrect && (
-              <span className="text-green-400 text-sm">✓</span>
+              <Check className="w-4 h-4 text-green-400 flex-shrink-0" />
             )}
           </div>
         ))}

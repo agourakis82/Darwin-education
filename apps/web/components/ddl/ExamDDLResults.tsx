@@ -5,8 +5,17 @@
 // Shows DDL analysis summary for an exam attempt
 // ============================================================
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, type ReactNode } from 'react'
 import Link from 'next/link'
+import {
+  Target,
+  BookOpen,
+  MessageCircle,
+  Link2,
+  Shuffle,
+  CheckCircle2,
+} from 'lucide-react'
+import { Button } from '@/components/ui/Button'
 import type { LacunaType } from '@/lib/ddl/types'
 
 interface ExamDDLSummary {
@@ -46,36 +55,36 @@ interface ExamDDLResultsProps {
   examAttemptId: string
 }
 
-const lacunaInfo: Record<LacunaType, { name: string; color: string; bgColor: string; icon: string }> = {
+const lacunaInfo: Record<LacunaType, { name: string; color: string; bgColor: string; icon: ReactNode }> = {
   LE: {
     name: 'Lacuna Epistemica',
     color: 'text-blue-400',
     bgColor: 'bg-blue-900/30',
-    icon: '📚',
+    icon: <BookOpen className="w-5 h-5 text-blue-400" />,
   },
   LEm: {
     name: 'Lacuna Emocional',
     color: 'text-purple-400',
     bgColor: 'bg-purple-900/30',
-    icon: '💭',
+    icon: <MessageCircle className="w-5 h-5 text-purple-400" />,
   },
   LIE: {
     name: 'Lacuna de Integracao',
     color: 'text-orange-400',
     bgColor: 'bg-orange-900/30',
-    icon: '🔗',
+    icon: <Link2 className="w-5 h-5 text-orange-400" />,
   },
   MIXED: {
     name: 'Misto',
     color: 'text-label-secondary',
     bgColor: 'bg-surface-3/30',
-    icon: '🔀',
+    icon: <Shuffle className="w-5 h-5 text-label-secondary" />,
   },
   NONE: {
     name: 'Sem Lacunas',
     color: 'text-green-400',
     bgColor: 'bg-green-900/30',
-    icon: '✅',
+    icon: <CheckCircle2 className="w-5 h-5 text-green-400" />,
   },
 }
 
@@ -162,7 +171,7 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
       <div className="bg-surface-2 rounded-lg shadow-elevation-1 p-6">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 bg-emerald-600/20 rounded-lg flex items-center justify-center">
-            <span className="text-2xl">🎯</span>
+            <Target className="w-6 h-6 text-emerald-400" />
           </div>
           <div className="flex-1">
             <h3 className="font-semibold text-label-primary mb-1">
@@ -173,21 +182,13 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
               para identificar padroes de aprendizagem.
             </p>
           </div>
-          <button
+          <Button
             onClick={triggerAnalysis}
             disabled={analyzing}
-            className="px-4 py-2 bg-gradient-to-b from-emerald-500 to-emerald-600 text-white rounded-md shadow-elevation-1 hover:from-emerald-400 hover:to-emerald-500
-                     transition-all active:scale-[0.97] disabled:opacity-50 disabled:cursor-not-allowed"
+            loading={analyzing}
           >
-            {analyzing ? (
-              <span className="flex items-center gap-2">
-                <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                Analisando...
-              </span>
-            ) : (
-              'Analisar Respostas'
-            )}
-          </button>
+            {analyzing ? 'Analisando...' : 'Analisar Respostas'}
+          </Button>
         </div>
       </div>
     )
@@ -200,7 +201,7 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
       {/* Header */}
       <div className="bg-surface-2 rounded-lg shadow-elevation-1 p-6">
         <div className="flex items-center gap-3 mb-4">
-          <span className="text-2xl">🎯</span>
+          <Target className="w-6 h-6 text-emerald-400" />
           <h3 className="text-xl font-semibold text-label-primary">
             Diagnostico de Lacunas de Aprendizagem
           </h3>
@@ -216,15 +217,21 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
               type === 'LIE' ? summary.lie_count :
               summary.none_count
             const isActive = summary.dominant_lacuna_type === type
+            const activeRingMap: Record<string, string> = {
+              LE: 'ring-blue-500',
+              LEm: 'ring-purple-500',
+              LIE: 'ring-orange-500',
+              NONE: 'ring-green-500',
+            }
 
             return (
               <div
                 key={type}
                 className={`p-4 rounded-lg text-center transition-all ${
-                  isActive ? `${info.bgColor} ring-2 ring-${type === 'LE' ? 'blue' : type === 'LEm' ? 'purple' : type === 'LIE' ? 'orange' : 'green'}-500` : 'bg-surface-3/50'
+                  isActive ? `${info.bgColor} ring-2 ${activeRingMap[type]}` : 'bg-surface-3/50'
                 }`}
               >
-                <div className="text-2xl mb-1">{info.icon}</div>
+                <div className="flex justify-center mb-1">{info.icon}</div>
                 <div className="text-2xl font-bold text-label-primary">{count}</div>
                 <div className={`text-xs ${info.color}`}>{type}</div>
               </div>
@@ -262,7 +269,7 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
         {summary.dominant_lacuna_type && summary.dominant_lacuna_type !== 'NONE' && (
           <div className={`mt-4 p-4 rounded-lg ${lacunaInfo[summary.dominant_lacuna_type].bgColor}`}>
             <div className="flex items-center gap-3">
-              <span className="text-2xl">{lacunaInfo[summary.dominant_lacuna_type].icon}</span>
+              {lacunaInfo[summary.dominant_lacuna_type].icon}
               <div>
                 <p className={`font-medium ${lacunaInfo[summary.dominant_lacuna_type].color}`}>
                   Padrao Dominante: {lacunaInfo[summary.dominant_lacuna_type].name}
@@ -306,7 +313,7 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
                     </p>
                   </div>
                   <div className={`flex items-center gap-2 px-3 py-1 rounded-full ${info.bgColor}`}>
-                    <span>{info.icon}</span>
+                    {info.icon}
                     <span className={`text-sm font-medium ${info.color}`}>{lacuna}</span>
                   </div>
                   {feedback && (
@@ -328,7 +335,7 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
       <div className="bg-gradient-to-r from-emerald-900/20 to-blue-900/20 rounded-lg border border-emerald-800/50 p-6">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 bg-emerald-600/20 rounded-lg flex items-center justify-center">
-            <span className="text-2xl">📚</span>
+            <BookOpen className="w-6 h-6 text-emerald-400" />
           </div>
           <div className="flex-1">
             <h4 className="font-semibold text-label-primary mb-1">
@@ -338,12 +345,9 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
               Use o DDL standalone para analisar respostas individuais e receber feedback detalhado.
             </p>
           </div>
-          <Link
-            href="/ddl"
-            className="px-4 py-2 bg-gradient-to-b from-emerald-500 to-emerald-600 text-white rounded-md shadow-elevation-1 hover:from-emerald-400 hover:to-emerald-500 transition-all active:scale-[0.97]"
-          >
-            Ir para DDL
-          </Link>
+          <Button asChild>
+            <Link href="/ddl">Ir para DDL</Link>
+          </Button>
         </div>
       </div>
     </div>

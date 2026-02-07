@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
+import { Puzzle } from 'lucide-react'
 import confetti from 'canvas-confetti'
 import { createClient } from '@/lib/supabase/client'
 import { useCIPStore } from '@/lib/stores/cipStore'
@@ -487,7 +488,7 @@ export default function CIPResultPage() {
         {/* Header */}
         <div className="mb-8 text-center">
           <div className="flex items-center justify-center gap-3 mb-2">
-            <span className="text-4xl">🧩</span>
+            <Puzzle className="w-8 h-8 text-purple-400" />
             <h1 className="text-3xl font-bold text-white">Resultado do Puzzle</h1>
           </div>
           {displayPuzzle && (

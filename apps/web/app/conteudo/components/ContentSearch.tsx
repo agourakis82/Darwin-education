@@ -97,7 +97,7 @@ export function ContentSearch({ placeholder = 'Buscar...', type, onSearch }: Con
 
       {/* Search suggestions */}
       {isFocused && query.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-surface-2 border border-separator rounded-lg shadow-xl z-50">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-surface-2 border border-separator rounded-lg shadow-xl z-dropdown">
           <div className="p-2 text-xs text-label-tertiary border-b border-separator">
             Pressione Enter para buscar
           </div>

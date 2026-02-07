@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { createClient } from '@/lib/supabase/client'
 import { ModuleList, type Module } from '../components'
+import { AREA_COLORS, AREA_LABELS } from '@/lib/area-colors'
 import type { ENAMEDArea } from '@darwin-education/shared'
 
 interface PathData {
@@ -20,21 +21,6 @@ interface PathData {
   prerequisites: string[]
 }
 
-const areaLabels: Record<ENAMEDArea, string> = {
-  clinica_medica: 'Clínica Médica',
-  cirurgia: 'Cirurgia',
-  ginecologia_obstetricia: 'Ginecologia e Obstetrícia',
-  pediatria: 'Pediatria',
-  saude_coletiva: 'Saúde Coletiva',
-}
-
-const areaColors: Record<ENAMEDArea, string> = {
-  clinica_medica: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-  cirurgia: 'bg-red-500/20 text-red-400 border-red-500/30',
-  ginecologia_obstetricia: 'bg-pink-500/20 text-pink-400 border-pink-500/30',
-  pediatria: 'bg-green-500/20 text-green-400 border-green-500/30',
-  saude_coletiva: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
-}
 
 const difficultyLabels = {
   beginner: 'Iniciante',
@@ -162,8 +148,8 @@ export default function PathOverviewPage() {
             <div>
               <h1 className="text-xl font-bold">{path.title}</h1>
               <div className="flex items-center gap-2 mt-1">
-                <span className={`px-2 py-0.5 text-xs rounded border ${areaColors[path.area]}`}>
-                  {areaLabels[path.area]}
+                <span className={`px-2 py-0.5 text-xs rounded border ${AREA_COLORS[path.area]?.badge}`}>
+                  {AREA_LABELS[path.area]}
                 </span>
                 <span className={`text-xs ${difficultyColors[path.difficulty]}`}>
                   {difficultyLabels[path.difficulty]}

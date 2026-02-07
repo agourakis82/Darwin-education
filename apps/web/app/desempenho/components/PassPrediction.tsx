@@ -1,6 +1,7 @@
 'use client'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+import { AnimatedCounter } from '@/components/ui/AnimatedCounter'
 import type { ENAMEDArea } from '@darwin-education/shared'
 
 interface ExamAttempt {
@@ -112,7 +113,7 @@ export function PassPrediction({ theta, totalQuestions, attempts = [] }: PassPre
               </defs>
             </svg>
             <div className="absolute inset-0 flex items-center justify-center flex-col">
-              <span className={`text-3xl font-bold ${getColor()}`}>{passPercentage}%</span>
+              <span className={`text-3xl font-bold ${getColor()}`}><AnimatedCounter value={passPercentage} suffix="%" duration={2} /></span>
             </div>
           </div>
 

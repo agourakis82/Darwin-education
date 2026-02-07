@@ -5,25 +5,14 @@ import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
+import { Spinner } from '@/components/ui/Spinner'
+import { ChevronLeft } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { DeckStats } from '../components/DeckStats'
+import { AREA_COLORS, AREA_LABELS } from '@/lib/area-colors'
 import type { ENAMEDArea } from '@darwin-education/shared'
 
-const areaLabels: Record<ENAMEDArea, string> = {
-  clinica_medica: 'Clínica Médica',
-  cirurgia: 'Cirurgia',
-  ginecologia_obstetricia: 'Ginecologia e Obstetrícia',
-  pediatria: 'Pediatria',
-  saude_coletiva: 'Saúde Coletiva',
-}
 
-const areaColors: Record<ENAMEDArea, string> = {
-  clinica_medica: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-  cirurgia: 'bg-red-500/20 text-red-400 border-red-500/30',
-  ginecologia_obstetricia: 'bg-pink-500/20 text-pink-400 border-pink-500/30',
-  pediatria: 'bg-green-500/20 text-green-400 border-green-500/30',
-  saude_coletiva: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
-}
 
 interface FlashcardData {
   id: string
@@ -108,7 +97,7 @@ export default function DeckViewPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-surface-0 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500" />
+        <Spinner size="lg" />
       </div>
     )
   }
@@ -118,14 +107,9 @@ export default function DeckViewPage() {
       <div className="min-h-screen bg-surface-0 text-white">
         <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <button
-              onClick={() => router.back()}
-              className="p-2 hover:bg-surface-2 rounded-lg transition-colors"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
+            <Button variant="ghost" size="sm" onClick={() => router.back()}>
+              <ChevronLeft className="w-5 h-5" />
+            </Button>
           </div>
         </header>
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -146,14 +130,9 @@ export default function DeckViewPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <button
-                onClick={() => router.back()}
-                className="p-2 hover:bg-surface-2 rounded-lg transition-colors"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
+              <Button variant="ghost" size="sm" onClick={() => router.back()}>
+                <ChevronLeft className="w-5 h-5" />
+              </Button>
               <div>
                 <h1 className="text-2xl font-bold">{deck.title}</h1>
                 <p className="text-sm text-label-secondary mt-1">
@@ -205,8 +184,8 @@ export default function DeckViewPage() {
                   {deck.area && (
                     <div>
                       <h3 className="text-sm font-medium text-label-primary mb-1">Área</h3>
-                      <span className={`inline-block px-3 py-1 text-sm rounded border ${areaColors[deck.area]}`}>
-                        {areaLabels[deck.area]}
+                      <span className={`inline-block px-3 py-1 text-sm rounded border ${AREA_COLORS[deck.area]?.badge}`}>
+                        {AREA_LABELS[deck.area]}
                       </span>
                     </div>
                   )}

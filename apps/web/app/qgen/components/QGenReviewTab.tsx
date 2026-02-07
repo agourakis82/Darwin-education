@@ -1,7 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { Eye, Check, Pencil, X, AlertTriangle, RefreshCw } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
 import { QGenQuestionPreview } from './QGenQuestionPreview';
+import { AREA_LABELS } from '@/lib/area-colors';
 
 interface ReviewItem {
   id: string;
@@ -25,13 +28,6 @@ const PRIORITY_CONFIG = {
   LOW: { label: 'Baixa', color: 'text-green-400', bg: 'bg-green-900/30' },
 };
 
-const AREA_LABELS: Record<string, string> = {
-  clinica_medica: 'Clínica Médica',
-  cirurgia: 'Cirurgia',
-  ginecologia_obstetricia: 'GO',
-  pediatria: 'Pediatria',
-  saude_coletiva: 'Saúde Coletiva',
-};
 
 export function QGenReviewTab() {
   const [items, setItems] = useState<ReviewItem[]>([]);
@@ -143,12 +139,14 @@ export function QGenReviewTab() {
           <option value="LOW">Baixa</option>
         </select>
 
-        <button
+        <Button
           onClick={fetchReviewQueue}
-          className="text-emerald-400 hover:text-emerald-300 text-sm px-4 py-2"
+          variant="ghost"
+          size="sm"
+          leftIcon={<RefreshCw className="w-3.5 h-3.5" />}
         >
-          ↻ Atualizar
-        </button>
+          Atualizar
+        </Button>
       </div>
 
       {error && (
@@ -166,7 +164,9 @@ export function QGenReviewTab() {
 
           {items.length === 0 ? (
             <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-8 text-center">
-              <div className="text-label-tertiary text-6xl mb-4">✓</div>
+              <div className="w-16 h-16 rounded-2xl bg-surface-3 flex items-center justify-center mx-auto mb-4">
+                <Check className="w-8 h-8 text-label-tertiary" />
+              </div>
               <p className="text-label-secondary">Nenhuma questão pendente de revisão</p>
             </div>
           ) : (
@@ -241,7 +241,7 @@ export function QGenReviewTab() {
                   <ul className="space-y-1">
                     {selectedItem.validationFlags.map((flag, idx) => (
                       <li key={idx} className="text-yellow-200 text-sm flex items-start gap-2">
-                        <span>⚠</span>
+                        <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
                         <span>{flag}</span>
                       </li>
                     ))}
@@ -251,32 +251,43 @@ export function QGenReviewTab() {
 
               {/* Review Actions */}
               <div className="flex gap-3">
-                <button
+                <Button
                   onClick={() => handleReview('APPROVE')}
                   disabled={submitting}
-                  className="flex-1 px-4 py-3 bg-green-600 hover:bg-green-700 disabled:bg-surface-4 text-white font-medium rounded-lg transition-colors"
+                  leftIcon={<Check className="w-4 h-4" />}
+                  fullWidth
+                  size="lg"
+                  className="bg-green-600 hover:bg-green-700 from-green-600 to-green-600"
                 >
-                  ✓ Aprovar
-                </button>
-                <button
+                  Aprovar
+                </Button>
+                <Button
                   onClick={() => handleReview('REVISE')}
                   disabled={submitting}
-                  className="flex-1 px-4 py-3 bg-yellow-600 hover:bg-yellow-700 disabled:bg-surface-4 text-white font-medium rounded-lg transition-colors"
+                  leftIcon={<Pencil className="w-4 h-4" />}
+                  fullWidth
+                  size="lg"
+                  className="bg-yellow-600 hover:bg-yellow-700 from-yellow-600 to-yellow-600"
                 >
-                  ✎ Revisar
-                </button>
-                <button
+                  Revisar
+                </Button>
+                <Button
                   onClick={() => handleReview('REJECT')}
                   disabled={submitting}
-                  className="flex-1 px-4 py-3 bg-red-600 hover:bg-red-700 disabled:bg-surface-4 text-white font-medium rounded-lg transition-colors"
+                  leftIcon={<X className="w-4 h-4" />}
+                  fullWidth
+                  size="lg"
+                  variant="danger"
                 >
-                  ✕ Rejeitar
-                </button>
+                  Rejeitar
+                </Button>
               </div>
             </div>
           ) : (
             <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-8 text-center">
-              <div className="text-label-tertiary text-6xl mb-4">👁️</div>
+              <div className="w-16 h-16 rounded-2xl bg-surface-3 flex items-center justify-center mx-auto mb-4">
+                <Eye className="w-8 h-8 text-label-tertiary" />
+              </div>
               <p className="text-label-secondary">
                 Selecione uma questão para revisar
               </p>

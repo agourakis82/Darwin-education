@@ -5,6 +5,9 @@ import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { createClient } from '@/lib/supabase/client'
+import { AREA_COLORS, AREA_LABELS } from '@/lib/area-colors'
+import { AnimatedList, AnimatedItem } from '@/components/ui/AnimatedList'
+import { AnimatedCounter } from '@/components/ui/AnimatedCounter'
 import type { ENAMEDArea } from '@darwin-education/shared'
 
 interface FlashcardDeck {
@@ -18,21 +21,6 @@ interface FlashcardDeck {
   created_at: string
 }
 
-const areaLabels: Record<ENAMEDArea, string> = {
-  clinica_medica: 'Clínica Médica',
-  cirurgia: 'Cirurgia',
-  ginecologia_obstetricia: 'Ginecologia e Obstetrícia',
-  pediatria: 'Pediatria',
-  saude_coletiva: 'Saúde Coletiva',
-}
-
-const areaColors: Record<ENAMEDArea, string> = {
-  clinica_medica: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-  cirurgia: 'bg-red-500/20 text-red-400 border-red-500/30',
-  ginecologia_obstetricia: 'bg-pink-500/20 text-pink-400 border-pink-500/30',
-  pediatria: 'bg-green-500/20 text-green-400 border-green-500/30',
-  saude_coletiva: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
-}
 
 export default function FlashcardsPage() {
   const [decks, setDecks] = useState<FlashcardDeck[]>([])
@@ -117,7 +105,8 @@ export default function FlashcardsPage() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <AnimatedList className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <AnimatedItem>
           <Card>
             <CardContent className="pt-6">
               <div className="flex items-center gap-4">
@@ -133,7 +122,9 @@ export default function FlashcardsPage() {
               </div>
             </CardContent>
           </Card>
+          </AnimatedItem>
 
+          <AnimatedItem>
           <Card>
             <CardContent className="pt-6">
               <div className="flex items-center gap-4">
@@ -149,7 +140,9 @@ export default function FlashcardsPage() {
               </div>
             </CardContent>
           </Card>
+          </AnimatedItem>
 
+          <AnimatedItem>
           <Card>
             <CardContent className="pt-6">
               <div className="flex items-center gap-4">
@@ -165,7 +158,8 @@ export default function FlashcardsPage() {
               </div>
             </CardContent>
           </Card>
-        </div>
+          </AnimatedItem>
+        </AnimatedList>
 
         {/* Quick Study */}
         {totalDue > 0 && (
@@ -205,7 +199,7 @@ export default function FlashcardsPage() {
           >
             Todos
           </button>
-          {(Object.keys(areaLabels) as ENAMEDArea[]).map((area) => (
+          {(Object.keys(AREA_LABELS) as ENAMEDArea[]).map((area) => (
             <button
               key={area}
               onClick={() => setFilter(area)}
@@ -215,7 +209,7 @@ export default function FlashcardsPage() {
                   : 'bg-surface-2 text-label-primary hover:bg-surface-3'
               }`}
             >
-              {areaLabels[area]}
+              {AREA_LABELS[area]}
             </button>
           ))}
         </div>
@@ -245,9 +239,10 @@ export default function FlashcardsPage() {
             </CardContent>
           </Card>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <AnimatedList className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredDecks.map((deck) => (
-              <Link key={deck.id} href={`/flashcards/${deck.id}`}>
+              <AnimatedItem key={deck.id}>
+              <Link href={`/flashcards/${deck.id}`}>
                 <Card className="h-full hover:border-surface-4 transition-colors cursor-pointer">
                   <CardHeader>
                     <div className="flex items-start justify-between">
@@ -259,8 +254,8 @@ export default function FlashcardsPage() {
                       )}
                     </div>
                     {deck.area && (
-                      <span className={`inline-block px-2 py-1 text-xs rounded border ${areaColors[deck.area]}`}>
-                        {areaLabels[deck.area]}
+                      <span className={`inline-block px-2 py-1 text-xs rounded border ${AREA_COLORS[deck.area]?.badge}`}>
+                        {AREA_LABELS[deck.area]}
                       </span>
                     )}
                   </CardHeader>
@@ -286,8 +281,9 @@ export default function FlashcardsPage() {
                   </CardContent>
                 </Card>
               </Link>
+              </AnimatedItem>
             ))}
-          </div>
+          </AnimatedList>
         )}
       </main>
     </div>

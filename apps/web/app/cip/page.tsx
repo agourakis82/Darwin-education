@@ -1,5 +1,6 @@
 import { createServerClient } from '@/lib/supabase/server'
 import Link from 'next/link'
+import { Puzzle, Scan, Trophy, BarChart3 } from 'lucide-react'
 import {
   Card,
   CardHeader,
@@ -9,6 +10,8 @@ import {
   CardFooter,
 } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
+import { AnimatedList, AnimatedItem } from '@/components/ui/AnimatedList'
+import { AREA_LABELS } from '@/lib/area-colors'
 import type { DifficultyLevel } from '@darwin-education/shared'
 
 const difficultyLabels: Record<string, string> = {
@@ -25,14 +28,6 @@ const difficultyColors: Record<string, string> = {
   medio: 'bg-yellow-900/50 text-yellow-300 border-yellow-700',
   dificil: 'bg-orange-900/50 text-orange-300 border-orange-700',
   muito_dificil: 'bg-red-900/50 text-red-300 border-red-700',
-}
-
-const areaLabels: Record<string, string> = {
-  clinica_medica: 'Clínica Médica',
-  cirurgia: 'Cirurgia',
-  ginecologia_obstetricia: 'GO',
-  pediatria: 'Pediatria',
-  saude_coletiva: 'Saúde Coletiva',
 }
 
 export default async function CIPPage() {
@@ -68,7 +63,7 @@ export default async function CIPPage() {
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
-            <span className="text-4xl">🧩</span>
+            <Puzzle className="w-8 h-8 text-purple-400" />
             <h1 className="text-3xl font-bold text-white">
               Quebra-Cabeça Clínico (CIP)
             </h1>
@@ -128,107 +123,115 @@ export default async function CIPPage() {
         </Card>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <Link href="/cip/interpretacao">
-            <Card hover className="h-full">
-              <CardContent>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-blue-600/20 rounded-lg flex items-center justify-center">
-                    <span className="text-2xl">🩻</span>
+        <AnimatedList className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+          <AnimatedItem>
+            <Link href="/cip/interpretacao">
+              <Card hover className="h-full">
+                <CardContent>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-blue-600/20 rounded-lg flex items-center justify-center">
+                      <Scan className="w-6 h-6 text-blue-400" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-white">Interpretação de Imagem</h3>
+                      <p className="text-sm text-label-secondary">Raio-X, TC, ECG, USG, RMN</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-white">Interpretação de Imagem</h3>
-                    <p className="text-sm text-label-secondary">Raio-X, TC, ECG, USG, RMN</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
+                </CardContent>
+              </Card>
+            </Link>
+          </AnimatedItem>
 
-          <Link href="/cip/pratica?difficulty=facil">
-            <Card hover className="h-full">
-              <CardContent>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-emerald-600/20 rounded-lg flex items-center justify-center">
-                    <svg
-                      className="w-6 h-6 text-emerald-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M13 10V3L4 14h7v7l9-11h-7z"
-                      />
-                    </svg>
+          <AnimatedItem>
+            <Link href="/cip/pratica?difficulty=facil">
+              <Card hover className="h-full">
+                <CardContent>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-emerald-600/20 rounded-lg flex items-center justify-center">
+                      <svg
+                        className="w-6 h-6 text-emerald-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M13 10V3L4 14h7v7l9-11h-7z"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-white">Puzzle Rápido</h3>
+                      <p className="text-sm text-label-secondary">4 diagnósticos, fácil</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-white">Puzzle Rápido</h3>
-                    <p className="text-sm text-label-secondary">4 diagnósticos, fácil</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
+                </CardContent>
+              </Card>
+            </Link>
+          </AnimatedItem>
 
-          <Link href="/cip/pratica?difficulty=medio">
-            <Card hover className="h-full">
-              <CardContent>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-yellow-600/20 rounded-lg flex items-center justify-center">
-                    <svg
-                      className="w-6 h-6 text-yellow-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                      />
-                    </svg>
+          <AnimatedItem>
+            <Link href="/cip/pratica?difficulty=medio">
+              <Card hover className="h-full">
+                <CardContent>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-yellow-600/20 rounded-lg flex items-center justify-center">
+                      <svg
+                        className="w-6 h-6 text-yellow-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-white">Puzzle Médio</h3>
+                      <p className="text-sm text-label-secondary">5 diagnósticos, médio</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-white">Puzzle Médio</h3>
-                    <p className="text-sm text-label-secondary">5 diagnósticos, médio</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
+                </CardContent>
+              </Card>
+            </Link>
+          </AnimatedItem>
 
-          <Link href="/cip/pratica?difficulty=dificil">
-            <Card hover className="h-full">
-              <CardContent>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-red-600/20 rounded-lg flex items-center justify-center">
-                    <svg
-                      className="w-6 h-6 text-red-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"
-                      />
-                    </svg>
+          <AnimatedItem>
+            <Link href="/cip/pratica?difficulty=dificil">
+              <Card hover className="h-full">
+                <CardContent>
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-red-600/20 rounded-lg flex items-center justify-center">
+                      <svg
+                        className="w-6 h-6 text-red-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"
+                        />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-white">Puzzle Desafio</h3>
+                      <p className="text-sm text-label-secondary">6+ diagnósticos, difícil</p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-semibold text-white">Puzzle Desafio</h3>
-                    <p className="text-sm text-label-secondary">6+ diagnósticos, difícil</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-        </div>
+                </CardContent>
+              </Card>
+            </Link>
+          </AnimatedItem>
+        </AnimatedList>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Available Puzzles */}
@@ -300,7 +303,7 @@ export default async function CIPPage() {
                                 d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
                               />
                             </svg>
-                            {puzzle.areas.map((a: string) => areaLabels[a] || a).join(', ')}
+                            {puzzle.areas.map((a: string) => AREA_LABELS[a] || a).join(', ')}
                           </div>
                         )}
                       </div>
@@ -322,7 +325,9 @@ export default async function CIPPage() {
                 <Card>
                   <CardContent>
                     <div className="text-center py-8">
-                      <span className="text-5xl mb-4 block">🧩</span>
+                      <div className="w-16 h-16 rounded-2xl bg-surface-3 flex items-center justify-center mx-auto mb-4">
+                        <Puzzle className="w-8 h-8 text-label-secondary" />
+                      </div>
                       <p className="text-label-secondary">Nenhum puzzle disponível no momento</p>
                       <p className="text-sm text-label-tertiary mt-2">
                         Use "Puzzle Rápido" acima para gerar um puzzle de prática
@@ -402,6 +407,30 @@ export default async function CIPPage() {
                 )}
               </CardContent>
             </Card>
+
+            {/* Leaderboard & Achievements */}
+            <div className="mt-4 grid grid-cols-2 gap-3">
+              <Link href="/cip/leaderboard">
+                <Card hover className="h-full">
+                  <CardContent>
+                    <div className="flex flex-col items-center gap-2 py-2">
+                      <BarChart3 className="w-6 h-6 text-amber-400" />
+                      <span className="text-sm font-medium text-white">Ranking</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+              <Link href="/cip/achievements">
+                <Card hover className="h-full">
+                  <CardContent>
+                    <div className="flex flex-col items-center gap-2 py-2">
+                      <Trophy className="w-6 h-6 text-yellow-400" />
+                      <span className="text-sm font-medium text-white">Conquistas</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            </div>
 
             {/* Tips Card */}
             <Card className="mt-4">

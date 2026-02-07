@@ -1,8 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import type { ENAMEDQuestion, ENAMEDArea, DifficultyLevel } from '@darwin-education/shared'
+import type { ENAMEDQuestion, DifficultyLevel } from '@darwin-education/shared'
 import { ExplanationPanel } from '@/components/ai/ExplanationPanel'
+import { AREA_COLORS, AREA_LABELS } from '@/lib/area-colors'
 
 interface QuestionCardProps {
   question: ENAMEDQuestion
@@ -16,21 +17,6 @@ interface QuestionCardProps {
   showAIExplanation?: boolean
 }
 
-const areaLabels: Record<ENAMEDArea, string> = {
-  clinica_medica: 'Clínica Médica',
-  cirurgia: 'Cirurgia',
-  ginecologia_obstetricia: 'Ginecologia e Obstetrícia',
-  pediatria: 'Pediatria',
-  saude_coletiva: 'Saúde Coletiva',
-}
-
-const areaColors: Record<ENAMEDArea, string> = {
-  clinica_medica: 'bg-blue-900/50 text-blue-300 border-blue-700',
-  cirurgia: 'bg-red-900/50 text-red-300 border-red-700',
-  ginecologia_obstetricia: 'bg-pink-900/50 text-pink-300 border-pink-700',
-  pediatria: 'bg-green-900/50 text-green-300 border-green-700',
-  saude_coletiva: 'bg-purple-900/50 text-purple-300 border-purple-700',
-}
 
 const difficultyLabels: Record<DifficultyLevel, string> = {
   muito_facil: 'Muito Fácil',
@@ -94,9 +80,9 @@ export function QuestionCard({
         )}
 
         <span
-          className={`px-2.5 py-1 text-xs font-medium rounded-full border ${areaColors[question.ontology.area]}`}
+          className={`px-2.5 py-1 text-xs font-medium rounded-full border ${AREA_COLORS[question.ontology.area]?.badge}`}
         >
-          {areaLabels[question.ontology.area]}
+          {AREA_LABELS[question.ontology.area]}
         </span>
 
         {question.difficulty && (

@@ -2,6 +2,7 @@
 
 import { Suspense, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { Puzzle } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import type { DifficultyLevel } from '@darwin-education/shared'
 import { Button } from '@/components/ui/Button'
@@ -85,7 +86,9 @@ function CIPPraticaContent() {
       <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <Card className="max-w-md">
           <CardContent className="text-center py-8">
-            <span className="text-5xl mb-4 block">🧩</span>
+            <div className="w-16 h-16 rounded-2xl bg-surface-3 flex items-center justify-center mx-auto mb-4">
+              <Puzzle className="w-8 h-8 text-label-secondary" />
+            </div>
             <h2 className="text-xl font-semibold text-white mb-4">
               Puzzle não disponível
             </h2>

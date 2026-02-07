@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { FileText, Sparkles } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
 import { QGenConfigPanel } from './QGenConfigPanel';
 import { QGenQuestionPreview } from './QGenQuestionPreview';
 import { QGenValidationScore } from './QGenValidationScore';
@@ -87,23 +89,17 @@ export function QGenGenerateTab() {
           <h2 className="text-lg font-semibold text-label-primary mb-4">Configuração</h2>
           <QGenConfigPanel config={config} onChange={setConfig} />
 
-          <button
+          <Button
             onClick={handleGenerate}
             disabled={isGenerating}
-            className="w-full mt-6 px-6 py-3 bg-gradient-to-b from-emerald-500 to-emerald-600 shadow-elevation-1 hover:bg-emerald-700 disabled:bg-surface-4 text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+            loading={isGenerating}
+            leftIcon={!isGenerating ? <Sparkles className="w-4 h-4" /> : undefined}
+            fullWidth
+            size="lg"
+            className="mt-6"
           >
-            {isGenerating ? (
-              <>
-                <LoadingSpinner />
-                Gerando...
-              </>
-            ) : (
-              <>
-                <span>✨</span>
-                Gerar Questão
-              </>
-            )}
-          </button>
+            {isGenerating ? 'Gerando...' : 'Gerar Questão'}
+          </Button>
 
           {error && (
             <div className="mt-4 p-4 bg-red-900/50 border border-red-700 rounded-lg text-red-200">
@@ -124,7 +120,9 @@ export function QGenGenerateTab() {
             </div>
           ) : (
             <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-8 text-center">
-              <div className="text-label-tertiary text-6xl mb-4">📝</div>
+              <div className="w-16 h-16 rounded-2xl bg-surface-3 flex items-center justify-center mx-auto mb-4">
+                <FileText className="w-8 h-8 text-label-tertiary" />
+              </div>
               <p className="text-label-secondary">
                 Configure os parâmetros e clique em &quot;Gerar Questão&quot;
               </p>

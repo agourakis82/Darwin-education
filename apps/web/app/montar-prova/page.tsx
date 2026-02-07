@@ -9,20 +9,13 @@ import { createClient } from '@/lib/supabase/client'
 import { AreaFilter } from './components/AreaFilter'
 import { DifficultyFilter } from './components/DifficultyFilter'
 import { QuestionCount } from './components/QuestionCount'
+import { AREA_LABELS } from '@/lib/area-colors'
 import type { ENAMEDArea, DifficultyLevel } from '@darwin-education/shared'
 
 interface QuestionStats {
   total: number
   byArea: Record<ENAMEDArea, number>
   byDifficulty: Record<DifficultyLevel, number>
-}
-
-const areaLabels: Record<ENAMEDArea, string> = {
-  clinica_medica: 'Clínica Médica',
-  cirurgia: 'Cirurgia',
-  ginecologia_obstetricia: 'Ginecologia e Obstetrícia',
-  pediatria: 'Pediatria',
-  saude_coletiva: 'Saúde Coletiva',
 }
 
 export default function MontarProvaPage() {
@@ -54,7 +47,7 @@ export default function MontarProvaPage() {
       .select('id, area, difficulty')
 
     if (questions) {
-      const statsByArea = (Object.keys(areaLabels) as ENAMEDArea[]).reduce((acc, area) => {
+      const statsByArea = (Object.keys(AREA_LABELS) as ENAMEDArea[]).reduce((acc, area) => {
         acc[area] = questions.filter((q: any) => q.area === area).length
         return acc
       }, {} as Record<ENAMEDArea, number>)
@@ -317,7 +310,7 @@ export default function MontarProvaPage() {
                     <li>
                       {selectedAreas.length === 0
                         ? 'Todas as áreas'
-                        : selectedAreas.map(a => areaLabels[a]).join(', ')}
+                        : selectedAreas.map(a => AREA_LABELS[a]).join(', ')}
                     </li>
                     <li>
                       {selectedDifficulties.length === 0

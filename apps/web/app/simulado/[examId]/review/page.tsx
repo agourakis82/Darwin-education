@@ -4,7 +4,9 @@ import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/Button'
+import { Spinner } from '@/components/ui/Spinner'
 import { Card, CardContent } from '@/components/ui/Card'
+import { AREA_LABELS } from '@/lib/area-colors'
 import type { ENAMEDQuestion, IRTParameters, QuestionOntology, DifficultyLevel } from '@darwin-education/shared'
 
 interface QuestionReview {
@@ -193,7 +195,7 @@ export default function ExamReviewPage() {
     return (
       <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <Spinner size="lg" className="mx-auto mb-4" />
           <p className="text-label-secondary">Carregando revisão...</p>
         </div>
       </div>
@@ -202,14 +204,6 @@ export default function ExamReviewPage() {
 
   if (!currentReview) {
     return null
-  }
-
-  const areaLabels: Record<string, string> = {
-    clinica_medica: 'Clínica Médica',
-    cirurgia: 'Cirurgia',
-    ginecologia_obstetricia: 'GO',
-    pediatria: 'Pediatria',
-    saude_coletiva: 'Saúde Coletiva',
   }
 
   return (
@@ -285,7 +279,7 @@ export default function ExamReviewPage() {
 
               <div className="flex items-center gap-2 text-sm text-label-secondary">
                 <span className="px-2 py-1 bg-surface-2 rounded text-xs">
-                  {areaLabels[currentReview.question.ontology.area]}
+                  {AREA_LABELS[currentReview.question.ontology.area]}
                 </span>
                 {currentReview.question.ontology?.topic && (
                   <span className="text-label-tertiary">{currentReview.question.ontology.topic}</span>

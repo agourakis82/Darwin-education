@@ -1,6 +1,9 @@
 'use client'
 
 import { useEffect } from 'react'
+import Link from 'next/link'
+import { Puzzle } from 'lucide-react'
+import { Button } from '@/components/ui/Button'
 
 export default function CIPError({
   error,
@@ -16,26 +19,22 @@ export default function CIPError({
   return (
     <div className="min-h-[60vh] flex items-center justify-center px-4">
       <div className="text-center max-w-md">
-        <div className="text-6xl mb-6">🧩</div>
-        <h2 className="text-2xl font-bold text-white mb-3">
-          Erro no Puzzle Clínico
+        <div className="w-16 h-16 rounded-2xl bg-red-500/10 flex items-center justify-center mx-auto mb-6">
+          <Puzzle className="w-8 h-8 text-red-400" />
+        </div>
+        <h2 className="text-2xl font-bold text-label-primary mb-3">
+          Erro no quebra-cabeça
         </h2>
         <p className="text-label-secondary mb-8">
-          Não foi possível carregar o puzzle. Tente novamente ou escolha outro puzzle.
+          Não foi possível carregar o quebra-cabeça clínico. Tente novamente.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <button
-            onClick={reset}
-            className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-lg transition-colors"
-          >
+          <Button onClick={reset}>
             Tentar Novamente
-          </button>
-          <a
-            href="/cip"
-            className="px-6 py-3 bg-surface-3 hover:bg-surface-4 text-white font-medium rounded-lg transition-colors"
-          >
-            Voltar aos Puzzles
-          </a>
+          </Button>
+          <Button variant="secondary" asChild>
+            <Link href="/cip">Voltar aos Puzzles</Link>
+          </Button>
         </div>
       </div>
     </div>

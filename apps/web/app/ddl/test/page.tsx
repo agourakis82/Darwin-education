@@ -6,6 +6,17 @@
 // ============================================================
 
 import { useState, useEffect } from 'react'
+import {
+  Target,
+  BookOpen,
+  MessageCircle,
+  Link2,
+  FileText,
+  BarChart3,
+  ArrowLeft,
+  X,
+} from 'lucide-react'
+import { Button } from '@/components/ui/Button'
 import { DDLQuestion } from '@/components/ddl/DDLQuestion'
 import { DDLFeedback } from '@/components/ddl/DDLFeedback'
 import type { LacunaType, ConfidenceLevel, BehavioralData } from '@/lib/ddl/types'
@@ -190,13 +201,17 @@ export default function DDLTestPage() {
         {/* Error display */}
         {error && (
           <div className="mb-6 p-4 bg-red-900/30 border border-red-700 rounded-lg">
-            <p className="text-red-400">{error}</p>
-            <button
-              onClick={() => setError(null)}
-              className="mt-2 text-sm text-red-300 underline hover:text-red-200"
-            >
-              Fechar
-            </button>
+            <div className="flex items-center justify-between">
+              <p className="text-red-400">{error}</p>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setError(null)}
+                className="text-red-300 hover:text-red-200"
+              >
+                <X className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
         )}
 
@@ -250,12 +265,15 @@ export default function DDLTestPage() {
         {/* Phase: Answer */}
         {phase === 'answer' && selectedQuestion && (
           <div>
-            <button
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={() => setPhase('select')}
-              className="mb-4 text-sm text-emerald-400 hover:text-emerald-300 hover:underline"
+              className="mb-4 text-sm text-emerald-400 hover:text-emerald-300"
+              leftIcon={<ArrowLeft className="w-4 h-4" />}
             >
-              ← Voltar para selecao
-            </button>
+              Voltar para selecao
+            </Button>
             <DDLQuestion
               questionId={selectedQuestion.id}
               questionText={selectedQuestion.question_text}
@@ -273,10 +291,10 @@ export default function DDLTestPage() {
             <h2 className="text-xl font-semibold text-white">Analisando sua resposta...</h2>
             <p className="text-label-secondary mt-2">Processando analise semantica e comportamental</p>
             <div className="mt-6 space-y-2 text-sm text-label-tertiary">
-              <p>📝 Extraindo conceitos da resposta</p>
-              <p>🔗 Avaliando integracoes conceituais</p>
-              <p>📊 Analisando padroes comportamentais</p>
-              <p>🎯 Classificando tipo de lacuna</p>
+              <p className="flex items-center gap-2"><FileText className="w-4 h-4" /> Extraindo conceitos da resposta</p>
+              <p className="flex items-center gap-2"><Link2 className="w-4 h-4" /> Avaliando integracoes conceituais</p>
+              <p className="flex items-center gap-2"><BarChart3 className="w-4 h-4" /> Analisando padroes comportamentais</p>
+              <p className="flex items-center gap-2"><Target className="w-4 h-4" /> Classificando tipo de lacuna</p>
             </div>
           </div>
         )}
@@ -286,12 +304,9 @@ export default function DDLTestPage() {
           <div>
             <div className="mb-6 flex items-center justify-between">
               <h2 className="text-xl font-semibold text-white">Resultado da Analise</h2>
-              <button
-                onClick={handleReset}
-                className="px-4 py-2 bg-emerald-600 text-white rounded-md hover:bg-emerald-500 transition-colors"
-              >
+              <Button onClick={handleReset}>
                 Nova Questao
-              </button>
+              </Button>
             </div>
 
             {/* Classification Summary */}
@@ -305,7 +320,7 @@ export default function DDLTestPage() {
                       : 'bg-surface-3/50'
                   }`}
                 >
-                  <div className="text-2xl">📚</div>
+                  <div className="flex justify-center"><BookOpen className="w-6 h-6 text-blue-400" /></div>
                   <div className="font-medium text-white">LE</div>
                   <div className="text-xs text-label-secondary">Epistemica</div>
                 </div>
@@ -316,7 +331,7 @@ export default function DDLTestPage() {
                       : 'bg-surface-3/50'
                   }`}
                 >
-                  <div className="text-2xl">💭</div>
+                  <div className="flex justify-center"><MessageCircle className="w-6 h-6 text-purple-400" /></div>
                   <div className="font-medium text-white">LEm</div>
                   <div className="text-xs text-label-secondary">Emocional</div>
                 </div>
@@ -327,7 +342,7 @@ export default function DDLTestPage() {
                       : 'bg-surface-3/50'
                   }`}
                 >
-                  <div className="text-2xl">🔗</div>
+                  <div className="flex justify-center"><Link2 className="w-6 h-6 text-orange-400" /></div>
                   <div className="font-medium text-white">LIE</div>
                   <div className="text-xs text-label-secondary">Integracao</div>
                 </div>

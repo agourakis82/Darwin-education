@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { Trophy, Gem, Medal, Award, CircleDot, PartyPopper } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { AchievementBadge, type Achievement } from '../components/AchievementBadge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -115,7 +116,7 @@ export default function CIPAchievementsPage() {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <span className="text-4xl">🏆</span>
+              <Trophy className="w-8 h-8 text-amber-400" />
               <div>
                 <h1 className="text-3xl font-bold text-white">Conquistas CIP</h1>
                 <p className="text-label-secondary">Desbloqueie conquistas completando puzzles</p>
@@ -184,7 +185,7 @@ export default function CIPAchievementsPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <span>💎</span>
+                  <Gem className="w-5 h-5 text-cyan-400" />
                   <span>Platina</span>
                   <span className="text-sm text-label-secondary font-normal ml-2">
                     ({groupedByTier.platinum.filter((a) => a.is_unlocked).length} /{' '}
@@ -211,7 +212,7 @@ export default function CIPAchievementsPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <span>🥇</span>
+                  <Medal className="w-5 h-5 text-yellow-400" />
                   <span>Ouro</span>
                   <span className="text-sm text-label-secondary font-normal ml-2">
                     ({groupedByTier.gold.filter((a) => a.is_unlocked).length} /{' '}
@@ -238,7 +239,7 @@ export default function CIPAchievementsPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <span>🥈</span>
+                  <Award className="w-5 h-5 text-gray-400" />
                   <span>Prata</span>
                   <span className="text-sm text-label-secondary font-normal ml-2">
                     ({groupedByTier.silver.filter((a) => a.is_unlocked).length} /{' '}
@@ -265,7 +266,7 @@ export default function CIPAchievementsPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <span>🥉</span>
+                  <CircleDot className="w-5 h-5 text-amber-600" />
                   <span>Bronze</span>
                   <span className="text-sm text-label-secondary font-normal ml-2">
                     ({groupedByTier.bronze.filter((a) => a.is_unlocked).length} /{' '}
@@ -295,7 +296,7 @@ export default function CIPAchievementsPage() {
                   {filter === 'unlocked'
                     ? 'Você ainda não desbloqueou nenhuma conquista. Complete puzzles para começar!'
                     : filter === 'locked'
-                    ? 'Todas as conquistas foram desbloqueadas! 🎉'
+                    ? 'Todas as conquistas foram desbloqueadas!'
                     : 'Nenhuma conquista disponível no momento.'}
                 </p>
               </CardContent>

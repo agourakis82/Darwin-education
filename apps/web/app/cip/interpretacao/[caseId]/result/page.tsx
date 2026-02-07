@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
+import { Scan } from 'lucide-react'
 import confetti from 'canvas-confetti'
 import { createClient } from '@/lib/supabase/client'
 import { useCIPImageStore } from '@/lib/stores/cipImageStore'
@@ -365,7 +366,7 @@ export default function ImageResultPage() {
         {/* Header */}
         <div className="mb-8 text-center">
           <div className="flex items-center justify-center gap-3 mb-2">
-            <span className="text-4xl">🩻</span>
+            <Scan className="w-8 h-8 text-blue-400" />
             <h1 className="text-3xl font-bold text-white">Resultado</h1>
           </div>
           {displayCase && (

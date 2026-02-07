@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { Calendar, Globe } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { LeaderboardGlobal } from './LeaderboardGlobal'
 import { LeaderboardWeekly } from './LeaderboardWeekly'
@@ -13,11 +14,11 @@ export function LeaderboardTabs() {
   return (
     <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as LeaderboardTab)}>
       <TabsList className="grid w-full max-w-md grid-cols-2">
-        <TabsTrigger value="weekly">
-          📅 Semanal
+        <TabsTrigger value="weekly" className="inline-flex items-center gap-1.5">
+          <Calendar className="w-4 h-4" /> Semanal
         </TabsTrigger>
-        <TabsTrigger value="global">
-          🌍 Global
+        <TabsTrigger value="global" className="inline-flex items-center gap-1.5">
+          <Globe className="w-4 h-4" /> Global
         </TabsTrigger>
       </TabsList>
 

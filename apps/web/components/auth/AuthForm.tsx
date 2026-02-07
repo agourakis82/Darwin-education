@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import { Button } from '@/components/ui/Button'
 
 interface AuthFormProps {
   mode: 'login' | 'signup'
@@ -110,10 +111,11 @@ export function AuthForm({ mode, onSuccess, redirectTo }: AuthFormProps) {
         />
       </div>
 
-      <button
+      <Button
         type="submit"
         disabled={loading}
-        className="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 disabled:bg-emerald-800 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-colors"
+        loading={loading}
+        fullWidth
       >
         {loading
           ? mode === 'login'
@@ -122,7 +124,7 @@ export function AuthForm({ mode, onSuccess, redirectTo }: AuthFormProps) {
           : mode === 'login'
             ? 'Entrar'
             : 'Criar conta'}
-      </button>
+      </Button>
     </form>
   )
 }

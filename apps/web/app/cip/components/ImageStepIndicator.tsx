@@ -1,5 +1,6 @@
 'use client'
 
+import { Check } from 'lucide-react'
 import type { ImageInterpretationStep } from '@darwin-education/shared'
 import { IMAGE_STEP_LABELS_PT, IMAGE_STEP_ORDER } from '@darwin-education/shared'
 
@@ -41,7 +42,7 @@ export function ImageStepIndicator({
                   }
                 `}
               >
-                {isDone ? '✓' : index + 1}
+                {isDone ? <Check className="w-4 h-4" /> : index + 1}
               </div>
               <span
                 className={`text-xs mt-1 text-center ${

@@ -76,30 +76,30 @@ const IMAGE_SOURCES: ImageSource[] = [
   },
   {
     titlePt: 'Pneumotórax espontâneo',
-    wikimedia: 'File:Rt sided pneumothorax.jpg',
+    wikimedia: 'File:Pneumothorax CXR.jpg',
     attribution:
       'Right-sided pneumothorax on chest X-ray. Wikimedia Commons, CC BY-SA 3.0.',
     filename: 'xray-pneumothorax.jpg',
   },
   {
     titlePt: 'Insuficiência cardíaca congestiva',
-    wikimedia: 'File:Chest radiograph of a patient with CHF - annotated (CardioNetworks ECHOpedia).jpg',
+    wikimedia: 'File:Cardiomegally.PNG',
     attribution:
-      'Chest X-ray showing cardiomegaly and pulmonary congestion. CardioNetworks ECHOpedia, CC BY-SA 3.0.',
-    filename: 'xray-icc-cardiomegalia.jpg',
+      'Chest X-ray showing cardiomegaly. Wikimedia Commons, CC BY-SA 3.0.',
+    filename: 'xray-icc-cardiomegalia.png',
   },
   {
     titlePt: 'Derrame pleural volumoso',
-    wikimedia: 'File:Massive Left Pleural effusion.jpg',
+    wikimedia: 'File:Effusionhalf.PNG',
     attribution:
-      'Massive left pleural effusion on chest X-ray. Wikimedia Commons, CC BY-SA 4.0.',
-    filename: 'xray-derrame-pleural.jpg',
+      'Pleural effusion on chest X-ray. James Heilman, MD. Wikimedia Commons, CC BY-SA 3.0.',
+    filename: 'xray-derrame-pleural.png',
   },
   {
     titlePt: 'Fratura de arcos costais',
-    wikimedia: 'File:Broken rib.jpg',
+    wikimedia: 'File:Fracturedribsmarked.jpg',
     attribution:
-      'Rib fracture on chest X-ray. Wikimedia Commons, CC BY-SA 3.0.',
+      'Rib fractures on chest X-ray. Wikimedia Commons, CC BY-SA 3.0.',
     filename: 'xray-fratura-costela.jpg',
   },
   // --- EKG (5) ---
@@ -141,16 +141,16 @@ const IMAGE_SOURCES: ImageSource[] = [
   // --- CT (4) ---
   {
     titlePt: 'AVC isquêmico agudo',
-    wikimedia: 'File:MCA-Stroke-CT.jpg',
+    wikimedia: 'File:CT Brain MCA Infarct.jpg',
     attribution:
       'CT scan showing MCA territory ischemic stroke. Wikimedia Commons, CC BY-SA 3.0.',
     filename: 'ct-avc-isquemico.jpg',
   },
   {
     titlePt: 'Tromboembolismo pulmonar agudo',
-    wikimedia: 'File:Saddle PE.PNG',
+    wikimedia: 'File:SaddlePE.PNG',
     attribution:
-      'CT pulmonary angiography showing pulmonary embolism. Wikimedia Commons, CC BY-SA 3.0.',
+      'CT pulmonary angiography showing saddle pulmonary embolism. Wikimedia Commons, CC BY-SA 3.0.',
     filename: 'ct-tep.png',
   },
   {
@@ -177,14 +177,14 @@ const IMAGE_SOURCES: ImageSource[] = [
   },
   {
     titlePt: 'Gestação ectópica tubária',
-    wikimedia: 'File:Ectopic pregnancy on ultrasound.jpg',
+    wikimedia: 'File:Ectopic pregnancy.JPG',
     attribution:
       'Transvaginal ultrasound showing ectopic pregnancy. Wikimedia Commons, CC BY-SA 3.0.',
     filename: 'usg-ectopica.jpg',
   },
   {
     titlePt: 'Urolitíase com hidronefrose',
-    wikimedia: 'File:Hydronephrosis.jpg',
+    wikimedia: 'File:Hydro.jpg',
     attribution:
       'Ultrasound showing hydronephrosis. Wikimedia Commons, CC BY-SA 3.0.',
     filename: 'usg-hidronefrose.jpg',
@@ -192,9 +192,9 @@ const IMAGE_SOURCES: ImageSource[] = [
   // --- MRI (3) ---
   {
     titlePt: 'Hérnia discal lombar L4-L5',
-    wikimedia: 'File:Lumbar disc herniation MRI.jpg',
+    wikimedia: 'File:L5S1 prolapsed intervertibral disc PID.jpg',
     attribution:
-      'MRI showing lumbar disc herniation. Wikimedia Commons, CC BY-SA 3.0.',
+      'MRI showing lumbar disc herniation at L5-S1. Wikimedia Commons, CC BY-SA 3.0.',
     filename: 'mri-hernia-discal.jpg',
   },
   {
@@ -206,10 +206,10 @@ const IMAGE_SOURCES: ImageSource[] = [
   },
   {
     titlePt: 'Esclerose múltipla',
-    wikimedia: 'File:MS Demyelinisation CD68 10xv2.jpg',
+    wikimedia: 'File:MSMRIMark.png',
     attribution:
-      'MRI showing multiple sclerosis plaques. Wikimedia Commons, CC BY-SA 3.0.',
-    filename: 'mri-esclerose-multipla.jpg',
+      'MRI showing multiple sclerosis periventricular plaques. Wikimedia Commons, CC BY-SA 3.0.',
+    filename: 'mri-esclerose-multipla.png',
   },
 ]
 
@@ -225,12 +225,17 @@ async function getWikimediaImageUrl(
   apiUrl.searchParams.set('titles', filename)
   apiUrl.searchParams.set('prop', 'imageinfo')
   apiUrl.searchParams.set('iiprop', 'url|size|mime')
+  apiUrl.searchParams.set('iiurlwidth', '1200') // Request thumbnail (max 1200px wide)
   apiUrl.searchParams.set('format', 'json')
 
   try {
     const res = await fetch(apiUrl.toString(), {
       headers: { 'User-Agent': 'DarwinEducation/1.0 (educational platform)' },
     })
+    if (!res.ok) {
+      console.error(`  API HTTP ${res.status} for ${filename}`)
+      return null
+    }
     const data = await res.json()
     const pages = data.query?.pages
     if (!pages) return null
@@ -238,7 +243,10 @@ async function getWikimediaImageUrl(
     for (const pageId of Object.keys(pages)) {
       if (pageId === '-1') return null
       const info = pages[pageId]?.imageinfo?.[0]
-      if (info?.url) return info.url
+      if (info) {
+        // Prefer thumbnail URL if available (smaller file), fallback to original
+        return info.thumburl || info.url || null
+      }
     }
   } catch (err) {
     console.error(`  API error for ${filename}:`, err)
@@ -332,14 +340,37 @@ function guessMimeType(url: string, filename: string): string {
 // Main
 // ============================================
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024 // 5MB max
+const API_DELAY_MS = 3000 // 3s between Wikimedia API requests to avoid 429
+const RETRY_FAILED = process.argv.includes('--retry-failed')
+
 async function main() {
   console.log('=== Darwin CIP: Medical Image Upload ===\n')
+
+  if (RETRY_FAILED) {
+    console.log('Mode: --retry-failed (only uploading cases without image_url)\n')
+  }
 
   const results: { title: string; status: string; url?: string }[] = []
   let successCount = 0
   let failCount = 0
+  let skippedExisting = 0
 
   for (const source of IMAGE_SOURCES) {
+    // In retry mode, skip cases that already have an image_url
+    if (RETRY_FAILED) {
+      const { data: existing } = await supabase
+        .from('cip_image_cases')
+        .select('image_url')
+        .eq('title_pt', source.titlePt)
+        .single()
+
+      if (existing?.image_url) {
+        skippedExisting++
+        continue
+      }
+    }
+
     console.log(`[${source.filename}] ${source.titlePt}`)
 
     try {
@@ -393,7 +424,15 @@ async function main() {
       // Step 2: Download image
       console.log(`  Downloading...`)
       const imageData = await downloadImage(downloadUrl)
+      const sizeMB = (imageData.length / (1024 * 1024)).toFixed(1)
       console.log(`  Downloaded ${(imageData.length / 1024).toFixed(0)} KB`)
+
+      if (imageData.length > MAX_FILE_SIZE) {
+        console.log(`  SKIP: File too large (${sizeMB} MB > 5 MB limit)`)
+        results.push({ title: source.titlePt, status: 'too-large' })
+        failCount++
+        continue
+      }
 
       // Step 3: Upload to Supabase Storage
       const contentType = guessMimeType(downloadUrl, source.filename)
@@ -433,14 +472,15 @@ async function main() {
       failCount++
     }
 
-    // Rate limit: wait 500ms between Wikimedia API requests
-    await new Promise((r) => setTimeout(r, 500))
+    // Rate limit: wait between Wikimedia API requests to avoid 429
+    await new Promise((r) => setTimeout(r, API_DELAY_MS))
     console.log()
   }
 
   // Summary
   console.log('\n=== Summary ===')
   console.log(`Total: ${IMAGE_SOURCES.length}`)
+  if (RETRY_FAILED) console.log(`Already had image: ${skippedExisting}`)
   console.log(`Success: ${successCount}`)
   console.log(`Failed/Skipped: ${failCount}`)
   console.log()

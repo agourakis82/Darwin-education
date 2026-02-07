@@ -2,9 +2,11 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import { ImageIcon, X } from 'lucide-react'
 import type { CIPImageCase } from '@darwin-education/shared'
 import { IMAGE_MODALITY_LABELS_PT } from '@darwin-education/shared'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+import { Button } from '@/components/ui/Button'
 
 interface ImageCaseViewerProps {
   imageCase: CIPImageCase
@@ -39,7 +41,7 @@ export function ImageCaseViewer({
         <Card className="bg-surface-0 border border-separator">
           <CardHeader className="pb-2">
             <CardTitle className="text-base text-label-primary flex items-center gap-2">
-              <span className="text-lg">🖼️</span>
+              <ImageIcon className="w-5 h-5" />
               Exame de Imagem — {modalityLabel}
             </CardTitle>
           </CardHeader>
@@ -98,15 +100,16 @@ export function ImageCaseViewer({
       {/* Fullscreen Zoom Modal */}
       {zoomed && imageCase.imageUrl && (
         <div
-          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center cursor-zoom-out"
+          className="fixed inset-0 z-overlay bg-black/90 flex items-center justify-center cursor-zoom-out"
           onClick={() => setZoomed(false)}
         >
-          <button
-            className="absolute top-4 right-4 text-white text-2xl bg-black/50 rounded-full w-10 h-10 flex items-center justify-center hover:bg-black/70"
+          <Button
+            variant="ghost"
+            className="absolute top-4 right-4 text-white bg-black/50 rounded-full w-10 h-10 flex items-center justify-center hover:bg-black/70 p-0"
             onClick={() => setZoomed(false)}
           >
-            ✕
-          </button>
+            <X className="w-5 h-5" />
+          </Button>
           <Image
             src={imageCase.imageUrl}
             alt={imageCase.titlePt}

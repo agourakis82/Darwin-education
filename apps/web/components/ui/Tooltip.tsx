@@ -47,7 +47,7 @@ export function Tooltip({ content, children, position = 'top', delay = 300 }: To
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={spring.snappy}
-            className={`absolute z-50 ${positionStyles[position]} pointer-events-none`}
+            className={`absolute z-dropdown ${positionStyles[position]} pointer-events-none`}
             role="tooltip"
           >
             <div className="px-3 py-1.5 text-xs font-medium text-label-primary bg-surface-4 rounded-md shadow-elevation-2 whitespace-nowrap">

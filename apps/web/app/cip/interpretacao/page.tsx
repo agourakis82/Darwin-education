@@ -1,5 +1,6 @@
 import { createServerClient } from '@/lib/supabase/server'
 import Link from 'next/link'
+import { Scan, Brain, HeartPulse, Radio, Magnet, Image, ArrowLeft } from 'lucide-react'
 import {
   Card,
   CardHeader,
@@ -9,6 +10,7 @@ import {
   CardFooter,
 } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
+import { AREA_LABELS } from '@/lib/area-colors'
 
 const difficultyLabels: Record<string, string> = {
   muito_facil: 'Muito Fácil',
@@ -26,13 +28,15 @@ const difficultyColors: Record<string, string> = {
   muito_dificil: 'bg-red-900/50 text-red-300 border-red-700',
 }
 
-const modalityIcons: Record<string, string> = {
-  xray: '🩻',
-  ct: '🧠',
-  ekg: '💓',
-  ultrasound: '📡',
-  mri: '🧲',
+const modalityIconComponents: Record<string, React.ReactNode> = {
+  xray: <Scan className="w-6 h-6 text-blue-400" />,
+  ct: <Brain className="w-6 h-6 text-purple-400" />,
+  ekg: <HeartPulse className="w-6 h-6 text-red-400" />,
+  ultrasound: <Radio className="w-6 h-6 text-cyan-400" />,
+  mri: <Magnet className="w-6 h-6 text-orange-400" />,
 }
+
+const defaultModalityIcon = <Image className="w-6 h-6 text-label-secondary" />
 
 const modalityLabels: Record<string, string> = {
   xray: 'Raio-X',
@@ -40,14 +44,6 @@ const modalityLabels: Record<string, string> = {
   ekg: 'ECG',
   ultrasound: 'Ultrassom',
   mri: 'Ressonância',
-}
-
-const areaLabels: Record<string, string> = {
-  clinica_medica: 'Clínica Médica',
-  cirurgia: 'Cirurgia',
-  ginecologia_obstetricia: 'GO',
-  pediatria: 'Pediatria',
-  saude_coletiva: 'Saúde Coletiva',
 }
 
 export default async function InterpretacaoPage() {
@@ -85,7 +81,7 @@ export default async function InterpretacaoPage() {
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
-            <span className="text-4xl">🩻</span>
+            <Scan className="w-8 h-8 text-blue-400" />
             <h1 className="text-3xl font-bold text-white">
               Interpretação de Imagem
             </h1>
@@ -95,8 +91,8 @@ export default async function InterpretacaoPage() {
             Ultrassonografia e Ressonância. Identifique achados, formule diagnósticos e
             proponha condutas em 4 etapas guiadas.
           </p>
-          <Link href="/cip" className="text-sm text-purple-400 hover:underline mt-2 inline-block">
-            ← Voltar ao CIP
+          <Link href="/cip" className="text-sm text-purple-400 hover:underline mt-2 inline-flex items-center gap-1">
+            <ArrowLeft className="w-4 h-4" /> Voltar ao CIP
           </Link>
         </div>
 
@@ -154,7 +150,7 @@ export default async function InterpretacaoPage() {
               key={key}
               className="bg-card border rounded-lg p-3 text-center"
             >
-              <span className="text-2xl block mb-1">{modalityIcons[key]}</span>
+              <span className="block mb-1">{modalityIconComponents[key]}</span>
               <span className="text-sm text-label-primary">{label}</span>
               <span className="text-xs text-label-tertiary block">
                 {cases?.filter((c: any) => c.modality === key).length || 0} casos
@@ -174,14 +170,14 @@ export default async function InterpretacaoPage() {
                     <CardHeader>
                       <div className="flex items-start justify-between">
                         <div className="flex items-start gap-3">
-                          <span className="text-2xl">
-                            {modalityIcons[imageCase.modality] || '🖼️'}
+                          <span>
+                            {modalityIconComponents[imageCase.modality] || defaultModalityIcon}
                           </span>
                           <div>
                             <CardTitle>{imageCase.title_pt}</CardTitle>
                             <CardDescription>
                               {modalityLabels[imageCase.modality] || imageCase.modality}
-                              {imageCase.area && ` • ${areaLabels[imageCase.area] || imageCase.area}`}
+                              {imageCase.area && ` • ${AREA_LABELS[imageCase.area] || imageCase.area}`}
                             </CardDescription>
                           </div>
                         </div>
@@ -214,7 +210,9 @@ export default async function InterpretacaoPage() {
                 <Card>
                   <CardContent>
                     <div className="text-center py-8">
-                      <span className="text-5xl mb-4 block">🩻</span>
+                      <div className="w-16 h-16 rounded-2xl bg-surface-3 flex items-center justify-center mx-auto mb-4">
+                        <Scan className="w-8 h-8 text-label-secondary" />
+                      </div>
                       <p className="text-label-secondary">Nenhum caso disponível no momento</p>
                       <p className="text-sm text-label-tertiary mt-2">
                         Execute os scripts SQL para carregar os casos de interpretação
@@ -241,7 +239,7 @@ export default async function InterpretacaoPage() {
                         <div className="flex justify-between items-start mb-2">
                           <div className="flex items-center gap-2">
                             <span>
-                              {modalityIcons[attempt.cip_image_cases?.modality] || '🖼️'}
+                              {modalityIconComponents[attempt.cip_image_cases?.modality] || defaultModalityIcon}
                             </span>
                             <span className="text-sm font-medium text-white">
                               {attempt.cip_image_cases?.title_pt || 'Caso'}

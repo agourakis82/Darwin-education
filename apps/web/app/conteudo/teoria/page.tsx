@@ -3,6 +3,7 @@
 import { Suspense, useState, useMemo } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { BookOpen, Stethoscope, Check, Lightbulb, ChevronRight } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { ContentSearch } from '../components/ContentSearch'
 import { theoryTopics } from '@/lib/data/theory-content'
@@ -203,24 +204,22 @@ function TeoriaPageContent() {
                         </p>
                         <div className="flex flex-wrap items-center gap-4 text-xs text-label-tertiary">
                           <span className="flex items-center gap-1">
-                            <span>📚</span>
+                            <BookOpen className="w-3.5 h-3.5" />
                             <span>{topic.estimatedReadTime} min de leitura</span>
                           </span>
                           <span className="flex items-center gap-1">
-                            <span>🏥</span>
+                            <Stethoscope className="w-3.5 h-3.5" />
                             <span>{topic.area}</span>
                           </span>
                           {topic.keyPoints.length > 0 && (
                             <span className="flex items-center gap-1">
-                              <span>✓</span>
+                              <Check className="w-3.5 h-3.5" />
                               <span>{topic.keyPoints.length} pontos-chave</span>
                             </span>
                           )}
                         </div>
                       </div>
-                      <svg className="w-5 h-5 text-label-tertiary flex-shrink-0 group-hover:text-violet-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
+                      <ChevronRight className="w-5 h-5 text-label-tertiary flex-shrink-0 group-hover:text-violet-400 transition-colors" />
                     </div>
                   </CardContent>
                 </Card>
@@ -237,7 +236,7 @@ function TeoriaPageContent() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <div className="text-sm text-label-secondary">
-                <p className="font-medium text-label-primary mb-1">💡 Dica de Estudo</p>
+                <p className="font-medium text-label-primary mb-1 flex items-center gap-1.5"><Lightbulb className="w-4 h-4" /> Dica de Estudo</p>
                 <p>
                   Leia o conteúdo teórico relacionado ANTES de fazer questões sobre um novo tópico.
                   Entender a fisiopatologia ajuda a resolver problemas clínicos com mais confiança e acelera o aprendizado.

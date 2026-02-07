@@ -1,8 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
 import Link from 'next/link'
 import { useRouter, useParams } from 'next/navigation'
+import { BookOpen, BarChart3, Microscope, Stethoscope, Search, Pill, AlertTriangle, TrendingUp, Sparkles, Link2, BookMarked, ChevronDown, ChevronLeft } from 'lucide-react'
+import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { getTopicById } from '@/lib/data/theory-content'
 import { QuestionGenerator } from './QuestionGenerator'
@@ -18,15 +20,15 @@ export default function TeoriaDetailPage() {
     return notFound()
   }
 
-  const sections = [
-    { key: 'definition', label: 'Definição', icon: '📖' },
-    { key: 'epidemiology', label: 'Epidemiologia', icon: '📊' },
-    { key: 'pathophysiology', label: 'Fisiopatologia', icon: '🔬' },
-    { key: 'clinicalPresentation', label: 'Apresentação Clínica', icon: '🏥' },
-    { key: 'diagnosis', label: 'Diagnóstico', icon: '🔍' },
-    { key: 'treatment', label: 'Tratamento', icon: '💊' },
-    { key: 'complications', label: 'Complicações', icon: '⚠️' },
-    { key: 'prognosis', label: 'Prognóstico', icon: '📈' },
+  const sections: { key: string; label: string; icon: ReactNode }[] = [
+    { key: 'definition', label: 'Definição', icon: <BookOpen className="w-5 h-5" /> },
+    { key: 'epidemiology', label: 'Epidemiologia', icon: <BarChart3 className="w-5 h-5" /> },
+    { key: 'pathophysiology', label: 'Fisiopatologia', icon: <Microscope className="w-5 h-5" /> },
+    { key: 'clinicalPresentation', label: 'Apresentação Clínica', icon: <Stethoscope className="w-5 h-5" /> },
+    { key: 'diagnosis', label: 'Diagnóstico', icon: <Search className="w-5 h-5" /> },
+    { key: 'treatment', label: 'Tratamento', icon: <Pill className="w-5 h-5" /> },
+    { key: 'complications', label: 'Complicações', icon: <AlertTriangle className="w-5 h-5" /> },
+    { key: 'prognosis', label: 'Prognóstico', icon: <TrendingUp className="w-5 h-5" /> },
   ]
 
   const availableSections = sections.filter(
@@ -39,14 +41,13 @@ export default function TeoriaDetailPage() {
       <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center gap-4">
-            <button
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={() => router.push('/conteudo/teoria')}
-              className="p-2 hover:bg-surface-2 rounded-lg transition-colors"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
+              <ChevronLeft className="w-5 h-5" />
+            </Button>
             <div className="flex-1">
               <h1 className="text-3xl font-bold">{topic.title}</h1>
               <p className="text-sm text-label-secondary mt-1">Teoria Clínica - Conteúdo Educativo</p>
@@ -106,19 +107,12 @@ export default function TeoriaDetailPage() {
                   className="w-full px-6 py-4 flex items-center justify-between hover:bg-surface-2/50 transition-colors text-left"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-xl">{section.icon}</span>
+                    <span className="text-label-secondary">{section.icon}</span>
                     <h2 className="text-lg font-semibold text-white">{section.label}</h2>
                   </div>
-                  <svg
-                    className={`w-5 h-5 text-label-secondary transition-transform ${
+                  <ChevronDown className={`w-5 h-5 text-label-secondary transition-transform ${
                       isExpanded ? 'rotate-180' : ''
-                    }`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                  </svg>
+                    }`} />
                 </button>
 
                 {isExpanded && (
@@ -135,7 +129,7 @@ export default function TeoriaDetailPage() {
         <Card className="mb-8">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <span>✨</span> Pontos-Chave para Memorizar
+              <Sparkles className="w-5 h-5" /> Pontos-Chave para Memorizar
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -157,7 +151,7 @@ export default function TeoriaDetailPage() {
           <Card className="mb-8">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <span>🔗</span> Conteúdo Relacionado
+                <Link2 className="w-5 h-5" /> Conteúdo Relacionado
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -203,7 +197,7 @@ export default function TeoriaDetailPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <span>📚</span> Referências
+                <BookMarked className="w-5 h-5" /> Referências
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -224,18 +218,16 @@ export default function TeoriaDetailPage() {
 
         {/* Navigation */}
         <div className="mt-8 flex gap-4">
-          <Link
-            href="/conteudo/teoria"
-            className="px-4 py-2 bg-surface-2 hover:bg-surface-3 rounded-lg transition-colors text-sm font-medium"
-          >
-            ← Voltar para Teoria
-          </Link>
-          <Link
-            href="/conteudo"
-            className="px-4 py-2 bg-violet-600 hover:bg-violet-700 rounded-lg transition-colors text-sm font-medium"
-          >
-            Voltar para Conteúdo
-          </Link>
+          <Button variant="secondary" asChild>
+            <Link href="/conteudo/teoria">
+              <ChevronLeft className="w-4 h-4" /> Voltar para Teoria
+            </Link>
+          </Button>
+          <Button variant="outline" asChild>
+            <Link href="/conteudo">
+              Voltar para Conteúdo
+            </Link>
+          </Button>
         </div>
       </main>
     </div>

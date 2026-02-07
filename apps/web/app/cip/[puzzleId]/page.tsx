@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
+import { Puzzle } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import {
   useCIPStore,
@@ -483,7 +484,7 @@ export default function CIPPuzzlePage() {
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <span className="text-2xl">🧩</span>
+              <Puzzle className="w-6 h-6 text-purple-400" />
               <div>
                 <h1 className="text-lg font-semibold text-white">{currentPuzzle.title}</h1>
                 <span className="text-sm text-label-secondary">

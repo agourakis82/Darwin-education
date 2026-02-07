@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import { Check, Lightbulb, BarChart3, BookOpen, Dice5, Loader2, Star, Heart } from 'lucide-react'
+import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import type { TheoryTopic } from '@/lib/data/theory-content'
 
@@ -82,16 +84,17 @@ export function QuestionGenerator({ topic }: QuestionGeneratorProps) {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
-            <span>✅ Questão Gerada sobre {topic.title}</span>
-            <button
+            <span className="flex items-center gap-2"><Check className="w-5 h-5 text-green-400" /> Questão Gerada sobre {topic.title}</span>
+            <Button
+              variant="secondary"
+              size="sm"
               onClick={() => {
                 setShowResults(false)
                 setGeneratedQuestions([])
               }}
-              className="text-sm px-3 py-1 bg-surface-3 hover:bg-surface-4 rounded transition-colors"
             >
               Gerar Outra
-            </button>
+            </Button>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -128,30 +131,37 @@ export function QuestionGenerator({ topic }: QuestionGeneratorProps) {
 
               {/* Metadata */}
               <div className="flex gap-4 text-sm text-label-secondary p-3 bg-surface-2/30 rounded-lg">
-                <span>
-                  💡 Bloom: <span className="text-label-primary">{q.bloomLevel}</span>
+                <span className="flex items-center gap-1.5">
+                  <Lightbulb className="w-3.5 h-3.5" /> Bloom: <span className="text-label-primary">{q.bloomLevel}</span>
                 </span>
-                <span>
-                  📊 Dificuldade: <span className="text-label-primary">Nível {q.difficulty}</span>
+                <span className="flex items-center gap-1.5">
+                  <BarChart3 className="w-3.5 h-3.5" /> Dificuldade: <span className="text-label-primary">Nível {q.difficulty}</span>
                 </span>
               </div>
 
               {/* Explanation */}
               <details className="p-3 bg-surface-2/30 rounded-lg cursor-pointer hover:bg-surface-2/50 transition-colors">
                 <summary className="font-medium text-label-primary flex items-center gap-2">
-                  <span>📖</span> Ver Explicação
+                  <BookOpen className="w-4 h-4" /> Ver Explicação
                 </summary>
                 <p className="mt-3 text-label-primary leading-relaxed">{q.explanation}</p>
               </details>
 
               {/* Actions */}
               <div className="flex gap-3 pt-2">
-                <button className="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors font-medium">
+                <Button
+                  fullWidth
+                  leftIcon={<Star className="w-4 h-4" />}
+                  className="from-blue-600 to-blue-600 hover:from-blue-700 hover:to-blue-700"
+                >
                   Marcar como Favorita
-                </button>
-                <button className="flex-1 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors font-medium">
+                </Button>
+                <Button
+                  fullWidth
+                  leftIcon={<Heart className="w-4 h-4" />}
+                >
                   Adicionar ao Flashcard
-                </button>
+                </Button>
               </div>
             </div>
           ))}
@@ -164,7 +174,7 @@ export function QuestionGenerator({ topic }: QuestionGeneratorProps) {
     <Card className="border-blue-500/50">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <span>🎲</span> Gerar Questões sobre {topic.title}
+          <Dice5 className="w-5 h-5" /> Gerar Questões sobre {topic.title}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -219,27 +229,21 @@ export function QuestionGenerator({ topic }: QuestionGeneratorProps) {
         </div>
 
         {/* Generate Button */}
-        <button
+        <Button
           onClick={handleGenerate}
           disabled={isGenerating}
-          className="w-full py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:opacity-50 rounded-lg font-medium transition-colors"
+          loading={isGenerating}
+          leftIcon={!isGenerating ? <Dice5 className="w-4 h-4" /> : undefined}
+          fullWidth
+          size="lg"
+          className="from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
         >
-          {isGenerating ? (
-            <span className="flex items-center justify-center gap-2">
-              <span className="animate-spin">⏳</span>
-              Gerando questões...
-            </span>
-          ) : (
-            <span className="flex items-center justify-center gap-2">
-              <span>🎲</span>
-              Gerar {quantity} Questão{quantity > 1 ? 's' : ''}
-            </span>
-          )}
-        </button>
+          {isGenerating ? 'Gerando questões...' : `Gerar ${quantity} Questão${quantity > 1 ? 's' : ''}`}
+        </Button>
 
         {/* Info */}
         <div className="p-3 bg-blue-900/20 text-blue-300 rounded-lg text-sm">
-          <p className="font-medium mb-1">💡 Dica:</p>
+          <p className="font-medium mb-1 flex items-center gap-1.5"><Lightbulb className="w-4 h-4" /> Dica:</p>
           <p>Após gerar as questões, você pode resolvê-las e depois voltar ao conteúdo teórico para consolidar o aprendizado.</p>
         </div>
       </CardContent>

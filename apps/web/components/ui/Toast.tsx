@@ -3,7 +3,7 @@
 import { createContext, useCallback, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { X } from 'lucide-react'
+import { X, Check, AlertTriangle, Info } from 'lucide-react'
 import { spring } from '@/lib/motion'
 
 export type ToastVariant = 'success' | 'error' | 'warning' | 'info'
@@ -68,33 +68,33 @@ interface ToastContainerProps {
   onRemove: (id: string) => void
 }
 
-const variantStyles = {
+const variantConfig = {
   success: {
     bg: 'bg-emerald-950/80',
     border: 'border-emerald-500/20',
     text: 'text-emerald-100',
-    icon: '\u2713',
+    Icon: Check,
     iconColor: 'text-emerald-400',
   },
   error: {
     bg: 'bg-red-950/80',
     border: 'border-red-500/20',
     text: 'text-red-100',
-    icon: '\u2715',
+    Icon: X,
     iconColor: 'text-red-400',
   },
   warning: {
     bg: 'bg-amber-950/80',
     border: 'border-amber-500/20',
     text: 'text-amber-100',
-    icon: '\u26A0',
+    Icon: AlertTriangle,
     iconColor: 'text-amber-400',
   },
   info: {
     bg: 'bg-blue-950/80',
     border: 'border-blue-500/20',
     text: 'text-blue-100',
-    icon: '\u2139',
+    Icon: Info,
     iconColor: 'text-blue-400',
   },
 }
@@ -103,10 +103,11 @@ function ToastContainer({ toasts, onRemove }: ToastContainerProps) {
   if (typeof window === 'undefined') return null
 
   const toastContent = (
-    <div className="fixed bottom-20 md:bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none">
+    <div className="fixed bottom-20 md:bottom-4 right-4 z-toast flex flex-col gap-2 pointer-events-none">
       <AnimatePresence mode="popLayout">
         {toasts.map((toast) => {
-          const styles = variantStyles[toast.variant || 'info']
+          const config = variantConfig[toast.variant || 'info']
+          const IconComponent = config.Icon
           return (
             <motion.div
               key={toast.id}
@@ -116,7 +117,7 @@ function ToastContainer({ toasts, onRemove }: ToastContainerProps) {
               exit={{ opacity: 0, x: 80, scale: 0.95 }}
               transition={spring.snappy}
               className={`
-                ${styles.bg} ${styles.border} ${styles.text}
+                ${config.bg} ${config.border} ${config.text}
                 pointer-events-auto flex items-start gap-3 px-4 py-3 rounded-lg border
                 shadow-elevation-3 max-w-sm
               `}
@@ -125,15 +126,15 @@ function ToastContainer({ toasts, onRemove }: ToastContainerProps) {
               aria-live="polite"
               aria-atomic="true"
             >
-              <span className={`${styles.iconColor} font-bold text-lg flex-shrink-0 mt-0.5`}>
-                {styles.icon}
+              <span className={`${config.iconColor} flex-shrink-0 mt-0.5`}>
+                <IconComponent className="w-5 h-5" />
               </span>
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium break-words">{toast.message}</p>
               </div>
               <button
                 onClick={() => onRemove(toast.id)}
-                className={`${styles.iconColor} hover:opacity-70 flex-shrink-0 transition-opacity ml-2`}
+                className={`${config.iconColor} hover:opacity-70 flex-shrink-0 transition-opacity ml-2`}
                 aria-label="Fechar notificação"
                 type="button"
               >

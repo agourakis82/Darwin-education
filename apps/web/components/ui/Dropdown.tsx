@@ -110,7 +110,7 @@ export function Dropdown({
             exit={{ opacity: 0, y: -4 }}
             transition={spring.snappy}
             role="listbox"
-            className="absolute z-50 mt-1 w-full min-w-[180px] material-thin rounded-lg shadow-elevation-3 overflow-hidden border border-white/[0.06]"
+            className="absolute z-dropdown mt-1 w-full min-w-[180px] material-thin rounded-lg shadow-elevation-3 overflow-hidden border border-white/[0.06]"
           >
             {items.map((item, index) => (
               <li

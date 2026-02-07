@@ -5,7 +5,23 @@
 // Exibe feedback personalizado baseado no tipo de lacuna
 // ============================================================
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type ReactNode } from 'react'
+import {
+  BookOpen,
+  MessageCircle,
+  Link2,
+  Shuffle,
+  CheckCircle2,
+  Check,
+  ArrowUp,
+  ClipboardList,
+  Timer,
+  BookMarked,
+  Pencil,
+  Brain,
+  ChevronDown,
+  ChevronUp,
+} from 'lucide-react'
 import type { FeedbackContent, LacunaType, ConfidenceLevel } from '@/lib/ddl/types'
 
 interface DDLFeedbackProps {
@@ -22,42 +38,42 @@ const TYPE_CONFIG: Record<LacunaType, {
   color: string
   bgColor: string
   borderColor: string
-  icon: string
+  icon: ReactNode
   label: string
 }> = {
   LE: {
     color: 'text-blue-400',
     bgColor: 'bg-blue-900/30',
     borderColor: 'border-blue-700',
-    icon: '\uD83D\uDCDA',
+    icon: <BookOpen className="w-6 h-6 text-blue-400" />,
     label: 'Lacuna Epistemica',
   },
   LEm: {
     color: 'text-purple-400',
     bgColor: 'bg-purple-900/30',
     borderColor: 'border-purple-700',
-    icon: '\uD83D\uDCAD',
+    icon: <MessageCircle className="w-6 h-6 text-purple-400" />,
     label: 'Lacuna Emocional',
   },
   LIE: {
     color: 'text-orange-400',
     bgColor: 'bg-orange-900/30',
     borderColor: 'border-orange-700',
-    icon: '\uD83D\uDD17',
+    icon: <Link2 className="w-6 h-6 text-orange-400" />,
     label: 'Lacuna de Integracao',
   },
   MIXED: {
     color: 'text-amber-400',
     bgColor: 'bg-amber-900/30',
     borderColor: 'border-amber-700',
-    icon: '\uD83D\uDD00',
+    icon: <Shuffle className="w-6 h-6 text-amber-400" />,
     label: 'Lacunas Mistas',
   },
   NONE: {
     color: 'text-green-400',
     bgColor: 'bg-green-900/30',
     borderColor: 'border-green-700',
-    icon: '\u2705',
+    icon: <CheckCircle2 className="w-6 h-6 text-green-400" />,
     label: 'Resposta Adequada',
   },
 }
@@ -153,7 +169,7 @@ export function DDLFeedback({
       <div className={`p-4 ${config.bgColor} border-b ${config.borderColor}`}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="text-2xl">{config.icon}</span>
+            {config.icon}
             <div>
               <h3 className={`font-semibold ${config.color}`}>
                 {feedback.title}
@@ -181,12 +197,12 @@ export function DDLFeedback({
         {feedback.strengths && feedback.strengths.length > 0 && (
           <div>
             <h4 className="font-medium text-green-400 mb-2 flex items-center gap-2">
-              <span>\u2713</span> Pontos Fortes
+              <Check className="w-4 h-4" /> Pontos Fortes
             </h4>
             <ul className="space-y-1">
               {feedback.strengths.map((strength, i) => (
                 <li key={i} className="flex items-start gap-2 text-label-primary">
-                  <span className="text-green-500 mt-1">\u2022</span>
+                  <span className="text-green-500 mt-1.5 w-1.5 h-1.5 rounded-full bg-green-500 shrink-0" />
                   {strength}
                 </li>
               ))}
@@ -198,7 +214,7 @@ export function DDLFeedback({
         {feedback.areas_for_growth && feedback.areas_for_growth.length > 0 && (
           <div>
             <h4 className="font-medium text-amber-400 mb-2 flex items-center gap-2">
-              <span>\u2191</span> Areas para Desenvolvimento
+              <ArrowUp className="w-4 h-4" /> Areas para Desenvolvimento
             </h4>
             <div className="space-y-2">
               {feedback.areas_for_growth.map((area, i) => (
@@ -214,7 +230,7 @@ export function DDLFeedback({
                       {area.area}
                     </span>
                     <span className="text-amber-400">
-                      {expanded[`growth-${i}`] ? '\u2212' : '+'}
+                      {expanded[`growth-${i}`] ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                     </span>
                   </button>
                   {expanded[`growth-${i}`] && (
@@ -235,7 +251,7 @@ export function DDLFeedback({
         {feedback.action_items && feedback.action_items.length > 0 && (
           <div>
             <h4 className="font-medium text-blue-400 mb-2 flex items-center gap-2">
-              <span>\uD83D\uDCCB</span> Proximos Passos
+              <ClipboardList className="w-4 h-4" /> Proximos Passos
             </h4>
             <div className="space-y-2">
               {feedback.action_items.map((item, i) => (
@@ -257,8 +273,8 @@ export function DDLFeedback({
                   <div className="flex-1">
                     <p className="font-medium text-white">{item.action}</p>
                     <p className="text-sm text-label-secondary mt-1">{item.rationale}</p>
-                    <p className="text-xs text-label-tertiary mt-1">
-                      \u23F1 {item.estimated_time}
+                    <p className="text-xs text-label-tertiary mt-1 flex items-center gap-1">
+                      <Timer className="w-3 h-3" /> {item.estimated_time}
                     </p>
                   </div>
                 </div>
@@ -271,7 +287,7 @@ export function DDLFeedback({
         {feedback.resources && feedback.resources.length > 0 && (
           <div>
             <h4 className="font-medium text-purple-400 mb-2 flex items-center gap-2">
-              <span>\uD83D\uDCD6</span> Recursos Recomendados
+              <BookMarked className="w-4 h-4" /> Recursos Recomendados
             </h4>
             <div className="grid gap-2">
               {feedback.resources.map((resource, i) => (
@@ -280,8 +296,8 @@ export function DDLFeedback({
                   className="p-3 bg-purple-900/20 rounded-lg border border-purple-800/50 flex items-center gap-3"
                 >
                   <span className="text-purple-400">
-                    {resource.type === 'concept_review' ? '\uD83D\uDCD6' :
-                      resource.type === 'practice' ? '\u270F\uFE0F' : '\uD83E\uDDD8'}
+                    {resource.type === 'concept_review' ? <BookMarked className="w-5 h-5" /> :
+                      resource.type === 'practice' ? <Pencil className="w-5 h-5" /> : <Brain className="w-5 h-5" />}
                   </span>
                   <div>
                     <p className="font-medium text-purple-300">{resource.topic}</p>

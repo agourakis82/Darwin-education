@@ -47,7 +47,7 @@ export function ExplanationPanel({
     return (
       <div className="mt-4 p-4 bg-surface-2/50 rounded-lg border border-separator">
         <div className="flex items-center gap-3">
-          <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-emerald-500" />
+          <div className="animate-spin rounded-full h-5 w-5 border-2 border-emerald-500 border-t-transparent" />
           <span className="text-sm text-label-secondary">Gerando explicação com IA...</span>
         </div>
       </div>
@@ -64,12 +64,9 @@ export function ExplanationPanel({
           </svg>
           <div className="flex-1">
             <p className="text-sm text-red-300">{error}</p>
-            <button
-              onClick={reset}
-              className="text-xs text-red-400 hover:text-red-300 mt-1 underline"
-            >
+            <Button variant="ghost" size="sm" onClick={reset} className="text-xs text-red-400 hover:text-red-300 mt-1 p-0 h-auto">
               Tentar novamente
-            </button>
+            </Button>
           </div>
         </div>
       </div>

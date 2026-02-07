@@ -3,6 +3,21 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { spring } from '@/lib/motion';
+import {
+  FileText,
+  Layers,
+  Route,
+  Puzzle,
+  Wrench,
+  BarChart3,
+  Bot,
+  BookOpen,
+  Target,
+  Sparkles,
+  ArrowUpRight,
+} from 'lucide-react';
+import type { ReactNode } from 'react';
+import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
 
 const container = {
   hidden: { opacity: 0 },
@@ -34,9 +49,11 @@ export default function HomePage() {
         <h1 className="text-5xl font-bold text-label-primary mb-4">
           Darwin <span className="gradient-text">Education</span>
         </h1>
-        <p className="text-xl text-label-secondary max-w-2xl mx-auto">
-          Prepare-se para o ENAMED com questões calibradas por TRI, flashcards
-          com repetição espaçada e trilhas de estudo personalizadas.
+        <p className="text-xl text-label-secondary max-w-xl mx-auto">
+          A plataforma mais avançada para preparação do ENAMED.
+        </p>
+        <p className="text-base text-label-tertiary mt-2 max-w-lg mx-auto">
+          Questões calibradas por TRI, repetição espaçada e trilhas personalizadas.
         </p>
       </motion.header>
 
@@ -49,73 +66,73 @@ export default function HomePage() {
       >
         <FeatureCard
           href="/simulado"
-          icon="📝"
+          icon={<FileText className="w-6 h-6" />}
           title="Simulado ENAMED"
           description="100 questões com timer e pontuação TRI real"
           color="emerald"
         />
         <FeatureCard
           href="/flashcards"
-          icon="🃏"
+          icon={<Layers className="w-6 h-6" />}
           title="Flashcards"
           description="Repetição espaçada SM-2 para memorização eficiente"
           color="purple"
         />
         <FeatureCard
           href="/trilhas"
-          icon="🛤️"
+          icon={<Route className="w-6 h-6" />}
           title="Trilhas de Estudo"
           description="Caminhos de aprendizado baseados em suas dificuldades"
           color="emerald"
         />
         <FeatureCard
           href="/cip"
-          icon="🧩"
+          icon={<Puzzle className="w-6 h-6" />}
           title="Quebra-Cabeça Clínico"
           description="Integre diagnóstico, exame e tratamento em puzzles"
           color="purple"
         />
         <FeatureCard
           href="/montar-prova"
-          icon="🔧"
+          icon={<Wrench className="w-6 h-6" />}
           title="Monte sua Prova"
           description="Crie provas personalizadas por tema e dificuldade"
-          color="orange"
+          color="emerald"
         />
         <FeatureCard
           href="/desempenho"
-          icon="📊"
+          icon={<BarChart3 className="w-6 h-6" />}
           title="Desempenho"
           description="Acompanhe seu progresso e previsões de aprovação"
-          color="cyan"
+          color="purple"
         />
         <FeatureCard
           href="/ia-orientacao"
-          icon="🤖"
+          icon={<Bot className="w-6 h-6" />}
           title="IA Orientação"
           description="Recomendações personalizadas de estudo baseadas em IA"
-          color="indigo"
+          color="emerald"
         />
         <FeatureCard
           href="/conteudo"
-          icon="🏥"
+          icon={<BookOpen className="w-6 h-6" />}
           title="Conteúdo Médico"
           description="368 doenças e 690 medicamentos do Darwin-MFC"
-          color="rose"
+          color="purple"
         />
         <FeatureCard
           href="/ddl"
-          icon="🎯"
+          icon={<Target className="w-6 h-6" />}
           title="Diagnóstico de Lacunas"
           description="Identifique lacunas epistêmicas, emocionais e de integração"
           color="emerald"
         />
         <FeatureCard
           href="/qgen"
-          icon="✨"
+          icon={<Sparkles className="w-6 h-6" />}
           title="QGen DDL"
           description="Geração de questões com validação IRT e integração DDL"
-          color="indigo"
+          color="purple"
         />
       </motion.div>
 
@@ -126,9 +143,9 @@ export default function HomePage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ ...spring.gentle, delay: 0.5 }}
       >
-        <StatCard value="10.000+" label="Questões" />
-        <StatCard value="368" label="Doenças" />
-        <StatCard value="690" label="Medicamentos" />
+        <StatCard value={<AnimatedCounter value={10000} suffix="+" />} label="Questões" />
+        <StatCard value={<AnimatedCounter value={368} />} label="Doenças" />
+        <StatCard value={<AnimatedCounter value={690} />} label="Medicamentos" />
         <StatCard value="TRI" label="Pontuação Real" />
       </motion.div>
     </div>
@@ -143,41 +160,40 @@ function FeatureCard({
   color,
 }: {
   href: string;
-  icon: string;
+  icon: ReactNode;
   title: string;
   description: string;
-  color: string;
+  color: 'emerald' | 'purple';
 }) {
-  const glowColors: Record<string, string> = {
-    emerald: 'hover:shadow-[0_0_30px_rgba(16,185,129,0.15)]',
-    purple: 'hover:shadow-[0_0_30px_rgba(168,85,247,0.15)]',
-    orange: 'hover:shadow-[0_0_30px_rgba(249,115,22,0.15)]',
-    cyan: 'hover:shadow-[0_0_30px_rgba(6,182,212,0.15)]',
-    rose: 'hover:shadow-[0_0_30px_rgba(244,63,94,0.15)]',
-    indigo: 'hover:shadow-[0_0_30px_rgba(99,102,241,0.15)]',
-  };
+  const iconBg = color === 'emerald' ? 'bg-emerald-500/10' : 'bg-purple-500/10';
+  const iconText = color === 'emerald' ? 'text-emerald-400' : 'text-purple-400';
 
   return (
     <motion.div
       variants={item}
-      whileHover={{ y: -6, transition: spring.snappy }}
+      whileHover={{ y: -4, transition: spring.snappy }}
     >
       <Link
         href={href}
-        className={`block p-6 bg-surface-2 rounded-lg shadow-elevation-1 transition-all duration-200 hover:shadow-elevation-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-0 ${glowColors[color] || ''}`}
+        className="group block p-6 bg-surface-2 rounded-lg shadow-elevation-1 transition-all duration-200 hover:shadow-elevation-2 hover:bg-surface-3/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-0"
       >
-        <div className="text-4xl mb-4">{icon}</div>
-        <h2 className="text-xl font-semibold text-label-primary mb-2">{title}</h2>
+        <div className="flex items-start justify-between mb-4">
+          <div className={`w-12 h-12 rounded-xl ${iconBg} flex items-center justify-center ${iconText}`}>
+            {icon}
+          </div>
+          <ArrowUpRight className="w-4 h-4 text-label-quaternary group-hover:text-label-secondary transition-colors" />
+        </div>
+        <h2 className="text-lg font-semibold text-label-primary mb-1">{title}</h2>
         <p className="text-label-tertiary text-sm">{description}</p>
       </Link>
     </motion.div>
   );
 }
 
-function StatCard({ value, label }: { value: string; label: string }) {
+function StatCard({ value, label }: { value: ReactNode; label: string }) {
   return (
     <div className="text-center p-4 bg-surface-2 rounded-lg shadow-elevation-1">
-      <div className="text-2xl font-bold gradient-text">{value}</div>
+      <div className="text-2xl font-bold text-label-primary">{value}</div>
       <div className="text-sm text-label-tertiary">{label}</div>
     </div>
   );

@@ -1,5 +1,7 @@
 'use client';
 
+import { AlertTriangle } from 'lucide-react'
+
 interface ValidationResult {
   overallScore: number;
   decision: string;
@@ -125,7 +127,7 @@ export function QGenValidationScore({ result }: QGenValidationScoreProps) {
                     key={`${stage}-${idx}`}
                     className="flex items-start gap-2 text-sm"
                   >
-                    <span className="text-yellow-500">⚠</span>
+                    <AlertTriangle className="w-4 h-4 text-yellow-500 flex-shrink-0" />
                     <span className="text-label-secondary">
                       <strong className="text-label-primary">
                         {STAGE_LABELS[stage] || stage}:

@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils'
+import { Medal, Award, CircleDot, Scan } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 
@@ -31,10 +32,10 @@ const difficultyColors: Record<string, string> = {
   muito_dificil: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
 }
 
-function getRankMedal(rank: number): string | null {
-  if (rank === 1) return '🥇'
-  if (rank === 2) return '🥈'
-  if (rank === 3) return '🥉'
+function getRankMedal(rank: number): React.ReactNode | null {
+  if (rank === 1) return <Medal className="w-7 h-7 text-yellow-400" />
+  if (rank === 2) return <Award className="w-7 h-7 text-gray-400" />
+  if (rank === 3) return <CircleDot className="w-7 h-7 text-amber-600" />
   return null
 }
 
@@ -84,7 +85,7 @@ export function LeaderboardEntry({
       {/* Rank */}
       <div className="flex items-center justify-center w-12 h-12 flex-shrink-0">
         {medal ? (
-          <span className="text-3xl">{medal}</span>
+          <span>{medal}</span>
         ) : (
           <span className="text-xl font-bold text-muted-foreground">#{rank}</span>
         )}
@@ -111,8 +112,8 @@ export function LeaderboardEntry({
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           {entryType === 'image' && (
             <>
-              <Badge variant="outline" className="text-xs bg-blue-900/50 text-blue-300 border-blue-700">
-                🩻 Imagem
+              <Badge variant="outline" className="text-xs bg-blue-900/50 text-blue-300 border-blue-700 inline-flex items-center gap-1">
+                <Scan className="w-3 h-3" /> Imagem
               </Badge>
               <span>•</span>
             </>

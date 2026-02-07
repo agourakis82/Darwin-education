@@ -22,7 +22,7 @@ export function BottomNav() {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-surface-1/95 backdrop-blur-xl border-t border-separator"
+      className="fixed bottom-0 left-0 right-0 z-sticky md:hidden bg-surface-1/95 backdrop-blur-xl border-t border-separator"
       style={{ WebkitBackdropFilter: 'blur(24px) saturate(180%)', backdropFilter: 'blur(24px) saturate(180%)' }}
       aria-label="Navegação principal mobile"
     >
@@ -45,7 +45,7 @@ export function BottomNav() {
               <Icon className="w-5 h-5" strokeWidth={active ? 2.5 : 2} />
               <span className="text-[10px] font-medium">{item.label}</span>
               {active && (
-                <span className="absolute bottom-1 w-1 h-1 rounded-full bg-emerald-400" aria-hidden="true" />
+                <span className="absolute bottom-1 w-4 h-0.5 rounded-full bg-emerald-400" aria-hidden="true" />
               )}
             </Link>
           )

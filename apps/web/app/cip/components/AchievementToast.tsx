@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { CircleDot, Award, Medal, Gem, Star } from 'lucide-react'
 import confetti from 'canvas-confetti'
 import { cn } from '@/lib/utils'
 import type { Achievement } from './AchievementBadge'
@@ -110,11 +111,11 @@ export function AchievementToast({ achievements, onClose }: AchievementToastProp
                 </div>
                 {/* Tier Badge */}
                 <div className="absolute -top-1 -right-1 w-6 h-6 flex items-center justify-center rounded-full bg-white/90 border-2 border-white shadow-lg">
-                  <span className="text-xs">
-                    {currentAchievement.tier === 'bronze' && '🥉'}
-                    {currentAchievement.tier === 'silver' && '🥈'}
-                    {currentAchievement.tier === 'gold' && '🥇'}
-                    {currentAchievement.tier === 'platinum' && '💎'}
+                  <span className="text-xs flex items-center justify-center">
+                    {currentAchievement.tier === 'bronze' && <CircleDot className="w-3 h-3 text-amber-600" />}
+                    {currentAchievement.tier === 'silver' && <Award className="w-3 h-3 text-gray-500" />}
+                    {currentAchievement.tier === 'gold' && <Medal className="w-3 h-3 text-yellow-500" />}
+                    {currentAchievement.tier === 'platinum' && <Gem className="w-3 h-3 text-cyan-500" />}
                   </span>
                 </div>
               </div>
@@ -131,7 +132,7 @@ export function AchievementToast({ achievements, onClose }: AchievementToastProp
               <p className="text-sm text-white/70">{currentAchievement.description_pt}</p>
               {currentAchievement.xp_reward > 0 && (
                 <div className="mt-2 inline-flex items-center gap-1 px-2 py-1 bg-white/10 rounded-full">
-                  <span className="text-yellow-300 text-xs">⭐</span>
+                  <Star className="w-3 h-3 text-yellow-300 fill-yellow-300" />
                   <span className="text-xs font-semibold text-white">
                     +{currentAchievement.xp_reward} XP
                   </span>

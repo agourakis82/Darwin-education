@@ -2,14 +2,7 @@ import { createServerClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
-
-const areaLabels: Record<string, string> = {
-  clinica_medica: 'Clínica Médica',
-  cirurgia: 'Cirurgia',
-  ginecologia_obstetricia: 'GO',
-  pediatria: 'Pediatria',
-  saude_coletiva: 'Saúde Coletiva',
-}
+import { AnimatedList, AnimatedItem } from '@/components/ui/AnimatedList'
 
 export default async function SimuladoPage() {
   const supabase = await createServerClient()
@@ -48,7 +41,8 @@ export default async function SimuladoPage() {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <AnimatedList className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <AnimatedItem>
           <Link href="/simulado/rapido">
             <Card hover className="h-full">
               <CardContent>
@@ -66,7 +60,9 @@ export default async function SimuladoPage() {
               </CardContent>
             </Card>
           </Link>
+          </AnimatedItem>
 
+          <AnimatedItem>
           <Link href="/simulado/completo">
             <Card hover className="h-full">
               <CardContent>
@@ -84,7 +80,9 @@ export default async function SimuladoPage() {
               </CardContent>
             </Card>
           </Link>
+          </AnimatedItem>
 
+          <AnimatedItem>
           <Link href="/montar-prova">
             <Card hover className="h-full">
               <CardContent>
@@ -102,7 +100,8 @@ export default async function SimuladoPage() {
               </CardContent>
             </Card>
           </Link>
-        </div>
+          </AnimatedItem>
+        </AnimatedList>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Available Exams */}

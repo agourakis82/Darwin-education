@@ -1,4 +1,5 @@
 import { type ReactNode } from 'react'
+import { Search, ClipboardList, Lock, BarChart3, AlertTriangle } from 'lucide-react'
 import { Button } from './Button'
 
 interface EmptyStateProps {
@@ -28,16 +29,12 @@ export function EmptyState({
       `}
     >
       {icon && (
-        <div className="mb-4 text-label-secondary">
-          {typeof icon === 'string' ? (
-            <span className="text-5xl">{icon}</span>
-          ) : (
-            <div className="w-16 h-16">{icon}</div>
-          )}
+        <div className="w-16 h-16 rounded-2xl bg-surface-3 flex items-center justify-center mb-4 text-label-secondary">
+          {icon}
         </div>
       )}
 
-      <h3 className="text-xl font-semibold text-white mb-2">{title}</h3>
+      <h3 className="text-xl font-semibold text-label-primary mb-2">{title}</h3>
 
       {description && <p className="text-label-secondary text-center max-w-sm mb-6">{description}</p>}
 
@@ -70,7 +67,7 @@ export function EmptyStateWithIcon(props: EmptyStateWithIconProps) {
   return <EmptyState {...props} />
 }
 
-// Preset empty states with common icons
+// Preset empty states with lucide-react icons
 
 interface SimpleEmptyStateProps {
   title: string
@@ -84,7 +81,7 @@ interface SimpleEmptyStateProps {
 export function EmptySearchResults({ title, description, action }: SimpleEmptyStateProps) {
   return (
     <EmptyState
-      icon="🔍"
+      icon={<Search className="w-8 h-8" />}
       title={title || 'Nenhum resultado encontrado'}
       description={
         description || 'Tente ajustar seus critérios de busca ou tente novamente mais tarde.'
@@ -97,7 +94,7 @@ export function EmptySearchResults({ title, description, action }: SimpleEmptySt
 export function EmptyList({ title, description, action }: SimpleEmptyStateProps) {
   return (
     <EmptyState
-      icon="📋"
+      icon={<ClipboardList className="w-8 h-8" />}
       title={title || 'Lista vazia'}
       description={description || 'Não há itens para exibir no momento.'}
       action={action}
@@ -108,7 +105,7 @@ export function EmptyList({ title, description, action }: SimpleEmptyStateProps)
 export function NoPermissions({ title, description, action }: SimpleEmptyStateProps) {
   return (
     <EmptyState
-      icon="🔒"
+      icon={<Lock className="w-8 h-8" />}
       title={title || 'Acesso negado'}
       description={description || 'Você não tem permissão para acessar este conteúdo.'}
       action={action}
@@ -119,7 +116,7 @@ export function NoPermissions({ title, description, action }: SimpleEmptyStatePr
 export function NoData({ title, description, action }: SimpleEmptyStateProps) {
   return (
     <EmptyState
-      icon="📊"
+      icon={<BarChart3 className="w-8 h-8" />}
       title={title || 'Sem dados'}
       description={description || 'Comece a usar o aplicativo para gerar dados.'}
       action={action}
@@ -130,7 +127,7 @@ export function NoData({ title, description, action }: SimpleEmptyStateProps) {
 export function ServerError({ title, description, action }: SimpleEmptyStateProps) {
   return (
     <EmptyState
-      icon="⚠️"
+      icon={<AlertTriangle className="w-8 h-8" />}
       title={title || 'Erro no servidor'}
       description={description || 'Algo deu errado. Por favor, tente novamente mais tarde.'}
       action={action}

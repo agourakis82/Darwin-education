@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { Package } from 'lucide-react';
+import { Button } from '@/components/ui/Button';
 
 interface BatchConfig {
   count: number;
@@ -247,13 +249,16 @@ export function QGenBatchTab() {
           </div>
 
           {/* Generate Button */}
-          <button
+          <Button
             onClick={handleGenerate}
             disabled={isGenerating || config.bloomLevels.length === 0}
-            className="w-full mt-4 px-6 py-3 bg-gradient-to-b from-emerald-500 to-emerald-600 shadow-elevation-1 hover:bg-emerald-700 disabled:bg-surface-4 text-white font-medium rounded-lg transition-colors"
+            loading={isGenerating}
+            fullWidth
+            size="lg"
+            className="mt-4"
           >
             {isGenerating ? `Gerando... ${progress}%` : `Gerar ${config.count} Questões`}
-          </button>
+          </Button>
 
           {error && (
             <div className="p-4 bg-red-900/50 border border-red-700 rounded-lg text-red-200">
@@ -342,7 +347,9 @@ export function QGenBatchTab() {
 
           {!isGenerating && !result && (
             <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-8 text-center">
-              <div className="text-label-tertiary text-6xl mb-4">📦</div>
+              <div className="w-16 h-16 rounded-2xl bg-surface-3 flex items-center justify-center mx-auto mb-4">
+                <Package className="w-8 h-8 text-label-tertiary" />
+              </div>
               <p className="text-label-secondary">
                 Configure e gere um lote de questões
               </p>

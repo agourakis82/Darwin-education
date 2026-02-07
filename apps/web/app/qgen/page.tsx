@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import Link from 'next/link';
+import { Sparkles, Package, ClipboardList, BarChart3, Eye } from 'lucide-react';
 import { QGenGenerateTab } from './components/QGenGenerateTab';
 import { QGenBatchTab } from './components/QGenBatchTab';
 import { QGenExamTab } from './components/QGenExamTab';
@@ -13,15 +14,15 @@ type TabId = 'generate' | 'batch' | 'exam' | 'analytics' | 'review';
 interface Tab {
   id: TabId;
   label: string;
-  icon: string;
+  icon: ReactNode;
 }
 
 const TABS: Tab[] = [
-  { id: 'generate', label: 'Gerar Questão', icon: '✨' },
-  { id: 'batch', label: 'Lote', icon: '📦' },
-  { id: 'exam', label: 'Prova Completa', icon: '📋' },
-  { id: 'analytics', label: 'Estatísticas', icon: '📊' },
-  { id: 'review', label: 'Revisão', icon: '👁️' },
+  { id: 'generate', label: 'Gerar Questão', icon: <Sparkles className="w-4 h-4" /> },
+  { id: 'batch', label: 'Lote', icon: <Package className="w-4 h-4" /> },
+  { id: 'exam', label: 'Prova Completa', icon: <ClipboardList className="w-4 h-4" /> },
+  { id: 'analytics', label: 'Estatísticas', icon: <BarChart3 className="w-4 h-4" /> },
+  { id: 'review', label: 'Revisão', icon: <Eye className="w-4 h-4" /> },
 ];
 
 export default function QGenPage() {
@@ -58,7 +59,7 @@ export default function QGenPage() {
                   : 'text-label-secondary hover:text-label-primary'
               }`}
             >
-              <span className="mr-2">{tab.icon}</span>
+              <span className="mr-2 inline-flex">{tab.icon}</span>
               {tab.label}
             </button>
           ))}

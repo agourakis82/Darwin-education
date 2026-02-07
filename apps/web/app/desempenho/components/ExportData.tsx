@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { AREA_LABELS } from '@/lib/area-colors'
 import type { ENAMEDArea } from '@darwin-education/shared'
 
 interface ExamAttempt {
@@ -30,14 +31,6 @@ interface PerformanceStats {
 interface ExportDataProps {
   attempts: ExamAttempt[]
   stats: PerformanceStats
-}
-
-const areaLabels: Record<ENAMEDArea, string> = {
-  clinica_medica: 'Clínica Médica',
-  cirurgia: 'Cirurgia',
-  ginecologia_obstetricia: 'GO',
-  pediatria: 'Pediatria',
-  saude_coletiva: 'Saúde Coletiva',
 }
 
 export function ExportData({ attempts, stats }: ExportDataProps) {

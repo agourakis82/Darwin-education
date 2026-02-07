@@ -4,17 +4,12 @@ import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
+import { Spinner } from '@/components/ui/Spinner'
 import { Input } from '@/components/ui/Input'
 import { createClient } from '@/lib/supabase/client'
+import { AREA_LABELS } from '@/lib/area-colors'
 import type { ENAMEDArea } from '@darwin-education/shared'
 
-const areaLabels: Record<ENAMEDArea, string> = {
-  clinica_medica: 'Clínica Médica',
-  cirurgia: 'Cirurgia',
-  ginecologia_obstetricia: 'Ginecologia e Obstetrícia',
-  pediatria: 'Pediatria',
-  saude_coletiva: 'Saúde Coletiva',
-}
 
 interface FlashcardEdit {
   id?: string
@@ -198,7 +193,7 @@ export default function EditDeckPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-surface-0 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500" />
+        <Spinner size="lg" />
       </div>
     )
   }
@@ -268,9 +263,9 @@ export default function EditDeckPage() {
                     focus:border-transparent"
                 >
                   <option value="">Selecione uma área</option>
-                  {(Object.keys(areaLabels) as ENAMEDArea[]).map((a) => (
+                  {(Object.keys(AREA_LABELS) as ENAMEDArea[]).map((a) => (
                     <option key={a} value={a}>
-                      {areaLabels[a]}
+                      {AREA_LABELS[a]}
                     </option>
                   ))}
                 </select>
@@ -445,7 +440,7 @@ export default function EditDeckPage() {
 
         {/* Delete Confirmation Modal */}
         {showDeleteConfirm && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-overlay p-4">
             <Card className="max-w-md w-full">
               <CardHeader>
                 <CardTitle className="text-red-400">Confirmar Exclusão</CardTitle>

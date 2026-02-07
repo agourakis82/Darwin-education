@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+import { Button } from '@/components/ui/Button'
 import { createClient } from '@/lib/supabase/client'
 import { ScoreHistory } from './components/ScoreHistory'
 import { AreaRadar } from './components/AreaRadar'
@@ -11,6 +13,9 @@ import { StudyStreak } from './components/StudyStreak'
 import { WeakAreas } from './components/WeakAreas'
 import { ExportData } from './components/ExportData'
 import { LoadingSkeleton } from './components/LoadingSkeleton'
+import { AREA_LABELS } from '@/lib/area-colors'
+import { AnimatedList, AnimatedItem } from '@/components/ui/AnimatedList'
+import { AnimatedCounter } from '@/components/ui/AnimatedCounter'
 import type { ENAMEDArea } from '@darwin-education/shared'
 
 interface ExamAttempt {
@@ -44,13 +49,6 @@ interface StudyActivity {
   questions_answered: number
 }
 
-const areaLabels: Record<ENAMEDArea, string> = {
-  clinica_medica: 'Clínica Médica',
-  cirurgia: 'Cirurgia',
-  ginecologia_obstetricia: 'GO',
-  pediatria: 'Pediatria',
-  saude_coletiva: 'Saúde Coletiva',
-}
 
 type TimePeriod = '7days' | '30days' | 'all'
 
@@ -152,7 +150,7 @@ export default function DesempenhoPage() {
 
       // Calculate area performance (aggregate across all attempts)
       const areaStats: Record<ENAMEDArea, { correct: number; total: number }> = {} as any
-      for (const area of Object.keys(areaLabels) as ENAMEDArea[]) {
+      for (const area of Object.keys(AREA_LABELS) as ENAMEDArea[]) {
         areaStats[area] = { correct: 0, total: 0 }
       }
 
@@ -221,57 +219,61 @@ export default function DesempenhoPage() {
               <p className="text-label-secondary mb-6">
                 Complete pelo menos um simulado para ver suas estatísticas
               </p>
-              <a
-                href="/simulado"
-                className="inline-flex items-center px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-500 transition-colors"
-              >
-                Iniciar um Simulado
-                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </a>
+              <Button asChild>
+                <Link href="/simulado">
+                  Iniciar um Simulado
+                </Link>
+              </Button>
             </CardContent>
           </Card>
         ) : (
           <div className="space-y-6">
             {/* Top Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="text-center">
-                    <p className="text-3xl font-bold text-emerald-400">{stats?.averageScore}</p>
-                    <p className="text-sm text-label-secondary mt-1">Pontuação Média</p>
-                  </div>
-                </CardContent>
-              </Card>
+            <AnimatedList className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <AnimatedItem>
+                <Card>
+                  <CardContent className="pt-6">
+                    <div className="text-center">
+                      <p className="text-3xl font-bold text-emerald-400"><AnimatedCounter value={stats?.averageScore || 0} /></p>
+                      <p className="text-sm text-label-secondary mt-1">Pontuação Média</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </AnimatedItem>
 
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="text-center">
-                    <p className="text-3xl font-bold text-blue-400">{stats?.passRate}%</p>
-                    <p className="text-sm text-label-secondary mt-1">Taxa de Aprovação</p>
-                  </div>
-                </CardContent>
-              </Card>
+              <AnimatedItem>
+                <Card>
+                  <CardContent className="pt-6">
+                    <div className="text-center">
+                      <p className="text-3xl font-bold text-blue-400">{stats?.passRate}%</p>
+                      <p className="text-sm text-label-secondary mt-1">Taxa de Aprovação</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </AnimatedItem>
 
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="text-center">
-                    <p className="text-3xl font-bold text-yellow-400">{stats?.totalExams}</p>
-                    <p className="text-sm text-label-secondary mt-1">Simulados</p>
-                  </div>
-                </CardContent>
-              </Card>
+              <AnimatedItem>
+                <Card>
+                  <CardContent className="pt-6">
+                    <div className="text-center">
+                      <p className="text-3xl font-bold text-yellow-400">{stats?.totalExams}</p>
+                      <p className="text-sm text-label-secondary mt-1">Simulados</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </AnimatedItem>
 
-              <Card>
-                <CardContent className="pt-6">
-                  <div className="text-center">
-                    <p className="text-3xl font-bold text-purple-400">{stats?.bestScore}</p>
-                    <p className="text-sm text-label-secondary mt-1">Melhor Pontuação</p>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+              <AnimatedItem>
+                <Card>
+                  <CardContent className="pt-6">
+                    <div className="text-center">
+                      <p className="text-3xl font-bold text-purple-400">{stats?.bestScore}</p>
+                      <p className="text-sm text-label-secondary mt-1">Melhor Pontuação</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </AnimatedItem>
+            </AnimatedList>
 
             {/* Main Content Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -282,36 +284,17 @@ export default function DesempenhoPage() {
                   <CardHeader className="flex items-center justify-between">
                     <CardTitle>Histórico de Pontuação</CardTitle>
                     <div className="flex gap-2">
-                      <button
-                        onClick={() => setTimePeriod('7days')}
-                        className={`px-3 py-1 text-sm rounded-lg transition-colors ${
-                          timePeriod === '7days'
-                            ? 'bg-emerald-500/20 text-emerald-400'
-                            : 'bg-surface-2 text-label-secondary hover:bg-surface-3'
-                        }`}
-                      >
-                        7 dias
-                      </button>
-                      <button
-                        onClick={() => setTimePeriod('30days')}
-                        className={`px-3 py-1 text-sm rounded-lg transition-colors ${
-                          timePeriod === '30days'
-                            ? 'bg-emerald-500/20 text-emerald-400'
-                            : 'bg-surface-2 text-label-secondary hover:bg-surface-3'
-                        }`}
-                      >
-                        30 dias
-                      </button>
-                      <button
-                        onClick={() => setTimePeriod('all')}
-                        className={`px-3 py-1 text-sm rounded-lg transition-colors ${
-                          timePeriod === 'all'
-                            ? 'bg-emerald-500/20 text-emerald-400'
-                            : 'bg-surface-2 text-label-secondary hover:bg-surface-3'
-                        }`}
-                      >
-                        Tudo
-                      </button>
+                      {(['7days', '30days', 'all'] as TimePeriod[]).map((period) => (
+                        <Button
+                          key={period}
+                          variant={timePeriod === period ? 'secondary' : 'ghost'}
+                          size="sm"
+                          onClick={() => setTimePeriod(period)}
+                          className={timePeriod === period ? 'bg-emerald-500/20 text-emerald-400' : ''}
+                        >
+                          {period === '7days' ? '7 dias' : period === '30days' ? '30 dias' : 'Tudo'}
+                        </Button>
+                      ))}
                     </div>
                   </CardHeader>
                   <CardContent>

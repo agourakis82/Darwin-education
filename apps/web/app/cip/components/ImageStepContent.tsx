@@ -1,5 +1,6 @@
 'use client'
 
+import { Check } from 'lucide-react'
 import type { ImageOption, ImageInterpretationStep } from '@darwin-education/shared'
 import { IMAGE_STEP_LABELS_PT } from '@darwin-education/shared'
 
@@ -94,7 +95,7 @@ export function ImageStepContent({
                         ${isSubmitted && isSelected && !option.isCorrect ? 'bg-red-500 border-red-500 text-white' : ''}
                       `}
                     >
-                      {isSelected && '✓'}
+                      {isSelected && <Check className="w-3 h-3" />}
                     </div>
                   ) : (
                     <div

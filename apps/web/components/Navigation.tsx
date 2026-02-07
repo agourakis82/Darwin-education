@@ -49,7 +49,7 @@ export function Navigation() {
       </a>
 
       <nav
-        className="sticky top-0 z-50 bg-surface-1/80 backdrop-blur-xl border-b border-separator"
+        className="sticky top-0 z-sticky bg-surface-1/80 backdrop-blur-xl border-b border-separator"
         style={{ WebkitBackdropFilter: 'blur(24px) saturate(180%)', backdropFilter: 'blur(24px) saturate(180%)' }}
         aria-label="Navegação principal"
       >
@@ -76,7 +76,7 @@ export function Navigation() {
                     aria-current={active ? 'page' : undefined}
                     className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-0 ${
                       active
-                        ? 'bg-emerald-500/[0.08] text-emerald-400'
+                        ? 'bg-emerald-500/[0.15] text-emerald-400'
                         : 'text-label-secondary hover:text-label-primary hover:bg-surface-3'
                     }`}
                   >
@@ -136,7 +136,7 @@ export function Navigation() {
                     onClick={() => setMobileMenuOpen(false)}
                     className={`flex items-center gap-3 px-4 py-3 rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${
                       active
-                        ? 'bg-emerald-500/[0.08] text-emerald-400'
+                        ? 'bg-emerald-500/[0.15] text-emerald-400'
                         : 'text-label-secondary hover:text-label-primary hover:bg-surface-3'
                     }`}
                   >

@@ -92,6 +92,14 @@ const config: Config = {
         'glow-purple': '0 0 20px rgba(168,85,247,0.25)',
         'inner-shine': 'inset 0 1px 0 rgba(255,255,255,0.06)',
       },
+      // Z-index layer system
+      zIndex: {
+        'dropdown': '30',
+        'sticky': '40',
+        'overlay': '50',
+        'modal': '60',
+        'toast': '70',
+      },
       // Custom easing
       transitionTimingFunction: {
         'spring': 'cubic-bezier(0.34, 1.56, 0.64, 1)',

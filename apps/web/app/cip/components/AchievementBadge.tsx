@@ -1,5 +1,6 @@
 'use client'
 
+import { Lock, Gem, Medal, Award, CircleDot } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export interface Achievement {
@@ -104,7 +105,7 @@ export function AchievementBadge({
             isLocked ? 'opacity-40' : ''
           )}
         >
-          {isLocked ? '🔒' : achievement.icon}
+          {isLocked ? <Lock className="w-6 h-6 text-label-tertiary" /> : achievement.icon}
         </div>
 
         {/* Tier Badge (Top Right Corner) */}
@@ -118,10 +119,10 @@ export function AchievementBadge({
               'border'
             )}
           >
-            {achievement.tier === 'bronze' && '🥉'}
-            {achievement.tier === 'silver' && '🥈'}
-            {achievement.tier === 'gold' && '🥇'}
-            {achievement.tier === 'platinum' && '💎'}
+            {achievement.tier === 'bronze' && <CircleDot className="w-3 h-3 text-amber-600" />}
+            {achievement.tier === 'silver' && <Award className="w-3 h-3 text-gray-400" />}
+            {achievement.tier === 'gold' && <Medal className="w-3 h-3 text-yellow-400" />}
+            {achievement.tier === 'platinum' && <Gem className="w-3 h-3 text-cyan-400" />}
           </div>
         )}
 
@@ -157,7 +158,7 @@ export function AchievementBadge({
 
       {/* Tooltip on Hover */}
       {!showDetails && (
-        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-surface-2 border border-separator rounded-lg text-xs text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-surface-2 border border-separator rounded-lg text-xs text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-dropdown">
           <div className="font-semibold">
             {isLocked ? '??? (Bloqueado)' : achievement.title_pt}
           </div>

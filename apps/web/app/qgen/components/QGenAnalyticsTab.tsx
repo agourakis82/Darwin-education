@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { AREA_LABELS } from '@/lib/area-colors';
 
 interface QGenStats {
   overview: {
@@ -49,13 +50,6 @@ interface QGenStats {
   };
 }
 
-const AREA_LABELS: Record<string, string> = {
-  clinica_medica: 'Clínica Médica',
-  cirurgia: 'Cirurgia',
-  ginecologia_obstetricia: 'GO',
-  pediatria: 'Pediatria',
-  saude_coletiva: 'Saúde Coletiva',
-};
 
 const BLOOM_LABELS: Record<string, string> = {
   KNOWLEDGE: 'Conhecimento',

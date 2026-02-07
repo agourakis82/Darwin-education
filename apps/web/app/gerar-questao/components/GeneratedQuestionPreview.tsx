@@ -2,23 +2,9 @@
 
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
+import { AREA_COLORS, AREA_LABELS } from '@/lib/area-colors'
 import type { GeneratedQuestionData } from '@/lib/stores/questionGenStore'
 
-const areaLabels: Record<string, string> = {
-  clinica_medica: 'Clínica Médica',
-  cirurgia: 'Cirurgia',
-  ginecologia_obstetricia: 'Ginecologia e Obstetrícia',
-  pediatria: 'Pediatria',
-  saude_coletiva: 'Saúde Coletiva',
-}
-
-const areaColors: Record<string, string> = {
-  clinica_medica: 'bg-blue-500/20 text-blue-400',
-  cirurgia: 'bg-red-500/20 text-red-400',
-  ginecologia_obstetricia: 'bg-pink-500/20 text-pink-400',
-  pediatria: 'bg-green-500/20 text-green-400',
-  saude_coletiva: 'bg-purple-500/20 text-purple-400',
-}
 
 const difficultyLabels: Record<number, { label: string; color: string }> = {
   [-2]: { label: 'Muito Fácil', color: 'text-emerald-400' },
@@ -50,8 +36,8 @@ export function GeneratedQuestionPreview({
   saved,
 }: GeneratedQuestionPreviewProps) {
   const letters = ['A', 'B', 'C', 'D']
-  const areaLabel = areaLabels[question.area] || question.area
-  const areaColor = areaColors[question.area] || 'bg-label-tertiary/20 text-label-secondary'
+  const areaLabel = AREA_LABELS[question.area] || question.area
+  const areaColor = AREA_COLORS[question.area]?.badge || 'bg-label-tertiary/20 text-label-secondary'
 
   return (
     <Card className="border-emerald-800/50">

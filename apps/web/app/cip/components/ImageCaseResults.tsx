@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { Check, X, AlertTriangle, ChevronDown } from 'lucide-react'
 import type {
   CIPImageScore,
   CIPImageCase,
@@ -20,10 +21,10 @@ function StepTeachingCard({ result }: { result: ImageStepResult }) {
   const isFindings = result.step === 'findings'
   const partial = result.partialCredit ?? 0
   const statusIcon = result.correct
-    ? '✓'
+    ? <Check className="w-3.5 h-3.5" />
     : isFindings && partial > 0
       ? '~'
-      : '✗'
+      : <X className="w-3.5 h-3.5" />
   const statusBg = result.correct
     ? 'bg-green-500'
     : isFindings && partial > 0
@@ -58,21 +59,11 @@ function StepTeachingCard({ result }: { result: ImageStepResult }) {
             </p>
           )}
         </div>
-        <svg
+        <ChevronDown
           className={`w-4 h-4 text-muted-foreground flex-shrink-0 transition-transform ${
             expanded ? 'rotate-180' : ''
           }`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
+        />
       </button>
 
       {expanded && (
@@ -164,7 +155,7 @@ export function ImageCaseResults({ score, imageCase }: ImageCaseResultsProps) {
                   score.passed ? 'text-green-500' : 'text-yellow-500'
                 }`}
               >
-                {score.passed ? '✓' : '✗'}
+                {score.passed ? <Check className="w-8 h-8 mx-auto" /> : <X className="w-8 h-8 mx-auto" />}
               </div>
               <div className="text-xs text-muted-foreground">
                 {score.passed ? 'Aprovado' : 'Não Aprovado'}
@@ -249,7 +240,7 @@ export function ImageCaseResults({ score, imageCase }: ImageCaseResultsProps) {
                   key={i}
                   className="text-sm text-muted-foreground flex items-start gap-2"
                 >
-                  <span className="text-orange-400 mt-0.5">⚠</span>
+                  <AlertTriangle className="w-4 h-4 text-orange-400 mt-0.5 flex-shrink-0" />
                   <span>{mistake}</span>
                 </li>
               ))}

@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { spring } from '@/lib/motion'
 import type { ReactNode } from 'react'
 
 interface AnimatedListProps {
@@ -9,26 +10,16 @@ interface AnimatedListProps {
   staggerDelay?: number
 }
 
-const container = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.08,
-    },
-  },
-}
-
 export const animatedItem = {
   hidden: { opacity: 0, y: 16 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.3, ease: 'easeOut' },
+    transition: spring.gentle,
   },
 }
 
-export function AnimatedList({ children, className, staggerDelay = 0.08 }: AnimatedListProps) {
+export function AnimatedList({ children, className, staggerDelay = 0.06 }: AnimatedListProps) {
   return (
     <motion.div
       variants={{

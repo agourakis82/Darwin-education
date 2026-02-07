@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { Clock } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { LeaderboardEntry } from './LeaderboardEntry'
 import { Alert, AlertDescription } from '@/components/ui/alert'
@@ -115,7 +116,7 @@ export function LeaderboardWeekly() {
       {/* Weekly Info */}
       <Alert>
         <AlertDescription>
-          ⏰ O ranking semanal reseta todo domingo à meia-noite. Últimos {daysUntilReset} dias para conquistar o topo!
+          <span className="inline-flex items-center gap-1.5"><Clock className="w-4 h-4 inline" /> O ranking semanal reseta todo domingo à meia-noite. Últimos {daysUntilReset} dias para conquistar o topo!</span>
         </AlertDescription>
       </Alert>
 

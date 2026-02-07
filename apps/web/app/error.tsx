@@ -1,6 +1,9 @@
 'use client'
 
 import { useEffect } from 'react'
+import Link from 'next/link'
+import { AlertTriangle } from 'lucide-react'
+import { Button } from '@/components/ui/Button'
 
 export default function GlobalError({
   error,
@@ -16,26 +19,22 @@ export default function GlobalError({
   return (
     <div className="min-h-[60vh] flex items-center justify-center px-4">
       <div className="text-center max-w-md">
-        <div className="text-6xl mb-6">⚠️</div>
-        <h2 className="text-2xl font-bold text-white mb-3">
+        <div className="w-16 h-16 rounded-2xl bg-red-500/10 flex items-center justify-center mx-auto mb-6">
+          <AlertTriangle className="w-8 h-8 text-red-400" />
+        </div>
+        <h2 className="text-2xl font-bold text-label-primary mb-3">
           Algo deu errado
         </h2>
         <p className="text-label-secondary mb-8">
           Ocorreu um erro inesperado. Tente novamente ou volte para a página inicial.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <button
-            onClick={reset}
-            className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-lg transition-colors"
-          >
+          <Button onClick={reset}>
             Tentar Novamente
-          </button>
-          <a
-            href="/"
-            className="px-6 py-3 bg-surface-3 hover:bg-surface-4 text-white font-medium rounded-lg transition-colors"
-          >
-            Página Inicial
-          </a>
+          </Button>
+          <Button variant="secondary" asChild>
+            <Link href="/">Página Inicial</Link>
+          </Button>
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ import './globals.css';
 import { Navigation } from '@/components/Navigation';
 import { BottomNav } from '@/components/BottomNav';
 import { ToastProvider } from '@/components/ui/Toast';
+import { PageTransition } from '@/components/ui/PageTransition';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -29,7 +30,7 @@ export default function RootLayout({
             <div className="relative bg-gradient-to-b from-surface-1 to-surface-0 min-h-screen">
               <Navigation />
               <main id="main-content" className="pb-16 md:pb-0">
-                {children}
+                <PageTransition>{children}</PageTransition>
               </main>
               <BottomNav />
             </div>

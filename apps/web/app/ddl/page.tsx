@@ -7,6 +7,21 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import {
+  Target,
+  BookOpen,
+  MessageCircle,
+  Link2,
+  Shuffle,
+  CheckCircle2,
+  FileText,
+  BarChart3,
+  Sparkles,
+  ArrowLeft,
+  X,
+} from 'lucide-react'
+import { AnimatedList, AnimatedItem } from '@/components/ui/AnimatedList'
+import { Button } from '@/components/ui/Button'
 import { DDLQuestion } from '@/components/ddl/DDLQuestion'
 import { DDLFeedback } from '@/components/ddl/DDLFeedback'
 import type { LacunaType, ConfidenceLevel, BehavioralData } from '@/lib/ddl/types'
@@ -88,7 +103,7 @@ function AdaptiveQuestionCTA({ classification }: { classification: Classificatio
     return (
       <div className="mt-6 p-6 bg-indigo-900/30 border border-indigo-700 rounded-lg">
         <div className="flex items-center gap-3 mb-4">
-          <span className="text-2xl">✨</span>
+          <Sparkles className="w-6 h-6 text-indigo-400" />
           <h3 className="text-lg font-semibold text-label-primary">Questao Adaptativa para Voce</h3>
         </div>
 
@@ -120,12 +135,14 @@ function AdaptiveQuestionCTA({ classification }: { classification: Classificatio
           )}
         </div>
 
-        <button
+        <Button
+          variant="ghost"
+          size="sm"
           onClick={generateAdaptiveQuestion}
           className="text-sm text-indigo-400 hover:text-indigo-300 hover:underline"
         >
           Gerar outra questao
-        </button>
+        </Button>
       </div>
     )
   }
@@ -134,7 +151,7 @@ function AdaptiveQuestionCTA({ classification }: { classification: Classificatio
     <div className="mt-6 p-6 bg-gradient-to-r from-indigo-900/30 to-violet-900/30 border border-indigo-700/50 rounded-lg">
       <div className="flex items-center gap-4">
         <div className="w-12 h-12 bg-indigo-600/20 rounded-lg flex items-center justify-center flex-shrink-0">
-          <span className="text-2xl">✨</span>
+          <Sparkles className="w-6 h-6 text-indigo-400" />
         </div>
         <div className="flex-1">
           <h4 className="font-semibold text-label-primary mb-1">Pratique com Questoes Adaptativas</h4>
@@ -143,21 +160,14 @@ function AdaptiveQuestionCTA({ classification }: { classification: Classificatio
             personalizadas para ajudar a superar suas lacunas.
           </p>
         </div>
-        <button
+        <Button
           onClick={generateAdaptiveQuestion}
           disabled={loading}
-          className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-500
-                   transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+          loading={loading}
+          className="bg-indigo-600 hover:bg-indigo-500 from-indigo-600 to-indigo-600 hover:from-indigo-500 hover:to-indigo-500"
         >
-          {loading ? (
-            <>
-              <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-              Gerando...
-            </>
-          ) : (
-            'Gerar Questao'
-          )}
-        </button>
+          {loading ? 'Gerando...' : 'Gerar Questao'}
+        </Button>
       </div>
       {error && (
         <p className="mt-3 text-sm text-red-400">{error}</p>
@@ -270,35 +280,35 @@ export default function DDLPage() {
   }
 
   const getLacunaInfo = (type: LacunaType) => {
-    const info: Record<LacunaType, { name: string; color: string; icon: string; description: string }> = {
+    const info: Record<LacunaType, { name: string; color: string; icon: React.ReactNode; description: string }> = {
       LE: {
         name: 'Lacuna Epistemica',
         color: 'bg-blue-500',
-        icon: '📚',
+        icon: <BookOpen className="w-6 h-6 text-blue-400" />,
         description: 'Ausencia de conhecimento - o conteudo ainda nao foi estudado ou consolidado',
       },
       LEm: {
         name: 'Lacuna Emocional',
         color: 'bg-purple-500',
-        icon: '💭',
+        icon: <MessageCircle className="w-6 h-6 text-purple-400" />,
         description: 'Conhecimento presente mas inacessivel sob pressao ou ansiedade',
       },
       LIE: {
         name: 'Lacuna de Integracao',
         color: 'bg-orange-500',
-        icon: '🔗',
+        icon: <Link2 className="w-6 h-6 text-orange-400" />,
         description: 'Conceitos isolados sem conexao - dificuldade em relacionar conhecimentos',
       },
       MIXED: {
         name: 'Lacunas Mistas',
         color: 'bg-surface-5',
-        icon: '🔀',
+        icon: <Shuffle className="w-6 h-6 text-label-secondary" />,
         description: 'Combinacao de diferentes tipos de lacunas',
       },
       NONE: {
         name: 'Sem Lacunas',
         color: 'bg-green-500',
-        icon: '✅',
+        icon: <CheckCircle2 className="w-6 h-6 text-green-400" />,
         description: 'Resposta completa demonstrando dominio do conteudo',
       },
     }
@@ -310,20 +320,26 @@ export default function DDLPage() {
       {/* Error display */}
       {error && (
         <div className="mb-6 p-4 bg-red-900/30 border border-red-700 rounded-lg">
-          <p className="text-red-400">{error}</p>
-          <button
-            onClick={() => setError(null)}
-            className="mt-2 text-sm text-red-300 underline hover:text-red-200"
-          >
-            Fechar
-          </button>
+          <div className="flex items-center justify-between">
+            <p className="text-red-400">{error}</p>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setError(null)}
+              className="text-red-300 hover:text-red-200"
+            >
+              <X className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
       )}
 
       {/* Phase: Intro */}
       {phase === 'intro' && (
         <div className="text-center py-12">
-          <div className="text-6xl mb-6">🎯</div>
+          <div className="w-16 h-16 rounded-2xl bg-surface-3 flex items-center justify-center mx-auto mb-6">
+            <Target className="w-8 h-8 text-label-secondary" />
+          </div>
           <h1 className="text-3xl font-bold text-label-primary mb-4">
             Diagnostico Diferencial de Lacunas
           </h1>
@@ -334,16 +350,16 @@ export default function DDLPage() {
           </p>
 
           {/* Lacuna Types Explanation */}
-          <div className="grid md:grid-cols-3 gap-4 mb-10 text-left">
+          <AnimatedList className="grid md:grid-cols-3 gap-4 mb-10 text-left">
             {(['LE', 'LEm', 'LIE'] as LacunaType[]).map((type) => {
               const info = getLacunaInfo(type)
               return (
+                <AnimatedItem key={type}>
                 <div
-                  key={type}
                   className="p-4 bg-surface-2 rounded-lg shadow-elevation-1"
                 >
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="text-2xl">{info.icon}</span>
+                    {info.icon}
                     <span className={`px-2 py-0.5 text-xs font-bold text-white rounded ${info.color}`}>
                       {type}
                     </span>
@@ -351,18 +367,19 @@ export default function DDLPage() {
                   <h3 className="font-medium text-label-primary mb-1">{info.name}</h3>
                   <p className="text-sm text-label-secondary">{info.description}</p>
                 </div>
+                </AnimatedItem>
               )
             })}
-          </div>
+          </AnimatedList>
 
-          <button
+          <Button
+            size="lg"
             onClick={handleStart}
             disabled={loading}
-            className="px-8 py-3 bg-gradient-to-b from-emerald-500 to-emerald-600 text-white font-medium rounded-md shadow-elevation-1 shadow-inner-shine
-                     hover:from-emerald-400 hover:to-emerald-500 transition-all active:scale-[0.97] disabled:opacity-50"
+            loading={loading}
           >
             {loading ? 'Carregando...' : 'Iniciar Diagnostico'}
-          </button>
+          </Button>
         </div>
       )}
 
@@ -379,9 +396,10 @@ export default function DDLPage() {
           {loading ? (
             <div className="space-y-4">
               {[1, 2, 3].map((i) => (
-                <div key={i} className="animate-pulse p-4 bg-surface-2 rounded-lg">
+                <div key={i} className="p-4 bg-surface-2 rounded-lg relative overflow-hidden">
                   <div className="h-4 bg-surface-3 rounded w-1/4 mb-2" />
                   <div className="h-6 bg-surface-3 rounded w-3/4" />
+                  <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/[0.04] to-transparent" />
                 </div>
               ))}
             </div>
@@ -419,12 +437,15 @@ export default function DDLPage() {
       {/* Phase: Answer */}
       {phase === 'answer' && selectedQuestion && (
         <div>
-          <button
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => setPhase('select')}
-            className="mb-4 text-sm text-emerald-400 hover:text-emerald-300 hover:underline"
+            className="mb-4 text-sm text-emerald-400 hover:text-emerald-300"
+            leftIcon={<ArrowLeft className="w-4 h-4" />}
           >
-            ← Voltar para selecao
-          </button>
+            Voltar para selecao
+          </Button>
           <DDLQuestion
             questionId={selectedQuestion.id}
             questionText={selectedQuestion.question_text}
@@ -442,10 +463,10 @@ export default function DDLPage() {
           <h2 className="text-xl font-semibold text-label-primary">Analisando sua resposta...</h2>
           <p className="text-label-secondary mt-2">Este processo pode levar alguns segundos</p>
           <div className="mt-6 space-y-2 text-sm text-label-tertiary">
-            <p>📝 Extraindo conceitos da resposta</p>
-            <p>🔗 Avaliando integracoes conceituais</p>
-            <p>📊 Analisando padroes comportamentais</p>
-            <p>🎯 Classificando tipo de lacuna</p>
+            <p className="flex items-center gap-2"><FileText className="w-4 h-4" /> Extraindo conceitos da resposta</p>
+            <p className="flex items-center gap-2"><Link2 className="w-4 h-4" /> Avaliando integracoes conceituais</p>
+            <p className="flex items-center gap-2"><BarChart3 className="w-4 h-4" /> Analisando padroes comportamentais</p>
+            <p className="flex items-center gap-2"><Target className="w-4 h-4" /> Classificando tipo de lacuna</p>
           </div>
         </div>
       )}
@@ -455,12 +476,9 @@ export default function DDLPage() {
         <div>
           <div className="mb-6 flex items-center justify-between">
             <h2 className="text-2xl font-bold text-label-primary">Seu Diagnostico</h2>
-            <button
-              onClick={handleReset}
-              className="px-4 py-2 bg-gradient-to-b from-emerald-500 to-emerald-600 text-white rounded-md shadow-elevation-1 hover:from-emerald-400 hover:to-emerald-500 transition-all active:scale-[0.97]"
-            >
+            <Button onClick={handleReset}>
               Nova Questao
-            </button>
+            </Button>
           </div>
 
           {/* Classification Summary */}
@@ -470,16 +488,19 @@ export default function DDLPage() {
               {(['LE', 'LEm', 'LIE'] as LacunaType[]).map((type) => {
                 const info = getLacunaInfo(type)
                 const isActive = classification.type === type
+                const activeClassMap: Record<string, string> = {
+                  LE: 'bg-blue-900/50 ring-2 ring-blue-500',
+                  LEm: 'bg-purple-900/50 ring-2 ring-purple-500',
+                  LIE: 'bg-orange-900/50 ring-2 ring-orange-500',
+                }
                 return (
                   <div
                     key={type}
                     className={`p-3 rounded-lg transition-all ${
-                      isActive
-                        ? `${info.color.replace('bg-', 'bg-').replace('-500', '-900/50')} ring-2 ring-${info.color.split('-')[1]}-500`
-                        : 'bg-surface-3/50'
+                      isActive ? activeClassMap[type] : 'bg-surface-3/50'
                     }`}
                   >
-                    <div className="text-2xl">{info.icon}</div>
+                    <div className="flex justify-center">{info.icon}</div>
                     <div className="font-medium text-label-primary">{type}</div>
                     <div className="text-xs text-label-secondary">{info.name.split(' ')[1]}</div>
                   </div>
@@ -487,8 +508,8 @@ export default function DDLPage() {
               })}
             </div>
             {classification.type === 'NONE' && (
-              <div className="mt-4 p-3 bg-green-900/30 rounded-lg text-center">
-                <span className="text-2xl">✅</span>
+              <div className="mt-4 p-3 bg-green-900/30 rounded-lg text-center flex items-center justify-center gap-2">
+                <CheckCircle2 className="w-6 h-6 text-green-400" />
                 <p className="text-green-400 font-medium">Excelente! Nenhuma lacuna significativa detectada.</p>
               </div>
             )}
@@ -506,24 +527,15 @@ export default function DDLPage() {
 
           {/* Action buttons */}
           <div className="mt-8 flex justify-center gap-4">
-            <Link
-              href="/qgen"
-              className="px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-500 transition-colors"
-            >
-              Ir para QGen
-            </Link>
-            <Link
-              href="/trilhas"
-              className="px-6 py-2 bg-surface-3 text-label-primary rounded-md hover:bg-surface-4 transition-colors"
-            >
-              Ver Trilhas de Estudo
-            </Link>
-            <Link
-              href="/"
-              className="px-6 py-2 border border-separator text-label-secondary rounded-md hover:bg-surface-2 transition-colors"
-            >
-              Voltar ao Inicio
-            </Link>
+            <Button className="bg-indigo-600 hover:bg-indigo-500 from-indigo-600 to-indigo-600 hover:from-indigo-500 hover:to-indigo-500" asChild>
+              <Link href="/qgen">Ir para QGen</Link>
+            </Button>
+            <Button variant="secondary" asChild>
+              <Link href="/trilhas">Ver Trilhas de Estudo</Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link href="/">Voltar ao Inicio</Link>
+            </Button>
           </div>
         </div>
       )}

@@ -2,18 +2,11 @@
 
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+import { AREA_LABELS } from '@/lib/area-colors'
 import type { ENAMEDArea } from '@darwin-education/shared'
 
 interface WeakAreasProps {
   performance: Record<ENAMEDArea, number>
-}
-
-const areaLabels: Record<ENAMEDArea, string> = {
-  clinica_medica: 'Clínica Médica',
-  cirurgia: 'Cirurgia',
-  ginecologia_obstetricia: 'Ginecologia e Obstetrícia',
-  pediatria: 'Pediatria',
-  saude_coletiva: 'Saúde Coletiva',
 }
 
 const areaRecommendations: Record<ENAMEDArea, string> = {
@@ -82,7 +75,7 @@ export function WeakAreas({ performance }: WeakAreasProps) {
           {weakAreas.map(([area, score]) => (
             <div key={area} className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg hover:border-red-500/40 transition-colors">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-label-primary font-medium">{areaLabels[area]}</span>
+                <span className="text-sm text-label-primary font-medium">{AREA_LABELS[area]}</span>
                 <span className="text-sm font-medium text-red-400">{score}%</span>
               </div>
               <div className="w-full h-1.5 bg-surface-3 rounded-full overflow-hidden mb-2">

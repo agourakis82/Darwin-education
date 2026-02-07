@@ -1,29 +1,15 @@
 'use client'
 
+import { AREA_COLORS, AREA_LABELS } from '@/lib/area-colors'
 import type { ENAMEDArea } from '@darwin-education/shared'
 
 interface AreaRadarProps {
   performance: Record<ENAMEDArea, number>
 }
 
-const areaLabels: Record<ENAMEDArea, string> = {
-  clinica_medica: 'Clínica Médica',
-  cirurgia: 'Cirurgia',
-  ginecologia_obstetricia: 'GO',
-  pediatria: 'Pediatria',
-  saude_coletiva: 'Saúde Coletiva',
-}
-
-const areaColors: Record<ENAMEDArea, string> = {
-  clinica_medica: '#3B82F6',
-  cirurgia: '#EF4444',
-  ginecologia_obstetricia: '#EC4899',
-  pediatria: '#22C55E',
-  saude_coletiva: '#8B5CF6',
-}
 
 export function AreaRadar({ performance }: AreaRadarProps) {
-  const areas = Object.keys(areaLabels) as ENAMEDArea[]
+  const areas = Object.keys(AREA_LABELS) as ENAMEDArea[]
   const n = areas.length
   const angleStep = (2 * Math.PI) / n
   const centerX = 150
@@ -117,19 +103,19 @@ export function AreaRadar({ performance }: AreaRadarProps) {
                       cx={point.x}
                       cy={point.y}
                       r="7"
-                      fill={areaColors[areas[i]]}
+                      fill={AREA_COLORS[areas[i]]?.hex}
                       opacity="0.2"
                     />
                     <circle
                       cx={point.x}
                       cy={point.y}
                       r="5"
-                      fill={areaColors[areas[i]]}
+                      fill={AREA_COLORS[areas[i]]?.hex}
                       stroke="white"
                       strokeWidth="2"
                       className="drop-shadow-lg"
                     />
-                    <title>{areaLabels[areas[i]]}: {value}%</title>
+                    <title>{AREA_LABELS[areas[i]]}: {value}%</title>
                   </g>
                 )
               })}
@@ -153,7 +139,7 @@ export function AreaRadar({ performance }: AreaRadarProps) {
                 dominantBaseline="middle"
                 className="text-xs fill-label-primary font-medium"
               >
-                {areaLabels[area]}
+                {AREA_LABELS[area]}
               </text>
             )
           })}
@@ -184,9 +170,9 @@ export function AreaRadar({ performance }: AreaRadarProps) {
                 <div className="flex items-center gap-2">
                   <div
                     className="w-3 h-3 rounded-full flex-shrink-0 shadow-md"
-                    style={{ backgroundColor: areaColors[area] }}
+                    style={{ backgroundColor: AREA_COLORS[area]?.hex }}
                   />
-                  <span className="text-sm text-label-primary font-medium">{areaLabels[area]}</span>
+                  <span className="text-sm text-label-primary font-medium">{AREA_LABELS[area]}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className={`text-sm font-bold ${isGood ? 'text-emerald-400' : isWeak ? 'text-red-400' : 'text-yellow-400'}`}>
@@ -201,7 +187,7 @@ export function AreaRadar({ performance }: AreaRadarProps) {
                   className="h-full rounded-full transition-all shadow-lg"
                   style={{
                     width: `${value}%`,
-                    backgroundColor: areaColors[area],
+                    backgroundColor: AREA_COLORS[area]?.hex,
                   }}
                 />
               </div>

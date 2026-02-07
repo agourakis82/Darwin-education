@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
+import { Scan } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import {
   useCIPImageStore,
@@ -377,7 +378,7 @@ export default function ImageCasePage() {
         <div className="max-w-5xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between gap-4 mb-3">
             <div className="flex items-center gap-3">
-              <span className="text-2xl">🩻</span>
+              <Scan className="w-6 h-6 text-blue-400" />
               <div>
                 <h1 className="text-lg font-semibold text-white">
                   {currentCase.titlePt}

@@ -5,9 +5,11 @@ interface SkeletonProps {
 export function Skeleton({ className = '' }: SkeletonProps) {
   return (
     <div
-      className={`bg-surface-3 rounded-lg animate-pulse ${className}`}
+      className={`bg-surface-3 rounded-lg relative overflow-hidden ${className}`}
       aria-hidden="true"
-    />
+    >
+      <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/[0.04] to-transparent" />
+    </div>
   )
 }
 

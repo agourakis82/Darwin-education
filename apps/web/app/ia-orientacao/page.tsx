@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { Bot, BarChart3, BookOpen, Target, Star, FlaskConical, Link2, ClipboardList, Dice5, BookOpenText, Layers, BookMarked, Check, Clock, ArrowLeft, ChevronRight } from 'lucide-react'
+import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { theoryTopics } from '@/lib/data/theory-content'
 
@@ -35,7 +37,7 @@ export default function IaOrientacaoPage() {
     if (performance.score < 50) {
       recs.push({
         type: 'urgent_review',
-        title: '🚨 Revisão Urgente Necessária',
+        title: 'Revisão Urgente Necessária',
         description: `Sua pontuação em ${performance.area} está abaixo de 50%. Recomendamos revisão imediata dos conceitos fundamentais.`,
         topicIds: performance.weakAreas.slice(0, 3),
         priority: 'high',
@@ -52,7 +54,7 @@ export default function IaOrientacaoPage() {
     if (performance.score >= 50 && performance.score < 75) {
       recs.push({
         type: 'reinforcement',
-        title: '📚 Reforço Recomendado',
+        title: 'Reforço Recomendado',
         description: `Você está progredindo em ${performance.area}. Continue reforçando os conceitos.`,
         topicIds: performance.weakAreas.slice(0, 2),
         priority: 'medium',
@@ -69,7 +71,7 @@ export default function IaOrientacaoPage() {
     if (performance.score >= 75 && performance.score < 90) {
       recs.push({
         type: 'advancement',
-        title: '🎯 Aprofundamento em Tópicos Avançados',
+        title: 'Aprofundamento em Tópicos Avançados',
         description: `Excelente desempenho em ${performance.area}. Está pronto para aprofundar em tópicos mais complexos.`,
         topicIds: performance.weakAreas.length > 0 ? performance.weakAreas.slice(0, 1) : performance.strongAreas.slice(0, 2),
         priority: 'low',
@@ -86,7 +88,7 @@ export default function IaOrientacaoPage() {
     if (performance.score >= 90) {
       recs.push({
         type: 'consolidation',
-        title: '⭐ Consolidação de Expertise',
+        title: 'Consolidação de Expertise',
         description: `Desempenho excepcional em ${performance.area}! Você domina este tópico.`,
         topicIds: performance.strongAreas.slice(0, 2),
         priority: 'low',
@@ -121,7 +123,7 @@ export default function IaOrientacaoPage() {
       {/* Header */}
       <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <h1 className="text-3xl font-bold">🤖 IA Orientação de Estudos</h1>
+          <h1 className="text-3xl font-bold flex items-center gap-3"><Bot className="w-8 h-8" /> IA Orientação de Estudos</h1>
           <p className="text-sm text-label-secondary mt-1">
             Sistema inteligente de recomendações personalizadas baseado no seu desempenho
           </p>
@@ -144,17 +146,23 @@ export default function IaOrientacaoPage() {
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
                     <div className="p-4 bg-surface-2/50 rounded-lg">
-                      <div className="text-3xl mb-2">📊</div>
+                      <div className="w-10 h-10 rounded-xl bg-surface-3 flex items-center justify-center mb-2">
+                        <BarChart3 className="w-5 h-5 text-label-tertiary" />
+                      </div>
                       <h3 className="font-semibold mb-1">Análise de Desempenho</h3>
                       <p className="text-sm text-label-secondary">Acompanha seus acertos, erros e áreas fracas</p>
                     </div>
                     <div className="p-4 bg-surface-2/50 rounded-lg">
-                      <div className="text-3xl mb-2">📚</div>
+                      <div className="w-10 h-10 rounded-xl bg-surface-3 flex items-center justify-center mb-2">
+                        <BookOpen className="w-5 h-5 text-label-tertiary" />
+                      </div>
                       <h3 className="font-semibold mb-1">Recomendações Personalizadas</h3>
                       <p className="text-sm text-label-secondary">Sugere tópicos de teoria baseado em seus erros</p>
                     </div>
                     <div className="p-4 bg-surface-2/50 rounded-lg">
-                      <div className="text-3xl mb-2">🎯</div>
+                      <div className="w-10 h-10 rounded-xl bg-surface-3 flex items-center justify-center mb-2">
+                        <Target className="w-5 h-5 text-label-tertiary" />
+                      </div>
                       <h3 className="font-semibold mb-1">Plano de Ação</h3>
                       <p className="text-sm text-label-secondary">Guia passo-a-passo para melhorar seus resultados</p>
                     </div>
@@ -215,19 +223,16 @@ export default function IaOrientacaoPage() {
             <Card className="border-emerald-500/50">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <span>🧪</span> Ver Exemplo de Recomendações
+                  <FlaskConical className="w-5 h-5" /> Ver Exemplo de Recomendações
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-label-primary mb-4">
                   Clique abaixo para carregar dados de exemplo e ver como o sistema faz recomendações personalizadas.
                 </p>
-                <button
-                  onClick={handleLoadDemo}
-                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 rounded-lg transition-colors font-medium"
-                >
+                <Button onClick={handleLoadDemo}>
                   Carregar Exemplo de Desempenho
-                </button>
+                </Button>
               </CardContent>
             </Card>
 
@@ -235,25 +240,25 @@ export default function IaOrientacaoPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <span>🔗</span> Integração com Outros Sistemas
+                  <Link2 className="w-5 h-5" /> Integração com Outros Sistemas
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Link href="/simulado" className="p-4 bg-surface-2/50 hover:bg-surface-2 rounded-lg transition-colors">
-                    <h3 className="font-semibold mb-2">📋 Simulados</h3>
+                    <h3 className="font-semibold mb-2 flex items-center gap-2"><ClipboardList className="w-4 h-4" /> Simulados</h3>
                     <p className="text-sm text-label-secondary">Faça simulados e receba recomendações de teoria baseadas no seu desempenho</p>
                   </Link>
                   <Link href="/qgen" className="p-4 bg-surface-2/50 hover:bg-surface-2 rounded-lg transition-colors">
-                    <h3 className="font-semibold mb-2">🎲 Questões Geradas</h3>
+                    <h3 className="font-semibold mb-2 flex items-center gap-2"><Dice5 className="w-4 h-4" /> Questões Geradas</h3>
                     <p className="text-sm text-label-secondary">Gere questões em tópicos específicos que precisa melhorar</p>
                   </Link>
                   <Link href="/conteudo/teoria" className="p-4 bg-surface-2/50 hover:bg-surface-2 rounded-lg transition-colors">
-                    <h3 className="font-semibold mb-2">📚 Teoria Clínica</h3>
+                    <h3 className="font-semibold mb-2 flex items-center gap-2"><BookOpenText className="w-4 h-4" /> Teoria Clínica</h3>
                     <p className="text-sm text-label-secondary">Acesse conteúdo teórico estruturado recomendado pela IA</p>
                   </Link>
                   <Link href="/flashcards" className="p-4 bg-surface-2/50 hover:bg-surface-2 rounded-lg transition-colors">
-                    <h3 className="font-semibold mb-2">🎴 Flashcards</h3>
+                    <h3 className="font-semibold mb-2 flex items-center gap-2"><Layers className="w-4 h-4" /> Flashcards</h3>
                     <p className="text-sm text-label-secondary">Crie flashcards dos tópicos que está estudando</p>
                   </Link>
                 </div>
@@ -317,7 +322,7 @@ export default function IaOrientacaoPage() {
 
                   {/* Recommended Topics */}
                   <div>
-                    <h3 className="font-semibold mb-3">📖 Tópicos Recomendados para Estudo:</h3>
+                    <h3 className="font-semibold mb-3 flex items-center gap-2"><BookMarked className="w-4 h-4" /> Tópicos Recomendados para Estudo:</h3>
                     <div className="space-y-2">
                       {rec.topicIds.map(topicId => {
                         const topic = theoryTopics.find(t => t.id === topicId)
@@ -335,18 +340,20 @@ export default function IaOrientacaoPage() {
                                 </h4>
                                 <p className="text-sm text-label-secondary mt-1">{topic.description}</p>
                                 <div className="flex gap-2 mt-2 text-xs text-label-tertiary">
-                                  <span>⏱️ {topic.estimatedReadTime} min</span>
+                                  <span className="flex items-center gap-1"><Clock className="w-3 h-3" /> {topic.estimatedReadTime} min</span>
                                   <span>•</span>
-                                  <span>
-                                    {topic.difficulty === 'basico' ? '🟢 Básico' :
-                                     topic.difficulty === 'intermediario' ? '🟡 Intermediário' :
-                                     '🔴 Avançado'}
+                                  <span className={
+                                    topic.difficulty === 'basico' ? 'text-green-400' :
+                                    topic.difficulty === 'intermediario' ? 'text-yellow-400' :
+                                    'text-red-400'
+                                  }>
+                                    {topic.difficulty === 'basico' ? 'Básico' :
+                                     topic.difficulty === 'intermediario' ? 'Intermediário' :
+                                     'Avançado'}
                                   </span>
                                 </div>
                               </div>
-                              <svg className="w-5 h-5 text-label-tertiary group-hover:text-violet-400 transition-colors flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                              </svg>
+                              <ChevronRight className="w-5 h-5 text-label-tertiary group-hover:text-violet-400 transition-colors flex-shrink-0 mt-1" />
                             </div>
                           </Link>
                         )
@@ -356,7 +363,7 @@ export default function IaOrientacaoPage() {
 
                   {/* Actionable Steps */}
                   <div>
-                    <h3 className="font-semibold mb-3">✅ Plano de Ação:</h3>
+                    <h3 className="font-semibold mb-3 flex items-center gap-2"><Check className="w-4 h-4" /> Plano de Ação:</h3>
                     <ol className="space-y-2">
                       {rec.actionableSteps.map((step, i) => (
                         <li key={i} className="flex gap-3">
@@ -376,9 +383,7 @@ export default function IaOrientacaoPage() {
                       className="inline-flex items-center gap-2 px-4 py-2 bg-violet-600 hover:bg-violet-700 rounded-lg transition-colors font-medium"
                     >
                       <span>Começar Estudo</span>
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
+                      <ChevronRight className="w-4 h-4" />
                     </Link>
                   </div>
                 </CardContent>
@@ -387,16 +392,17 @@ export default function IaOrientacaoPage() {
 
             {/* Return Button */}
             <div className="flex gap-4">
-              <button
+              <Button
+                variant="secondary"
+                leftIcon={<ArrowLeft className="w-4 h-4" />}
                 onClick={() => {
                   setUserPerformance(null)
                   setRecommendations([])
                   setShowDemoData(false)
                 }}
-                className="px-4 py-2 bg-surface-2 hover:bg-surface-3 rounded-lg transition-colors"
               >
-                ← Voltar
-              </button>
+                Voltar
+              </Button>
             </div>
           </div>
         )}

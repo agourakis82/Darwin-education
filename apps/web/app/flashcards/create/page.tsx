@@ -7,15 +7,8 @@ import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { createClient } from '@/lib/supabase/client'
 import type { FlashcardDeck, Flashcard } from '@/lib/supabase'
+import { AREA_LABELS } from '@/lib/area-colors'
 import type { ENAMEDArea } from '@darwin-education/shared'
-
-const areaLabels: Record<ENAMEDArea, string> = {
-  clinica_medica: 'Clínica Médica',
-  cirurgia: 'Cirurgia',
-  ginecologia_obstetricia: 'Ginecologia e Obstetrícia',
-  pediatria: 'Pediatria',
-  saude_coletiva: 'Saúde Coletiva',
-}
 
 interface FlashcardInput {
   front: string
@@ -177,9 +170,9 @@ export default function CreateDeckPage() {
                     focus:border-transparent"
                 >
                   <option value="">Selecione uma área</option>
-                  {(Object.keys(areaLabels) as ENAMEDArea[]).map((a) => (
+                  {(Object.keys(AREA_LABELS) as ENAMEDArea[]).map((a) => (
                     <option key={a} value={a}>
-                      {areaLabels[a]}
+                      {AREA_LABELS[a]}
                     </option>
                   ))}
                 </select>

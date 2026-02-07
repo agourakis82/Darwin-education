@@ -1,27 +1,13 @@
 'use client'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+import { AREA_COLORS, AREA_LABELS } from '@/lib/area-colors'
 import type { ENAMEDArea, AreaPerformance } from '@darwin-education/shared'
 
 interface ExamResultsProps {
   areaBreakdown: Record<ENAMEDArea, AreaPerformance>
 }
 
-const areaLabels: Record<ENAMEDArea, string> = {
-  clinica_medica: 'Clínica Médica',
-  cirurgia: 'Cirurgia',
-  ginecologia_obstetricia: 'Ginecologia e Obstetrícia',
-  pediatria: 'Pediatria',
-  saude_coletiva: 'Saúde Coletiva',
-}
-
-const areaColors: Record<ENAMEDArea, string> = {
-  clinica_medica: 'bg-blue-500',
-  cirurgia: 'bg-red-500',
-  ginecologia_obstetricia: 'bg-pink-500',
-  pediatria: 'bg-green-500',
-  saude_coletiva: 'bg-purple-500',
-}
 
 export function ExamResults({ areaBreakdown }: ExamResultsProps) {
   const areas = Object.keys(areaBreakdown) as ENAMEDArea[]
@@ -46,7 +32,7 @@ export function ExamResults({ areaBreakdown }: ExamResultsProps) {
               <div key={area}>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-sm font-medium text-white">
-                    {areaLabels[area]}
+                    {AREA_LABELS[area]}
                   </span>
                   <div className="flex items-center gap-2">
                     <span className="text-xs text-label-secondary">
@@ -67,7 +53,7 @@ export function ExamResults({ areaBreakdown }: ExamResultsProps) {
                 </div>
                 <div className="h-2 bg-surface-2 rounded-full overflow-hidden">
                   <div
-                    className={`h-full rounded-full transition-all duration-500 ${areaColors[area]}`}
+                    className={`h-full rounded-full transition-all duration-500 ${AREA_COLORS[area]?.solid}`}
                     style={{ width: `${percentage}%` }}
                   />
                 </div>
@@ -111,7 +97,7 @@ export function ExamResults({ areaBreakdown }: ExamResultsProps) {
               </svg>
               <div>
                 <p className="text-sm font-medium text-red-300">
-                  Área que precisa de atenção: {areaLabels[sortedAreas[0]]}
+                  Área que precisa de atenção: {AREA_LABELS[sortedAreas[0]]}
                 </p>
                 <p className="text-xs text-red-400 mt-1">
                   Recomendamos revisar esta área usando flashcards e trilhas de estudo.

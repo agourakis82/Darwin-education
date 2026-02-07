@@ -57,7 +57,7 @@ export function UserMenu({ user }: UserMenuProps) {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-56 bg-surface-1 border border-separator rounded-lg shadow-xl py-1 z-50">
+        <div className="absolute right-0 mt-2 w-56 bg-surface-1 border border-separator rounded-lg shadow-xl py-1 z-dropdown">
           <div className="px-4 py-3 border-b border-separator">
             <p className="text-sm font-medium text-white">{userName}</p>
             <p className="text-xs text-label-secondary truncate">{user.email}</p>

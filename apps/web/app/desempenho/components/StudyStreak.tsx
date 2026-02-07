@@ -1,6 +1,7 @@
 'use client'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+import { Flame } from 'lucide-react'
 
 interface StudyActivity {
   activity_date: string
@@ -76,7 +77,7 @@ export function StudyStreak({ streak, lastDate, activityData = [] }: StudyStreak
         {/* Streak count */}
         <div className="text-center mb-4">
           <div className="flex items-center justify-center gap-2 mb-2">
-            <span className="text-4xl">🔥</span>
+            <Flame className="w-10 h-10 text-orange-400" />
             <span className={`text-4xl font-bold ${isActive ? 'text-orange-400' : 'text-label-tertiary'}`}>
               {streak}
             </span>
