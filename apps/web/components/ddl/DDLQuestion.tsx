@@ -78,14 +78,14 @@ export function DDLQuestion({
   const wordCount = response.trim().split(/\s+/).filter(Boolean).length
 
   return (
-    <div className="ddl-question p-6 bg-slate-800 rounded-lg border border-slate-700">
+    <div className="ddl-question p-6 bg-surface-2 rounded-lg border border-separator">
       {/* Header */}
       <div className="mb-4">
         <div className="flex items-center gap-2 mb-2">
           <span className="px-2 py-1 text-xs font-medium bg-emerald-900/50 text-emerald-400 rounded">
             {discipline}
           </span>
-          <span className="px-2 py-1 text-xs font-medium bg-slate-700 text-slate-300 rounded">
+          <span className="px-2 py-1 text-xs font-medium bg-surface-3 text-label-primary rounded">
             {topic}
           </span>
         </div>
@@ -98,15 +98,15 @@ export function DDLQuestion({
       <div className="mb-4">
         <label
           htmlFor={`response-${questionId}`}
-          className="block text-sm font-medium text-slate-300 mb-2"
+          className="block text-sm font-medium text-label-primary mb-2"
         >
           Sua Resposta
         </label>
         <textarea
           id={`response-${questionId}`}
           rows={8}
-          className="w-full p-4 bg-slate-900 border border-slate-600 rounded-lg
-                     text-white placeholder-slate-500
+          className="w-full p-4 bg-surface-1 border border-label-quaternary rounded-lg
+                     text-white placeholder-label-tertiary
                      focus:ring-2 focus:ring-emerald-500 focus:border-transparent
                      resize-none transition-colors"
           placeholder="Digite sua resposta aqui..."
@@ -122,7 +122,7 @@ export function DDLQuestion({
 
         {/* Word count and status */}
         <div className="flex items-center justify-between mt-2">
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-label-secondary">
             {wordCount} {wordCount === 1 ? 'palavra' : 'palavras'}
           </p>
           {isCapturing && (
@@ -148,7 +148,7 @@ export function DDLQuestion({
         className={`
           w-full py-3 px-4 rounded-lg font-medium transition-all
           ${isSubmitting || disabled || response.trim().length < 10
-            ? 'bg-slate-700 text-slate-500 cursor-not-allowed'
+            ? 'bg-surface-3 text-label-tertiary cursor-not-allowed'
             : 'bg-emerald-600 text-white hover:bg-emerald-500 active:bg-emerald-700'
           }
         `}
@@ -179,7 +179,7 @@ export function DDLQuestion({
       </button>
 
       {/* Help text */}
-      <p className="mt-3 text-xs text-slate-500 text-center">
+      <p className="mt-3 text-xs text-label-tertiary text-center">
         Sua resposta sera analisada para identificar oportunidades de aprendizado
       </p>
     </div>

@@ -84,13 +84,13 @@ export function QGenGenerateTab() {
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Configuration Panel */}
         <div>
-          <h2 className="text-lg font-semibold text-white mb-4">Configuração</h2>
+          <h2 className="text-lg font-semibold text-label-primary mb-4">Configuração</h2>
           <QGenConfigPanel config={config} onChange={setConfig} />
 
           <button
             onClick={handleGenerate}
             disabled={isGenerating}
-            className="w-full mt-6 px-6 py-3 bg-primary-600 hover:bg-primary-700 disabled:bg-gray-600 text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+            className="w-full mt-6 px-6 py-3 bg-gradient-to-b from-emerald-500 to-emerald-600 shadow-elevation-1 hover:bg-emerald-700 disabled:bg-surface-4 text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
           >
             {isGenerating ? (
               <>
@@ -114,7 +114,7 @@ export function QGenGenerateTab() {
 
         {/* Preview Panel */}
         <div>
-          <h2 className="text-lg font-semibold text-white mb-4">Prévia</h2>
+          <h2 className="text-lg font-semibold text-label-primary mb-4">Prévia</h2>
           {generatedQuestion ? (
             <div className="space-y-4">
               <QGenQuestionPreview question={generatedQuestion} />
@@ -123,9 +123,9 @@ export function QGenGenerateTab() {
               )}
             </div>
           ) : (
-            <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-8 text-center">
-              <div className="text-gray-500 text-6xl mb-4">📝</div>
-              <p className="text-gray-400">
+            <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-8 text-center">
+              <div className="text-label-tertiary text-6xl mb-4">📝</div>
+              <p className="text-label-secondary">
                 Configure os parâmetros e clique em &quot;Gerar Questão&quot;
               </p>
             </div>

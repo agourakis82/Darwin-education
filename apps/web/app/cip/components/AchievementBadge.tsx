@@ -28,10 +28,10 @@ const tierStyles = {
     text: 'text-amber-400',
   },
   silver: {
-    border: 'border-slate-400',
-    bg: 'bg-slate-400/10',
-    glow: 'shadow-slate-400/20',
-    text: 'text-slate-300',
+    border: 'border-label-secondary',
+    bg: 'bg-label-secondary/10',
+    glow: 'shadow-label-secondary/20',
+    text: 'text-label-primary',
   },
   gold: {
     border: 'border-yellow-400',
@@ -91,7 +91,7 @@ export function AchievementBadge({
           sizeStyle.container,
           'relative flex items-center justify-center rounded-full border-2 transition-all',
           isLocked
-            ? 'border-slate-700 bg-slate-800/20 grayscale opacity-50'
+            ? 'border-separator bg-surface-2/20 grayscale opacity-50'
             : `${tierStyle.border} ${tierStyle.bg} shadow-lg ${tierStyle.glow}`,
           !isLocked && 'hover:shadow-xl'
         )}
@@ -127,7 +127,7 @@ export function AchievementBadge({
 
         {/* XP Reward (Bottom) */}
         {!isLocked && achievement.xp_reward > 0 && (
-          <div className="absolute -bottom-2 px-2 py-0.5 bg-slate-800 border border-slate-600 rounded-full text-xs text-slate-300 font-medium">
+          <div className="absolute -bottom-2 px-2 py-0.5 bg-surface-2 border border-separator rounded-full text-xs text-label-primary font-medium">
             +{achievement.xp_reward} XP
           </div>
         )}
@@ -139,16 +139,16 @@ export function AchievementBadge({
           <h3
             className={cn(
               'font-semibold text-sm',
-              isLocked ? 'text-slate-500' : 'text-white'
+              isLocked ? 'text-label-tertiary' : 'text-white'
             )}
           >
             {isLocked ? '???' : achievement.title_pt}
           </h3>
-          <p className="text-xs text-slate-400 mt-1">
+          <p className="text-xs text-label-secondary mt-1">
             {isLocked ? 'Conquista bloqueada' : achievement.description_pt}
           </p>
           {!isLocked && achievement.unlocked_at && (
-            <p className="text-xs text-slate-500 mt-1">
+            <p className="text-xs text-label-tertiary mt-1">
               Desbloqueado em {new Date(achievement.unlocked_at).toLocaleDateString('pt-BR')}
             </p>
           )}
@@ -157,11 +157,11 @@ export function AchievementBadge({
 
       {/* Tooltip on Hover */}
       {!showDetails && (
-        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-slate-800 border border-slate-600 rounded-lg text-xs text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-surface-2 border border-separator rounded-lg text-xs text-white whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
           <div className="font-semibold">
             {isLocked ? '??? (Bloqueado)' : achievement.title_pt}
           </div>
-          <div className="text-slate-400 mt-1">{achievement.description_pt}</div>
+          <div className="text-label-secondary mt-1">{achievement.description_pt}</div>
         </div>
       )}
     </div>

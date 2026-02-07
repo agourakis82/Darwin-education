@@ -55,12 +55,12 @@ export function DeckStats({ cards }: DeckStatsProps) {
         {/* Mastery Progress */}
         <div>
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs text-slate-400">Domínio</span>
+            <span className="text-xs text-label-secondary">Domínio</span>
             <span className="text-xs font-medium text-emerald-400">
               {masteryPercentage}%
             </span>
           </div>
-          <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+          <div className="h-2 bg-surface-2 rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-full transition-all duration-500"
               style={{ width: `${masteryPercentage}%` }}
@@ -70,27 +70,27 @@ export function DeckStats({ cards }: DeckStatsProps) {
 
         {/* Card Categories */}
         <div className="grid grid-cols-2 gap-3">
-          <div className="p-3 bg-slate-800/50 rounded-lg text-center">
+          <div className="p-3 bg-surface-2/50 rounded-lg text-center">
             <div className="text-xl font-bold text-blue-400">{stats.new}</div>
-            <div className="text-xs text-slate-400">Novos</div>
+            <div className="text-xs text-label-secondary">Novos</div>
           </div>
-          <div className="p-3 bg-slate-800/50 rounded-lg text-center">
+          <div className="p-3 bg-surface-2/50 rounded-lg text-center">
             <div className="text-xl font-bold text-yellow-400">{stats.learning}</div>
-            <div className="text-xs text-slate-400">Aprendendo</div>
+            <div className="text-xs text-label-secondary">Aprendendo</div>
           </div>
-          <div className="p-3 bg-slate-800/50 rounded-lg text-center">
+          <div className="p-3 bg-surface-2/50 rounded-lg text-center">
             <div className="text-xl font-bold text-emerald-400">{stats.mature}</div>
-            <div className="text-xs text-slate-400">Maduros</div>
+            <div className="text-xs text-label-secondary">Maduros</div>
           </div>
-          <div className="p-3 bg-slate-800/50 rounded-lg text-center">
+          <div className="p-3 bg-surface-2/50 rounded-lg text-center">
             <div className="text-xl font-bold text-red-400">{stats.due}</div>
-            <div className="text-xs text-slate-400">Para Revisar</div>
+            <div className="text-xs text-label-secondary">Para Revisar</div>
           </div>
         </div>
 
         {/* Card Status Legend */}
-        <div className="pt-3 border-t border-slate-800">
-          <div className="text-xs text-slate-500 space-y-1">
+        <div className="pt-3 border-t border-separator">
+          <div className="text-xs text-label-tertiary space-y-1">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-blue-400" />
               <span>Novos: nunca revisados</span>

@@ -88,7 +88,7 @@ export function QuestionGenerator({ topic }: QuestionGeneratorProps) {
                 setShowResults(false)
                 setGeneratedQuestions([])
               }}
-              className="text-sm px-3 py-1 bg-slate-700 hover:bg-slate-600 rounded transition-colors"
+              className="text-sm px-3 py-1 bg-surface-3 hover:bg-surface-4 rounded transition-colors"
             >
               Gerar Outra
             </button>
@@ -98,18 +98,18 @@ export function QuestionGenerator({ topic }: QuestionGeneratorProps) {
           {generatedQuestions.map((q) => (
             <div key={q.id} className="space-y-4">
               {/* Question Stem */}
-              <div className="p-4 bg-slate-800/50 rounded-lg">
-                <p className="text-slate-400 text-sm mb-2">Questão</p>
+              <div className="p-4 bg-surface-2/50 rounded-lg">
+                <p className="text-label-secondary text-sm mb-2">Questão</p>
                 <p className="text-white leading-relaxed">{q.stem}</p>
               </div>
 
               {/* Options */}
               <div className="space-y-2">
-                <p className="text-slate-400 text-sm">Alternativas</p>
+                <p className="text-label-secondary text-sm">Alternativas</p>
                 {q.options.map((opt) => (
                   <label
                     key={opt.letter}
-                    className="flex gap-3 p-3 bg-slate-800/50 rounded-lg cursor-pointer hover:bg-slate-800 transition-colors"
+                    className="flex gap-3 p-3 bg-surface-2/50 rounded-lg cursor-pointer hover:bg-surface-2 transition-colors"
                   >
                     <input
                       type="radio"
@@ -127,21 +127,21 @@ export function QuestionGenerator({ topic }: QuestionGeneratorProps) {
               </div>
 
               {/* Metadata */}
-              <div className="flex gap-4 text-sm text-slate-400 p-3 bg-slate-800/30 rounded-lg">
+              <div className="flex gap-4 text-sm text-label-secondary p-3 bg-surface-2/30 rounded-lg">
                 <span>
-                  💡 Bloom: <span className="text-slate-300">{q.bloomLevel}</span>
+                  💡 Bloom: <span className="text-label-primary">{q.bloomLevel}</span>
                 </span>
                 <span>
-                  📊 Dificuldade: <span className="text-slate-300">Nível {q.difficulty}</span>
+                  📊 Dificuldade: <span className="text-label-primary">Nível {q.difficulty}</span>
                 </span>
               </div>
 
               {/* Explanation */}
-              <details className="p-3 bg-slate-800/30 rounded-lg cursor-pointer hover:bg-slate-800/50 transition-colors">
-                <summary className="font-medium text-slate-300 flex items-center gap-2">
+              <details className="p-3 bg-surface-2/30 rounded-lg cursor-pointer hover:bg-surface-2/50 transition-colors">
+                <summary className="font-medium text-label-primary flex items-center gap-2">
                   <span>📖</span> Ver Explicação
                 </summary>
-                <p className="mt-3 text-slate-300 leading-relaxed">{q.explanation}</p>
+                <p className="mt-3 text-label-primary leading-relaxed">{q.explanation}</p>
               </details>
 
               {/* Actions */}
@@ -168,14 +168,14 @@ export function QuestionGenerator({ topic }: QuestionGeneratorProps) {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <p className="text-slate-300">
+        <p className="text-label-primary">
           Use o gerador de questões IA para criar questões práticas sobre este tópico.
           A IA será instruída a gerar questões contextualizadas com base no conteúdo teórico que você acabou de estudar.
         </p>
 
         {/* Quantity */}
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className="block text-sm font-medium text-label-primary mb-2">
             Quantas questões deseja gerar?
           </label>
           <input
@@ -186,12 +186,12 @@ export function QuestionGenerator({ topic }: QuestionGeneratorProps) {
             onChange={(e) => setQuantity(Number(e.target.value))}
             className="w-full"
           />
-          <p className="text-sm text-slate-400 mt-1">{quantity} questão(ões)</p>
+          <p className="text-sm text-label-secondary mt-1">{quantity} questão(ões)</p>
         </div>
 
         {/* Difficulty */}
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className="block text-sm font-medium text-label-primary mb-2">
             Nível de Dificuldade
           </label>
           <div className="flex gap-2">
@@ -202,14 +202,14 @@ export function QuestionGenerator({ topic }: QuestionGeneratorProps) {
                 className={`flex-1 py-2 rounded-lg transition-colors ${
                   difficulty === level
                     ? 'bg-blue-600 text-white'
-                    : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                    : 'bg-surface-2 text-label-primary hover:bg-surface-3'
                 }`}
               >
                 {level}
               </button>
             ))}
           </div>
-          <p className="text-xs text-slate-400 mt-2">
+          <p className="text-xs text-label-secondary mt-2">
             Recomendado: Nível {
               topic.difficulty === 'basico' ? '2-3' :
               topic.difficulty === 'intermediario' ? '3-4' :

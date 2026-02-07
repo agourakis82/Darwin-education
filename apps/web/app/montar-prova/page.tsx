@@ -183,21 +183,21 @@ export default function MontarProvaPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500" />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-surface-0 text-white">
       {/* Header */}
-      <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
+      <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center gap-4">
             <button
               onClick={() => router.push('/simulado')}
-              className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
+              className="p-2 hover:bg-surface-2 rounded-lg transition-colors"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -205,7 +205,7 @@ export default function MontarProvaPage() {
             </button>
             <div>
               <h1 className="text-2xl font-bold">Montar Prova</h1>
-              <p className="text-sm text-slate-400 mt-1">
+              <p className="text-sm text-label-secondary mt-1">
                 Crie um simulado personalizado
               </p>
             </div>
@@ -234,7 +234,7 @@ export default function MontarProvaPage() {
           <Card>
             <CardHeader>
               <CardTitle>Áreas do Conhecimento</CardTitle>
-              <p className="text-sm text-slate-400">
+              <p className="text-sm text-label-secondary">
                 Selecione as áreas para incluir no simulado. Deixe vazio para incluir todas.
               </p>
             </CardHeader>
@@ -251,7 +251,7 @@ export default function MontarProvaPage() {
           <Card>
             <CardHeader>
               <CardTitle>Nível de Dificuldade</CardTitle>
-              <p className="text-sm text-slate-400">
+              <p className="text-sm text-label-secondary">
                 Escolha os níveis de dificuldade. Deixe vazio para incluir todos.
               </p>
             </CardHeader>
@@ -276,7 +276,7 @@ export default function MontarProvaPage() {
                   onChange={setQuestionCount}
                   max={Math.min(availableQuestions, 180)}
                 />
-                <p className="text-sm text-slate-400 mt-2">
+                <p className="text-sm text-label-secondary mt-2">
                   {availableQuestions} questões disponíveis
                 </p>
               </CardContent>
@@ -296,9 +296,9 @@ export default function MontarProvaPage() {
                     onChange={(e) => setTimeLimit(Number(e.target.value))}
                     className="w-24"
                   />
-                  <span className="text-slate-400">minutos</span>
+                  <span className="text-label-secondary">minutos</span>
                 </div>
-                <p className="text-sm text-slate-400 mt-2">
+                <p className="text-sm text-label-secondary mt-2">
                   Recomendado: {Math.round(questionCount * 3)} min ({questionCount} x 3 min/questão)
                 </p>
               </CardContent>
@@ -306,12 +306,12 @@ export default function MontarProvaPage() {
           </div>
 
           {/* Summary & Create */}
-          <Card className="bg-gradient-to-r from-emerald-900/30 to-slate-900 border-emerald-800/50">
+          <Card className="bg-gradient-to-r from-emerald-900/30 to-surface-1 border-emerald-800/50">
             <CardContent className="py-6">
               <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                 <div>
                   <h3 className="text-lg font-semibold">Resumo</h3>
-                  <ul className="mt-2 text-sm text-slate-400 space-y-1">
+                  <ul className="mt-2 text-sm text-label-secondary space-y-1">
                     <li>{questionCount} questões</li>
                     <li>{timeLimit} minutos de duração</li>
                     <li>
@@ -348,8 +348,8 @@ export default function MontarProvaPage() {
                 <svg className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <div className="text-sm text-slate-400">
-                  <p className="font-medium text-slate-300 mb-1">Sobre o ENAMED</p>
+                <div className="text-sm text-label-secondary">
+                  <p className="font-medium text-label-primary mb-1">Sobre o ENAMED</p>
                   <p>
                     O Exame Nacional de Medicina (ENAMED) possui 180 questões, distribuídas em 5 áreas
                     com tempo total de 5 horas. O ponto de corte para aprovação é calculado usando TRI

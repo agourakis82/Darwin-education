@@ -1,8 +1,11 @@
 import { type ReactNode } from 'react'
 
+type CardVariant = 'default' | 'glass' | 'elevated' | 'outlined'
+
 interface CardProps {
   children: ReactNode
   className?: string
+  variant?: CardVariant
   padding?: 'none' | 'sm' | 'md' | 'lg'
   hover?: boolean
   onClick?: () => void
@@ -15,9 +18,24 @@ const paddingStyles = {
   lg: 'p-8',
 }
 
+const variantStyles: Record<CardVariant, string> = {
+  default: 'bg-surface-2 rounded-lg shadow-elevation-1',
+  glass: 'material-thin rounded-lg shadow-elevation-1 border border-white/[0.06] shadow-inner-shine',
+  elevated: 'bg-surface-3 rounded-lg shadow-elevation-3',
+  outlined: 'bg-transparent border border-separator rounded-lg',
+}
+
+const hoverVariantStyles: Record<CardVariant, string> = {
+  default: 'hover:shadow-elevation-2 hover:bg-surface-3/80 transition-all duration-200 cursor-pointer',
+  glass: 'hover:shadow-elevation-2 hover:bg-white/[0.08] transition-all duration-200 cursor-pointer',
+  elevated: 'hover:shadow-elevation-4 transition-all duration-200 cursor-pointer',
+  outlined: 'hover:border-white/[0.12] hover:bg-surface-2/50 transition-all duration-200 cursor-pointer',
+}
+
 export function Card({
   children,
   className = '',
+  variant = 'default',
   padding = 'md',
   hover = false,
   onClick,
@@ -28,9 +46,9 @@ export function Card({
     <Component
       onClick={onClick}
       className={`
-        bg-slate-900 border border-slate-800 rounded-xl
+        ${variantStyles[variant]}
         ${paddingStyles[padding]}
-        ${hover ? 'hover:border-slate-700 hover:bg-slate-800/50 transition-colors cursor-pointer' : ''}
+        ${hover || onClick ? hoverVariantStyles[variant] : ''}
         ${onClick ? 'text-left w-full' : ''}
         ${className}
       `}
@@ -61,7 +79,7 @@ interface CardTitleProps {
 
 export function CardTitle({ children, className = '', as: Component = 'h3' }: CardTitleProps) {
   return (
-    <Component className={`text-lg font-semibold text-white ${className}`}>
+    <Component className={`text-lg font-semibold text-label-primary ${className}`}>
       {children}
     </Component>
   )
@@ -74,7 +92,7 @@ interface CardDescriptionProps {
 
 export function CardDescription({ children, className = '' }: CardDescriptionProps) {
   return (
-    <p className={`text-sm text-slate-400 mt-1 ${className}`}>
+    <p className={`text-sm text-label-secondary mt-1 ${className}`}>
       {children}
     </p>
   )
@@ -96,7 +114,7 @@ interface CardFooterProps {
 
 export function CardFooter({ children, className = '' }: CardFooterProps) {
   return (
-    <div className={`mt-4 pt-4 border-t border-slate-800 ${className}`}>
+    <div className={`mt-4 pt-4 border-t border-separator ${className}`}>
       {children}
     </div>
   )

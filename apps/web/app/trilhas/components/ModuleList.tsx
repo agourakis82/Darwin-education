@@ -72,10 +72,10 @@ export function ModuleList({ pathId, modules, currentModuleId }: ModuleListProps
               isActive
                 ? 'border-emerald-500 bg-emerald-500/10'
                 : module.is_completed
-                ? 'border-slate-700 bg-slate-800/50'
+                ? 'border-separator bg-surface-2/50'
                 : canAccess
-                ? 'border-slate-700 hover:border-slate-600 cursor-pointer'
-                : 'border-slate-800 bg-slate-900/50 opacity-60'
+                ? 'border-separator hover:border-surface-4 cursor-pointer'
+                : 'border-surface-2 bg-surface-1/50 opacity-60'
             }`}
           >
             <CardContent className="py-3 px-4">
@@ -88,8 +88,8 @@ export function ModuleList({ pathId, modules, currentModuleId }: ModuleListProps
                       : isActive
                       ? 'bg-emerald-500 text-white'
                       : canAccess
-                      ? 'bg-slate-700 text-slate-400'
-                      : 'bg-slate-800 text-slate-600'
+                      ? 'bg-surface-3 text-label-secondary'
+                      : 'bg-surface-2 text-label-quaternary'
                   }`}
                 >
                   {module.is_completed ? (
@@ -108,14 +108,14 @@ export function ModuleList({ pathId, modules, currentModuleId }: ModuleListProps
                 {/* Content */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className={`text-slate-400 ${isActive ? 'text-emerald-400' : ''}`}>
+                    <span className={`text-label-secondary ${isActive ? 'text-emerald-400' : ''}`}>
                       {moduleIcons[module.type]}
                     </span>
-                    <h4 className={`font-medium truncate ${isActive ? 'text-white' : 'text-slate-200'}`}>
+                    <h4 className={`font-medium truncate ${isActive ? 'text-white' : 'text-label-primary'}`}>
                       {module.title}
                     </h4>
                   </div>
-                  <div className="flex items-center gap-2 mt-1 text-xs text-slate-500">
+                  <div className="flex items-center gap-2 mt-1 text-xs text-label-tertiary">
                     <span>{moduleTypeLabels[module.type]}</span>
                     <span>•</span>
                     <span>{module.estimated_minutes} min</span>
@@ -124,7 +124,7 @@ export function ModuleList({ pathId, modules, currentModuleId }: ModuleListProps
 
                 {/* Arrow for accessible modules */}
                 {canAccess && !module.is_completed && (
-                  <svg className="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-label-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 )}

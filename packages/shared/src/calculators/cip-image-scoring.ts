@@ -50,6 +50,10 @@ export function calculateImageScore(
   // --- Step 1: Modality ---
   const modalityCorrect =
     attempt.selectedModality === imageCase.modality;
+  const selectedModalityOpt = imageCase.modalityOptions.find(
+    (o) => o.id === attempt.selectedModality
+  );
+  const correctModalityOpt = imageCase.modalityOptions.find((o) => o.isCorrect);
   stepResults.push({
     step: 'modality',
     label: IMAGE_STEP_LABELS_PT.modality,
@@ -58,6 +62,11 @@ export function calculateImageScore(
     correctAnswer: imageCase.modality,
     weight: IMAGE_SCORING_WEIGHTS.modality,
     weightedScore: modalityCorrect ? IMAGE_SCORING_WEIGHTS.modality : 0,
+    selectedOptionText: selectedModalityOpt?.textPt,
+    correctOptionText: correctModalityOpt?.textPt,
+    selectedExplanation: selectedModalityOpt?.explanationPt,
+    correctExplanation: correctModalityOpt?.explanationPt,
+    clinicalPearl: (selectedModalityOpt?.clinicalPearlPt || correctModalityOpt?.clinicalPearlPt),
   });
 
   // --- Step 2: Findings (partial credit) ---
@@ -89,6 +98,13 @@ export function calculateImageScore(
         )
       : 0;
 
+  // Gather explanation text for findings
+  const correctFindingsOpts = imageCase.findingsOptions.filter((o) => o.isCorrect);
+  const findingsPearl = correctFindingsOpts
+    .map((o) => o.clinicalPearlPt)
+    .filter(Boolean)
+    .join(' ');
+
   stepResults.push({
     step: 'findings',
     label: IMAGE_STEP_LABELS_PT.findings,
@@ -98,11 +114,25 @@ export function calculateImageScore(
     correctAnswer: imageCase.correctFindings,
     weight: IMAGE_SCORING_WEIGHTS.findings,
     weightedScore: findingsPartial * IMAGE_SCORING_WEIGHTS.findings,
+    selectedOptionText: (attempt.selectedFindings || [])
+      .map((id) => imageCase.findingsOptions.find((o) => o.id === id)?.textPt)
+      .filter(Boolean)
+      .join(', '),
+    correctOptionText: correctFindingsOpts.map((o) => o.textPt).join(', '),
+    correctExplanation: correctFindingsOpts
+      .map((o) => o.explanationPt)
+      .filter(Boolean)
+      .join(' '),
+    clinicalPearl: findingsPearl || undefined,
   });
 
   // --- Step 3: Diagnosis ---
   const diagnosisCorrect =
     attempt.selectedDiagnosis === imageCase.correctDiagnosis;
+  const selectedDiagOpt = imageCase.diagnosisOptions.find(
+    (o) => o.id === attempt.selectedDiagnosis
+  );
+  const correctDiagOpt = imageCase.diagnosisOptions.find((o) => o.isCorrect);
   stepResults.push({
     step: 'diagnosis',
     label: IMAGE_STEP_LABELS_PT.diagnosis,
@@ -111,11 +141,20 @@ export function calculateImageScore(
     correctAnswer: imageCase.correctDiagnosis,
     weight: IMAGE_SCORING_WEIGHTS.diagnosis,
     weightedScore: diagnosisCorrect ? IMAGE_SCORING_WEIGHTS.diagnosis : 0,
+    selectedOptionText: selectedDiagOpt?.textPt,
+    correctOptionText: correctDiagOpt?.textPt,
+    selectedExplanation: selectedDiagOpt?.explanationPt,
+    correctExplanation: correctDiagOpt?.explanationPt,
+    clinicalPearl: (selectedDiagOpt?.clinicalPearlPt || correctDiagOpt?.clinicalPearlPt),
   });
 
   // --- Step 4: Next Step ---
   const nextStepCorrect =
     attempt.selectedNextStep === imageCase.correctNextStep;
+  const selectedNextOpt = imageCase.nextStepOptions.find(
+    (o) => o.id === attempt.selectedNextStep
+  );
+  const correctNextOpt = imageCase.nextStepOptions.find((o) => o.isCorrect);
   stepResults.push({
     step: 'next_step',
     label: IMAGE_STEP_LABELS_PT.next_step,
@@ -124,6 +163,11 @@ export function calculateImageScore(
     correctAnswer: imageCase.correctNextStep,
     weight: IMAGE_SCORING_WEIGHTS.next_step,
     weightedScore: nextStepCorrect ? IMAGE_SCORING_WEIGHTS.next_step : 0,
+    selectedOptionText: selectedNextOpt?.textPt,
+    correctOptionText: correctNextOpt?.textPt,
+    selectedExplanation: selectedNextOpt?.explanationPt,
+    correctExplanation: correctNextOpt?.explanationPt,
+    clinicalPearl: (selectedNextOpt?.clinicalPearlPt || correctNextOpt?.clinicalPearlPt),
   });
 
   // --- Aggregate ---
@@ -191,7 +235,7 @@ export function generateImageInsights(
     );
   }
 
-  // Per-step feedback
+  // Per-step feedback — use per-option explanations when available
   for (const result of stepResults) {
     if (result.step === 'findings') {
       const partial = result.partialCredit ?? 0;
@@ -208,8 +252,14 @@ export function generateImageInsights(
           `Dificuldade em identificar os achados da imagem. Estude os padrões típicos de ${IMAGE_STEP_LABELS_PT[imageCase.modality as keyof typeof IMAGE_STEP_LABELS_PT] || imageCase.modality}.`
         );
       }
+      if (result.correctExplanation) {
+        insights.push(result.correctExplanation);
+      }
     } else if (!result.correct) {
-      if (result.step === 'modality') {
+      // Use the per-option explanation if available, otherwise fall back to generic
+      if (result.selectedExplanation) {
+        insights.push(result.selectedExplanation);
+      } else if (result.step === 'modality') {
         insights.push(
           `Modalidade incorreta. Revise as características que diferenciam cada tipo de exame.`
         );
@@ -222,7 +272,19 @@ export function generateImageInsights(
           `Conduta incorreta. Revise os protocolos de manejo para este diagnóstico.`
         );
       }
+      // Add clinical pearl
+      if (result.clinicalPearl) {
+        insights.push(`💡 ${result.clinicalPearl}`);
+      }
     }
+  }
+
+  // Add structured explanation common mistakes if student got things wrong
+  const wrongCount = stepResults.filter((r) => !r.correct).length;
+  if (wrongCount > 0 && imageCase.structuredExplanation?.commonMistakes?.length) {
+    insights.push(
+      `Erros comuns: ${imageCase.structuredExplanation.commonMistakes.join('; ')}`
+    );
   }
 
   return insights;

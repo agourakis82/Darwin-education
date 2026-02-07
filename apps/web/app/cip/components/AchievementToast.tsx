@@ -18,10 +18,10 @@ const tierColors = {
     glow: 'shadow-amber-500/50',
   },
   silver: {
-    bg: 'bg-slate-700/90',
-    border: 'border-slate-400',
-    text: 'text-slate-200',
-    glow: 'shadow-slate-400/50',
+    bg: 'bg-surface-3/90',
+    border: 'border-label-secondary',
+    text: 'text-label-primary',
+    glow: 'shadow-label-secondary/50',
   },
   gold: {
     bg: 'bg-yellow-900/90',

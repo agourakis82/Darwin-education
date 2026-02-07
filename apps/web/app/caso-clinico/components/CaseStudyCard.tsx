@@ -18,20 +18,20 @@ export function CaseStudyCard({ data, cached, remaining, onNewCase }: CaseStudyC
   return (
     <div className="space-y-6">
       {/* Case Summary */}
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+      <div className="bg-surface-1 border border-separator rounded-xl p-6">
         <div className="flex items-center gap-2 mb-4">
           <svg className="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
           <h3 className="text-lg font-semibold text-white">Apresentação do Caso</h3>
         </div>
-        <p className="text-slate-300 text-sm leading-relaxed whitespace-pre-wrap">
+        <p className="text-label-primary text-sm leading-relaxed whitespace-pre-wrap">
           {data.case_summary}
         </p>
       </div>
 
       {/* Question */}
-      <div className="bg-slate-900 border border-emerald-800/50 rounded-xl p-6">
+      <div className="bg-surface-1 border border-emerald-800/50 rounded-xl p-6">
         <div className="flex items-center gap-2 mb-4">
           <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -48,7 +48,7 @@ export function CaseStudyCard({ data, cached, remaining, onNewCase }: CaseStudyC
               onChange={(e) => setUserAnswer(e.target.value)}
               placeholder="Escreva sua resposta aqui..."
               rows={4}
-              className="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-sm text-white placeholder:text-slate-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 resize-none"
+              className="w-full bg-surface-2 border border-separator rounded-lg p-3 text-sm text-white placeholder:text-label-tertiary focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 resize-none"
             />
             <Button
               variant="primary"
@@ -70,9 +70,9 @@ export function CaseStudyCard({ data, cached, remaining, onNewCase }: CaseStudyC
       {revealed && (
         <>
           {/* User answer recap */}
-          <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-5">
-            <h4 className="text-sm font-medium text-slate-400 mb-2">Sua Resposta</h4>
-            <p className="text-slate-300 text-sm leading-relaxed whitespace-pre-wrap">
+          <div className="bg-surface-2/50 border border-separator rounded-xl p-5">
+            <h4 className="text-sm font-medium text-label-secondary mb-2">Sua Resposta</h4>
+            <p className="text-label-primary text-sm leading-relaxed whitespace-pre-wrap">
               {userAnswer}
             </p>
           </div>
@@ -85,7 +85,7 @@ export function CaseStudyCard({ data, cached, remaining, onNewCase }: CaseStudyC
               </svg>
               <h3 className="text-lg font-semibold text-emerald-400">Resposta Ideal</h3>
             </div>
-            <p className="text-slate-300 text-sm leading-relaxed whitespace-pre-wrap">
+            <p className="text-label-primary text-sm leading-relaxed whitespace-pre-wrap">
               {data.ideal_answer}
             </p>
           </div>
@@ -103,7 +103,7 @@ export function CaseStudyCard({ data, cached, remaining, onNewCase }: CaseStudyC
                 </div>
                 <ul className="space-y-2">
                   {data.red_flags.map((flag, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
+                    <li key={i} className="flex items-start gap-2 text-sm text-label-primary">
                       <span className="text-red-400 mt-0.5">•</span>
                       {flag}
                     </li>
@@ -123,7 +123,7 @@ export function CaseStudyCard({ data, cached, remaining, onNewCase }: CaseStudyC
                 </div>
                 <ol className="space-y-2">
                   {data.next_steps.map((step, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
+                    <li key={i} className="flex items-start gap-2 text-sm text-label-primary">
                       <span className="text-cyan-400 font-medium mt-0.5">{i + 1}.</span>
                       {step}
                     </li>
@@ -135,7 +135,7 @@ export function CaseStudyCard({ data, cached, remaining, onNewCase }: CaseStudyC
 
           {/* Meta + New Case */}
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3 text-xs text-slate-500">
+            <div className="flex items-center gap-3 text-xs text-label-tertiary">
               {cached && (
                 <span className="px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-400">Cache</span>
               )}

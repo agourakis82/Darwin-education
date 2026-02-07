@@ -53,13 +53,13 @@ export function CIPOptionsModal({
     >
       <div className="space-y-4">
         {/* Context info */}
-        <div className="text-sm text-slate-400 pb-3 border-b border-slate-800">
-          <span className="text-slate-300">Diagnóstico:</span>{' '}
+        <div className="text-sm text-label-secondary pb-3 border-b border-separator">
+          <span className="text-label-primary">Diagnóstico:</span>{' '}
           <span className="text-emerald-400 font-medium">{diagnosisName}</span>
         </div>
 
         {/* Instructions */}
-        <p className="text-xs text-slate-500">
+        <p className="text-xs text-label-tertiary">
           Selecione o achado clínico mais apropriado para este diagnóstico na seção de{' '}
           {CIP_SECTION_LABELS_PT[section].toLowerCase()}.
         </p>
@@ -78,7 +78,7 @@ export function CIPOptionsModal({
                   ${
                     isSelected
                       ? 'bg-emerald-900/40 border-emerald-600 ring-1 ring-emerald-500'
-                      : 'bg-slate-800/50 border-slate-700 hover:bg-slate-800 hover:border-slate-600'
+                      : 'bg-surface-2/50 border-separator hover:bg-surface-2 hover:border-surface-4'
                   }
                 `}
               >
@@ -91,7 +91,7 @@ export function CIPOptionsModal({
                       ${
                         isSelected
                           ? 'border-emerald-500 bg-emerald-500'
-                          : 'border-slate-500'
+                          : 'border-label-tertiary'
                       }
                     `}
                   >
@@ -108,7 +108,7 @@ export function CIPOptionsModal({
 
                   {/* Option text */}
                   <div className="flex-1">
-                    <p className={`text-sm ${isSelected ? 'text-emerald-200' : 'text-slate-200'}`}>
+                    <p className={`text-sm ${isSelected ? 'text-emerald-200' : 'text-label-primary'}`}>
                       {option.textPt}
                     </p>
                     {/* Tags if available */}
@@ -117,7 +117,7 @@ export function CIPOptionsModal({
                         {option.tags.slice(0, 3).map((tag) => (
                           <span
                             key={tag}
-                            className="text-[10px] px-1.5 py-0.5 bg-slate-700 text-slate-400 rounded"
+                            className="text-[10px] px-1.5 py-0.5 bg-surface-3 text-label-secondary rounded"
                           >
                             {tag}
                           </span>
@@ -132,7 +132,7 @@ export function CIPOptionsModal({
         </div>
 
         {/* Actions */}
-        <div className="flex justify-between pt-4 border-t border-slate-800">
+        <div className="flex justify-between pt-4 border-t border-separator">
           <Button
             variant="ghost"
             size="sm"

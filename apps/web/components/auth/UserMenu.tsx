@@ -40,14 +40,14 @@ export function UserMenu({ user }: UserMenuProps) {
     <div className="relative" ref={menuRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-800 transition-colors"
+        className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-surface-2 transition-colors"
       >
         <div className="w-8 h-8 bg-emerald-600 rounded-full flex items-center justify-center text-white font-medium text-sm">
           {userInitial}
         </div>
-        <span className="text-slate-300 hidden sm:block">{userName}</span>
+        <span className="text-label-primary hidden sm:block">{userName}</span>
         <svg
-          className={`w-4 h-4 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-4 h-4 text-label-secondary transition-transform ${isOpen ? 'rotate-180' : ''}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -57,16 +57,16 @@ export function UserMenu({ user }: UserMenuProps) {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-56 bg-slate-900 border border-slate-800 rounded-lg shadow-xl py-1 z-50">
-          <div className="px-4 py-3 border-b border-slate-800">
+        <div className="absolute right-0 mt-2 w-56 bg-surface-1 border border-separator rounded-lg shadow-xl py-1 z-50">
+          <div className="px-4 py-3 border-b border-separator">
             <p className="text-sm font-medium text-white">{userName}</p>
-            <p className="text-xs text-slate-400 truncate">{user.email}</p>
+            <p className="text-xs text-label-secondary truncate">{user.email}</p>
           </div>
 
           <Link
             href="/desempenho"
             onClick={() => setIsOpen(false)}
-            className="flex items-center gap-3 px-4 py-2 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition-colors"
+            className="flex items-center gap-3 px-4 py-2 text-sm text-label-primary hover:bg-surface-2 hover:text-white transition-colors"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -82,7 +82,7 @@ export function UserMenu({ user }: UserMenuProps) {
           <Link
             href="/flashcards"
             onClick={() => setIsOpen(false)}
-            className="flex items-center gap-3 px-4 py-2 text-sm text-slate-300 hover:bg-slate-800 hover:text-white transition-colors"
+            className="flex items-center gap-3 px-4 py-2 text-sm text-label-primary hover:bg-surface-2 hover:text-white transition-colors"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -95,10 +95,10 @@ export function UserMenu({ user }: UserMenuProps) {
             Meus flashcards
           </Link>
 
-          <div className="border-t border-slate-800 mt-1 pt-1">
+          <div className="border-t border-separator mt-1 pt-1">
             <button
               onClick={handleSignOut}
-              className="flex items-center gap-3 w-full px-4 py-2 text-sm text-red-400 hover:bg-slate-800 hover:text-red-300 transition-colors"
+              className="flex items-center gap-3 w-full px-4 py-2 text-sm text-red-400 hover:bg-surface-2 hover:text-red-300 transition-colors"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path

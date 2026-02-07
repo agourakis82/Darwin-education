@@ -120,10 +120,10 @@ export default function FlashcardStudyPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-slate-400">Carregando flashcards...</p>
+          <p className="text-label-secondary">Carregando flashcards...</p>
         </div>
       </div>
     )
@@ -131,14 +131,14 @@ export default function FlashcardStudyPage() {
 
   if (cards.length === 0) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <Card className="max-w-md mx-auto">
           <CardContent className="py-12 text-center">
             <svg className="w-16 h-16 text-emerald-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <h2 className="text-xl font-bold text-white mb-2">Tudo em dia!</h2>
-            <p className="text-slate-400 mb-6">
+            <p className="text-label-secondary mb-6">
               Nenhum flashcard para revisar agora. Volte mais tarde!
             </p>
             <Button onClick={() => router.push('/flashcards')}>
@@ -154,7 +154,7 @@ export default function FlashcardStudyPage() {
     const accuracy = stats.reviewed > 0 ? Math.round((stats.correct / stats.reviewed) * 100) : 0
 
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center p-4">
         <Card className="max-w-md w-full">
           <CardContent className="py-8 text-center">
             <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -163,20 +163,20 @@ export default function FlashcardStudyPage() {
               </svg>
             </div>
             <h2 className="text-2xl font-bold text-white mb-2">Sessao Concluida!</h2>
-            <p className="text-slate-400 mb-6">Excelente trabalho!</p>
+            <p className="text-label-secondary mb-6">Excelente trabalho!</p>
 
             <div className="grid grid-cols-3 gap-4 mb-6">
-              <div className="bg-slate-800 rounded-lg p-4">
+              <div className="bg-surface-2 rounded-lg p-4">
                 <div className="text-2xl font-bold text-white">{stats.reviewed}</div>
-                <div className="text-xs text-slate-400">Revisados</div>
+                <div className="text-xs text-label-secondary">Revisados</div>
               </div>
-              <div className="bg-slate-800 rounded-lg p-4">
+              <div className="bg-surface-2 rounded-lg p-4">
                 <div className="text-2xl font-bold text-emerald-400">{stats.correct}</div>
-                <div className="text-xs text-slate-400">Corretos</div>
+                <div className="text-xs text-label-secondary">Corretos</div>
               </div>
-              <div className="bg-slate-800 rounded-lg p-4">
+              <div className="bg-surface-2 rounded-lg p-4">
                 <div className="text-2xl font-bold text-blue-400">{accuracy}%</div>
-                <div className="text-xs text-slate-400">Precisao</div>
+                <div className="text-xs text-label-secondary">Precisao</div>
               </div>
             </div>
 
@@ -195,9 +195,9 @@ export default function FlashcardStudyPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-surface-0 text-white">
       {/* Header */}
-      <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
+      <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-3xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Button variant="ghost" onClick={() => router.push('/flashcards')}>
@@ -208,7 +208,7 @@ export default function FlashcardStudyPage() {
             </Button>
 
             <div className="flex items-center gap-4 text-sm">
-              <span className="text-slate-400">
+              <span className="text-label-secondary">
                 {currentIndex + 1} / {cards.length}
               </span>
               <span className="px-2 py-1 bg-emerald-600/20 text-emerald-400 rounded">
@@ -221,7 +221,7 @@ export default function FlashcardStudyPage() {
 
       <main className="max-w-3xl mx-auto px-4 py-8">
         {/* Progress Bar */}
-        <div className="h-2 bg-slate-800 rounded-full mb-8 overflow-hidden">
+        <div className="h-2 bg-surface-2 rounded-full mb-8 overflow-hidden">
           <div
             className="h-full bg-emerald-500 transition-all duration-300"
             style={{ width: `${((currentIndex + 1) / cards.length) * 100}%` }}
@@ -230,7 +230,7 @@ export default function FlashcardStudyPage() {
 
         {/* Card Info */}
         <div className="flex items-center gap-2 mb-4 text-sm">
-          <span className="px-2 py-1 bg-slate-800 rounded text-slate-300">
+          <span className="px-2 py-1 bg-surface-2 rounded text-label-primary">
             {currentCard.deckName}
           </span>
           {currentCard.area && (
@@ -256,16 +256,16 @@ export default function FlashcardStudyPage() {
           `}>
             <CardContent className="flex items-center justify-center p-8 min-h-[300px]">
               <div className={`text-center ${isFlipped ? 'hidden' : ''}`}>
-                <p className="text-xs text-slate-500 mb-4">FRENTE</p>
+                <p className="text-xs text-label-tertiary mb-4">FRENTE</p>
                 <p className="text-xl md:text-2xl text-white whitespace-pre-wrap">
                   {currentCard.front}
                 </p>
-                <p className="text-sm text-slate-500 mt-8">
+                <p className="text-sm text-label-tertiary mt-8">
                   Clique ou pressione espaco para virar
                 </p>
               </div>
               <div className={`text-center ${isFlipped ? '' : 'hidden'}`}>
-                <p className="text-xs text-slate-500 mb-4">VERSO</p>
+                <p className="text-xs text-label-tertiary mb-4">VERSO</p>
                 <p className="text-xl md:text-2xl text-white whitespace-pre-wrap">
                   {currentCard.back}
                 </p>
@@ -283,7 +283,7 @@ export default function FlashcardStudyPage() {
 
         {/* Show front instruction when not flipped */}
         {!isFlipped && (
-          <div className="text-center text-slate-500">
+          <div className="text-center text-label-tertiary">
             <p>Tente lembrar a resposta antes de virar o card</p>
           </div>
         )}

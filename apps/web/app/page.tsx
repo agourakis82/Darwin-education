@@ -1,51 +1,73 @@
 'use client';
 
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import { spring } from '@/lib/motion';
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.06 },
+  },
+};
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: spring.gentle },
+};
 
 export default function HomePage() {
   return (
-    <main className="container mx-auto px-4 py-12">
+    <div className="relative container mx-auto px-4 py-12">
+      {/* Hero atmosphere glows */}
+      <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-emerald-500 rounded-full blur-[120px] opacity-[0.07] pointer-events-none" aria-hidden="true" />
+      <div className="absolute top-20 right-1/4 w-[400px] h-[400px] bg-purple-500 rounded-full blur-[120px] opacity-[0.05] pointer-events-none" aria-hidden="true" />
+
       {/* Header */}
-      <header className="text-center mb-16">
-        <h1 className="text-5xl font-bold text-white mb-4">
-          Darwin <span className="text-primary-500">Education</span>
+      <motion.header
+        className="relative text-center mb-16"
+        initial={{ opacity: 0, y: -16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={spring.gentle}
+      >
+        <h1 className="text-5xl font-bold text-label-primary mb-4">
+          Darwin <span className="gradient-text">Education</span>
         </h1>
-        <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+        <p className="text-xl text-label-secondary max-w-2xl mx-auto">
           Prepare-se para o ENAMED com questões calibradas por TRI, flashcards
           com repetição espaçada e trilhas de estudo personalizadas.
         </p>
-      </header>
+      </motion.header>
 
       {/* Feature Cards */}
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-        {/* Exam Simulator */}
+      <motion.div
+        className="relative grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"
+        variants={container}
+        initial="hidden"
+        animate="show"
+      >
         <FeatureCard
           href="/simulado"
           icon="📝"
           title="Simulado ENAMED"
           description="100 questões com timer e pontuação TRI real"
-          color="primary"
+          color="emerald"
         />
-
-        {/* Flashcards */}
         <FeatureCard
           href="/flashcards"
           icon="🃏"
           title="Flashcards"
           description="Repetição espaçada SM-2 para memorização eficiente"
-          color="accent"
+          color="purple"
         />
-
-        {/* Study Paths */}
         <FeatureCard
           href="/trilhas"
           icon="🛤️"
           title="Trilhas de Estudo"
           description="Caminhos de aprendizado baseados em suas dificuldades"
-          color="green"
+          color="emerald"
         />
-
-        {/* CIP - Clinical Integrative Puzzle */}
         <FeatureCard
           href="/cip"
           icon="🧩"
@@ -53,8 +75,6 @@ export default function HomePage() {
           description="Integre diagnóstico, exame e tratamento em puzzles"
           color="purple"
         />
-
-        {/* Custom Exam Builder */}
         <FeatureCard
           href="/montar-prova"
           icon="🔧"
@@ -62,8 +82,6 @@ export default function HomePage() {
           description="Crie provas personalizadas por tema e dificuldade"
           color="orange"
         />
-
-        {/* Analytics */}
         <FeatureCard
           href="/desempenho"
           icon="📊"
@@ -71,8 +89,6 @@ export default function HomePage() {
           description="Acompanhe seu progresso e previsões de aprovação"
           color="cyan"
         />
-
-        {/* AI Guidance */}
         <FeatureCard
           href="/ia-orientacao"
           icon="🤖"
@@ -80,8 +96,6 @@ export default function HomePage() {
           description="Recomendações personalizadas de estudo baseadas em IA"
           color="indigo"
         />
-
-        {/* Medical Data */}
         <FeatureCard
           href="/conteudo"
           icon="🏥"
@@ -89,17 +103,13 @@ export default function HomePage() {
           description="368 doenças e 690 medicamentos do Darwin-MFC"
           color="rose"
         />
-
-        {/* DDL - Learning Gap Diagnosis */}
         <FeatureCard
           href="/ddl"
           icon="🎯"
           title="Diagnóstico de Lacunas"
           description="Identifique lacunas epistêmicas, emocionais e de integração"
-          color="teal"
+          color="emerald"
         />
-
-        {/* QGen - Question Generation */}
         <FeatureCard
           href="/qgen"
           icon="✨"
@@ -107,16 +117,21 @@ export default function HomePage() {
           description="Geração de questões com validação IRT e integração DDL"
           color="indigo"
         />
-      </div>
+      </motion.div>
 
       {/* Stats */}
-      <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+      <motion.div
+        className="relative mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ ...spring.gentle, delay: 0.5 }}
+      >
         <StatCard value="10.000+" label="Questões" />
         <StatCard value="368" label="Doenças" />
         <StatCard value="690" label="Medicamentos" />
         <StatCard value="TRI" label="Pontuação Real" />
-      </div>
-    </main>
+      </motion.div>
+    </div>
   );
 }
 
@@ -133,35 +148,37 @@ function FeatureCard({
   description: string;
   color: string;
 }) {
-  const colorClasses: Record<string, string> = {
-    primary: 'hover:border-primary-500/50 hover:shadow-primary-500/20',
-    accent: 'hover:border-accent-500/50 hover:shadow-accent-500/20',
-    green: 'hover:border-green-500/50 hover:shadow-green-500/20',
-    purple: 'hover:border-purple-500/50 hover:shadow-purple-500/20',
-    orange: 'hover:border-orange-500/50 hover:shadow-orange-500/20',
-    cyan: 'hover:border-cyan-500/50 hover:shadow-cyan-500/20',
-    rose: 'hover:border-rose-500/50 hover:shadow-rose-500/20',
-    teal: 'hover:border-teal-500/50 hover:shadow-teal-500/20',
-    indigo: 'hover:border-indigo-500/50 hover:shadow-indigo-500/20',
+  const glowColors: Record<string, string> = {
+    emerald: 'hover:shadow-[0_0_30px_rgba(16,185,129,0.15)]',
+    purple: 'hover:shadow-[0_0_30px_rgba(168,85,247,0.15)]',
+    orange: 'hover:shadow-[0_0_30px_rgba(249,115,22,0.15)]',
+    cyan: 'hover:shadow-[0_0_30px_rgba(6,182,212,0.15)]',
+    rose: 'hover:shadow-[0_0_30px_rgba(244,63,94,0.15)]',
+    indigo: 'hover:shadow-[0_0_30px_rgba(99,102,241,0.15)]',
   };
 
   return (
-    <Link
-      href={href}
-      className={`block p-6 bg-gray-800/50 border border-gray-700 rounded-xl transition-all duration-300 hover:shadow-lg ${colorClasses[color]}`}
+    <motion.div
+      variants={item}
+      whileHover={{ y: -6, transition: spring.snappy }}
     >
-      <div className="text-4xl mb-4">{icon}</div>
-      <h2 className="text-xl font-semibold text-white mb-2">{title}</h2>
-      <p className="text-gray-400 text-sm">{description}</p>
-    </Link>
+      <Link
+        href={href}
+        className={`block p-6 bg-surface-2 rounded-lg shadow-elevation-1 transition-all duration-200 hover:shadow-elevation-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-0 ${glowColors[color] || ''}`}
+      >
+        <div className="text-4xl mb-4">{icon}</div>
+        <h2 className="text-xl font-semibold text-label-primary mb-2">{title}</h2>
+        <p className="text-label-tertiary text-sm">{description}</p>
+      </Link>
+    </motion.div>
   );
 }
 
 function StatCard({ value, label }: { value: string; label: string }) {
   return (
-    <div className="text-center p-4 bg-gray-800/30 rounded-lg">
-      <div className="text-2xl font-bold text-primary-500">{value}</div>
-      <div className="text-sm text-gray-500">{label}</div>
+    <div className="text-center p-4 bg-surface-2 rounded-lg shadow-elevation-1">
+      <div className="text-2xl font-bold gradient-text">{value}</div>
+      <div className="text-sm text-label-tertiary">{label}</div>
     </div>
   );
 }

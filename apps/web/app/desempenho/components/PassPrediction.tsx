@@ -89,7 +89,7 @@ export function PassPrediction({ theta, totalQuestions, attempts = [] }: PassPre
                 stroke="currentColor"
                 strokeWidth="12"
                 fill="none"
-                className="text-slate-700"
+                className="text-surface-3"
               />
               {/* Progress circle */}
               <circle
@@ -116,27 +116,27 @@ export function PassPrediction({ theta, totalQuestions, attempts = [] }: PassPre
             </div>
           </div>
 
-          <p className="text-sm text-slate-400 mb-4">{getMessage()}</p>
+          <p className="text-sm text-label-secondary mb-4">{getMessage()}</p>
 
           {/* Stats */}
           <div className="grid grid-cols-2 gap-4 text-center">
             <div>
-              <p className="text-lg font-semibold text-slate-300">
+              <p className="text-lg font-semibold text-label-primary">
                 {theta > 0 ? '+' : ''}{theta.toFixed(2)}
               </p>
-              <p className="text-xs text-slate-500">Theta (TRI)</p>
+              <p className="text-xs text-label-tertiary">Theta (TRI)</p>
             </div>
             <div>
-              <p className="text-lg font-semibold text-slate-300">{totalQuestions}</p>
-              <p className="text-xs text-slate-500">Questões</p>
+              <p className="text-lg font-semibold text-label-primary">{totalQuestions}</p>
+              <p className="text-xs text-label-tertiary">Questões</p>
             </div>
           </div>
         </div>
 
         {/* Probability Trend */}
         {trendData.length > 1 && (
-          <div className="mt-6 pt-6 border-t border-slate-800">
-            <p className="text-xs font-medium text-slate-400 mb-3">Evolução da Probabilidade</p>
+          <div className="mt-6 pt-6 border-t border-separator">
+            <p className="text-xs font-medium text-label-secondary mb-3">Evolução da Probabilidade</p>
             <div className="h-32 relative flex items-end justify-between gap-1">
               {trendData.map((data, i) => {
                 const maxProb = Math.max(...trendData.map(d => d.probability), 100)
@@ -153,14 +153,14 @@ export function PassPrediction({ theta, totalQuestions, attempts = [] }: PassPre
                       style={{ height: `${height}%`, minHeight: '4px' }}
                       title={`${data.date}: ${data.probability}%`}
                     />
-                    <span className="text-xs text-slate-600 mt-1 whitespace-nowrap text-center hidden group-hover:inline">
+                    <span className="text-xs text-label-quaternary mt-1 whitespace-nowrap text-center hidden group-hover:inline">
                       {data.probability}%
                     </span>
                   </div>
                 )
               })}
             </div>
-            <div className="flex gap-2 mt-2 text-xs text-slate-500">
+            <div className="flex gap-2 mt-2 text-xs text-label-tertiary">
               <span>Primeiro</span>
               <span className="flex-1" />
               <span>Último</span>
@@ -169,9 +169,9 @@ export function PassPrediction({ theta, totalQuestions, attempts = [] }: PassPre
         )}
 
         {/* Explanation */}
-        <div className="mt-4 p-3 bg-slate-800/50 rounded-lg">
-          <p className="text-xs text-slate-400">
-            <span className="font-medium text-slate-300">Como funciona:</span> A probabilidade é calculada
+        <div className="mt-4 p-3 bg-surface-2/50 rounded-lg">
+          <p className="text-xs text-label-secondary">
+            <span className="font-medium text-label-primary">Como funciona:</span> A probabilidade é calculada
             usando TRI baseada em seu desempenho. Quanto maior seu theta, maior a probabilidade de aprovação.
           </p>
         </div>

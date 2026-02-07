@@ -57,12 +57,12 @@ export function CIPTimer({ onTimeUp }: CIPTimerProps) {
             ? 'bg-red-900/50 text-red-300 border border-red-700 animate-pulse'
             : isLowTime
               ? 'bg-amber-900/50 text-amber-300 border border-amber-700'
-              : 'bg-slate-800 text-slate-200 border border-slate-700'
+              : 'bg-surface-2 text-label-primary border border-separator'
         }
       `}
     >
       <svg
-        className={`w-5 h-5 ${isCriticalTime ? 'text-red-400' : isLowTime ? 'text-amber-400' : 'text-slate-400'}`}
+        className={`w-5 h-5 ${isCriticalTime ? 'text-red-400' : isLowTime ? 'text-amber-400' : 'text-label-secondary'}`}
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"

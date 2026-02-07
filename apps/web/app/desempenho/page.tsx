@@ -195,13 +195,13 @@ export default function DesempenhoPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-surface-0 text-white">
       {/* Header */}
-      <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
+      <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">Desempenho</h1>
-            <p className="text-sm text-slate-400 mt-1">
+            <p className="text-sm text-label-secondary mt-1">
               Acompanhe seu progresso e identifique áreas para melhorar
             </p>
           </div>
@@ -214,11 +214,11 @@ export default function DesempenhoPage() {
           // Empty state
           <Card>
             <CardContent className="py-12 text-center">
-              <svg className="w-16 h-16 text-slate-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-16 h-16 text-label-quaternary mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
               <h3 className="text-lg font-medium text-white mb-2">Nenhum dado de desempenho</h3>
-              <p className="text-slate-400 mb-6">
+              <p className="text-label-secondary mb-6">
                 Complete pelo menos um simulado para ver suas estatísticas
               </p>
               <a
@@ -240,7 +240,7 @@ export default function DesempenhoPage() {
                 <CardContent className="pt-6">
                   <div className="text-center">
                     <p className="text-3xl font-bold text-emerald-400">{stats?.averageScore}</p>
-                    <p className="text-sm text-slate-400 mt-1">Pontuação Média</p>
+                    <p className="text-sm text-label-secondary mt-1">Pontuação Média</p>
                   </div>
                 </CardContent>
               </Card>
@@ -249,7 +249,7 @@ export default function DesempenhoPage() {
                 <CardContent className="pt-6">
                   <div className="text-center">
                     <p className="text-3xl font-bold text-blue-400">{stats?.passRate}%</p>
-                    <p className="text-sm text-slate-400 mt-1">Taxa de Aprovação</p>
+                    <p className="text-sm text-label-secondary mt-1">Taxa de Aprovação</p>
                   </div>
                 </CardContent>
               </Card>
@@ -258,7 +258,7 @@ export default function DesempenhoPage() {
                 <CardContent className="pt-6">
                   <div className="text-center">
                     <p className="text-3xl font-bold text-yellow-400">{stats?.totalExams}</p>
-                    <p className="text-sm text-slate-400 mt-1">Simulados</p>
+                    <p className="text-sm text-label-secondary mt-1">Simulados</p>
                   </div>
                 </CardContent>
               </Card>
@@ -267,7 +267,7 @@ export default function DesempenhoPage() {
                 <CardContent className="pt-6">
                   <div className="text-center">
                     <p className="text-3xl font-bold text-purple-400">{stats?.bestScore}</p>
-                    <p className="text-sm text-slate-400 mt-1">Melhor Pontuação</p>
+                    <p className="text-sm text-label-secondary mt-1">Melhor Pontuação</p>
                   </div>
                 </CardContent>
               </Card>
@@ -287,7 +287,7 @@ export default function DesempenhoPage() {
                         className={`px-3 py-1 text-sm rounded-lg transition-colors ${
                           timePeriod === '7days'
                             ? 'bg-emerald-500/20 text-emerald-400'
-                            : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
+                            : 'bg-surface-2 text-label-secondary hover:bg-surface-3'
                         }`}
                       >
                         7 dias
@@ -297,7 +297,7 @@ export default function DesempenhoPage() {
                         className={`px-3 py-1 text-sm rounded-lg transition-colors ${
                           timePeriod === '30days'
                             ? 'bg-emerald-500/20 text-emerald-400'
-                            : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
+                            : 'bg-surface-2 text-label-secondary hover:bg-surface-3'
                         }`}
                       >
                         30 dias
@@ -307,7 +307,7 @@ export default function DesempenhoPage() {
                         className={`px-3 py-1 text-sm rounded-lg transition-colors ${
                           timePeriod === 'all'
                             ? 'bg-emerald-500/20 text-emerald-400'
-                            : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
+                            : 'bg-surface-2 text-label-secondary hover:bg-surface-3'
                         }`}
                       >
                         Tudo
@@ -318,7 +318,7 @@ export default function DesempenhoPage() {
                     {filteredAttempts.length > 0 ? (
                       <ScoreHistory attempts={filteredAttempts} />
                     ) : (
-                      <div className="h-64 flex items-center justify-center text-slate-400">
+                      <div className="h-64 flex items-center justify-center text-label-secondary">
                         Nenhum simulado neste período
                       </div>
                     )}
@@ -366,14 +366,14 @@ export default function DesempenhoPage() {
               </CardHeader>
               <CardContent>
                 {filteredAttempts.length === 0 ? (
-                  <div className="py-8 text-center text-slate-400">
+                  <div className="py-8 text-center text-label-secondary">
                     Nenhum simulado neste período
                   </div>
                 ) : (
                   <div className="overflow-x-auto">
                     <table className="w-full">
                       <thead>
-                        <tr className="text-left text-sm text-slate-400 border-b border-slate-800">
+                        <tr className="text-left text-sm text-label-secondary border-b border-separator">
                           <th className="pb-3 font-medium">Data</th>
                           <th className="pb-3 font-medium">Pontuação</th>
                           <th className="pb-3 font-medium">Acertos</th>
@@ -388,19 +388,19 @@ export default function DesempenhoPage() {
                             : 0
 
                           return (
-                            <tr key={attempt.id} className="border-b border-slate-800/50 hover:bg-slate-800/30 transition-colors">
-                              <td className="py-3 text-slate-300">
+                            <tr key={attempt.id} className="border-b border-separator/50 hover:bg-surface-2/30 transition-colors">
+                              <td className="py-3 text-label-primary">
                                 {new Date(attempt.completed_at).toLocaleDateString('pt-BR')}
                               </td>
                               <td className="py-3">
-                                <span className={`font-medium ${attempt.passed ? 'text-emerald-400' : 'text-slate-300'}`}>
+                                <span className={`font-medium ${attempt.passed ? 'text-emerald-400' : 'text-label-primary'}`}>
                                   {Math.round(attempt.scaled_score)}
                                 </span>
                               </td>
-                              <td className="py-3 text-slate-300">
+                              <td className="py-3 text-label-primary">
                                 {attempt.correct_count}/{totalQuestions}
                               </td>
-                              <td className="py-3 text-slate-400">
+                              <td className="py-3 text-label-secondary">
                                 {Math.floor(attempt.total_time_seconds / 60)}min
                               </td>
                               <td className="py-3">

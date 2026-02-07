@@ -32,7 +32,7 @@ export function TabsList({ className, ...props }: TabsListProps) {
   return (
     <div
       className={cn(
-        'inline-flex h-10 items-center justify-center rounded-md bg-slate-800 p-1 text-slate-400',
+        'inline-flex h-10 items-center justify-center rounded-md bg-surface-2 p-1 text-label-secondary',
         className
       )}
       role="tablist"
@@ -57,8 +57,8 @@ export function TabsTrigger({ className, value, ...props }: TabsTriggerProps) {
       className={cn(
         'inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium transition-all',
         isActive
-          ? 'bg-slate-900 text-white shadow-sm'
-          : 'text-slate-400 hover:text-slate-200',
+          ? 'bg-surface-1 text-white shadow-sm'
+          : 'text-label-secondary hover:text-label-primary',
         className
       )}
       {...props}

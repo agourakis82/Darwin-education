@@ -80,7 +80,7 @@ export default async function InterpretacaoPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-surface-0">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -90,7 +90,7 @@ export default async function InterpretacaoPage() {
               Interpretação de Imagem
             </h1>
           </div>
-          <p className="text-slate-400 max-w-3xl">
+          <p className="text-label-secondary max-w-3xl">
             Pratique a interpretação de exames de imagem: Raio-X, Tomografia, ECG,
             Ultrassonografia e Ressonância. Identifique achados, formule diagnósticos e
             proponha condutas em 4 etapas guiadas.
@@ -112,7 +112,7 @@ export default async function InterpretacaoPage() {
                   <span className="text-2xl">1</span>
                 </div>
                 <h4 className="font-medium text-white mb-1">Modalidade</h4>
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-label-secondary">
                   Identifique o tipo de exame de imagem
                 </p>
               </div>
@@ -121,7 +121,7 @@ export default async function InterpretacaoPage() {
                   <span className="text-2xl">2</span>
                 </div>
                 <h4 className="font-medium text-white mb-1">Achados</h4>
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-label-secondary">
                   Selecione os achados presentes na imagem
                 </p>
               </div>
@@ -130,7 +130,7 @@ export default async function InterpretacaoPage() {
                   <span className="text-2xl">3</span>
                 </div>
                 <h4 className="font-medium text-white mb-1">Diagnóstico</h4>
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-label-secondary">
                   Formule o diagnóstico mais provável
                 </p>
               </div>
@@ -139,7 +139,7 @@ export default async function InterpretacaoPage() {
                   <span className="text-2xl">4</span>
                 </div>
                 <h4 className="font-medium text-white mb-1">Conduta</h4>
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-label-secondary">
                   Escolha a conduta mais adequada
                 </p>
               </div>
@@ -155,8 +155,8 @@ export default async function InterpretacaoPage() {
               className="bg-card border rounded-lg p-3 text-center"
             >
               <span className="text-2xl block mb-1">{modalityIcons[key]}</span>
-              <span className="text-sm text-slate-300">{label}</span>
-              <span className="text-xs text-slate-500 block">
+              <span className="text-sm text-label-primary">{label}</span>
+              <span className="text-xs text-label-tertiary block">
                 {cases?.filter((c: any) => c.modality === key).length || 0} casos
               </span>
             </div>
@@ -193,11 +193,11 @@ export default async function InterpretacaoPage() {
                       </div>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-sm text-slate-400 line-clamp-2">
+                      <p className="text-sm text-label-secondary line-clamp-2">
                         {imageCase.clinical_context_pt}
                       </p>
                       {imageCase.times_attempted > 0 && (
-                        <div className="mt-3 text-xs text-slate-500">
+                        <div className="mt-3 text-xs text-label-tertiary">
                           {imageCase.times_attempted} tentativas • Média:{' '}
                           {imageCase.avg_score ? Math.round(imageCase.avg_score) : '-'} pontos
                         </div>
@@ -215,8 +215,8 @@ export default async function InterpretacaoPage() {
                   <CardContent>
                     <div className="text-center py-8">
                       <span className="text-5xl mb-4 block">🩻</span>
-                      <p className="text-slate-400">Nenhum caso disponível no momento</p>
-                      <p className="text-sm text-slate-500 mt-2">
+                      <p className="text-label-secondary">Nenhum caso disponível no momento</p>
+                      <p className="text-sm text-label-tertiary mt-2">
                         Execute os scripts SQL para carregar os casos de interpretação
                       </p>
                     </div>
@@ -236,7 +236,7 @@ export default async function InterpretacaoPage() {
                     {recentAttempts.map((attempt: any) => (
                       <div
                         key={attempt.id}
-                        className="border-b border-slate-800 last:border-0 pb-4 last:pb-0"
+                        className="border-b border-separator last:border-0 pb-4 last:pb-0"
                       >
                         <div className="flex justify-between items-start mb-2">
                           <div className="flex items-center gap-2">
@@ -260,10 +260,10 @@ export default async function InterpretacaoPage() {
                         {attempt.scaled_score && (
                           <div className="text-2xl font-bold text-white mb-1">
                             {attempt.scaled_score}
-                            <span className="text-sm font-normal text-slate-400">/1000</span>
+                            <span className="text-sm font-normal text-label-secondary">/1000</span>
                           </div>
                         )}
-                        <div className="text-xs text-slate-500">
+                        <div className="text-xs text-label-tertiary">
                           {new Date(attempt.started_at).toLocaleDateString('pt-BR')}
                         </div>
                         {!attempt.completed_at && (
@@ -278,8 +278,8 @@ export default async function InterpretacaoPage() {
                   </div>
                 ) : (
                   <div className="text-center py-4">
-                    <p className="text-slate-400 text-sm">Nenhuma tentativa ainda</p>
-                    <p className="text-slate-500 text-xs mt-1">
+                    <p className="text-label-secondary text-sm">Nenhuma tentativa ainda</p>
+                    <p className="text-label-tertiary text-xs mt-1">
                       Complete um caso para ver seu histórico
                     </p>
                   </div>

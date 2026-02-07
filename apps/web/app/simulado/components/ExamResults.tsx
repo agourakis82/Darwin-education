@@ -49,7 +49,7 @@ export function ExamResults({ areaBreakdown }: ExamResultsProps) {
                     {areaLabels[area]}
                   </span>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs text-slate-400">
+                    <span className="text-xs text-label-secondary">
                       {performance.correct}/{performance.total}
                     </span>
                     <span
@@ -65,7 +65,7 @@ export function ExamResults({ areaBreakdown }: ExamResultsProps) {
                     </span>
                   </div>
                 </div>
-                <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                <div className="h-2 bg-surface-2 rounded-full overflow-hidden">
                   <div
                     className={`h-full rounded-full transition-all duration-500 ${areaColors[area]}`}
                     style={{ width: `${percentage}%` }}
@@ -77,18 +77,18 @@ export function ExamResults({ areaBreakdown }: ExamResultsProps) {
         </div>
 
         {/* Performance Legend */}
-        <div className="flex gap-4 mt-6 pt-4 border-t border-slate-800 text-xs">
+        <div className="flex gap-4 mt-6 pt-4 border-t border-separator text-xs">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-emerald-500" />
-            <span className="text-slate-400">Bom (70%+)</span>
+            <span className="text-label-secondary">Bom (70%+)</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-yellow-500" />
-            <span className="text-slate-400">Regular (50-69%)</span>
+            <span className="text-label-secondary">Regular (50-69%)</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-red-500" />
-            <span className="text-slate-400">Fraco (&lt;50%)</span>
+            <span className="text-label-secondary">Fraco (&lt;50%)</span>
           </div>
         </div>
 

@@ -61,7 +61,7 @@ export function CIPResults({ score, totalTimeSeconds, onRetry, onBackToList }: C
                   cx="80"
                   cy="80"
                   r="70"
-                  className="fill-none stroke-slate-700"
+                  className="fill-none stroke-surface-3"
                   strokeWidth="12"
                 />
                 <circle
@@ -77,7 +77,7 @@ export function CIPResults({ score, totalTimeSeconds, onRetry, onBackToList }: C
               {/* Score text */}
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <span className="text-4xl font-bold text-white">{score.scaledScore}</span>
-                <span className="text-sm text-slate-400">pontos</span>
+                <span className="text-sm text-label-secondary">pontos</span>
               </div>
             </div>
 
@@ -125,24 +125,24 @@ export function CIPResults({ score, totalTimeSeconds, onRetry, onBackToList }: C
                 <div className="text-2xl font-semibold text-white">
                   {score.correctCount}/{score.totalCells}
                 </div>
-                <div className="text-slate-400">Acertos</div>
+                <div className="text-label-secondary">Acertos</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-semibold text-white">
                   {Math.round(score.percentageCorrect)}%
                 </div>
-                <div className="text-slate-400">Aproveitamento</div>
+                <div className="text-label-secondary">Aproveitamento</div>
               </div>
               <div className="text-center">
                 <div className="text-2xl font-semibold text-white">{score.passThreshold}</div>
-                <div className="text-slate-400">Mínimo p/ aprovação</div>
+                <div className="text-label-secondary">Mínimo p/ aprovação</div>
               </div>
               {totalTimeSeconds !== undefined && (
                 <div className="text-center">
                   <div className="text-2xl font-semibold text-white">
                     {formatTime(totalTimeSeconds)}
                   </div>
-                  <div className="text-slate-400">Tempo decorrido</div>
+                  <div className="text-label-secondary">Tempo decorrido</div>
                 </div>
               )}
             </div>
@@ -160,10 +160,10 @@ export function CIPResults({ score, totalTimeSeconds, onRetry, onBackToList }: C
             <ul className="space-y-3">
               {insights.map((insight, i) => (
                 <li key={i} className="flex items-start gap-3 text-sm">
-                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center text-slate-400">
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-surface-2 flex items-center justify-center text-label-secondary">
                     {i + 1}
                   </span>
-                  <span className="text-slate-300">{insight}</span>
+                  <span className="text-label-primary">{insight}</span>
                 </li>
               ))}
             </ul>
@@ -189,7 +189,7 @@ export function CIPResults({ score, totalTimeSeconds, onRetry, onBackToList }: C
                       {CIP_SECTION_LABELS_PT[section]}
                     </span>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs text-slate-400">
+                      <span className="text-xs text-label-secondary">
                         {perf.correct}/{perf.total}
                       </span>
                       <span
@@ -205,7 +205,7 @@ export function CIPResults({ score, totalTimeSeconds, onRetry, onBackToList }: C
                       </span>
                     </div>
                   </div>
-                  <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                  <div className="h-2 bg-surface-2 rounded-full overflow-hidden">
                     <div
                       className={`h-full rounded-full transition-all duration-500 ${sectionColors[section]}`}
                       style={{ width: `${percentage}%` }}
@@ -233,13 +233,13 @@ export function CIPResults({ score, totalTimeSeconds, onRetry, onBackToList }: C
                 return (
                   <div
                     key={diag.diagnosisId}
-                    className="flex items-center justify-between p-3 bg-slate-800/50 rounded-lg"
+                    className="flex items-center justify-between p-3 bg-surface-2/50 rounded-lg"
                   >
                     <span className="text-sm text-white flex-1 mr-4 line-clamp-1">
                       {diag.diagnosisName}
                     </span>
                     <div className="flex items-center gap-3 flex-shrink-0">
-                      <div className="w-20 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                      <div className="w-20 h-1.5 bg-surface-3 rounded-full overflow-hidden">
                         <div
                           className={`h-full rounded-full ${
                             percentage >= 70
@@ -251,7 +251,7 @@ export function CIPResults({ score, totalTimeSeconds, onRetry, onBackToList }: C
                           style={{ width: `${percentage}%` }}
                         />
                       </div>
-                      <span className="text-xs text-slate-400 w-12 text-right">
+                      <span className="text-xs text-label-secondary w-12 text-right">
                         {diag.correct}/{diag.total}
                       </span>
                       <span

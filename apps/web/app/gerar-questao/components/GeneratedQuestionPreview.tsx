@@ -51,7 +51,7 @@ export function GeneratedQuestionPreview({
 }: GeneratedQuestionPreviewProps) {
   const letters = ['A', 'B', 'C', 'D']
   const areaLabel = areaLabels[question.area] || question.area
-  const areaColor = areaColors[question.area] || 'bg-slate-500/20 text-slate-400'
+  const areaColor = areaColors[question.area] || 'bg-label-tertiary/20 text-label-secondary'
 
   return (
     <Card className="border-emerald-800/50">
@@ -89,7 +89,7 @@ export function GeneratedQuestionPreview({
                 className={`p-3 rounded-lg border transition-colors ${
                   isCorrect
                     ? 'border-emerald-600 bg-emerald-900/30'
-                    : 'border-slate-700 bg-slate-800/50'
+                    : 'border-separator bg-surface-2/50'
                 }`}
               >
                 <div className="flex items-start gap-3">
@@ -97,17 +97,17 @@ export function GeneratedQuestionPreview({
                     className={`flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-full text-sm font-bold ${
                       isCorrect
                         ? 'bg-emerald-600 text-white'
-                        : 'bg-slate-700 text-slate-300'
+                        : 'bg-surface-3 text-label-primary'
                     }`}
                   >
                     {letter}
                   </span>
                   <div className="flex-1">
-                    <p className={`text-sm ${isCorrect ? 'text-emerald-200' : 'text-slate-300'}`}>
+                    <p className={`text-sm ${isCorrect ? 'text-emerald-200' : 'text-label-primary'}`}>
                       {option.text}
                     </p>
                     {option.feedback && (
-                      <p className="text-xs text-slate-500 mt-1 italic">{option.feedback}</p>
+                      <p className="text-xs text-label-tertiary mt-1 italic">{option.feedback}</p>
                     )}
                   </div>
                   {isCorrect && (
@@ -123,30 +123,30 @@ export function GeneratedQuestionPreview({
 
         {/* Explanation */}
         {question.explanation && (
-          <div className="mb-6 p-4 rounded-lg bg-slate-800/50 border border-slate-700">
+          <div className="mb-6 p-4 rounded-lg bg-surface-2/50 border border-separator">
             <h4 className="text-sm font-semibold text-emerald-400 mb-2">Explicação</h4>
-            <p className="text-sm text-slate-300 leading-relaxed">{question.explanation}</p>
+            <p className="text-sm text-label-primary leading-relaxed">{question.explanation}</p>
           </div>
         )}
 
         {/* IRT Parameters */}
         {question.irt && (
           <div className="grid grid-cols-3 gap-3 mb-6">
-            <div className="p-3 rounded-lg bg-slate-800/50 border border-slate-700 text-center">
-              <p className="text-xs text-slate-500 mb-1">Dificuldade (b)</p>
+            <div className="p-3 rounded-lg bg-surface-2/50 border border-separator text-center">
+              <p className="text-xs text-label-tertiary mb-1">Dificuldade (b)</p>
               <p className={`text-lg font-bold ${getDifficultyColor(question.irt.difficulty)}`}>
                 {question.irt.difficulty.toFixed(2)}
               </p>
             </div>
-            <div className="p-3 rounded-lg bg-slate-800/50 border border-slate-700 text-center">
-              <p className="text-xs text-slate-500 mb-1">Discriminação (a)</p>
+            <div className="p-3 rounded-lg bg-surface-2/50 border border-separator text-center">
+              <p className="text-xs text-label-tertiary mb-1">Discriminação (a)</p>
               <p className="text-lg font-bold text-cyan-400">
                 {question.irt.discrimination.toFixed(2)}
               </p>
             </div>
-            <div className="p-3 rounded-lg bg-slate-800/50 border border-slate-700 text-center">
-              <p className="text-xs text-slate-500 mb-1">Acerto Casual (c)</p>
-              <p className="text-lg font-bold text-slate-300">
+            <div className="p-3 rounded-lg bg-surface-2/50 border border-separator text-center">
+              <p className="text-xs text-label-tertiary mb-1">Acerto Casual (c)</p>
+              <p className="text-lg font-bold text-label-primary">
                 {question.irt.guessing.toFixed(2)}
               </p>
             </div>
@@ -154,7 +154,7 @@ export function GeneratedQuestionPreview({
         )}
 
         {/* Cost/Token Info */}
-        <div className="flex items-center gap-4 text-xs text-slate-500">
+        <div className="flex items-center gap-4 text-xs text-label-tertiary">
           {tokensUsed != null && (
             <span>{tokensUsed.toLocaleString()} tokens</span>
           )}

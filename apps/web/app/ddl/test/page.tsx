@@ -146,14 +146,14 @@ export default function DDLTestPage() {
   const currentPhaseIndex = phases.indexOf(phase)
 
   return (
-    <div className="min-h-screen bg-slate-900 py-8">
+    <div className="min-h-screen bg-surface-1 py-8">
       <div className="max-w-4xl mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white">
             DDL - Diagnostico Diferencial de Lacunas
           </h1>
-          <p className="mt-2 text-slate-400">
+          <p className="mt-2 text-label-secondary">
             Sistema de analise semantica e comportamental para identificacao de lacunas de aprendizagem
           </p>
 
@@ -167,7 +167,7 @@ export default function DDLTestPage() {
                       ? 'bg-emerald-600 text-white'
                       : i < currentPhaseIndex
                         ? 'bg-emerald-500 text-white'
-                        : 'bg-slate-700 text-slate-500'
+                        : 'bg-surface-3 text-label-tertiary'
                   }`}
                 >
                   {i + 1}
@@ -175,13 +175,13 @@ export default function DDLTestPage() {
                 {i < phases.length - 1 && (
                   <div
                     className={`w-12 h-1 ${
-                      i < currentPhaseIndex ? 'bg-emerald-500' : 'bg-slate-700'
+                      i < currentPhaseIndex ? 'bg-emerald-500' : 'bg-surface-3'
                     }`}
                   />
                 )}
               </div>
             ))}
-            <span className="ml-4 text-sm text-slate-400">
+            <span className="ml-4 text-sm text-label-secondary">
               {phaseLabels[phase]}
             </span>
           </div>
@@ -202,21 +202,21 @@ export default function DDLTestPage() {
 
         {/* Phase: Select */}
         {phase === 'select' && (
-          <div className="bg-slate-800 rounded-lg border border-slate-700 p-6">
+          <div className="bg-surface-2 rounded-lg border border-separator p-6">
             <h2 className="text-xl font-semibold text-white mb-4">Questoes Piloto</h2>
             {loading ? (
               <div className="space-y-4">
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="animate-pulse">
-                    <div className="h-4 bg-slate-700 rounded w-1/4 mb-2" />
-                    <div className="h-6 bg-slate-700 rounded w-3/4" />
+                    <div className="h-4 bg-surface-3 rounded w-1/4 mb-2" />
+                    <div className="h-6 bg-surface-3 rounded w-3/4" />
                   </div>
                 ))}
               </div>
             ) : questions.length === 0 ? (
               <div className="text-center py-8">
-                <p className="text-slate-400">Nenhuma questao piloto encontrada.</p>
-                <p className="text-sm text-slate-500 mt-2">
+                <p className="text-label-secondary">Nenhuma questao piloto encontrada.</p>
+                <p className="text-sm text-label-tertiary mt-2">
                   Execute o seed SQL no Supabase para adicionar as questoes.
                 </p>
               </div>
@@ -226,20 +226,20 @@ export default function DDLTestPage() {
                   <button
                     key={q.id}
                     onClick={() => handleSelectQuestion(q)}
-                    className="w-full text-left p-4 bg-slate-900 border border-slate-600 rounded-lg
-                             hover:border-emerald-500 hover:bg-slate-800 transition-colors"
+                    className="w-full text-left p-4 bg-surface-1 border border-surface-4 rounded-lg
+                             hover:border-emerald-500 hover:bg-surface-2 transition-colors"
                   >
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xs font-mono text-slate-500">{q.question_code}</span>
+                      <span className="text-xs font-mono text-label-tertiary">{q.question_code}</span>
                       <span className={`px-2 py-0.5 text-xs rounded ${getDifficultyColor(q.difficulty_level)}`}>
                         Nivel {q.difficulty_level}
                       </span>
-                      <span className="px-2 py-0.5 text-xs bg-slate-700 text-slate-300 rounded">
+                      <span className="px-2 py-0.5 text-xs bg-surface-3 text-label-primary rounded">
                         {q.discipline}
                       </span>
                     </div>
                     <p className="text-white">{q.question_text}</p>
-                    <p className="text-sm text-slate-400 mt-1">Topico: {q.topic}</p>
+                    <p className="text-sm text-label-secondary mt-1">Topico: {q.topic}</p>
                   </button>
                 ))}
               </div>
@@ -268,11 +268,11 @@ export default function DDLTestPage() {
 
         {/* Phase: Analyzing */}
         {phase === 'analyzing' && (
-          <div className="bg-slate-800 rounded-lg border border-slate-700 p-8 text-center">
+          <div className="bg-surface-2 rounded-lg border border-separator p-8 text-center">
             <div className="animate-spin w-12 h-12 border-4 border-emerald-600 border-t-transparent rounded-full mx-auto mb-4" />
             <h2 className="text-xl font-semibold text-white">Analisando sua resposta...</h2>
-            <p className="text-slate-400 mt-2">Processando analise semantica e comportamental</p>
-            <div className="mt-6 space-y-2 text-sm text-slate-500">
+            <p className="text-label-secondary mt-2">Processando analise semantica e comportamental</p>
+            <div className="mt-6 space-y-2 text-sm text-label-tertiary">
               <p>📝 Extraindo conceitos da resposta</p>
               <p>🔗 Avaliando integracoes conceituais</p>
               <p>📊 Analisando padroes comportamentais</p>
@@ -295,45 +295,45 @@ export default function DDLTestPage() {
             </div>
 
             {/* Classification Summary */}
-            <div className="mb-6 p-4 bg-slate-800 rounded-lg border border-slate-700">
-              <h3 className="font-medium text-slate-300 mb-3">Classificacao Detectada</h3>
+            <div className="mb-6 p-4 bg-surface-2 rounded-lg border border-separator">
+              <h3 className="font-medium text-label-primary mb-3">Classificacao Detectada</h3>
               <div className="grid grid-cols-3 gap-4 text-center">
                 <div
                   className={`p-3 rounded-lg transition-all ${
                     classification.type === 'LE'
                       ? 'bg-blue-900/50 ring-2 ring-blue-500'
-                      : 'bg-slate-700/50'
+                      : 'bg-surface-3/50'
                   }`}
                 >
                   <div className="text-2xl">📚</div>
                   <div className="font-medium text-white">LE</div>
-                  <div className="text-xs text-slate-400">Epistemica</div>
+                  <div className="text-xs text-label-secondary">Epistemica</div>
                 </div>
                 <div
                   className={`p-3 rounded-lg transition-all ${
                     classification.type === 'LEm'
                       ? 'bg-purple-900/50 ring-2 ring-purple-500'
-                      : 'bg-slate-700/50'
+                      : 'bg-surface-3/50'
                   }`}
                 >
                   <div className="text-2xl">💭</div>
                   <div className="font-medium text-white">LEm</div>
-                  <div className="text-xs text-slate-400">Emocional</div>
+                  <div className="text-xs text-label-secondary">Emocional</div>
                 </div>
                 <div
                   className={`p-3 rounded-lg transition-all ${
                     classification.type === 'LIE'
                       ? 'bg-orange-900/50 ring-2 ring-orange-500'
-                      : 'bg-slate-700/50'
+                      : 'bg-surface-3/50'
                   }`}
                 >
                   <div className="text-2xl">🔗</div>
                   <div className="font-medium text-white">LIE</div>
-                  <div className="text-xs text-slate-400">Integracao</div>
+                  <div className="text-xs text-label-secondary">Integracao</div>
                 </div>
               </div>
               <div className="mt-4 text-center">
-                <span className="text-sm text-slate-400">
+                <span className="text-sm text-label-secondary">
                   Confianca: {classification.confidence} ({(classification.probability * 100).toFixed(0)}%)
                 </span>
               </div>
@@ -345,7 +345,7 @@ export default function DDLTestPage() {
 
         {/* Debug Info (development only) */}
         {process.env.NODE_ENV === 'development' && responseId && (
-          <div className="mt-8 p-4 bg-slate-950 text-slate-400 rounded-lg text-xs font-mono">
+          <div className="mt-8 p-4 bg-surface-0 text-label-secondary rounded-lg text-xs font-mono">
             <div>Response ID: {responseId}</div>
             <div>Feedback ID: {feedbackId}</div>
             <div>Classification: {JSON.stringify(classification)}</div>

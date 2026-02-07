@@ -9,8 +9,8 @@ interface BadgeProps extends HTMLAttributes<HTMLDivElement> {
 
 const variantStyles: Record<BadgeVariant, string> = {
   default: 'bg-emerald-600 text-white border-transparent',
-  secondary: 'bg-slate-700 text-slate-200 border-transparent',
-  outline: 'bg-transparent border-slate-600 text-slate-300',
+  secondary: 'bg-surface-3 text-label-primary border-transparent',
+  outline: 'bg-transparent border-label-quaternary text-label-primary',
   destructive: 'bg-red-600 text-white border-transparent',
 }
 

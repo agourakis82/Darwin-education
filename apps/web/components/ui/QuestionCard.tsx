@@ -79,15 +79,15 @@ export function QuestionCard({
       return 'border-emerald-500 bg-emerald-900/20 text-white'
     }
 
-    return 'border-slate-700 hover:border-slate-600 hover:bg-slate-800/50 text-slate-300'
+    return 'border-separator hover:border-label-quaternary hover:bg-surface-2/50 text-label-primary'
   }
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
+    <div className="bg-surface-1 border border-separator rounded-xl p-6">
       {/* Header */}
       <div className="flex flex-wrap items-center gap-3 mb-4">
         {questionNumber && (
-          <span className="text-slate-400 text-sm font-medium">
+          <span className="text-label-secondary text-sm font-medium">
             Questão {questionNumber}
             {totalQuestions && ` de ${totalQuestions}`}
           </span>
@@ -100,13 +100,13 @@ export function QuestionCard({
         </span>
 
         {question.difficulty && (
-          <span className="px-2.5 py-1 text-xs font-medium rounded-full bg-slate-800 text-slate-400 border border-slate-700">
+          <span className="px-2.5 py-1 text-xs font-medium rounded-full bg-surface-2 text-label-secondary border border-separator">
             {difficultyLabels[question.difficulty]}
           </span>
         )}
 
         {question.year && (
-          <span className="text-xs text-slate-500">ENAMED {question.year}</span>
+          <span className="text-xs text-label-tertiary">ENAMED {question.year}</span>
         )}
       </div>
 
@@ -146,7 +146,7 @@ export function QuestionCard({
                         : 'bg-emerald-600 border-emerald-600 text-white'
                       : showCorrectAnswer && isCorrect
                         ? 'bg-emerald-600 border-emerald-600 text-white'
-                        : 'bg-slate-800 border-slate-600 text-slate-400'
+                        : 'bg-surface-2 border-label-quaternary text-label-secondary'
                   }
                 `}
               >
@@ -190,9 +190,9 @@ export function QuestionCard({
 
       {/* Explanation */}
       {showExplanation && question.explanation && (
-        <div className="mt-6 p-4 bg-slate-800/50 rounded-lg border border-slate-700">
+        <div className="mt-6 p-4 bg-surface-2/50 rounded-lg border border-separator">
           <h4 className="text-sm font-medium text-emerald-400 mb-2">Explicação</h4>
-          <p className="text-slate-300 text-sm leading-relaxed">{question.explanation}</p>
+          <p className="text-label-primary text-sm leading-relaxed">{question.explanation}</p>
         </div>
       )}
 

@@ -488,6 +488,26 @@ export interface ImageOption {
   id: string;
   textPt: string;
   isCorrect: boolean;
+  /** Why this option is correct or incorrect */
+  explanationPt?: string;
+  /** Teaching point related to this option */
+  clinicalPearlPt?: string;
+}
+
+/**
+ * Structured explanation for a case — richer than a single text blob
+ */
+export interface StructuredExplanation {
+  /** Key findings to look for in the image */
+  keyFindings: string[];
+  /** How to systematically interpret this modality */
+  systematicApproach: string;
+  /** Common pitfalls and traps */
+  commonMistakes: string[];
+  /** How findings connect to the diagnosis */
+  clinicalCorrelation: string;
+  /** Further reading or study resources */
+  references?: string[];
 }
 
 /**
@@ -516,6 +536,10 @@ export interface CIPImageCase {
   nextStepOptions: ImageOption[];
   explanationPt?: string;
   explanationEn?: string;
+  /** Image attribution / license info */
+  imageAttribution?: string;
+  /** Structured teaching explanation */
+  structuredExplanation?: StructuredExplanation;
   irt: IRTParameters;
   isPublic: boolean;
   isAIGenerated: boolean;
@@ -566,6 +590,16 @@ export interface ImageStepResult {
   correctAnswer: string | string[];
   weight: number;
   weightedScore: number;
+  /** Text of the student's selected option */
+  selectedOptionText?: string;
+  /** Text of the correct option */
+  correctOptionText?: string;
+  /** Explanation of why the student's choice was wrong (or right) */
+  selectedExplanation?: string;
+  /** Explanation of why the correct answer is correct */
+  correctExplanation?: string;
+  /** Clinical teaching point for this step */
+  clinicalPearl?: string;
 }
 
 /**

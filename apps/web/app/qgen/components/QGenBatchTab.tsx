@@ -126,11 +126,11 @@ export function QGenBatchTab() {
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Configuration */}
         <div className="space-y-4">
-          <h2 className="text-lg font-semibold text-white">Configuração do Lote</h2>
+          <h2 className="text-lg font-semibold text-label-primary">Configuração do Lote</h2>
 
           {/* Question Count */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-label-primary mb-2">
               Quantidade: {config.count}
             </label>
             <input
@@ -141,9 +141,9 @@ export function QGenBatchTab() {
               onChange={(e) =>
                 setConfig((prev) => ({ ...prev, count: parseInt(e.target.value) }))
               }
-              className="w-full accent-primary-500"
+              className="w-full accent-emerald-500"
             />
-            <div className="flex justify-between text-xs text-gray-500 mt-1">
+            <div className="flex justify-between text-xs text-label-tertiary mt-1">
               <span>5</span>
               <span>25</span>
               <span>50</span>
@@ -152,11 +152,11 @@ export function QGenBatchTab() {
 
           {/* Area */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Área</label>
+            <label className="block text-sm font-medium text-label-primary mb-2">Área</label>
             <select
               value={config.area}
               onChange={(e) => setConfig((prev) => ({ ...prev, area: e.target.value }))}
-              className="w-full bg-gray-900 border border-gray-600 rounded-lg px-4 py-2 text-white"
+              className="w-full bg-surface-1 border border-surface-4 rounded-lg px-4 py-2 text-label-primary"
             >
               {AREAS.map((area) => (
                 <option key={area.value} value={area.value}>
@@ -168,7 +168,7 @@ export function QGenBatchTab() {
 
           {/* Difficulty Range */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-label-primary mb-2">
               Faixa de Dificuldade: {config.difficultyRange.min} - {config.difficultyRange.max}
             </label>
             <div className="flex gap-4">
@@ -186,7 +186,7 @@ export function QGenBatchTab() {
                     },
                   }))
                 }
-                className="flex-1 accent-primary-500"
+                className="flex-1 accent-emerald-500"
               />
               <input
                 type="range"
@@ -202,14 +202,14 @@ export function QGenBatchTab() {
                     },
                   }))
                 }
-                className="flex-1 accent-primary-500"
+                className="flex-1 accent-emerald-500"
               />
             </div>
           </div>
 
           {/* Bloom Levels */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-label-primary mb-2">
               Níveis de Bloom
             </label>
             <div className="flex flex-wrap gap-2">
@@ -219,8 +219,8 @@ export function QGenBatchTab() {
                   onClick={() => toggleBloomLevel(level)}
                   className={`px-3 py-1 text-sm rounded-full transition-colors ${
                     config.bloomLevels.includes(level)
-                      ? 'bg-primary-600 text-white'
-                      : 'bg-gray-700 text-gray-400 hover:bg-gray-600'
+                      ? 'bg-emerald-600 text-white'
+                      : 'bg-surface-3 text-label-secondary hover:bg-surface-4'
                   }`}
                 >
                   {level}
@@ -231,7 +231,7 @@ export function QGenBatchTab() {
 
           {/* Concurrency */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-label-primary mb-2">
               Concorrência: {config.concurrency}
             </label>
             <input
@@ -242,7 +242,7 @@ export function QGenBatchTab() {
               onChange={(e) =>
                 setConfig((prev) => ({ ...prev, concurrency: parseInt(e.target.value) }))
               }
-              className="w-full accent-primary-500"
+              className="w-full accent-emerald-500"
             />
           </div>
 
@@ -250,7 +250,7 @@ export function QGenBatchTab() {
           <button
             onClick={handleGenerate}
             disabled={isGenerating || config.bloomLevels.length === 0}
-            className="w-full mt-4 px-6 py-3 bg-primary-600 hover:bg-primary-700 disabled:bg-gray-600 text-white font-medium rounded-lg transition-colors"
+            className="w-full mt-4 px-6 py-3 bg-gradient-to-b from-emerald-500 to-emerald-600 shadow-elevation-1 hover:bg-emerald-700 disabled:bg-surface-4 text-white font-medium rounded-lg transition-colors"
           >
             {isGenerating ? `Gerando... ${progress}%` : `Gerar ${config.count} Questões`}
           </button>
@@ -264,61 +264,61 @@ export function QGenBatchTab() {
 
         {/* Results */}
         <div>
-          <h2 className="text-lg font-semibold text-white mb-4">Resultados</h2>
+          <h2 className="text-lg font-semibold text-label-primary mb-4">Resultados</h2>
 
           {isGenerating && (
-            <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
+            <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-6">
               <div className="mb-4">
-                <div className="w-full bg-gray-700 rounded-full h-3">
+                <div className="w-full bg-surface-3 rounded-full h-3">
                   <div
-                    className="bg-primary-500 h-3 rounded-full transition-all duration-300"
+                    className="bg-emerald-500 h-3 rounded-full transition-all duration-300"
                     style={{ width: `${progress}%` }}
                   />
                 </div>
               </div>
-              <p className="text-gray-400 text-center">Gerando questões...</p>
+              <p className="text-label-secondary text-center">Gerando questões...</p>
             </div>
           )}
 
           {result && (
             <div className="space-y-4">
               {/* Summary */}
-              <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
+              <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-6">
                 <div className="grid grid-cols-4 gap-4 text-center">
                   <div>
-                    <div className="text-2xl font-bold text-white">
+                    <div className="text-2xl font-bold text-label-primary">
                       {result.summary.total}
                     </div>
-                    <div className="text-xs text-gray-500">Total</div>
+                    <div className="text-xs text-label-tertiary">Total</div>
                   </div>
                   <div>
                     <div className="text-2xl font-bold text-green-400">
                       {result.summary.successful}
                     </div>
-                    <div className="text-xs text-gray-500">Sucesso</div>
+                    <div className="text-xs text-label-tertiary">Sucesso</div>
                   </div>
                   <div>
                     <div className="text-2xl font-bold text-red-400">
                       {result.summary.failed}
                     </div>
-                    <div className="text-xs text-gray-500">Falhas</div>
+                    <div className="text-xs text-label-tertiary">Falhas</div>
                   </div>
                   <div>
                     <div className="text-2xl font-bold text-cyan-400">
                       {(result.summary.duration_ms / 1000).toFixed(1)}s
                     </div>
-                    <div className="text-xs text-gray-500">Tempo</div>
+                    <div className="text-xs text-label-tertiary">Tempo</div>
                   </div>
                 </div>
               </div>
 
               {/* Individual Results */}
-              <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-4 max-h-80 overflow-y-auto">
+              <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-4 max-h-80 overflow-y-auto">
                 {result.results.map((r, idx) => (
                   <div
                     key={idx}
                     className={`flex items-center justify-between py-2 ${
-                      idx > 0 ? 'border-t border-gray-700' : ''
+                      idx > 0 ? 'border-t border-surface-3' : ''
                     }`}
                   >
                     <div className="flex items-center gap-2">
@@ -327,9 +327,9 @@ export function QGenBatchTab() {
                           r.success ? 'bg-green-500' : 'bg-red-500'
                         }`}
                       />
-                      <span className="text-gray-400 text-sm">Questão {idx + 1}</span>
+                      <span className="text-label-secondary text-sm">Questão {idx + 1}</span>
                     </div>
-                    <span className="text-gray-500 text-xs truncate max-w-xs">
+                    <span className="text-label-tertiary text-xs truncate max-w-xs">
                       {r.success
                         ? r.question?.stem.slice(0, 50) + '...'
                         : r.error || 'Erro'}
@@ -341,9 +341,9 @@ export function QGenBatchTab() {
           )}
 
           {!isGenerating && !result && (
-            <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-8 text-center">
-              <div className="text-gray-500 text-6xl mb-4">📦</div>
-              <p className="text-gray-400">
+            <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-8 text-center">
+              <div className="text-label-tertiary text-6xl mb-4">📦</div>
+              <p className="text-label-secondary">
                 Configure e gere um lote de questões
               </p>
             </div>

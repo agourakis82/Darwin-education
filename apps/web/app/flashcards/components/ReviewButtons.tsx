@@ -60,7 +60,7 @@ const reviewOptions: Array<{
 export function ReviewButtons({ onReview, intervals }: ReviewButtonsProps) {
   return (
     <div className="space-y-3">
-      <p className="text-center text-sm text-slate-400">
+      <p className="text-center text-sm text-label-secondary">
         Como você se saiu?
       </p>
       <div className="grid grid-cols-4 gap-2">
@@ -90,7 +90,7 @@ export function ReviewButtons({ onReview, intervals }: ReviewButtonsProps) {
           </button>
         ))}
       </div>
-      <p className="text-center text-xs text-slate-500">
+      <p className="text-center text-xs text-label-tertiary">
         Use as teclas 1-4 para avaliar rapidamente
       </p>
     </div>

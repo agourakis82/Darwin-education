@@ -197,7 +197,7 @@ export default function EditDeckPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500" />
       </div>
     )
@@ -207,14 +207,14 @@ export default function EditDeckPage() {
   const deletedCards = cards.filter(c => c.isDeleted)
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-surface-0 text-white">
       {/* Header */}
-      <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
+      <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center gap-4">
             <button
               onClick={() => router.back()}
-              className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
+              className="p-2 hover:bg-surface-2 rounded-lg transition-colors"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -242,7 +242,7 @@ export default function EditDeckPage() {
               />
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1.5">
+                <label className="block text-sm font-medium text-label-primary mb-1.5">
                   Descrição (opcional)
                 </label>
                 <textarea
@@ -250,20 +250,20 @@ export default function EditDeckPage() {
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Descreva o conteúdo deste deck..."
                   rows={3}
-                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg
-                    text-white placeholder-slate-500 focus:outline-none focus:ring-2
+                  className="w-full px-3 py-2 bg-surface-2 border border-separator rounded-lg
+                    text-white placeholder-label-tertiary focus:outline-none focus:ring-2
                     focus:ring-emerald-500 focus:border-transparent resize-none"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-1.5">
+                <label className="block text-sm font-medium text-label-primary mb-1.5">
                   Área (opcional)
                 </label>
                 <select
                   value={area}
                   onChange={(e) => setArea(e.target.value as ENAMEDArea | '')}
-                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg
+                  className="w-full px-3 py-2 bg-surface-2 border border-separator rounded-lg
                     text-white focus:outline-none focus:ring-2 focus:ring-emerald-500
                     focus:border-transparent"
                 >
@@ -283,7 +283,7 @@ export default function EditDeckPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle>Flashcards</CardTitle>
-                <span className="text-sm text-slate-400">
+                <span className="text-sm text-label-secondary">
                   {activeCards.length} cards
                 </span>
               </div>
@@ -294,18 +294,18 @@ export default function EditDeckPage() {
                 return (
                   <div
                     key={card.id || `new-${index}`}
-                    className={`p-4 bg-slate-800/50 rounded-lg border ${
-                      card.isNew ? 'border-emerald-700' : 'border-slate-700'
+                    className={`p-4 bg-surface-2/50 rounded-lg border ${
+                      card.isNew ? 'border-emerald-700' : 'border-separator'
                     }`}
                   >
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-sm font-medium text-slate-400">
+                      <span className="text-sm font-medium text-label-secondary">
                         {card.isNew ? 'Novo Card' : `Card ${index + 1}`}
                       </span>
                       <button
                         type="button"
                         onClick={() => removeCard(realIndex)}
-                        className="p-1 text-slate-500 hover:text-red-400 transition-colors"
+                        className="p-1 text-label-tertiary hover:text-red-400 transition-colors"
                       >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -315,7 +315,7 @@ export default function EditDeckPage() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs text-slate-400 mb-1">
+                        <label className="block text-xs text-label-secondary mb-1">
                           Frente (Pergunta)
                         </label>
                         <textarea
@@ -323,13 +323,13 @@ export default function EditDeckPage() {
                           onChange={(e) => updateCard(realIndex, 'front', e.target.value)}
                           placeholder="Digite a pergunta..."
                           rows={3}
-                          className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg
-                            text-white placeholder-slate-500 focus:outline-none focus:ring-2
+                          className="w-full px-3 py-2 bg-surface-1 border border-separator rounded-lg
+                            text-white placeholder-label-tertiary focus:outline-none focus:ring-2
                             focus:ring-emerald-500 focus:border-transparent resize-none text-sm"
                         />
                       </div>
                       <div>
-                        <label className="block text-xs text-slate-400 mb-1">
+                        <label className="block text-xs text-label-secondary mb-1">
                           Verso (Resposta)
                         </label>
                         <textarea
@@ -337,8 +337,8 @@ export default function EditDeckPage() {
                           onChange={(e) => updateCard(realIndex, 'back', e.target.value)}
                           placeholder="Digite a resposta..."
                           rows={3}
-                          className="w-full px-3 py-2 bg-slate-900 border border-slate-700 rounded-lg
-                            text-white placeholder-slate-500 focus:outline-none focus:ring-2
+                          className="w-full px-3 py-2 bg-surface-1 border border-separator rounded-lg
+                            text-white placeholder-label-tertiary focus:outline-none focus:ring-2
                             focus:ring-emerald-500 focus:border-transparent resize-none text-sm"
                         />
                       </div>
@@ -349,8 +349,8 @@ export default function EditDeckPage() {
 
               {/* Deleted Cards */}
               {deletedCards.length > 0 && (
-                <div className="pt-4 border-t border-slate-700">
-                  <p className="text-sm text-slate-400 mb-2">
+                <div className="pt-4 border-t border-separator">
+                  <p className="text-sm text-label-secondary mb-2">
                     Cards marcados para exclusão ({deletedCards.length})
                   </p>
                   {deletedCards.map((card) => {
@@ -379,8 +379,8 @@ export default function EditDeckPage() {
               <button
                 type="button"
                 onClick={addCard}
-                className="w-full py-3 border-2 border-dashed border-slate-700 rounded-lg
-                  text-slate-400 hover:text-white hover:border-slate-600 transition-colors
+                className="w-full py-3 border-2 border-dashed border-separator rounded-lg
+                  text-label-secondary hover:text-white hover:border-surface-4 transition-colors
                   flex items-center justify-center gap-2"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -426,7 +426,7 @@ export default function EditDeckPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-white">Excluir este deck</p>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-label-secondary">
                     Esta ação não pode ser desfeita. Todos os cards serão excluídos.
                   </p>
                 </div>
@@ -451,7 +451,7 @@ export default function EditDeckPage() {
                 <CardTitle className="text-red-400">Confirmar Exclusão</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-slate-300 mb-6">
+                <p className="text-label-primary mb-6">
                   Tem certeza que deseja excluir o deck &quot;{deck?.title}&quot;?
                   Esta ação não pode ser desfeita.
                 </p>

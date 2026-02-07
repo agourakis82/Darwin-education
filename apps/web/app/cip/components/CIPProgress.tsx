@@ -16,7 +16,7 @@ export function CIPProgress() {
   return (
     <div className="flex items-center gap-4">
       {/* Progress bar */}
-      <div className="flex-1 h-2 bg-slate-700 rounded-full overflow-hidden">
+      <div className="flex-1 h-2 bg-surface-3 rounded-full overflow-hidden">
         <div
           className="h-full bg-emerald-500 rounded-full transition-all duration-300"
           style={{ width: `${progress}%` }}
@@ -25,11 +25,11 @@ export function CIPProgress() {
 
       {/* Progress text */}
       <div className="flex items-center gap-2 text-sm">
-        <span className="text-slate-400">Progresso:</span>
+        <span className="text-label-secondary">Progresso:</span>
         <span className="text-white font-medium">
           {answered}/{total}
         </span>
-        <span className="text-slate-500">({Math.round(progress)}%)</span>
+        <span className="text-label-tertiary">({Math.round(progress)}%)</span>
       </div>
     </div>
   )

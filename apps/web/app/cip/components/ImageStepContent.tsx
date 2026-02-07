@@ -122,16 +122,26 @@ export function ImageStepContent({
                 </div>
 
                 {/* Option text */}
-                <span className="text-sm">{option.textPt}</span>
+                <div className="flex-1 min-w-0">
+                  <span className="text-sm">{option.textPt}</span>
+                  {/* Per-option explanation after submission */}
+                  {isSubmitted && option.explanationPt && (isSelected || option.isCorrect) && (
+                    <p className={`text-xs mt-1 ${
+                      option.isCorrect ? 'text-green-400/80' : 'text-red-400/80'
+                    }`}>
+                      {option.explanationPt}
+                    </p>
+                  )}
+                </div>
 
                 {/* Correctness indicator after submission */}
                 {isSubmitted && option.isCorrect && (
-                  <span className="ml-auto text-green-500 text-sm font-medium">
+                  <span className="ml-auto text-green-500 text-sm font-medium flex-shrink-0">
                     Correto
                   </span>
                 )}
                 {isSubmitted && isSelected && !option.isCorrect && (
-                  <span className="ml-auto text-red-500 text-sm font-medium">
+                  <span className="ml-auto text-red-500 text-sm font-medium flex-shrink-0">
                     Incorreto
                   </span>
                 )}

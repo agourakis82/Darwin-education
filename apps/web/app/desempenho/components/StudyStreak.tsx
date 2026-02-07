@@ -77,11 +77,11 @@ export function StudyStreak({ streak, lastDate, activityData = [] }: StudyStreak
         <div className="text-center mb-4">
           <div className="flex items-center justify-center gap-2 mb-2">
             <span className="text-4xl">🔥</span>
-            <span className={`text-4xl font-bold ${isActive ? 'text-orange-400' : 'text-slate-500'}`}>
+            <span className={`text-4xl font-bold ${isActive ? 'text-orange-400' : 'text-label-tertiary'}`}>
               {streak}
             </span>
           </div>
-          <p className="text-sm text-slate-400">{getMessage()}</p>
+          <p className="text-sm text-label-secondary">{getMessage()}</p>
         </div>
 
         {/* Weekly calendar */}
@@ -93,14 +93,14 @@ export function StudyStreak({ streak, lastDate, activityData = [] }: StudyStreak
 
             return (
               <div key={i} className="text-center">
-                <p className="text-xs text-slate-500 mb-1 capitalize">{dayName}</p>
+                <p className="text-xs text-label-tertiary mb-1 capitalize">{dayName}</p>
                 <div
                   className={`w-8 h-8 rounded-lg flex items-center justify-center mx-auto ${
                     hasStudied
                       ? 'bg-emerald-500/20 text-emerald-400'
                       : isToday
-                      ? 'bg-slate-700 text-slate-300'
-                      : 'bg-slate-800/50 text-slate-600'
+                      ? 'bg-surface-3 text-label-primary'
+                      : 'bg-surface-2/50 text-label-quaternary'
                   }`}
                 >
                   {hasStudied ? (

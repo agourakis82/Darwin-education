@@ -129,17 +129,17 @@ export function DDLFeedback({
 
   if (loading) {
     return (
-      <div className="p-6 bg-slate-800 rounded-lg border border-slate-700 animate-pulse">
-        <div className="h-6 bg-slate-700 rounded w-1/3 mb-4" />
-        <div className="h-4 bg-slate-700 rounded w-full mb-2" />
-        <div className="h-4 bg-slate-700 rounded w-2/3" />
+      <div className="p-6 bg-surface-2 rounded-lg border border-separator animate-pulse">
+        <div className="h-6 bg-surface-3 rounded w-1/3 mb-4" />
+        <div className="h-4 bg-surface-3 rounded w-full mb-2" />
+        <div className="h-4 bg-surface-3 rounded w-2/3" />
       </div>
     )
   }
 
   if (error || !feedback) {
     return (
-      <div className="p-6 bg-slate-800 rounded-lg border border-red-700">
+      <div className="p-6 bg-surface-2 rounded-lg border border-red-700">
         <p className="text-red-400">{error || 'Feedback nao disponivel.'}</p>
       </div>
     )
@@ -148,7 +148,7 @@ export function DDLFeedback({
   const config = TYPE_CONFIG[classification.type] || TYPE_CONFIG.NONE
 
   return (
-    <div className="ddl-feedback bg-slate-800 rounded-lg border border-slate-700 overflow-hidden">
+    <div className="ddl-feedback bg-surface-2 rounded-lg border border-separator overflow-hidden">
       {/* Header */}
       <div className={`p-4 ${config.bgColor} border-b ${config.borderColor}`}>
         <div className="flex items-center justify-between">
@@ -158,7 +158,7 @@ export function DDLFeedback({
               <h3 className={`font-semibold ${config.color}`}>
                 {feedback.title}
               </h3>
-              <span className="text-sm text-slate-400">
+              <span className="text-sm text-label-secondary">
                 {config.label} - {(classification.probability * 100).toFixed(0)}% confianca
               </span>
             </div>
@@ -173,7 +173,7 @@ export function DDLFeedback({
       <div className="p-6 space-y-6">
         {/* Greeting & Main Message */}
         <div>
-          <p className="text-slate-300">{feedback.greeting}</p>
+          <p className="text-label-primary">{feedback.greeting}</p>
           <p className="mt-2 text-white font-medium">{feedback.main_message}</p>
         </div>
 
@@ -185,7 +185,7 @@ export function DDLFeedback({
             </h4>
             <ul className="space-y-1">
               {feedback.strengths.map((strength, i) => (
-                <li key={i} className="flex items-start gap-2 text-slate-300">
+                <li key={i} className="flex items-start gap-2 text-label-primary">
                   <span className="text-green-500 mt-1">\u2022</span>
                   {strength}
                 </li>
@@ -218,7 +218,7 @@ export function DDLFeedback({
                     </span>
                   </button>
                   {expanded[`growth-${i}`] && (
-                    <div className="px-3 pb-3 text-sm text-slate-300 border-t border-amber-800/30 pt-2">
+                    <div className="px-3 pb-3 text-sm text-label-primary border-t border-amber-800/30 pt-2">
                       <p>{area.explanation}</p>
                       <p className="mt-2 text-amber-300">
                         <strong>Sugestao:</strong> {area.suggestion}
@@ -256,8 +256,8 @@ export function DDLFeedback({
                   </span>
                   <div className="flex-1">
                     <p className="font-medium text-white">{item.action}</p>
-                    <p className="text-sm text-slate-400 mt-1">{item.rationale}</p>
-                    <p className="text-xs text-slate-500 mt-1">
+                    <p className="text-sm text-label-secondary mt-1">{item.rationale}</p>
+                    <p className="text-xs text-label-tertiary mt-1">
                       \u23F1 {item.estimated_time}
                     </p>
                   </div>
@@ -285,7 +285,7 @@ export function DDLFeedback({
                   </span>
                   <div>
                     <p className="font-medium text-purple-300">{resource.topic}</p>
-                    <p className="text-sm text-slate-400">{resource.description}</p>
+                    <p className="text-sm text-label-secondary">{resource.description}</p>
                   </div>
                 </div>
               ))}
@@ -303,8 +303,8 @@ export function DDLFeedback({
 
         {/* Rating */}
         {!ratingSubmitted ? (
-          <div className="pt-4 border-t border-slate-700">
-            <p className="text-sm text-slate-400 mb-3 text-center">
+          <div className="pt-4 border-t border-separator">
+            <p className="text-sm text-label-secondary mb-3 text-center">
               Este feedback foi util para voce?
             </p>
             <div className="flex justify-center gap-2">
@@ -312,8 +312,8 @@ export function DDLFeedback({
                 <button
                   key={value}
                   onClick={() => handleRatingSubmit(value)}
-                  className="w-10 h-10 rounded-full bg-slate-700 hover:bg-slate-600
-                           text-slate-300 hover:text-white transition-colors
+                  className="w-10 h-10 rounded-full bg-surface-3 hover:bg-surface-4
+                           text-label-primary hover:text-white transition-colors
                            flex items-center justify-center text-lg"
                 >
                   {value}
@@ -322,7 +322,7 @@ export function DDLFeedback({
             </div>
           </div>
         ) : (
-          <div className="pt-4 border-t border-slate-700 text-center">
+          <div className="pt-4 border-t border-separator text-center">
             <p className="text-sm text-green-400">
               Obrigado pelo seu feedback! Voce avaliou com {rating} estrelas.
             </p>

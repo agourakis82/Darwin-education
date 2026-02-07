@@ -58,12 +58,12 @@ export default function ConteudoPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-surface-0 text-white">
       {/* Header */}
-      <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
+      <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <h1 className="text-2xl font-bold">Conteúdo Médico</h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <p className="text-sm text-label-secondary mt-1">
             Base de conhecimento para estudo e consulta rápida
           </p>
         </div>
@@ -84,17 +84,17 @@ export default function ConteudoPage() {
                       <h2 className="text-xl font-semibold text-white group-hover:text-emerald-400 transition-colors">
                         {section.title}
                       </h2>
-                      <p className="text-sm text-slate-400 mt-1">
+                      <p className="text-sm text-label-secondary mt-1">
                         {section.description}
                       </p>
                       <div className="mt-4 flex items-center gap-4">
                         <span className={`text-2xl font-bold text-${section.color}-400`}>
                           {section.stats.count}
                         </span>
-                        <span className="text-slate-500">{section.stats.label}</span>
+                        <span className="text-label-tertiary">{section.stats.label}</span>
                       </div>
                     </div>
-                    <svg className="w-5 h-5 text-slate-500 group-hover:text-emerald-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 text-label-tertiary group-hover:text-emerald-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                   </div>
@@ -114,10 +114,10 @@ export default function ConteudoPage() {
               <input
                 type="text"
                 placeholder="Buscar doenças, medicamentos, sintomas..."
-                className="w-full px-4 py-3 pl-12 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-emerald-500 transition-colors"
+                className="w-full px-4 py-3 pl-12 bg-surface-2 border border-separator rounded-lg text-white placeholder-label-secondary focus:outline-none focus:border-emerald-500 transition-colors"
                 onFocus={() => window.location.href = '/conteudo/doencas'}
               />
-              <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-label-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
@@ -144,11 +144,11 @@ export default function ConteudoPage() {
                   <Link
                     key={area.name}
                     href={`/conteudo/doencas?area=${encodeURIComponent(area.name)}`}
-                    className="p-3 bg-slate-800/50 hover:bg-slate-800 rounded-lg transition-colors"
+                    className="p-3 bg-surface-2/50 hover:bg-surface-2 rounded-lg transition-colors"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-slate-300">{area.name}</span>
-                      <span className="text-xs text-slate-500">{area.count}</span>
+                      <span className="text-sm text-label-primary">{area.name}</span>
+                      <span className="text-xs text-label-tertiary">{area.count}</span>
                     </div>
                   </Link>
                 ))}
@@ -174,11 +174,11 @@ export default function ConteudoPage() {
                   <Link
                     key={cls.name}
                     href={`/conteudo/medicamentos?classe=${encodeURIComponent(cls.name)}`}
-                    className="p-3 bg-slate-800/50 hover:bg-slate-800 rounded-lg transition-colors"
+                    className="p-3 bg-surface-2/50 hover:bg-surface-2 rounded-lg transition-colors"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-slate-300">{cls.name}</span>
-                      <span className="text-xs text-slate-500">{cls.count}</span>
+                      <span className="text-sm text-label-primary">{cls.name}</span>
+                      <span className="text-xs text-label-tertiary">{cls.count}</span>
                     </div>
                   </Link>
                 ))}
@@ -194,8 +194,8 @@ export default function ConteudoPage() {
               <svg className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <div className="text-sm text-slate-400">
-                <p className="font-medium text-slate-300 mb-1">Dica de Estudo</p>
+              <div className="text-sm text-label-secondary">
+                <p className="font-medium text-label-primary mb-1">Dica de Estudo</p>
                 <p>
                   Use o conteúdo médico como referência rápida durante a revisão de questões.
                   Após errar uma questão, consulte o conteúdo relacionado para fixar o conhecimento.

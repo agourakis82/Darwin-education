@@ -40,16 +40,16 @@ export function QGenQuestionPreview({ question, showAnswer = true }: QuestionPre
   const letters = ['A', 'B', 'C', 'D', 'E'];
 
   return (
-    <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
+    <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-6">
       {/* Metadata Tags */}
       <div className="flex flex-wrap gap-2 mb-4">
         {question.area && (
-          <span className="px-2 py-1 bg-primary-900/50 text-primary-400 text-xs rounded">
+          <span className="px-2 py-1 bg-emerald-900/50 text-emerald-400 text-xs rounded">
             {AREA_LABELS[question.area] || question.area}
           </span>
         )}
         {question.topic && (
-          <span className="px-2 py-1 bg-gray-700 text-gray-300 text-xs rounded">
+          <span className="px-2 py-1 bg-surface-3 text-label-primary text-xs rounded">
             {question.topic}
           </span>
         )}
@@ -66,7 +66,7 @@ export function QGenQuestionPreview({ question, showAnswer = true }: QuestionPre
       </div>
 
       {/* Question Stem */}
-      <div className="text-white mb-6 leading-relaxed whitespace-pre-wrap">
+      <div className="text-label-primary mb-6 leading-relaxed whitespace-pre-wrap">
         {question.stem}
       </div>
 
@@ -78,21 +78,21 @@ export function QGenQuestionPreview({ question, showAnswer = true }: QuestionPre
             className={`flex items-start gap-3 p-3 rounded-lg border ${
               showAnswer && option.isCorrect
                 ? 'bg-green-900/30 border-green-700'
-                : 'bg-gray-800/50 border-gray-700'
+                : 'bg-surface-2/50 border-surface-3'
             }`}
           >
             <span
               className={`flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full text-sm font-medium ${
                 showAnswer && option.isCorrect
                   ? 'bg-green-600 text-white'
-                  : 'bg-gray-700 text-gray-300'
+                  : 'bg-surface-3 text-label-primary'
               }`}
             >
               {letters[index]}
             </span>
             <span
               className={`flex-1 ${
-                showAnswer && option.isCorrect ? 'text-green-300' : 'text-gray-300'
+                showAnswer && option.isCorrect ? 'text-green-300' : 'text-label-primary'
               }`}
             >
               {option.text}
@@ -106,32 +106,32 @@ export function QGenQuestionPreview({ question, showAnswer = true }: QuestionPre
 
       {/* Explanation */}
       {showAnswer && question.explanation && (
-        <div className="mt-6 pt-4 border-t border-gray-700">
-          <h4 className="text-sm font-medium text-gray-400 mb-2">Explicação:</h4>
-          <p className="text-gray-300 text-sm leading-relaxed">{question.explanation}</p>
+        <div className="mt-6 pt-4 border-t border-surface-3">
+          <h4 className="text-sm font-medium text-label-secondary mb-2">Explicação:</h4>
+          <p className="text-label-primary text-sm leading-relaxed">{question.explanation}</p>
         </div>
       )}
 
       {/* IRT Parameters */}
       {question.irt_parameters && (
-        <div className="mt-4 pt-4 border-t border-gray-700">
-          <h4 className="text-sm font-medium text-gray-400 mb-2">Parâmetros IRT:</h4>
+        <div className="mt-4 pt-4 border-t border-surface-3">
+          <h4 className="text-sm font-medium text-label-secondary mb-2">Parâmetros IRT:</h4>
           <div className="grid grid-cols-3 gap-4 text-sm">
             <div>
-              <span className="text-gray-500">Dificuldade (b):</span>
-              <span className="text-white ml-2">
+              <span className="text-label-tertiary">Dificuldade (b):</span>
+              <span className="text-label-primary ml-2">
                 {question.irt_parameters.estimated_difficulty.toFixed(2)}
               </span>
             </div>
             <div>
-              <span className="text-gray-500">Discriminação (a):</span>
-              <span className="text-white ml-2">
+              <span className="text-label-tertiary">Discriminação (a):</span>
+              <span className="text-label-primary ml-2">
                 {question.irt_parameters.estimated_discrimination.toFixed(2)}
               </span>
             </div>
             <div>
-              <span className="text-gray-500">Acerto ao acaso (c):</span>
-              <span className="text-white ml-2">
+              <span className="text-label-tertiary">Acerto ao acaso (c):</span>
+              <span className="text-label-primary ml-2">
                 {question.irt_parameters.estimated_guessing.toFixed(2)}
               </span>
             </div>

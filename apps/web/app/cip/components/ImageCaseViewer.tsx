@@ -1,5 +1,7 @@
 'use client'
 
+import { useState } from 'react'
+import Image from 'next/image'
 import type { CIPImageCase } from '@darwin-education/shared'
 import { IMAGE_MODALITY_LABELS_PT } from '@darwin-education/shared'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -15,6 +17,8 @@ export function ImageCaseViewer({
 }: ImageCaseViewerProps) {
   const modalityLabel =
     IMAGE_MODALITY_LABELS_PT[imageCase.modality] || imageCase.modality
+  const [zoomed, setZoomed] = useState(false)
+  const [imgLoaded, setImgLoaded] = useState(false)
 
   return (
     <div className="space-y-4">
@@ -24,7 +28,7 @@ export function ImageCaseViewer({
           <CardTitle className="text-base">Contexto Clínico</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground leading-relaxed">
+          <p className="text-sm text-label-secondary leading-relaxed">
             {imageCase.clinicalContextPt}
           </p>
         </CardContent>
@@ -32,14 +36,48 @@ export function ImageCaseViewer({
 
       {/* Image Display */}
       {showDescription && (
-        <Card className="bg-gray-950 border-gray-800">
+        <Card className="bg-surface-0 border border-separator">
           <CardHeader className="pb-2">
-            <CardTitle className="text-base text-gray-200 flex items-center gap-2">
+            <CardTitle className="text-base text-label-primary flex items-center gap-2">
               <span className="text-lg">🖼️</span>
               Exame de Imagem — {modalityLabel}
             </CardTitle>
           </CardHeader>
           <CardContent>
+            {/* Real image via Next.js Image */}
+            {imageCase.imageUrl && (
+              <div className="mb-4">
+                <div
+                  className="relative rounded-lg overflow-hidden bg-black cursor-zoom-in"
+                  onClick={() => setZoomed(true)}
+                >
+                  {/* Skeleton placeholder */}
+                  {!imgLoaded && (
+                    <div className="w-full h-64 bg-surface-3 animate-pulse rounded-lg flex items-center justify-center">
+                      <span className="text-label-tertiary text-sm">Carregando imagem...</span>
+                    </div>
+                  )}
+                  <Image
+                    src={imageCase.imageUrl}
+                    alt={imageCase.titlePt}
+                    width={800}
+                    height={600}
+                    className={`w-full h-auto max-h-96 object-contain transition-opacity ${
+                      imgLoaded ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    onLoad={() => setImgLoaded(true)}
+                    priority
+                  />
+                </div>
+                {/* Attribution */}
+                {imageCase.imageAttribution && (
+                  <p className="text-[10px] text-label-tertiary mt-1 italic">
+                    {imageCase.imageAttribution}
+                  </p>
+                )}
+              </div>
+            )}
+
             {/* ASCII Art for EKG */}
             {imageCase.asciiArt && (
               <div className="mb-4 overflow-x-auto">
@@ -49,24 +87,40 @@ export function ImageCaseViewer({
               </div>
             )}
 
-            {/* Image URL */}
-            {imageCase.imageUrl && (
-              <div className="mb-4 rounded-lg overflow-hidden bg-black">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={imageCase.imageUrl}
-                  alt={imageCase.titlePt}
-                  className="w-full h-auto max-h-96 object-contain"
-                />
-              </div>
-            )}
-
             {/* Text description */}
-            <div className="text-gray-300 text-sm leading-relaxed whitespace-pre-line">
+            <div className="text-label-secondary text-sm leading-relaxed whitespace-pre-line">
               {imageCase.imageDescriptionPt}
             </div>
           </CardContent>
         </Card>
+      )}
+
+      {/* Fullscreen Zoom Modal */}
+      {zoomed && imageCase.imageUrl && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center cursor-zoom-out"
+          onClick={() => setZoomed(false)}
+        >
+          <button
+            className="absolute top-4 right-4 text-white text-2xl bg-black/50 rounded-full w-10 h-10 flex items-center justify-center hover:bg-black/70"
+            onClick={() => setZoomed(false)}
+          >
+            ✕
+          </button>
+          <Image
+            src={imageCase.imageUrl}
+            alt={imageCase.titlePt}
+            width={1400}
+            height={1050}
+            className="max-w-[95vw] max-h-[95vh] object-contain"
+            priority
+          />
+          {imageCase.imageAttribution && (
+            <p className="absolute bottom-4 left-1/2 -translate-x-1/2 text-xs text-label-tertiary italic bg-black/60 px-3 py-1 rounded">
+              {imageCase.imageAttribution}
+            </p>
+          )}
+        </div>
       )}
     </div>
   )

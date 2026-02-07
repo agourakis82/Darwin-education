@@ -47,13 +47,13 @@ export function QGenValidationScore({ result }: QGenValidationScoreProps) {
   const scorePercent = Math.round(result.overallScore * 100);
 
   return (
-    <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
-      <h3 className="text-lg font-semibold text-white mb-4">Validação</h3>
+    <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-6">
+      <h3 className="text-lg font-semibold text-label-primary mb-4">Validação</h3>
 
       {/* Overall Score */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <div className="text-3xl font-bold text-white">{scorePercent}%</div>
+          <div className="text-3xl font-bold text-label-primary">{scorePercent}%</div>
           <div className={`text-sm ${decisionConfig.color}`}>{decisionConfig.label}</div>
         </div>
         <div className="w-24 h-24">
@@ -90,12 +90,12 @@ export function QGenValidationScore({ result }: QGenValidationScoreProps) {
                   stageResult.passed ? 'bg-green-500' : 'bg-red-500'
                 }`}
               />
-              <span className="text-gray-400 text-sm">
+              <span className="text-label-secondary text-sm">
                 {STAGE_LABELS[stage] || stage}
               </span>
             </div>
             <div className="flex items-center gap-4">
-              <div className="w-24 bg-gray-700 rounded-full h-2">
+              <div className="w-24 bg-surface-3 rounded-full h-2">
                 <div
                   className="h-2 rounded-full"
                   style={{
@@ -104,7 +104,7 @@ export function QGenValidationScore({ result }: QGenValidationScoreProps) {
                   }}
                 />
               </div>
-              <span className="text-white text-sm w-12 text-right">
+              <span className="text-label-primary text-sm w-12 text-right">
                 {Math.round(stageResult.score * 100)}%
               </span>
             </div>
@@ -114,8 +114,8 @@ export function QGenValidationScore({ result }: QGenValidationScoreProps) {
 
       {/* Flags */}
       {Object.entries(result.stageResults).some(([, s]) => s.flags.length > 0) && (
-        <div className="mt-6 pt-4 border-t border-gray-700">
-          <h4 className="text-sm font-medium text-gray-400 mb-3">Alertas:</h4>
+        <div className="mt-6 pt-4 border-t border-surface-3">
+          <h4 className="text-sm font-medium text-label-secondary mb-3">Alertas:</h4>
           <div className="space-y-2">
             {Object.entries(result.stageResults)
               .filter(([, s]) => s.flags.length > 0)
@@ -126,8 +126,8 @@ export function QGenValidationScore({ result }: QGenValidationScoreProps) {
                     className="flex items-start gap-2 text-sm"
                   >
                     <span className="text-yellow-500">⚠</span>
-                    <span className="text-gray-400">
-                      <strong className="text-gray-300">
+                    <span className="text-label-secondary">
+                      <strong className="text-label-primary">
                         {STAGE_LABELS[stage] || stage}:
                       </strong>{' '}
                       {flag}

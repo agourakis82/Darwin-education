@@ -4,13 +4,13 @@ import { Card, CardContent, CardHeader } from '@/components/ui/Card'
 
 export function LoadingSkeleton() {
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-surface-0 text-white">
       {/* Header */}
-      <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
+      <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="animate-pulse space-y-2">
-            <div className="h-8 bg-slate-800 rounded w-1/4" />
-            <div className="h-4 bg-slate-800 rounded w-1/3" />
+            <div className="h-8 bg-surface-2 rounded w-1/4" />
+            <div className="h-4 bg-surface-2 rounded w-1/3" />
           </div>
         </div>
       </header>
@@ -23,8 +23,8 @@ export function LoadingSkeleton() {
               <Card key={i}>
                 <CardContent className="pt-6">
                   <div className="text-center space-y-2">
-                    <div className="h-8 bg-slate-800 rounded w-3/4 mx-auto" />
-                    <div className="h-4 bg-slate-800 rounded w-1/2 mx-auto" />
+                    <div className="h-8 bg-surface-2 rounded w-3/4 mx-auto" />
+                    <div className="h-4 bg-surface-2 rounded w-1/2 mx-auto" />
                   </div>
                 </CardContent>
               </Card>
@@ -38,20 +38,20 @@ export function LoadingSkeleton() {
               {/* Score History Chart */}
               <Card>
                 <CardHeader>
-                  <div className="h-6 bg-slate-800 rounded w-1/4" />
+                  <div className="h-6 bg-surface-2 rounded w-1/4" />
                 </CardHeader>
                 <CardContent>
-                  <div className="h-64 bg-slate-800/50 rounded" />
+                  <div className="h-64 bg-surface-2/50 rounded" />
                 </CardContent>
               </Card>
 
               {/* Area Performance Radar */}
               <Card>
                 <CardHeader>
-                  <div className="h-6 bg-slate-800 rounded w-1/4" />
+                  <div className="h-6 bg-surface-2 rounded w-1/4" />
                 </CardHeader>
                 <CardContent>
-                  <div className="h-80 bg-slate-800/50 rounded" />
+                  <div className="h-80 bg-surface-2/50 rounded" />
                 </CardContent>
               </Card>
             </div>
@@ -61,10 +61,10 @@ export function LoadingSkeleton() {
               {Array.from({ length: 3 }).map((_, i) => (
                 <Card key={i}>
                   <CardHeader>
-                    <div className="h-6 bg-slate-800 rounded w-1/2" />
+                    <div className="h-6 bg-surface-2 rounded w-1/2" />
                   </CardHeader>
                   <CardContent>
-                    <div className="h-40 bg-slate-800/50 rounded" />
+                    <div className="h-40 bg-surface-2/50 rounded" />
                   </CardContent>
                 </Card>
               ))}
@@ -74,12 +74,12 @@ export function LoadingSkeleton() {
           {/* Recent Attempts Table */}
           <Card>
             <CardHeader>
-              <div className="h-6 bg-slate-800 rounded w-1/4" />
+              <div className="h-6 bg-surface-2 rounded w-1/4" />
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
                 {Array.from({ length: 5 }).map((_, i) => (
-                  <div key={i} className="h-12 bg-slate-800/50 rounded" />
+                  <div key={i} className="h-12 bg-surface-2/50 rounded" />
                 ))}
               </div>
             </CardContent>

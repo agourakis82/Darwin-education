@@ -42,14 +42,14 @@ export function ModuleContent({ type, title, content, onComplete, isCompleting }
   const renderReading = () => (
     <div className="prose prose-invert prose-slate max-w-none">
       <div
-        className="text-slate-300 leading-relaxed"
+        className="text-label-primary leading-relaxed"
         dangerouslySetInnerHTML={{ __html: content.text || '' }}
       />
     </div>
   )
 
   const renderVideo = () => (
-    <div className="aspect-video bg-slate-800 rounded-lg overflow-hidden">
+    <div className="aspect-video bg-surface-2 rounded-lg overflow-hidden">
       {content.video_url ? (
         <iframe
           src={content.video_url}
@@ -58,7 +58,7 @@ export function ModuleContent({ type, title, content, onComplete, isCompleting }
           allowFullScreen
         />
       ) : (
-        <div className="w-full h-full flex items-center justify-center text-slate-500">
+        <div className="w-full h-full flex items-center justify-center text-label-tertiary">
           <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -85,7 +85,7 @@ export function ModuleContent({ type, title, content, onComplete, isCompleting }
                   <p className="font-semibold text-white">
                     Resultado: {correctCount}/{questions.length} corretas
                   </p>
-                  <p className="text-sm text-slate-400">
+                  <p className="text-sm text-label-secondary">
                     {correctCount >= questions.length * 0.7
                       ? 'Parabéns! Você pode prosseguir.'
                       : 'Revise o conteúdo e tente novamente.'}
@@ -126,10 +126,10 @@ export function ModuleContent({ type, title, content, onComplete, isCompleting }
                             ? 'bg-emerald-500/20 border-emerald-500 text-white'
                             : isSelected
                             ? 'bg-red-500/20 border-red-500 text-white'
-                            : 'border-slate-700 text-slate-400'
+                            : 'border-separator text-label-secondary'
                           : isSelected
                           ? 'bg-emerald-500/20 border-emerald-500 text-white'
-                          : 'border-slate-700 hover:border-slate-600 text-slate-300'
+                          : 'border-separator hover:border-surface-4 text-label-primary'
                       }`}
                     >
                       <span className="font-medium mr-2">
@@ -142,9 +142,9 @@ export function ModuleContent({ type, title, content, onComplete, isCompleting }
               </div>
 
               {showResults && question.explanation && (
-                <div className="mt-4 p-3 bg-slate-800/50 rounded-lg">
-                  <p className="text-sm text-slate-400">
-                    <span className="font-medium text-slate-300">Explicação: </span>
+                <div className="mt-4 p-3 bg-surface-2/50 rounded-lg">
+                  <p className="text-sm text-label-secondary">
+                    <span className="font-medium text-label-primary">Explicação: </span>
                     {question.explanation}
                   </p>
                 </div>
@@ -164,10 +164,10 @@ export function ModuleContent({ type, title, content, onComplete, isCompleting }
 
   const renderFlashcards = () => (
     <div className="text-center py-12">
-      <svg className="w-16 h-16 text-slate-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className="w-16 h-16 text-label-quaternary mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
       </svg>
-      <p className="text-slate-400 mb-4">
+      <p className="text-label-secondary mb-4">
         Este módulo contém um deck de flashcards para revisão.
       </p>
       <Button onClick={() => window.open(`/flashcards/${content.flashcard_deck_id}`, '_blank')}>
@@ -206,7 +206,7 @@ export function ModuleContent({ type, title, content, onComplete, isCompleting }
                   ? 'bg-emerald-500 text-white'
                   : currentCaseStep > index
                   ? 'bg-emerald-500/20 text-emerald-400'
-                  : 'bg-slate-800 text-slate-400'
+                  : 'bg-surface-2 text-label-secondary'
               }`}
             >
               {step.title}
@@ -222,7 +222,7 @@ export function ModuleContent({ type, title, content, onComplete, isCompleting }
           <CardContent>
             {currentCaseStep < 3 ? (
               <div className="prose prose-invert prose-slate max-w-none">
-                <p className="text-slate-300 leading-relaxed whitespace-pre-wrap">
+                <p className="text-label-primary leading-relaxed whitespace-pre-wrap">
                   {steps[currentCaseStep].content}
                 </p>
               </div>
@@ -264,7 +264,7 @@ export function ModuleContent({ type, title, content, onComplete, isCompleting }
       case 'case_study':
         return renderCaseStudy()
       default:
-        return <p className="text-slate-400">Tipo de conteúdo não suportado.</p>
+        return <p className="text-label-secondary">Tipo de conteúdo não suportado.</p>
     }
   }
 

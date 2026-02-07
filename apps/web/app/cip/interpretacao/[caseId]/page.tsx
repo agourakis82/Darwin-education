@@ -53,6 +53,8 @@ interface ImageCaseRow {
   next_step_options: ImageOption[]
   explanation_pt?: string
   explanation_en?: string
+  image_attribution?: string
+  structured_explanation?: any
   irt_difficulty: number
   irt_discrimination: number
   irt_guessing: number
@@ -90,6 +92,8 @@ function rowToCase(row: ImageCaseRow): CIPImageCase {
     nextStepOptions: row.next_step_options || [],
     explanationPt: row.explanation_pt,
     explanationEn: row.explanation_en,
+    imageAttribution: row.image_attribution,
+    structuredExplanation: row.structured_explanation || undefined,
     irt: {
       difficulty: row.irt_difficulty || 0,
       discrimination: row.irt_discrimination || 1.2,
@@ -321,10 +325,10 @@ export default function ImageCasePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-slate-400">Carregando caso...</p>
+          <p className="text-label-secondary">Carregando caso...</p>
         </div>
       </div>
     )
@@ -332,7 +336,7 @@ export default function ImageCasePage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <div className="text-center">
           <p className="text-red-400 mb-4">{error}</p>
           <Button onClick={() => router.push('/cip/interpretacao')}>Voltar</Button>
@@ -367,9 +371,9 @@ export default function ImageCasePage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-surface-0">
       {/* Top Bar */}
-      <div className="sticky top-0 z-40 bg-slate-900 border-b border-slate-800">
+      <div className="sticky top-0 z-40 bg-surface-1 border-b border-separator">
         <div className="max-w-5xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between gap-4 mb-3">
             <div className="flex items-center gap-3">
@@ -469,7 +473,7 @@ export default function ImageCasePage() {
                   d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <div className="text-sm text-slate-300">
+              <div className="text-sm text-label-primary">
                 <p>
                   Leia atentamente o contexto clínico e a descrição do exame de imagem.
                   Siga a abordagem sistemática: identifique a modalidade, os achados,

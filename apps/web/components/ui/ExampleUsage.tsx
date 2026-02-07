@@ -98,7 +98,7 @@ export function SkeletonExample() {
                 <div className="w-12 h-12 bg-emerald-500 rounded-full" />
                 <div className="flex-1">
                   <h3 className="text-white font-semibold mb-2">Content Loaded</h3>
-                  <p className="text-slate-400 text-sm">
+                  <p className="text-label-secondary text-sm">
                     This is the actual content that appears after loading.
                   </p>
                 </div>
@@ -165,7 +165,7 @@ export function EmptyStateExample() {
               className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                 activeState === state.id
                   ? 'bg-emerald-600 text-white'
-                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                  : 'bg-surface-2 text-label-primary hover:bg-surface-3'
               }`}
             >
               {state.label}
@@ -173,7 +173,7 @@ export function EmptyStateExample() {
           ))}
         </div>
 
-        <div className="border border-slate-800 rounded-lg bg-slate-900/50 overflow-hidden">
+        <div className="border border-separator rounded-lg bg-surface-1/50 overflow-hidden">
           {activeState === 'empty' && (
             <EmptyList
               title="Nenhuma questão encontrada"
@@ -225,7 +225,7 @@ export function GlobalUXPatternsShowcase() {
     <div className="max-w-4xl mx-auto space-y-8">
       <div>
         <h1 className="text-3xl font-bold text-white mb-2">Global UX Patterns</h1>
-        <p className="text-slate-400">
+        <p className="text-label-secondary">
           Comprehensive examples of Toast notifications, Skeleton loaders, and Empty states
         </p>
       </div>

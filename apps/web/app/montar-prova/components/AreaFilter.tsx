@@ -87,10 +87,10 @@ export function AreaFilter({ selected, onChange, stats }: AreaFilterProps) {
         >
           Selecionar todas
         </button>
-        <span className="text-slate-600">|</span>
+        <span className="text-label-quaternary">|</span>
         <button
           onClick={clearAll}
-          className="text-sm text-slate-400 hover:text-slate-300 transition-colors"
+          className="text-sm text-label-secondary hover:text-label-primary transition-colors"
         >
           Limpar
         </button>
@@ -108,11 +108,11 @@ export function AreaFilter({ selected, onChange, stats }: AreaFilterProps) {
               className={`p-4 rounded-xl border-2 transition-all ${
                 isSelected
                   ? `${area.color} border-current`
-                  : 'bg-slate-800/50 border-slate-700 hover:border-slate-600 text-slate-400'
+                  : 'bg-surface-2/50 border-separator hover:border-surface-4 text-label-secondary'
               }`}
             >
               <div className="flex flex-col items-center text-center">
-                <div className={`mb-2 ${isSelected ? '' : 'text-slate-500'}`}>
+                <div className={`mb-2 ${isSelected ? '' : 'text-label-tertiary'}`}>
                   {area.icon}
                 </div>
                 <span className="text-sm font-medium">{area.label}</span>

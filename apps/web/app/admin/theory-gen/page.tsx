@@ -73,17 +73,17 @@ export default function TheoryGenAdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
-      <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
+    <div className="min-h-screen bg-surface-0 text-white">
+      <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <h1 className="text-3xl font-bold">Gerenciador de Geração de Teoria</h1>
-          <p className="text-sm text-slate-400 mt-1">Sistema SOTA++ para gerar conteúdo teórico automatizado</p>
+          <p className="text-sm text-label-secondary mt-1">Sistema SOTA++ para gerar conteúdo teórico automatizado</p>
         </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Tabs */}
-        <div className="flex gap-4 mb-8 border-b border-slate-800">
+        <div className="flex gap-4 mb-8 border-b border-separator">
           {(['generate', 'review', 'stats'] as const).map((tab) => (
             <button
               key={tab}
@@ -91,7 +91,7 @@ export default function TheoryGenAdminPage() {
               className={`px-4 py-2 font-medium transition-colors ${
                 activeTab === tab
                   ? 'text-violet-400 border-b-2 border-violet-400'
-                  : 'text-slate-400 hover:text-slate-300'
+                  : 'text-label-secondary hover:text-label-primary'
               }`}
             >
               {tab === 'generate' && '🎲 Gerar'}
@@ -110,23 +110,23 @@ export default function TheoryGenAdminPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">Título do Tópico *</label>
+                  <label className="block text-sm font-medium text-label-primary mb-2">Título do Tópico *</label>
                   <input
                     type="text"
                     value={topicTitle}
                     onChange={(e) => setTopicTitle(e.target.value)}
                     placeholder="Ex: Hipertensão Arterial"
-                    className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500"
+                    className="w-full px-3 py-2 bg-surface-2 border border-separator rounded-lg text-white placeholder-label-tertiary"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">Especialidade</label>
+                    <label className="block text-sm font-medium text-label-primary mb-2">Especialidade</label>
                     <select
                       value={area}
                       onChange={(e) => setArea(e.target.value)}
-                      className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white"
+                      className="w-full px-3 py-2 bg-surface-2 border border-separator rounded-lg text-white"
                     >
                       <option value="clinica_medica">Clínica Médica</option>
                       <option value="cirurgia">Cirurgia</option>
@@ -137,11 +137,11 @@ export default function TheoryGenAdminPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">Dificuldade</label>
+                    <label className="block text-sm font-medium text-label-primary mb-2">Dificuldade</label>
                     <select
                       value={difficulty}
                       onChange={(e) => setDifficulty(e.target.value)}
-                      className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white"
+                      className="w-full px-3 py-2 bg-surface-2 border border-separator rounded-lg text-white"
                     >
                       <option value="basico">Básico</option>
                       <option value="intermediario">Intermediário</option>
@@ -158,7 +158,7 @@ export default function TheoryGenAdminPage() {
                     onChange={(e) => setIncludeWeb(e.target.checked)}
                     className="w-4 h-4"
                   />
-                  <label htmlFor="web-research" className="text-sm text-slate-300">
+                  <label htmlFor="web-research" className="text-sm text-label-primary">
                     Incluir pesquisa web (adiciona ~$0.01)
                   </label>
                 </div>
@@ -222,10 +222,10 @@ export default function TheoryGenAdminPage() {
               <CardTitle>Fila de Revisão</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-center text-slate-400 py-12">
+              <div className="text-center text-label-secondary py-12">
                 <p className="text-lg mb-2">📋 Tópicos pendentes de revisão</p>
                 <p className="text-sm">Aguardando implementação completa do storage</p>
-                <p className="text-xs text-slate-500 mt-4">Tópicos com validação entre 70-89% aparecerão aqui</p>
+                <p className="text-xs text-label-tertiary mt-4">Tópicos com validação entre 70-89% aparecerão aqui</p>
               </div>
             </CardContent>
           </Card>
@@ -240,20 +240,20 @@ export default function TheoryGenAdminPage() {
               </CardHeader>
               <CardContent className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">Total Gerado:</span>
+                  <span className="text-label-secondary">Total Gerado:</span>
                   <span className="font-medium">{stats?.totalTopicsGenerated || 0}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">Publicados:</span>
+                  <span className="text-label-secondary">Publicados:</span>
                   <span className="font-medium text-green-400">{stats?.topicsInStatus.published || 0}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">Pendentes Revisão:</span>
+                  <span className="text-label-secondary">Pendentes Revisão:</span>
                   <span className="font-medium text-yellow-400">{stats?.topicsInStatus.review || 0}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">Rascunhos:</span>
-                  <span className="font-medium text-slate-400">{stats?.topicsInStatus.draft || 0}</span>
+                  <span className="text-label-secondary">Rascunhos:</span>
+                  <span className="font-medium text-label-secondary">{stats?.topicsInStatus.draft || 0}</span>
                 </div>
               </CardContent>
             </Card>
@@ -264,11 +264,11 @@ export default function TheoryGenAdminPage() {
               </CardHeader>
               <CardContent className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">Score Médio:</span>
+                  <span className="text-label-secondary">Score Médio:</span>
                   <span className="font-medium">{((stats?.averageValidationScore || 0) * 100).toFixed(1)}%</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">Taxa Auto-Aprovação:</span>
+                  <span className="text-label-secondary">Taxa Auto-Aprovação:</span>
                   <span className="font-medium text-green-400">{((stats?.autoApprovalRate || 0) * 100).toFixed(1)}%</span>
                 </div>
               </CardContent>
@@ -280,15 +280,15 @@ export default function TheoryGenAdminPage() {
               </CardHeader>
               <CardContent className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">Básico:</span>
+                  <span className="text-label-secondary">Básico:</span>
                   <span className="font-medium">{stats?.topicsByDifficulty.basico || 0}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">Intermediário:</span>
+                  <span className="text-label-secondary">Intermediário:</span>
                   <span className="font-medium">{stats?.topicsByDifficulty.intermediario || 0}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-400">Avançado:</span>
+                  <span className="text-label-secondary">Avançado:</span>
                   <span className="font-medium">{stats?.topicsByDifficulty.avancado || 0}</span>
                 </div>
               </CardContent>
@@ -300,23 +300,23 @@ export default function TheoryGenAdminPage() {
               </CardHeader>
               <CardContent className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-slate-400">Clínica Médica:</span>
+                  <span className="text-label-secondary">Clínica Médica:</span>
                   <span className="font-medium">{stats?.topicsByArea.clinica_medica || 0}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-400">Cirurgia:</span>
+                  <span className="text-label-secondary">Cirurgia:</span>
                   <span className="font-medium">{stats?.topicsByArea.cirurgia || 0}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-400">Pediatria:</span>
+                  <span className="text-label-secondary">Pediatria:</span>
                   <span className="font-medium">{stats?.topicsByArea.pediatria || 0}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-400">GO:</span>
+                  <span className="text-label-secondary">GO:</span>
                   <span className="font-medium">{stats?.topicsByArea.ginecologia_obstetricia || 0}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-slate-400">Saúde Coletiva:</span>
+                  <span className="text-label-secondary">Saúde Coletiva:</span>
                   <span className="font-medium">{stats?.topicsByArea.saude_coletiva || 0}</span>
                 </div>
               </CardContent>

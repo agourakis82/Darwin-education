@@ -452,10 +452,10 @@ export default function CIPPuzzlePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-slate-400">Carregando puzzle...</p>
+          <p className="text-label-secondary">Carregando puzzle...</p>
         </div>
       </div>
     )
@@ -463,7 +463,7 @@ export default function CIPPuzzlePage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <div className="text-center">
           <p className="text-red-400 mb-4">{error}</p>
           <Button onClick={() => router.push('/cip')}>Voltar</Button>
@@ -477,16 +477,16 @@ export default function CIPPuzzlePage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-surface-0">
       {/* Top Bar */}
-      <div className="sticky top-0 z-40 bg-slate-900 border-b border-slate-800">
+      <div className="sticky top-0 z-40 bg-surface-1 border-b border-separator">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
               <span className="text-2xl">🧩</span>
               <div>
                 <h1 className="text-lg font-semibold text-white">{currentPuzzle.title}</h1>
-                <span className="text-sm text-slate-400">
+                <span className="text-sm text-label-secondary">
                   {answeredCount}/{totalCells} preenchidas
                 </span>
               </div>
@@ -531,7 +531,7 @@ export default function CIPPuzzlePage() {
                   d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <div className="text-sm text-slate-300">
+              <div className="text-sm text-label-primary">
                 <p>
                   Clique em cada célula para associar o achado clínico correto ao diagnóstico.
                   Complete todas as células e clique em "Finalizar" para ver seu resultado.
@@ -549,9 +549,9 @@ export default function CIPPuzzlePage() {
         </Card>
 
         {/* Legend */}
-        <div className="flex flex-wrap gap-4 mt-4 text-xs text-slate-400">
+        <div className="flex flex-wrap gap-4 mt-4 text-xs text-label-secondary">
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded bg-slate-800/50 border border-slate-700" />
+            <div className="w-4 h-4 rounded bg-surface-2/50 border border-separator" />
             <span>Vazia</span>
           </div>
           <div className="flex items-center gap-2">
@@ -578,7 +578,7 @@ export default function CIPPuzzlePage() {
         onClose={() => !submitting && setShowSubmitModal(false)}
         title="Finalizar Puzzle"
       >
-        <div className="text-slate-300">
+        <div className="text-label-primary">
           <p className="mb-4">
             Você preencheu <strong>{answeredCount}</strong> de <strong>{totalCells}</strong>{' '}
             células.

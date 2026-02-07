@@ -63,7 +63,7 @@ export default async function CIPPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-surface-0">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -73,7 +73,7 @@ export default async function CIPPage() {
               Quebra-Cabeça Clínico (CIP)
             </h1>
           </div>
-          <p className="text-slate-400 max-w-3xl">
+          <p className="text-label-secondary max-w-3xl">
             Integre conhecimentos de anamnese, exame físico, laboratório, imagem e tratamento em
             um formato de puzzle. Associe achados clínicos aos diagnósticos corretos e teste
             sua capacidade de raciocínio clínico integrado.
@@ -92,7 +92,7 @@ export default async function CIPPage() {
                   <span className="text-2xl">1</span>
                 </div>
                 <h4 className="font-medium text-white mb-1">Diagnósticos</h4>
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-label-secondary">
                   Cada linha representa um diagnóstico diferente
                 </p>
               </div>
@@ -101,7 +101,7 @@ export default async function CIPPage() {
                   <span className="text-2xl">2</span>
                 </div>
                 <h4 className="font-medium text-white mb-1">Seções</h4>
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-label-secondary">
                   Colunas: Anamnese, Exame Físico, Lab, Imagem, Tratamento
                 </p>
               </div>
@@ -110,7 +110,7 @@ export default async function CIPPage() {
                   <span className="text-2xl">3</span>
                 </div>
                 <h4 className="font-medium text-white mb-1">Associe</h4>
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-label-secondary">
                   Clique em cada célula e escolha o achado correto
                 </p>
               </div>
@@ -119,7 +119,7 @@ export default async function CIPPage() {
                   <span className="text-2xl">4</span>
                 </div>
                 <h4 className="font-medium text-white mb-1">Pontue</h4>
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-label-secondary">
                   Sua pontuação é calculada com base em TRI
                 </p>
               </div>
@@ -138,7 +138,7 @@ export default async function CIPPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-white">Interpretação de Imagem</h3>
-                    <p className="text-sm text-slate-400">Raio-X, TC, ECG, USG, RMN</p>
+                    <p className="text-sm text-label-secondary">Raio-X, TC, ECG, USG, RMN</p>
                   </div>
                 </div>
               </CardContent>
@@ -166,7 +166,7 @@ export default async function CIPPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-white">Puzzle Rápido</h3>
-                    <p className="text-sm text-slate-400">4 diagnósticos, fácil</p>
+                    <p className="text-sm text-label-secondary">4 diagnósticos, fácil</p>
                   </div>
                 </div>
               </CardContent>
@@ -194,7 +194,7 @@ export default async function CIPPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-white">Puzzle Médio</h3>
-                    <p className="text-sm text-slate-400">5 diagnósticos, médio</p>
+                    <p className="text-sm text-label-secondary">5 diagnósticos, médio</p>
                   </div>
                 </div>
               </CardContent>
@@ -222,7 +222,7 @@ export default async function CIPPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-white">Puzzle Desafio</h3>
-                    <p className="text-sm text-slate-400">6+ diagnósticos, difícil</p>
+                    <p className="text-sm text-label-secondary">6+ diagnósticos, difícil</p>
                   </div>
                 </div>
               </CardContent>
@@ -253,7 +253,7 @@ export default async function CIPPage() {
                     </CardHeader>
                     <CardContent>
                       <div className="flex flex-wrap gap-4 text-sm">
-                        <div className="flex items-center gap-2 text-slate-400">
+                        <div className="flex items-center gap-2 text-label-secondary">
                           <svg
                             className="w-4 h-4"
                             fill="none"
@@ -269,7 +269,7 @@ export default async function CIPPage() {
                           </svg>
                           {puzzle.diagnosis_ids?.length || 5} diagnósticos
                         </div>
-                        <div className="flex items-center gap-2 text-slate-400">
+                        <div className="flex items-center gap-2 text-label-secondary">
                           <svg
                             className="w-4 h-4"
                             fill="none"
@@ -286,7 +286,7 @@ export default async function CIPPage() {
                           {puzzle.time_limit_minutes || 30} min
                         </div>
                         {puzzle.areas && puzzle.areas.length > 0 && (
-                          <div className="flex items-center gap-2 text-slate-400">
+                          <div className="flex items-center gap-2 text-label-secondary">
                             <svg
                               className="w-4 h-4"
                               fill="none"
@@ -305,7 +305,7 @@ export default async function CIPPage() {
                         )}
                       </div>
                       {puzzle.times_attempted > 0 && (
-                        <div className="mt-3 text-xs text-slate-500">
+                        <div className="mt-3 text-xs text-label-tertiary">
                           {puzzle.times_attempted} tentativas • Média:{' '}
                           {puzzle.avg_score ? Math.round(puzzle.avg_score) : '-'} pontos
                         </div>
@@ -323,8 +323,8 @@ export default async function CIPPage() {
                   <CardContent>
                     <div className="text-center py-8">
                       <span className="text-5xl mb-4 block">🧩</span>
-                      <p className="text-slate-400">Nenhum puzzle disponível no momento</p>
-                      <p className="text-sm text-slate-500 mt-2">
+                      <p className="text-label-secondary">Nenhum puzzle disponível no momento</p>
+                      <p className="text-sm text-label-tertiary mt-2">
                         Use "Puzzle Rápido" acima para gerar um puzzle de prática
                       </p>
                     </div>
@@ -344,7 +344,7 @@ export default async function CIPPage() {
                     {recentAttempts.map((attempt: any) => (
                       <div
                         key={attempt.id}
-                        className="border-b border-slate-800 last:border-0 pb-4 last:pb-0"
+                        className="border-b border-separator last:border-0 pb-4 last:pb-0"
                       >
                         <div className="flex justify-between items-start mb-2">
                           <span className="text-sm font-medium text-white">
@@ -369,15 +369,15 @@ export default async function CIPPage() {
                         {attempt.scaled_score && (
                           <div className="text-2xl font-bold text-white mb-1">
                             {attempt.scaled_score}
-                            <span className="text-sm font-normal text-slate-400">/1000</span>
+                            <span className="text-sm font-normal text-label-secondary">/1000</span>
                           </div>
                         )}
                         <div className="flex items-center justify-between">
-                          <div className="text-xs text-slate-500">
+                          <div className="text-xs text-label-tertiary">
                             {new Date(attempt.started_at).toLocaleDateString('pt-BR')}
                           </div>
                           {attempt.correct_count !== null && (
-                            <div className="text-xs text-slate-400">
+                            <div className="text-xs text-label-secondary">
                               {attempt.correct_count}/{attempt.total_cells} corretas
                             </div>
                           )}
@@ -394,8 +394,8 @@ export default async function CIPPage() {
                   </div>
                 ) : (
                   <div className="text-center py-4">
-                    <p className="text-slate-400 text-sm">Nenhuma tentativa ainda</p>
-                    <p className="text-slate-500 text-xs mt-1">
+                    <p className="text-label-secondary text-sm">Nenhuma tentativa ainda</p>
+                    <p className="text-label-tertiary text-xs mt-1">
                       Complete um puzzle para ver seu histórico
                     </p>
                   </div>
@@ -409,7 +409,7 @@ export default async function CIPPage() {
                 <CardTitle className="text-base">Dicas para CIP</CardTitle>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-2 text-sm text-slate-400">
+                <ul className="space-y-2 text-sm text-label-secondary">
                   <li className="flex items-start gap-2">
                     <span className="text-purple-400">•</span>
                     Comece pelos diagnósticos que você conhece melhor

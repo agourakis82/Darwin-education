@@ -181,24 +181,24 @@ export default function GerarQuestaoPage() {
   }, [store, handleGenerate])
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-surface-0 text-white">
       {/* Header */}
-      <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-16 z-10">
+      <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-16 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold">Gerar Questão com IA</h1>
-              <p className="text-sm text-slate-400 mt-1">
+              <p className="text-sm text-label-secondary mt-1">
                 Crie questões no estilo ENAMED usando inteligência artificial
               </p>
             </div>
             {store.history.length > 0 && (
               <div className="text-right hidden sm:block">
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-label-secondary">
                   {store.history.length} questão(ões) gerada(s)
                 </p>
                 {totalCost > 0 && (
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-label-tertiary">
                     Custo total: R$ {totalCost.toFixed(4)}
                   </p>
                 )}
@@ -231,7 +231,7 @@ export default function GerarQuestaoPage() {
                         className={`w-full p-3 rounded-lg border text-left text-sm font-medium transition-all ${
                           isSelected
                             ? area.activeColor
-                            : 'bg-slate-800/50 border-slate-700 text-slate-400 hover:border-slate-600'
+                            : 'bg-surface-2/50 border-separator text-label-secondary hover:border-surface-4'
                         }`}
                       >
                         {area.label}
@@ -290,7 +290,7 @@ export default function GerarQuestaoPage() {
             </Button>
 
             {store.result?.remaining != null && (
-              <p className="text-xs text-center text-slate-500">
+              <p className="text-xs text-center text-label-tertiary">
                 {store.result.remaining} crédito(s) restante(s) hoje
               </p>
             )}
@@ -339,8 +339,8 @@ export default function GerarQuestaoPage() {
               <Card>
                 <CardContent className="py-16 text-center">
                   <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-emerald-500 mx-auto mb-4" />
-                  <p className="text-slate-400">Gerando questão com IA...</p>
-                  <p className="text-xs text-slate-500 mt-2">
+                  <p className="text-label-secondary">Gerando questão com IA...</p>
+                  <p className="text-xs text-label-tertiary mt-2">
                     Isso pode levar alguns segundos
                   </p>
                 </CardContent>
@@ -352,7 +352,7 @@ export default function GerarQuestaoPage() {
               <Card>
                 <CardContent className="py-16 text-center">
                   <svg
-                    className="w-16 h-16 mx-auto mb-4 text-slate-700"
+                    className="w-16 h-16 mx-auto mb-4 text-surface-3"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -364,10 +364,10 @@ export default function GerarQuestaoPage() {
                       d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
                     />
                   </svg>
-                  <h3 className="text-lg font-semibold text-slate-300 mb-2">
+                  <h3 className="text-lg font-semibold text-label-primary mb-2">
                     Pronto para gerar
                   </h3>
-                  <p className="text-sm text-slate-500 max-w-md mx-auto">
+                  <p className="text-sm text-label-tertiary max-w-md mx-auto">
                     Selecione uma área médica e clique em &quot;Gerar Questão&quot; para
                     criar uma questão no estilo ENAMED usando inteligência artificial.
                   </p>
@@ -378,7 +378,7 @@ export default function GerarQuestaoPage() {
             {/* History */}
             {store.history.length > 1 && (
               <div className="mt-6">
-                <h3 className="text-sm font-semibold text-slate-400 mb-3">
+                <h3 className="text-sm font-semibold text-label-secondary mb-3">
                   Histórico desta sessão ({store.history.length})
                 </h3>
                 <div className="space-y-3">
@@ -386,10 +386,10 @@ export default function GerarQuestaoPage() {
                     <Card key={idx} padding="sm" hover onClick={() => store.setResult(item)}>
                       <div className="flex items-center justify-between">
                         <div className="flex-1 min-w-0">
-                          <p className="text-sm text-slate-300 truncate">
+                          <p className="text-sm text-label-primary truncate">
                             {item.question.stem}
                           </p>
-                          <p className="text-xs text-slate-500 mt-1">
+                          <p className="text-xs text-label-tertiary mt-1">
                             {item.question.area} - {new Date(item.generatedAt).toLocaleTimeString('pt-BR')}
                           </p>
                         </div>

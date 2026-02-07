@@ -67,8 +67,8 @@ const lacunaInfo: Record<LacunaType, { name: string; color: string; bgColor: str
   },
   MIXED: {
     name: 'Misto',
-    color: 'text-gray-400',
-    bgColor: 'bg-gray-900/30',
+    color: 'text-label-secondary',
+    bgColor: 'bg-surface-3/30',
     icon: '🔀',
   },
   NONE: {
@@ -129,7 +129,6 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
         throw new Error(data.error || 'Analysis failed')
       }
 
-      // Reload results after analysis
       await loadDDLResults()
     } catch (err) {
       console.error('Error triggering analysis:', err)
@@ -141,10 +140,10 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
 
   if (loading) {
     return (
-      <div className="bg-slate-800 rounded-lg border border-slate-700 p-6">
+      <div className="bg-surface-2 rounded-lg shadow-elevation-1 p-6">
         <div className="animate-pulse">
-          <div className="h-6 bg-slate-700 rounded w-1/3 mb-4" />
-          <div className="h-4 bg-slate-700 rounded w-2/3" />
+          <div className="h-6 bg-surface-3 rounded w-1/3 mb-4" />
+          <div className="h-4 bg-surface-3 rounded w-2/3" />
         </div>
       </div>
     )
@@ -160,16 +159,16 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
 
   if (!hasAnalysis) {
     return (
-      <div className="bg-slate-800 rounded-lg border border-slate-700 p-6">
+      <div className="bg-surface-2 rounded-lg shadow-elevation-1 p-6">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-teal-600/20 rounded-lg flex items-center justify-center">
+          <div className="w-12 h-12 bg-emerald-600/20 rounded-lg flex items-center justify-center">
             <span className="text-2xl">🎯</span>
           </div>
           <div className="flex-1">
-            <h3 className="font-semibold text-white mb-1">
+            <h3 className="font-semibold text-label-primary mb-1">
               Diagnostico de Lacunas (DDL)
             </h3>
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-label-secondary">
               Este exame inclui questoes dissertativas que podem ser analisadas
               para identificar padroes de aprendizagem.
             </p>
@@ -177,8 +176,8 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
           <button
             onClick={triggerAnalysis}
             disabled={analyzing}
-            className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-500
-                     transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2 bg-gradient-to-b from-emerald-500 to-emerald-600 text-white rounded-md shadow-elevation-1 hover:from-emerald-400 hover:to-emerald-500
+                     transition-all active:scale-[0.97] disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {analyzing ? (
               <span className="flex items-center gap-2">
@@ -199,10 +198,10 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-slate-800 rounded-lg border border-slate-700 p-6">
+      <div className="bg-surface-2 rounded-lg shadow-elevation-1 p-6">
         <div className="flex items-center gap-3 mb-4">
           <span className="text-2xl">🎯</span>
-          <h3 className="text-xl font-semibold text-white">
+          <h3 className="text-xl font-semibold text-label-primary">
             Diagnostico de Lacunas de Aprendizagem
           </h3>
         </div>
@@ -222,11 +221,11 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
               <div
                 key={type}
                 className={`p-4 rounded-lg text-center transition-all ${
-                  isActive ? `${info.bgColor} ring-2 ring-${type === 'LE' ? 'blue' : type === 'LEm' ? 'purple' : type === 'LIE' ? 'orange' : 'green'}-500` : 'bg-slate-700/50'
+                  isActive ? `${info.bgColor} ring-2 ring-${type === 'LE' ? 'blue' : type === 'LEm' ? 'purple' : type === 'LIE' ? 'orange' : 'green'}-500` : 'bg-surface-3/50'
                 }`}
               >
                 <div className="text-2xl mb-1">{info.icon}</div>
-                <div className="text-2xl font-bold text-white">{count}</div>
+                <div className="text-2xl font-bold text-label-primary">{count}</div>
                 <div className={`text-xs ${info.color}`}>{type}</div>
               </div>
             )
@@ -235,27 +234,27 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
 
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 text-center">
-          <div className="bg-slate-700/30 rounded-lg p-3">
-            <div className="text-lg font-semibold text-white">
+          <div className="bg-surface-3/30 rounded-lg p-3">
+            <div className="text-lg font-semibold text-label-primary">
               {summary.avg_concept_coverage
                 ? `${(summary.avg_concept_coverage * 100).toFixed(0)}%`
                 : '-'}
             </div>
-            <div className="text-xs text-slate-400">Cobertura Conceitual</div>
+            <div className="text-xs text-label-secondary">Cobertura Conceitual</div>
           </div>
-          <div className="bg-slate-700/30 rounded-lg p-3">
-            <div className="text-lg font-semibold text-white">
+          <div className="bg-surface-3/30 rounded-lg p-3">
+            <div className="text-lg font-semibold text-label-primary">
               {summary.avg_integration_score
                 ? `${(summary.avg_integration_score * 100).toFixed(0)}%`
                 : '-'}
             </div>
-            <div className="text-xs text-slate-400">Score de Integracao</div>
+            <div className="text-xs text-label-secondary">Score de Integracao</div>
           </div>
-          <div className="bg-slate-700/30 rounded-lg p-3">
-            <div className="text-lg font-semibold text-white">
+          <div className="bg-surface-3/30 rounded-lg p-3">
+            <div className="text-lg font-semibold text-label-primary">
               {summary.analyzed_count}/{summary.total_ddl_questions}
             </div>
-            <div className="text-xs text-slate-400">Questoes Analisadas</div>
+            <div className="text-xs text-label-secondary">Questoes Analisadas</div>
           </div>
         </div>
 
@@ -268,7 +267,7 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
                 <p className={`font-medium ${lacunaInfo[summary.dominant_lacuna_type].color}`}>
                   Padrao Dominante: {lacunaInfo[summary.dominant_lacuna_type].name}
                 </p>
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-label-secondary">
                   {summary.dominant_lacuna_type === 'LE' && 'Foque em consolidar os conceitos basicos antes de avancar.'}
                   {summary.dominant_lacuna_type === 'LEm' && 'Pratique tecnicas de gerenciamento de ansiedade durante provas.'}
                   {summary.dominant_lacuna_type === 'LIE' && 'Trabalhe em conectar os conceitos atraves de mapas mentais.'}
@@ -281,8 +280,8 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
 
       {/* Individual Responses */}
       {responses.length > 0 && (
-        <div className="bg-slate-800 rounded-lg border border-slate-700 p-6">
-          <h4 className="font-semibold text-white mb-4">Detalhes por Questao</h4>
+        <div className="bg-surface-2 rounded-lg shadow-elevation-1 p-6">
+          <h4 className="font-semibold text-label-primary mb-4">Detalhes por Questao</h4>
           <div className="space-y-3">
             {responses.map((response, idx) => {
               const classification = response.ddl_classification?.[0]
@@ -293,16 +292,16 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
               return (
                 <div
                   key={response.ddl_response_id}
-                  className="flex items-center gap-4 p-3 bg-slate-700/30 rounded-lg"
+                  className="flex items-center gap-4 p-3 bg-surface-3/30 rounded-lg"
                 >
-                  <div className="w-8 h-8 bg-slate-600 rounded-full flex items-center justify-center text-sm font-medium text-white">
+                  <div className="w-8 h-8 bg-surface-4 rounded-full flex items-center justify-center text-sm font-medium text-label-primary">
                     {idx + 1}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-white truncate">
+                    <p className="text-sm text-label-primary truncate">
                       {response.ddl_questions.question_text}
                     </p>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-label-secondary">
                       {response.ddl_questions.topic}
                     </p>
                   </div>
@@ -313,7 +312,7 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
                   {feedback && (
                     <Link
                       href={`/ddl/feedback/${feedback.id}`}
-                      className="text-sm text-teal-400 hover:text-teal-300 hover:underline"
+                      className="text-sm text-emerald-400 hover:text-emerald-300 hover:underline"
                     >
                       Ver Feedback
                     </Link>
@@ -326,22 +325,22 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
       )}
 
       {/* CTA */}
-      <div className="bg-gradient-to-r from-teal-900/20 to-blue-900/20 rounded-lg border border-teal-800/50 p-6">
+      <div className="bg-gradient-to-r from-emerald-900/20 to-blue-900/20 rounded-lg border border-emerald-800/50 p-6">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-teal-600/20 rounded-lg flex items-center justify-center">
+          <div className="w-12 h-12 bg-emerald-600/20 rounded-lg flex items-center justify-center">
             <span className="text-2xl">📚</span>
           </div>
           <div className="flex-1">
-            <h4 className="font-semibold text-white mb-1">
+            <h4 className="font-semibold text-label-primary mb-1">
               Continue seu diagnostico
             </h4>
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-label-secondary">
               Use o DDL standalone para analisar respostas individuais e receber feedback detalhado.
             </p>
           </div>
           <Link
             href="/ddl"
-            className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-500 transition-colors"
+            className="px-4 py-2 bg-gradient-to-b from-emerald-500 to-emerald-600 text-white rounded-md shadow-elevation-1 hover:from-emerald-400 hover:to-emerald-500 transition-all active:scale-[0.97]"
           >
             Ir para DDL
           </Link>

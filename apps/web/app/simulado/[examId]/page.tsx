@@ -287,10 +287,10 @@ export default function ExamPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-slate-400">Carregando simulado...</p>
+          <p className="text-label-secondary">Carregando simulado...</p>
         </div>
       </div>
     )
@@ -298,7 +298,7 @@ export default function ExamPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <div className="text-center">
           <p className="text-red-400 mb-4">{error}</p>
           <Button onClick={() => router.push('/simulado')}>Voltar</Button>
@@ -315,15 +315,15 @@ export default function ExamPage() {
   const answeredCount = Object.values(answers).filter(a => a.selectedAnswer !== null).length
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-surface-0">
       {/* Top Bar */}
-      <div className="sticky top-0 z-40 bg-slate-900 border-b border-slate-800">
+      <div className="sticky top-0 z-40 bg-surface-1 border-b border-separator">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <h1 className="text-lg font-semibold text-white hidden sm:block">
               {currentExam.title}
             </h1>
-            <span className="text-sm text-slate-400">
+            <span className="text-sm text-label-secondary">
               {answeredCount}/{currentExam.questions.length} respondidas
             </span>
           </div>
@@ -409,7 +409,7 @@ export default function ExamPage() {
         onClose={() => !submitting && setShowSubmitModal(false)}
         title="Finalizar Simulado"
       >
-        <div className="text-slate-300">
+        <div className="text-label-primary">
           <p className="mb-4">
             Você respondeu <strong>{answeredCount}</strong> de{' '}
             <strong>{currentExam.questions.length}</strong> questões.

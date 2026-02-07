@@ -92,14 +92,14 @@ export default function FlashcardsPage() {
   const totalCards = decks.reduce((sum, d) => sum + d.card_count, 0)
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-surface-0 text-white">
       {/* Header */}
-      <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
+      <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold">Flashcards</h1>
-              <p className="text-sm text-slate-400 mt-1">
+              <p className="text-sm text-label-secondary mt-1">
                 Sistema de repetição espaçada SM-2
               </p>
             </div>
@@ -128,7 +128,7 @@ export default function FlashcardsPage() {
                 </div>
                 <div>
                   <p className="text-2xl font-bold">{decks.length}</p>
-                  <p className="text-sm text-slate-400">Decks</p>
+                  <p className="text-sm text-label-secondary">Decks</p>
                 </div>
               </div>
             </CardContent>
@@ -144,7 +144,7 @@ export default function FlashcardsPage() {
                 </div>
                 <div>
                   <p className="text-2xl font-bold">{totalCards}</p>
-                  <p className="text-sm text-slate-400">Total de Cards</p>
+                  <p className="text-sm text-label-secondary">Total de Cards</p>
                 </div>
               </div>
             </CardContent>
@@ -160,7 +160,7 @@ export default function FlashcardsPage() {
                 </div>
                 <div>
                   <p className="text-2xl font-bold">{totalDue}</p>
-                  <p className="text-sm text-slate-400">Para Revisar</p>
+                  <p className="text-sm text-label-secondary">Para Revisar</p>
                 </div>
               </div>
             </CardContent>
@@ -169,14 +169,14 @@ export default function FlashcardsPage() {
 
         {/* Quick Study */}
         {totalDue > 0 && (
-          <Card className="mb-8 bg-gradient-to-r from-emerald-900/30 to-slate-900 border-emerald-800">
+          <Card className="mb-8 bg-gradient-to-r from-emerald-900/30 to-surface-1 border-emerald-800">
             <CardContent className="py-6">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-lg font-semibold text-white">
                     Você tem {totalDue} cards para revisar
                   </h3>
-                  <p className="text-sm text-slate-400 mt-1">
+                  <p className="text-sm text-label-secondary mt-1">
                     Mantenha sua sequência de estudos!
                   </p>
                 </div>
@@ -200,7 +200,7 @@ export default function FlashcardsPage() {
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
               filter === 'all'
                 ? 'bg-emerald-600 text-white'
-                : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                : 'bg-surface-2 text-label-primary hover:bg-surface-3'
             }`}
           >
             Todos
@@ -212,7 +212,7 @@ export default function FlashcardsPage() {
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
                 filter === area
                   ? 'bg-emerald-600 text-white'
-                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                  : 'bg-surface-2 text-label-primary hover:bg-surface-3'
               }`}
             >
               {areaLabels[area]}
@@ -224,19 +224,19 @@ export default function FlashcardsPage() {
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-48 bg-slate-800 rounded-xl animate-pulse" />
+              <div key={i} className="h-48 bg-surface-2 rounded-xl animate-pulse" />
             ))}
           </div>
         ) : filteredDecks.length === 0 ? (
           <Card>
             <CardContent className="py-12 text-center">
-              <svg className="w-16 h-16 text-slate-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-16 h-16 text-label-quaternary mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
               </svg>
               <h3 className="text-lg font-medium text-white mb-2">
                 {filter === 'all' ? 'Nenhum deck criado' : 'Nenhum deck nesta área'}
               </h3>
-              <p className="text-slate-400 mb-4">
+              <p className="text-label-secondary mb-4">
                 Crie seu primeiro deck de flashcards para começar a estudar
               </p>
               <Link href="/flashcards/create">
@@ -248,7 +248,7 @@ export default function FlashcardsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredDecks.map((deck) => (
               <Link key={deck.id} href={`/flashcards/${deck.id}`}>
-                <Card className="h-full hover:border-slate-600 transition-colors cursor-pointer">
+                <Card className="h-full hover:border-surface-4 transition-colors cursor-pointer">
                   <CardHeader>
                     <div className="flex items-start justify-between">
                       <CardTitle className="text-lg">{deck.title}</CardTitle>
@@ -266,15 +266,15 @@ export default function FlashcardsPage() {
                   </CardHeader>
                   <CardContent>
                     {deck.description && (
-                      <p className="text-sm text-slate-400 mb-4 line-clamp-2">
+                      <p className="text-sm text-label-secondary mb-4 line-clamp-2">
                         {deck.description}
                       </p>
                     )}
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-slate-400">
+                      <span className="text-label-secondary">
                         {deck.card_count} cards
                       </span>
-                      <div className="flex items-center gap-1 text-slate-500">
+                      <div className="flex items-center gap-1 text-label-tertiary">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>

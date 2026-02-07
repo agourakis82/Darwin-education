@@ -123,10 +123,10 @@ export default function ExamResultPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-slate-400">Carregando resultados...</p>
+          <p className="text-label-secondary">Carregando resultados...</p>
         </div>
       </div>
     )
@@ -137,12 +137,12 @@ export default function ExamResultPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-surface-0">
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">Resultado do Simulado</h1>
-          <p className="text-slate-400">{examTitle}</p>
+          <p className="text-label-secondary">{examTitle}</p>
         </div>
 
         {/* Main Score Card */}
@@ -177,33 +177,33 @@ export default function ExamResultPage() {
                 <div className="text-6xl font-bold text-white mb-2">
                   {result.scaledScore}
                 </div>
-                <div className="text-slate-400">
+                <div className="text-label-secondary">
                   Pontuação TRI (0-1000)
                 </div>
-                <div className="text-sm text-slate-500 mt-1">
+                <div className="text-sm text-label-tertiary mt-1">
                   Nota de corte: 600 pontos
                 </div>
               </div>
 
               {/* Stats Grid */}
               <div className="grid grid-cols-3 gap-4 max-w-md mx-auto">
-                <div className="bg-slate-800/50 rounded-lg p-4">
+                <div className="bg-surface-2/50 rounded-lg p-4">
                   <div className="text-2xl font-bold text-white">
                     {result.correctCount}
                   </div>
-                  <div className="text-xs text-slate-400">Acertos</div>
+                  <div className="text-xs text-label-secondary">Acertos</div>
                 </div>
-                <div className="bg-slate-800/50 rounded-lg p-4">
+                <div className="bg-surface-2/50 rounded-lg p-4">
                   <div className="text-2xl font-bold text-white">
                     {result.totalQuestions - result.correctCount}
                   </div>
-                  <div className="text-xs text-slate-400">Erros</div>
+                  <div className="text-xs text-label-secondary">Erros</div>
                 </div>
-                <div className="bg-slate-800/50 rounded-lg p-4">
+                <div className="bg-surface-2/50 rounded-lg p-4">
                   <div className="text-2xl font-bold text-white">
                     {Math.round((result.correctCount / result.totalQuestions) * 100)}%
                   </div>
-                  <div className="text-xs text-slate-400">Aproveitamento</div>
+                  <div className="text-xs text-label-secondary">Aproveitamento</div>
                 </div>
               </div>
             </div>
@@ -226,13 +226,13 @@ export default function ExamResultPage() {
             <h3 className="text-lg font-semibold text-white mb-4">Estatísticas de Tempo</h3>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <div className="text-slate-400 text-sm">Tempo total</div>
+                <div className="text-label-secondary text-sm">Tempo total</div>
                 <div className="text-xl font-semibold text-white">
                   {Math.floor(result.timeSpent / 3600)}h {Math.floor((result.timeSpent % 3600) / 60)}min
                 </div>
               </div>
               <div>
-                <div className="text-slate-400 text-sm">Média por questão</div>
+                <div className="text-label-secondary text-sm">Média por questão</div>
                 <div className="text-xl font-semibold text-white">
                   {Math.round(result.timeSpent / result.totalQuestions / 60)}min
                 </div>
@@ -263,7 +263,7 @@ export default function ExamResultPage() {
                 </div>
                 <div className="flex-1">
                   <h4 className="font-semibold text-white mb-1">Melhore seu desempenho</h4>
-                  <p className="text-sm text-slate-400">
+                  <p className="text-sm text-label-secondary">
                     Use os flashcards para revisar as áreas com menor desempenho e fortaleça seus pontos fracos.
                   </p>
                 </div>

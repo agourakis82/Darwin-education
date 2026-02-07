@@ -26,8 +26,8 @@ export function QuestionCount({ value, onChange, max }: QuestionCountProps) {
                 isSelected
                   ? 'bg-emerald-600 text-white'
                   : isAvailable
-                  ? 'bg-slate-800 text-slate-300 hover:bg-slate-700'
-                  : 'bg-slate-800/50 text-slate-600 cursor-not-allowed'
+                  ? 'bg-surface-2 text-label-primary hover:bg-surface-3'
+                  : 'bg-surface-2/50 text-label-quaternary cursor-not-allowed'
               }`}
             >
               {preset}
@@ -44,7 +44,7 @@ export function QuestionCount({ value, onChange, max }: QuestionCountProps) {
           max={Math.min(max, 180)}
           value={value}
           onChange={(e) => onChange(Number(e.target.value))}
-          className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer
+          className="w-full h-2 bg-surface-3 rounded-lg appearance-none cursor-pointer
             [&::-webkit-slider-thumb]:appearance-none
             [&::-webkit-slider-thumb]:w-5
             [&::-webkit-slider-thumb]:h-5
@@ -60,7 +60,7 @@ export function QuestionCount({ value, onChange, max }: QuestionCountProps) {
             [&::-moz-range-thumb]:rounded-full
             [&::-moz-range-thumb]:cursor-pointer"
         />
-        <div className="flex justify-between text-xs text-slate-500">
+        <div className="flex justify-between text-xs text-label-tertiary">
           <span>5</span>
           <span className="text-emerald-400 font-medium text-sm">{value} questões</span>
           <span>{Math.min(max, 180)}</span>
@@ -68,14 +68,14 @@ export function QuestionCount({ value, onChange, max }: QuestionCountProps) {
       </div>
 
       {/* Comparison with ENAMED */}
-      <div className="p-3 bg-slate-800/50 rounded-lg">
+      <div className="p-3 bg-surface-2/50 rounded-lg">
         <div className="flex items-center justify-between text-sm">
-          <span className="text-slate-400">Equivale a:</span>
-          <span className="text-slate-300">
+          <span className="text-label-secondary">Equivale a:</span>
+          <span className="text-label-primary">
             {Math.round((value / 180) * 100)}% do ENAMED
           </span>
         </div>
-        <div className="mt-2 h-2 bg-slate-700 rounded-full overflow-hidden">
+        <div className="mt-2 h-2 bg-surface-3 rounded-full overflow-hidden">
           <div
             className="h-full bg-emerald-500 transition-all"
             style={{ width: `${Math.min((value / 180) * 100, 100)}%` }}

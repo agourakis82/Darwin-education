@@ -109,25 +109,25 @@ export function QGenExamTab() {
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Configuration */}
         <div className="space-y-4">
-          <h2 className="text-lg font-semibold text-white">Configuração da Prova</h2>
+          <h2 className="text-lg font-semibold text-label-primary">Configuração da Prova</h2>
 
           {/* Exam Name */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-label-primary mb-2">
               Nome da Prova
             </label>
             <input
               type="text"
               value={config.examName}
               onChange={(e) => setConfig((prev) => ({ ...prev, examName: e.target.value }))}
-              className="w-full bg-gray-900 border border-gray-600 rounded-lg px-4 py-2 text-white"
+              className="w-full bg-surface-1 border border-surface-4 rounded-lg px-4 py-2 text-label-primary"
               placeholder="Simulado ENAMED"
             />
           </div>
 
           {/* Total Questions */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-label-primary mb-2">
               Total de Questões: {config.totalQuestions}
             </label>
             <input
@@ -139,9 +139,9 @@ export function QGenExamTab() {
               onChange={(e) =>
                 setConfig((prev) => ({ ...prev, totalQuestions: parseInt(e.target.value) }))
               }
-              className="w-full accent-primary-500"
+              className="w-full accent-emerald-500"
             />
-            <div className="flex justify-between text-xs text-gray-500 mt-1">
+            <div className="flex justify-between text-xs text-label-tertiary mt-1">
               <span>10</span>
               <span>100</span>
               <span>200</span>
@@ -150,7 +150,7 @@ export function QGenExamTab() {
 
           {/* Distribution Toggle */}
           <div className="flex items-center justify-between">
-            <label className="text-sm font-medium text-gray-300">
+            <label className="text-sm font-medium text-label-primary">
               Usar Distribuição ENAMED Padrão
             </label>
             <button
@@ -162,7 +162,7 @@ export function QGenExamTab() {
                 }))
               }
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                config.useDefaultDistribution ? 'bg-primary-600' : 'bg-gray-600'
+                config.useDefaultDistribution ? 'bg-emerald-600' : 'bg-surface-4'
               }`}
             >
               <span
@@ -175,9 +175,9 @@ export function QGenExamTab() {
 
           {/* Custom Distribution */}
           {!config.useDefaultDistribution && (
-            <div className="space-y-3 p-4 bg-gray-900/50 rounded-lg">
+            <div className="space-y-3 p-4 bg-surface-1/50 rounded-lg">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Total:</span>
+                <span className="text-label-secondary">Total:</span>
                 <span
                   className={
                     Math.abs(totalPercentage - 100) < 1
@@ -192,8 +192,8 @@ export function QGenExamTab() {
               {AREAS.map((area) => (
                 <div key={area.value}>
                   <div className="flex justify-between text-sm mb-1">
-                    <span className="text-gray-400">{area.label}</span>
-                    <span className="text-white">
+                    <span className="text-label-secondary">{area.label}</span>
+                    <span className="text-label-primary">
                       {Math.round(config.areaDistribution[area.value] * 100)}%
                     </span>
                   </div>
@@ -205,7 +205,7 @@ export function QGenExamTab() {
                     onChange={(e) =>
                       updateAreaDistribution(area.value, parseInt(e.target.value))
                     }
-                    className="w-full accent-primary-500"
+                    className="w-full accent-emerald-500"
                   />
                 </div>
               ))}
@@ -219,7 +219,7 @@ export function QGenExamTab() {
               isGenerating ||
               (!config.useDefaultDistribution && Math.abs(totalPercentage - 100) >= 1)
             }
-            className="w-full mt-4 px-6 py-3 bg-primary-600 hover:bg-primary-700 disabled:bg-gray-600 text-white font-medium rounded-lg transition-colors"
+            className="w-full mt-4 px-6 py-3 bg-gradient-to-b from-emerald-500 to-emerald-600 shadow-elevation-1 hover:bg-emerald-700 disabled:bg-surface-4 text-white font-medium rounded-lg transition-colors"
           >
             {isGenerating
               ? `Gerando... ${progress}%`
@@ -235,22 +235,22 @@ export function QGenExamTab() {
 
         {/* Results */}
         <div>
-          <h2 className="text-lg font-semibold text-white mb-4">Resultados</h2>
+          <h2 className="text-lg font-semibold text-label-primary mb-4">Resultados</h2>
 
           {isGenerating && (
-            <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
+            <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-6">
               <div className="mb-4">
-                <div className="w-full bg-gray-700 rounded-full h-3">
+                <div className="w-full bg-surface-3 rounded-full h-3">
                   <div
-                    className="bg-primary-500 h-3 rounded-full transition-all duration-300"
+                    className="bg-emerald-500 h-3 rounded-full transition-all duration-300"
                     style={{ width: `${progress}%` }}
                   />
                 </div>
               </div>
-              <p className="text-gray-400 text-center">
+              <p className="text-label-secondary text-center">
                 Gerando {config.totalQuestions} questões...
               </p>
-              <p className="text-gray-500 text-xs text-center mt-2">
+              <p className="text-label-tertiary text-xs text-center mt-2">
                 Isso pode levar alguns minutos
               </p>
             </div>
@@ -259,9 +259,9 @@ export function QGenExamTab() {
           {result && result.metadata && (
             <div className="space-y-4">
               {/* Summary */}
-              <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
+              <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-white font-medium">
+                  <h3 className="text-label-primary font-medium">
                     {result.examId}
                   </h3>
                   <span className="text-green-400 text-sm">
@@ -274,38 +274,38 @@ export function QGenExamTab() {
                     <div className="text-2xl font-bold text-cyan-400">
                       {(result.metadata.averageValidationScore * 100).toFixed(0)}%
                     </div>
-                    <div className="text-xs text-gray-500">Score Médio</div>
+                    <div className="text-xs text-label-tertiary">Score Médio</div>
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-white">
+                    <div className="text-2xl font-bold text-label-primary">
                       {(result.metadata.generationDuration_ms / 1000).toFixed(1)}s
                     </div>
-                    <div className="text-xs text-gray-500">Tempo</div>
+                    <div className="text-xs text-label-tertiary">Tempo</div>
                   </div>
                 </div>
               </div>
 
               {/* Area Breakdown */}
-              <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-4">
-                <h4 className="text-sm font-medium text-gray-400 mb-3">
+              <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-4">
+                <h4 className="text-sm font-medium text-label-secondary mb-3">
                   Distribuição por Área
                 </h4>
                 <div className="space-y-2">
                   {Object.entries(result.metadata.areaBreakdown).map(([area, count]) => (
                     <div key={area} className="flex items-center justify-between">
-                      <span className="text-gray-400 text-sm">
+                      <span className="text-label-secondary text-sm">
                         {AREAS.find((a) => a.value === area)?.label || area}
                       </span>
                       <div className="flex items-center gap-2">
-                        <div className="w-24 bg-gray-700 rounded-full h-2">
+                        <div className="w-24 bg-surface-3 rounded-full h-2">
                           <div
-                            className="bg-primary-500 h-2 rounded-full"
+                            className="bg-emerald-500 h-2 rounded-full"
                             style={{
                               width: `${(count / result.metadata!.totalQuestions) * 100}%`,
                             }}
                           />
                         </div>
-                        <span className="text-white text-sm w-8 text-right">{count}</span>
+                        <span className="text-label-primary text-sm w-8 text-right">{count}</span>
                       </div>
                     </div>
                   ))}
@@ -313,17 +313,17 @@ export function QGenExamTab() {
               </div>
 
               {/* Difficulty Breakdown */}
-              <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-4">
-                <h4 className="text-sm font-medium text-gray-400 mb-3">
+              <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-4">
+                <h4 className="text-sm font-medium text-label-secondary mb-3">
                   Distribuição por Dificuldade
                 </h4>
                 <div className="flex justify-between">
                   {[1, 2, 3, 4, 5].map((diff) => (
                     <div key={diff} className="text-center">
-                      <div className="text-xl font-bold text-white">
+                      <div className="text-xl font-bold text-label-primary">
                         {result.metadata?.difficultyBreakdown[diff] || 0}
                       </div>
-                      <div className="text-xs text-gray-500">Nível {diff}</div>
+                      <div className="text-xs text-label-tertiary">Nível {diff}</div>
                     </div>
                   ))}
                 </div>
@@ -332,9 +332,9 @@ export function QGenExamTab() {
           )}
 
           {!isGenerating && !result && (
-            <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-8 text-center">
-              <div className="text-gray-500 text-6xl mb-4">📋</div>
-              <p className="text-gray-400">
+            <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-8 text-center">
+              <div className="text-label-tertiary text-6xl mb-4">📋</div>
+              <p className="text-label-secondary">
                 Configure e gere uma prova completa
               </p>
             </div>

@@ -80,12 +80,12 @@ function TeoriaPageContent() {
   return (
     <>
       {/* Header */}
-      <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
+      <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center gap-4">
             <button
               onClick={() => router.push('/conteudo')}
-              className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
+              className="p-2 hover:bg-surface-2 rounded-lg transition-colors"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -93,7 +93,7 @@ function TeoriaPageContent() {
             </button>
             <div>
               <h1 className="text-2xl font-bold">Teoria Clínica</h1>
-              <p className="text-sm text-slate-400 mt-1">
+              <p className="text-sm text-label-secondary mt-1">
                 {filteredTopics.length} tópicos encontrados
               </p>
             </div>
@@ -114,7 +114,7 @@ function TeoriaPageContent() {
         <div className="space-y-4 mb-6">
           {/* Area Filter */}
           <div>
-            <p className="text-sm font-medium text-slate-300 mb-2">Especialidade</p>
+            <p className="text-sm font-medium text-label-primary mb-2">Especialidade</p>
             <div className="flex gap-2 overflow-x-auto pb-2">
               {areas.map((area) => (
                 <button
@@ -123,7 +123,7 @@ function TeoriaPageContent() {
                   className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
                     selectedArea === area
                       ? 'bg-violet-600 text-white'
-                      : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                      : 'bg-surface-2 text-label-primary hover:bg-surface-3'
                   }`}
                 >
                   {area}
@@ -134,14 +134,14 @@ function TeoriaPageContent() {
 
           {/* Difficulty Filter */}
           <div>
-            <p className="text-sm font-medium text-slate-300 mb-2">Nível de Dificuldade</p>
+            <p className="text-sm font-medium text-label-primary mb-2">Nível de Dificuldade</p>
             <div className="flex gap-2 pb-2">
               <button
                 onClick={() => handleDifficultyChange(null)}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
                   selectedDifficulty === null
                     ? 'bg-violet-600 text-white'
-                    : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                    : 'bg-surface-2 text-label-primary hover:bg-surface-3'
                 }`}
               >
                 Todos
@@ -153,7 +153,7 @@ function TeoriaPageContent() {
                   className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
                     selectedDifficulty === diff.value
                       ? 'bg-violet-600 text-white'
-                      : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                      : 'bg-surface-2 text-label-primary hover:bg-surface-3'
                   }`}
                 >
                   {diff.label}
@@ -167,11 +167,11 @@ function TeoriaPageContent() {
         {filteredTopics.length === 0 ? (
           <Card>
             <CardContent className="py-12 text-center">
-              <svg className="w-16 h-16 text-slate-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-16 h-16 text-label-quaternary mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <h3 className="text-lg font-medium text-white mb-2">Nenhum resultado encontrado</h3>
-              <p className="text-slate-400">
+              <p className="text-label-secondary">
                 Tente usar termos diferentes ou remover filtros
               </p>
             </CardContent>
@@ -180,7 +180,7 @@ function TeoriaPageContent() {
           <div className="grid gap-4">
             {filteredTopics.map((topic) => (
               <Link key={topic.id} href={`/conteudo/teoria/${topic.id}`}>
-                <Card className="hover:border-slate-600 transition-colors cursor-pointer group">
+                <Card className="hover:border-surface-4 transition-colors cursor-pointer group">
                   <CardContent className="py-5">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 min-w-0">
@@ -198,10 +198,10 @@ function TeoriaPageContent() {
                             {topic.difficulty === 'basico' ? 'Básico' : topic.difficulty === 'intermediario' ? 'Intermediário' : 'Avançado'}
                           </span>
                         </div>
-                        <p className="text-sm text-slate-400 mb-3 line-clamp-2">
+                        <p className="text-sm text-label-secondary mb-3 line-clamp-2">
                           {topic.description}
                         </p>
-                        <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500">
+                        <div className="flex flex-wrap items-center gap-4 text-xs text-label-tertiary">
                           <span className="flex items-center gap-1">
                             <span>📚</span>
                             <span>{topic.estimatedReadTime} min de leitura</span>
@@ -218,7 +218,7 @@ function TeoriaPageContent() {
                           )}
                         </div>
                       </div>
-                      <svg className="w-5 h-5 text-slate-500 flex-shrink-0 group-hover:text-violet-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5 text-label-tertiary flex-shrink-0 group-hover:text-violet-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </div>
@@ -236,8 +236,8 @@ function TeoriaPageContent() {
               <svg className="w-5 h-5 text-violet-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <div className="text-sm text-slate-400">
-                <p className="font-medium text-slate-300 mb-1">💡 Dica de Estudo</p>
+              <div className="text-sm text-label-secondary">
+                <p className="font-medium text-label-primary mb-1">💡 Dica de Estudo</p>
                 <p>
                   Leia o conteúdo teórico relacionado ANTES de fazer questões sobre um novo tópico.
                   Entender a fisiopatologia ajuda a resolver problemas clínicos com mais confiança e acelera o aprendizado.
@@ -254,7 +254,7 @@ function TeoriaPageContent() {
 
 export default function TeoriaPage() {
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-surface-0 text-white">
       <Suspense fallback={<div className="p-8 text-center">Carregando...</div>}>
         <TeoriaPageContent />
       </Suspense>

@@ -25,7 +25,7 @@ export default function MedicationDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500" />
       </div>
     )
@@ -33,10 +33,10 @@ export default function MedicationDetailPage() {
 
   if (!medication) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <Card>
           <CardContent className="py-12 text-center">
-            <p className="text-slate-400">Medicamento não encontrado</p>
+            <p className="text-label-secondary">Medicamento não encontrado</p>
             <Button onClick={() => router.push('/conteudo/medicamentos')} className="mt-4">
               Voltar
             </Button>
@@ -55,14 +55,14 @@ export default function MedicationDetailPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-surface-0 text-white">
       {/* Header */}
-      <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
+      <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center gap-4">
             <button
               onClick={() => router.push('/conteudo/medicamentos')}
-              className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
+              className="p-2 hover:bg-surface-2 rounded-lg transition-colors"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -71,7 +71,7 @@ export default function MedicationDetailPage() {
             <div className="flex-1">
               <h1 className="text-xl font-bold">{medication.name}</h1>
               <div className="flex items-center gap-2 mt-1">
-                <span className="px-2 py-0.5 text-xs bg-slate-700 text-slate-300 rounded">
+                <span className="px-2 py-0.5 text-xs bg-surface-3 text-label-primary rounded">
                   {medication.atcCode}
                 </span>
                 <span className="text-sm text-blue-400">{medication.drugClass}</span>
@@ -82,7 +82,7 @@ export default function MedicationDetailPage() {
       </header>
 
       {/* Section Navigation */}
-      <div className="border-b border-slate-800 bg-slate-900/30">
+      <div className="border-b border-separator bg-surface-1/30">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex gap-4 overflow-x-auto py-2">
             {sections.map((section) => (
@@ -92,7 +92,7 @@ export default function MedicationDetailPage() {
                 className={`px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors ${
                   activeSection === section.id
                     ? 'text-blue-400 border-b-2 border-blue-400'
-                    : 'text-slate-400 hover:text-slate-300'
+                    : 'text-label-secondary hover:text-label-primary'
                 }`}
               >
                 {section.label}
@@ -112,7 +112,7 @@ export default function MedicationDetailPage() {
                   <CardTitle>Resumo</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-slate-300 leading-relaxed">{medication.summary}</p>
+                  <p className="text-label-primary leading-relaxed">{medication.summary}</p>
                 </CardContent>
               </Card>
 
@@ -121,7 +121,7 @@ export default function MedicationDetailPage() {
                   <CardTitle>Mecanismo de Ação</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-slate-300 leading-relaxed">{medication.mechanism}</p>
+                  <p className="text-label-primary leading-relaxed">{medication.mechanism}</p>
                 </CardContent>
               </Card>
             </>
@@ -144,9 +144,9 @@ export default function MedicationDetailPage() {
                       halfLife: 'Meia-vida',
                     }
                     return (
-                      <div key={key} className="p-3 bg-slate-800/50 rounded-lg">
+                      <div key={key} className="p-3 bg-surface-2/50 rounded-lg">
                         <p className="text-sm font-medium text-blue-400 mb-1">{labels[key]}</p>
-                        <p className="text-slate-300">{value}</p>
+                        <p className="text-label-primary">{value}</p>
                       </div>
                     )
                   })}
@@ -169,7 +169,7 @@ export default function MedicationDetailPage() {
                         <svg className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span className="text-slate-300">{item}</span>
+                        <span className="text-label-primary">{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -187,7 +187,7 @@ export default function MedicationDetailPage() {
                         <svg className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
                         </svg>
-                        <span className="text-slate-300">{item}</span>
+                        <span className="text-label-primary">{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -210,7 +210,7 @@ export default function MedicationDetailPage() {
                         <svg className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                         </svg>
-                        <span className="text-slate-300">{item}</span>
+                        <span className="text-label-primary">{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -228,7 +228,7 @@ export default function MedicationDetailPage() {
                         <svg className="w-5 h-5 text-orange-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                         </svg>
-                        <span className="text-slate-300">{item}</span>
+                        <span className="text-label-primary">{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -240,7 +240,7 @@ export default function MedicationDetailPage() {
                   <CardTitle>Gestação</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-slate-300 leading-relaxed">{medication.pregnancy}</p>
+                  <p className="text-label-primary leading-relaxed">{medication.pregnancy}</p>
                 </CardContent>
               </Card>
 
@@ -256,7 +256,7 @@ export default function MedicationDetailPage() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                         </svg>
-                        <span className="text-slate-300">{item}</span>
+                        <span className="text-label-primary">{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -273,29 +273,29 @@ export default function MedicationDetailPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  <div className="p-4 bg-slate-800/50 rounded-lg">
+                  <div className="p-4 bg-surface-2/50 rounded-lg">
                     <p className="text-sm font-medium text-emerald-400 mb-2">Adultos</p>
-                    <p className="text-slate-300">{medication.dosing.adult}</p>
+                    <p className="text-label-primary">{medication.dosing.adult}</p>
                   </div>
 
                   {medication.dosing.pediatric && (
-                    <div className="p-4 bg-slate-800/50 rounded-lg">
+                    <div className="p-4 bg-surface-2/50 rounded-lg">
                       <p className="text-sm font-medium text-green-400 mb-2">Pediatria</p>
-                      <p className="text-slate-300">{medication.dosing.pediatric}</p>
+                      <p className="text-label-primary">{medication.dosing.pediatric}</p>
                     </div>
                   )}
 
                   {medication.dosing.renal && (
-                    <div className="p-4 bg-slate-800/50 rounded-lg">
+                    <div className="p-4 bg-surface-2/50 rounded-lg">
                       <p className="text-sm font-medium text-yellow-400 mb-2">Insuficiência Renal</p>
-                      <p className="text-slate-300">{medication.dosing.renal}</p>
+                      <p className="text-label-primary">{medication.dosing.renal}</p>
                     </div>
                   )}
 
                   {medication.dosing.hepatic && (
-                    <div className="p-4 bg-slate-800/50 rounded-lg">
+                    <div className="p-4 bg-surface-2/50 rounded-lg">
                       <p className="text-sm font-medium text-orange-400 mb-2">Insuficiência Hepática</p>
-                      <p className="text-slate-300">{medication.dosing.hepatic}</p>
+                      <p className="text-label-primary">{medication.dosing.hepatic}</p>
                     </div>
                   )}
                 </div>

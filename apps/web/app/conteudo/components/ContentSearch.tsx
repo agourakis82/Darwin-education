@@ -60,12 +60,12 @@ export function ContentSearch({ placeholder = 'Buscar...', type, onSearch }: Con
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           placeholder={placeholder}
-          className="w-full px-4 py-3 pl-12 pr-24 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-emerald-500 transition-colors"
+          className="w-full px-4 py-3 pl-12 pr-24 bg-surface-2 border border-separator rounded-lg text-white placeholder-label-secondary focus:outline-none focus:border-emerald-500 transition-colors"
         />
 
         {/* Search icon */}
         <svg
-          className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"
+          className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-label-secondary"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -78,9 +78,9 @@ export function ContentSearch({ placeholder = 'Buscar...', type, onSearch }: Con
           <button
             type="button"
             onClick={handleClear}
-            className="absolute right-20 top-1/2 -translate-y-1/2 p-1 hover:bg-slate-700 rounded transition-colors"
+            className="absolute right-20 top-1/2 -translate-y-1/2 p-1 hover:bg-surface-3 rounded transition-colors"
           >
-            <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-label-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
@@ -88,25 +88,25 @@ export function ContentSearch({ placeholder = 'Buscar...', type, onSearch }: Con
 
         {/* Keyboard shortcut */}
         <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-1">
-          <kbd className="px-2 py-1 text-xs bg-slate-700 text-slate-400 rounded">
+          <kbd className="px-2 py-1 text-xs bg-surface-3 text-label-secondary rounded">
             {typeof navigator !== 'undefined' && navigator.platform.includes('Mac') ? '⌘' : 'Ctrl'}
           </kbd>
-          <kbd className="px-2 py-1 text-xs bg-slate-700 text-slate-400 rounded">K</kbd>
+          <kbd className="px-2 py-1 text-xs bg-surface-3 text-label-secondary rounded">K</kbd>
         </div>
       </div>
 
       {/* Search suggestions */}
       {isFocused && query.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-slate-800 border border-slate-700 rounded-lg shadow-xl z-50">
-          <div className="p-2 text-xs text-slate-500 border-b border-slate-700">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-surface-2 border border-separator rounded-lg shadow-xl z-50">
+          <div className="p-2 text-xs text-label-tertiary border-b border-separator">
             Pressione Enter para buscar
           </div>
           <div className="p-2 space-y-1">
             <button
               type="submit"
-              className="w-full text-left px-3 py-2 hover:bg-slate-700 rounded-lg text-sm text-slate-300 flex items-center gap-2"
+              className="w-full text-left px-3 py-2 hover:bg-surface-3 rounded-lg text-sm text-label-primary flex items-center gap-2"
             >
-              <svg className="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-label-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
               Buscar "{query}" em {type === 'doencas' ? 'Doenças' : 'Medicamentos'}

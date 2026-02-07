@@ -135,7 +135,7 @@ export default function PathOverviewPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500" />
       </div>
     )
@@ -146,14 +146,14 @@ export default function PathOverviewPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-surface-0 text-white">
       {/* Header */}
-      <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
+      <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center gap-4">
             <button
               onClick={() => router.push('/trilhas')}
-              className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
+              className="p-2 hover:bg-surface-2 rounded-lg transition-colors"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -185,7 +185,7 @@ export default function PathOverviewPage() {
                   <CardTitle>Sobre esta Trilha</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-slate-300 leading-relaxed">{path.description}</p>
+                  <p className="text-label-primary leading-relaxed">{path.description}</p>
                 </CardContent>
               </Card>
             )}
@@ -203,7 +203,7 @@ export default function PathOverviewPage() {
                         <svg className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <span className="text-slate-300">{objective}</span>
+                        <span className="text-label-primary">{objective}</span>
                       </li>
                     ))}
                   </ul>
@@ -233,7 +233,7 @@ export default function PathOverviewPage() {
                         stroke="currentColor"
                         strokeWidth="8"
                         fill="none"
-                        className="text-slate-700"
+                        className="text-surface-3"
                       />
                       <circle
                         cx="48"
@@ -251,7 +251,7 @@ export default function PathOverviewPage() {
                       <span className="text-2xl font-bold">{progress}%</span>
                     </div>
                   </div>
-                  <p className="text-sm text-slate-400 mt-2">
+                  <p className="text-sm text-label-secondary mt-2">
                     {modules.filter(m => m.is_completed).length} de {modules.length} módulos concluídos
                   </p>
                 </div>
@@ -284,37 +284,37 @@ export default function PathOverviewPage() {
             <Card>
               <CardContent className="pt-6 space-y-4">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-slate-800 rounded-lg">
-                    <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="p-2 bg-surface-2 rounded-lg">
+                    <svg className="w-5 h-5 text-label-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
                   <div>
-                    <p className="text-sm text-slate-400">Duração Estimada</p>
+                    <p className="text-sm text-label-secondary">Duração Estimada</p>
                     <p className="font-medium">{path.estimated_hours} horas</p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-slate-800 rounded-lg">
-                    <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="p-2 bg-surface-2 rounded-lg">
+                    <svg className="w-5 h-5 text-label-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                     </svg>
                   </div>
                   <div>
-                    <p className="text-sm text-slate-400">Módulos</p>
+                    <p className="text-sm text-label-secondary">Módulos</p>
                     <p className="font-medium">{modules.length} módulos</p>
                   </div>
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-slate-800 rounded-lg">
-                    <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="p-2 bg-surface-2 rounded-lg">
+                    <svg className="w-5 h-5 text-label-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                   </div>
                   <div>
-                    <p className="text-sm text-slate-400">Nível</p>
+                    <p className="text-sm text-label-secondary">Nível</p>
                     <p className={`font-medium ${difficultyColors[path.difficulty]}`}>
                       {difficultyLabels[path.difficulty]}
                     </p>
@@ -332,8 +332,8 @@ export default function PathOverviewPage() {
                 <CardContent>
                   <ul className="space-y-2 text-sm">
                     {path.prerequisites.map((prereq, index) => (
-                      <li key={index} className="flex items-start gap-2 text-slate-400">
-                        <svg className="w-4 h-4 text-slate-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <li key={index} className="flex items-start gap-2 text-label-secondary">
+                        <svg className="w-4 h-4 text-label-tertiary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                         {prereq}

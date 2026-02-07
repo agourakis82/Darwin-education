@@ -71,10 +71,10 @@ function CIPPraticaContent() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-slate-400">Buscando puzzle...</p>
+          <p className="text-label-secondary">Buscando puzzle...</p>
         </div>
       </div>
     )
@@ -82,14 +82,14 @@ function CIPPraticaContent() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <Card className="max-w-md">
           <CardContent className="text-center py-8">
             <span className="text-5xl mb-4 block">🧩</span>
             <h2 className="text-xl font-semibold text-white mb-4">
               Puzzle não disponível
             </h2>
-            <p className="text-slate-400 mb-6">{error}</p>
+            <p className="text-label-secondary mb-6">{error}</p>
             <div className="space-y-2">
               <Button onClick={() => router.push('/cip')} fullWidth>
                 Voltar para Puzzles
@@ -111,10 +111,10 @@ export default function CIPPraticaPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+        <div className="min-h-screen bg-surface-0 flex items-center justify-center">
           <div className="text-center">
             <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-slate-400">Carregando...</p>
+            <p className="text-label-secondary">Carregando...</p>
           </div>
         </div>
       }

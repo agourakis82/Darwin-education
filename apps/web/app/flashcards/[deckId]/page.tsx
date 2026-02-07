@@ -107,7 +107,7 @@ export default function DeckViewPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500" />
       </div>
     )
@@ -115,12 +115,12 @@ export default function DeckViewPage() {
 
   if (!deck) {
     return (
-      <div className="min-h-screen bg-slate-950 text-white">
-        <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
+      <div className="min-h-screen bg-surface-0 text-white">
+        <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <button
               onClick={() => router.back()}
-              className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
+              className="p-2 hover:bg-surface-2 rounded-lg transition-colors"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -131,7 +131,7 @@ export default function DeckViewPage() {
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Card>
             <CardContent className="py-12 text-center">
-              <p className="text-slate-400">Deck não encontrado</p>
+              <p className="text-label-secondary">Deck não encontrado</p>
             </CardContent>
           </Card>
         </main>
@@ -140,15 +140,15 @@ export default function DeckViewPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-surface-0 text-white">
       {/* Header */}
-      <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
+      <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
                 onClick={() => router.back()}
-                className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
+                className="p-2 hover:bg-surface-2 rounded-lg transition-colors"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -156,7 +156,7 @@ export default function DeckViewPage() {
               </button>
               <div>
                 <h1 className="text-2xl font-bold">{deck.title}</h1>
-                <p className="text-sm text-slate-400 mt-1">
+                <p className="text-sm text-label-secondary mt-1">
                   {cards.length} cards
                 </p>
               </div>
@@ -197,22 +197,22 @@ export default function DeckViewPage() {
               <CardContent className="space-y-4">
                 {deck.description && (
                   <div>
-                    <h3 className="text-sm font-medium text-slate-300 mb-1">Descrição</h3>
-                    <p className="text-slate-400">{deck.description}</p>
+                    <h3 className="text-sm font-medium text-label-primary mb-1">Descrição</h3>
+                    <p className="text-label-secondary">{deck.description}</p>
                   </div>
                 )}
                 <div className="flex gap-4">
                   {deck.area && (
                     <div>
-                      <h3 className="text-sm font-medium text-slate-300 mb-1">Área</h3>
+                      <h3 className="text-sm font-medium text-label-primary mb-1">Área</h3>
                       <span className={`inline-block px-3 py-1 text-sm rounded border ${areaColors[deck.area]}`}>
                         {areaLabels[deck.area]}
                       </span>
                     </div>
                   )}
                   <div>
-                    <h3 className="text-sm font-medium text-slate-300 mb-1">Criado em</h3>
-                    <p className="text-slate-400">
+                    <h3 className="text-sm font-medium text-label-primary mb-1">Criado em</h3>
+                    <p className="text-label-secondary">
                       {new Date(deck.created_at).toLocaleDateString('pt-BR')}
                     </p>
                   </div>
@@ -230,7 +230,7 @@ export default function DeckViewPage() {
               <CardContent>
                 {cards.length === 0 ? (
                   <div className="text-center py-8">
-                    <p className="text-slate-400">Nenhum card neste deck ainda</p>
+                    <p className="text-label-secondary">Nenhum card neste deck ainda</p>
                   </div>
                 ) : (
                   <div className="space-y-3">
@@ -244,12 +244,12 @@ export default function DeckViewPage() {
                         <div
                           key={card.id}
                           onClick={() => toggleCardFlip(card.id)}
-                          className="p-4 bg-slate-800/50 border border-slate-700 rounded-lg cursor-pointer
-                            hover:border-slate-600 transition-all hover:bg-slate-800/70"
+                          className="p-4 bg-surface-2/50 border border-separator rounded-lg cursor-pointer
+                            hover:border-surface-4 transition-all hover:bg-surface-2/70"
                         >
                           <div className="flex items-start justify-between gap-4">
                             <div className="flex-1">
-                              <div className="text-sm text-slate-400 mb-2 flex gap-2">
+                              <div className="text-sm text-label-secondary mb-2 flex gap-2">
                                 {card.repetitions === 0 && (
                                   <span className="px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded text-xs">
                                     Novo
@@ -276,7 +276,7 @@ export default function DeckViewPage() {
                               </p>
                             </div>
                             <svg
-                              className={`w-4 h-4 text-slate-500 flex-shrink-0 transition-transform ${
+                              className={`w-4 h-4 text-label-tertiary flex-shrink-0 transition-transform ${
                                 isFlipped ? 'rotate-180' : ''
                               }`}
                               fill="none"
@@ -293,15 +293,15 @@ export default function DeckViewPage() {
                           </div>
 
                           {/* Card Stats */}
-                          <div className="mt-3 pt-3 border-t border-slate-700 text-xs text-slate-500 flex gap-4">
+                          <div className="mt-3 pt-3 border-t border-separator text-xs text-label-tertiary flex gap-4">
                             <span>
-                              Repetições: <span className="text-slate-300">{card.repetitions}</span>
+                              Repetições: <span className="text-label-primary">{card.repetitions}</span>
                             </span>
                             <span>
-                              Intervalo: <span className="text-slate-300">{card.interval}d</span>
+                              Intervalo: <span className="text-label-primary">{card.interval}d</span>
                             </span>
                             <span>
-                              Fator: <span className="text-slate-300">{card.ease_factor.toFixed(2)}</span>
+                              Fator: <span className="text-label-primary">{card.ease_factor.toFixed(2)}</span>
                             </span>
                           </div>
                         </div>
@@ -339,7 +339,7 @@ export default function DeckViewPage() {
                   </Link>
                 )}
                 {dueCount === 0 && cards.length > 0 && (
-                  <div className="p-3 bg-slate-800/50 rounded-lg text-center text-sm text-slate-400">
+                  <div className="p-3 bg-surface-2/50 rounded-lg text-center text-sm text-label-secondary">
                     Todos os cards foram revisados
                   </div>
                 )}
@@ -351,21 +351,21 @@ export default function DeckViewPage() {
               <CardHeader>
                 <CardTitle className="text-sm">Dicas de Estudo</CardTitle>
               </CardHeader>
-              <CardContent className="text-xs text-slate-400 space-y-2">
+              <CardContent className="text-xs text-label-secondary space-y-2">
                 <div className="flex gap-2">
-                  <div className="w-1 h-1 bg-slate-600 rounded-full mt-1 flex-shrink-0" />
+                  <div className="w-1 h-1 bg-label-quaternary rounded-full mt-1 flex-shrink-0" />
                   <p>Azul = novos cards, nunca revisados</p>
                 </div>
                 <div className="flex gap-2">
-                  <div className="w-1 h-1 bg-slate-600 rounded-full mt-1 flex-shrink-0" />
+                  <div className="w-1 h-1 bg-label-quaternary rounded-full mt-1 flex-shrink-0" />
                   <p>Amarelo = em aprendizado (intervalo {'<'} 21 dias)</p>
                 </div>
                 <div className="flex gap-2">
-                  <div className="w-1 h-1 bg-slate-600 rounded-full mt-1 flex-shrink-0" />
+                  <div className="w-1 h-1 bg-label-quaternary rounded-full mt-1 flex-shrink-0" />
                   <p>Verde = maduros (intervalo {'≥'} 21 dias)</p>
                 </div>
                 <div className="flex gap-2">
-                  <div className="w-1 h-1 bg-slate-600 rounded-full mt-1 flex-shrink-0" />
+                  <div className="w-1 h-1 bg-label-quaternary rounded-full mt-1 flex-shrink-0" />
                   <p>Vermelho = para revisar hoje</p>
                 </div>
               </CardContent>

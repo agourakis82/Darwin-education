@@ -99,17 +99,17 @@ export default function CIPAchievementsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-slate-400">Carregando conquistas...</p>
+          <p className="text-label-secondary">Carregando conquistas...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-surface-0">
       <div className="max-w-6xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -118,7 +118,7 @@ export default function CIPAchievementsPage() {
               <span className="text-4xl">🏆</span>
               <div>
                 <h1 className="text-3xl font-bold text-white">Conquistas CIP</h1>
-                <p className="text-slate-400">Desbloqueie conquistas completando puzzles</p>
+                <p className="text-label-secondary">Desbloqueie conquistas completando puzzles</p>
               </div>
             </div>
             <Button variant="outline" onClick={() => router.push('/cip')}>
@@ -134,16 +134,16 @@ export default function CIPAchievementsPage() {
                   <p className="text-2xl font-bold text-white">
                     {unlockedCount} / {totalCount}
                   </p>
-                  <p className="text-sm text-slate-400">Conquistas desbloqueadas</p>
+                  <p className="text-sm text-label-secondary">Conquistas desbloqueadas</p>
                 </div>
                 <div className="text-right">
                   <p className="text-2xl font-bold text-purple-400">{completionPercentage}%</p>
-                  <p className="text-sm text-slate-400">Completude</p>
+                  <p className="text-sm text-label-secondary">Completude</p>
                 </div>
               </div>
 
               {/* Progress Bar */}
-              <div className="w-full bg-slate-700 rounded-full h-3 overflow-hidden">
+              <div className="w-full bg-surface-3 rounded-full h-3 overflow-hidden">
                 <div
                   className="bg-gradient-to-r from-purple-500 to-pink-500 h-full transition-all duration-500 rounded-full"
                   style={{ width: `${completionPercentage}%` }}
@@ -186,7 +186,7 @@ export default function CIPAchievementsPage() {
                 <CardTitle className="flex items-center gap-2">
                   <span>💎</span>
                   <span>Platina</span>
-                  <span className="text-sm text-slate-400 font-normal ml-2">
+                  <span className="text-sm text-label-secondary font-normal ml-2">
                     ({groupedByTier.platinum.filter((a) => a.is_unlocked).length} /{' '}
                     {groupedByTier.platinum.length})
                   </span>
@@ -213,7 +213,7 @@ export default function CIPAchievementsPage() {
                 <CardTitle className="flex items-center gap-2">
                   <span>🥇</span>
                   <span>Ouro</span>
-                  <span className="text-sm text-slate-400 font-normal ml-2">
+                  <span className="text-sm text-label-secondary font-normal ml-2">
                     ({groupedByTier.gold.filter((a) => a.is_unlocked).length} /{' '}
                     {groupedByTier.gold.length})
                   </span>
@@ -240,7 +240,7 @@ export default function CIPAchievementsPage() {
                 <CardTitle className="flex items-center gap-2">
                   <span>🥈</span>
                   <span>Prata</span>
-                  <span className="text-sm text-slate-400 font-normal ml-2">
+                  <span className="text-sm text-label-secondary font-normal ml-2">
                     ({groupedByTier.silver.filter((a) => a.is_unlocked).length} /{' '}
                     {groupedByTier.silver.length})
                   </span>
@@ -267,7 +267,7 @@ export default function CIPAchievementsPage() {
                 <CardTitle className="flex items-center gap-2">
                   <span>🥉</span>
                   <span>Bronze</span>
-                  <span className="text-sm text-slate-400 font-normal ml-2">
+                  <span className="text-sm text-label-secondary font-normal ml-2">
                     ({groupedByTier.bronze.filter((a) => a.is_unlocked).length} /{' '}
                     {groupedByTier.bronze.length})
                   </span>
@@ -291,7 +291,7 @@ export default function CIPAchievementsPage() {
           {filteredAchievements.length === 0 && (
             <Card>
               <CardContent className="p-12 text-center">
-                <p className="text-slate-400 text-lg">
+                <p className="text-label-secondary text-lg">
                   {filter === 'unlocked'
                     ? 'Você ainda não desbloqueou nenhuma conquista. Complete puzzles para começar!'
                     : filter === 'locked'

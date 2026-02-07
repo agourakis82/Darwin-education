@@ -37,12 +37,12 @@ export default async function SimuladoPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-surface-0">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">Simulados ENAMED</h1>
-          <p className="text-slate-400">
+          <p className="text-label-secondary">
             Pratique com questões no formato oficial do exame e acompanhe seu progresso com pontuação TRI
           </p>
         </div>
@@ -60,7 +60,7 @@ export default async function SimuladoPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-white">Simulado Rápido</h3>
-                    <p className="text-sm text-slate-400">20 questões, 1 hora</p>
+                    <p className="text-sm text-label-secondary">20 questões, 1 hora</p>
                   </div>
                 </div>
               </CardContent>
@@ -78,7 +78,7 @@ export default async function SimuladoPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-white">Simulado Completo</h3>
-                    <p className="text-sm text-slate-400">100 questões, 5 horas</p>
+                    <p className="text-sm text-label-secondary">100 questões, 5 horas</p>
                   </div>
                 </div>
               </CardContent>
@@ -96,7 +96,7 @@ export default async function SimuladoPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-white">Montar Prova</h3>
-                    <p className="text-sm text-slate-400">Personalize seu simulado</p>
+                    <p className="text-sm text-label-secondary">Personalize seu simulado</p>
                   </div>
                 </div>
               </CardContent>
@@ -118,13 +118,13 @@ export default async function SimuladoPage() {
                     </CardHeader>
                     <CardContent>
                       <div className="flex flex-wrap gap-4 text-sm">
-                        <div className="flex items-center gap-2 text-slate-400">
+                        <div className="flex items-center gap-2 text-label-secondary">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                           </svg>
                           {exam.question_count} questões
                         </div>
-                        <div className="flex items-center gap-2 text-slate-400">
+                        <div className="flex items-center gap-2 text-label-secondary">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>
@@ -143,11 +143,11 @@ export default async function SimuladoPage() {
                 <Card>
                   <CardContent>
                     <div className="text-center py-8">
-                      <svg className="w-12 h-12 text-slate-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-12 h-12 text-label-quaternary mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       </svg>
-                      <p className="text-slate-400">Nenhum simulado disponível no momento</p>
-                      <p className="text-sm text-slate-500 mt-2">Use "Montar Prova" para criar um simulado personalizado</p>
+                      <p className="text-label-secondary">Nenhum simulado disponível no momento</p>
+                      <p className="text-sm text-label-tertiary mt-2">Use "Montar Prova" para criar um simulado personalizado</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -163,7 +163,7 @@ export default async function SimuladoPage() {
                 {recentAttempts.length > 0 ? (
                   <div className="space-y-4">
                     {recentAttempts.map((attempt: any) => (
-                      <div key={attempt.id} className="border-b border-slate-800 last:border-0 pb-4 last:pb-0">
+                      <div key={attempt.id} className="border-b border-separator last:border-0 pb-4 last:pb-0">
                         <div className="flex justify-between items-start mb-2">
                           <span className="text-sm font-medium text-white">
                             {attempt.exams?.title || 'Simulado'}
@@ -185,10 +185,10 @@ export default async function SimuladoPage() {
                         {attempt.scaled_score && (
                           <div className="text-2xl font-bold text-white mb-1">
                             {attempt.scaled_score}
-                            <span className="text-sm font-normal text-slate-400">/1000</span>
+                            <span className="text-sm font-normal text-label-secondary">/1000</span>
                           </div>
                         )}
-                        <div className="text-xs text-slate-500">
+                        <div className="text-xs text-label-tertiary">
                           {new Date(attempt.started_at).toLocaleDateString('pt-BR')}
                         </div>
                         {!attempt.completed_at && (
@@ -203,8 +203,8 @@ export default async function SimuladoPage() {
                   </div>
                 ) : (
                   <div className="text-center py-4">
-                    <p className="text-slate-400 text-sm">Nenhuma tentativa ainda</p>
-                    <p className="text-slate-500 text-xs mt-1">Comece um simulado para ver seu histórico</p>
+                    <p className="text-label-secondary text-sm">Nenhuma tentativa ainda</p>
+                    <p className="text-label-tertiary text-xs mt-1">Comece um simulado para ver seu histórico</p>
                   </div>
                 )}
               </CardContent>
@@ -216,7 +216,7 @@ export default async function SimuladoPage() {
                 <CardTitle className="text-base">Dicas de Estudo</CardTitle>
               </CardHeader>
               <CardContent>
-                <ul className="space-y-2 text-sm text-slate-400">
+                <ul className="space-y-2 text-sm text-label-secondary">
                   <li className="flex items-start gap-2">
                     <span className="text-emerald-400">•</span>
                     Simule condições reais: faça provas completas sem pausas

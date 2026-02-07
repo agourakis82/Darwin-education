@@ -1,5 +1,3 @@
-import { type ReactNode } from 'react'
-
 interface SkeletonProps {
   className?: string
 }
@@ -7,7 +5,7 @@ interface SkeletonProps {
 export function Skeleton({ className = '' }: SkeletonProps) {
   return (
     <div
-      className={`bg-slate-800 rounded-lg animate-pulse ${className}`}
+      className={`bg-surface-3 rounded-lg animate-pulse ${className}`}
       aria-hidden="true"
     />
   )
@@ -65,7 +63,7 @@ export function SkeletonCard({
   return (
     <div
       className={`
-        bg-slate-900 border border-slate-800 rounded-xl p-6
+        bg-surface-2 rounded-lg shadow-elevation-1 p-6
         ${className}
       `}
       aria-hidden="true"

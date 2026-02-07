@@ -8,7 +8,7 @@ interface AlertProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const variantStyles: Record<AlertVariant, string> = {
-  default: 'bg-slate-800/50 border-slate-700 text-slate-200',
+  default: 'bg-surface-2/50 border-separator text-label-primary',
   destructive: 'bg-red-900/30 border-red-800 text-red-200',
 }
 

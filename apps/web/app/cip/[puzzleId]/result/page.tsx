@@ -459,10 +459,10 @@ export default function CIPResultPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-slate-400">Carregando resultado...</p>
+          <p className="text-label-secondary">Carregando resultado...</p>
         </div>
       </div>
     )
@@ -470,7 +470,7 @@ export default function CIPResultPage() {
 
   if (error || !loadedScore) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <div className="text-center">
           <p className="text-red-400 mb-4">{error || 'Resultado não encontrado'}</p>
           <Button onClick={() => router.push('/cip')}>Voltar</Button>
@@ -482,7 +482,7 @@ export default function CIPResultPage() {
   const displayPuzzle = loadedPuzzle || currentPuzzle
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-surface-0">
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8 text-center">
@@ -491,7 +491,7 @@ export default function CIPResultPage() {
             <h1 className="text-3xl font-bold text-white">Resultado do Puzzle</h1>
           </div>
           {displayPuzzle && (
-            <p className="text-slate-400">{displayPuzzle.title}</p>
+            <p className="text-label-secondary">{displayPuzzle.title}</p>
           )}
         </div>
 
@@ -523,11 +523,11 @@ export default function CIPResultPage() {
                   <div className="mb-4 flex flex-wrap gap-4 text-xs">
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 rounded bg-emerald-600/30 border border-emerald-500" />
-                      <span className="text-slate-400">Correta</span>
+                      <span className="text-label-secondary">Correta</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-4 h-4 rounded bg-red-600/30 border border-red-500" />
-                      <span className="text-slate-400">Incorreta</span>
+                      <span className="text-label-secondary">Incorreta</span>
                     </div>
                   </div>
                   <CIPPuzzleGrid

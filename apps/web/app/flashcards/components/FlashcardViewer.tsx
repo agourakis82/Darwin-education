@@ -24,12 +24,12 @@ export function FlashcardViewer({ front, back, isFlipped, onFlip }: FlashcardVie
       >
         {/* Front */}
         <div
-          className="absolute inset-0 w-full h-full bg-gradient-to-br from-slate-800 to-slate-900
-            border border-slate-700 rounded-2xl p-8 flex items-center justify-center"
+          className="absolute inset-0 w-full h-full bg-gradient-to-br from-surface-2 to-surface-1
+            border border-separator rounded-2xl p-8 flex items-center justify-center"
           style={{ backfaceVisibility: 'hidden' }}
         >
           <div className="text-center">
-            <div className="text-xs text-slate-500 uppercase tracking-wider mb-4">
+            <div className="text-xs text-label-tertiary uppercase tracking-wider mb-4">
               Pergunta
             </div>
             <p className="text-xl md:text-2xl text-white font-medium leading-relaxed">
@@ -40,7 +40,7 @@ export function FlashcardViewer({ front, back, isFlipped, onFlip }: FlashcardVie
 
         {/* Back */}
         <div
-          className="absolute inset-0 w-full h-full bg-gradient-to-br from-emerald-900/30 to-slate-900
+          className="absolute inset-0 w-full h-full bg-gradient-to-br from-emerald-900/30 to-surface-1
             border border-emerald-800/50 rounded-2xl p-8 flex items-center justify-center"
           style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
         >
@@ -56,7 +56,7 @@ export function FlashcardViewer({ front, back, isFlipped, onFlip }: FlashcardVie
       </motion.div>
 
       {/* Flip indicator */}
-      <div className="absolute bottom-4 right-4 flex items-center gap-2 text-slate-500 text-sm">
+      <div className="absolute bottom-4 right-4 flex items-center gap-2 text-label-tertiary text-sm">
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
             strokeLinecap="round"

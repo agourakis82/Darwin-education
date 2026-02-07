@@ -108,7 +108,7 @@ export function QGenReviewTab() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="animate-spin h-8 w-8 border-2 border-primary-500 border-t-transparent rounded-full" />
+        <div className="animate-spin h-8 w-8 border-2 border-emerald-500 border-t-transparent rounded-full" />
       </div>
     );
   }
@@ -120,7 +120,7 @@ export function QGenReviewTab() {
         <select
           value={filter.area || ''}
           onChange={(e) => setFilter((prev) => ({ ...prev, area: e.target.value || undefined }))}
-          className="bg-gray-900 border border-gray-600 rounded-lg px-4 py-2 text-white text-sm"
+          className="bg-surface-1 border border-surface-4 rounded-lg px-4 py-2 text-label-primary text-sm"
         >
           <option value="">Todas as Áreas</option>
           {Object.entries(AREA_LABELS).map(([value, label]) => (
@@ -135,7 +135,7 @@ export function QGenReviewTab() {
           onChange={(e) =>
             setFilter((prev) => ({ ...prev, priority: e.target.value || undefined }))
           }
-          className="bg-gray-900 border border-gray-600 rounded-lg px-4 py-2 text-white text-sm"
+          className="bg-surface-1 border border-surface-4 rounded-lg px-4 py-2 text-label-primary text-sm"
         >
           <option value="">Todas as Prioridades</option>
           <option value="HIGH">Alta</option>
@@ -145,7 +145,7 @@ export function QGenReviewTab() {
 
         <button
           onClick={fetchReviewQueue}
-          className="text-primary-400 hover:text-primary-300 text-sm px-4 py-2"
+          className="text-emerald-400 hover:text-emerald-300 text-sm px-4 py-2"
         >
           ↻ Atualizar
         </button>
@@ -160,14 +160,14 @@ export function QGenReviewTab() {
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Queue List */}
         <div>
-          <h3 className="text-lg font-semibold text-white mb-4">
+          <h3 className="text-lg font-semibold text-label-primary mb-4">
             Fila de Revisão ({items.length})
           </h3>
 
           {items.length === 0 ? (
-            <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-8 text-center">
-              <div className="text-gray-500 text-6xl mb-4">✓</div>
-              <p className="text-gray-400">Nenhuma questão pendente de revisão</p>
+            <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-8 text-center">
+              <div className="text-label-tertiary text-6xl mb-4">✓</div>
+              <p className="text-label-secondary">Nenhuma questão pendente de revisão</p>
             </div>
           ) : (
             <div className="space-y-2 max-h-[600px] overflow-y-auto pr-2">
@@ -180,12 +180,12 @@ export function QGenReviewTab() {
                     onClick={() => setSelectedItem(item)}
                     className={`w-full text-left p-4 rounded-lg border transition-colors ${
                       selectedItem?.id === item.id
-                        ? 'bg-primary-900/30 border-primary-600'
-                        : 'bg-gray-900/50 border-gray-700 hover:border-gray-600'
+                        ? 'bg-emerald-900/30 border-emerald-600'
+                        : 'bg-surface-1/50 border-surface-3 hover:border-surface-4'
                     }`}
                   >
                     <div className="flex items-start justify-between gap-2 mb-2">
-                      <span className="text-gray-400 text-sm">
+                      <span className="text-label-secondary text-sm">
                         {AREA_LABELS[item.area] || item.area}
                         {item.topic && ` / ${item.topic}`}
                       </span>
@@ -195,10 +195,10 @@ export function QGenReviewTab() {
                         {priorityConfig.label}
                       </span>
                     </div>
-                    <p className="text-white text-sm line-clamp-2">
+                    <p className="text-label-primary text-sm line-clamp-2">
                       {item.question.stem.slice(0, 150)}...
                     </p>
-                    <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                    <div className="flex items-center gap-4 mt-2 text-xs text-label-tertiary">
                       <span>Score: {Math.round(item.validationScore * 100)}%</span>
                       <span>
                         {new Date(item.generatedAt).toLocaleDateString('pt-BR')}
@@ -213,7 +213,7 @@ export function QGenReviewTab() {
 
         {/* Selected Item Detail */}
         <div>
-          <h3 className="text-lg font-semibold text-white mb-4">Detalhes</h3>
+          <h3 className="text-lg font-semibold text-label-primary mb-4">Detalhes</h3>
 
           {selectedItem ? (
             <div className="space-y-4">
@@ -254,30 +254,30 @@ export function QGenReviewTab() {
                 <button
                   onClick={() => handleReview('APPROVE')}
                   disabled={submitting}
-                  className="flex-1 px-4 py-3 bg-green-600 hover:bg-green-700 disabled:bg-gray-600 text-white font-medium rounded-lg transition-colors"
+                  className="flex-1 px-4 py-3 bg-green-600 hover:bg-green-700 disabled:bg-surface-4 text-white font-medium rounded-lg transition-colors"
                 >
                   ✓ Aprovar
                 </button>
                 <button
                   onClick={() => handleReview('REVISE')}
                   disabled={submitting}
-                  className="flex-1 px-4 py-3 bg-yellow-600 hover:bg-yellow-700 disabled:bg-gray-600 text-white font-medium rounded-lg transition-colors"
+                  className="flex-1 px-4 py-3 bg-yellow-600 hover:bg-yellow-700 disabled:bg-surface-4 text-white font-medium rounded-lg transition-colors"
                 >
                   ✎ Revisar
                 </button>
                 <button
                   onClick={() => handleReview('REJECT')}
                   disabled={submitting}
-                  className="flex-1 px-4 py-3 bg-red-600 hover:bg-red-700 disabled:bg-gray-600 text-white font-medium rounded-lg transition-colors"
+                  className="flex-1 px-4 py-3 bg-red-600 hover:bg-red-700 disabled:bg-surface-4 text-white font-medium rounded-lg transition-colors"
                 >
                   ✕ Rejeitar
                 </button>
               </div>
             </div>
           ) : (
-            <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-8 text-center">
-              <div className="text-gray-500 text-6xl mb-4">👁️</div>
-              <p className="text-gray-400">
+            <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-8 text-center">
+              <div className="text-label-tertiary text-6xl mb-4">👁️</div>
+              <p className="text-label-secondary">
                 Selecione uma questão para revisar
               </p>
             </div>

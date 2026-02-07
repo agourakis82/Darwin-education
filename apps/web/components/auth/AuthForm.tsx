@@ -65,7 +65,7 @@ export function AuthForm({ mode, onSuccess, redirectTo }: AuthFormProps) {
 
       {mode === 'signup' && (
         <div>
-          <label htmlFor="name" className="block text-sm font-medium text-slate-300 mb-2">
+          <label htmlFor="name" className="block text-sm font-medium text-label-primary mb-2">
             Nome completo
           </label>
           <input
@@ -73,7 +73,7 @@ export function AuthForm({ mode, onSuccess, redirectTo }: AuthFormProps) {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+            className="w-full px-4 py-3 bg-surface-2 border border-separator rounded-lg text-white placeholder-label-tertiary focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
             placeholder="Seu nome"
             required
           />
@@ -81,7 +81,7 @@ export function AuthForm({ mode, onSuccess, redirectTo }: AuthFormProps) {
       )}
 
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">
+        <label htmlFor="email" className="block text-sm font-medium text-label-primary mb-2">
           Email
         </label>
         <input
@@ -89,14 +89,14 @@ export function AuthForm({ mode, onSuccess, redirectTo }: AuthFormProps) {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+          className="w-full px-4 py-3 bg-surface-2 border border-separator rounded-lg text-white placeholder-label-tertiary focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
           placeholder="seu@email.com"
           required
         />
       </div>
 
       <div>
-        <label htmlFor="password" className="block text-sm font-medium text-slate-300 mb-2">
+        <label htmlFor="password" className="block text-sm font-medium text-label-primary mb-2">
           Senha
         </label>
         <input
@@ -104,7 +104,7 @@ export function AuthForm({ mode, onSuccess, redirectTo }: AuthFormProps) {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+          className="w-full px-4 py-3 bg-surface-2 border border-separator rounded-lg text-white placeholder-label-tertiary focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
           placeholder="••••••••"
           required
         />

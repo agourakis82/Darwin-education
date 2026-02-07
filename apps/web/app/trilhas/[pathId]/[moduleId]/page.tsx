@@ -175,7 +175,7 @@ export default function ModuleContentPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500" />
       </div>
     )
@@ -191,26 +191,26 @@ export default function ModuleContentPage() {
   const nextModule = modules[currentIndex + 1]
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-surface-0 text-white">
       {/* Header */}
-      <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
+      <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
                 onClick={() => router.push(`/trilhas/${pathId}`)}
-                className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
+                className="p-2 hover:bg-surface-2 rounded-lg transition-colors"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
               <div>
-                <p className="text-sm text-slate-400">{path.title}</p>
+                <p className="text-sm text-label-secondary">{path.title}</p>
                 <h1 className="text-lg font-bold">{currentModule.title}</h1>
               </div>
             </div>
-            <div className="text-sm text-slate-400">
+            <div className="text-sm text-label-secondary">
               {currentIndex + 1} / {modules.length}
             </div>
           </div>
@@ -225,7 +225,7 @@ export default function ModuleContentPage() {
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle>{currentModule.title}</CardTitle>
-                  <div className="flex items-center gap-2 text-sm text-slate-400">
+                  <div className="flex items-center gap-2 text-sm text-label-secondary">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
@@ -233,7 +233,7 @@ export default function ModuleContentPage() {
                   </div>
                 </div>
                 {currentModule.description && (
-                  <p className="text-slate-400 text-sm mt-2">{currentModule.description}</p>
+                  <p className="text-label-secondary text-sm mt-2">{currentModule.description}</p>
                 )}
               </CardHeader>
               <CardContent>
@@ -277,7 +277,7 @@ export default function ModuleContentPage() {
           {/* Sidebar - Module Navigation */}
           <div className="hidden lg:block">
             <div className="sticky top-24">
-              <h3 className="text-sm font-medium text-slate-400 mb-3">Módulos</h3>
+              <h3 className="text-sm font-medium text-label-secondary mb-3">Módulos</h3>
               <ModuleList
                 pathId={pathId}
                 modules={modules}

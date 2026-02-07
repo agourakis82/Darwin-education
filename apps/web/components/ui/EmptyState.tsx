@@ -28,7 +28,7 @@ export function EmptyState({
       `}
     >
       {icon && (
-        <div className="mb-4 text-slate-400">
+        <div className="mb-4 text-label-secondary">
           {typeof icon === 'string' ? (
             <span className="text-5xl">{icon}</span>
           ) : (
@@ -39,7 +39,7 @@ export function EmptyState({
 
       <h3 className="text-xl font-semibold text-white mb-2">{title}</h3>
 
-      {description && <p className="text-slate-400 text-center max-w-sm mb-6">{description}</p>}
+      {description && <p className="text-label-secondary text-center max-w-sm mb-6">{description}</p>}
 
       {action && (
         <Button

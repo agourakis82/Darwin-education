@@ -191,10 +191,10 @@ export default function ExamReviewPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-slate-400">Carregando revisão...</p>
+          <p className="text-label-secondary">Carregando revisão...</p>
         </div>
       </div>
     )
@@ -213,13 +213,13 @@ export default function ExamReviewPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-surface-0">
       {/* Top Bar */}
-      <div className="sticky top-0 z-40 bg-slate-900 border-b border-slate-800">
+      <div className="sticky top-0 z-40 bg-surface-1 border-b border-separator">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           <div>
             <h1 className="text-lg font-semibold text-white">{examTitle}</h1>
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-label-secondary">
               Revisão: {currentIndex + 1} de {reviews.length}
             </p>
           </div>
@@ -283,12 +283,12 @@ export default function ExamReviewPage() {
                 )}
               </div>
 
-              <div className="flex items-center gap-2 text-sm text-slate-400">
-                <span className="px-2 py-1 bg-slate-800 rounded text-xs">
+              <div className="flex items-center gap-2 text-sm text-label-secondary">
+                <span className="px-2 py-1 bg-surface-2 rounded text-xs">
                   {areaLabels[currentReview.question.ontology.area]}
                 </span>
                 {currentReview.question.ontology?.topic && (
-                  <span className="text-slate-500">{currentReview.question.ontology.topic}</span>
+                  <span className="text-label-tertiary">{currentReview.question.ontology.topic}</span>
                 )}
               </div>
             </div>
@@ -304,9 +304,9 @@ export default function ExamReviewPage() {
                 const isUserAnswer = currentReview.userAnswer === idx
                 const isCorrectAnswer = currentReview.question.correctIndex === idx
 
-                let bgColor = 'bg-slate-800/50'
-                let borderColor = 'border-slate-700'
-                let textColor = 'text-slate-300'
+                let bgColor = 'bg-surface-2/50'
+                let borderColor = 'border-separator'
+                let textColor = 'text-label-primary'
 
                 if (isCorrectAnswer) {
                   bgColor = 'bg-emerald-900/30'
@@ -329,7 +329,7 @@ export default function ExamReviewPage() {
                           ? 'border-emerald-500 bg-emerald-500/20 text-emerald-300'
                           : isUserAnswer
                           ? 'border-red-500 bg-red-500/20 text-red-300'
-                          : 'border-slate-600 text-slate-400'
+                          : 'border-surface-4 text-label-secondary'
                       }`}>
                         {option.letter}
                       </div>
@@ -361,7 +361,7 @@ export default function ExamReviewPage() {
         </Card>
 
         {/* Explanation Card */}
-        <Card className="mb-6 bg-slate-900/50">
+        <Card className="mb-6 bg-surface-1/50">
           <CardContent>
             <h3 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
               <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -370,16 +370,16 @@ export default function ExamReviewPage() {
               Explicação
             </h3>
             <div className="prose prose-invert prose-sm max-w-none">
-              <p className="text-slate-300 whitespace-pre-wrap">
+              <p className="text-label-primary whitespace-pre-wrap">
                 {currentReview.question.explanation}
               </p>
             </div>
 
             {/* References */}
             {currentReview.question.references && currentReview.question.references.length > 0 && (
-              <div className="mt-4 pt-4 border-t border-slate-800">
-                <h4 className="text-sm font-medium text-slate-400 mb-2">Referências:</h4>
-                <ul className="list-disc list-inside text-sm text-slate-500 space-y-1">
+              <div className="mt-4 pt-4 border-t border-separator">
+                <h4 className="text-sm font-medium text-label-secondary mb-2">Referências:</h4>
+                <ul className="list-disc list-inside text-sm text-label-tertiary space-y-1">
                   {currentReview.question.references.map((ref, idx) => (
                     <li key={idx}>{ref}</li>
                   ))}
@@ -402,7 +402,7 @@ export default function ExamReviewPage() {
                   </div>
                   <div>
                     <h4 className="font-medium text-white">Adicionar aos Flashcards</h4>
-                    <p className="text-sm text-slate-400">
+                    <p className="text-sm text-label-secondary">
                       Salve esta questão para revisar mais tarde
                     </p>
                   </div>
@@ -432,7 +432,7 @@ export default function ExamReviewPage() {
             Anterior
           </Button>
 
-          <div className="text-sm text-slate-400">
+          <div className="text-sm text-label-secondary">
             Questão {currentIndex + 1} de {reviews.length}
           </div>
 

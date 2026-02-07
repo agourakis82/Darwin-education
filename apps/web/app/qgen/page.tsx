@@ -33,20 +33,20 @@ export default function QGenPage() {
       <div className="mb-8">
         <Link
           href="/"
-          className="text-gray-400 hover:text-white text-sm mb-4 inline-flex items-center gap-2"
+          className="text-label-secondary hover:text-label-primary text-sm mb-4 inline-flex items-center gap-2"
         >
           ← Voltar
         </Link>
-        <h1 className="text-4xl font-bold text-white mt-2">
-          QGen <span className="text-primary-500">DDL</span>
+        <h1 className="text-4xl font-bold text-label-primary mt-2">
+          QGen <span className="text-emerald-500">DDL</span>
         </h1>
-        <p className="text-gray-400 mt-2">
+        <p className="text-label-secondary mt-2">
           Sistema de Geração de Questões com integração de Diagnóstico Diferencial de Lacunas
         </p>
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-gray-700 mb-6">
+      <div className="border-b border-surface-3 mb-6">
         <nav className="flex gap-1 overflow-x-auto">
           {TABS.map((tab) => (
             <button
@@ -54,8 +54,8 @@ export default function QGenPage() {
               onClick={() => setActiveTab(tab.id)}
               className={`px-4 py-3 text-sm font-medium whitespace-nowrap transition-colors ${
                 activeTab === tab.id
-                  ? 'text-primary-500 border-b-2 border-primary-500'
-                  : 'text-gray-400 hover:text-white'
+                  ? 'text-emerald-500 border-b-2 border-emerald-500'
+                  : 'text-label-secondary hover:text-label-primary'
               }`}
             >
               <span className="mr-2">{tab.icon}</span>
@@ -66,7 +66,7 @@ export default function QGenPage() {
       </div>
 
       {/* Tab Content */}
-      <div className="bg-gray-800/50 border border-gray-700 rounded-xl p-6">
+      <div className="bg-surface-2/50 shadow-elevation-1 rounded-xl p-6">
         {activeTab === 'generate' && <QGenGenerateTab />}
         {activeTab === 'batch' && <QGenBatchTab />}
         {activeTab === 'exam' && <QGenExamTab />}

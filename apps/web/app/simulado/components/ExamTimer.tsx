@@ -10,8 +10,8 @@ interface ExamTimerProps {
 
 export function ExamTimer({ initialTime, onTimeUp, onTick }: ExamTimerProps) {
   return (
-    <div className="flex items-center gap-2 bg-slate-800 px-4 py-2 rounded-lg">
-      <svg className="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div className="flex items-center gap-2 bg-surface-2 px-4 py-2 rounded-lg">
+      <svg className="w-5 h-5 text-label-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path
           strokeLinecap="round"
           strokeLinejoin="round"

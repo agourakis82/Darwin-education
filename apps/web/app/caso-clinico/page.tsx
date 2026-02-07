@@ -43,12 +43,12 @@ export default function CasoClinicoPage() {
   const showForm = !caseStudy && !loading
 
   return (
-    <div className="min-h-screen bg-slate-950 py-8 px-4">
+    <div className="min-h-screen bg-surface-0 py-8 px-4">
       <div className="max-w-3xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-white mb-2">Caso Clínico Interativo</h1>
-          <p className="text-slate-400 text-sm">
+          <p className="text-label-secondary text-sm">
             Pratique raciocínio clínico com casos gerados por IA. Selecione a área e
             dificuldade, leia o caso, formule sua resposta e compare com a conduta ideal.
           </p>
@@ -75,7 +75,7 @@ export default function CasoClinicoPage() {
                           ${
                             isSelected
                               ? area.color
-                              : 'border-slate-700 text-slate-400 hover:border-slate-600 hover:text-slate-300'
+                              : 'border-separator text-label-secondary hover:border-surface-4 hover:text-label-primary'
                           }
                         `}
                       >
@@ -104,8 +104,8 @@ export default function CasoClinicoPage() {
                           px-4 py-2 rounded-lg border text-sm font-medium transition-all
                           ${
                             isSelected
-                              ? d.color + ' bg-slate-800'
-                              : 'border-slate-700 text-slate-500 hover:border-slate-600'
+                              ? d.color + ' bg-surface-2'
+                              : 'border-separator text-label-tertiary hover:border-surface-4'
                           }
                         `}
                       >
@@ -128,7 +128,7 @@ export default function CasoClinicoPage() {
                   value={topic}
                   onChange={(e) => setTopic(e.target.value)}
                   placeholder="Ex: Infarto agudo do miocárdio, Dengue, Pré-eclâmpsia..."
-                  className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-slate-500 focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  className="w-full bg-surface-2 border border-separator rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-label-tertiary focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
                 />
               </CardContent>
             </Card>
@@ -164,7 +164,7 @@ export default function CasoClinicoPage() {
                 <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-emerald-500" />
                 <div className="text-center">
                   <p className="text-white font-medium">Gerando caso clínico...</p>
-                  <p className="text-slate-400 text-sm mt-1">
+                  <p className="text-label-secondary text-sm mt-1">
                     A IA está criando um cenário clínico personalizado
                   </p>
                 </div>
@@ -200,7 +200,7 @@ export default function CasoClinicoPage() {
           <div className="space-y-4">
             <Card>
               <CardContent>
-                <p className="text-slate-300 text-sm leading-relaxed whitespace-pre-wrap">
+                <p className="text-label-primary text-sm leading-relaxed whitespace-pre-wrap">
                   {caseStudy.text}
                 </p>
               </CardContent>

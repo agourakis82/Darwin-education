@@ -96,7 +96,7 @@ export function QGenAnalyticsTab() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <div className="animate-spin h-8 w-8 border-2 border-primary-500 border-t-transparent rounded-full" />
+        <div className="animate-spin h-8 w-8 border-2 border-emerald-500 border-t-transparent rounded-full" />
       </div>
     );
   }
@@ -152,16 +152,16 @@ export function QGenAnalyticsTab() {
 
       <div className="grid lg:grid-cols-2 gap-6">
         {/* By Area */}
-        <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-white mb-4">Por Área</h3>
+        <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-label-primary mb-4">Por Área</h3>
           <div className="space-y-4">
             {Object.entries(stats.byArea).map(([area, data]) => (
               <div key={area}>
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-400">
+                  <span className="text-label-secondary">
                     {AREA_LABELS[area] || area}
                   </span>
-                  <span className="text-white">{data.generated} questões</span>
+                  <span className="text-label-primary">{data.generated} questões</span>
                 </div>
                 <div className="flex gap-1 h-3">
                   <div
@@ -185,7 +185,7 @@ export function QGenAnalyticsTab() {
                     }}
                   />
                 </div>
-                <div className="flex justify-between text-xs text-gray-500 mt-1">
+                <div className="flex justify-between text-xs text-label-tertiary mt-1">
                   <span>Score: {(data.averageScore * 100).toFixed(0)}%</span>
                   <span>
                     {data.approved} aprovadas / {data.rejected} rejeitadas
@@ -197,8 +197,8 @@ export function QGenAnalyticsTab() {
         </div>
 
         {/* By Difficulty */}
-        <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-white mb-4">Por Dificuldade</h3>
+        <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-label-primary mb-4">Por Dificuldade</h3>
           <div className="flex justify-between items-end h-40">
             {[1, 2, 3, 4, 5].map((diff) => {
               const data = stats.byDifficulty[diff] || { count: 0, averageScore: 0 };
@@ -212,13 +212,13 @@ export function QGenAnalyticsTab() {
                 <div key={diff} className="flex flex-col items-center gap-2 flex-1">
                   <div className="w-full flex justify-center">
                     <div
-                      className="w-8 bg-primary-500 rounded-t transition-all"
+                      className="w-8 bg-emerald-500 rounded-t transition-all"
                       style={{ height: `${height}%`, minHeight: data.count > 0 ? '4px' : '0' }}
                     />
                   </div>
                   <div className="text-center">
-                    <div className="text-white font-medium">{data.count}</div>
-                    <div className="text-xs text-gray-500">Nível {diff}</div>
+                    <div className="text-label-primary font-medium">{data.count}</div>
+                    <div className="text-xs text-label-tertiary">Nível {diff}</div>
                   </div>
                 </div>
               );
@@ -227,8 +227,8 @@ export function QGenAnalyticsTab() {
         </div>
 
         {/* By Bloom Level */}
-        <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-white mb-4">Por Nível de Bloom</h3>
+        <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-label-primary mb-4">Por Nível de Bloom</h3>
           <div className="space-y-3">
             {Object.entries(stats.byBloomLevel).map(([bloom, data]) => {
               const maxCount = Math.max(
@@ -238,16 +238,16 @@ export function QGenAnalyticsTab() {
 
               return (
                 <div key={bloom} className="flex items-center gap-3">
-                  <span className="text-gray-400 text-sm w-24 truncate">
+                  <span className="text-label-secondary text-sm w-24 truncate">
                     {BLOOM_LABELS[bloom] || bloom}
                   </span>
-                  <div className="flex-1 bg-gray-700 rounded-full h-3">
+                  <div className="flex-1 bg-surface-3 rounded-full h-3">
                     <div
                       className="bg-purple-500 h-3 rounded-full"
                       style={{ width: `${(data.count / maxCount) * 100}%` }}
                     />
                   </div>
-                  <span className="text-white text-sm w-8 text-right">{data.count}</span>
+                  <span className="text-label-primary text-sm w-8 text-right">{data.count}</span>
                 </div>
               );
             })}
@@ -255,13 +255,13 @@ export function QGenAnalyticsTab() {
         </div>
 
         {/* Common Issues */}
-        <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-white mb-4">Problemas Comuns</h3>
+        <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-6">
+          <h3 className="text-lg font-semibold text-label-primary mb-4">Problemas Comuns</h3>
           {stats.qualityMetrics.commonIssues.length > 0 ? (
             <div className="space-y-3">
               {stats.qualityMetrics.commonIssues.slice(0, 5).map((issue, idx) => (
                 <div key={idx} className="flex items-center justify-between">
-                  <span className="text-gray-400 text-sm truncate flex-1">
+                  <span className="text-label-secondary text-sm truncate flex-1">
                     {issue.issue}
                   </span>
                   <span className="text-yellow-400 text-sm ml-2">
@@ -271,7 +271,7 @@ export function QGenAnalyticsTab() {
               ))}
             </div>
           ) : (
-            <p className="text-gray-500 text-sm">Nenhum problema registrado</p>
+            <p className="text-label-tertiary text-sm">Nenhum problema registrado</p>
           )}
         </div>
       </div>
@@ -280,7 +280,7 @@ export function QGenAnalyticsTab() {
       <div className="text-center">
         <button
           onClick={fetchStats}
-          className="text-primary-400 hover:text-primary-300 text-sm"
+          className="text-emerald-400 hover:text-emerald-300 text-sm"
         >
           ↻ Atualizar estatísticas
         </button>
@@ -301,18 +301,18 @@ function StatCard({
   percentage?: number;
 }) {
   const colorClasses: Record<string, string> = {
-    white: 'text-white',
+    white: 'text-label-primary',
     green: 'text-green-400',
     yellow: 'text-yellow-400',
     red: 'text-red-400',
   };
 
   return (
-    <div className="bg-gray-900/50 border border-gray-700 rounded-lg p-4">
+    <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-4">
       <div className={`text-3xl font-bold ${colorClasses[color]}`}>{value}</div>
-      <div className="text-sm text-gray-500">{label}</div>
+      <div className="text-sm text-label-tertiary">{label}</div>
       {percentage !== undefined && (
-        <div className="text-xs text-gray-600 mt-1">{percentage.toFixed(1)}%</div>
+        <div className="text-xs text-surface-4 mt-1">{percentage.toFixed(1)}%</div>
       )}
     </div>
   );

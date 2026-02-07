@@ -19,7 +19,7 @@ export function ScoreHistory({ attempts }: ScoreHistoryProps) {
 
   if (recentAttempts.length === 0) {
     return (
-      <div className="h-64 flex items-center justify-center text-slate-400">
+      <div className="h-64 flex items-center justify-center text-label-secondary">
         Nenhum dado disponível
       </div>
     )
@@ -36,7 +36,7 @@ export function ScoreHistory({ attempts }: ScoreHistoryProps) {
     <div className="h-64">
       {/* Y-axis labels */}
       <div className="flex h-full">
-        <div className="flex flex-col justify-between text-xs text-slate-500 pr-2 py-2 w-8">
+        <div className="flex flex-col justify-between text-xs text-label-tertiary pr-2 py-2 w-8">
           <span>{Math.max(chartMax, 1000)}</span>
           <span>{Math.max(chartMax - 200, 800)}</span>
           <span>600</span>
@@ -46,11 +46,11 @@ export function ScoreHistory({ attempts }: ScoreHistoryProps) {
         </div>
 
         {/* Chart area */}
-        <div className="flex-1 relative overflow-hidden rounded-lg bg-slate-800/20">
+        <div className="flex-1 relative overflow-hidden rounded-lg bg-surface-2/20">
           {/* Grid lines */}
           <div className="absolute inset-0 flex flex-col justify-between py-2">
             {[0, 1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="border-t border-slate-800/50" />
+              <div key={i} className="border-t border-separator/50" />
             ))}
           </div>
 
@@ -59,7 +59,7 @@ export function ScoreHistory({ attempts }: ScoreHistoryProps) {
             className="absolute left-0 right-0 border-t-2 border-dashed border-emerald-500/60 z-10"
             style={{ top: `${((chartMax - passingScore) / (chartMax - Math.max(chartMin, 0))) * 100}%` }}
           >
-            <span className="absolute -top-4 right-2 text-xs text-emerald-400 bg-slate-950 px-2 py-0.5 rounded">
+            <span className="absolute -top-4 right-2 text-xs text-emerald-400 bg-surface-0 px-2 py-0.5 rounded">
               Aprovação (600)
             </span>
           </div>
@@ -124,7 +124,7 @@ export function ScoreHistory({ attempts }: ScoreHistoryProps) {
           </svg>
 
           {/* X-axis labels */}
-          <div className="absolute -bottom-6 left-0 right-0 flex justify-between transform text-xs text-slate-500 px-1">
+          <div className="absolute -bottom-6 left-0 right-0 flex justify-between transform text-xs text-label-tertiary px-1">
             {recentAttempts.map((attempt, i) => (
               <span key={attempt.id} className="transform -rotate-45 origin-top-left whitespace-nowrap inline-block text-center" style={{ width: '40px' }}>
                 {new Date(attempt.completed_at).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })}

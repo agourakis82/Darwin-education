@@ -53,7 +53,7 @@ export function DifficultySelector({ selected, onChange }: DifficultySelectorPro
             className={`px-4 py-2 rounded-lg border text-sm font-medium transition-all ${
               isSelected
                 ? diff.activeColor
-                : 'bg-slate-800/50 border-slate-700 text-slate-400 hover:border-slate-600'
+                : 'bg-surface-2/50 border-separator text-label-secondary hover:border-surface-4'
             }`}
           >
             {diff.label}

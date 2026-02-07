@@ -27,7 +27,7 @@ export function ExplanationPanel({
   // Show static explanation first if available
   if (!explanation && staticExplanation && !loading) {
     return (
-      <div className="mt-4 p-4 bg-slate-800/50 rounded-lg border border-slate-700">
+      <div className="mt-4 p-4 bg-surface-2/50 rounded-lg border border-separator">
         <div className="flex items-center justify-between mb-2">
           <h4 className="text-sm font-medium text-emerald-400">Explicação</h4>
           <Button variant="ghost" size="sm" onClick={handleFetch}>
@@ -37,7 +37,7 @@ export function ExplanationPanel({
             Explicação com IA
           </Button>
         </div>
-        <p className="text-slate-300 text-sm leading-relaxed">{staticExplanation}</p>
+        <p className="text-label-primary text-sm leading-relaxed">{staticExplanation}</p>
       </div>
     )
   }
@@ -45,10 +45,10 @@ export function ExplanationPanel({
   // Loading state
   if (loading) {
     return (
-      <div className="mt-4 p-4 bg-slate-800/50 rounded-lg border border-slate-700">
+      <div className="mt-4 p-4 bg-surface-2/50 rounded-lg border border-separator">
         <div className="flex items-center gap-3">
           <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-emerald-500" />
-          <span className="text-sm text-slate-400">Gerando explicação com IA...</span>
+          <span className="text-sm text-label-secondary">Gerando explicação com IA...</span>
         </div>
       </div>
     )
@@ -87,7 +87,7 @@ export function ExplanationPanel({
             </svg>
             <h4 className="text-sm font-medium text-emerald-400">Explicação com IA</h4>
           </div>
-          <div className="flex items-center gap-2 text-xs text-slate-500">
+          <div className="flex items-center gap-2 text-xs text-label-tertiary">
             {explanation.cached && (
               <span className="px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-400">Cache</span>
             )}
@@ -96,7 +96,7 @@ export function ExplanationPanel({
             )}
           </div>
         </div>
-        <p className="text-slate-300 text-sm leading-relaxed whitespace-pre-wrap">
+        <p className="text-label-primary text-sm leading-relaxed whitespace-pre-wrap">
           {explanation.text}
         </p>
       </div>

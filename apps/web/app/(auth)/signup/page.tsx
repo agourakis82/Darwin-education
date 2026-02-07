@@ -57,16 +57,16 @@ export default function SignupPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4">
+      <div className="min-h-screen flex items-center justify-center bg-surface-0 px-4">
         <div className="w-full max-w-md text-center">
-          <div className="bg-slate-900 rounded-xl p-8 shadow-xl border border-slate-800">
+          <div className="bg-surface-1 rounded-xl p-8 shadow-xl border border-separator">
             <div className="w-16 h-16 bg-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
             <h2 className="text-2xl font-bold text-white mb-2">Verifique seu email</h2>
-            <p className="text-slate-400 mb-6">
+            <p className="text-label-secondary mb-6">
               Enviamos um link de confirmação para <strong className="text-white">{email}</strong>
             </p>
             <Link
@@ -82,14 +82,14 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4 py-8">
+    <div className="min-h-screen flex items-center justify-center bg-surface-0 px-4 py-8">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">Criar conta</h1>
-          <p className="text-slate-400">Comece sua preparação para o ENAMED</p>
+          <p className="text-label-secondary">Comece sua preparação para o ENAMED</p>
         </div>
 
-        <form onSubmit={handleSignup} className="bg-slate-900 rounded-xl p-8 shadow-xl border border-slate-800">
+        <form onSubmit={handleSignup} className="bg-surface-1 rounded-xl p-8 shadow-xl border border-separator">
           {error && (
             <div className="mb-4 p-3 bg-red-900/50 border border-red-700 rounded-lg text-red-200 text-sm">
               {error}
@@ -97,7 +97,7 @@ export default function SignupPage() {
           )}
 
           <div className="mb-4">
-            <label htmlFor="name" className="block text-sm font-medium text-slate-300 mb-2">
+            <label htmlFor="name" className="block text-sm font-medium text-label-primary mb-2">
               Nome completo
             </label>
             <input
@@ -105,14 +105,14 @@ export default function SignupPage() {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              className="w-full px-4 py-3 bg-surface-2 border border-separator rounded-lg text-white placeholder-label-tertiary focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
               placeholder="Seu nome"
               required
             />
           </div>
 
           <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">
+            <label htmlFor="email" className="block text-sm font-medium text-label-primary mb-2">
               Email
             </label>
             <input
@@ -120,14 +120,14 @@ export default function SignupPage() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              className="w-full px-4 py-3 bg-surface-2 border border-separator rounded-lg text-white placeholder-label-tertiary focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
               placeholder="seu@email.com"
               required
             />
           </div>
 
           <div className="mb-4">
-            <label htmlFor="password" className="block text-sm font-medium text-slate-300 mb-2">
+            <label htmlFor="password" className="block text-sm font-medium text-label-primary mb-2">
               Senha
             </label>
             <input
@@ -135,14 +135,14 @@ export default function SignupPage() {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              className="w-full px-4 py-3 bg-surface-2 border border-separator rounded-lg text-white placeholder-label-tertiary focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
               placeholder="Mínimo 6 caracteres"
               required
             />
           </div>
 
           <div className="mb-6">
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-slate-300 mb-2">
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-label-primary mb-2">
               Confirmar senha
             </label>
             <input
@@ -150,7 +150,7 @@ export default function SignupPage() {
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              className="w-full px-4 py-3 bg-surface-2 border border-separator rounded-lg text-white placeholder-label-tertiary focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
               placeholder="Digite a senha novamente"
               required
             />
@@ -164,7 +164,7 @@ export default function SignupPage() {
             {loading ? 'Criando conta...' : 'Criar conta'}
           </button>
 
-          <p className="mt-6 text-center text-slate-400 text-sm">
+          <p className="mt-6 text-center text-label-secondary text-sm">
             Já tem uma conta?{' '}
             <Link href="/login" className="text-emerald-400 hover:text-emerald-300 font-medium">
               Faça login

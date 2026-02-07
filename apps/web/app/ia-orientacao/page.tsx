@@ -117,12 +117,12 @@ export default function IaOrientacaoPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-surface-0 text-white">
       {/* Header */}
-      <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
+      <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <h1 className="text-3xl font-bold">🤖 IA Orientação de Estudos</h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <p className="text-sm text-label-secondary mt-1">
             Sistema inteligente de recomendações personalizadas baseado no seu desempenho
           </p>
         </div>
@@ -132,31 +132,31 @@ export default function IaOrientacaoPage() {
         {!userPerformance ? (
           <div className="space-y-6">
             {/* Welcome Section */}
-            <Card className="border-violet-500/50 bg-gradient-to-r from-violet-900/20 to-slate-900/20">
+            <Card className="border-violet-500/50 bg-gradient-to-r from-violet-900/20 to-surface-1/20">
               <CardContent className="pt-6">
                 <div className="space-y-4">
                   <div>
                     <h2 className="text-2xl font-semibold mb-2">Bem-vindo ao Sistema de IA Orientação</h2>
-                    <p className="text-slate-300">
+                    <p className="text-label-primary">
                       Este sistema usa inteligência artificial para analisar seu desempenho em questões de prova
                       e recomenda conteúdo teórico personalizado para melhorar seu aprendizado.
                     </p>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-                    <div className="p-4 bg-slate-800/50 rounded-lg">
+                    <div className="p-4 bg-surface-2/50 rounded-lg">
                       <div className="text-3xl mb-2">📊</div>
                       <h3 className="font-semibold mb-1">Análise de Desempenho</h3>
-                      <p className="text-sm text-slate-400">Acompanha seus acertos, erros e áreas fracas</p>
+                      <p className="text-sm text-label-secondary">Acompanha seus acertos, erros e áreas fracas</p>
                     </div>
-                    <div className="p-4 bg-slate-800/50 rounded-lg">
+                    <div className="p-4 bg-surface-2/50 rounded-lg">
                       <div className="text-3xl mb-2">📚</div>
                       <h3 className="font-semibold mb-1">Recomendações Personalizadas</h3>
-                      <p className="text-sm text-slate-400">Sugere tópicos de teoria baseado em seus erros</p>
+                      <p className="text-sm text-label-secondary">Sugere tópicos de teoria baseado em seus erros</p>
                     </div>
-                    <div className="p-4 bg-slate-800/50 rounded-lg">
+                    <div className="p-4 bg-surface-2/50 rounded-lg">
                       <div className="text-3xl mb-2">🎯</div>
                       <h3 className="font-semibold mb-1">Plano de Ação</h3>
-                      <p className="text-sm text-slate-400">Guia passo-a-passo para melhorar seus resultados</p>
+                      <p className="text-sm text-label-secondary">Guia passo-a-passo para melhorar seus resultados</p>
                     </div>
                   </div>
                 </div>
@@ -203,7 +203,7 @@ export default function IaOrientacaoPage() {
                       </div>
                       <div>
                         <h3 className="font-semibold">{step.title}</h3>
-                        <p className="text-sm text-slate-400">{step.desc}</p>
+                        <p className="text-sm text-label-secondary">{step.desc}</p>
                       </div>
                     </div>
                   ))}
@@ -219,7 +219,7 @@ export default function IaOrientacaoPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-slate-300 mb-4">
+                <p className="text-label-primary mb-4">
                   Clique abaixo para carregar dados de exemplo e ver como o sistema faz recomendações personalizadas.
                 </p>
                 <button
@@ -240,21 +240,21 @@ export default function IaOrientacaoPage() {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Link href="/simulado" className="p-4 bg-slate-800/50 hover:bg-slate-800 rounded-lg transition-colors">
+                  <Link href="/simulado" className="p-4 bg-surface-2/50 hover:bg-surface-2 rounded-lg transition-colors">
                     <h3 className="font-semibold mb-2">📋 Simulados</h3>
-                    <p className="text-sm text-slate-400">Faça simulados e receba recomendações de teoria baseadas no seu desempenho</p>
+                    <p className="text-sm text-label-secondary">Faça simulados e receba recomendações de teoria baseadas no seu desempenho</p>
                   </Link>
-                  <Link href="/qgen" className="p-4 bg-slate-800/50 hover:bg-slate-800 rounded-lg transition-colors">
+                  <Link href="/qgen" className="p-4 bg-surface-2/50 hover:bg-surface-2 rounded-lg transition-colors">
                     <h3 className="font-semibold mb-2">🎲 Questões Geradas</h3>
-                    <p className="text-sm text-slate-400">Gere questões em tópicos específicos que precisa melhorar</p>
+                    <p className="text-sm text-label-secondary">Gere questões em tópicos específicos que precisa melhorar</p>
                   </Link>
-                  <Link href="/conteudo/teoria" className="p-4 bg-slate-800/50 hover:bg-slate-800 rounded-lg transition-colors">
+                  <Link href="/conteudo/teoria" className="p-4 bg-surface-2/50 hover:bg-surface-2 rounded-lg transition-colors">
                     <h3 className="font-semibold mb-2">📚 Teoria Clínica</h3>
-                    <p className="text-sm text-slate-400">Acesse conteúdo teórico estruturado recomendado pela IA</p>
+                    <p className="text-sm text-label-secondary">Acesse conteúdo teórico estruturado recomendado pela IA</p>
                   </Link>
-                  <Link href="/flashcards" className="p-4 bg-slate-800/50 hover:bg-slate-800 rounded-lg transition-colors">
+                  <Link href="/flashcards" className="p-4 bg-surface-2/50 hover:bg-surface-2 rounded-lg transition-colors">
                     <h3 className="font-semibold mb-2">🎴 Flashcards</h3>
-                    <p className="text-sm text-slate-400">Crie flashcards dos tópicos que está estudando</p>
+                    <p className="text-sm text-label-secondary">Crie flashcards dos tópicos que está estudando</p>
                   </Link>
                 </div>
               </CardContent>
@@ -263,17 +263,17 @@ export default function IaOrientacaoPage() {
         ) : (
           <div className="space-y-6">
             {/* Performance Summary */}
-            <Card className="border-violet-500/50 bg-slate-900/50">
+            <Card className="border-violet-500/50 bg-surface-1/50">
               <CardContent className="pt-6">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                   <div>
-                    <p className="text-slate-400 text-sm mb-1">Especialidade</p>
+                    <p className="text-label-secondary text-sm mb-1">Especialidade</p>
                     <p className="text-2xl font-bold">{userPerformance.area}</p>
                   </div>
                   <div>
-                    <p className="text-slate-400 text-sm mb-1">Desempenho Geral</p>
+                    <p className="text-label-secondary text-sm mb-1">Desempenho Geral</p>
                     <div className="flex items-center gap-2">
-                      <div className="w-16 h-2 bg-slate-700 rounded-full overflow-hidden">
+                      <div className="w-16 h-2 bg-surface-3 rounded-full overflow-hidden">
                         <div
                           className={`h-full ${
                             userPerformance.score >= 90 ? 'bg-emerald-500' :
@@ -288,11 +288,11 @@ export default function IaOrientacaoPage() {
                     </div>
                   </div>
                   <div>
-                    <p className="text-slate-400 text-sm mb-1">Questões Corretas</p>
+                    <p className="text-label-secondary text-sm mb-1">Questões Corretas</p>
                     <p className="text-2xl font-bold">{userPerformance.correctAnswers}/{userPerformance.questionsAttempted}</p>
                   </div>
                   <div>
-                    <p className="text-slate-400 text-sm mb-1">Taxa de Acerto</p>
+                    <p className="text-label-secondary text-sm mb-1">Taxa de Acerto</p>
                     <p className="text-2xl font-bold">{Math.round((userPerformance.correctAnswers / userPerformance.questionsAttempted) * 100)}%</p>
                   </div>
                 </div>
@@ -313,7 +313,7 @@ export default function IaOrientacaoPage() {
                   <CardTitle className="text-xl">{rec.title}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <p className="text-slate-300">{rec.description}</p>
+                  <p className="text-label-primary">{rec.description}</p>
 
                   {/* Recommended Topics */}
                   <div>
@@ -326,15 +326,15 @@ export default function IaOrientacaoPage() {
                           <Link
                             key={topic.id}
                             href={`/conteudo/teoria/${topic.id}`}
-                            className="p-3 bg-slate-800/50 hover:bg-slate-800 rounded-lg transition-colors block group"
+                            className="p-3 bg-surface-2/50 hover:bg-surface-2 rounded-lg transition-colors block group"
                           >
                             <div className="flex items-start justify-between">
                               <div className="flex-1">
                                 <h4 className="font-medium group-hover:text-violet-400 transition-colors">
                                   {topic.title}
                                 </h4>
-                                <p className="text-sm text-slate-400 mt-1">{topic.description}</p>
-                                <div className="flex gap-2 mt-2 text-xs text-slate-500">
+                                <p className="text-sm text-label-secondary mt-1">{topic.description}</p>
+                                <div className="flex gap-2 mt-2 text-xs text-label-tertiary">
                                   <span>⏱️ {topic.estimatedReadTime} min</span>
                                   <span>•</span>
                                   <span>
@@ -344,7 +344,7 @@ export default function IaOrientacaoPage() {
                                   </span>
                                 </div>
                               </div>
-                              <svg className="w-5 h-5 text-slate-500 group-hover:text-violet-400 transition-colors flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <svg className="w-5 h-5 text-label-tertiary group-hover:text-violet-400 transition-colors flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                               </svg>
                             </div>
@@ -363,7 +363,7 @@ export default function IaOrientacaoPage() {
                           <div className="w-6 h-6 rounded-full bg-violet-600/20 text-violet-400 flex items-center justify-center flex-shrink-0 text-xs font-bold">
                             {i + 1}
                           </div>
-                          <span className="text-slate-300 pt-0.5">{step}</span>
+                          <span className="text-label-primary pt-0.5">{step}</span>
                         </li>
                       ))}
                     </ol>
@@ -393,7 +393,7 @@ export default function IaOrientacaoPage() {
                   setRecommendations([])
                   setShowDemoData(false)
                 }}
-                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors"
+                className="px-4 py-2 bg-surface-2 hover:bg-surface-3 rounded-lg transition-colors"
               >
                 ← Voltar
               </button>

@@ -89,13 +89,13 @@ function AdaptiveQuestionCTA({ classification }: { classification: Classificatio
       <div className="mt-6 p-6 bg-indigo-900/30 border border-indigo-700 rounded-lg">
         <div className="flex items-center gap-3 mb-4">
           <span className="text-2xl">✨</span>
-          <h3 className="text-lg font-semibold text-white">Questao Adaptativa para Voce</h3>
+          <h3 className="text-lg font-semibold text-label-primary">Questao Adaptativa para Voce</h3>
         </div>
 
         <p className="text-sm text-indigo-300 mb-4">{adaptiveQuestion.adaptiveRationale}</p>
 
-        <div className="bg-gray-800/50 rounded-lg p-4 mb-4">
-          <p className="text-white mb-4">{adaptiveQuestion.question.stem}</p>
+        <div className="bg-surface-2/50 rounded-lg p-4 mb-4">
+          <p className="text-label-primary mb-4">{adaptiveQuestion.question.stem}</p>
           <div className="space-y-2">
             {adaptiveQuestion.question.options.map((opt, idx) => (
               <div
@@ -103,13 +103,13 @@ function AdaptiveQuestionCTA({ classification }: { classification: Classificatio
                 className={`p-3 rounded-lg border ${
                   opt.isCorrect
                     ? 'bg-green-900/30 border-green-700'
-                    : 'bg-gray-700/50 border-gray-600'
+                    : 'bg-surface-3/50 border-surface-4'
                 }`}
               >
-                <span className="font-medium text-gray-300 mr-2">
+                <span className="font-medium text-label-secondary mr-2">
                   {String.fromCharCode(65 + idx)}.
                 </span>
-                <span className={opt.isCorrect ? 'text-green-300' : 'text-white'}>{opt.text}</span>
+                <span className={opt.isCorrect ? 'text-green-300' : 'text-label-primary'}>{opt.text}</span>
               </div>
             ))}
           </div>
@@ -137,8 +137,8 @@ function AdaptiveQuestionCTA({ classification }: { classification: Classificatio
           <span className="text-2xl">✨</span>
         </div>
         <div className="flex-1">
-          <h4 className="font-semibold text-white mb-1">Pratique com Questoes Adaptativas</h4>
-          <p className="text-sm text-gray-400">
+          <h4 className="font-semibold text-label-primary mb-1">Pratique com Questoes Adaptativas</h4>
+          <p className="text-sm text-label-secondary">
             Com base no seu diagnostico ({classification.type}), o QGen pode gerar questoes
             personalizadas para ajudar a superar suas lacunas.
           </p>
@@ -146,7 +146,7 @@ function AdaptiveQuestionCTA({ classification }: { classification: Classificatio
         <button
           onClick={generateAdaptiveQuestion}
           disabled={loading}
-          className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500
+          className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-500
                    transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
         >
           {loading ? (
@@ -208,7 +208,6 @@ export default function DDLPage() {
     setError(null)
 
     try {
-      // 1. Save response
       const createRes = await fetch('/api/ddl/responses', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -227,7 +226,6 @@ export default function DDLPage() {
       const { responseId: newResponseId } = await createRes.json()
       setResponseId(newResponseId)
 
-      // 2. Trigger DDL analysis
       const analyzeRes = await fetch('/api/ddl/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -293,7 +291,7 @@ export default function DDLPage() {
       },
       MIXED: {
         name: 'Lacunas Mistas',
-        color: 'bg-gray-500',
+        color: 'bg-surface-5',
         icon: '🔀',
         description: 'Combinacao de diferentes tipos de lacunas',
       },
@@ -308,243 +306,227 @@ export default function DDLPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900">
-      {/* Navigation Header */}
-      <header className="bg-gray-800/50 border-b border-gray-700">
-        <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link
-            href="/"
-            className="text-gray-400 hover:text-white transition-colors flex items-center gap-2"
+    <main className="max-w-4xl mx-auto px-4 py-8">
+      {/* Error display */}
+      {error && (
+        <div className="mb-6 p-4 bg-red-900/30 border border-red-700 rounded-lg">
+          <p className="text-red-400">{error}</p>
+          <button
+            onClick={() => setError(null)}
+            className="mt-2 text-sm text-red-300 underline hover:text-red-200"
           >
-            <span>←</span>
-            <span>Inicio</span>
-          </Link>
-          <div className="text-teal-400 font-medium">DDL</div>
+            Fechar
+          </button>
         </div>
-      </header>
+      )}
 
-      <main className="max-w-4xl mx-auto px-4 py-8">
-        {/* Error display */}
-        {error && (
-          <div className="mb-6 p-4 bg-red-900/30 border border-red-700 rounded-lg">
-            <p className="text-red-400">{error}</p>
+      {/* Phase: Intro */}
+      {phase === 'intro' && (
+        <div className="text-center py-12">
+          <div className="text-6xl mb-6">🎯</div>
+          <h1 className="text-3xl font-bold text-label-primary mb-4">
+            Diagnostico Diferencial de Lacunas
+          </h1>
+          <p className="text-label-secondary max-w-xl mx-auto mb-8">
+            Responda questoes dissertativas e receba um diagnostico personalizado
+            sobre seus padroes de aprendizagem. O sistema analisa sua resposta
+            e seu comportamento durante a escrita para identificar o tipo de lacuna.
+          </p>
+
+          {/* Lacuna Types Explanation */}
+          <div className="grid md:grid-cols-3 gap-4 mb-10 text-left">
+            {(['LE', 'LEm', 'LIE'] as LacunaType[]).map((type) => {
+              const info = getLacunaInfo(type)
+              return (
+                <div
+                  key={type}
+                  className="p-4 bg-surface-2 rounded-lg shadow-elevation-1"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-2xl">{info.icon}</span>
+                    <span className={`px-2 py-0.5 text-xs font-bold text-white rounded ${info.color}`}>
+                      {type}
+                    </span>
+                  </div>
+                  <h3 className="font-medium text-label-primary mb-1">{info.name}</h3>
+                  <p className="text-sm text-label-secondary">{info.description}</p>
+                </div>
+              )
+            })}
+          </div>
+
+          <button
+            onClick={handleStart}
+            disabled={loading}
+            className="px-8 py-3 bg-gradient-to-b from-emerald-500 to-emerald-600 text-white font-medium rounded-md shadow-elevation-1 shadow-inner-shine
+                     hover:from-emerald-400 hover:to-emerald-500 transition-all active:scale-[0.97] disabled:opacity-50"
+          >
+            {loading ? 'Carregando...' : 'Iniciar Diagnostico'}
+          </button>
+        </div>
+      )}
+
+      {/* Phase: Select Question */}
+      {phase === 'select' && (
+        <div>
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-label-primary">Selecione uma Questao</h2>
+            <p className="text-label-secondary mt-1">
+              Escolha uma questao dissertativa para responder
+            </p>
+          </div>
+
+          {loading ? (
+            <div className="space-y-4">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="animate-pulse p-4 bg-surface-2 rounded-lg">
+                  <div className="h-4 bg-surface-3 rounded w-1/4 mb-2" />
+                  <div className="h-6 bg-surface-3 rounded w-3/4" />
+                </div>
+              ))}
+            </div>
+          ) : questions.length === 0 ? (
+            <div className="text-center py-12 bg-surface-2 rounded-lg shadow-elevation-1">
+              <p className="text-label-secondary">Nenhuma questao disponivel.</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {questions.map((q) => (
+                <button
+                  key={q.id}
+                  onClick={() => handleSelectQuestion(q)}
+                  className="w-full text-left p-4 bg-surface-2 rounded-lg shadow-elevation-1
+                           hover:shadow-elevation-2 hover:bg-surface-3/80 transition-all"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="text-xs font-mono text-label-tertiary">{q.question_code}</span>
+                    <span className={`px-2 py-0.5 text-xs rounded ${getDifficultyColor(q.difficulty_level)}`}>
+                      Nivel {q.difficulty_level}
+                    </span>
+                    <span className="px-2 py-0.5 text-xs bg-surface-3 text-label-secondary rounded">
+                      {q.discipline}
+                    </span>
+                  </div>
+                  <p className="text-label-primary">{q.question_text}</p>
+                  <p className="text-sm text-label-tertiary mt-1">Topico: {q.topic}</p>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Phase: Answer */}
+      {phase === 'answer' && selectedQuestion && (
+        <div>
+          <button
+            onClick={() => setPhase('select')}
+            className="mb-4 text-sm text-emerald-400 hover:text-emerald-300 hover:underline"
+          >
+            ← Voltar para selecao
+          </button>
+          <DDLQuestion
+            questionId={selectedQuestion.id}
+            questionText={selectedQuestion.question_text}
+            discipline={selectedQuestion.discipline}
+            topic={selectedQuestion.topic}
+            onSubmit={handleSubmitResponse}
+          />
+        </div>
+      )}
+
+      {/* Phase: Analyzing */}
+      {phase === 'analyzing' && (
+        <div className="bg-surface-2 rounded-lg shadow-elevation-1 p-8 text-center">
+          <div className="animate-spin w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full mx-auto mb-4" />
+          <h2 className="text-xl font-semibold text-label-primary">Analisando sua resposta...</h2>
+          <p className="text-label-secondary mt-2">Este processo pode levar alguns segundos</p>
+          <div className="mt-6 space-y-2 text-sm text-label-tertiary">
+            <p>📝 Extraindo conceitos da resposta</p>
+            <p>🔗 Avaliando integracoes conceituais</p>
+            <p>📊 Analisando padroes comportamentais</p>
+            <p>🎯 Classificando tipo de lacuna</p>
+          </div>
+        </div>
+      )}
+
+      {/* Phase: Feedback */}
+      {phase === 'feedback' && feedbackId && classification && (
+        <div>
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="text-2xl font-bold text-label-primary">Seu Diagnostico</h2>
             <button
-              onClick={() => setError(null)}
-              className="mt-2 text-sm text-red-300 underline hover:text-red-200"
+              onClick={handleReset}
+              className="px-4 py-2 bg-gradient-to-b from-emerald-500 to-emerald-600 text-white rounded-md shadow-elevation-1 hover:from-emerald-400 hover:to-emerald-500 transition-all active:scale-[0.97]"
             >
-              Fechar
+              Nova Questao
             </button>
           </div>
-        )}
 
-        {/* Phase: Intro */}
-        {phase === 'intro' && (
-          <div className="text-center py-12">
-            <div className="text-6xl mb-6">🎯</div>
-            <h1 className="text-3xl font-bold text-white mb-4">
-              Diagnostico Diferencial de Lacunas
-            </h1>
-            <p className="text-gray-400 max-w-xl mx-auto mb-8">
-              Responda questoes dissertativas e receba um diagnostico personalizado
-              sobre seus padroes de aprendizagem. O sistema analisa sua resposta
-              e seu comportamento durante a escrita para identificar o tipo de lacuna.
-            </p>
-
-            {/* Lacuna Types Explanation */}
-            <div className="grid md:grid-cols-3 gap-4 mb-10 text-left">
+          {/* Classification Summary */}
+          <div className="mb-6 p-4 bg-surface-2 rounded-lg shadow-elevation-1">
+            <h3 className="font-medium text-label-secondary mb-3">Classificacao Detectada</h3>
+            <div className="grid grid-cols-3 gap-4 text-center">
               {(['LE', 'LEm', 'LIE'] as LacunaType[]).map((type) => {
                 const info = getLacunaInfo(type)
+                const isActive = classification.type === type
                 return (
                   <div
                     key={type}
-                    className="p-4 bg-gray-800/50 border border-gray-700 rounded-lg"
+                    className={`p-3 rounded-lg transition-all ${
+                      isActive
+                        ? `${info.color.replace('bg-', 'bg-').replace('-500', '-900/50')} ring-2 ring-${info.color.split('-')[1]}-500`
+                        : 'bg-surface-3/50'
+                    }`}
                   >
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-2xl">{info.icon}</span>
-                      <span className={`px-2 py-0.5 text-xs font-bold text-white rounded ${info.color}`}>
-                        {type}
-                      </span>
-                    </div>
-                    <h3 className="font-medium text-white mb-1">{info.name}</h3>
-                    <p className="text-sm text-gray-400">{info.description}</p>
+                    <div className="text-2xl">{info.icon}</div>
+                    <div className="font-medium text-label-primary">{type}</div>
+                    <div className="text-xs text-label-secondary">{info.name.split(' ')[1]}</div>
                   </div>
                 )
               })}
             </div>
-
-            <button
-              onClick={handleStart}
-              disabled={loading}
-              className="px-8 py-3 bg-teal-600 text-white font-medium rounded-lg
-                       hover:bg-teal-500 transition-colors disabled:opacity-50"
-            >
-              {loading ? 'Carregando...' : 'Iniciar Diagnostico'}
-            </button>
-          </div>
-        )}
-
-        {/* Phase: Select Question */}
-        {phase === 'select' && (
-          <div>
-            <div className="mb-6">
-              <h2 className="text-2xl font-bold text-white">Selecione uma Questao</h2>
-              <p className="text-gray-400 mt-1">
-                Escolha uma questao dissertativa para responder
-              </p>
-            </div>
-
-            {loading ? (
-              <div className="space-y-4">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="animate-pulse p-4 bg-gray-800 rounded-lg">
-                    <div className="h-4 bg-gray-700 rounded w-1/4 mb-2" />
-                    <div className="h-6 bg-gray-700 rounded w-3/4" />
-                  </div>
-                ))}
-              </div>
-            ) : questions.length === 0 ? (
-              <div className="text-center py-12 bg-gray-800/50 rounded-lg border border-gray-700">
-                <p className="text-gray-400">Nenhuma questao disponivel.</p>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {questions.map((q) => (
-                  <button
-                    key={q.id}
-                    onClick={() => handleSelectQuestion(q)}
-                    className="w-full text-left p-4 bg-gray-800 border border-gray-700 rounded-lg
-                             hover:border-teal-500 hover:bg-gray-800/80 transition-colors"
-                  >
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-xs font-mono text-gray-500">{q.question_code}</span>
-                      <span className={`px-2 py-0.5 text-xs rounded ${getDifficultyColor(q.difficulty_level)}`}>
-                        Nivel {q.difficulty_level}
-                      </span>
-                      <span className="px-2 py-0.5 text-xs bg-gray-700 text-gray-300 rounded">
-                        {q.discipline}
-                      </span>
-                    </div>
-                    <p className="text-white">{q.question_text}</p>
-                    <p className="text-sm text-gray-500 mt-1">Topico: {q.topic}</p>
-                  </button>
-                ))}
+            {classification.type === 'NONE' && (
+              <div className="mt-4 p-3 bg-green-900/30 rounded-lg text-center">
+                <span className="text-2xl">✅</span>
+                <p className="text-green-400 font-medium">Excelente! Nenhuma lacuna significativa detectada.</p>
               </div>
             )}
+            <div className="mt-4 text-center">
+              <span className="text-sm text-label-secondary">
+                Confianca: {classification.confidence} ({(classification.probability * 100).toFixed(0)}%)
+              </span>
+            </div>
           </div>
-        )}
 
-        {/* Phase: Answer */}
-        {phase === 'answer' && selectedQuestion && (
-          <div>
-            <button
-              onClick={() => setPhase('select')}
-              className="mb-4 text-sm text-teal-400 hover:text-teal-300 hover:underline"
+          <DDLFeedback feedbackId={feedbackId} classification={classification} />
+
+          {/* Adaptive Question CTA */}
+          <AdaptiveQuestionCTA classification={classification} />
+
+          {/* Action buttons */}
+          <div className="mt-8 flex justify-center gap-4">
+            <Link
+              href="/qgen"
+              className="px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-500 transition-colors"
             >
-              ← Voltar para selecao
-            </button>
-            <DDLQuestion
-              questionId={selectedQuestion.id}
-              questionText={selectedQuestion.question_text}
-              discipline={selectedQuestion.discipline}
-              topic={selectedQuestion.topic}
-              onSubmit={handleSubmitResponse}
-            />
+              Ir para QGen
+            </Link>
+            <Link
+              href="/trilhas"
+              className="px-6 py-2 bg-surface-3 text-label-primary rounded-md hover:bg-surface-4 transition-colors"
+            >
+              Ver Trilhas de Estudo
+            </Link>
+            <Link
+              href="/"
+              className="px-6 py-2 border border-separator text-label-secondary rounded-md hover:bg-surface-2 transition-colors"
+            >
+              Voltar ao Inicio
+            </Link>
           </div>
-        )}
-
-        {/* Phase: Analyzing */}
-        {phase === 'analyzing' && (
-          <div className="bg-gray-800 rounded-lg border border-gray-700 p-8 text-center">
-            <div className="animate-spin w-12 h-12 border-4 border-teal-500 border-t-transparent rounded-full mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-white">Analisando sua resposta...</h2>
-            <p className="text-gray-400 mt-2">Este processo pode levar alguns segundos</p>
-            <div className="mt-6 space-y-2 text-sm text-gray-500">
-              <p>📝 Extraindo conceitos da resposta</p>
-              <p>🔗 Avaliando integracoes conceituais</p>
-              <p>📊 Analisando padroes comportamentais</p>
-              <p>🎯 Classificando tipo de lacuna</p>
-            </div>
-          </div>
-        )}
-
-        {/* Phase: Feedback */}
-        {phase === 'feedback' && feedbackId && classification && (
-          <div>
-            <div className="mb-6 flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-white">Seu Diagnostico</h2>
-              <button
-                onClick={handleReset}
-                className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-500 transition-colors"
-              >
-                Nova Questao
-              </button>
-            </div>
-
-            {/* Classification Summary */}
-            <div className="mb-6 p-4 bg-gray-800 rounded-lg border border-gray-700">
-              <h3 className="font-medium text-gray-300 mb-3">Classificacao Detectada</h3>
-              <div className="grid grid-cols-3 gap-4 text-center">
-                {(['LE', 'LEm', 'LIE'] as LacunaType[]).map((type) => {
-                  const info = getLacunaInfo(type)
-                  const isActive = classification.type === type
-                  return (
-                    <div
-                      key={type}
-                      className={`p-3 rounded-lg transition-all ${
-                        isActive
-                          ? `${info.color.replace('bg-', 'bg-').replace('-500', '-900/50')} ring-2 ring-${info.color.split('-')[1]}-500`
-                          : 'bg-gray-700/50'
-                      }`}
-                    >
-                      <div className="text-2xl">{info.icon}</div>
-                      <div className="font-medium text-white">{type}</div>
-                      <div className="text-xs text-gray-400">{info.name.split(' ')[1]}</div>
-                    </div>
-                  )
-                })}
-              </div>
-              {classification.type === 'NONE' && (
-                <div className="mt-4 p-3 bg-green-900/30 rounded-lg text-center">
-                  <span className="text-2xl">✅</span>
-                  <p className="text-green-400 font-medium">Excelente! Nenhuma lacuna significativa detectada.</p>
-                </div>
-              )}
-              <div className="mt-4 text-center">
-                <span className="text-sm text-gray-400">
-                  Confianca: {classification.confidence} ({(classification.probability * 100).toFixed(0)}%)
-                </span>
-              </div>
-            </div>
-
-            <DDLFeedback feedbackId={feedbackId} classification={classification} />
-
-            {/* Adaptive Question CTA */}
-            <AdaptiveQuestionCTA classification={classification} />
-
-            {/* Action buttons */}
-            <div className="mt-8 flex justify-center gap-4">
-              <Link
-                href="/qgen"
-                className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-500 transition-colors"
-              >
-                Ir para QGen
-              </Link>
-              <Link
-                href="/trilhas"
-                className="px-6 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors"
-              >
-                Ver Trilhas de Estudo
-              </Link>
-              <Link
-                href="/"
-                className="px-6 py-2 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-800 transition-colors"
-              >
-                Voltar ao Inicio
-              </Link>
-            </div>
-          </div>
-        )}
-      </main>
-    </div>
+        </div>
+      )}
+    </main>
   )
 }

@@ -2,6 +2,9 @@
 
 import { createContext, useCallback, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
+import { AnimatePresence, motion } from 'framer-motion'
+import { X } from 'lucide-react'
+import { spring } from '@/lib/motion'
 
 export type ToastVariant = 'success' | 'error' | 'warning' | 'info'
 
@@ -65,79 +68,81 @@ interface ToastContainerProps {
   onRemove: (id: string) => void
 }
 
+const variantStyles = {
+  success: {
+    bg: 'bg-emerald-950/80',
+    border: 'border-emerald-500/20',
+    text: 'text-emerald-100',
+    icon: '\u2713',
+    iconColor: 'text-emerald-400',
+  },
+  error: {
+    bg: 'bg-red-950/80',
+    border: 'border-red-500/20',
+    text: 'text-red-100',
+    icon: '\u2715',
+    iconColor: 'text-red-400',
+  },
+  warning: {
+    bg: 'bg-amber-950/80',
+    border: 'border-amber-500/20',
+    text: 'text-amber-100',
+    icon: '\u26A0',
+    iconColor: 'text-amber-400',
+  },
+  info: {
+    bg: 'bg-blue-950/80',
+    border: 'border-blue-500/20',
+    text: 'text-blue-100',
+    icon: '\u2139',
+    iconColor: 'text-blue-400',
+  },
+}
+
 function ToastContainer({ toasts, onRemove }: ToastContainerProps) {
   if (typeof window === 'undefined') return null
 
-  const variantStyles = {
-    success: {
-      bg: 'bg-emerald-900/90',
-      border: 'border-emerald-700',
-      text: 'text-emerald-100',
-      icon: '✓',
-      iconColor: 'text-emerald-400',
-    },
-    error: {
-      bg: 'bg-red-900/90',
-      border: 'border-red-700',
-      text: 'text-red-100',
-      icon: '✕',
-      iconColor: 'text-red-400',
-    },
-    warning: {
-      bg: 'bg-amber-900/90',
-      border: 'border-amber-700',
-      text: 'text-amber-100',
-      icon: '⚠',
-      iconColor: 'text-amber-400',
-    },
-    info: {
-      bg: 'bg-blue-900/90',
-      border: 'border-blue-700',
-      text: 'text-blue-100',
-      icon: 'ℹ',
-      iconColor: 'text-blue-400',
-    },
-  }
-
   const toastContent = (
-    <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none">
-      {toasts.map((toast) => {
-        const styles = variantStyles[toast.variant || 'info']
-        return (
-          <div
-            key={toast.id}
-            className={`
-              ${styles.bg} ${styles.border} ${styles.text}
-              pointer-events-auto flex items-start gap-3 px-4 py-3 rounded-lg border
-              shadow-lg backdrop-blur-sm animate-in slide-in-from-right-5 fade-in duration-200
-            `}
-            role="status"
-            aria-live="polite"
-            aria-atomic="true"
-          >
-            <span className={`${styles.iconColor} font-bold text-lg flex-shrink-0 mt-0.5`}>
-              {styles.icon}
-            </span>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium break-words">{toast.message}</p>
-            </div>
-            <button
-              onClick={() => onRemove(toast.id)}
-              className={`${styles.iconColor} hover:opacity-70 flex-shrink-0 transition-opacity ml-2`}
-              aria-label="Fechar notificação"
-              type="button"
+    <div className="fixed bottom-20 md:bottom-4 right-4 z-50 flex flex-col gap-2 pointer-events-none">
+      <AnimatePresence mode="popLayout">
+        {toasts.map((toast) => {
+          const styles = variantStyles[toast.variant || 'info']
+          return (
+            <motion.div
+              key={toast.id}
+              layout
+              initial={{ opacity: 0, x: 80, scale: 0.95 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: 80, scale: 0.95 }}
+              transition={spring.snappy}
+              className={`
+                ${styles.bg} ${styles.border} ${styles.text}
+                pointer-events-auto flex items-start gap-3 px-4 py-3 rounded-lg border
+                shadow-elevation-3 max-w-sm
+              `}
+              style={{ WebkitBackdropFilter: 'blur(24px) saturate(180%)', backdropFilter: 'blur(24px) saturate(180%)' }}
+              role="status"
+              aria-live="polite"
+              aria-atomic="true"
             >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                <path
-                  fillRule="evenodd"
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </button>
-          </div>
-        )
-      })}
+              <span className={`${styles.iconColor} font-bold text-lg flex-shrink-0 mt-0.5`}>
+                {styles.icon}
+              </span>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium break-words">{toast.message}</p>
+              </div>
+              <button
+                onClick={() => onRemove(toast.id)}
+                className={`${styles.iconColor} hover:opacity-70 flex-shrink-0 transition-opacity ml-2`}
+                aria-label="Fechar notificação"
+                type="button"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </motion.div>
+          )
+        })}
+      </AnimatePresence>
     </div>
   )
 

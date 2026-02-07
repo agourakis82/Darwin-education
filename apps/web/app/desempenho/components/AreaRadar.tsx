@@ -56,7 +56,7 @@ export function AreaRadar({ performance }: AreaRadarProps) {
   return (
     <div className="flex flex-col md:flex-row items-center gap-6">
       {/* Radar Chart */}
-      <div className="flex-shrink-0 bg-gradient-to-br from-slate-800/50 to-slate-900/50 rounded-lg p-4">
+      <div className="flex-shrink-0 bg-gradient-to-br from-surface-2/50 to-surface-1/50 rounded-lg p-4">
         <svg width="300" height="300" viewBox="0 0 300 300">
           <defs>
             <linearGradient id="radarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -151,7 +151,7 @@ export function AreaRadar({ performance }: AreaRadarProps) {
                 y={labelPoint.y}
                 textAnchor={textAnchor}
                 dominantBaseline="middle"
-                className="text-xs fill-slate-300 font-medium"
+                className="text-xs fill-label-primary font-medium"
               >
                 {areaLabels[area]}
               </text>
@@ -164,7 +164,7 @@ export function AreaRadar({ performance }: AreaRadarProps) {
             y={centerY}
             textAnchor="middle"
             dominantBaseline="middle"
-            className="text-xs fill-slate-500"
+            className="text-xs fill-label-tertiary"
           >
             60%
           </text>
@@ -179,14 +179,14 @@ export function AreaRadar({ performance }: AreaRadarProps) {
           const isGood = value >= 80
 
           return (
-            <div key={area} className="p-3 bg-slate-800/30 rounded-lg hover:bg-slate-800/50 transition-colors">
+            <div key={area} className="p-3 bg-surface-2/30 rounded-lg hover:bg-surface-2/50 transition-colors">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <div
                     className="w-3 h-3 rounded-full flex-shrink-0 shadow-md"
                     style={{ backgroundColor: areaColors[area] }}
                   />
-                  <span className="text-sm text-slate-300 font-medium">{areaLabels[area]}</span>
+                  <span className="text-sm text-label-primary font-medium">{areaLabels[area]}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className={`text-sm font-bold ${isGood ? 'text-emerald-400' : isWeak ? 'text-red-400' : 'text-yellow-400'}`}>
@@ -196,7 +196,7 @@ export function AreaRadar({ performance }: AreaRadarProps) {
                   {isWeak && <span className="text-xs text-red-400">!</span>}
                 </div>
               </div>
-              <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
+              <div className="h-2 bg-surface-3 rounded-full overflow-hidden">
                 <div
                   className="h-full rounded-full transition-all shadow-lg"
                   style={{

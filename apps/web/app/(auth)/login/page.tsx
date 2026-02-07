@@ -40,10 +40,10 @@ function LoginForm() {
     <div className="w-full max-w-md">
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-white mb-2">Darwin Education</h1>
-        <p className="text-slate-400">Faça login para continuar</p>
+        <p className="text-label-secondary">Faça login para continuar</p>
       </div>
 
-      <form onSubmit={handleLogin} className="bg-slate-900 rounded-xl p-8 shadow-xl border border-slate-800">
+      <form onSubmit={handleLogin} className="bg-surface-1 rounded-xl p-8 shadow-xl border border-separator">
         {error && (
           <div className="mb-4 p-3 bg-red-900/50 border border-red-700 rounded-lg text-red-200 text-sm">
             {error}
@@ -51,7 +51,7 @@ function LoginForm() {
         )}
 
         <div className="mb-4">
-          <label htmlFor="email" className="block text-sm font-medium text-slate-300 mb-2">
+          <label htmlFor="email" className="block text-sm font-medium text-label-primary mb-2">
             Email
           </label>
           <input
@@ -59,14 +59,14 @@ function LoginForm() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+            className="w-full px-4 py-3 bg-surface-2 border border-separator rounded-lg text-white placeholder-label-tertiary focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
             placeholder="seu@email.com"
             required
           />
         </div>
 
         <div className="mb-6">
-          <label htmlFor="password" className="block text-sm font-medium text-slate-300 mb-2">
+          <label htmlFor="password" className="block text-sm font-medium text-label-primary mb-2">
             Senha
           </label>
           <input
@@ -74,7 +74,7 @@ function LoginForm() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+            className="w-full px-4 py-3 bg-surface-2 border border-separator rounded-lg text-white placeholder-label-tertiary focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
             placeholder="••••••••"
             required
           />
@@ -88,7 +88,7 @@ function LoginForm() {
           {loading ? 'Entrando...' : 'Entrar'}
         </button>
 
-        <p className="mt-6 text-center text-slate-400 text-sm">
+        <p className="mt-6 text-center text-label-secondary text-sm">
           Não tem uma conta?{' '}
           <Link href="/signup" className="text-emerald-400 hover:text-emerald-300 font-medium">
             Cadastre-se
@@ -101,17 +101,17 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-950 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-surface-0 px-4">
       <Suspense fallback={
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold text-white mb-2">Darwin Education</h1>
-            <p className="text-slate-400">Carregando...</p>
+            <p className="text-label-secondary">Carregando...</p>
           </div>
-          <div className="bg-slate-900 rounded-xl p-8 shadow-xl border border-slate-800 animate-pulse">
-            <div className="h-10 bg-slate-800 rounded mb-4" />
-            <div className="h-10 bg-slate-800 rounded mb-6" />
-            <div className="h-12 bg-slate-800 rounded" />
+          <div className="bg-surface-1 rounded-xl p-8 shadow-xl border border-separator animate-pulse">
+            <div className="h-10 bg-surface-2 rounded mb-4" />
+            <div className="h-10 bg-surface-2 rounded mb-6" />
+            <div className="h-12 bg-surface-2 rounded" />
           </div>
         </div>
       }>

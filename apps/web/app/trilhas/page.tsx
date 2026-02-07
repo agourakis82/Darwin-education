@@ -121,14 +121,14 @@ export default function TrilhasPage() {
   const completedPaths = paths.filter(p => p.progress === 100)
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-surface-0 text-white">
       {/* Header */}
-      <header className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm sticky top-0 z-10">
+      <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold">Trilhas de Estudo</h1>
-              <p className="text-sm text-slate-400 mt-1">
+              <p className="text-sm text-label-secondary mt-1">
                 Roteiros estruturados para dominar cada área
               </p>
             </div>
@@ -149,7 +149,7 @@ export default function TrilhasPage() {
                 </div>
                 <div>
                   <p className="text-2xl font-bold">{paths.length}</p>
-                  <p className="text-sm text-slate-400">Trilhas Disponíveis</p>
+                  <p className="text-sm text-label-secondary">Trilhas Disponíveis</p>
                 </div>
               </div>
             </CardContent>
@@ -165,7 +165,7 @@ export default function TrilhasPage() {
                 </div>
                 <div>
                   <p className="text-2xl font-bold">{inProgressPaths.length}</p>
-                  <p className="text-sm text-slate-400">Em Andamento</p>
+                  <p className="text-sm text-label-secondary">Em Andamento</p>
                 </div>
               </div>
             </CardContent>
@@ -181,7 +181,7 @@ export default function TrilhasPage() {
                 </div>
                 <div>
                   <p className="text-2xl font-bold">{completedPaths.length}</p>
-                  <p className="text-sm text-slate-400">Concluídas</p>
+                  <p className="text-sm text-label-secondary">Concluídas</p>
                 </div>
               </div>
             </CardContent>
@@ -195,7 +195,7 @@ export default function TrilhasPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {inProgressPaths.slice(0, 2).map((path) => (
                 <Link key={path.id} href={`/trilhas/${path.id}`}>
-                  <Card className="hover:border-slate-600 transition-colors cursor-pointer bg-gradient-to-r from-slate-800 to-slate-900">
+                  <Card className="hover:border-surface-4 transition-colors cursor-pointer bg-gradient-to-r from-surface-2 to-surface-1">
                     <CardContent className="py-4">
                       <div className="flex items-center justify-between mb-3">
                         <h3 className="font-semibold text-white">{path.title}</h3>
@@ -204,11 +204,11 @@ export default function TrilhasPage() {
                         </span>
                       </div>
                       <div className="mb-2">
-                        <div className="flex justify-between text-sm text-slate-400 mb-1">
+                        <div className="flex justify-between text-sm text-label-secondary mb-1">
                           <span>Progresso</span>
                           <span>{path.progress}%</span>
                         </div>
-                        <div className="w-full bg-slate-700 rounded-full h-2">
+                        <div className="w-full bg-surface-3 rounded-full h-2">
                           <div
                             className="bg-emerald-500 h-2 rounded-full transition-all"
                             style={{ width: `${path.progress}%` }}
@@ -236,7 +236,7 @@ export default function TrilhasPage() {
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
               filter === 'all'
                 ? 'bg-emerald-600 text-white'
-                : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                : 'bg-surface-2 text-label-primary hover:bg-surface-3'
             }`}
           >
             Todas
@@ -248,7 +248,7 @@ export default function TrilhasPage() {
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
                 filter === area
                   ? 'bg-emerald-600 text-white'
-                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                  : 'bg-surface-2 text-label-primary hover:bg-surface-3'
               }`}
             >
               {areaLabels[area]}
@@ -260,19 +260,19 @@ export default function TrilhasPage() {
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="h-64 bg-slate-800 rounded-xl animate-pulse" />
+              <div key={i} className="h-64 bg-surface-2 rounded-xl animate-pulse" />
             ))}
           </div>
         ) : filteredPaths.length === 0 ? (
           <Card>
             <CardContent className="py-12 text-center">
-              <svg className="w-16 h-16 text-slate-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-16 h-16 text-label-quaternary mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
               </svg>
               <h3 className="text-lg font-medium text-white mb-2">
                 {filter === 'all' ? 'Nenhuma trilha disponível' : 'Nenhuma trilha nesta área'}
               </h3>
-              <p className="text-slate-400">
+              <p className="text-label-secondary">
                 Novas trilhas serão adicionadas em breve
               </p>
             </CardContent>
@@ -281,7 +281,7 @@ export default function TrilhasPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredPaths.map((path) => (
               <Link key={path.id} href={`/trilhas/${path.id}`}>
-                <Card className="h-full hover:border-slate-600 transition-colors cursor-pointer">
+                <Card className="h-full hover:border-surface-4 transition-colors cursor-pointer">
                   <CardHeader>
                     <div className="flex items-start justify-between gap-2">
                       <CardTitle className="text-lg">{path.title}</CardTitle>
@@ -302,7 +302,7 @@ export default function TrilhasPage() {
                   </CardHeader>
                   <CardContent>
                     {path.description && (
-                      <p className="text-sm text-slate-400 mb-4 line-clamp-2">
+                      <p className="text-sm text-label-secondary mb-4 line-clamp-2">
                         {path.description}
                       </p>
                     )}
@@ -310,11 +310,11 @@ export default function TrilhasPage() {
                     {/* Progress bar */}
                     {path.progress > 0 && (
                       <div className="mb-4">
-                        <div className="flex justify-between text-sm text-slate-400 mb-1">
+                        <div className="flex justify-between text-sm text-label-secondary mb-1">
                           <span>Progresso</span>
                           <span>{path.progress}%</span>
                         </div>
-                        <div className="w-full bg-slate-700 rounded-full h-1.5">
+                        <div className="w-full bg-surface-3 rounded-full h-1.5">
                           <div
                             className="bg-emerald-500 h-1.5 rounded-full transition-all"
                             style={{ width: `${path.progress}%` }}
@@ -323,7 +323,7 @@ export default function TrilhasPage() {
                       </div>
                     )}
 
-                    <div className="flex items-center justify-between text-sm text-slate-400">
+                    <div className="flex items-center justify-between text-sm text-label-secondary">
                       <div className="flex items-center gap-1">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />

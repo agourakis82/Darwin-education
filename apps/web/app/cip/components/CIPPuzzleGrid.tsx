@@ -1,6 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
+import { Plus } from 'lucide-react'
 import type { CIPSection, CIPPuzzle } from '@darwin-education/shared'
 import { CIP_SECTION_LABELS_PT } from '@darwin-education/shared'
 import {
@@ -18,7 +19,7 @@ interface CIPPuzzleGridProps {
 }
 
 const cellStatusStyles = {
-  empty: 'bg-slate-800/50 hover:bg-slate-700/50 border-slate-700 cursor-pointer',
+  empty: 'bg-surface-2/50 hover:bg-surface-3/50 border-separator cursor-pointer',
   filled: 'bg-emerald-900/30 hover:bg-emerald-800/30 border-emerald-700/50 cursor-pointer',
   correct: 'bg-emerald-600/30 border-emerald-500',
   incorrect: 'bg-red-600/30 border-red-500',
@@ -31,19 +32,19 @@ export function CIPPuzzleGrid({ puzzle, onCellClick, showResults = false }: CIPP
   const sections = puzzle.settings.sections
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto -mx-2 px-2 md:mx-0 md:px-0 scrollbar-thin scrollbar-thumb-surface-3 scrollbar-track-transparent">
       <table className="w-full border-collapse">
         <thead>
           <tr>
             {/* Diagnosis column header */}
-            <th className="p-3 text-left text-sm font-semibold text-slate-300 bg-slate-900/80 border border-slate-700 sticky left-0 z-10 min-w-[180px]">
+            <th className="p-2 md:p-3 text-left text-xs md:text-sm font-semibold text-label-primary bg-surface-1/80 border border-separator sticky left-0 z-10 min-w-[120px] md:min-w-[180px]">
               Diagnóstico
             </th>
             {/* Section headers */}
             {sections.map((section) => (
               <th
                 key={section}
-                className="p-3 text-center text-sm font-semibold text-slate-300 bg-slate-900/80 border border-slate-700 min-w-[140px]"
+                className="p-2 md:p-3 text-center text-xs md:text-sm font-semibold text-label-primary bg-surface-1/80 border border-separator min-w-[100px] md:min-w-[140px]"
               >
                 <div>{CIP_SECTION_LABELS_PT[section]}</div>
                 <SectionProgress section={section} />
@@ -55,7 +56,7 @@ export function CIPPuzzleGrid({ puzzle, onCellClick, showResults = false }: CIPP
           {puzzle.diagnoses.map((diagnosis, rowIndex) => (
             <tr key={diagnosis.id}>
               {/* Diagnosis name cell */}
-              <td className="p-3 text-sm font-medium text-white bg-slate-900/60 border border-slate-700 sticky left-0 z-10">
+              <td className="p-2 md:p-3 text-xs md:text-sm font-medium text-white bg-surface-1/60 border border-separator sticky left-0 z-10">
                 <div className="flex items-center justify-between gap-2">
                   <span className="line-clamp-2">{diagnosis.namePt}</span>
                   <DiagnosisProgress row={rowIndex} />
@@ -118,24 +119,17 @@ function GridCell({ row, section, puzzle, isActive, onClick, showResults }: Grid
       <div className="min-h-[60px] text-xs">
         {finding ? (
           <div className="flex flex-col gap-1">
-            <span className="text-slate-200 line-clamp-3">{finding.textPt}</span>
+            <span className="text-label-primary line-clamp-3">{finding.textPt}</span>
             {showResults && status === 'incorrect' && correctFinding && (
-              <div className="mt-1 pt-1 border-t border-slate-600">
+              <div className="mt-1 pt-1 border-t border-separator">
                 <span className="text-emerald-400 text-[10px] block mb-0.5">Correto:</span>
                 <span className="text-emerald-300 line-clamp-2">{correctFinding.textPt}</span>
               </div>
             )}
           </div>
         ) : (
-          <div className="flex items-center justify-center h-[60px] text-slate-500">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-              />
-            </svg>
+          <div className="flex items-center justify-center h-[60px] text-label-tertiary">
+            <Plus className="w-5 h-5" strokeWidth={1.5} />
           </div>
         )}
       </div>
@@ -150,7 +144,7 @@ function SectionProgress({ section }: { section: CIPSection }) {
   if (progress.total === 0) return null
 
   return (
-    <div className="text-[10px] text-slate-400 mt-1 font-normal">
+    <div className="text-[10px] text-label-secondary mt-1 font-normal">
       {progress.answered}/{progress.total}
     </div>
   )
@@ -166,13 +160,13 @@ function DiagnosisProgress({ row }: { row: number }) {
 
   return (
     <div className="flex items-center gap-1 flex-shrink-0">
-      <div className="w-8 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+      <div className="w-8 h-1.5 bg-surface-3 rounded-full overflow-hidden">
         <div
           className="h-full bg-emerald-500 rounded-full transition-all duration-300"
           style={{ width: `${percentage}%` }}
         />
       </div>
-      <span className="text-[10px] text-slate-400">{progress.answered}/{progress.total}</span>
+      <span className="text-[10px] text-label-secondary">{progress.answered}/{progress.total}</span>
     </div>
   )
 }
