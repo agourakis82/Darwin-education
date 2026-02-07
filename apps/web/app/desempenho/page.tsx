@@ -16,6 +16,7 @@ import { LoadingSkeleton } from './components/LoadingSkeleton'
 import { AREA_LABELS } from '@/lib/area-colors'
 import { AnimatedList, AnimatedItem } from '@/components/ui/AnimatedList'
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter'
+import { ScrollReveal } from '@/components/ui/ScrollReveal'
 import type { ENAMEDArea } from '@darwin-education/shared'
 
 interface ExamAttempt {
@@ -245,7 +246,7 @@ export default function DesempenhoPage() {
                 <Card>
                   <CardContent className="pt-6">
                     <div className="text-center">
-                      <p className="text-3xl font-bold text-blue-400">{stats?.passRate}%</p>
+                      <p className="text-3xl font-bold text-blue-400"><AnimatedCounter value={stats?.passRate || 0} suffix="%" /></p>
                       <p className="text-sm text-label-secondary mt-1">Taxa de Aprovação</p>
                     </div>
                   </CardContent>
@@ -256,7 +257,7 @@ export default function DesempenhoPage() {
                 <Card>
                   <CardContent className="pt-6">
                     <div className="text-center">
-                      <p className="text-3xl font-bold text-yellow-400">{stats?.totalExams}</p>
+                      <p className="text-3xl font-bold text-yellow-400"><AnimatedCounter value={stats?.totalExams || 0} /></p>
                       <p className="text-sm text-label-secondary mt-1">Simulados</p>
                     </div>
                   </CardContent>
@@ -267,7 +268,7 @@ export default function DesempenhoPage() {
                 <Card>
                   <CardContent className="pt-6">
                     <div className="text-center">
-                      <p className="text-3xl font-bold text-purple-400">{stats?.bestScore}</p>
+                      <p className="text-3xl font-bold text-purple-400"><AnimatedCounter value={stats?.bestScore || 0} /></p>
                       <p className="text-sm text-label-secondary mt-1">Melhor Pontuação</p>
                     </div>
                   </CardContent>
@@ -276,6 +277,7 @@ export default function DesempenhoPage() {
             </AnimatedList>
 
             {/* Main Content Grid */}
+            <ScrollReveal>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Left Column */}
               <div className="lg:col-span-2 space-y-6">
@@ -339,8 +341,10 @@ export default function DesempenhoPage() {
                 <WeakAreas performance={areaPerformance} />
               </div>
             </div>
+            </ScrollReveal>
 
             {/* Recent Attempts Table */}
+            <ScrollReveal delay={0.1}>
             <Card>
               <CardHeader>
                 <CardTitle>
@@ -406,6 +410,7 @@ export default function DesempenhoPage() {
                 )}
               </CardContent>
             </Card>
+            </ScrollReveal>
           </div>
         )}
       </main>

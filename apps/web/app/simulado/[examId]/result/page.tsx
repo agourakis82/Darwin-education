@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
@@ -9,6 +9,9 @@ import { ExamResults } from '../../components/ExamResults'
 import { ExamDDLResults } from '@/components/ddl/ExamDDLResults'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent } from '@/components/ui/Card'
+import { celebrateExamResult } from '@/lib/confetti'
+import { ScoreReveal } from '@/components/ui/ScoreReveal'
+import { ScrollReveal } from '@/components/ui/ScrollReveal'
 import type { TRIScore, ENAMEDArea, AreaPerformance } from '@darwin-education/shared'
 
 interface AttemptResult {
@@ -148,98 +151,63 @@ export default function ExamResultPage() {
         {/* Main Score Card */}
         <Card className="mb-8">
           <CardContent>
-            <div className="text-center py-8">
-              {/* Pass/Fail Badge */}
-              <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 ${
-                result.passed
-                  ? 'bg-emerald-900/50 text-emerald-300 border border-emerald-700'
-                  : 'bg-red-900/50 text-red-300 border border-red-700'
-              }`}>
-                {result.passed ? (
-                  <>
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    Aprovado
-                  </>
-                ) : (
-                  <>
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    Reprovado
-                  </>
-                )}
-              </div>
-
-              {/* Score */}
-              <div className="mb-6">
-                <div className="text-6xl font-bold text-white mb-2">
-                  {result.scaledScore}
-                </div>
-                <div className="text-label-secondary">
-                  Pontuação TRI (0-1000)
-                </div>
-                <div className="text-sm text-label-tertiary mt-1">
-                  Nota de corte: 600 pontos
-                </div>
-              </div>
-
-              {/* Stats Grid */}
-              <div className="grid grid-cols-3 gap-4 max-w-md mx-auto">
-                <div className="bg-surface-2/50 rounded-lg p-4">
-                  <div className="text-2xl font-bold text-white">
-                    {result.correctCount}
-                  </div>
-                  <div className="text-xs text-label-secondary">Acertos</div>
-                </div>
-                <div className="bg-surface-2/50 rounded-lg p-4">
-                  <div className="text-2xl font-bold text-white">
-                    {result.totalQuestions - result.correctCount}
-                  </div>
-                  <div className="text-xs text-label-secondary">Erros</div>
-                </div>
-                <div className="bg-surface-2/50 rounded-lg p-4">
-                  <div className="text-2xl font-bold text-white">
-                    {Math.round((result.correctCount / result.totalQuestions) * 100)}%
-                  </div>
-                  <div className="text-xs text-label-secondary">Aproveitamento</div>
-                </div>
-              </div>
-            </div>
+            <ScoreReveal
+              score={result.scaledScore}
+              passed={result.passed}
+              cutoffLabel="Nota de corte: 600 pontos"
+              stats={[
+                { value: result.correctCount, label: 'Acertos' },
+                { value: result.totalQuestions - result.correctCount, label: 'Erros' },
+                { value: Math.round((result.correctCount / result.totalQuestions) * 100), label: 'Aproveitamento', suffix: '%' },
+              ]}
+              onRevealComplete={() => {
+                celebrateExamResult({
+                  score: result.scaledScore,
+                  maxScore: 1000,
+                  passThreshold: 600,
+                  passed: result.passed,
+                })
+              }}
+            />
           </CardContent>
         </Card>
 
         {/* Area Breakdown */}
-        <ExamResults areaBreakdown={result.areaBreakdown} />
+        <ScrollReveal>
+          <ExamResults areaBreakdown={result.areaBreakdown} />
+        </ScrollReveal>
 
         {/* DDL Analysis Results */}
-        {attemptId && (
-          <div className="mt-8">
-            <ExamDDLResults examAttemptId={attemptId} />
-          </div>
-        )}
+        <ScrollReveal delay={0.1}>
+          {attemptId && (
+            <div className="mt-8">
+              <ExamDDLResults examAttemptId={attemptId} />
+            </div>
+          )}
+        </ScrollReveal>
 
         {/* Time Stats */}
-        <Card className="mt-8">
-          <CardContent>
-            <h3 className="text-lg font-semibold text-white mb-4">Estatísticas de Tempo</h3>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <div className="text-label-secondary text-sm">Tempo total</div>
-                <div className="text-xl font-semibold text-white">
-                  {Math.floor(result.timeSpent / 3600)}h {Math.floor((result.timeSpent % 3600) / 60)}min
+        <ScrollReveal delay={0.2}>
+          <Card className="mt-8">
+            <CardContent>
+              <h3 className="text-lg font-semibold text-white mb-4">Estatísticas de Tempo</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <div className="text-label-secondary text-sm">Tempo total</div>
+                  <div className="text-xl font-semibold text-white">
+                    {Math.floor(result.timeSpent / 3600)}h {Math.floor((result.timeSpent % 3600) / 60)}min
+                  </div>
+                </div>
+                <div>
+                  <div className="text-label-secondary text-sm">Média por questão</div>
+                  <div className="text-xl font-semibold text-white">
+                    {Math.round(result.timeSpent / result.totalQuestions / 60)}min
+                  </div>
                 </div>
               </div>
-              <div>
-                <div className="text-label-secondary text-sm">Média por questão</div>
-                <div className="text-xl font-semibold text-white">
-                  {Math.round(result.timeSpent / result.totalQuestions / 60)}min
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </ScrollReveal>
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 mt-8">

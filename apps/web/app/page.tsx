@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
 const container = {
   hidden: { opacity: 0 },
@@ -137,17 +138,14 @@ export default function HomePage() {
       </motion.div>
 
       {/* Stats */}
-      <motion.div
-        className="relative mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ ...spring.gentle, delay: 0.5 }}
-      >
-        <StatCard value={<AnimatedCounter value={10000} suffix="+" />} label="Questões" />
-        <StatCard value={<AnimatedCounter value={368} />} label="Doenças" />
-        <StatCard value={<AnimatedCounter value={690} />} label="Medicamentos" />
-        <StatCard value="TRI" label="Pontuação Real" />
-      </motion.div>
+      <ScrollReveal>
+        <div className="relative mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+          <StatCard value={<AnimatedCounter value={10000} suffix="+" />} label="Questões" />
+          <StatCard value={<AnimatedCounter value={368} />} label="Doenças" />
+          <StatCard value={<AnimatedCounter value={690} />} label="Medicamentos" />
+          <StatCard value="TRI" label="Pontuação Real" />
+        </div>
+      </ScrollReveal>
     </div>
   );
 }

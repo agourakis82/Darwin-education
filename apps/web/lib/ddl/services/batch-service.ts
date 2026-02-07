@@ -276,36 +276,46 @@ export class DDLBatchService {
   // ============================================================
 
   async getExamDDLSummary(examAttemptId: string): Promise<any> {
-    const { data: summary, error: summaryError } = await this.supabase
-      .from('exam_ddl_summary')
-      .select('*')
-      .eq('exam_attempt_id', examAttemptId)
-      .single()
+    // Gracefully handle missing configuration — DDL is optional
+    try {
+      // Access supabase getter (may throw if env vars missing)
+      const client = this.supabase
 
-    if (summaryError) return null
+      const { data: summary, error: summaryError } = await client
+        .from('exam_ddl_summary')
+        .select('*')
+        .eq('exam_attempt_id', examAttemptId)
+        .single()
 
-    // Get individual response details
-    const { data: responses, error: responsesError } = await this.supabase
-      .from('exam_ddl_responses')
-      .select(`
-        question_order,
-        ddl_question_id,
-        ddl_response_id,
-        ddl_questions!inner(question_code, question_text, topic),
-        ddl_responses!inner(response_text),
-        ddl_classification(
-          primary_lacuna_type,
-          primary_confidence,
-          primary_probability
-        ),
-        ddl_feedback(id, feedback_type)
-      `)
-      .eq('exam_attempt_id', examAttemptId)
-      .order('question_order')
+      if (summaryError) return null
 
-    return {
-      summary,
-      responses: responsesError ? [] : responses,
+      // Get individual response details
+      const { data: responses, error: responsesError } = await client
+        .from('exam_ddl_responses')
+        .select(`
+          question_order,
+          ddl_question_id,
+          ddl_response_id,
+          ddl_questions!inner(question_code, question_text, topic),
+          ddl_responses!inner(response_text),
+          ddl_classification(
+            primary_lacuna_type,
+            primary_confidence,
+            primary_probability
+          ),
+          ddl_feedback(id, feedback_type)
+        `)
+        .eq('exam_attempt_id', examAttemptId)
+        .order('question_order')
+
+      return {
+        summary,
+        responses: responsesError ? [] : responses,
+      }
+    } catch (error) {
+      // DDL system not configured (missing env vars or tables) — return null
+      console.warn('DDL system unavailable:', error instanceof Error ? error.message : error)
+      return null
     }
   }
 

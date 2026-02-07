@@ -1,4 +1,6 @@
-import { forwardRef, type InputHTMLAttributes } from 'react'
+'use client'
+
+import { forwardRef, useEffect, useRef, useState, type InputHTMLAttributes } from 'react'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
@@ -9,6 +11,17 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, hint, className = '', id, ...props }, ref) => {
     const inputId = id || label?.toLowerCase().replace(/\s+/g, '-')
+    const [shake, setShake] = useState(false)
+    const prevError = useRef(error)
+
+    useEffect(() => {
+      if (error && !prevError.current) {
+        setShake(true)
+        const t = setTimeout(() => setShake(false), 400)
+        return () => clearTimeout(t)
+      }
+      prevError.current = error
+    }, [error])
 
     return (
       <div className="w-full">
@@ -25,10 +38,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           id={inputId}
           className={`
             w-full px-4 py-3 bg-surface-2 border rounded-md text-label-primary
-            placeholder-label-quaternary transition-all
+            placeholder-label-quaternary transition-all duration-300
             focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 focus:shadow-glow-emerald
             disabled:opacity-50 disabled:cursor-not-allowed
             ${error ? 'border-red-500' : 'border-separator'}
+            ${shake ? 'animate-shake' : ''}
             ${className}
           `}
           {...props}

@@ -116,7 +116,7 @@ export default function FlashcardsPage() {
                   </svg>
                 </div>
                 <div>
-                  <p className="text-2xl font-bold">{decks.length}</p>
+                  <p className="text-2xl font-bold"><AnimatedCounter value={decks.length} /></p>
                   <p className="text-sm text-label-secondary">Decks</p>
                 </div>
               </div>
@@ -134,7 +134,7 @@ export default function FlashcardsPage() {
                   </svg>
                 </div>
                 <div>
-                  <p className="text-2xl font-bold">{totalCards}</p>
+                  <p className="text-2xl font-bold"><AnimatedCounter value={totalCards} /></p>
                   <p className="text-sm text-label-secondary">Total de Cards</p>
                 </div>
               </div>
@@ -152,7 +152,7 @@ export default function FlashcardsPage() {
                   </svg>
                 </div>
                 <div>
-                  <p className="text-2xl font-bold">{totalDue}</p>
+                  <p className="text-2xl font-bold"><AnimatedCounter value={totalDue} /></p>
                   <p className="text-sm text-label-secondary">Para Revisar</p>
                 </div>
               </div>

@@ -2,11 +2,14 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
+import { motion, AnimatePresence } from 'framer-motion'
+import { spring } from '@/lib/motion'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Spinner } from '@/components/ui/Spinner'
 import { ReviewButtons } from '../components/ReviewButtons'
 import { FSRS } from '@darwin-education/shared'
+import { celebrateSessionComplete } from '@/lib/confetti'
 
 type FSRSRating = FSRS.FSRSRating
 
@@ -119,6 +122,14 @@ export default function FlashcardStudyPage() {
     }
   }, [currentCard, currentIndex, cards.length, stats, submitting])
 
+  // Celebrate session completion
+  useEffect(() => {
+    if (sessionComplete && stats.reviewed > 0) {
+      const accuracy = Math.round((stats.correct / stats.reviewed) * 100)
+      celebrateSessionComplete(accuracy)
+    }
+  }, [sessionComplete, stats.reviewed, stats.correct])
+
   if (loading) {
     return (
       <div className="min-h-screen bg-surface-0 flex items-center justify-center">
@@ -229,51 +240,61 @@ export default function FlashcardStudyPage() {
           />
         </div>
 
-        {/* Card Info */}
-        <div className="flex items-center gap-2 mb-4 text-sm">
-          <span className="px-2 py-1 bg-surface-2 rounded text-label-primary">
-            {currentCard.deckName}
-          </span>
-          {currentCard.area && (
-            <span className="px-2 py-1 bg-blue-600/20 text-blue-400 rounded">
-              {currentCard.area.replace('_', ' ')}
-            </span>
-          )}
-          {currentCard.state === 'new' && (
-            <span className="px-2 py-1 bg-purple-600/20 text-purple-400 rounded">
-              Novo
-            </span>
-          )}
-        </div>
+        {/* Card Info + Flashcard — animate between cards */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentIndex}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={spring.snappy}
+          >
+            <div className="flex items-center gap-2 mb-4 text-sm">
+              <span className="px-2 py-1 bg-surface-2 rounded text-label-primary">
+                {currentCard.deckName}
+              </span>
+              {currentCard.area && (
+                <span className="px-2 py-1 bg-blue-600/20 text-blue-400 rounded">
+                  {currentCard.area.replace('_', ' ')}
+                </span>
+              )}
+              {currentCard.state === 'new' && (
+                <span className="px-2 py-1 bg-purple-600/20 text-purple-400 rounded">
+                  Novo
+                </span>
+              )}
+            </div>
 
-        {/* Flashcard */}
-        <div
-          className="relative perspective-1000 cursor-pointer mb-8"
-          onClick={() => setIsFlipped(!isFlipped)}
-        >
-          <Card className={`
-            min-h-[300px] transition-all duration-500 transform-style-3d
-            ${isFlipped ? 'rotate-y-180' : ''}
-          `}>
-            <CardContent className="flex items-center justify-center p-8 min-h-[300px]">
-              <div className={`text-center ${isFlipped ? 'hidden' : ''}`}>
-                <p className="text-xs text-label-tertiary mb-4">FRENTE</p>
-                <p className="text-xl md:text-2xl text-white whitespace-pre-wrap">
-                  {currentCard.front}
-                </p>
-                <p className="text-sm text-label-tertiary mt-8">
-                  Clique ou pressione espaco para virar
-                </p>
-              </div>
-              <div className={`text-center ${isFlipped ? '' : 'hidden'}`}>
-                <p className="text-xs text-label-tertiary mb-4">VERSO</p>
-                <p className="text-xl md:text-2xl text-white whitespace-pre-wrap">
-                  {currentCard.back}
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+            {/* Flashcard */}
+            <div
+              className="relative perspective-1000 cursor-pointer mb-8"
+              onClick={() => setIsFlipped(!isFlipped)}
+            >
+              <Card className={`
+                min-h-[300px] transition-all duration-500 transform-style-3d
+                ${isFlipped ? 'rotate-y-180' : ''}
+              `}>
+                <CardContent className="flex items-center justify-center p-8 min-h-[300px]">
+                  <div className={`text-center ${isFlipped ? 'hidden' : ''}`}>
+                    <p className="text-xs text-label-tertiary mb-4">FRENTE</p>
+                    <p className="text-xl md:text-2xl text-white whitespace-pre-wrap">
+                      {currentCard.front}
+                    </p>
+                    <p className="text-sm text-label-tertiary mt-8">
+                      Clique ou pressione espaco para virar
+                    </p>
+                  </div>
+                  <div className={`text-center ${isFlipped ? '' : 'hidden'}`}>
+                    <p className="text-xs text-label-tertiary mb-4">VERSO</p>
+                    <p className="text-xl md:text-2xl text-white whitespace-pre-wrap">
+                      {currentCard.back}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </motion.div>
+        </AnimatePresence>
 
         {/* Review Buttons (shown only when flipped) */}
         {isFlipped && (

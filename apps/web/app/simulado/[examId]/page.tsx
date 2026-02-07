@@ -1,7 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useParams, useRouter } from 'next/navigation'
+import { motion, AnimatePresence } from 'framer-motion'
+import { spring } from '@/lib/motion'
 import { createClient } from '@/lib/supabase/client'
 import { useExamStore } from '@/lib/stores/examStore'
 import { ExamTimer } from '../components/ExamTimer'
@@ -313,6 +315,9 @@ export default function ExamPage() {
 
   const currentQuestion = currentExam.questions[currentQuestionIndex]
   const answeredCount = Object.values(answers).filter(a => a.selectedAnswer !== null).length
+  const prevIndexRef = useRef(currentQuestionIndex)
+  const direction = currentQuestionIndex >= prevIndexRef.current ? 1 : -1
+  prevIndexRef.current = currentQuestionIndex
 
   return (
     <div className="min-h-screen bg-surface-0">
@@ -361,15 +366,26 @@ export default function ExamPage() {
 
           {/* Main Question Area */}
           <div className="lg:col-span-3">
-            <ExamQuestion
-              question={currentQuestion}
-              questionNumber={currentQuestionIndex + 1}
-              totalQuestions={currentExam.questions.length}
-              selectedAnswer={answers[currentQuestion.id]?.selectedAnswer}
-              isFlagged={answers[currentQuestion.id]?.flagged}
-              onAnswerSelect={(answer) => selectAnswer(currentQuestion.id, answer)}
-              onToggleFlag={() => toggleFlagQuestion(currentQuestion.id)}
-            />
+            <AnimatePresence mode="wait" custom={direction}>
+              <motion.div
+                key={currentQuestionIndex}
+                custom={direction}
+                initial={{ opacity: 0, x: direction * 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: direction * -20 }}
+                transition={spring.snappy}
+              >
+                <ExamQuestion
+                  question={currentQuestion}
+                  questionNumber={currentQuestionIndex + 1}
+                  totalQuestions={currentExam.questions.length}
+                  selectedAnswer={answers[currentQuestion.id]?.selectedAnswer}
+                  isFlagged={answers[currentQuestion.id]?.flagged}
+                  onAnswerSelect={(answer) => selectAnswer(currentQuestion.id, answer)}
+                  onToggleFlag={() => toggleFlagQuestion(currentQuestion.id)}
+                />
+              </motion.div>
+            </AnimatePresence>
 
             {/* Navigation Buttons */}
             <div className="flex justify-between mt-6">

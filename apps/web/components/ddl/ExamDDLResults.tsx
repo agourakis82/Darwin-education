@@ -90,16 +90,20 @@ const lacunaInfo: Record<LacunaType, { name: string; color: string; bgColor: str
 
 export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
   const [loading, setLoading] = useState(true)
-  const [analyzing, setAnalyzing] = useState(false)
   const [summary, setSummary] = useState<ExamDDLSummary | null>(null)
   const [responses, setResponses] = useState<DDLResponse[]>([])
-  const [error, setError] = useState<string | null>(null)
   const [hasAnalysis, setHasAnalysis] = useState(false)
 
   const loadDDLResults = async () => {
     try {
       const res = await fetch(`/api/ddl/exam/${examAttemptId}`)
-      if (!res.ok) throw new Error('Failed to load DDL results')
+      if (!res.ok) {
+        // DDL system may not be configured — silently hide the section
+        console.warn('DDL API returned', res.status)
+        setHasAnalysis(false)
+        setLoading(false)
+        return
+      }
 
       const data = await res.json()
 
@@ -111,8 +115,9 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
         setHasAnalysis(false)
       }
     } catch (err) {
-      console.error('Error loading DDL results:', err)
-      setError('Erro ao carregar resultados DDL')
+      // Network or parse error — DDL is optional, just hide section
+      console.warn('DDL unavailable:', err)
+      setHasAnalysis(false)
     } finally {
       setLoading(false)
     }
@@ -121,31 +126,6 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
   useEffect(() => {
     loadDDLResults()
   }, [examAttemptId])
-
-  const triggerAnalysis = async () => {
-    setAnalyzing(true)
-    setError(null)
-
-    try {
-      const res = await fetch(`/api/ddl/exam/${examAttemptId}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ processNow: true }),
-      })
-
-      if (!res.ok) {
-        const data = await res.json()
-        throw new Error(data.error || 'Analysis failed')
-      }
-
-      await loadDDLResults()
-    } catch (err) {
-      console.error('Error triggering analysis:', err)
-      setError((err as Error).message)
-    } finally {
-      setAnalyzing(false)
-    }
-  }
 
   if (loading) {
     return (
@@ -158,40 +138,9 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
     )
   }
 
-  if (error) {
-    return (
-      <div className="bg-red-900/20 rounded-lg border border-red-700 p-6">
-        <p className="text-red-400">{error}</p>
-      </div>
-    )
-  }
-
-  if (!hasAnalysis) {
-    return (
-      <div className="bg-surface-2 rounded-lg shadow-elevation-1 p-6">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 bg-emerald-600/20 rounded-lg flex items-center justify-center">
-            <Target className="w-6 h-6 text-emerald-400" />
-          </div>
-          <div className="flex-1">
-            <h3 className="font-semibold text-label-primary mb-1">
-              Diagnostico de Lacunas (DDL)
-            </h3>
-            <p className="text-sm text-label-secondary">
-              Este exame inclui questoes dissertativas que podem ser analisadas
-              para identificar padroes de aprendizagem.
-            </p>
-          </div>
-          <Button
-            onClick={triggerAnalysis}
-            disabled={analyzing}
-            loading={analyzing}
-          >
-            {analyzing ? 'Analisando...' : 'Analisar Respostas'}
-          </Button>
-        </div>
-      </div>
-    )
+  // DDL system not available or no DDL data for this exam — render nothing
+  if (!hasAnalysis && !loading) {
+    return null
   }
 
   if (!summary) return null

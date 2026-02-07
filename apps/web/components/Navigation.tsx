@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { motion, AnimatePresence } from 'framer-motion'
+import { spring } from '@/lib/motion'
 import {
   Home,
   ClipboardList,
@@ -120,50 +122,59 @@ export function Navigation() {
         </div>
 
         {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <div className="md:hidden border-t border-separator bg-surface-1/95 backdrop-blur-xl" role="menu">
-            <div className="px-4 py-4 space-y-1">
-              {navItems.map((item) => {
-                const Icon = item.icon
-                const active = isActive(item.href)
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={spring.snappy}
+              className="md:hidden border-t border-separator bg-surface-1/95 backdrop-blur-xl overflow-hidden"
+              role="menu"
+            >
+              <div className="px-4 py-4 space-y-1">
+                {navItems.map((item) => {
+                  const Icon = item.icon
+                  const active = isActive(item.href)
 
-                return (
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      role="menuitem"
+                      aria-current={active ? 'page' : undefined}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`flex items-center gap-3 px-4 py-3 rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${
+                        active
+                          ? 'bg-emerald-500/[0.15] text-emerald-400'
+                          : 'text-label-secondary hover:text-label-primary hover:bg-surface-3'
+                      }`}
+                    >
+                      <Icon className="w-5 h-5" />
+                      <span>{item.label}</span>
+                    </Link>
+                  )
+                })}
+                <div className="pt-4 border-t border-separator mt-4 space-y-2">
                   <Link
-                    key={item.href}
-                    href={item.href}
-                    role="menuitem"
-                    aria-current={active ? 'page' : undefined}
+                    href="/login"
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 ${
-                      active
-                        ? 'bg-emerald-500/[0.15] text-emerald-400'
-                        : 'text-label-secondary hover:text-label-primary hover:bg-surface-3'
-                    }`}
+                    className="block px-4 py-3 text-center text-label-secondary hover:text-label-primary transition-colors rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
                   >
-                    <Icon className="w-5 h-5" />
-                    <span>{item.label}</span>
+                    Entrar
                   </Link>
-                )
-              })}
-              <div className="pt-4 border-t border-separator mt-4 space-y-2">
-                <Link
-                  href="/login"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block px-4 py-3 text-center text-label-secondary hover:text-label-primary transition-colors rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
-                >
-                  Entrar
-                </Link>
-                <Link
-                  href="/signup"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="block px-4 py-3 text-center bg-gradient-to-b from-emerald-500 to-emerald-600 shadow-elevation-1 shadow-inner-shine hover:from-emerald-400 hover:to-emerald-500 text-white font-medium rounded-md transition-all active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
-                >
-                  Criar Conta
-                </Link>
+                  <Link
+                    href="/signup"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block px-4 py-3 text-center bg-gradient-to-b from-emerald-500 to-emerald-600 shadow-elevation-1 shadow-inner-shine hover:from-emerald-400 hover:to-emerald-500 text-white font-medium rounded-md transition-all active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                  >
+                    Criar Conta
+                  </Link>
+                </div>
               </div>
-            </div>
-          </div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
     </>
   )

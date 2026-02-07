@@ -1,5 +1,9 @@
+'use client'
+
 import { type ReactNode } from 'react'
+import { motion } from 'framer-motion'
 import { Search, ClipboardList, Lock, BarChart3, AlertTriangle } from 'lucide-react'
+import { spring } from '@/lib/motion'
 import { Button } from './Button'
 
 interface EmptyStateProps {
@@ -22,16 +26,24 @@ export function EmptyState({
   className = '',
 }: EmptyStateProps) {
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={spring.gentle}
       className={`
         flex flex-col items-center justify-center py-12 px-4
         ${className}
       `}
     >
       {icon && (
-        <div className="w-16 h-16 rounded-2xl bg-surface-3 flex items-center justify-center mb-4 text-label-secondary">
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ ...spring.bouncy, delay: 0.1 }}
+          className="w-16 h-16 rounded-2xl bg-surface-3 flex items-center justify-center mb-4 text-label-secondary"
+        >
           {icon}
-        </div>
+        </motion.div>
       )}
 
       <h3 className="text-xl font-semibold text-label-primary mb-2">{title}</h3>
@@ -47,7 +59,7 @@ export function EmptyState({
           {action.label}
         </Button>
       )}
-    </div>
+    </motion.div>
   )
 }
 

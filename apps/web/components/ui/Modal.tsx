@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useCallback, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
+import { motion, AnimatePresence } from 'framer-motion'
 import { X } from 'lucide-react'
+import { spring, duration } from '@/lib/motion'
 
 interface ModalProps {
   isOpen: boolean
@@ -89,42 +91,51 @@ export function Modal({
     }
   }
 
-  if (!isOpen) return null
-
-  const modalContent = (
-    <div
-      ref={overlayRef}
-      onClick={handleOverlayClick}
-      className="fixed inset-0 z-modal flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
-      role="dialog"
-      aria-modal="true"
-      aria-label={title}
-    >
-      <div
-        ref={modalRef}
-        className={`
-          w-full ${sizeStyles[size]} material-regular
-          rounded-xl shadow-elevation-5 animate-in fade-in zoom-in-95 duration-200
-        `}
-      >
-        {title && (
-          <div className="flex items-center justify-between px-6 py-4 border-b border-separator">
-            <h2 className="text-lg font-semibold text-label-primary">{title}</h2>
-            <button
-              onClick={onClose}
-              className="p-1 rounded-lg hover:bg-surface-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
-              aria-label="Fechar"
-            >
-              <X className="w-5 h-5 text-label-secondary" />
-            </button>
-          </div>
-        )}
-        <div className="p-6">{children}</div>
-      </div>
-    </div>
-  )
-
   if (typeof window === 'undefined') return null
 
-  return createPortal(modalContent, document.body)
+  return createPortal(
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          ref={overlayRef}
+          onClick={handleOverlayClick}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: duration.base }}
+          className="fixed inset-0 z-modal flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+          aria-label={title}
+        >
+          <motion.div
+            ref={modalRef}
+            initial={{ opacity: 0, scale: 0.95, y: 8 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 8 }}
+            transition={spring.snappy}
+            className={`
+              w-full ${sizeStyles[size]} material-regular
+              rounded-xl shadow-elevation-5
+            `}
+          >
+            {title && (
+              <div className="flex items-center justify-between px-6 py-4 border-b border-separator">
+                <h2 className="text-lg font-semibold text-label-primary">{title}</h2>
+                <button
+                  onClick={onClose}
+                  className="p-1 rounded-lg hover:bg-surface-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                  aria-label="Fechar"
+                >
+                  <X className="w-5 h-5 text-label-secondary" />
+                </button>
+              </div>
+            )}
+            <div className="p-6">{children}</div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>,
+    document.body
+  )
 }
