@@ -23,6 +23,9 @@ interface AttemptResult {
   totalQuestions: number
   areaBreakdown: Record<ENAMEDArea, AreaPerformance>
   timeSpent: number
+  isAdaptive?: boolean
+  stoppingReason?: string
+  thetaTrajectory?: { itemNum: number; theta: number; se: number }[]
 }
 
 export default function ExamResultPage() {
@@ -75,6 +78,10 @@ export default function ExamResultPage() {
         total_time_seconds: number
         area_breakdown: Record<ENAMEDArea, AreaPerformance>
         exams: { title: string; question_count: number } | null
+        is_adaptive?: boolean
+        stopping_reason?: string
+        theta_trajectory?: { itemNum: number; theta: number; se: number }[]
+        items_administered?: string[]
       }
 
       interface AttemptRowWithId extends AttemptRow {
@@ -103,9 +110,14 @@ export default function ExamResultPage() {
         scaledScore: attempt.scaled_score,
         passed: attempt.passed,
         correctCount: attempt.correct_count,
-        totalQuestions: attempt.exams?.question_count || 0,
+        totalQuestions: attempt.is_adaptive
+          ? (attempt.items_administered?.length || attempt.correct_count)
+          : (attempt.exams?.question_count || 0),
         areaBreakdown: attempt.area_breakdown,
         timeSpent: attempt.total_time_seconds,
+        isAdaptive: attempt.is_adaptive,
+        stoppingReason: attempt.stopping_reason,
+        thetaTrajectory: attempt.theta_trajectory,
       })
       setExamTitle(attempt.exams?.title || 'Simulado')
       setLoading(false)
@@ -145,7 +157,14 @@ export default function ExamResultPage() {
         {/* Header */}
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">Resultado do Simulado</h1>
-          <p className="text-label-secondary">{examTitle}</p>
+          <div className="flex items-center justify-center gap-3">
+            <p className="text-label-secondary">{examTitle}</p>
+            {result.isAdaptive && (
+              <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
+                Adaptativo
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Main Score Card */}
@@ -159,6 +178,7 @@ export default function ExamResultPage() {
                 { value: result.correctCount, label: 'Acertos' },
                 { value: result.totalQuestions - result.correctCount, label: 'Erros' },
                 { value: Math.round((result.correctCount / result.totalQuestions) * 100), label: 'Aproveitamento', suffix: '%' },
+                ...(result.isAdaptive ? [{ value: result.totalQuestions, label: 'Itens' }] : []),
               ]}
               onRevealComplete={() => {
                 celebrateExamResult({
@@ -171,6 +191,72 @@ export default function ExamResultPage() {
             />
           </CardContent>
         </Card>
+
+        {/* Adaptive Test Info */}
+        {result.isAdaptive && (
+          <ScrollReveal>
+            <Card className="mb-8">
+              <CardContent>
+                <h3 className="text-lg font-semibold text-white mb-4">Teste Adaptativo</h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-4">
+                  <div>
+                    <div className="text-label-secondary text-sm">Itens administrados</div>
+                    <div className="text-xl font-semibold text-white">{result.totalQuestions}</div>
+                  </div>
+                  <div>
+                    <div className="text-label-secondary text-sm">Erro padrão</div>
+                    <div className="text-xl font-semibold text-white">{result.standardError.toFixed(3)}</div>
+                  </div>
+                  {result.stoppingReason && (
+                    <div>
+                      <div className="text-label-secondary text-sm">Critério de parada</div>
+                      <div className="text-sm font-medium text-white">
+                        {result.stoppingReason === 'se_threshold'
+                          ? 'Precisão atingida'
+                          : 'Máximo de itens'}
+                      </div>
+                    </div>
+                  )}
+                </div>
+                {/* Theta Trajectory Sparkline */}
+                {result.thetaTrajectory && result.thetaTrajectory.length > 1 && (
+                  <div>
+                    <div className="text-label-secondary text-sm mb-2">Trajetória da habilidade (theta)</div>
+                    <svg
+                      viewBox={`0 0 ${result.thetaTrajectory.length * 12} 60`}
+                      className="w-full h-16"
+                      preserveAspectRatio="none"
+                    >
+                      {/* Cutoff line at theta=1.0 (score 600) */}
+                      <line
+                        x1="0"
+                        y1={60 - ((1.0 + 4) / 8) * 60}
+                        x2={result.thetaTrajectory.length * 12}
+                        y2={60 - ((1.0 + 4) / 8) * 60}
+                        stroke="#6B7280"
+                        strokeWidth="0.5"
+                        strokeDasharray="4 2"
+                      />
+                      <polyline
+                        fill="none"
+                        stroke="#10B981"
+                        strokeWidth="2"
+                        strokeLinejoin="round"
+                        points={result.thetaTrajectory
+                          .map((p, i) => {
+                            const x = i * 12 + 6
+                            const y = 60 - ((Math.max(-4, Math.min(4, p.theta)) + 4) / 8) * 60
+                            return `${x},${y}`
+                          })
+                          .join(' ')}
+                      />
+                    </svg>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </ScrollReveal>
+        )}
 
         {/* Area Breakdown */}
         <ScrollReveal>

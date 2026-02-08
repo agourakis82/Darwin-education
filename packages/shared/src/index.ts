@@ -39,9 +39,8 @@ export * from './config/irt-estimation-config';
 // AI Services
 export * from './services/ai';
 
-// Advanced features (temporarily disabled for pilot deployment)
-// Uncomment when these modules are committed to git:
-// export * from './algorithms/cat';
+// Advanced features
+export * from './algorithms/cat';
 // export * from './analyzers/enamed-parser';
 // export * from './analyzers/question-patterns';
 // export * from './generators/template-engine';

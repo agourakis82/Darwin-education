@@ -271,6 +271,15 @@ export default function ExamPage() {
         // Ignore errors - study activity is non-critical
       }
 
+      // Trigger DDL analysis (fire-and-forget)
+      if (attemptId) {
+        fetch(`/api/ddl/exam/${attemptId}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ processNow: true }),
+        }).catch(() => { /* DDL is optional */ })
+      }
+
       // Navigate to results page
       router.push(`/simulado/${examId}/result`)
     } catch (err) {

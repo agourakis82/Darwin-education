@@ -25,7 +25,7 @@ const navItems = [
   { href: '/flashcards', label: 'Flashcards', icon: Layers },
   { href: '/trilhas', label: 'Trilhas', icon: Map },
   { href: '/montar-prova', label: 'Montar Prova', icon: SlidersHorizontal },
-  { href: '/gerar-questao', label: 'Gerar IA', icon: Lightbulb },
+  { href: '/qgen', label: 'Gerar IA', icon: Lightbulb },
   { href: '/caso-clinico', label: 'Caso Clínico', icon: FileText },
   { href: '/desempenho', label: 'Desempenho', icon: BarChart3 },
   { href: '/conteudo', label: 'Conteúdo', icon: BookOpen },
