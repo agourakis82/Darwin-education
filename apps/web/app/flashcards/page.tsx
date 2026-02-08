@@ -19,6 +19,7 @@ interface FlashcardDeck {
   due_count: number
   last_studied: string | null
   created_at: string
+  is_system: boolean
 }
 
 
