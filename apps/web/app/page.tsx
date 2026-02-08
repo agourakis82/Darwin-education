@@ -16,6 +16,7 @@ import {
   Sparkles,
   GraduationCap,
   Brain,
+  FlaskConical,
   ArrowUpRight,
 } from 'lucide-react';
 import type { ReactNode } from 'react';
@@ -142,6 +143,20 @@ export default function HomePage() {
           icon={<Brain className="w-6 h-6" />}
           title="Raciocínio Clínico Fractal"
           description="Raciocínio em 4 níveis com calibração de confiança metacognitiva"
+          color="purple"
+        />
+        <FeatureCard
+          href="/pesquisa/psicometria"
+          icon={<FlaskConical className="w-6 h-6" />}
+          title="Psicometria Avançada"
+          description="MIRT 5D, RT-IRT velocidade-precisão e análise DIF de equidade"
+          color="emerald"
+        />
+        <FeatureCard
+          href="/pesquisa/dominio"
+          icon={<Target className="w-6 h-6" />}
+          title="Domínio de Conhecimento"
+          description="BKT, curvas de esquecimento HLR e perfil unificado do aprendiz"
           color="purple"
         />
         <FeatureCard

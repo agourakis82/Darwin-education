@@ -16,6 +16,7 @@ import {
   BarChart3,
   BookOpen,
   Brain,
+  FlaskConical,
   Menu,
   X,
 } from 'lucide-react'
@@ -31,6 +32,7 @@ const navItems = [
   { href: '/fcr', label: 'Raciocínio', icon: Brain },
   { href: '/desempenho', label: 'Desempenho', icon: BarChart3 },
   { href: '/conteudo', label: 'Conteúdo', icon: BookOpen },
+  { href: '/pesquisa', label: 'Pesquisa', icon: FlaskConical },
 ]
 
 export function Navigation() {

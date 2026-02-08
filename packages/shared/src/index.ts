@@ -14,6 +14,12 @@ export * from './types/schema-medical';
 export * from './types/ai';
 export * from './types/qgen';
 export * from './types/theory-generation';
+export * from './types/rt-irt';
+export * from './types/hlr';
+export * from './types/bkt';
+export * from './types/dif';
+export * from './types/mirt';
+export * from './types/unified-learner';
 
 // Data loaders
 export * from './data/ontology-loaders';
@@ -42,6 +48,14 @@ export * from './config/irt-estimation-config';
 
 // AI Services
 export * from './services/ai';
+
+// Research-grade psychometrics
+export * from './calculators/rt-irt';
+export * from './calculators/hlr';
+export * from './calculators/bkt';
+export * from './calculators/dif';
+export * from './calculators/mirt';
+export * from './calculators/unified-learner-model';
 
 // Advanced features
 export * from './algorithms/cat';
