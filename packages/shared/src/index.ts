@@ -8,6 +8,7 @@
 // Types
 export * from './types/education';
 export * from './types/cip';
+export * from './types/fcr';
 export * from './types/ontology';
 export * from './types/schema-medical';
 export * from './types/ai';
@@ -24,6 +25,9 @@ export * from './calculators/distractor';
 export * from './calculators/cip';
 export * from './calculators/cip-scoring';
 export * from './calculators/cip-image-scoring';
+export * from './calculators/fcr-scoring';
+export * from './calculators/fcr-adaptive';
+export * from './calculators/fcr-calibration-model';
 
 // Spaced Repetition (with namespaces to avoid conflicts)
 export * as SM2 from './calculators/sm2';

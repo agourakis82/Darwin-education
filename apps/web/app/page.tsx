@@ -14,6 +14,8 @@ import {
   BookOpen,
   Target,
   Sparkles,
+  GraduationCap,
+  Brain,
   ArrowUpRight,
 } from 'lucide-react';
 import type { ReactNode } from 'react';
@@ -134,6 +136,20 @@ export default function HomePage() {
           title="QGen DDL"
           description="Geração de questões com validação IRT e integração DDL"
           color="purple"
+        />
+        <FeatureCard
+          href="/fcr"
+          icon={<Brain className="w-6 h-6" />}
+          title="Raciocínio Clínico Fractal"
+          description="Raciocínio em 4 níveis com calibração de confiança metacognitiva"
+          color="purple"
+        />
+        <FeatureCard
+          href="/metodos-estudo"
+          icon={<GraduationCap className="w-6 h-6" />}
+          title="Métodos de Estudo"
+          description="Pomodoro, revisão espaçada e técnicas baseadas em evidências"
+          color="emerald"
         />
       </motion.div>
 

@@ -15,6 +15,7 @@ import {
   FileText,
   BarChart3,
   BookOpen,
+  Brain,
   Menu,
   X,
 } from 'lucide-react'
@@ -27,6 +28,7 @@ const navItems = [
   { href: '/montar-prova', label: 'Montar Prova', icon: SlidersHorizontal },
   { href: '/qgen', label: 'Gerar IA', icon: Lightbulb },
   { href: '/caso-clinico', label: 'Caso Clínico', icon: FileText },
+  { href: '/fcr', label: 'Raciocínio', icon: Brain },
   { href: '/desempenho', label: 'Desempenho', icon: BarChart3 },
   { href: '/conteudo', label: 'Conteúdo', icon: BookOpen },
 ]

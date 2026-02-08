@@ -41,7 +41,7 @@ export default function FlashcardsPage() {
       return
     }
 
-    // Load decks with card counts
+    // Load user decks + system decks
     const { data: decksData } = await supabase
       .from('flashcard_decks')
       .select(`
@@ -49,10 +49,12 @@ export default function FlashcardsPage() {
         title,
         description,
         area,
+        is_system,
         created_at,
         flashcards(id, next_review)
       `)
-      .eq('user_id', user.user.id)
+      .or(`user_id.eq.${user.user.id},is_system.eq.true`)
+      .order('is_system', { ascending: false })
       .order('created_at', { ascending: false })
 
     if (decksData) {
@@ -64,8 +66,9 @@ export default function FlashcardsPage() {
         area: deck.area,
         card_count: deck.flashcards?.length || 0,
         due_count: deck.flashcards?.filter((c: any) => c.next_review <= now).length || 0,
-        last_studied: null, // Could track this separately
+        last_studied: null,
         created_at: deck.created_at,
+        is_system: deck.is_system || false,
       }))
       setDecks(formattedDecks)
     }
@@ -73,9 +76,16 @@ export default function FlashcardsPage() {
     setLoading(false)
   }
 
-  const filteredDecks = filter === 'all'
-    ? decks
-    : decks.filter(d => d.area === filter)
+  const systemDecks = decks.filter(d => d.is_system)
+  const userDecks = decks.filter(d => !d.is_system)
+
+  const filteredSystemDecks = filter === 'all'
+    ? systemDecks
+    : systemDecks.filter(d => d.area === filter)
+
+  const filteredUserDecks = filter === 'all'
+    ? userDecks
+    : userDecks.filter(d => d.area === filter)
 
   const totalDue = decks.reduce((sum, d) => sum + d.due_count, 0)
   const totalCards = decks.reduce((sum, d) => sum + d.card_count, 0)
@@ -215,76 +225,139 @@ export default function FlashcardsPage() {
           ))}
         </div>
 
-        {/* Decks Grid */}
+        {/* Decks */}
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[1, 2, 3].map((i) => (
               <div key={i} className="h-48 bg-surface-2 rounded-xl animate-pulse" />
             ))}
           </div>
-        ) : filteredDecks.length === 0 ? (
-          <Card>
-            <CardContent className="py-12 text-center">
-              <svg className="w-16 h-16 text-label-quaternary mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-              </svg>
-              <h3 className="text-lg font-medium text-white mb-2">
-                {filter === 'all' ? 'Nenhum deck criado' : 'Nenhum deck nesta área'}
-              </h3>
-              <p className="text-label-secondary mb-4">
-                Crie seu primeiro deck de flashcards para começar a estudar
-              </p>
-              <Link href="/flashcards/create">
-                <Button>Criar Deck</Button>
-              </Link>
-            </CardContent>
-          </Card>
         ) : (
-          <AnimatedList className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filteredDecks.map((deck) => (
-              <AnimatedItem key={deck.id}>
-              <Link href={`/flashcards/${deck.id}`}>
-                <Card className="h-full hover:border-surface-4 transition-colors cursor-pointer">
-                  <CardHeader>
-                    <div className="flex items-start justify-between">
-                      <CardTitle className="text-lg">{deck.title}</CardTitle>
-                      {deck.due_count > 0 && (
-                        <span className="px-2 py-1 text-xs font-medium bg-yellow-500/20 text-yellow-400 rounded-full">
-                          {deck.due_count} para revisar
-                        </span>
-                      )}
-                    </div>
-                    {deck.area && (
-                      <span className={`inline-block px-2 py-1 text-xs rounded border ${AREA_COLORS[deck.area]?.badge}`}>
-                        {AREA_LABELS[deck.area]}
-                      </span>
-                    )}
-                  </CardHeader>
-                  <CardContent>
-                    {deck.description && (
-                      <p className="text-sm text-label-secondary mb-4 line-clamp-2">
-                        {deck.description}
-                      </p>
-                    )}
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-label-secondary">
-                        {deck.card_count} cards
-                      </span>
-                      <div className="flex items-center gap-1 text-label-tertiary">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        <span>
-                          {new Date(deck.created_at).toLocaleDateString('pt-BR')}
-                        </span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-              </AnimatedItem>
-            ))}
-          </AnimatedList>
+          <>
+            {/* System Decks */}
+            {filteredSystemDecks.length > 0 && (
+              <div className="mb-8">
+                <div className="flex items-center gap-2 mb-4">
+                  <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                  </svg>
+                  <h2 className="text-lg font-semibold text-white">Decks da Plataforma</h2>
+                  <span className="text-xs text-label-tertiary">{filteredSystemDecks.reduce((s, d) => s + d.card_count, 0)} cards</span>
+                </div>
+                <AnimatedList className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {filteredSystemDecks.map((deck) => (
+                    <AnimatedItem key={deck.id}>
+                    <Link href={`/flashcards/${deck.id}`}>
+                      <Card className="h-full hover:border-emerald-800 border-emerald-900/50 transition-colors cursor-pointer">
+                        <CardHeader>
+                          <div className="flex items-start justify-between">
+                            <div className="flex items-center gap-2">
+                              <CardTitle className="text-lg">{deck.title}</CardTitle>
+                              <span className="px-1.5 py-0.5 text-[10px] font-medium bg-emerald-500/20 text-emerald-400 rounded">
+                                Oficial
+                              </span>
+                            </div>
+                            {deck.due_count > 0 && (
+                              <span className="px-2 py-1 text-xs font-medium bg-yellow-500/20 text-yellow-400 rounded-full">
+                                {deck.due_count} para revisar
+                              </span>
+                            )}
+                          </div>
+                          {deck.area && (
+                            <span className={`inline-block px-2 py-1 text-xs rounded border ${AREA_COLORS[deck.area]?.badge}`}>
+                              {AREA_LABELS[deck.area]}
+                            </span>
+                          )}
+                        </CardHeader>
+                        <CardContent>
+                          {deck.description && (
+                            <p className="text-sm text-label-secondary mb-4 line-clamp-2">
+                              {deck.description}
+                            </p>
+                          )}
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="text-label-secondary">
+                              {deck.card_count} cards
+                            </span>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                    </AnimatedItem>
+                  ))}
+                </AnimatedList>
+              </div>
+            )}
+
+            {/* User Decks */}
+            <div className="flex items-center gap-2 mb-4">
+              <h2 className="text-lg font-semibold text-white">Meus Decks</h2>
+            </div>
+            {filteredUserDecks.length === 0 ? (
+              <Card>
+                <CardContent className="py-12 text-center">
+                  <svg className="w-16 h-16 text-label-quaternary mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                  </svg>
+                  <h3 className="text-lg font-medium text-white mb-2">
+                    {filter === 'all' ? 'Nenhum deck criado' : 'Nenhum deck nesta área'}
+                  </h3>
+                  <p className="text-label-secondary mb-4">
+                    Crie seu primeiro deck de flashcards para começar a estudar
+                  </p>
+                  <Link href="/flashcards/create">
+                    <Button>Criar Deck</Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            ) : (
+              <AnimatedList className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {filteredUserDecks.map((deck) => (
+                  <AnimatedItem key={deck.id}>
+                  <Link href={`/flashcards/${deck.id}`}>
+                    <Card className="h-full hover:border-surface-4 transition-colors cursor-pointer">
+                      <CardHeader>
+                        <div className="flex items-start justify-between">
+                          <CardTitle className="text-lg">{deck.title}</CardTitle>
+                          {deck.due_count > 0 && (
+                            <span className="px-2 py-1 text-xs font-medium bg-yellow-500/20 text-yellow-400 rounded-full">
+                              {deck.due_count} para revisar
+                            </span>
+                          )}
+                        </div>
+                        {deck.area && (
+                          <span className={`inline-block px-2 py-1 text-xs rounded border ${AREA_COLORS[deck.area]?.badge}`}>
+                            {AREA_LABELS[deck.area]}
+                          </span>
+                        )}
+                      </CardHeader>
+                      <CardContent>
+                        {deck.description && (
+                          <p className="text-sm text-label-secondary mb-4 line-clamp-2">
+                            {deck.description}
+                          </p>
+                        )}
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="text-label-secondary">
+                            {deck.card_count} cards
+                          </span>
+                          <div className="flex items-center gap-1 text-label-tertiary">
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>
+                              {new Date(deck.created_at).toLocaleDateString('pt-BR')}
+                            </span>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                  </AnimatedItem>
+                ))}
+              </AnimatedList>
+            )}
+          </>
         )}
       </main>
     </div>

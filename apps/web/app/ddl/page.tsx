@@ -24,6 +24,7 @@ import { AnimatedList, AnimatedItem } from '@/components/ui/AnimatedList'
 import { Button } from '@/components/ui/Button'
 import { DDLQuestion } from '@/components/ddl/DDLQuestion'
 import { DDLFeedback } from '@/components/ddl/DDLFeedback'
+import { FCRLacunaInsights } from '@/app/fcr/components/FCRLacunaInsights'
 import type { LacunaType, ConfidenceLevel, BehavioralData } from '@/lib/ddl/types'
 
 interface PilotQuestion {
@@ -524,6 +525,11 @@ export default function DDLPage() {
 
           {/* Adaptive Question CTA */}
           <AdaptiveQuestionCTA classification={classification} />
+
+          {/* FCR-sourced lacuna insights (cross-system integration) */}
+          <div className="mt-6">
+            <FCRLacunaInsights />
+          </div>
 
           {/* Action buttons */}
           <div className="mt-8 flex justify-center gap-4">
