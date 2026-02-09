@@ -48,7 +48,7 @@ INSERT INTO questions (
     {"letter": "E", "text": "Solicitar MAPA de 24h antes de qualquer mudança"}
   ]'::jsonb,
   1,
-  'A conduta mais adequada é aumentar a dose de losartana para 100mg/dia (opção B). O paciente já está em uso de um inibidor da ECA em dose submáxima e apresenta níveis pressóricos não controlados. Antes de associar uma segunda droga, deve-se otimizar a dose do medicamento em uso. A losartana pode ser utilizada em doses de até 100mg/dia. A opção A não seria adequada pois o paciente já vem usando irregularmente e a pressão não está controlada. A associação de hidroclorotiazida (opção C) seria considerada se após otimização da dose do BRA ainda persistisse hipertensão não controlada. O MAPA (opção E) não é necessário neste momento, pois a hipertensão está claramente não controlada.',
+  'A conduta mais adequada é aumentar a dose de losartana para 100mg/dia (opção B). O paciente já está em uso de um bloqueador do receptor de angiotensina (BRA) em dose submáxima e apresenta níveis pressóricos não controlados. Antes de associar uma segunda droga, deve-se otimizar a dose do medicamento em uso. A losartana pode ser utilizada em doses de até 100mg/dia. A opção A não seria adequada pois o paciente já vem usando irregularmente e a pressão não está controlada. A associação de hidroclorotiazida (opção C) seria considerada se após otimização da dose do BRA ainda persistisse hipertensão não controlada. O MAPA (opção E) não é necessário neste momento, pois a hipertensão está claramente não controlada.',
   -0.500,
   1.200,
   0.250,

@@ -78,7 +78,7 @@ BEGIN
 
   INSERT INTO cip_puzzle_grid (puzzle_id, row_index, section, correct_finding_id) VALUES
     (v_puzzle_id, 0, 'medical_history', find_cip_finding('Polidipsia, poliúria', 'medical_history')),
-    (v_puzzle_id, 0, 'physical_exam', find_cip_finding('Pele seca, cabelos', 'physical_exam')),
+    (v_puzzle_id, 0, 'physical_exam', find_cip_finding('Acantose nigricans', 'physical_exam')),
     (v_puzzle_id, 0, 'treatment', find_cip_finding('Iniciar metformina', 'treatment')),
     (v_puzzle_id, 1, 'medical_history', find_cip_finding('Cefaleia occipital', 'medical_history')),
     (v_puzzle_id, 1, 'physical_exam', find_cip_finding('PA: 160/100', 'physical_exam')),
@@ -610,7 +610,7 @@ BEGIN
 
   INSERT INTO cip_puzzle_grid (puzzle_id, row_index, section, correct_finding_id) VALUES
     (v_puzzle_id, 0, 'medical_history', find_cip_finding('Polidipsia, poliúria', 'medical_history')),
-    (v_puzzle_id, 0, 'physical_exam', find_cip_finding('Pele seca, cabelos', 'physical_exam')),
+    (v_puzzle_id, 0, 'physical_exam', find_cip_finding('Acantose nigricans', 'physical_exam')),
     (v_puzzle_id, 0, 'laboratory', find_cip_finding('Glicemia de jejum: 180', 'laboratory')),
     (v_puzzle_id, 0, 'imaging', find_cip_finding('Fundoscopia: microaneurismas', 'imaging')),
     (v_puzzle_id, 0, 'pathology', find_cip_finding('Infiltração mixedematosa', 'pathology')),
@@ -1111,7 +1111,7 @@ BEGIN
 
   INSERT INTO cip_puzzle_grid (puzzle_id, row_index, section, correct_finding_id) VALUES
     (v_puzzle_id, 0, 'medical_history', find_cip_finding('Polidipsia, poliúria', 'medical_history')),
-    (v_puzzle_id, 0, 'physical_exam', find_cip_finding('Pele seca, cabelos', 'physical_exam')),
+    (v_puzzle_id, 0, 'physical_exam', find_cip_finding('Acantose nigricans', 'physical_exam')),
     (v_puzzle_id, 0, 'laboratory', find_cip_finding('Glicemia de jejum: 180', 'laboratory')),
     (v_puzzle_id, 0, 'imaging', find_cip_finding('Fundoscopia: microaneurismas', 'imaging')),
     (v_puzzle_id, 0, 'pathology', find_cip_finding('Infiltração mixedematosa', 'pathology')),

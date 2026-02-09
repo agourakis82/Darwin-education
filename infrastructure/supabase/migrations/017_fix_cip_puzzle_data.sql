@@ -72,7 +72,7 @@ INSERT INTO cip_findings (text_pt, section, tags) VALUES
   ('Tiragem subcostal, sibilos difusos, FR 65', 'physical_exam', ARRAY['bronquiolite']),
   ('Olhos encovados, turgor diminuído, mucosas secas', 'physical_exam', ARRAY['DDA']),
   ('Edema facial e em mãos, ROT aumentados', 'physical_exam', ARRAY['pré-eclâmpsia']),
-  ('Giordano + à direita, temperatura 38.5°C', 'physical_exam', ARRAY['ITU']),
+  ('Dor suprapúbica à palpação, sem febre', 'physical_exam', ARRAY['ITU']),
 
   -- Laboratory (15)
   ('Glicemia jejum 280 mg/dL, HbA1c 10.2%', 'laboratory', ARRAY['diabetes']),
@@ -235,7 +235,7 @@ BEGIN
   SELECT id INTO STRICT f_treat_preeclampsia FROM cip_findings WHERE text_pt LIKE 'Sulfato de magnésio%' AND section = 'treatment';
   -- ITU na Gestação
   SELECT id INTO STRICT f_mh_itu FROM cip_findings WHERE text_pt LIKE 'Gestante com disúria%' AND section = 'medical_history';
-  SELECT id INTO STRICT f_pe_itu FROM cip_findings WHERE text_pt LIKE 'Giordano%' AND section = 'physical_exam';
+  SELECT id INTO STRICT f_pe_itu FROM cip_findings WHERE text_pt LIKE 'Dor suprapúbica%' AND section = 'physical_exam';
   SELECT id INTO STRICT f_lab_itu FROM cip_findings WHERE text_pt LIKE 'Urocultura%' AND section = 'laboratory';
   SELECT id INTO STRICT f_treat_itu FROM cip_findings WHERE text_pt LIKE 'Cefalexina%' AND section = 'treatment';
 

@@ -86,7 +86,7 @@ VALUES
     '[{"letter":"A","text":"doença inflamatória pélvica","feedback":""},{"letter":"B","text":"miomatose uterina","feedback":""},{"letter":"C","text":"cisto hemorrágico","feedback":""},{"letter":"D","text":"endometriose","feedback":""}]'::jsonb,
     3,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'clinica_medica',
+    'ginecologia_obstetricia',
     NULL, -- subspecialty
     NULL, -- topic
     -0.12947,
@@ -194,7 +194,7 @@ VALUES
     '[{"letter":"A","text":"Transtorno afetivo bipolar","feedback":""},{"letter":"B","text":"Transtorno de oposição desafiante","feedback":""},{"letter":"C","text":"Transtorno disruptivo da desregulação do humor","feedback":""},{"letter":"D","text":"Transtorno do déficit de atenção e hiperatividade. ÁREA LIVRE 1 4","feedback":""}]'::jsonb,
     1,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'clinica_medica',
+    'pediatria',
     NULL, -- subspecialty
     NULL, -- topic
     -3.00859,
@@ -230,7 +230,7 @@ VALUES
     '[{"letter":"A","text":"curvas de crescimento da OMS desde o nascimento até a adolescência","feedback":""},{"letter":"B","text":"curvas de crescimento específicas para síndrome de Down desde o nascimento","feedback":""},{"letter":"C","text":"curvas de crescimento da OMS, corrigindo o peso e o comprimento para síndrome de Down","feedback":""},{"letter":"D","text":"curvas de crescimento da OMS até os dois anos e, a partir daí, em curvas específicas para síndrome de Down","feedback":""}]'::jsonb,
     1,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'clinica_medica',
+    'pediatria',
     NULL, -- subspecialty
     NULL, -- topic
     0.64139,
@@ -248,7 +248,7 @@ VALUES
     '[{"letter":"A","text":"Reposição volêmica","feedback":""},{"letter":"B","text":"Cricotireoidostomia","feedback":""},{"letter":"C","text":"Pericardiocentese","feedback":""},{"letter":"D","text":"Toracocentese","feedback":""}]'::jsonb,
     3,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'clinica_medica',
+    'cirurgia',
     NULL, -- subspecialty
     NULL, -- topic
     -0.02338,
@@ -266,7 +266,7 @@ VALUES
     '[{"letter":"A","text":"disgenesia gonadal","feedback":""},{"letter":"B","text":"malformação Mulleriana","feedback":""},{"letter":"C","text":"obstrução do trato genital","feedback":""},{"letter":"D","text":"insensibilidade androgênica","feedback":""}]'::jsonb,
     3,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'clinica_medica',
+    'ginecologia_obstetricia',
     NULL, -- subspecialty
     NULL, -- topic
     0.62682,
@@ -320,7 +320,7 @@ VALUES
     '[{"letter":"A","text":"Solicitar internação em enfermaria de clínica médica","feedback":""},{"letter":"B","text":"Encaminhar para internação em enfermaria de saúde mental","feedback":""},{"letter":"C","text":"Continuar a investigação para causas da amenorreia na UBS","feedback":""},{"letter":"D","text":"Acompanhar em ambulatório do Centro de Atenção Psicossocial (CAPs). ÁREA LIVRE","feedback":""}]'::jsonb,
     0,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'cirurgia',
+    'clinica_medica',
     NULL, -- subspecialty
     NULL, -- topic
     -0.04374,
@@ -338,7 +338,7 @@ VALUES
     '[{"letter":"A","text":"levodopa e carbidopa","feedback":""},{"letter":"B","text":"donepezila e memantina","feedback":""},{"letter":"C","text":"propranalol e amantadina","feedback":""},{"letter":"D","text":"atorvastatina e baclofeno","feedback":""}]'::jsonb,
     0,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'cirurgia',
+    'clinica_medica',
     NULL, -- subspecialty
     NULL, -- topic
     -0.71556,
@@ -356,7 +356,7 @@ VALUES
     '[{"letter":"A","text":"Manuel, 15 anos, abandonado pelos pais e sob os cuidados de uma família acolhedora, apresenta febre, vômitos, petéquias que evoluem para púrpuras em MMII e SS, rigidez de nuca e história vacinal desconhecida","feedback":""},{"letter":"B","text":"Michele, 13 anos, está morando temporariamente com os tios enquanto a mãe faz um curso no exterior. Há 1 mês vem apresentando equimoses em face, pernas, coxas, em vários estágios de evolução, e evita falar sobre o fato","feedback":""},{"letter":"C","text":"Felipe, 11 anos, acolhido em um abrigo desde os 9 anos, há 3 dias está mais recolhido no seu quarto e dorme quase o tempo todo. Apresenta febre, muita dor no corpo e retro- orbitária, sangramento gengival quando escova os dentes e petéquias pelo corpo","feedback":""},{"letter":"D","text":"Edilene, 16 anos, que cumpre medidas socioeducativas em uma instituição do Estado, apresenta várias equimoses nos membros superiores e inferiores, além do tronco. Refere também suores noturnos, febre inexplicada, perda de peso e linfonodos aumentados de tamanho em região cervical, supraclavicular e inguinal bilateralmente. ÁREA LIVRE 1 6","feedback":""}]'::jsonb,
     1,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'cirurgia',
+    'saude_coletiva',
     NULL, -- subspecialty
     NULL, -- topic
     -3.53761,
@@ -392,7 +392,7 @@ VALUES
     '[{"letter":"A","text":"suspender insulinoterapia","feedback":""},{"letter":"B","text":"iniciar hipoglicemiante oral","feedback":""},{"letter":"C","text":"manter insulina NPH em 1/3 da dose da gravidez","feedback":""},{"letter":"D","text":"manter insulinoterapia com a dosagem do pré-natal. ÁREA LIVRE","feedback":""}]'::jsonb,
     0,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'cirurgia',
+    'ginecologia_obstetricia',
     NULL, -- subspecialty
     NULL, -- topic
     0.34177,
@@ -410,7 +410,7 @@ VALUES
     '[{"letter":"A","text":"Dengue grupo B. Prescrever hidratação oral, analgésico e antiemético; solicitar hemograma, plaquetas e antígeno NS1; realizar acompanhamento domiciliar após exames","feedback":""},{"letter":"B","text":"Dengue grupo C. Prescrever hidratação oral, analgésico e antiemético; solicitar hemograma, plaquetas e anticorpo IgM; realizar acompanhamento ambulatorial após exames","feedback":""},{"letter":"C","text":"Dengue grupo C. Prescrever hidratação parenteral, analgésico e antiemético; solicitar hemograma, plaquetas e antígeno NS1; manter em leito de observação até estabilização","feedback":""},{"letter":"D","text":"Dengue grupo B. Prescrever hidratação parenteral, analgésico e antiemético; solicitar hemograma, plaquetas, antígeno NS1 e anticorpo IgM; manter em leito de observação até estabilização","feedback":""}]'::jsonb,
     2,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'cirurgia',
+    'clinica_medica',
     NULL, -- subspecialty
     NULL, -- topic
     -0.46483,
@@ -428,7 +428,7 @@ VALUES
     '[{"letter":"A","text":"Solicitar ressonância magnética da coluna lombar e encaminhar para a ortopedia","feedback":""},{"letter":"B","text":"Solicitar radiografia lombar, prescrever corticoide oral e agendar o retorno após 10 dias","feedback":""},{"letter":"C","text":"Orientar repouso, fornecer atestado de 7 dias e otimizar a analgesia com antidepressivo tricíclico","feedback":""},{"letter":"D","text":"Explicar a natureza benigna, orientar analgesia e atividade física leve, com reavaliação em 4 a 6 semanas. ÁREA LIVRE 7","feedback":""}]'::jsonb,
     3,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'cirurgia',
+    'clinica_medica',
     NULL, -- subspecialty
     NULL, -- topic
     -1.32924,
@@ -446,7 +446,7 @@ VALUES
     '[{"letter":"A","text":"a internação involuntária é determinada, de acordo com a legislação, pela Justiça","feedback":""},{"letter":"B","text":"é autorizada por médico devidamente registrado no Conselho Regional de Medicina","feedback":""},{"letter":"C","text":"no prazo de 15 dias, a internação deve ser comunicada ao Ministério Público Federal","feedback":""},{"letter":"D","text":"o término da internação involuntária ocorrerá por solicitação do Ministério Público Municipal","feedback":""}]'::jsonb,
     1,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'cirurgia',
+    'saude_coletiva',
     NULL, -- subspecialty
     NULL, -- topic
     0.12847,
@@ -464,7 +464,7 @@ VALUES
     '[{"letter":"A","text":"apresentar extensão de isquemia superior a 1/3 do território da artéria cerebral média acometida","feedback":""},{"letter":"B","text":"haver decorrido período de tempo superior ao limite máximo tolerável desde o início do déficit","feedback":""},{"letter":"C","text":"evoluir com glicemia acima de 200 mg/dL com intervalo maior que 2 horas pós-prandial","feedback":""},{"letter":"D","text":"ter níveis pressóricos superiores aos permitidos para o uso do fármaco","feedback":""}]'::jsonb,
     0,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'cirurgia',
+    'clinica_medica',
     NULL, -- subspecialty
     NULL, -- topic
     -0.00887,
@@ -518,7 +518,7 @@ VALUES
     '[{"letter":"A","text":"Captopril, varfarina e ácido acetilsalicílico","feedback":""},{"letter":"B","text":"Furosemida, varfarina e carbonato de cálcio","feedback":""},{"letter":"C","text":"Losartana, enoxaparina e carbonato de cálcio","feedback":""},{"letter":"D","text":"Alfa-metildopa, ácido acetilsalicílico e carbonato de cálcio. ÁREA LIVRE ÁREA LIVRE 1 8","feedback":""}]'::jsonb,
     3,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'cirurgia',
+    'ginecologia_obstetricia',
     NULL, -- subspecialty
     NULL, -- topic
     -3.31628,
@@ -536,7 +536,7 @@ VALUES
     '[{"letter":"A","text":"Se o TRM-TB for positivo, sem resistência à rifampicina, e a baciloscopia for negativa, reiniciar o esquema básico","feedback":""},{"letter":"B","text":"Se o TRM-TB for negativo e a baciloscopia for positiva, reiniciar o esquema básico, desde que a resistência à rifampicina seja positiva","feedback":""},{"letter":"C","text":"Se o TRM-TB for negativo e a baciloscopia for positiva, solicitar cultura de escarro com teste de sensibilidade e reiniciar o esquema básico enquanto se aguarda a cultura","feedback":""},{"letter":"D","text":"Se o TRM-TB for positivo, com resistência à rifampicina, e a baciloscopia for positiva, solicitar cultura de escarro com teste de sensibilidade e reiniciar o esquema básico enquanto se aguarda a cultura","feedback":""}]'::jsonb,
     2,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'cirurgia',
+    'clinica_medica',
     NULL, -- subspecialty
     NULL, -- topic
     -0.07522,
@@ -554,7 +554,7 @@ VALUES
     '[{"letter":"A","text":"quase todos os testes positivos indicarão verdadeiros casos de hanseníase, diante da elevada sensibilidade do teste","feedback":""},{"letter":"B","text":"o número de falsos-positivos será elevado, devido à baixa especificidade do teste e à baixa prevalência da doença","feedback":""},{"letter":"C","text":"o número de falsos-negativos será elevado, reduzindo a capacidade do teste em detectar casos reais","feedback":""},{"letter":"D","text":"a elevada sensibilidade do teste o torna ideal para a confirmação do diagnóstico de hanseníase. ÁREA LIVRE","feedback":""}]'::jsonb,
     1,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'cirurgia',
+    'saude_coletiva',
     NULL, -- subspecialty
     NULL, -- topic
     -0.94633,
@@ -572,7 +572,7 @@ VALUES
     '[{"letter":"A","text":"Prescrever inibidor de recaptação de serotonina para alívio dos sintomas depressivos e ansiosos","feedback":""},{"letter":"B","text":"Encaminhar ao Centro de Atenção Psicossocial (CAPs) para seguimento intensivo com médico psiquiatra","feedback":""},{"letter":"C","text":"Encaminhar para psicologia na atenção secundária para ofertar terapia psicanalítica breve","feedback":""},{"letter":"D","text":"Acompanhar longitudinalmente para observação e ofertar apoio pela equipe da UBS","feedback":""}]'::jsonb,
     3,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'cirurgia',
+    'clinica_medica',
     NULL, -- subspecialty
     NULL, -- topic
     -0.07482,
@@ -590,7 +590,7 @@ VALUES
     '[{"letter":"A","text":"sugerir avaliação oftalmológica para investigação de catarata","feedback":""},{"letter":"B","text":"encaminhar ao neurologista para investigar a presença de disautonomia","feedback":""},{"letter":"C","text":"rever a polifarmácia para reduzir fármacos indutores de hipotensão arterial","feedback":""},{"letter":"D","text":"adicionar fármaco capaz de elevar os níveis tensionais, como a fludrocortisona. ÁREA LIVRE 9","feedback":""}]'::jsonb,
     2,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'cirurgia',
+    'clinica_medica',
     NULL, -- subspecialty
     NULL, -- topic
     -2.33473,
@@ -608,7 +608,7 @@ VALUES
     '[{"letter":"A","text":"Borrelia burgdorferi; doxiciclina","feedback":""},{"letter":"B","text":"Staphylococcus aureus; oxacilina","feedback":""},{"letter":"C","text":"Treponema pallidum; penicilina G benzatina","feedback":""},{"letter":"D","text":"Streptococcus pyogenes; penicilina G benzatina","feedback":""}]'::jsonb,
     3,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'cirurgia',
+    'pediatria',
     NULL, -- subspecialty
     NULL, -- topic
     -1.36494,
@@ -644,7 +644,7 @@ VALUES
     '[{"letter":"A","text":"orientar repouso domiciliar, com planejamento da indução do parto após 42 semanas","feedback":""},{"letter":"B","text":"solicitar dopplervelocimetria obstétrica para avaliar o bem- estar fetal e planejar o manejo com base no resultado","feedback":""},{"letter":"C","text":"realizar amnioscopia para verificar a presença de mecônio no líquido amniótico e planejar o manejo com base no resultado","feedback":""},{"letter":"D","text":"solicitar perfil biofísico fetal e cardiotocografia a cada 2 a 3 dias e planejamento da indução do parto até 41 semanas e 6 dias","feedback":""}]'::jsonb,
     3,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'cirurgia',
+    'ginecologia_obstetricia',
     NULL, -- subspecialty
     NULL, -- topic
     -0.83601,
@@ -662,7 +662,7 @@ VALUES
     '[{"letter":"A","text":"pancreatite aguda; iniciar dieta oral zero","feedback":""},{"letter":"B","text":"estado hiperosmolar hiperglicêmico; iniciar insulinoterapia","feedback":""},{"letter":"C","text":"cetoacidose diabética; prescrever solução fisiológica a 0,9 por cento","feedback":""},{"letter":"D","text":"insuficiência renal aguda; prescrever bicarbonato de sódio","feedback":""}]'::jsonb,
     2,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'pediatria',
+    'clinica_medica',
     NULL, -- subspecialty
     NULL, -- topic
     -2.54143,
@@ -698,7 +698,7 @@ VALUES
     '[{"letter":"A","text":"aguardar a expulsão espontânea da placenta, sem intervenções adicionais, e observar sinais de separação","feedback":""},{"letter":"B","text":"realizar tração controlada do cordão umbilical, enquanto se estabiliza o útero com a mão suprapúbica","feedback":""},{"letter":"C","text":"iniciar curagem placentária, devido ao tempo transcorrido sem desprendimento placentário","feedback":""},{"letter":"D","text":"administrar uterotônico adicional e realizar massagem uterina para auxiliar a dequitação","feedback":""}]'::jsonb,
     1,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'pediatria',
+    'ginecologia_obstetricia',
     NULL, -- subspecialty
     NULL, -- topic
     -0.05497,
@@ -716,7 +716,7 @@ VALUES
     '[{"letter":"A","text":"encaminhar para internação clínica, objetivando rapidez no diagnóstico e garantia da segurança","feedback":""},{"letter":"B","text":"solicitar radiografia de tórax, pesquisa laboratorial de Mycobacterium tuberculosis e garantir o tratamento em caso de positividade","feedback":""},{"letter":"C","text":"solicitar internação social, a fim de garantir tratamento supervisionado, observado diretamente por 6 meses, caso seja confirmada a tuberculose","feedback":""},{"letter":"D","text":"aguardar evolução, com uso de sintomáticos; caso a tosse persista por mais de 3 semanas, proceder à investigação diagnóstica de tuberculose. 11","feedback":""}]'::jsonb,
     1,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'pediatria',
+    'saude_coletiva',
     NULL, -- subspecialty
     NULL, -- topic
     -1.26544,
@@ -734,7 +734,7 @@ VALUES
     '[{"letter":"A","text":"Artrite reativa","feedback":""},{"letter":"B","text":"Artrite psoriática","feedback":""},{"letter":"C","text":"Espondilite anquilosante","feedback":""},{"letter":"D","text":"Lúpus eritematoso sistêmico","feedback":""}]'::jsonb,
     2,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'pediatria',
+    'clinica_medica',
     NULL, -- subspecialty
     NULL, -- topic
     -2.04348,
@@ -770,7 +770,7 @@ VALUES
     '[{"letter":"A","text":"Ressonância magnética; programação cirúrgica","feedback":""},{"letter":"B","text":"Tomografia de tórax; lobectomia segmentar","feedback":""},{"letter":"C","text":"Tomografia de tórax; drenagem de tórax","feedback":""},{"letter":"D","text":"Ultrassonografia; toracocentese","feedback":""}]'::jsonb,
     3,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'pediatria',
+    'cirurgia',
     NULL, -- subspecialty
     NULL, -- topic
     1.77005,
@@ -788,7 +788,7 @@ VALUES
     '[{"letter":"A","text":"DIU de cobre","feedback":""},{"letter":"B","text":"DIU de levonorgestrel","feedback":""},{"letter":"C","text":"Anticoncepcional injetável mensal","feedback":""},{"letter":"D","text":"Pílula anticoncepcional combinada contínua","feedback":""}]'::jsonb,
     1,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'pediatria',
+    'ginecologia_obstetricia',
     NULL, -- subspecialty
     NULL, -- topic
     -0.70808,
@@ -806,7 +806,7 @@ VALUES
     '[{"letter":"A","text":"Suspender os medicamentos orais, iniciar insulina NPH 10 UI subcutânea pela manhã e 20 UI à noite. Monitorar a glicemia pré-prandial, e, quando estiver controlada, medir a glicemia pós-prandial para avaliação da introdução da insulina regular","feedback":""},{"letter":"B","text":"Aumentar a glicazida para 60 mg ao dia, aumentar a metformina para 1 g, 3 vezes ao dia, repetir exames em 1 mês. Iniciar insulina se estiverem alterados; pactuar com o paciente a possibilidade de insulinização no retorno","feedback":""},{"letter":"C","text":"Manter a dose de metformina e glicazida, iniciar insulina NPH 10 UI subcutânea à noite, associada à monitorização glicêmica de jejum. Ajustar 2 a 3 UI a cada 2 a 3 dias, até atingir a meta da glicemia de jejum","feedback":""},{"letter":"D","text":"Trocar a glicazida por glibenclamida 20 mg por dia, aumentar a metformina para 1 g, 3 vezes ao dia, solicitar novos exames em 1 mês. Pactuar com o paciente a possibilidade de insulinização no retorno. 1 12","feedback":""}]'::jsonb,
     2,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'pediatria',
+    'clinica_medica',
     NULL, -- subspecialty
     NULL, -- topic
     -0.39599,
@@ -824,7 +824,7 @@ VALUES
     '[{"letter":"A","text":"tomografia computadorizada de abdome; lesão tumoral presente ao nível do hilo hepático","feedback":""},{"letter":"B","text":"colangiopancreatografia retrógrada endoscópica; presença de litíase impactada no colédoco terminal","feedback":""},{"letter":"C","text":"colangiorressonância; múltiplas estenoses intercaladas na árvore biliar, com áreas normais ou dilatadas de permeio","feedback":""},{"letter":"D","text":"ultrassonografia abdominal total; espessamento da parede da vesícula biliar com nodulação no interior, sem sombra acústica","feedback":""}]'::jsonb,
     2,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'pediatria',
+    'clinica_medica',
     NULL, -- subspecialty
     NULL, -- topic
     -0.00174,
@@ -860,7 +860,7 @@ VALUES
     '[{"letter":"A","text":"hematoma subdural agudo, sendo necessário realizar hidantalização do paciente e aguardar melhora clínica","feedback":""},{"letter":"B","text":"contusão cerebral, sendo necessário realizar cirurgia de emergência para controle de hipertensão intracraniana","feedback":""},{"letter":"C","text":"hematoma epidural, sendo necessário realizar cirurgia de emergência para controle da hipertensão intracraniana","feedback":""},{"letter":"D","text":"hematoma intraparenquimatoso, sendo necessário realizar hidantalização do paciente e aguardar melhora clínica. ÁREA LIVRE 13","feedback":""}]'::jsonb,
     2,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'pediatria',
+    'cirurgia',
     NULL, -- subspecialty
     NULL, -- topic
     -1.70798,
@@ -878,7 +878,7 @@ VALUES
     '[{"letter":"A","text":"câncer de mama","feedback":""},{"letter":"B","text":"diabetes mellitus","feedback":""},{"letter":"C","text":"acidente vascular cerebral","feedback":""},{"letter":"D","text":"hipertensão arterial sistêmica","feedback":""}]'::jsonb,
     2,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'pediatria',
+    'ginecologia_obstetricia',
     NULL, -- subspecialty
     NULL, -- topic
     -1.44573,
@@ -896,7 +896,7 @@ VALUES
     '[{"letter":"A","text":"Pneumocócica 23-valente, 1 dose, com reforço em 5 anos; dupla adulto (dT – contra difteria e tétano), a cada 10 anos; contra influenza e covid-19, anualmente; contra hepatite B, 3 doses. Agendar uma nova visita domiciliar com mais membros da família para dialogar sobre a situação","feedback":""},{"letter":"B","text":"Contra influenza e covid-19, anualmente; dupla adulto (dT – contra difteria e tétano), a cada 10 anos; contra hepatite B, 3 doses; contra herpes-zoster, 2 doses. Fazer denúncia ao Conselho Municipal do Idoso sobre não vacinação do idoso","feedback":""},{"letter":"C","text":"Pneumocócica 10-valente, 1 dose, com reforço em 5 anos; dupla adulto (dT – contra difteria e tétano), a cada 10 anos; contra influenza e covid-19, anualmente; contra hepatite B, 3 doses. Solicitar que a filha assine um termo de responsabilidade em relação à não vacinação do pai","feedback":""},{"letter":"D","text":"Pneumocócica 10-valente, 1 dose, com reforço em 5 anos; contra influenza e covid-19, anualmente; contra herpes- zoster, 2 doses; dupla adulto (dT – contra difteria e tétano), a cada 10 anos. Respeitar a autonomia da filha sobre a vacinação, uma vez que é a cuidadora responsável. ÁREA LIVRE","feedback":""}]'::jsonb,
     0,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'pediatria',
+    'saude_coletiva',
     NULL, -- subspecialty
     NULL, -- topic
     -0.95853,
@@ -914,7 +914,7 @@ VALUES
     '[{"letter":"A","text":"levantamento do índice larvário, notificação de vetores infectados e avaliação dos indicadores entomológicos e epidemiológicos","feedback":""},{"letter":"B","text":"treinamento da equipe de controle de vetores, uso intensivo de inseticidas, mutirões de limpeza e tratamento de pontos estratégicos","feedback":""},{"letter":"C","text":"vigilância virológica, notificação semanal dos casos suspeitos de Chikungunya em áreas sem transmissão e definição do local provável de infecção","feedback":""},{"letter":"D","text":"análise situacional com base em informações epidemiológicas e entomológicas, desenho das operações de planificação, implementação, monitoramento e avaliação","feedback":""}]'::jsonb,
     3,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'pediatria',
+    'saude_coletiva',
     NULL, -- subspecialty
     NULL, -- topic
     0.09498,
@@ -950,7 +950,7 @@ VALUES
     '[{"letter":"A","text":"Redução da captação tireoidiana de iodo radioativo; betabloqueador e anti-inflamatório","feedback":""},{"letter":"B","text":"Detecção de presença de nódulo quente à cintilografia de tireoide; tireoidectomia subtotal","feedback":""},{"letter":"C","text":"Verificação de aumento nas dosagens séricas de TSH, T4 livre e TRAb; ablação com iodo radioativo","feedback":""},{"letter":"D","text":"Verificação de aumento das concentrações sanguíneas de TSH, T3 e T4 livre; oseltamivir + metimazol + atenolol","feedback":""}]'::jsonb,
     0,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'pediatria',
+    'clinica_medica',
     NULL, -- subspecialty
     NULL, -- topic
     0.70962,
@@ -986,7 +986,7 @@ VALUES
     '[{"letter":"A","text":"Radiografia abdominal em 3 posições","feedback":""},{"letter":"B","text":"Colonoscopia com biópsia","feedback":""},{"letter":"C","text":"Tomografia de abdome com contraste","feedback":""},{"letter":"D","text":"Ultrassonografia de abdome","feedback":""}]'::jsonb,
     2,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'pediatria',
+    'cirurgia',
     NULL, -- subspecialty
     NULL, -- topic
     -1.15173,
@@ -1022,7 +1022,7 @@ VALUES
     '[{"letter":"A","text":"pelo Instituto Médico Legal e constar: Parte I: a) Insuficiência respiratória aguda grave (horas); b) Síndrome gripal (10 dias); c) Hipertensão arterial sistêmica (30 anos). Parte II: Acidente vascular encefálico (5 anos)","feedback":""},{"letter":"B","text":"pela médica e constar: Parte I: a) Insuficiência respiratória aguda grave (horas); b) Pneumonia (1 dia); Síndrome gripal (10 dias). Parte II: a) Acidente vascular encefálico (5 anos); b) Hipertensão arterial sistêmica (30 anos)","feedback":""},{"letter":"C","text":"pelo Serviço Móvel de Atendimento de Urgência (SAMU) e constar: Parte I: a) Síndrome gripal (10 dias); b) Pneumonia (1 dia); c) Insuficiência respiratória aguda grave (horas). Parte II: a) Acidente vascular encefálico (5 anos); b) Hipertensão arterial sistêmica (30 anos)","feedback":""},{"letter":"D","text":"pelo serviço de verificação de óbitos e constar: Parte I: a) Insuficiência respiratória aguda grave (horas); b) Acidente vascular encefálico (5 anos); c) Hipertensão arterial sistêmica (30 anos). Parte II: a) Pneumonia (1 dia); b) Síndrome gripal (10 dias)","feedback":""}]'::jsonb,
     1,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'ginecologia_obstetricia',
+    'saude_coletiva',
     NULL, -- subspecialty
     NULL, -- topic
     -2.08296,
@@ -1040,7 +1040,7 @@ VALUES
     '[{"letter":"A","text":"Estudo de caso-controle aninhado","feedback":""},{"letter":"B","text":"Ensaio clínico não randomizado","feedback":""},{"letter":"C","text":"Estudo de coorte retrospectivo","feedback":""},{"letter":"D","text":"Ensaio clínico randomizado. ÁREA LIVRE","feedback":""}]'::jsonb,
     1,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'ginecologia_obstetricia',
+    'saude_coletiva',
     NULL, -- subspecialty
     NULL, -- topic
     0.78003,
@@ -1058,7 +1058,7 @@ VALUES
     '[{"letter":"A","text":"Encaminhar o paciente para acompanhamento médico em Unidade Básica de Saúde (UBS)","feedback":""},{"letter":"B","text":"Encaminhar o paciente para psicoterapia com equipe multiprofissional na atenção primária à saúde","feedback":""},{"letter":"C","text":"Encaminhar o paciente para avaliação ambulatorial com psiquiatra em centro de atenção psicossocial do tipo I","feedback":""},{"letter":"D","text":"Encaminhar o paciente para internação em enfermaria de saúde mental em hospital geral ou em serviço congênere","feedback":""}]'::jsonb,
     3,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'ginecologia_obstetricia',
+    'clinica_medica',
     NULL, -- subspecialty
     NULL, -- topic
     -0.00667,
@@ -1076,7 +1076,7 @@ VALUES
     '[{"letter":"A","text":"Presença de Fator V de Leiden","feedback":""},{"letter":"B","text":"Níveis aumentados de proteína S","feedback":""},{"letter":"C","text":"Níveis aumentados de antitrombina III","feedback":""},{"letter":"D","text":"Níveis reduzidos de Fator de Von Willebrand. ÁREA LIVRE 1 16","feedback":""}]'::jsonb,
     0,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'ginecologia_obstetricia',
+    'clinica_medica',
     NULL, -- subspecialty
     NULL, -- topic
     0.41192,
@@ -1094,7 +1094,7 @@ VALUES
     '[{"letter":"A","text":"reposição de potássio","feedback":""},{"letter":"B","text":"correção imediata da glicemia","feedback":""},{"letter":"C","text":"reposição de bicarbonato de sódio","feedback":""},{"letter":"D","text":"administração imediata de manitol","feedback":""}]'::jsonb,
     0,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'ginecologia_obstetricia',
+    'pediatria',
     NULL, -- subspecialty
     NULL, -- topic
     -0.11227,
@@ -1112,7 +1112,7 @@ VALUES
     '[{"letter":"A","text":"dissecção da região traumatizada e hemostasia do vaso que apresenta sangramento com pinças hemostáticas; iniciar reposição volêmica com albumina e soro fisiológico","feedback":""},{"letter":"B","text":"dissecção da região traumatizada e hemostasia do vaso que apresenta sangramento com pinças hemostáticas; iniciar reposição volêmica com soro fisiológico e glicofisiológico","feedback":""},{"letter":"C","text":"compressão local da ferida e, caso essa manobra não cesse a hemorragia, aplicação de torniquete proximal à ferida e fora da região de articulação; iniciar reposição volêmica com soro fisiológico","feedback":""},{"letter":"D","text":"compressão local da ferida e, caso essa manobra não cesse a hemorragia, aplicação de torniquete proximal à ferida e fora da região de articulação; iniciar reposição volêmica com albumina e soro fisiológico. ÁREA LIVRE","feedback":""}]'::jsonb,
     2,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'ginecologia_obstetricia',
+    'cirurgia',
     NULL, -- subspecialty
     NULL, -- topic
     -2.02864,
@@ -1148,7 +1148,7 @@ VALUES
     '[{"letter":"A","text":"a intolerância cruzada entre outras substâncias e a de uso abusivo","feedback":""},{"letter":"B","text":"a aceitação e a adesão à proposta de abstinência apresentada pela equipe","feedback":""},{"letter":"C","text":"o tempo que é gasto para obter a substância ou recuperar- se de seus efeitos","feedback":""},{"letter":"D","text":"o tipo e a classe de substância que o paciente usa, diferenciando se é lícita ou ilícita. ÁREA LIVRE 17","feedback":""}]'::jsonb,
     2,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'ginecologia_obstetricia',
+    'clinica_medica',
     NULL, -- subspecialty
     NULL, -- topic
     0.54672,
@@ -1166,7 +1166,7 @@ VALUES
     '[{"letter":"A","text":"solicitar o isolamento imediato dos casos sintomáticos, iniciar tratamento individual conforme avaliação clínica, recomendar higienização de colchões e ampliar o fornecimento de sabão e escovas pessoais","feedback":""},{"letter":"B","text":"implementar bloqueio coletivo com tratamento simultâneo, notificar o surto ao serviço de vigilância em saúde, reorganizar fluxos com a administração prisional e planejar medidas educativas e estruturais","feedback":""},{"letter":"C","text":"preferir o tratamento tópico dos casos diagnosticados, com prescrição médica individualizada, e restringir o fornecimento de medicação aos casos confirmados, evitando exposição a medicamentos em massa","feedback":""},{"letter":"D","text":"reunir-se com a direção para discutir a viabilidade de transferência dos casos graves, focando a atuação em medidas educativas com folhetos informativos sobre problemas de pele mais frequentes","feedback":""}]'::jsonb,
     1,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'ginecologia_obstetricia',
+    'saude_coletiva',
     NULL, -- subspecialty
     NULL, -- topic
     -0.05953,
@@ -1184,7 +1184,7 @@ VALUES
     '[{"letter":"A","text":"delírio","feedback":""},{"letter":"B","text":"obsessão","feedback":""},{"letter":"C","text":"hipertimia","feedback":""},{"letter":"D","text":"compulsão. ÁREA LIVRE","feedback":""}]'::jsonb,
     1,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'ginecologia_obstetricia',
+    'clinica_medica',
     NULL, -- subspecialty
     NULL, -- topic
     -0.11251,
@@ -1202,7 +1202,7 @@ VALUES
     '[{"letter":"A","text":"neomicina e rifaximina","feedback":""},{"letter":"B","text":"loperamida e escopolamina","feedback":""},{"letter":"C","text":"dieta sem glúten e sem lactose","feedback":""},{"letter":"D","text":"probióticos e inibidores da bomba de prótons","feedback":""}]'::jsonb,
     0,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'ginecologia_obstetricia',
+    'clinica_medica',
     NULL, -- subspecialty
     NULL, -- topic
     1.70128,
@@ -1220,7 +1220,7 @@ VALUES
     '[{"letter":"A","text":"solicitar eletroencefalograma","feedback":""},{"letter":"B","text":"indicar profilaxia com barbitúricos","feedback":""},{"letter":"C","text":"tranquilizar e orientar puericultura de rotina","feedback":""},{"letter":"D","text":"solicitar exames laboratoriais e de imagem","feedback":""}]'::jsonb,
     2,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'ginecologia_obstetricia',
+    'pediatria',
     NULL, -- subspecialty
     NULL, -- topic
     -2.09686,
@@ -1238,7 +1238,7 @@ VALUES
     '[{"letter":"A","text":"Laríngeo recorrente","feedback":""},{"letter":"B","text":"Glossofaríngeo","feedback":""},{"letter":"C","text":"Hipoglosso","feedback":""},{"letter":"D","text":"Vago. ÁREA LIVRE 1 18","feedback":""}]'::jsonb,
     0,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'ginecologia_obstetricia',
+    'cirurgia',
     NULL, -- subspecialty
     NULL, -- topic
     -1.32379,
@@ -1274,7 +1274,7 @@ VALUES
     '[{"letter":"A","text":"investir na padronização de rotinas clínicas e na capacitação da equipe para comunicação técnica propositiva e objetiva","feedback":""},{"letter":"B","text":"promover espaços formativos para a equipe assistencial, reconhecendo saberes e práticas das populações atendidas","feedback":""},{"letter":"C","text":"reforçar a autonomia profissional da médica, mantendo as condutas clínicas baseadas em evidências científicas","feedback":""},{"letter":"D","text":"estabelecer rotinas padronizadas uniformes de atendimento para ribeirinhos e indígenas","feedback":""}]'::jsonb,
     1,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'ginecologia_obstetricia',
+    'saude_coletiva',
     NULL, -- subspecialty
     NULL, -- topic
     -3.20535,
@@ -1292,7 +1292,7 @@ VALUES
     '[{"letter":"A","text":"Solicitar avaliação psiquiátrica para diagnóstico de disforia de gênero antes do acompanhamento na UBS","feedback":""},{"letter":"B","text":"Iniciar terapia hormonal na UBS, conforme estabelecido no processo transexualizador do SUS, e marcar retorno em 8 semanas","feedback":""},{"letter":"C","text":"Encaminhar paciente para serviço especializado e informar que o seguimento relacionado à transição de gênero deve ser feito com especialista","feedback":""},{"letter":"D","text":"Esclarecer que tal identidade de gênero não é transtorno mental, oferecer acompanhamento contínuo na UBS e orientar sobre cuidados gerais de saúde. ÁREA LIVRE ÁREA LIVRE 19","feedback":""}]'::jsonb,
     3,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'ginecologia_obstetricia',
+    'saude_coletiva',
     NULL, -- subspecialty
     NULL, -- topic
     -1.84265,
@@ -1310,7 +1310,7 @@ VALUES
     '[{"letter":"A","text":"tratamento com antitérmico, hidratação oral vigorosa e observação na unidade hospitalar","feedback":""},{"letter":"B","text":"tratamento com esquema antibiótico de amplo espectro, ainda na 1ª hora da chegada da paciente","feedback":""},{"letter":"C","text":"tratamento com cobertura contra Candida sp, por se tratar de infecção urinária de repetição em paciente diabética","feedback":""},{"letter":"D","text":"tratamento com antibiótico de amplo espectro, mantido durante todo o curso de tratamento, mesmo após os resultados das culturas","feedback":""}]'::jsonb,
     1,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'ginecologia_obstetricia',
+    'clinica_medica',
     NULL, -- subspecialty
     NULL, -- topic
     -0.84299,
@@ -1328,7 +1328,7 @@ VALUES
     '[{"letter":"A","text":"intubação traqueal e massagem cardíaca externa","feedback":""},{"letter":"B","text":"cateterismo umbilical e drenagem de hemitórax esquerdo","feedback":""},{"letter":"C","text":"ventilação com óxido nítrico e administração de surfactante","feedback":""},{"letter":"D","text":"ventilação com balão autoinflável com pressão expiratória final positiva","feedback":""}]'::jsonb,
     0,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'ginecologia_obstetricia',
+    'pediatria',
     NULL, -- subspecialty
     NULL, -- topic
     0.88635,
@@ -1346,7 +1346,7 @@ VALUES
     '[{"letter":"A","text":"Abcesso perianal","feedback":""},{"letter":"B","text":"Fístula perianal","feedback":""},{"letter":"C","text":"Cisto pilonidal","feedback":""},{"letter":"D","text":"Fissura anal","feedback":""}]'::jsonb,
     3,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'saude_coletiva',
+    'cirurgia',
     NULL, -- subspecialty
     NULL, -- topic
     -2.41165,
@@ -1364,7 +1364,7 @@ VALUES
     '[{"letter":"A","text":"Solicitar a pesquisa de estreptococo do Grupo B na 28ª semana","feedback":""},{"letter":"B","text":"Internar a paciente para receber atosiban intravenoso até 34 semanas","feedback":""},{"letter":"C","text":"Prescrever nifedipina 20 mg via oral diariamente à noite até 39 semanas","feedback":""},{"letter":"D","text":"Prescrever progesterona micronizada via vaginal 200 mg ao dia até 36 semanas","feedback":""}]'::jsonb,
     3,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'saude_coletiva',
+    'ginecologia_obstetricia',
     NULL, -- subspecialty
     NULL, -- topic
     -1.23842,
@@ -1382,7 +1382,7 @@ VALUES
     '[{"letter":"A","text":"Solicitar ultrassonografia transvaginal","feedback":""},{"letter":"B","text":"Repetir o exame citopatológico em 6 meses","feedback":""},{"letter":"C","text":"Encaminhar para a realização de colposcopia","feedback":""},{"letter":"D","text":"Repetir o exame citopatológico imediatamente. ÁREA LIVRE 1 20","feedback":""}]'::jsonb,
     1,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'saude_coletiva',
+    'ginecologia_obstetricia',
     NULL, -- subspecialty
     NULL, -- topic
     -1.18636,
@@ -1418,7 +1418,7 @@ VALUES
     '[{"letter":"A","text":"N-acetilcisteína","feedback":""},{"letter":"B","text":"Flumazenil","feedback":""},{"letter":"C","text":"Naloxona","feedback":""},{"letter":"D","text":"Atropina. ÁREA LIVRE","feedback":""}]'::jsonb,
     1,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'saude_coletiva',
+    'clinica_medica',
     NULL, -- subspecialty
     NULL, -- topic
     -1.55488,
@@ -1436,7 +1436,7 @@ VALUES
     '[{"letter":"A","text":"Cefaleia primária (cefaleia tensional); nenhum exame é necessário","feedback":""},{"letter":"B","text":"Cefaleia secundária (hemorragia subaracnoideia); análise de líquor","feedback":""},{"letter":"C","text":"Cefaleia primária (migrânea); tomografia computadorizada de encéfalo","feedback":""},{"letter":"D","text":"Cefaleia secundária (arterite temporal); velocidade de hemossedimentação","feedback":""}]'::jsonb,
     3,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'saude_coletiva',
+    'clinica_medica',
     NULL, -- subspecialty
     NULL, -- topic
     -0.73242,
@@ -1454,7 +1454,7 @@ VALUES
     '[{"letter":"A","text":"solicitar biópsia das lesões e hemoglobina glicada","feedback":""},{"letter":"B","text":"solicitar perfil lipídico e ultrassonografia de abdome","feedback":""},{"letter":"C","text":"indicar corticoide tópico nas lesões e evitar exposição solar","feedback":""},{"letter":"D","text":"indicar antifúngico nas lesões e solicitar teste de tolerância oral à glicose. ÁREA LIVRE 21","feedback":""}]'::jsonb,
     1,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'saude_coletiva',
+    'pediatria',
     NULL, -- subspecialty
     NULL, -- topic
     -0.26636,
@@ -1472,7 +1472,7 @@ VALUES
     '[{"letter":"A","text":"descolamento de placenta; cesárea; útero de Couvalaire","feedback":""},{"letter":"B","text":"rotura de vasa prévia; amniotomia; anemia fetal","feedback":""},{"letter":"C","text":"trabalho de parto; inibição; prematuridade","feedback":""},{"letter":"D","text":"pré-eclâmpsia; cesárea; rotura uterina. ÁREA LIVRE","feedback":""}]'::jsonb,
     0,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'saude_coletiva',
+    'ginecologia_obstetricia',
     NULL, -- subspecialty
     NULL, -- topic
     -1.79802,
@@ -1508,7 +1508,7 @@ VALUES
     '[{"letter":"A","text":"angiotomografia coronária em até 48 horas","feedback":""},{"letter":"B","text":"cateterismo cardíaco nas primeiras 24 horas","feedback":""},{"letter":"C","text":"cateterismo cardíaco em até 3 dias do evento","feedback":""},{"letter":"D","text":"ecocardiograma de estresse em até 7 dias do evento. ÁREA LIVRE 1 22","feedback":""}]'::jsonb,
     1,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'saude_coletiva',
+    'clinica_medica',
     NULL, -- subspecialty
     NULL, -- topic
     -2.28325,
@@ -1526,7 +1526,7 @@ VALUES
     '[{"letter":"A","text":"metilprednisolona endovenoso","feedback":""},{"letter":"B","text":"ventilação não invasiva (VNI) com sedação","feedback":""},{"letter":"C","text":"salbutamol endovenoso em infusão contínua","feedback":""},{"letter":"D","text":"sulfato de magnésio em infusão intravenosa contínua","feedback":""}]'::jsonb,
     0,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'saude_coletiva',
+    'pediatria',
     NULL, -- subspecialty
     NULL, -- topic
     0.00933,
@@ -1544,7 +1544,7 @@ VALUES
     '[{"letter":"A","text":"Prescrição de analgésico tópico e colírio lubrificante","feedback":""},{"letter":"B","text":"Lavagem dos olhos com solução de água boricada e curativo oclusivo","feedback":""},{"letter":"C","text":"Lavagem ocular com solução fisiológica e avaliação imediata do especialista","feedback":""},{"letter":"D","text":"Prescrição de colírio de corticoide tópico e avaliação precoce do especialista","feedback":""}]'::jsonb,
     2,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'saude_coletiva',
+    'clinica_medica',
     NULL, -- subspecialty
     NULL, -- topic
     -0.27361,
@@ -1562,7 +1562,7 @@ VALUES
     '[{"letter":"A","text":"Hiperplasia endometrial","feedback":""},{"letter":"B","text":"Câncer de colo de útero","feedback":""},{"letter":"C","text":"Leiomioma submucoso","feedback":""},{"letter":"D","text":"Endométrio atrófico","feedback":""}]'::jsonb,
     0,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'saude_coletiva',
+    'ginecologia_obstetricia',
     NULL, -- subspecialty
     NULL, -- topic
     0.30307,
@@ -1580,7 +1580,7 @@ VALUES
     '[{"letter":"A","text":"Deve-se dosar o ferro sérico, por ser exame sensível e específico, atentando-se para o ritmo circadiano do ferro, cujos valores são mais elevados pela manhã","feedback":""},{"letter":"B","text":"Considerando-se o resultado dos exames, pode-se iniciar tratamento com 4 mg/kg/dia de ferro elementar, e espera- se aumento de reticulócitos em 4 a 7 dias","feedback":""},{"letter":"C","text":"Com base no HCM, a anemia pode ser classificada em normocítica, e o esfregaço de sangue periférico pode evidenciar anisocitose, eliptocitose e poiquilocitose","feedback":""},{"letter":"D","text":"A eosinofilia e a trombocitose observadas justificam o encaminhamento para hematologista, a fim de investigar causas de anemia e comprometimento esplênico. ÁREA LIVRE 23","feedback":""}]'::jsonb,
     1,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'saude_coletiva',
+    'pediatria',
     NULL, -- subspecialty
     NULL, -- topic
     -0.03548,
@@ -1598,7 +1598,7 @@ VALUES
     '[{"letter":"A","text":"sorologia para Chlamydia trachomatis; positiva; doxiciclina 100 mg, 2 vezes ao dia, via oral, por 7 dias","feedback":""},{"letter":"B","text":"biópsia da úlcera; bacilos álcool ácido resistentes; esquema inicial com pirazinamida, isoniazida e rifampicina, via oral","feedback":""},{"letter":"C","text":"Veneral Disease Research Laboratory (VDRL); reagente; benzilpenicilina benzatina 1,2 milhão de unidades, intramuscular, dose única","feedback":""},{"letter":"D","text":"microscopia de esfregaço do fundo da úlcera; Gram negativos agrupados em correntes; azitromicina 500 mg, via oral, 2 comprimidos em dose única. ÁREA LIVRE","feedback":""}]'::jsonb,
     3,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'saude_coletiva',
+    'clinica_medica',
     NULL, -- subspecialty
     NULL, -- topic
     0.60964,
@@ -1616,7 +1616,7 @@ VALUES
     '[{"letter":"A","text":"acondroplasia","feedback":""},{"letter":"B","text":"síndrome de Turner","feedback":""},{"letter":"C","text":"baixa estatura familiar","feedback":""},{"letter":"D","text":"atraso constitucional do crescimento. ÁREA LIVRE 1 24","feedback":""}]'::jsonb,
     2,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'saude_coletiva',
+    'pediatria',
     NULL, -- subspecialty
     NULL, -- topic
     1.12101,
@@ -1634,7 +1634,7 @@ VALUES
     '[{"letter":"A","text":"Síndrome colestática sem colangite; tomografia de abdome com contraste venoso","feedback":""},{"letter":"B","text":"Síndrome colestática com colangite; ressonância nuclear magnética de vias biliares","feedback":""},{"letter":"C","text":"Síndrome colestática sem colangite; ressonância nuclear magnética de vias biliares","feedback":""},{"letter":"D","text":"Síndrome colestática com colangite; colangiopancreatografia retrógrada endoscópica. ÁREA LIVRE","feedback":""}]'::jsonb,
     2,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'saude_coletiva',
+    'cirurgia',
     NULL, -- subspecialty
     NULL, -- topic
     0.00862,
@@ -1652,7 +1652,7 @@ VALUES
     '[{"letter":"A","text":"internação hospitalar e monitoramento materno-fetal diário","feedback":""},{"letter":"B","text":"internação hospitalar, cardiotocografia e indução imediata do parto","feedback":""},{"letter":"C","text":"alta, repouso domiciliar e monitoramento materno-fetal ambulatorial diário","feedback":""},{"letter":"D","text":"alta, repouso domiciliar e monitoramento materno-fetal ambulatorial semanal","feedback":""}]'::jsonb,
     0,
     'Questão oficial ENAMED 2025. Explicação em elaboração.',
-    'saude_coletiva',
+    'ginecologia_obstetricia',
     NULL, -- subspecialty
     NULL, -- topic
     -0.37289,

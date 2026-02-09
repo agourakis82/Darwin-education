@@ -19,7 +19,7 @@ INSERT INTO cip_diagnoses (id, name_pt, name_en, icd10_code, icd10_codes_seconda
 -- Cirurgia
 ('diag-apendicite', 'Apendicite Aguda', 'Acute Appendicitis', 'K35', ARRAY['K35.8', 'K35.9'], 'cirurgia', 'cirurgia_geral', 2, ARRAY['dor abdominal', 'McBurney', 'apendicectomia']),
 ('diag-colecistite', 'Colecistite Aguda', 'Acute Cholecystitis', 'K81', ARRAY['K81.0', 'K80'], 'cirurgia', 'cirurgia_geral', 3, ARRAY['cólica biliar', 'Murphy', 'colecistectomia']),
-('diag-hda', 'Hemorragia Digestiva Alta', 'Upper Gastrointestinal Bleeding', 'K92.2', ARRAY['K25', 'K26'], 'cirurgia', 'cirurgia_geral', 4, ARRAY['melena', 'hematêmese', 'endoscopia']),
+('diag-hda', 'Hemorragia Digestiva Alta', 'Upper Gastrointestinal Bleeding', 'K92.0', ARRAY['K25', 'K26'], 'cirurgia', 'cirurgia_geral', 4, ARRAY['melena', 'hematêmese', 'endoscopia']),
 
 -- Ginecologia e Obstetrícia
 ('diag-pre-eclampsia', 'Pré-eclâmpsia', 'Preeclampsia', 'O14', ARRAY['O14.0', 'O14.1'], 'ginecologia_obstetricia', 'obstetricia', 4, ARRAY['hipertensão', 'gestação', 'proteinúria', 'sulfato']),
@@ -69,7 +69,7 @@ INSERT INTO cip_findings (id, text_pt, text_en, section, icd10_codes, atc_codes,
 ('find-exam-murphy', 'Sinal de Murphy positivo', 'Positive Murphy sign', 'physical_exam', ARRAY['K81'], ARRAY[], ARRAY['colecistite', 'vesícula'], false),
 ('find-exam-palidez', 'Palidez cutâneo-mucosa importante, taquicardia', 'Significant pallor, tachycardia', 'physical_exam', ARRAY['R23.1'], ARRAY[], ARRAY['HDA', 'anemia aguda'], false),
 ('find-exam-edema-gest', 'Edema de face e mãos, hiperreflexia', 'Facial and hand edema, hyperreflexia', 'physical_exam', ARRAY['O14'], ARRAY[], ARRAY['pré-eclâmpsia', 'gravidade'], false),
-('find-exam-giordano', 'Sinal de Giordano positivo à direita', 'Positive right Giordano sign', 'physical_exam', ARRAY['N10'], ARRAY[], ARRAY['pielonefrite', 'ITU'], false),
+('find-exam-giordano', 'Dor suprapúbica à palpação, toque vaginal sem anormalidades', 'Suprapubic tenderness on palpation, unremarkable vaginal exam', 'physical_exam', ARRAY['N30'], ARRAY[], ARRAY['cistite', 'ITU'], false),
 ('find-exam-utero-aumentado', 'Útero aumentado, irregular à palpação', 'Enlarged uterus, irregular on palpation', 'physical_exam', ARRAY['D25'], ARRAY[], ARRAY['mioma', 'massa'], false),
 ('find-exam-tiragem', 'Tiragem subcostal, sibilos difusos', 'Subcostal retractions, diffuse wheezing', 'physical_exam', ARRAY['J21'], ARRAY[], ARRAY['bronquiolite', 'desconforto'], false),
 ('find-exam-desidratacao', 'Olhos encovados, turgor diminuído, mucosas secas', 'Sunken eyes, decreased skin turgor, dry mucosa', 'physical_exam', ARRAY['E86'], ARRAY[], ARRAY['desidratação', 'DDA'], false),
@@ -112,7 +112,7 @@ INSERT INTO cip_findings (id, text_pt, text_en, section, icd10_codes, atc_codes,
 ('find-trat-sro', 'Solução de reidratação oral - Plano B', 'Oral rehydration solution - Plan B', 'treatment', ARRAY[], ARRAY['A07CA'], ARRAY['DDA', 'reidratação'], false),
 ('find-trat-ceftriaxona', 'Ceftriaxona 100mg/kg/dia + dexametasona', 'Ceftriaxone 100mg/kg/day + dexamethasone', 'treatment', ARRAY[], ARRAY['J01DD04', 'H02AB02'], ARRAY['meningite', 'antibiótico'], false),
 ('find-trat-ripe', 'RIPE: Rifampicina + Isoniazida + Pirazinamida + Etambutol', 'RIPE: Rifampin + Isoniazid + Pyrazinamide + Ethambutol', 'treatment', ARRAY[], ARRAY['J04AM02'], ARRAY['tuberculose', 'esquema básico'], false),
-('find-trat-sintomatico-dengue', 'Hidratação oral vigorosa + paracetamol (evitar AINEs)', 'Vigorous oral hydration + acetaminophen (avoid NSAIDs)', 'treatment', ARRAY[], ARRAY['N02BE01'], ARRAY['dengue', 'sintomático'], false)
+('find-trat-sintomatico-dengue', 'Hidratação IV vigorosa (Grupo C: 20 mL/kg em 2h) + monitoramento em leito de internação + paracetamol (evitar AINEs)', 'Vigorous IV hydration (Group C: 20 mL/kg in 2h) + inpatient monitoring + acetaminophen (avoid NSAIDs)', 'treatment', ARRAY[], ARRAY['N02BE01'], ARRAY['dengue', 'sintomático'], false)
 ON CONFLICT (id) DO NOTHING;
 
 -- ============================================

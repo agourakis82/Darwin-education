@@ -50,8 +50,8 @@ VALUES
   'a1000000-0000-0000-0000-000000000001',
   'Paciente com FA permanente, 68 anos, hipertenso e diabético. Qual o escore CHA2DS2-VASc e a conduta antitrombótica?',
   '[{"letter": "A", "text": "Score 2, considerar anticoagulação"}, {"letter": "B", "text": "Score 3, anticoagulação indicada"}, {"letter": "C", "text": "Score 4, anticoagulação indicada"}, {"letter": "D", "text": "Score 5, anticoagulação indicada"}, {"letter": "E", "text": "Score 1, AAS suficiente"}]',
-  2,
-  'HAS (1) + DM (1) + Idade 65-74 (1) + sexo masculino (0) = 3 pontos + FA (1) = 4 pontos. Score ≥2 indica anticoagulação.',
+  1,
+  'CHA2DS2-VASc: HAS (1) + DM (1) + Idade 65-74 (1) + sexo masculino (0) = 3 pontos. FA não é componente do score — é a condição para a qual o score é calculado. Score ≥2 em homens indica anticoagulação oral (varfarina ou DOAC).',
   'clinica_medica', 'Cardiologia', 'Fibrilação Atrial', 'medio',
   0.5, 1.5, 0.20, 2022, 'expert'
 ),
@@ -260,7 +260,7 @@ VALUES
 (
   'c1000000-0000-0000-0003-000000000001',
   'a1000000-0000-0000-0000-000000000001',
-  'Gestante de 24 semanas com glicemia de jejum de 98 mg/dL no primeiro trimestre. Qual a conduta?',
+  'Gestante de 24 semanas com glicemia de jejum de 88 mg/dL no primeiro trimestre. Qual a conduta?',
   '[{"letter": "A", "text": "Realizar TOTG 75g entre 24-28 semanas"}, {"letter": "B", "text": "Diagnosticar diabetes gestacional"}, {"letter": "C", "text": "Iniciar insulina"}, {"letter": "D", "text": "Repetir glicemia de jejum"}, {"letter": "E", "text": "Considerar normal, sem necessidade de investigação"}]',
   0,
   'Glicemia de jejum 92-125 mg/dL no 1º trimestre indica DMG. Se <92, realizar TOTG 75g entre 24-28 semanas para rastreio.',
@@ -481,7 +481,7 @@ VALUES
   'c1000000-0000-0000-0004-000000000009',
   'a1000000-0000-0000-0000-000000000001',
   'Criança de 15 meses comparece à UBS para vacinação. Quais vacinas do calendário devem ser aplicadas nesta idade?',
-  '[{"letter": "A", "text": "Tríplice viral, Hepatite A, Tetra viral"}, {"letter": "B", "text": "Pentavalente, VIP, Pneumo 10"}, {"letter": "C", "text": "DTP, VOP, Febre amarela"}, {"letter": "D", "text": "Meningo C, Pneumo 23"}, {"letter": "E", "text": "BCG e Hepatite B"}]',
+  '[{"letter": "A", "text": "DTP (1º reforço), VIP (1º reforço), Hepatite A, Tetra viral (SCRV)"}, {"letter": "B", "text": "Pentavalente, VIP, Pneumo 10"}, {"letter": "C", "text": "DTP, VOP, Febre amarela"}, {"letter": "D", "text": "Meningo C, Pneumo 23"}, {"letter": "E", "text": "BCG e Hepatite B"}]',
   0,
   'Aos 15 meses: DTP (1º reforço), VOP (1º reforço), Hepatite A (dose única), Tetra viral (caxumba, sarampo, rubéola, varicela).',
   'pediatria', 'Imunização', 'Calendário Vacinal', 'facil',
@@ -508,10 +508,10 @@ VALUES
 (
   'c1000000-0000-0000-0005-000000000001',
   'a1000000-0000-0000-0000-000000000001',
-  'Em um estudo sobre COVID-19, 100 pessoas foram acompanhadas por 1 ano. 20 desenvolveram a doença. Qual a taxa de incidência?',
+  'Em um estudo sobre COVID-19, 100 pessoas foram acompanhadas por 1 ano. 20 desenvolveram a doença. Qual a incidência acumulada (proporção de incidência)?',
   '[{"letter": "A", "text": "20%"}, {"letter": "B", "text": "0.2 por pessoa-ano"}, {"letter": "C", "text": "20 casos"}, {"letter": "D", "text": "80%"}, {"letter": "E", "text": "Não é possível calcular"}]',
   0,
-  'Incidência = casos novos / população em risco no período. 20/100 em 1 ano = 20% ou 0.2 por pessoa-ano.',
+  '20/100 em 1 ano = 20% de incidência acumulada. A taxa de incidência (densidade de incidência) seria calculada em pessoa-tempo.',
   'saude_coletiva', 'Epidemiologia', 'Medidas de Frequência', 'facil',
   -1.0, 1.3, 0.20, 2022, 'expert'
 ),

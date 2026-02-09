@@ -511,7 +511,7 @@ export const diseases: Disease[] = [
   {
     id: 'go-011',
     name: 'Doença Inflamatória Pélvica',
-    icd10: 'N73',
+    icd10: 'N70',
     area: 'Ginecologia e Obstetrícia',
     subspecialty: 'Ginecologia',
     summary: 'Infecção do trato genital superior. Clamídia e gonococo. Dor pélvica + corrimento + febre.',
