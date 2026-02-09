@@ -96,6 +96,9 @@ darwin-education/
 │   ├── lib/ai                    # AI integration (Grok)
 │   ├── lib/theory-gen            # Theory generation
 │   └── lib/ddl                   # Learning gap detection
+├── apps/ios-native/              # SwiftUI iOS native app
+│   ├── DarwinEducation/          # App source code
+│   └── project.yml               # XcodeGen project definition
 │
 ├── packages/shared/              # Shared logic
 │   ├── calculators/              # TRI & SM-2 algorithms
@@ -112,6 +115,7 @@ darwin-education/
 
 **Tech Stack:**
 - **Frontend**: Next.js 15 + React 19 + TypeScript + Tailwind
+- **iOS App**: SwiftUI native
 - **Backend**: Next.js API routes + Supabase PostgreSQL
 - **AI**: Grok 4.1-fast (xAI)
 - **Deployment**: Vercel + Supabase Cloud
