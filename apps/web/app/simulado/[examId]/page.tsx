@@ -85,14 +85,21 @@ export default function ExamPage() {
         return
       }
 
+      // Validate exam has questions
+      if (!exam.question_ids || exam.question_ids.length === 0) {
+        setError('Este simulado não possui questões cadastradas')
+        setLoading(false)
+        return
+      }
+
       // Fetch questions for this exam
       const { data: questions, error: questionsError } = await supabase
         .from('questions')
         .select('*')
         .in('id', exam.question_ids) as { data: any[] | null; error: any }
 
-      if (questionsError || !questions) {
-        setError('Erro ao carregar questões')
+      if (questionsError || !questions || questions.length === 0) {
+        setError('Erro ao carregar questões do simulado')
         setLoading(false)
         return
       }
@@ -130,6 +137,12 @@ export default function ExamPage() {
       const orderedQuestions = exam.question_ids
         .map((id: string) => transformedQuestions.find(q => q.id === id))
         .filter(Boolean) as ENAMEDQuestion[]
+
+      if (orderedQuestions.length === 0) {
+        setError('Nenhuma questão encontrada para este simulado')
+        setLoading(false)
+        return
+      }
 
       // Check for existing attempt or create new one
       const { data: existingAttempt } = await supabase
@@ -319,11 +332,14 @@ export default function ExamPage() {
     )
   }
 
-  if (!currentExam) {
+  if (!currentExam || currentExam.questions.length === 0) {
     return null
   }
 
   const currentQuestion = currentExam.questions[currentQuestionIndex]
+  if (!currentQuestion) {
+    return null
+  }
   const answeredCount = Object.values(answers).filter(a => a.selectedAnswer !== null).length
   const direction = currentQuestionIndex >= prevIndexRef.current ? 1 : -1
   prevIndexRef.current = currentQuestionIndex

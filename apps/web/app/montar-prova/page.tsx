@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -20,12 +20,20 @@ interface QuestionStats {
 
 export default function MontarProvaPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
 
-  const [title, setTitle] = useState('')
+  // Read presets from query params (e.g., ?count=20&time=60)
+  const presetCount = searchParams.get('count')
+  const presetTime = searchParams.get('time')
+
+  const [title, setTitle] = useState(
+    presetCount === '100' ? 'Simulado Completo ENAMED' :
+    presetCount ? 'Simulado Rápido' : ''
+  )
   const [selectedAreas, setSelectedAreas] = useState<ENAMEDArea[]>([])
   const [selectedDifficulties, setSelectedDifficulties] = useState<DifficultyLevel[]>([])
-  const [questionCount, setQuestionCount] = useState(20)
-  const [timeLimit, setTimeLimit] = useState(60)
+  const [questionCount, setQuestionCount] = useState(presetCount ? Number(presetCount) : 20)
+  const [timeLimit, setTimeLimit] = useState(presetTime ? Number(presetTime) : 60)
   const [loading, setLoading] = useState(true)
   const [creating, setCreating] = useState(false)
   const [stats, setStats] = useState<QuestionStats | null>(null)

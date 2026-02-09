@@ -7,12 +7,17 @@ import { AnimatedList, AnimatedItem } from '@/components/ui/AnimatedList'
 export default async function SimuladoPage() {
   const supabase = await createServerClient()
 
-  // Fetch available exams
-  const { data: exams } = await supabase
+  // Fetch available exams (only those with questions)
+  const { data: allExams } = await supabase
     .from('exams')
     .select('*')
     .eq('is_public', true)
     .order('created_at', { ascending: false })
+
+  // Filter out exams with empty question_ids
+  const exams = (allExams || []).filter(
+    (exam: any) => exam.question_ids && exam.question_ids.length > 0
+  )
 
   // Fetch user's recent attempts
   const { data: { user } } = await supabase.auth.getUser()
@@ -43,7 +48,7 @@ export default async function SimuladoPage() {
         {/* Quick Actions */}
         <AnimatedList className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <AnimatedItem>
-          <Link href="/simulado/rapido">
+          <Link href="/montar-prova?count=20&time=60">
             <Card hover className="h-full">
               <CardContent>
                 <div className="flex items-center gap-4">
@@ -63,7 +68,7 @@ export default async function SimuladoPage() {
           </AnimatedItem>
 
           <AnimatedItem>
-          <Link href="/simulado/completo">
+          <Link href="/montar-prova?count=100&time=300">
             <Card hover className="h-full">
               <CardContent>
                 <div className="flex items-center gap-4">
