@@ -8,6 +8,7 @@ import { createClient } from '@/lib/supabase/client'
 import { AREA_COLORS, AREA_LABELS } from '@/lib/area-colors'
 import { AnimatedList, AnimatedItem } from '@/components/ui/AnimatedList'
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter'
+import { SkeletonGrid } from '@/components/ui/Skeleton'
 import type { ENAMEDArea } from '@darwin-education/shared'
 
 interface FlashcardDeck {
@@ -227,11 +228,7 @@ export default function FlashcardsPage() {
 
         {/* Decks */}
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="h-48 bg-surface-2 rounded-xl animate-pulse" />
-            ))}
-          </div>
+          <SkeletonGrid items={6} columns={3} />
         ) : (
           <>
             {/* System Decks */}

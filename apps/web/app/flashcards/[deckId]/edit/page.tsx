@@ -8,6 +8,7 @@ import { Spinner } from '@/components/ui/Spinner'
 import { Input } from '@/components/ui/Input'
 import { createClient } from '@/lib/supabase/client'
 import { AREA_LABELS } from '@/lib/area-colors'
+import { useToast } from '@/lib/hooks/useToast'
 import type { ENAMEDArea } from '@darwin-education/shared'
 
 
@@ -29,6 +30,7 @@ interface DeckData {
 export default function EditDeckPage() {
   const params = useParams()
   const router = useRouter()
+  const { success: toastSuccess, error: toastError } = useToast()
   const deckId = params.deckId as string
 
   const [deck, setDeck] = useState<DeckData | null>(null)
@@ -170,9 +172,11 @@ export default function EditDeckPage() {
         await supabase.from('flashcards').insert(toInsert as any)
       }
 
+      toastSuccess('Alterações salvas com sucesso!')
       router.push(`/flashcards/${deckId}`)
     } catch (err) {
       console.error('Error updating deck:', err)
+      toastError('Erro ao salvar alterações. Tente novamente.')
       setError('Erro ao salvar alterações. Tente novamente.')
       setSaving(false)
     }
@@ -190,9 +194,11 @@ export default function EditDeckPage() {
       const { error: deckError } = await supabase.from('flashcard_decks').delete().eq('id', deckId)
       if (deckError) throw deckError
 
+      toastSuccess('Deck excluído com sucesso')
       router.push('/flashcards')
     } catch (err) {
       console.error('Error deleting deck:', err)
+      toastError('Erro ao excluir o deck. Tente novamente.')
       setError('Erro ao excluir o deck. Tente novamente.')
       setShowDeleteConfirm(false)
     }

@@ -41,6 +41,12 @@ interface ExamState {
     questions: ENAMEDQuestion[]
     timeLimit: number
   }, attemptId: string) => void
+  restoreExam: (exam: {
+    id: string
+    title: string
+    questions: ENAMEDQuestion[]
+    timeLimit: number
+  }, attemptId: string, savedAnswers: Record<string, any>, savedFlagged: string[], elapsedSeconds: number) => void
   selectAnswer: (questionId: string, answer: string) => void
   toggleFlagQuestion: (questionId: string) => void
   goToQuestion: (index: number) => void
@@ -86,6 +92,38 @@ export const useExamStore = create<ExamState>()(
           currentQuestionIndex: 0,
           remainingTime: exam.timeLimit,
           startedAt: new Date(),
+          isSubmitted: false,
+          result: null,
+        })
+      },
+
+      restoreExam: (exam, attemptId, savedAnswers, savedFlagged, elapsedSeconds) => {
+        const answers: Record<string, ExamAnswer> = {}
+        exam.questions.forEach((q) => {
+          const savedIndex = savedAnswers[q.id]
+          let selectedAnswer: string | null = null
+          if (savedIndex !== undefined && savedIndex !== null && savedIndex >= 0 && q.options[savedIndex]) {
+            selectedAnswer = q.options[savedIndex].text
+          }
+          answers[q.id] = {
+            questionId: q.id,
+            selectedAnswer,
+            timeSpent: 0,
+            flagged: savedFlagged.includes(q.id),
+          }
+        })
+
+        // Find first unanswered question to resume from
+        const firstUnanswered = exam.questions.findIndex(q => answers[q.id].selectedAnswer === null)
+        const resumeIndex = firstUnanswered >= 0 ? firstUnanswered : 0
+
+        set({
+          currentExam: exam,
+          attemptId,
+          answers,
+          currentQuestionIndex: resumeIndex,
+          remainingTime: Math.max(0, exam.timeLimit - elapsedSeconds),
+          startedAt: new Date(Date.now() - elapsedSeconds * 1000),
           isSubmitted: false,
           result: null,
         })

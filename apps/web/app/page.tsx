@@ -22,6 +22,7 @@ import {
 import type { ReactNode } from 'react';
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
+import { OnboardingModal } from '@/components/OnboardingModal';
 
 const container = {
   hidden: { opacity: 0 },
@@ -39,6 +40,7 @@ const item = {
 export default function HomePage() {
   return (
     <div className="relative container mx-auto px-4 py-12">
+      <OnboardingModal />
       {/* Hero atmosphere glows */}
       <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-emerald-500 rounded-full blur-[120px] opacity-[0.07] pointer-events-none" aria-hidden="true" />
       <div className="absolute top-20 right-1/4 w-[400px] h-[400px] bg-purple-500 rounded-full blur-[120px] opacity-[0.05] pointer-events-none" aria-hidden="true" />

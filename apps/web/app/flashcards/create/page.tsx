@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/Input'
 import { createClient } from '@/lib/supabase/client'
 import type { FlashcardDeck, Flashcard } from '@/lib/supabase'
 import { AREA_LABELS } from '@/lib/area-colors'
+import { useToast } from '@/lib/hooks/useToast'
 import type { ENAMEDArea } from '@darwin-education/shared'
 
 interface FlashcardInput {
@@ -17,6 +18,7 @@ interface FlashcardInput {
 
 export default function CreateDeckPage() {
   const router = useRouter()
+  const { success: toastSuccess, error: toastError } = useToast()
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [area, setArea] = useState<ENAMEDArea | ''>('')
@@ -100,9 +102,11 @@ export default function CreateDeckPage() {
 
       if (cardsError) throw cardsError
 
+      toastSuccess(`Deck "${title.trim()}" criado com ${validCards.length} cards!`)
       router.push(`/flashcards/${deckData.id}`)
     } catch (err) {
       console.error('Error creating deck:', err)
+      toastError('Erro ao criar deck. Tente novamente.')
       setError('Erro ao criar deck. Tente novamente.')
       setSaving(false)
     }

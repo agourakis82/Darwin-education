@@ -52,6 +52,7 @@ export default function ExamPage() {
     answers,
     remainingTime,
     startExam,
+    restoreExam,
     selectAnswer,
     toggleFlagQuestion,
     goToQuestion,
@@ -60,6 +61,38 @@ export default function ExamPage() {
     updateRemainingTime,
     resetExam,
   } = useExamStore()
+
+  // Auto-save answers to DB every 30 seconds
+  useEffect(() => {
+    if (!currentExam) return
+    const interval = setInterval(async () => {
+      const state = useExamStore.getState()
+      if (!state.attemptId || state.isSubmitted) return
+      try {
+        const supabase = createClient()
+        const serializedAnswers: Record<string, number> = {}
+        Object.entries(state.answers).forEach(([qId, ans]) => {
+          if (ans.selectedAnswer !== null) {
+            const question = state.currentExam?.questions.find(q => q.id === qId)
+            const optIdx = question?.options.findIndex(o => o.text === ans.selectedAnswer) ?? -1
+            serializedAnswers[qId] = optIdx
+          }
+        })
+        const flagged = Object.entries(state.answers)
+          .filter(([, a]) => a.flagged)
+          .map(([qId]) => qId)
+        await (supabase.from('exam_attempts') as any)
+          .update({
+            answers: serializedAnswers,
+            marked_for_review: flagged,
+          })
+          .eq('id', state.attemptId)
+      } catch {
+        // Auto-save is best-effort
+      }
+    }, 30_000)
+    return () => clearInterval(interval)
+  }, [currentExam])
 
   useEffect(() => {
     async function loadExam() {
@@ -158,7 +191,27 @@ export default function ExamPage() {
       if (existingAttempt) {
         attemptId = existingAttempt.id
         // Restore state from existing attempt
-        // TODO: restore answers from existingAttempt.answers
+        const savedAnswers = existingAttempt.answers || {}
+        const savedFlagged = existingAttempt.marked_for_review || []
+        const startedAt = (existingAttempt as any).started_at
+        const elapsedSeconds = startedAt
+          ? Math.floor((Date.now() - new Date(startedAt).getTime()) / 1000)
+          : 0
+
+        restoreExam(
+          {
+            id: examId,
+            title: exam.title,
+            questions: orderedQuestions,
+            timeLimit: exam.time_limit_minutes * 60,
+          },
+          attemptId,
+          savedAnswers,
+          savedFlagged,
+          elapsedSeconds
+        )
+        setLoading(false)
+        return
       } else {
         // Create new attempt
         const { data: newAttempt, error: attemptError } = await supabase
@@ -196,7 +249,7 @@ export default function ExamPage() {
     }
 
     loadExam()
-  }, [examId, router, startExam])
+  }, [examId, router, startExam, restoreExam])
 
   const handleSubmit = async () => {
     if (!currentExam) return

@@ -68,3 +68,10 @@ data/extracts/
 logs/
 *.tar.gz
 .vercel
+
+# Deploy artifacts
+infrastructure/supabase/deploy_consolidated.sql
+
+# Playwright
+apps/web/test-results/
+apps/web/playwright-report/
