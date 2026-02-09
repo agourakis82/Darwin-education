@@ -115,6 +115,7 @@ export default [
       'react/display-name': 'warn',
 
       // General
+      'no-undef': 'off', // TypeScript handles symbol/type resolution
       'no-console': [
         'warn',
         {

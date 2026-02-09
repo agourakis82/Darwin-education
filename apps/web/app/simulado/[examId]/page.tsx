@@ -44,6 +44,7 @@ export default function ExamPage() {
   const [error, setError] = useState<string | null>(null)
   const [showSubmitModal, setShowSubmitModal] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const prevIndexRef = useRef(0)
 
   const {
     currentExam,
@@ -324,7 +325,6 @@ export default function ExamPage() {
 
   const currentQuestion = currentExam.questions[currentQuestionIndex]
   const answeredCount = Object.values(answers).filter(a => a.selectedAnswer !== null).length
-  const prevIndexRef = useRef(currentQuestionIndex)
   const direction = currentQuestionIndex >= prevIndexRef.current ? 1 : -1
   prevIndexRef.current = currentQuestionIndex
 
