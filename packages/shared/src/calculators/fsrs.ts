@@ -61,6 +61,38 @@ export interface FSRSReviewLog {
 }
 
 // ============================================
+// Optimizer Types
+// ============================================
+
+/** A single training sample for the optimizer: one review event */
+export interface FSRSTrainingSample {
+  cardId: string;
+  rating: FSRSRating;
+  elapsedDays: number;
+  state: FSRSCardState;
+  reviewDate: Date;
+}
+
+/** Parameter bounds for constrained optimization */
+export interface FSRSParameterBounds {
+  min: number[];
+  max: number[];
+}
+
+/** Result of the optimizer */
+export interface FSRSOptimizerResult {
+  weights: number[];
+  logLoss: number;
+  defaultLogLoss: number;
+  improvementRatio: number;
+  iterations: number;
+  converged: boolean;
+  trainingSamples: number;
+  uniqueCards: number;
+  durationMs: number;
+}
+
+// ============================================
 // Default Parameters
 // ============================================
 
@@ -78,6 +110,32 @@ export const DEFAULT_FSRS_PARAMETERS: FSRSParameters = {
   w: DEFAULT_FSRS_WEIGHTS,
   requestRetention: 0.9,
   maximumInterval: 36500,
+};
+
+/** Per-weight bounds for constrained optimization */
+export const DEFAULT_FSRS_PARAMETER_BOUNDS: FSRSParameterBounds = {
+  min: [
+    0.01, 0.01, 0.01, 0.01, // w[0..3] initial stability per rating
+    1.0,                      // w[4] initial difficulty
+    0.0, 0.0, 0.0,           // w[5..7] difficulty params
+    -1.0, 0.0, 0.0,          // w[8..10] recall stability
+    0.01, 0.0, 0.0, 0.0,     // w[11..14] forget stability
+    0.0, 0.0,                 // w[15..16] hard penalty / easy bonus
+    0.0, 0.0,                 // w[17..18] FSRS-6 extensions
+    0.0,                      // w[19] reserved
+    0.5,                      // w[20] reserved
+  ],
+  max: [
+    100.0, 100.0, 100.0, 100.0, // w[0..3]
+    10.0,                         // w[4]
+    5.0, 5.0, 1.0,               // w[5..7]
+    5.0, 3.0, 5.0,               // w[8..10]
+    10.0, 3.0, 2.0, 5.0,         // w[11..14]
+    3.0, 5.0,                     // w[15..16]
+    5.0, 5.0,                     // w[17..18]
+    1.0,                          // w[19]
+    2.0,                          // w[20]
+  ],
 };
 
 // ============================================
@@ -464,28 +522,336 @@ function addDays(date: Date, days: number): Date {
 }
 
 // ============================================
-// Parameter Optimization (Placeholder)
+// Parameter Optimization
 // ============================================
 
 /**
- * Optimize FSRS weights based on user's review history
- * This is a complex optimization problem (gradient descent, BFGS, etc.)
- * Typically done on backend with Python/R libraries
+ * Group training samples by card, sorted chronologically per card.
+ */
+function groupReviewsByCard(
+  logs: FSRSTrainingSample[]
+): Map<string, FSRSTrainingSample[]> {
+  const groups = new Map<string, FSRSTrainingSample[]>();
+  for (const log of logs) {
+    let arr = groups.get(log.cardId);
+    if (!arr) {
+      arr = [];
+      groups.set(log.cardId, arr);
+    }
+    arr.push(log);
+  }
+  // Sort each card's reviews chronologically
+  for (const arr of groups.values()) {
+    arr.sort((a, b) => a.reviewDate.getTime() - b.reviewDate.getTime());
+  }
+  return groups;
+}
+
+/**
+ * Forward-simulate one card's review history with given weights.
+ * Returns (predicted_R, recalled) pairs for all reviews after the first.
+ */
+function simulateCardHistory(
+  reviews: FSRSTrainingSample[],
+  w: number[]
+): Array<{ predictedR: number; recalled: boolean }> {
+  const results: Array<{ predictedR: number; recalled: boolean }> = [];
+  if (reviews.length < 2) return results;
+
+  // First review initializes the card
+  const first = reviews[0];
+  let d = initDifficulty(first.rating, w);
+  let s = initStability(first.rating, w);
+
+  for (let i = 1; i < reviews.length; i++) {
+    const review = reviews[i];
+    const elapsed = review.elapsedDays;
+    const recalled = review.rating >= 2;
+
+    // Predicted retrievability at this review point
+    const R = elapsed > 0 ? retrievability(elapsed, s) : 1.0;
+    results.push({ predictedR: R, recalled });
+
+    // Update card state
+    d = nextDifficulty(d, review.rating, w);
+    if (recalled) {
+      s = nextRecallStability(d, s, R, review.rating, w);
+    } else {
+      s = nextForgetStability(d, s, R, w);
+    }
+
+    // Safety: prevent degenerate values
+    s = Math.max(s, 0.01);
+    d = Math.max(1, Math.min(10, d));
+  }
+
+  return results;
+}
+
+/**
+ * Compute binary cross-entropy (log-loss) over all cards.
+ */
+function computeLogLoss(
+  allReviews: Map<string, FSRSTrainingSample[]>,
+  w: number[]
+): number {
+  let totalLoss = 0;
+  let count = 0;
+  const eps = 1e-7;
+
+  for (const reviews of allReviews.values()) {
+    const pairs = simulateCardHistory(reviews, w);
+    for (const { predictedR, recalled } of pairs) {
+      const R = Math.max(eps, Math.min(1 - eps, predictedR));
+      const y = recalled ? 1 : 0;
+      totalLoss += -(y * Math.log(R) + (1 - y) * Math.log(1 - R));
+      count++;
+    }
+  }
+
+  return count > 0 ? totalLoss / count : 0;
+}
+
+/**
+ * Compute numerical gradient via central finite differences.
+ */
+function computeGradient(
+  allReviews: Map<string, FSRSTrainingSample[]>,
+  w: number[],
+  h: number = 1e-5
+): number[] {
+  const grad = new Array(w.length).fill(0);
+
+  for (let k = 0; k < w.length; k++) {
+    const wPlus = [...w];
+    const wMinus = [...w];
+    wPlus[k] += h;
+    wMinus[k] -= h;
+
+    const lossPlus = computeLogLoss(allReviews, wPlus);
+    const lossMinus = computeLogLoss(allReviews, wMinus);
+    grad[k] = (lossPlus - lossMinus) / (2 * h);
+  }
+
+  return grad;
+}
+
+/**
+ * Clamp weights to parameter bounds.
+ */
+function clampWeights(w: number[], bounds: FSRSParameterBounds): number[] {
+  return w.map((val, i) =>
+    Math.max(bounds.min[i], Math.min(bounds.max[i], val))
+  );
+}
+
+/**
+ * Adam optimizer for FSRS weight optimization.
+ */
+function adamOptimize(
+  allReviews: Map<string, FSRSTrainingSample[]>,
+  initialW: number[],
+  bounds: FSRSParameterBounds,
+  maxIter: number,
+  lr: number
+): { weights: number[]; loss: number; iterations: number; converged: boolean } {
+  const beta1 = 0.9;
+  const beta2 = 0.999;
+  const epsilon = 1e-8;
+  const convergenceThreshold = 1e-5;
+  const lossImprovementThreshold = 1e-6;
+
+  let w = [...initialW];
+  const m = new Array(w.length).fill(0);
+  const v = new Array(w.length).fill(0);
+
+  let bestW = [...w];
+  let bestLoss = computeLogLoss(allReviews, w);
+  let prevLoss = bestLoss;
+  let currentLr = lr;
+  let nanRetries = 0;
+  const maxNanRetries = 5;
+
+  // Track loss improvement over last 10 iterations
+  const lossHistory: number[] = [bestLoss];
+
+  for (let t = 1; t <= maxIter; t++) {
+    const g = computeGradient(allReviews, w);
+
+    // Check for NaN/Inf in gradient
+    if (g.some(val => !isFinite(val))) {
+      nanRetries++;
+      if (nanRetries >= maxNanRetries) {
+        return { weights: bestW, loss: bestLoss, iterations: t, converged: false };
+      }
+      w = [...bestW];
+      currentLr *= 0.5;
+      continue;
+    }
+
+    // Gradient norm for convergence check
+    const gradNorm = Math.sqrt(g.reduce((sum, gi) => sum + gi * gi, 0));
+    if (gradNorm < convergenceThreshold) {
+      return { weights: clampWeights(w, bounds), loss: bestLoss, iterations: t, converged: true };
+    }
+
+    // Adam update
+    for (let k = 0; k < w.length; k++) {
+      m[k] = beta1 * m[k] + (1 - beta1) * g[k];
+      v[k] = beta2 * v[k] + (1 - beta2) * g[k] * g[k];
+      const mHat = m[k] / (1 - Math.pow(beta1, t));
+      const vHat = v[k] / (1 - Math.pow(beta2, t));
+      w[k] -= currentLr * mHat / (Math.sqrt(vHat) + epsilon);
+    }
+
+    // Project back onto feasible set
+    w = clampWeights(w, bounds);
+
+    // Compute loss
+    const loss = computeLogLoss(allReviews, w);
+
+    if (!isFinite(loss)) {
+      nanRetries++;
+      if (nanRetries >= maxNanRetries) {
+        return { weights: bestW, loss: bestLoss, iterations: t, converged: false };
+      }
+      w = [...bestW];
+      currentLr *= 0.5;
+      continue;
+    }
+
+    if (loss < bestLoss) {
+      bestLoss = loss;
+      bestW = [...w];
+    }
+
+    // Check loss improvement plateau
+    lossHistory.push(loss);
+    if (lossHistory.length > 10) {
+      const oldLoss = lossHistory[lossHistory.length - 11];
+      if (Math.abs(oldLoss - loss) < lossImprovementThreshold) {
+        return { weights: clampWeights(bestW, bounds), loss: bestLoss, iterations: t, converged: true };
+      }
+    }
+
+    prevLoss = loss;
+  }
+
+  return { weights: clampWeights(bestW, bounds), loss: bestLoss, iterations: maxIter, converged: false };
+}
+
+/**
+ * Optimize FSRS weights based on user's review history.
  *
- * Pseudocode:
- * 1. Collect review logs (rating, elapsed_days, recalled)
- * 2. Define loss function: log-loss or RMSE on predicted vs actual recall
- * 3. Minimize loss by adjusting w[0..20]
- * 4. Return optimized weights
+ * Uses Adam optimizer with numerical gradients to minimize binary cross-entropy
+ * between predicted retrievability and actual recall outcomes.
  *
- * For production, use: https://github.com/open-spaced-repetition/fsrs-optimizer
+ * Minimum requirements:
+ * - At least 50 total reviews across at least 10 unique cards
+ * - Data must not be >95% skewed toward one outcome
+ *
+ * @param samples - Training data: chronological review events per card
+ * @param options - Optional configuration overrides
+ * @returns Optimizer result with weights, loss, and diagnostics
  */
 export function optimizeParameters(
-  reviewLogs: FSRSReviewLog[]
-): FSRSParameters {
-  // TODO: Implement optimization (backend service)
-  // For now, return defaults
-  return DEFAULT_FSRS_PARAMETERS;
+  samples: FSRSTrainingSample[],
+  options?: {
+    initialWeights?: number[];
+    maxIterations?: number;
+    learningRate?: number;
+    minReviews?: number;
+    minCards?: number;
+  }
+): FSRSOptimizerResult {
+  const startTime = Date.now();
+  const minReviews = options?.minReviews ?? 50;
+  const minCards = options?.minCards ?? 10;
+  const maxIter = options?.maxIterations ?? 200;
+  const lr = options?.learningRate ?? 0.01;
+  const initialW = options?.initialWeights ?? [...DEFAULT_FSRS_WEIGHTS];
+  const bounds = DEFAULT_FSRS_PARAMETER_BOUNDS;
+
+  // Group reviews by card
+  const allReviews = groupReviewsByCard(samples);
+  const uniqueCards = allReviews.size;
+
+  // Count effective training pairs (reviews after first per card)
+  let trainingSamples = 0;
+  for (const reviews of allReviews.values()) {
+    trainingSamples += Math.max(0, reviews.length - 1);
+  }
+
+  // Insufficient data check
+  if (samples.length < minReviews || uniqueCards < minCards) {
+    const defaultLoss = computeLogLoss(allReviews, DEFAULT_FSRS_WEIGHTS);
+    return {
+      weights: [...DEFAULT_FSRS_WEIGHTS],
+      logLoss: defaultLoss,
+      defaultLogLoss: defaultLoss,
+      improvementRatio: 0,
+      iterations: 0,
+      converged: false,
+      trainingSamples,
+      uniqueCards,
+      durationMs: Date.now() - startTime,
+    };
+  }
+
+  // Skewness check: if >95% same outcome, data is too skewed
+  let recallCount = 0;
+  let forgetCount = 0;
+  for (const reviews of allReviews.values()) {
+    for (let i = 1; i < reviews.length; i++) {
+      if (reviews[i].rating >= 2) recallCount++;
+      else forgetCount++;
+    }
+  }
+  const total = recallCount + forgetCount;
+  if (total > 0 && (recallCount / total > 0.95 || forgetCount / total > 0.95)) {
+    const defaultLoss = computeLogLoss(allReviews, DEFAULT_FSRS_WEIGHTS);
+    return {
+      weights: [...DEFAULT_FSRS_WEIGHTS],
+      logLoss: defaultLoss,
+      defaultLogLoss: defaultLoss,
+      improvementRatio: 0,
+      iterations: 0,
+      converged: false,
+      trainingSamples,
+      uniqueCards,
+      durationMs: Date.now() - startTime,
+    };
+  }
+
+  // Compute baseline loss with default weights
+  const defaultLogLoss = computeLogLoss(allReviews, DEFAULT_FSRS_WEIGHTS);
+
+  // Run Adam optimizer
+  const result = adamOptimize(allReviews, initialW, bounds, maxIter, lr);
+
+  // If optimized is not better than defaults, return defaults
+  const improvementRatio = defaultLogLoss > 0
+    ? 1 - result.loss / defaultLogLoss
+    : 0;
+
+  const finalWeights = result.loss < defaultLogLoss - 0.001
+    ? result.weights
+    : [...DEFAULT_FSRS_WEIGHTS];
+  const finalLoss = result.loss < defaultLogLoss - 0.001
+    ? result.loss
+    : defaultLogLoss;
+
+  return {
+    weights: finalWeights,
+    logLoss: finalLoss,
+    defaultLogLoss,
+    improvementRatio: Math.max(0, improvementRatio),
+    iterations: result.iterations,
+    converged: result.converged,
+    trainingSamples,
+    uniqueCards,
+    durationMs: Date.now() - startTime,
+  };
 }
 
 /**

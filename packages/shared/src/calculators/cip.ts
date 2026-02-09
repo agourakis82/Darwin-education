@@ -490,7 +490,9 @@ export function getCellKey(row: number, section: CIPSection): string {
  * Parse cell key back to row and section
  */
 export function parseCellKey(key: string): { row: number; section: CIPSection } {
-  const [rowStr, section] = key.split('_');
+  const underscoreIndex = key.indexOf('_');
+  const rowStr = key.substring(0, underscoreIndex);
+  const section = key.substring(underscoreIndex + 1);
   return {
     row: parseInt(rowStr, 10),
     section: section as CIPSection,

@@ -13,20 +13,22 @@
  * ENAMED spans -3.5 to +2.4 (5.9 units). Tuning attempts (0.4→0.6, 0.3→0.5) show
  * minimal improvement, suggesting model architecture limitation rather than coefficient tuning issue.
  *
- * RECOMMENDATION: Implement Phase 2 improvements:
- * 1. Polynomial position adjustment (pos + pos² + pos³) instead of linear
- * 2. Area × Institution interaction terms
- * 3. Discrimination variance via position-based multiplier
- * 4. Consider empirical lookup tables for well-validated question sources
+ * PHASE 2 IMPLEMENTED (2026-02):
+ * 1. Polynomial position adjustment (pos + pos² + pos³) — replaces linear
+ * 2. Area × Institution interaction terms — additive cross-effects
+ * 3. Area-specific discrimination multipliers — from empirical ENAMED 2025
+ * 4. Position-based discrimination variance — sinusoidal bell curve
+ * 5. Component-based confidence calculation — honest uncertainty
+ * 6. Widened bounds: difficulty [-3.5, +3.0], discrimination [0.5, 2.0]
  *
- * See VALIDATION_RESULTS.md for detailed analysis and Phase 2 roadmap.
+ * See VALIDATION_RESULTS.md for detailed analysis.
  */
 
 export const IRT_ESTIMATION_CONFIG = {
   difficulty: {
     baseValue: 0.0,
-    minValue: -2.5,
-    maxValue: 2.5,
+    minValue: -3.5,
+    maxValue: 3.0,
 
     // Institution prestige adjustment
     institutionAdjustment: {
@@ -69,18 +71,49 @@ export const IRT_ESTIMATION_CONFIG = {
     },
 
     // Polynomial position effects (Phase 2)
-    // From bootstrap validation: difficulty = baseline + (a*pos + b*pos² + c*pos³)
+    // From bootstrap validation: difficulty = baseline + (a*Δ + b*Δ² + c*Δ³)
+    // where Δ = questionPosition - totalQuestions/2 (centered)
     positionPolynomial: {
       linear: 0.015, // Slight increase with position
       quadratic: 0.0002, // Acceleration
       cubic: -0.000003, // Deceleration at end
     },
+
+    // Area × Institution interaction terms (Phase 2)
+    // Additive cross-effects beyond the sum of individual adjustments
+    areaInstitutionInteraction: {
+      clinica_medica: {
+        TIER_1_NATIONAL: 0.10,
+        TIER_2_REGIONAL_STRONG: 0.0,
+        TIER_3_REGIONAL: -0.05,
+      },
+      cirurgia: {
+        TIER_1_NATIONAL: 0.20, // Surgery at ENAMED is notably harder
+        TIER_2_REGIONAL_STRONG: 0.05,
+        TIER_3_REGIONAL: -0.10,
+      },
+      ginecologia_obstetricia: {
+        TIER_1_NATIONAL: 0.08,
+        TIER_2_REGIONAL_STRONG: 0.0,
+        TIER_3_REGIONAL: -0.05,
+      },
+      pediatria: {
+        TIER_1_NATIONAL: 0.12,
+        TIER_2_REGIONAL_STRONG: 0.0,
+        TIER_3_REGIONAL: -0.08,
+      },
+      saude_coletiva: {
+        TIER_1_NATIONAL: -0.05, // Public health more standardized
+        TIER_2_REGIONAL_STRONG: 0.0,
+        TIER_3_REGIONAL: 0.05,
+      },
+    },
   },
 
   discrimination: {
     baseValue: 1.0,
-    minValue: 0.7,
-    maxValue: 1.4,
+    minValue: 0.5,
+    maxValue: 2.0,
 
     // Institution multiplier (better-written questions discriminate better)
     institutionMultiplier: {
@@ -106,6 +139,27 @@ export const IRT_ESTIMATION_CONFIG = {
       pediatria: 1.18,
       saude_coletiva: 0.95, // Lower discrimination
     },
+
+    // Position-based discrimination (Phase 2)
+    // Bell-curve: middle questions discriminate best, edges discriminate less
+    positionDiscrimination: {
+      centerBoost: 0.15, // Max boost at center position
+      edgePenalty: -0.10, // Penalty at position 1 and position N
+    },
+  },
+
+  // Confidence model (Phase 2)
+  // Component-based: base per tier + bonuses for each active Phase 2 feature
+  confidence: {
+    baseConfidence: {
+      TIER_1_NATIONAL: 0.55,
+      TIER_2_REGIONAL_STRONG: 0.50,
+      TIER_3_REGIONAL: 0.40,
+    },
+    areaKnownBonus: 0.05,
+    interactionTermBonus: 0.05,
+    polynomialPositionBonus: 0.05,
+    modelVersionBonus: 0.10, // Phase 2 improvement over Phase 1
   },
 
   guessing: {

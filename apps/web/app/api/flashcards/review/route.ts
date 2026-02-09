@@ -88,8 +88,26 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Load user-specific FSRS weights (if optimizer has run)
+    let fsrsParams = FSRS.DEFAULT_FSRS_PARAMETERS
+    try {
+      const { data: userWeights } = await (supabase
+        .from('user_fsrs_weights') as any)
+        .select('weights')
+        .eq('user_id', user.id)
+        .single() as { data: { weights: number[] } | null; error: any }
+
+      if (userWeights?.weights?.length === 21) {
+        fsrsParams = { ...FSRS.DEFAULT_FSRS_PARAMETERS, w: userWeights.weights }
+      }
+    } catch {
+      // Fall back to defaults if table doesn't exist
+    }
+
     // Schedule next review using FSRS-6
-    const { card: updatedCard, log } = scheduleCard(fsrsCard, rating, now)
+    const elapsed = fsrsCard.state === 'new' ? 0 :
+      Math.max(0, Math.round((now.getTime() - fsrsCard.lastReview.getTime()) / (1000 * 60 * 60 * 24)))
+    const { card: updatedCard, log } = scheduleCard(fsrsCard, rating, now, fsrsParams)
 
     // Upsert the review state
     const upsertData = {
@@ -140,6 +158,22 @@ export async function POST(request: NextRequest) {
         { error: 'Failed to save review' },
         { status: 500 }
       )
+    }
+
+    // Log review event for optimizer (fire-and-forget)
+    try {
+      await (supabase.from('flashcard_review_logs') as any).insert({
+        user_id: user.id,
+        card_id: cardId,
+        rating,
+        state: fsrsCard.state,
+        elapsed_days: elapsed,
+        stability_after: updatedCard.stability,
+        difficulty_after: updatedCard.difficulty,
+        scheduled_days: log.scheduled_days,
+      })
+    } catch {
+      // Non-critical — don't fail the review if logging fails
     }
 
     // Track study activity for streak calculation

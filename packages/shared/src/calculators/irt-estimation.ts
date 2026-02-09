@@ -26,8 +26,15 @@ export interface IRTEstimationResult {
 }
 
 /**
- * Estimate IRT parameters from question metadata
- * Combines multiple heuristics to produce reasonable estimates
+ * Estimate IRT parameters from question metadata (Phase 2)
+ *
+ * Phase 2 improvements over Phase 1:
+ * - Polynomial position model (cubic) replaces linear
+ * - Area × Institution interaction terms
+ * - Area-specific discrimination multipliers
+ * - Position-based discrimination variance (sinusoidal bell curve)
+ * - Component-based confidence calculation
+ * - Widened bounds: difficulty [-3.5, +3.0], discrimination [0.5, 2.0]
  */
 export function estimateIRTFromMetadata(
   metadata: QuestionMetadata
@@ -36,7 +43,8 @@ export function estimateIRTFromMetadata(
   const difficultyComponents: Record<string, number> = {};
   const discriminationComponents: Record<string, number> = {};
 
-  // DIFFICULTY ESTIMATION
+  // ── DIFFICULTY ESTIMATION ──
+
   let difficulty = config.difficulty.baseValue;
 
   // 1. Institution adjustment
@@ -56,12 +64,28 @@ export function estimateIRTFromMetadata(
   difficulty += examAdj;
   difficultyComponents.examType = examAdj;
 
-  // 4. Position (linear interpolation: Q1=-0.3, middle=0, Q100=+0.3)
+  // 4. Position — polynomial model (Phase 2) with linear fallback
+  const pos = metadata.questionPosition;
+  const total = metadata.totalQuestionsInExam;
   const positionRatio =
-    (metadata.questionPosition - 1) /
-    (Math.max(metadata.totalQuestionsInExam - 1, 1));
-  const positionAdj =
-    (positionRatio - 0.5) * 2 * config.difficulty.positionMaxAdjustment;
+    (pos - 1) / Math.max(total - 1, 1);
+  let positionAdj: number;
+
+  if (config.difficulty.positionPolynomial) {
+    // Polynomial: f(Δ) = a·Δ + b·Δ² + c·Δ³ where Δ = pos - total/2
+    const centeredPos = pos - total / 2;
+    const poly = config.difficulty.positionPolynomial;
+    positionAdj =
+      poly.linear * centeredPos +
+      poly.quadratic * centeredPos * centeredPos +
+      poly.cubic * centeredPos * centeredPos * centeredPos;
+    // Clamp to prevent cubic overshoot on very large exams
+    positionAdj = Math.max(-1.5, Math.min(1.5, positionAdj));
+  } else {
+    // Legacy linear model
+    positionAdj =
+      (positionRatio - 0.5) * 2 * config.difficulty.positionMaxAdjustment;
+  }
   difficulty += positionAdj;
   difficultyComponents.position = positionAdj;
 
@@ -72,13 +96,28 @@ export function estimateIRTFromMetadata(
     difficultyComponents.area = areaAdj;
   }
 
+  // 6. Area × Institution interaction (Phase 2)
+  if (metadata.area && config.difficulty.areaInstitutionInteraction) {
+    const areaInteractions =
+      config.difficulty.areaInstitutionInteraction[
+        metadata.area as keyof typeof config.difficulty.areaInstitutionInteraction
+      ];
+    if (areaInteractions) {
+      const interactionAdj =
+        areaInteractions[metadata.institutionTier as keyof typeof areaInteractions] ?? 0;
+      difficulty += interactionAdj;
+      difficultyComponents.areaInstitutionInteraction = interactionAdj;
+    }
+  }
+
   // Clamp to bounds
   difficulty = Math.max(
     config.difficulty.minValue,
     Math.min(config.difficulty.maxValue, difficulty)
   );
 
-  // DISCRIMINATION ESTIMATION
+  // ── DISCRIMINATION ESTIMATION ──
+
   let discrimination = config.discrimination.baseValue;
 
   // 1. Institution multiplier
@@ -94,24 +133,66 @@ export function estimateIRTFromMetadata(
   discrimination *= examMult;
   discriminationComponents.examType = examMult;
 
+  // 3. Area-specific discrimination multiplier (Phase 2)
+  if (metadata.area && config.discrimination.areaDiscrimination) {
+    const areaMult =
+      config.discrimination.areaDiscrimination[
+        metadata.area as keyof typeof config.discrimination.areaDiscrimination
+      ] ?? 1.0;
+    discrimination *= areaMult;
+    discriminationComponents.area = areaMult;
+  }
+
+  // 4. Position-based discrimination (Phase 2)
+  // Sinusoidal bell curve: peaks at center (posRatio=0.5), troughs at edges
+  if (config.discrimination.positionDiscrimination) {
+    const { centerBoost, edgePenalty } = config.discrimination.positionDiscrimination;
+    const posDiscAdj =
+      edgePenalty + (centerBoost - edgePenalty) * Math.sin(positionRatio * Math.PI);
+    discrimination += posDiscAdj;
+    discriminationComponents.position = posDiscAdj;
+  }
+
   // Clamp to bounds
   discrimination = Math.max(
     config.discrimination.minValue,
     Math.min(config.discrimination.maxValue, discrimination)
   );
 
-  // GUESSING PARAMETER
+  // ── GUESSING PARAMETER ──
+
   const guessing =
     config.guessing.optionCountMap[metadata.optionCount as keyof typeof config.guessing.optionCountMap] ?? 0.25;
 
-  // CONFIDENCE CALCULATION
-  let confidence = 0.6; // Base confidence
-  if (metadata.institutionTier === 'TIER_1_NATIONAL') {
-    confidence = 0.8; // High confidence for national/prestigious exams
-  } else if (metadata.institutionTier === 'TIER_2_REGIONAL_STRONG') {
-    confidence = 0.7; // Good confidence for strong regional programs
-  } else if (metadata.institutionTier === 'TIER_3_REGIONAL') {
-    confidence = 0.5; // Lower confidence for small regional exams
+  // ── CONFIDENCE CALCULATION (Phase 2: component-based) ──
+
+  let confidence: number;
+  if (config.confidence) {
+    const tierKey = metadata.institutionTier as keyof typeof config.confidence.baseConfidence;
+    confidence = config.confidence.baseConfidence[tierKey] ?? 0.40;
+
+    if (metadata.area) {
+      confidence += config.confidence.areaKnownBonus;
+    }
+    if (config.difficulty.areaInstitutionInteraction && metadata.area) {
+      confidence += config.confidence.interactionTermBonus;
+    }
+    if (config.difficulty.positionPolynomial) {
+      confidence += config.confidence.polynomialPositionBonus;
+    }
+    confidence += config.confidence.modelVersionBonus;
+    // Cap — metadata estimation can never match empirical calibration
+    confidence = Math.min(0.85, confidence);
+  } else {
+    // Legacy confidence
+    confidence = 0.6;
+    if (metadata.institutionTier === 'TIER_1_NATIONAL') {
+      confidence = 0.8;
+    } else if (metadata.institutionTier === 'TIER_2_REGIONAL_STRONG') {
+      confidence = 0.7;
+    } else if (metadata.institutionTier === 'TIER_3_REGIONAL') {
+      confidence = 0.5;
+    }
   }
 
   return {
@@ -165,7 +246,7 @@ export function formatIRTParameters(irt: {
 
 /**
  * Calculate confidence intervals for estimated parameters
- * Provides bounds on uncertainty
+ * Phase 2: wider CI widths to reflect honest uncertainty
  */
 export function calculateConfidenceIntervals(
   estimate: IRTEstimationResult
@@ -173,17 +254,17 @@ export function calculateConfidenceIntervals(
   difficulty: [number, number];
   discrimination: [number, number];
 } {
-  // Conservative confidence intervals based on confidence level
-  const ciWidth = (1 - estimate.confidence) * 0.5;
+  const diffCIWidth = (1 - estimate.confidence) * 1.5;
+  const discCIWidth = (1 - estimate.confidence) * 0.4;
 
   return {
     difficulty: [
-      estimate.difficulty - ciWidth,
-      estimate.difficulty + ciWidth,
+      Math.max(-3.5, estimate.difficulty - diffCIWidth),
+      Math.min(3.0, estimate.difficulty + diffCIWidth),
     ],
     discrimination: [
-      Math.max(0.3, estimate.discrimination - ciWidth * 0.3),
-      Math.min(2.5, estimate.discrimination + ciWidth * 0.3),
+      Math.max(0.5, estimate.discrimination - discCIWidth),
+      Math.min(2.0, estimate.discrimination + discCIWidth),
     ],
   };
 }
