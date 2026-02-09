@@ -26,7 +26,7 @@ interface FlashcardData {
 
 interface DeckData {
   id: string
-  title: string
+  name: string
   description: string | null
   area: ENAMEDArea | null
   created_at: string
@@ -134,7 +134,7 @@ export default function DeckViewPage() {
                 <ChevronLeft className="w-5 h-5" />
               </Button>
               <div>
-                <h1 className="text-2xl font-bold">{deck.title}</h1>
+                <h1 className="text-2xl font-bold">{deck.name}</h1>
                 <p className="text-sm text-label-secondary mt-1">
                   {cards.length} cards
                 </p>

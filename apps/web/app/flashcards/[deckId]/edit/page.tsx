@@ -21,7 +21,7 @@ interface FlashcardEdit {
 
 interface DeckData {
   id: string
-  title: string
+  name: string
   description: string | null
   area: ENAMEDArea | null
 }
@@ -60,7 +60,7 @@ export default function EditDeckPage() {
     }
 
     setDeck(deckData)
-    setTitle(deckData.title)
+    setTitle(deckData.name)
     setDescription(deckData.description || '')
     setArea(deckData.area || '')
 
@@ -124,7 +124,7 @@ export default function EditDeckPage() {
       const { error: deckError } = await (supabase
         .from('flashcard_decks') as any)
         .update({
-          title: title.trim(),
+          name: title.trim(),
           description: description.trim() || null,
           area: area || null,
         })
@@ -181,13 +181,21 @@ export default function EditDeckPage() {
   const handleDeleteDeck = async () => {
     const supabase = createClient()
 
-    // Delete all cards first
-    await supabase.from('flashcards').delete().eq('deck_id', deckId)
+    try {
+      // Delete all cards first
+      const { error: cardsError } = await supabase.from('flashcards').delete().eq('deck_id', deckId)
+      if (cardsError) throw cardsError
 
-    // Delete deck
-    await supabase.from('flashcard_decks').delete().eq('id', deckId)
+      // Delete deck
+      const { error: deckError } = await supabase.from('flashcard_decks').delete().eq('id', deckId)
+      if (deckError) throw deckError
 
-    router.push('/flashcards')
+      router.push('/flashcards')
+    } catch (err) {
+      console.error('Error deleting deck:', err)
+      setError('Erro ao excluir o deck. Tente novamente.')
+      setShowDeleteConfirm(false)
+    }
   }
 
   if (loading) {
@@ -447,7 +455,7 @@ export default function EditDeckPage() {
               </CardHeader>
               <CardContent>
                 <p className="text-label-primary mb-6">
-                  Tem certeza que deseja excluir o deck &quot;{deck?.title}&quot;?
+                  Tem certeza que deseja excluir o deck &quot;{deck?.name}&quot;?
                   Esta ação não pode ser desfeita.
                 </p>
                 <div className="flex gap-4">

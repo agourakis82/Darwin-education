@@ -59,9 +59,9 @@ export default function CreateDeckPage() {
 
     try {
       const supabase = createClient()
-      const { data: user } = await supabase.auth.getUser()
+      const { data: { user } } = await supabase.auth.getUser()
 
-      if (!user.user) {
+      if (!user) {
         router.push('/login')
         return
       }
@@ -70,8 +70,8 @@ export default function CreateDeckPage() {
       const { data: deck, error: deckError } = await supabase
         .from('flashcard_decks')
         .insert({
-          user_id: user.user.id,
-          title: title.trim(),
+          user_id: user.id,
+          name: title.trim(),
           description: description.trim() || null,
           area: area || null,
         } as any)

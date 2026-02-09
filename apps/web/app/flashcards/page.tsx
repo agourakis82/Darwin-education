@@ -12,7 +12,7 @@ import type { ENAMEDArea } from '@darwin-education/shared'
 
 interface FlashcardDeck {
   id: string
-  title: string
+  name: string
   description: string | null
   area: ENAMEDArea | null
   card_count: number
@@ -34,9 +34,9 @@ export default function FlashcardsPage() {
 
   async function loadDecks() {
     const supabase = createClient()
-    const { data: user } = await supabase.auth.getUser()
+    const { data: { user } } = await supabase.auth.getUser()
 
-    if (!user.user) {
+    if (!user) {
       setLoading(false)
       return
     }
@@ -46,14 +46,14 @@ export default function FlashcardsPage() {
       .from('flashcard_decks')
       .select(`
         id,
-        title,
+        name,
         description,
         area,
         is_system,
         created_at,
         flashcards(id, next_review)
       `)
-      .or(`user_id.eq.${user.user.id},is_system.eq.true`)
+      .or(`user_id.eq.${user.id},is_system.eq.true`)
       .order('is_system', { ascending: false })
       .order('created_at', { ascending: false })
 
@@ -61,7 +61,7 @@ export default function FlashcardsPage() {
       const now = new Date().toISOString()
       const formattedDecks: FlashcardDeck[] = decksData.map((deck: any) => ({
         id: deck.id,
-        title: deck.title,
+        name: deck.name,
         description: deck.description,
         area: deck.area,
         card_count: deck.flashcards?.length || 0,
@@ -252,7 +252,7 @@ export default function FlashcardsPage() {
                         <CardHeader>
                           <div className="flex items-start justify-between">
                             <div className="flex items-center gap-2">
-                              <CardTitle className="text-lg">{deck.title}</CardTitle>
+                              <CardTitle className="text-lg">{deck.name}</CardTitle>
                               <span className="px-1.5 py-0.5 text-[10px] font-medium bg-emerald-500/20 text-emerald-400 rounded">
                                 Oficial
                               </span>
@@ -318,7 +318,7 @@ export default function FlashcardsPage() {
                     <Card className="h-full hover:border-surface-4 transition-colors cursor-pointer">
                       <CardHeader>
                         <div className="flex items-start justify-between">
-                          <CardTitle className="text-lg">{deck.title}</CardTitle>
+                          <CardTitle className="text-lg">{deck.name}</CardTitle>
                           {deck.due_count > 0 && (
                             <span className="px-2 py-1 text-xs font-medium bg-yellow-500/20 text-yellow-400 rounded-full">
                               {deck.due_count} para revisar
