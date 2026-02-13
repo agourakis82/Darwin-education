@@ -6,6 +6,7 @@ import { ProvenanceBlock } from '@/components/content/ProvenanceBlock'
 import { ReferencesBlock } from '@/components/content/ReferencesBlock'
 import { collectDarwinCitations, extractDarwinLastUpdate } from '@/lib/darwinMfc/citations'
 import { buildDiseaseJsonLd } from '@/lib/darwinMfc/jsonld'
+import type { DarwinCitation } from '@/lib/darwinMfc/references'
 import { getDiseaseById, type EnamedArea } from '@/lib/medical'
 
 const AREA_LABELS: Record<EnamedArea, string> = {
@@ -40,14 +41,17 @@ type DiseasePayload = {
       mortalidade?: string
       faixaEtaria?: string
       fatoresRisco?: string[]
+      citations?: DarwinCitation[]
     }
     fisiopatologia?: {
       texto?: string
+      citations?: DarwinCitation[]
     }
     quadroClinico?: {
       sintomasPrincipais?: string[]
       sinaisExameFisico?: string[]
       formasClinicas?: string[]
+      citations?: DarwinCitation[]
     }
     diagnostico?: {
       criterios?: string[]
@@ -55,14 +59,16 @@ type DiseasePayload = {
       examesLaboratoriais?: string[]
       examesImagem?: string[]
       outrosExames?: string[]
+      citations?: DarwinCitation[]
     }
     tratamento?: {
       objetivos?: string[]
-      naoFarmacologico?: { medidas?: string[] }
+      naoFarmacologico?: { medidas?: string[]; citations?: DarwinCitation[] }
       farmacologico?: {
         primeiraLinha?: Array<{ classe?: string; medicamentos?: string[]; posologia?: string }>
         segundaLinha?: Array<{ classe?: string; medicamentos?: string[]; posologia?: string }>
         situacoesEspeciais?: Array<{ situacao?: string; conduta?: string }>
+        citations?: DarwinCitation[]
       }
       duracao?: string
     }
@@ -71,10 +77,12 @@ type DiseasePayload = {
       examesControle?: string[]
       metasTerapeuticas?: string[]
       criteriosEncaminhamento?: string[]
+      citations?: DarwinCitation[]
     }
     prevencao?: {
       primaria?: string[]
       secundaria?: string[]
+      citations?: DarwinCitation[]
     }
     populacoesEspeciais?: {
       idosos?: string
@@ -102,6 +110,40 @@ function compact(items: Array<string | undefined | null>) {
 
 function mergeLists(...lists: Array<string[] | undefined>) {
   return lists.flatMap((list) => (Array.isArray(list) ? list : [])).map((item) => item.trim()).filter(Boolean)
+}
+
+function mergeCitations(...lists: Array<DarwinCitation[] | undefined>) {
+  const out: DarwinCitation[] = []
+  const seen = new Set<string>()
+
+  for (const list of lists) {
+    for (const citation of list || []) {
+      const refId = (citation?.refId || '').trim()
+      if (!refId) continue
+      const key = `${refId}|${citation.page || ''}|${citation.note || ''}`
+      if (seen.has(key)) continue
+      seen.add(key)
+      out.push({ ...citation, refId })
+    }
+  }
+
+  return out
+}
+
+function SectionReferences({ citations }: { citations?: DarwinCitation[] }) {
+  const list = (citations || []).filter((citation) => Boolean(citation?.refId?.trim()))
+  if (list.length === 0) return null
+
+  return (
+    <details className="mt-4 rounded-xl border border-separator bg-surface-2/30 px-4 py-3">
+      <summary className="cursor-pointer text-sm font-medium text-label-primary">
+        Referências desta seção <span className="text-label-tertiary">({list.length})</span>
+      </summary>
+      <div className="mt-3">
+        <ReferencesBlock citations={list} showTitle={false} />
+      </div>
+    </details>
+  )
 }
 
 export default async function DiseaseDetailPage({
@@ -135,6 +177,7 @@ export default async function DiseaseDetailPage({
   const summary = data.summary || payload.quickView?.definicao || 'Resumo não disponível.'
 
   const epidemiology = payload.fullContent?.epidemiologia
+  const epidemiologyCitations = epidemiology?.citations
   const epidemiologyLines = compact([
     epidemiology?.prevalencia ? `Prevalência: ${epidemiology.prevalencia}` : null,
     epidemiology?.incidencia ? `Incidência: ${epidemiology.incidencia}` : null,
@@ -142,17 +185,21 @@ export default async function DiseaseDetailPage({
     epidemiology?.faixaEtaria ? `Faixa etária: ${epidemiology.faixaEtaria}` : null,
   ])
 
+  const pathophysiologyCitations = payload.fullContent?.fisiopatologia?.citations
+
   const clinical = [
     ...(payload.fullContent?.quadroClinico?.sintomasPrincipais || []),
     ...(payload.fullContent?.quadroClinico?.sinaisExameFisico || []),
     ...(payload.fullContent?.quadroClinico?.formasClinicas || []).map((item) => `Forma clínica: ${item}`),
   ]
+  const clinicalCitations = payload.fullContent?.quadroClinico?.citations
   const diagnosisCriteria = mergeLists(payload.quickView?.criteriosDiagnosticos, payload.fullContent?.diagnostico?.criterios)
   const differential = payload.fullContent?.diagnostico?.diagnosticoDiferencial || []
   const initialExams = payload.quickView?.examesIniciais || []
   const labExams = payload.fullContent?.diagnostico?.examesLaboratoriais || []
   const imagingExams = payload.fullContent?.diagnostico?.examesImagem || []
   const otherExams = payload.fullContent?.diagnostico?.outrosExames || []
+  const diagnosisCitations = payload.fullContent?.diagnostico?.citations
 
   const treatment = [
     ...(payload.quickView?.tratamentoPrimeiraLinha?.naoFarmacologico || []).map((item) => `MEV: ${item}`),
@@ -167,16 +214,22 @@ export default async function DiseaseDetailPage({
   const treatmentFirstLine = payload.fullContent?.tratamento?.farmacologico?.primeiraLinha || []
   const treatmentSecondLine = payload.fullContent?.tratamento?.farmacologico?.segundaLinha || []
   const specialSituations = payload.fullContent?.tratamento?.farmacologico?.situacoesEspeciais || []
+  const treatmentCitations = mergeCitations(
+    payload.fullContent?.tratamento?.naoFarmacologico?.citations,
+    payload.fullContent?.tratamento?.farmacologico?.citations
+  )
 
   const followUp = payload.fullContent?.acompanhamento
   const followUpFrequency = followUp?.frequenciaConsultas
   const followUpExams = followUp?.examesControle || []
   const followUpGoals = followUp?.metasTerapeuticas || []
   const followUpReferral = followUp?.criteriosEncaminhamento || []
+  const followUpCitations = followUp?.citations
 
   const prevention = payload.fullContent?.prevencao
   const primaryPrevention = prevention?.primaria || []
   const secondaryPrevention = prevention?.secundaria || []
+  const preventionCitations = prevention?.citations
 
   const populations = payload.fullContent?.populacoesEspeciais
   const populationsLines = compact([
@@ -213,6 +266,18 @@ export default async function DiseaseDetailPage({
     ...((payload.fullContent?.quadroClinico?.formasClinicas || []).map((item) => `Forma clínica: ${item}`)),
     ...populationsLines,
   ]
+
+  const examNotesCitations = mergeCitations(
+    diagnosisCitations,
+    clinicalCitations,
+    payload.fullContent?.tratamento?.farmacologico?.citations,
+    followUpCitations
+  )
+
+  const alertsAndGoalsCitations = mergeCitations(
+    payload.fullContent?.tratamento?.farmacologico?.citations,
+    followUpCitations
+  )
 
   const jsonLd = buildDiseaseJsonLd({
     id: data.id,
@@ -290,6 +355,8 @@ export default async function DiseaseDetailPage({
                 ))}
               </ul>
             </div>
+
+            <SectionReferences citations={examNotesCitations} />
           </CardContent>
         </Card>
 
@@ -318,6 +385,8 @@ export default async function DiseaseDetailPage({
                 ))}
               </ul>
             </div>
+
+            <SectionReferences citations={epidemiologyCitations} />
           </CardContent>
         </Card>
 
@@ -325,8 +394,9 @@ export default async function DiseaseDetailPage({
           <CardHeader>
             <CardTitle>Fisiopatologia</CardTitle>
           </CardHeader>
-          <CardContent className="text-label-primary leading-relaxed">
-            {textOrFallback(payload.fullContent?.fisiopatologia?.texto, 'Sem fisiopatologia detalhada registrada.')}
+          <CardContent className="space-y-4 text-label-primary leading-relaxed">
+            <p>{textOrFallback(payload.fullContent?.fisiopatologia?.texto, 'Sem fisiopatologia detalhada registrada.')}</p>
+            <SectionReferences citations={pathophysiologyCitations} />
           </CardContent>
         </Card>
 
@@ -334,7 +404,7 @@ export default async function DiseaseDetailPage({
           <CardHeader>
             <CardTitle>Apresentação clínica</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="space-y-4">
             <ul className="space-y-2 text-label-primary">
               {listOrFallback(clinical, 'Sem dados clínicos detalhados.').map((item) => (
                 <li key={item} className="list-disc ml-5">
@@ -342,6 +412,7 @@ export default async function DiseaseDetailPage({
                 </li>
               ))}
             </ul>
+            <SectionReferences citations={clinicalCitations} />
           </CardContent>
         </Card>
 
@@ -415,6 +486,8 @@ export default async function DiseaseDetailPage({
                 ))}
               </ul>
             </div>
+
+            <SectionReferences citations={diagnosisCitations} />
           </CardContent>
         </Card>
 
@@ -499,6 +572,8 @@ export default async function DiseaseDetailPage({
                 {textOrFallback(payload.fullContent?.tratamento?.duracao, 'Sem duração de tratamento registrada.')}
               </p>
             </div>
+
+            <SectionReferences citations={treatmentCitations} />
           </CardContent>
         </Card>
 
@@ -530,6 +605,8 @@ export default async function DiseaseDetailPage({
                 ))}
               </ul>
             </div>
+
+            <SectionReferences citations={alertsAndGoalsCitations} />
           </CardContent>
         </Card>
 
@@ -577,6 +654,8 @@ export default async function DiseaseDetailPage({
                 ))}
               </ul>
             </div>
+
+            <SectionReferences citations={followUpCitations} />
           </CardContent>
         </Card>
 
@@ -605,6 +684,8 @@ export default async function DiseaseDetailPage({
                 ))}
               </ul>
             </div>
+
+            <SectionReferences citations={preventionCitations} />
           </CardContent>
         </Card>
 

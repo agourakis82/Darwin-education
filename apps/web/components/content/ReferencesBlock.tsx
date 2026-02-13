@@ -16,9 +16,11 @@ function formatCitationLabel(citation: DarwinCitation) {
 export function ReferencesBlock({
   citations,
   emptyLabel = 'Sem referências bibliográficas registradas para esta entrada.',
+  showTitle = true,
 }: {
   citations: DarwinCitation[]
   emptyLabel?: string
+  showTitle?: boolean
 }) {
   if (!citations || citations.length === 0) {
     return (
@@ -26,10 +28,12 @@ export function ReferencesBlock({
         data-testid="references-block"
         className="rounded-2xl border border-separator bg-surface-2/50 p-4 text-sm text-label-secondary"
       >
-        <div data-testid="references-title" className="flex items-center gap-2 text-label-primary font-semibold">
-          <BookMarked className="h-4 w-4" />
-          Referências
-        </div>
+        {showTitle ? (
+          <div data-testid="references-title" className="flex items-center gap-2 text-label-primary font-semibold">
+            <BookMarked className="h-4 w-4" />
+            Referências
+          </div>
+        ) : null}
         <p className="mt-2">{emptyLabel}</p>
       </div>
     )
@@ -49,18 +53,20 @@ export function ReferencesBlock({
 
   return (
     <div data-testid="references-block" className="rounded-2xl border border-separator bg-surface-2/50 p-4">
-      <div className="flex items-center justify-between gap-3">
-        <div data-testid="references-title" className="flex items-center gap-2 text-label-primary font-semibold">
-          <BookMarked className="h-4 w-4" />
-          Referências
-        </div>
-        {missingCount > 0 ? (
-          <div className="inline-flex items-center gap-1 rounded-full border border-amber-500/35 bg-amber-500/10 px-2 py-0.5 text-[11px] font-medium text-amber-200">
-            <AlertTriangle className="h-3.5 w-3.5" />
-            {missingCount} sem metadados
+      {showTitle ? (
+        <div className="flex items-center justify-between gap-3">
+          <div data-testid="references-title" className="flex items-center gap-2 text-label-primary font-semibold">
+            <BookMarked className="h-4 w-4" />
+            Referências
           </div>
-        ) : null}
-      </div>
+          {missingCount > 0 ? (
+            <div className="inline-flex items-center gap-1 rounded-full border border-amber-500/35 bg-amber-500/10 px-2 py-0.5 text-[11px] font-medium text-amber-200">
+              <AlertTriangle className="h-3.5 w-3.5" />
+              {missingCount} sem metadados
+            </div>
+          ) : null}
+        </div>
+      ) : null}
 
       <ol className="mt-3 space-y-2 text-sm text-label-secondary">
         {resolved.map(({ citation, ref, url, text }, idx) => {
