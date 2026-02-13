@@ -20,6 +20,13 @@ type DiseasePayload = {
   quickView?: {
     definicao?: string
     criteriosDiagnosticos?: string[]
+    examesIniciais?: string[]
+    metasTerapeuticas?: string[]
+    classificacaoRisco?: Array<{
+      nivel?: string
+      criterios?: string[]
+      conduta?: string
+    }>
     tratamentoPrimeiraLinha?: {
       naoFarmacologico?: string[]
       farmacologico?: string[]
@@ -27,23 +34,54 @@ type DiseasePayload = {
     redFlags?: string[]
   }
   fullContent?: {
+    epidemiologia?: {
+      prevalencia?: string
+      incidencia?: string
+      mortalidade?: string
+      faixaEtaria?: string
+      fatoresRisco?: string[]
+    }
+    fisiopatologia?: {
+      texto?: string
+    }
     quadroClinico?: {
       sintomasPrincipais?: string[]
       sinaisExameFisico?: string[]
+      formasClinicas?: string[]
     }
     diagnostico?: {
       criterios?: string[]
+      diagnosticoDiferencial?: string[]
       examesLaboratoriais?: string[]
       examesImagem?: string[]
+      outrosExames?: string[]
     }
     tratamento?: {
+      objetivos?: string[]
       naoFarmacologico?: { medidas?: string[] }
       farmacologico?: {
         primeiraLinha?: Array<{ classe?: string; medicamentos?: string[]; posologia?: string }>
+        segundaLinha?: Array<{ classe?: string; medicamentos?: string[]; posologia?: string }>
+        situacoesEspeciais?: Array<{ situacao?: string; conduta?: string }>
       }
+      duracao?: string
     }
     acompanhamento?: {
+      frequenciaConsultas?: string
+      examesControle?: string[]
       metasTerapeuticas?: string[]
+      criteriosEncaminhamento?: string[]
+    }
+    prevencao?: {
+      primaria?: string[]
+      secundaria?: string[]
+    }
+    populacoesEspeciais?: {
+      idosos?: string
+      gestantes?: string
+      criancas?: string
+      drc?: string
+      hepatopatas?: string
     }
   }
 }
@@ -51,6 +89,19 @@ type DiseasePayload = {
 function listOrFallback(items: string[] | undefined, fallback: string) {
   if (!items || items.length === 0) return [fallback]
   return items.filter(Boolean)
+}
+
+function textOrFallback(value: string | undefined, fallback: string) {
+  const trimmed = (value || '').trim()
+  return trimmed ? trimmed : fallback
+}
+
+function compact(items: Array<string | undefined | null>) {
+  return items.map((item) => (item || '').trim()).filter(Boolean)
+}
+
+function mergeLists(...lists: Array<string[] | undefined>) {
+  return lists.flatMap((list) => (Array.isArray(list) ? list : [])).map((item) => item.trim()).filter(Boolean)
 }
 
 export default async function DiseaseDetailPage({
@@ -82,16 +133,26 @@ export default async function DiseaseDetailPage({
   const lastUpdate = extractDarwinLastUpdate(payload)
 
   const summary = data.summary || payload.quickView?.definicao || 'Resumo não disponível.'
+
+  const epidemiology = payload.fullContent?.epidemiologia
+  const epidemiologyLines = compact([
+    epidemiology?.prevalencia ? `Prevalência: ${epidemiology.prevalencia}` : null,
+    epidemiology?.incidencia ? `Incidência: ${epidemiology.incidencia}` : null,
+    epidemiology?.mortalidade ? `Mortalidade: ${epidemiology.mortalidade}` : null,
+    epidemiology?.faixaEtaria ? `Faixa etária: ${epidemiology.faixaEtaria}` : null,
+  ])
+
   const clinical = [
     ...(payload.fullContent?.quadroClinico?.sintomasPrincipais || []),
     ...(payload.fullContent?.quadroClinico?.sinaisExameFisico || []),
+    ...(payload.fullContent?.quadroClinico?.formasClinicas || []).map((item) => `Forma clínica: ${item}`),
   ]
-  const diagnosis = [
-    ...(payload.quickView?.criteriosDiagnosticos || []),
-    ...(payload.fullContent?.diagnostico?.criterios || []),
-    ...((payload.fullContent?.diagnostico?.examesLaboratoriais || []).map((exam) => `Exame: ${exam}`)),
-    ...((payload.fullContent?.diagnostico?.examesImagem || []).map((exam) => `Imagem: ${exam}`)),
-  ]
+  const diagnosisCriteria = mergeLists(payload.quickView?.criteriosDiagnosticos, payload.fullContent?.diagnostico?.criterios)
+  const differential = payload.fullContent?.diagnostico?.diagnosticoDiferencial || []
+  const initialExams = payload.quickView?.examesIniciais || []
+  const labExams = payload.fullContent?.diagnostico?.examesLaboratoriais || []
+  const imagingExams = payload.fullContent?.diagnostico?.examesImagem || []
+  const otherExams = payload.fullContent?.diagnostico?.outrosExames || []
 
   const treatment = [
     ...(payload.quickView?.tratamentoPrimeiraLinha?.naoFarmacologico || []).map((item) => `MEV: ${item}`),
@@ -100,6 +161,57 @@ export default async function DiseaseDetailPage({
     ...((payload.fullContent?.tratamento?.farmacologico?.primeiraLinha || []).map(
       (item) => `${item.classe || 'Classe'}: ${(item.medicamentos || []).join(', ')}`
     )),
+  ]
+
+  const treatmentObjectives = payload.fullContent?.tratamento?.objetivos || []
+  const treatmentFirstLine = payload.fullContent?.tratamento?.farmacologico?.primeiraLinha || []
+  const treatmentSecondLine = payload.fullContent?.tratamento?.farmacologico?.segundaLinha || []
+  const specialSituations = payload.fullContent?.tratamento?.farmacologico?.situacoesEspeciais || []
+
+  const followUp = payload.fullContent?.acompanhamento
+  const followUpFrequency = followUp?.frequenciaConsultas
+  const followUpExams = followUp?.examesControle || []
+  const followUpGoals = followUp?.metasTerapeuticas || []
+  const followUpReferral = followUp?.criteriosEncaminhamento || []
+
+  const prevention = payload.fullContent?.prevencao
+  const primaryPrevention = prevention?.primaria || []
+  const secondaryPrevention = prevention?.secundaria || []
+
+  const populations = payload.fullContent?.populacoesEspeciais
+  const populationsLines = compact([
+    populations?.idosos ? `Idosos: ${populations.idosos}` : null,
+    populations?.gestantes ? `Gestantes: ${populations.gestantes}` : null,
+    populations?.criancas ? `Crianças: ${populations.criancas}` : null,
+    populations?.drc ? `DRC: ${populations.drc}` : null,
+    populations?.hepatopatas ? `Hepatopatas: ${populations.hepatopatas}` : null,
+  ])
+
+  const riskPitfalls = (payload.quickView?.classificacaoRisco || [])
+    .map((entry) => {
+      const parts = compact([entry.nivel ? `Risco ${entry.nivel}:` : null, entry.conduta])
+      return parts.length ? parts.join(' ') : null
+    })
+    .filter((item): item is string => Boolean(item))
+
+  const specialSituationPitfalls = specialSituations
+    .map((entry) => {
+      const parts = compact([entry.situacao ? `${entry.situacao}:` : null, entry.conduta])
+      return parts.length ? parts.join(' ') : null
+    })
+    .filter((item): item is string => Boolean(item))
+
+  const pitfalls = [
+    ...riskPitfalls,
+    ...(payload.quickView?.redFlags || []).map((item) => `Red flag: ${item}`),
+    ...(followUpReferral || []).map((item) => `Encaminhar: ${item}`),
+    ...specialSituationPitfalls,
+  ]
+
+  const confusions = [
+    ...differential.map((item) => `Diagnóstico diferencial: ${item}`),
+    ...((payload.fullContent?.quadroClinico?.formasClinicas || []).map((item) => `Forma clínica: ${item}`)),
+    ...populationsLines,
   ]
 
   const jsonLd = buildDiseaseJsonLd({
@@ -154,6 +266,72 @@ export default async function DiseaseDetailPage({
 
         <Card>
           <CardHeader>
+            <CardTitle>Pegadinhas e confusões em prova</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-5">
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Pegadinhas (atenção especial)</p>
+              <ul className="space-y-2 text-label-primary">
+                {listOrFallback(pitfalls, 'Sem pontos críticos destacados.').map((item, idx) => (
+                  <li key={`${idx}-${item}`} className="list-disc ml-5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Confusões comuns (o que costuma cair)</p>
+              <ul className="space-y-2 text-label-primary">
+                {listOrFallback(confusions, 'Sem tópicos adicionais registrados.').map((item, idx) => (
+                  <li key={`${idx}-${item}`} className="list-disc ml-5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Epidemiologia</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Panorama</p>
+              <ul className="space-y-2 text-label-primary">
+                {listOrFallback(epidemiologyLines, 'Sem dados epidemiológicos resumidos.').map((item, idx) => (
+                  <li key={`${idx}-${item}`} className="list-disc ml-5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Fatores de risco</p>
+              <ul className="space-y-2 text-label-primary">
+                {listOrFallback(epidemiology?.fatoresRisco, 'Sem fatores de risco registrados.').map((item, idx) => (
+                  <li key={`${idx}-${item}`} className="list-disc ml-5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Fisiopatologia</CardTitle>
+          </CardHeader>
+          <CardContent className="text-label-primary leading-relaxed">
+            {textOrFallback(payload.fullContent?.fisiopatologia?.texto, 'Sem fisiopatologia detalhada registrada.')}
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
             <CardTitle>Apresentação clínica</CardTitle>
           </CardHeader>
           <CardContent>
@@ -171,14 +349,72 @@ export default async function DiseaseDetailPage({
           <CardHeader>
             <CardTitle>Diagnóstico</CardTitle>
           </CardHeader>
-          <CardContent>
-            <ul className="space-y-2 text-label-primary">
-              {listOrFallback(diagnosis, 'Sem critérios detalhados.').map((item) => (
-                <li key={item} className="list-disc ml-5">
-                  {item}
-                </li>
-              ))}
-            </ul>
+          <CardContent className="space-y-4">
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Critérios</p>
+              <ul className="space-y-2 text-label-primary">
+                {listOrFallback(diagnosisCriteria, 'Sem critérios detalhados.').map((item, idx) => (
+                  <li key={`${idx}-${item}`} className="list-disc ml-5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Exames iniciais</p>
+              <ul className="space-y-2 text-label-primary">
+                {listOrFallback(initialExams, 'Sem exames iniciais sugeridos.').map((item, idx) => (
+                  <li key={`${idx}-${item}`} className="list-disc ml-5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Exames laboratoriais</p>
+              <ul className="space-y-2 text-label-primary">
+                {listOrFallback(labExams, 'Sem exames laboratoriais detalhados.').map((item, idx) => (
+                  <li key={`${idx}-${item}`} className="list-disc ml-5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Exames de imagem</p>
+              <ul className="space-y-2 text-label-primary">
+                {listOrFallback(imagingExams, 'Sem exames de imagem detalhados.').map((item, idx) => (
+                  <li key={`${idx}-${item}`} className="list-disc ml-5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Outros exames</p>
+              <ul className="space-y-2 text-label-primary">
+                {listOrFallback(otherExams, 'Sem outros exames registrados.').map((item, idx) => (
+                  <li key={`${idx}-${item}`} className="list-disc ml-5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Diagnóstico diferencial</p>
+              <ul className="space-y-2 text-label-primary">
+                {listOrFallback(differential, 'Sem diagnóstico diferencial registrado.').map((item, idx) => (
+                  <li key={`${idx}-${item}`} className="list-disc ml-5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </CardContent>
         </Card>
 
@@ -186,14 +422,83 @@ export default async function DiseaseDetailPage({
           <CardHeader>
             <CardTitle>Tratamento</CardTitle>
           </CardHeader>
-          <CardContent>
-            <ul className="space-y-2 text-label-primary">
-              {listOrFallback(treatment, 'Sem plano terapêutico detalhado.').map((item) => (
-                <li key={item} className="list-disc ml-5">
-                  {item}
-                </li>
-              ))}
-            </ul>
+          <CardContent className="space-y-4">
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Objetivos</p>
+              <ul className="space-y-2 text-label-primary">
+                {listOrFallback(treatmentObjectives, 'Sem objetivos terapêuticos registrados.').map((item, idx) => (
+                  <li key={`${idx}-${item}`} className="list-disc ml-5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Primeira linha (resumo)</p>
+              <ul className="space-y-2 text-label-primary">
+                {listOrFallback(treatment, 'Sem plano terapêutico detalhado.').map((item, idx) => (
+                  <li key={`${idx}-${item}`} className="list-disc ml-5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Farmacológico — 1ª linha</p>
+              <ul className="space-y-2 text-label-primary">
+                {listOrFallback(
+                  treatmentFirstLine.map((entry) => {
+                    const tail = compact([entry.posologia ? `— ${entry.posologia}` : null])
+                    return `${entry.classe || 'Classe'}: ${(entry.medicamentos || []).join(', ')}${tail.length ? ` ${tail.join(' ')}` : ''}`
+                  }),
+                  'Sem farmacoterapia de 1ª linha registrada.'
+                ).map((item, idx) => (
+                  <li key={`${idx}-${item}`} className="list-disc ml-5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Farmacológico — 2ª linha</p>
+              <ul className="space-y-2 text-label-primary">
+                {listOrFallback(
+                  treatmentSecondLine.map((entry) => {
+                    const tail = compact([entry.posologia ? `— ${entry.posologia}` : null])
+                    return `${entry.classe || 'Classe'}: ${(entry.medicamentos || []).join(', ')}${tail.length ? ` ${tail.join(' ')}` : ''}`
+                  }),
+                  'Sem farmacoterapia de 2ª linha registrada.'
+                ).map((item, idx) => (
+                  <li key={`${idx}-${item}`} className="list-disc ml-5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Situações especiais</p>
+              <ul className="space-y-2 text-label-primary">
+                {listOrFallback(
+                  specialSituations.map((entry) => compact([entry.situacao ? `${entry.situacao}:` : null, entry.conduta]).join(' ')).filter(Boolean),
+                  'Sem situações especiais registradas.'
+                ).map((item, idx) => (
+                  <li key={`${idx}-${item}`} className="list-disc ml-5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Duração</p>
+              <p className="text-label-primary">
+                {textOrFallback(payload.fullContent?.tratamento?.duracao, 'Sem duração de tratamento registrada.')}
+              </p>
+            </div>
           </CardContent>
         </Card>
 
@@ -216,7 +521,7 @@ export default async function DiseaseDetailPage({
               <p className="text-sm text-label-secondary mb-2">Metas terapêuticas</p>
               <ul className="space-y-2 text-label-primary">
                 {listOrFallback(
-                  payload.fullContent?.acompanhamento?.metasTerapeuticas,
+                  mergeLists(payload.quickView?.metasTerapeuticas, payload.fullContent?.acompanhamento?.metasTerapeuticas),
                   'Sem metas terapêuticas registradas.'
                 ).map((item) => (
                   <li key={item} className="list-disc ml-5">
@@ -225,6 +530,96 @@ export default async function DiseaseDetailPage({
                 ))}
               </ul>
             </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Acompanhamento</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Frequência de consultas</p>
+              <p className="text-label-primary">
+                {textOrFallback(followUpFrequency, 'Sem frequência de acompanhamento registrada.')}
+              </p>
+            </div>
+
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Exames de controle</p>
+              <ul className="space-y-2 text-label-primary">
+                {listOrFallback(followUpExams, 'Sem exames de controle registrados.').map((item, idx) => (
+                  <li key={`${idx}-${item}`} className="list-disc ml-5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Metas terapêuticas</p>
+              <ul className="space-y-2 text-label-primary">
+                {listOrFallback(followUpGoals, 'Sem metas terapêuticas registradas.').map((item, idx) => (
+                  <li key={`${idx}-${item}`} className="list-disc ml-5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Critérios de encaminhamento</p>
+              <ul className="space-y-2 text-label-primary">
+                {listOrFallback(followUpReferral, 'Sem critérios de encaminhamento registrados.').map((item, idx) => (
+                  <li key={`${idx}-${item}`} className="list-disc ml-5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Prevenção</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Primária</p>
+              <ul className="space-y-2 text-label-primary">
+                {listOrFallback(primaryPrevention, 'Sem prevenção primária registrada.').map((item, idx) => (
+                  <li key={`${idx}-${item}`} className="list-disc ml-5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Secundária</p>
+              <ul className="space-y-2 text-label-primary">
+                {listOrFallback(secondaryPrevention, 'Sem prevenção secundária registrada.').map((item, idx) => (
+                  <li key={`${idx}-${item}`} className="list-disc ml-5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Populações especiais</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-2 text-label-primary">
+              {listOrFallback(populationsLines, 'Sem orientações para populações especiais.').map((item, idx) => (
+                <li key={`${idx}-${item}`} className="list-disc ml-5">
+                  {item}
+                </li>
+              ))}
+            </ul>
           </CardContent>
         </Card>
 
