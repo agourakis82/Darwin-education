@@ -166,7 +166,7 @@ function chunk<T>(items: T[], size: number): T[][] {
 async function importTableRows<T extends { id: string }>(
   table: 'medical_diseases' | 'medical_medications',
   rows: T[],
-  client: ReturnType<typeof createClient>
+  client: ReturnType<typeof createClient>,
   batchSize: number
 ) {
   let inserted = 0
