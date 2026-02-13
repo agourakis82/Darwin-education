@@ -9,6 +9,11 @@ paper/
 # Native apps
 apps/ios-native/
 
+# Docs / internal scripts
+docs/
+scripts/
+.vscode/
+
 # Local outputs / caches
 output/
 tmp/
