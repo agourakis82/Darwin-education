@@ -6,12 +6,12 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { CheckCircle2, Sparkles, UserRoundPlus, Eye, EyeOff } from 'lucide-react'
 import { BrandLogo } from '@/components/brand/BrandLogo'
+import { createClient } from '@/lib/supabase/client'
 import { spring } from '@/lib/motion'
 
 export default function SignupPage() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
-  const [inviteCode, setInviteCode] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -37,23 +37,21 @@ export default function SignupPage() {
       return
     }
 
-    const res = await fetch('/api/beta/signup', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
+    const supabase = createClient()
+
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          full_name: name,
+        },
+        emailRedirectTo: `${window.location.origin}/callback`,
       },
-      body: JSON.stringify({
-        name,
-        email,
-        password,
-        inviteCode,
-      }),
     })
 
-    const json = (await res.json().catch(() => null)) as { error?: string } | null
-
-    if (!res.ok) {
-      setError(json?.error || 'Não foi possível criar sua conta.')
+    if (error) {
+      setError(error.message)
       setLoading(false)
       return
     }
@@ -85,9 +83,9 @@ export default function SignupPage() {
             <div className="mx-auto mb-4 inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-emerald-400/40 bg-emerald-500/15 text-emerald-300">
               <CheckCircle2 className="h-7 w-7" />
             </div>
-            <h2 className="text-2xl font-semibold text-label-primary">Conta criada</h2>
+            <h2 className="text-2xl font-semibold text-label-primary">Verifique seu email</h2>
             <p className="mt-2 text-sm text-label-secondary">
-              Sua conta foi criada com sucesso para <strong className="text-label-primary">{email}</strong>.
+              Enviamos um link de confirmação para <strong className="text-label-primary">{email}</strong>.
             </p>
             <Link
               href="/login"
@@ -217,25 +215,6 @@ export default function SignupPage() {
                   placeholder="seu@email.com"
                   required
                 />
-              </div>
-
-              <div>
-                <label htmlFor="inviteCode" className="mb-2 block text-sm font-medium text-label-primary">
-                  Código de convite (beta)
-                </label>
-                <input
-                  id="inviteCode"
-                  type="text"
-                  value={inviteCode}
-                  onChange={(e) => setInviteCode(e.target.value)}
-                  className="darwin-focus-ring w-full rounded-xl border border-separator bg-surface-2/75 px-4 py-3 text-label-primary placeholder-label-tertiary transition focus:border-emerald-500"
-                  placeholder="DARWIN-…"
-                  autoCapitalize="characters"
-                  required
-                />
-                <p className="mt-2 text-xs text-label-tertiary">
-                  Não tem um código? Acesso ao beta é fechado no momento.
-                </p>
               </div>
 
               <div>

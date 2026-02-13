@@ -1,12 +1,44 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
-import { getAppMetadataFromAccessToken } from '@/lib/auth/user'
+import { getUserSummaryFromAccessToken } from '@/lib/auth/user'
 
 // Routes that require authentication
 const protectedRoutes = ['/simulado', '/flashcards', '/trilhas', '/montar-prova', '/desempenho', '/gerar-questao', '/qgen', '/ia-orientacao', '/pesquisa', '/caso-clinico', '/admin', '/fcr', '/ddl', '/cip']
 
 // Routes that should redirect to dashboard if already authenticated
 const authRoutes = ['/login', '/signup']
+
+function parseCsv(value?: string) {
+  if (!value) return []
+  return value
+    .split(',')
+    .map((item) => item.trim().toLowerCase())
+    .filter(Boolean)
+}
+
+const allowedEmails = parseCsv(process.env.BETA_TESTER_EMAILS)
+const allowedDomains = parseCsv(process.env.BETA_TESTER_DOMAINS).map((domain) =>
+  domain.replace(/^@/, '').replace(/^\./, '')
+)
+
+const betaGateEnabled = allowedEmails.length > 0 || allowedDomains.length > 0
+
+function isBetaAllowed(email: string | null) {
+  if (!betaGateEnabled) return true
+  if (!email) return false
+
+  const normalized = email.trim().toLowerCase()
+  if (!normalized) return false
+
+  if (allowedEmails.includes(normalized)) return true
+
+  const at = normalized.lastIndexOf('@')
+  if (at === -1) return false
+  const domain = normalized.slice(at + 1)
+  if (!domain) return false
+
+  return allowedDomains.some((allowed) => domain === allowed || domain.endsWith(`.${allowed}`))
+}
 
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -53,15 +85,12 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  // Closed beta gate: authenticated users need explicit beta access.
-  if (isProtectedRoute && session) {
-    const appMetadata =
-      typeof session.access_token === 'string'
-        ? getAppMetadataFromAccessToken(session.access_token)
-        : null
-    const hasBetaAccess = Boolean(appMetadata && (appMetadata as any).beta_access)
+  // Closed beta gate (simplified): allowlist by email/domain.
+  if (isProtectedRoute && session && betaGateEnabled) {
+    const summary =
+      typeof session.access_token === 'string' ? getUserSummaryFromAccessToken(session.access_token) : null
 
-    if (!hasBetaAccess) {
+    if (!isBetaAllowed(summary?.email ?? null)) {
       const url = request.nextUrl.clone()
       url.pathname = '/beta'
       url.searchParams.set('redirectTo', pathname)

@@ -30,8 +30,8 @@ export default function BetaGatePage({
           </div>
           <h1 className="text-2xl font-semibold text-label-primary">Acesso restrito ao beta</h1>
           <p className="mt-2 text-sm text-label-secondary">
-            Sua conta ainda não está habilitada para acessar esta área. Se você recebeu um código de convite,
-            crie sua conta no beta e faça login.
+            Sua conta ainda não está habilitada para acessar esta área. O beta é liberado apenas para e-mails
+            previamente autorizados. Se você acha que isso é um erro, fale com o time Darwin.
           </p>
 
           <div className="mt-6 space-y-3">
@@ -39,7 +39,7 @@ export default function BetaGatePage({
               href={`/signup?redirectTo=${encodeURIComponent(redirectTo)}`}
               className="darwin-focus-ring darwin-nav-link inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-b from-emerald-500 to-emerald-600 px-5 py-3 text-sm font-medium text-white shadow-elevation-2 shadow-inner-shine hover:from-emerald-400 hover:to-emerald-500"
             >
-              Criar conta com convite
+              Criar conta
             </Link>
             <Link
               href="/"
@@ -53,4 +53,3 @@ export default function BetaGatePage({
     </div>
   )
 }
-

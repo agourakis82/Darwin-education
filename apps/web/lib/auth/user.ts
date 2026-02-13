@@ -57,28 +57,6 @@ export function getUserSummaryFromAccessToken(accessToken: string): UserSummary 
   }
 }
 
-export function getAppMetadataFromAccessToken(accessToken: string): Record<string, unknown> | null {
-  try {
-    const [, payload] = accessToken.split('.')
-    if (!payload) return null
-
-    const decoded = decodeBase64UrlToString(payload)
-    if (!decoded) return null
-
-    const json = JSON.parse(decoded) as {
-      app_metadata?: unknown
-    }
-
-    if (!json.app_metadata || typeof json.app_metadata !== 'object' || Array.isArray(json.app_metadata)) {
-      return null
-    }
-
-    return json.app_metadata as Record<string, unknown>
-  } catch {
-    return null
-  }
-}
-
 export function getUserDisplayName(user: UserSummary): string {
   const trimmed = (user.fullName || '').trim()
   if (trimmed) return trimmed
