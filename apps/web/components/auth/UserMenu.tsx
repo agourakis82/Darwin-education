@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
-import { ChevronDown, LogOut, Layers, BarChart3 } from 'lucide-react'
+import { ChevronDown, LogOut, Layers, BarChart3, FileText, ClipboardCheck } from 'lucide-react'
 import { getUserDisplayName, getUserInitial, type UserSummary } from '@/lib/auth/user'
 
 interface UserMenuProps {
@@ -92,6 +92,24 @@ export function UserMenu({ user }: UserMenuProps) {
           >
             <Layers className="h-4 w-4 text-label-tertiary" aria-hidden="true" />
             Meus flashcards
+          </Link>
+
+          <Link
+            href="/legal/eula"
+            onClick={() => setIsOpen(false)}
+            className="darwin-focus-ring darwin-nav-link flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-label-secondary hover:bg-surface-3/70 hover:text-label-primary"
+          >
+            <FileText className="h-4 w-4 text-label-tertiary" aria-hidden="true" />
+            Termos (EULA)
+          </Link>
+
+          <Link
+            href="/legal/consent"
+            onClick={() => setIsOpen(false)}
+            className="darwin-focus-ring darwin-nav-link flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-label-secondary hover:bg-surface-3/70 hover:text-label-primary"
+          >
+            <ClipboardCheck className="h-4 w-4 text-label-tertiary" aria-hidden="true" />
+            Consentimento
           </Link>
 
           <div className="mt-1 border-t border-separator/70 pt-1">
