@@ -100,6 +100,18 @@ export async function middleware(request: NextRequest) {
 
   // Redirect to home if accessing auth routes while authenticated
   if (isAuthRoute && session) {
+    if (betaGateEnabled) {
+      const summary =
+        typeof session.access_token === 'string'
+          ? getUserSummaryFromAccessToken(session.access_token)
+          : null
+
+      // Let non-beta users reach /login and /signup so they can switch accounts.
+      if (!isBetaAllowed(summary?.email ?? null)) {
+        return supabaseResponse
+      }
+    }
+
     const url = request.nextUrl.clone()
     url.pathname = '/'
     return NextResponse.redirect(url)
