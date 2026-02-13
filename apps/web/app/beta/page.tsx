@@ -32,14 +32,21 @@ export default async function BetaGatePage({
           </div>
           <h1 className="text-2xl font-semibold text-label-primary">Acesso restrito ao beta</h1>
           <p className="mt-2 text-sm text-label-secondary">
-            Sua conta ainda não está habilitada para acessar esta área. O beta é liberado apenas para e-mails
-            previamente autorizados. Se você acha que isso é um erro, fale com o time Darwin.
+            Sua conta ainda não está habilitada para acessar esta área. O cadastro é livre, mas durante o beta
+            algumas funcionalidades ficam disponíveis apenas para e-mails previamente autorizados.
+            Se você acha que isso é um erro, fale com o time Darwin.
           </p>
 
           <div className="mt-6 space-y-3">
             <Link
-              href={`/signup?redirectTo=${encodeURIComponent(redirectTo)}`}
+              href={`/login?redirectTo=${encodeURIComponent(redirectTo)}`}
               className="darwin-focus-ring darwin-nav-link inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-b from-emerald-500 to-emerald-600 px-5 py-3 text-sm font-medium text-white shadow-elevation-2 shadow-inner-shine hover:from-emerald-400 hover:to-emerald-500"
+            >
+              Fazer login
+            </Link>
+            <Link
+              href={`/signup?redirectTo=${encodeURIComponent(redirectTo)}`}
+              className="darwin-focus-ring darwin-nav-link inline-flex w-full items-center justify-center rounded-xl border border-separator/80 bg-surface-2/65 px-5 py-3 text-sm font-medium text-label-primary hover:bg-surface-3/70"
             >
               Criar conta
             </Link>

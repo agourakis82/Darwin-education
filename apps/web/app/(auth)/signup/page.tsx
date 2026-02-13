@@ -216,7 +216,7 @@ export default function SignupPage() {
                   required
                 />
                 <p className="mt-2 text-xs text-label-tertiary">
-                  Beta fechado: use o e-mail autorizado para acessar as áreas protegidas.
+                  Cadastro livre. Você receberá um e-mail para confirmar sua conta.
                 </p>
               </div>
 
