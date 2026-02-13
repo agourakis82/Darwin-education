@@ -3,12 +3,14 @@ import Image from 'next/image'
 import { Lock } from 'lucide-react'
 import { BrandLogo } from '@/components/brand/BrandLogo'
 
-export default function BetaGatePage({
+export default async function BetaGatePage({
   searchParams,
 }: {
-  searchParams?: Record<string, string | string[] | undefined>
+  searchParams?: Promise<Record<string, string | string[] | undefined>>
 }) {
-  const redirectTo = typeof searchParams?.redirectTo === 'string' ? searchParams.redirectTo : '/'
+  const resolvedSearchParams = searchParams ? await searchParams : undefined
+  const redirectTo =
+    typeof resolvedSearchParams?.redirectTo === 'string' ? resolvedSearchParams.redirectTo : '/'
 
   return (
     <div className="relative min-h-screen overflow-hidden px-4 pb-24 pt-10 md:px-6 md:py-14">
