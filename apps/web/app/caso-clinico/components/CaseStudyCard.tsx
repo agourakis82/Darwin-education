@@ -23,7 +23,7 @@ export function CaseStudyCard({ data, cached, remaining, onNewCase }: CaseStudyC
           <svg className="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
-          <h3 className="text-lg font-semibold text-white">Apresentação do Caso</h3>
+          <h3 className="text-lg font-semibold text-label-primary">Apresentação do Caso</h3>
         </div>
         <p className="text-label-primary text-sm leading-relaxed whitespace-pre-wrap">
           {data.case_summary}
@@ -38,7 +38,7 @@ export function CaseStudyCard({ data, cached, remaining, onNewCase }: CaseStudyC
           </svg>
           <h3 className="text-lg font-semibold text-emerald-400">Pergunta</h3>
         </div>
-        <p className="text-white text-base leading-relaxed mb-4">{data.question}</p>
+        <p className="text-label-primary text-base leading-relaxed mb-4">{data.question}</p>
 
         {/* User Answer Input */}
         {!revealed && (
@@ -48,7 +48,7 @@ export function CaseStudyCard({ data, cached, remaining, onNewCase }: CaseStudyC
               onChange={(e) => setUserAnswer(e.target.value)}
               placeholder="Escreva sua resposta aqui..."
               rows={4}
-              className="w-full bg-surface-2 border border-separator rounded-lg p-3 text-sm text-white placeholder:text-label-tertiary focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 resize-none"
+              className="w-full bg-surface-2 border border-separator rounded-lg p-3 text-sm text-label-primary placeholder:text-label-tertiary focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 resize-none"
             />
             <Button
               variant="primary"

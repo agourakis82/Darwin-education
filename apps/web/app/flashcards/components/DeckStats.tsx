@@ -4,10 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 
 interface FlashcardData {
   id: string
-  ease_factor: number
-  interval: number
+  intervalDays: number
   repetitions: number
-  next_review: string
+  nextReviewAt: string
 }
 
 interface DeckStatsProps {
@@ -20,13 +19,13 @@ export function DeckStats({ cards }: DeckStatsProps) {
   // Categorize cards by learning status
   const stats = cards.reduce(
     (acc, card) => {
-      const nextReview = new Date(card.next_review)
+      const nextReview = new Date(card.nextReviewAt)
       const isDue = nextReview <= now
 
       if (card.repetitions === 0) {
         // New cards (never reviewed)
         acc.new++
-      } else if (card.interval < 21) {
+      } else if (card.intervalDays < 21) {
         // Learning (interval less than 21 days)
         acc.learning++
       } else {

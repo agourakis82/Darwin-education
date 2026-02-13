@@ -13,7 +13,7 @@ interface EmptyStateProps {
   action?: {
     label: string
     onClick: () => void
-    variant?: 'primary' | 'secondary'
+    variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger'
   }
   className?: string
 }
@@ -31,7 +31,8 @@ export function EmptyState({
       animate={{ opacity: 1, y: 0 }}
       transition={spring.gentle}
       className={`
-        flex flex-col items-center justify-center py-12 px-4
+        darwin-panel-strong rounded-2xl border border-separator/80
+        flex flex-col items-center justify-center px-5 py-8
         ${className}
       `}
     >
@@ -40,7 +41,7 @@ export function EmptyState({
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ ...spring.bouncy, delay: 0.1 }}
-          className="w-16 h-16 rounded-2xl bg-surface-3 flex items-center justify-center mb-4 text-label-secondary"
+          className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-separator/80 bg-surface-2/70 text-label-tertiary"
         >
           {icon}
         </motion.div>
@@ -48,7 +49,7 @@ export function EmptyState({
 
       <h3 className="text-xl font-semibold text-label-primary mb-2">{title}</h3>
 
-      {description && <p className="text-label-secondary text-center max-w-sm mb-6">{description}</p>}
+      {description && <p className="mb-6 max-w-sm text-center text-label-secondary">{description}</p>}
 
       {action && (
         <Button
@@ -70,7 +71,7 @@ interface EmptyStateWithIconProps {
   action?: {
     label: string
     onClick: () => void
-    variant?: 'primary' | 'secondary'
+    variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger'
   }
   className?: string
 }

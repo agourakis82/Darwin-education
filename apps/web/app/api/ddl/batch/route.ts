@@ -7,6 +7,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { ddlBatchService } from '@/lib/ddl/services/batch-service'
+import { getSessionUserSummary } from '@/lib/auth/session'
+import { grokServiceUnavailable, hasGrokCompatibleApiKey } from '@/lib/ai/key-availability'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -34,8 +36,8 @@ export async function POST(request: NextRequest) {
     if (isServiceRole || isDev) {
       userId = process.env.DDL_TEST_USER_ID || ''
     } else {
-      const { data: { user }, error: authError } = await supabase.auth.getUser()
-      if (authError || !user) {
+      const user = await getSessionUserSummary(supabase)
+      if (!user) {
         return NextResponse.json(
           { error: 'Unauthorized' },
           { status: 401 }
@@ -48,6 +50,9 @@ export async function POST(request: NextRequest) {
 
     // Option 1: Process existing batch job
     if (body.jobId && body.action === 'process') {
+      if (!hasGrokCompatibleApiKey()) {
+        return grokServiceUnavailable('de processamento em lote (DDL)')
+      }
       const result = await ddlBatchService.processBatchJob(body.jobId)
       return NextResponse.json({
         success: true,
@@ -64,6 +69,9 @@ export async function POST(request: NextRequest) {
 
       // Optionally process immediately
       if (body.processNow) {
+        if (!hasGrokCompatibleApiKey()) {
+          return grokServiceUnavailable('de processamento em lote (DDL)')
+        }
         const result = await ddlBatchService.processBatchJob(jobId)
         return NextResponse.json({
           success: true,
@@ -88,6 +96,9 @@ export async function POST(request: NextRequest) {
 
       // Optionally process immediately
       if (body.processNow) {
+        if (!hasGrokCompatibleApiKey()) {
+          return grokServiceUnavailable('de processamento em lote (DDL)')
+        }
         const result = await ddlBatchService.processBatchJob(jobId)
         return NextResponse.json({
           success: true,
@@ -133,8 +144,8 @@ export async function GET(request: NextRequest) {
     const isDev = process.env.NODE_ENV === 'development'
 
     if (!isServiceRole && !isDev) {
-      const { data: { user }, error: authError } = await supabase.auth.getUser()
-      if (authError || !user) {
+      const user = await getSessionUserSummary(supabase)
+      if (!user) {
         return NextResponse.json(
           { error: 'Unauthorized' },
           { status: 401 }

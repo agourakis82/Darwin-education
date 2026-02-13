@@ -111,7 +111,7 @@ export function ModuleList({ pathId, modules, currentModuleId }: ModuleListProps
                     <span className={`text-label-secondary ${isActive ? 'text-emerald-400' : ''}`}>
                       {moduleIcons[module.type]}
                     </span>
-                    <h4 className={`font-medium truncate ${isActive ? 'text-white' : 'text-label-primary'}`}>
+                    <h4 className="font-medium truncate text-label-primary">
                       {module.title}
                     </h4>
                   </div>

@@ -24,7 +24,7 @@ export function ConfidenceSlider({ value, onChange, disabled = false }: Confiden
   return (
     <div className="space-y-2">
       <label className="text-sm font-medium text-muted-foreground">
-        Qual sua confianca nesta resposta?
+        Qual sua confiança nesta resposta?
       </label>
       <div className="flex gap-2">
         {ratings.map((rating) => {
@@ -73,10 +73,10 @@ export function ConfidenceSlider({ value, onChange, disabled = false }: Confiden
           className={`text-xs text-center ${RATING_COLORS[value].text}`}
         >
           {value <= 2
-            ? 'Sua incerteza sera considerada na avaliacao metacognitiva'
+            ? 'Sua incerteza será considerada na avaliação metacognitiva'
             : value >= 4
-              ? 'Alta confianca sera cruzada com o resultado real'
-              : 'Confianca moderada'}
+              ? 'Alta confiança será cruzada com o resultado real'
+              : 'Confiança moderada'}
         </motion.p>
       )}
     </div>

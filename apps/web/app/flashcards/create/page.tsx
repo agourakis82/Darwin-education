@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { createClient } from '@/lib/supabase/client'
+import { getSessionUserSummary } from '@/lib/auth/session'
 import type { FlashcardDeck, Flashcard } from '@/lib/supabase'
 import { AREA_LABELS } from '@/lib/area-colors'
 import { useToast } from '@/lib/hooks/useToast'
@@ -61,7 +62,7 @@ export default function CreateDeckPage() {
 
     try {
       const supabase = createClient()
-      const { data: { user } } = await supabase.auth.getUser()
+      const user = await getSessionUserSummary(supabase)
 
       if (!user) {
         router.push('/login')
@@ -84,16 +85,11 @@ export default function CreateDeckPage() {
 
       const deckData = deck as FlashcardDeck
 
-      // Create cards with SM-2 initial values
-      const now = new Date().toISOString()
+      // Create cards (review state is managed in flashcard_*_states tables via review API)
       const cardsToInsert = validCards.map(card => ({
         deck_id: deckData.id,
         front: card.front.trim(),
         back: card.back.trim(),
-        ease_factor: 2.5,
-        interval: 0,
-        repetitions: 0,
-        next_review: now,
       }))
 
       const { error: cardsError } = await supabase
@@ -113,7 +109,7 @@ export default function CreateDeckPage() {
   }
 
   return (
-    <div className="min-h-screen bg-surface-0 text-white">
+    <div className="min-h-screen bg-surface-0 text-label-primary">
       {/* Header */}
       <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -132,7 +128,7 @@ export default function CreateDeckPage() {
       </header>
 
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate>
           {/* Deck Info */}
           <Card className="mb-6">
             <CardHeader>
@@ -157,7 +153,7 @@ export default function CreateDeckPage() {
                   placeholder="Descreva o conteúdo deste deck..."
                   rows={3}
                   className="w-full px-3 py-2 bg-surface-2 border border-separator rounded-lg
-                    text-white placeholder-label-tertiary focus:outline-none focus:ring-2
+                    text-label-primary placeholder-label-tertiary focus:outline-none focus:ring-2
                     focus:ring-emerald-500 focus:border-transparent resize-none"
                 />
               </div>
@@ -170,7 +166,7 @@ export default function CreateDeckPage() {
                   value={area}
                   onChange={(e) => setArea(e.target.value as ENAMEDArea | '')}
                   className="w-full px-3 py-2 bg-surface-2 border border-separator rounded-lg
-                    text-white focus:outline-none focus:ring-2 focus:ring-emerald-500
+                    text-label-primary focus:outline-none focus:ring-2 focus:ring-emerald-500
                     focus:border-transparent"
                 >
                   <option value="">Selecione uma área</option>
@@ -228,7 +224,7 @@ export default function CreateDeckPage() {
                         placeholder="Digite a pergunta..."
                         rows={3}
                         className="w-full px-3 py-2 bg-surface-1 border border-separator rounded-lg
-                          text-white placeholder-label-tertiary focus:outline-none focus:ring-2
+                          text-label-primary placeholder-label-tertiary focus:outline-none focus:ring-2
                           focus:ring-emerald-500 focus:border-transparent resize-none text-sm"
                       />
                     </div>
@@ -242,7 +238,7 @@ export default function CreateDeckPage() {
                         placeholder="Digite a resposta..."
                         rows={3}
                         className="w-full px-3 py-2 bg-surface-1 border border-separator rounded-lg
-                          text-white placeholder-label-tertiary focus:outline-none focus:ring-2
+                          text-label-primary placeholder-label-tertiary focus:outline-none focus:ring-2
                           focus:ring-emerald-500 focus:border-transparent resize-none text-sm"
                       />
                     </div>
@@ -254,7 +250,7 @@ export default function CreateDeckPage() {
                 type="button"
                 onClick={addCard}
                 className="w-full py-3 border-2 border-dashed border-separator rounded-lg
-                  text-label-secondary hover:text-white hover:border-surface-4 transition-colors
+                  text-label-secondary hover:text-label-primary hover:border-surface-4 transition-colors
                   flex items-center justify-center gap-2"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

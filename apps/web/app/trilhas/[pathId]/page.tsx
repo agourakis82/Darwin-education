@@ -3,35 +3,124 @@
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { createClient } from '@/lib/supabase/client'
-import { ModuleList, type Module } from '../components'
+import { getSessionUserSummary } from '@/lib/auth/session'
+import { ModuleList, type Module, type ModuleType } from '../components'
 import { AREA_COLORS, AREA_LABELS } from '@/lib/area-colors'
 import type { ENAMEDArea } from '@darwin-education/shared'
+
+type PathDifficulty =
+  | 'beginner'
+  | 'intermediate'
+  | 'advanced'
+  | 'muito_facil'
+  | 'facil'
+  | 'medio'
+  | 'dificil'
+  | 'muito_dificil'
 
 interface PathData {
   id: string
   title: string
   description: string | null
   area: ENAMEDArea
-  difficulty: 'beginner' | 'intermediate' | 'advanced'
+  difficulty: PathDifficulty
   estimated_hours: number
   objectives: string[]
   prerequisites: string[]
 }
 
-
-const difficultyLabels = {
+const difficultyLabels: Record<PathDifficulty, string> = {
   beginner: 'Iniciante',
   intermediate: 'Intermediário',
   advanced: 'Avançado',
+  muito_facil: 'Muito Fácil',
+  facil: 'Fácil',
+  medio: 'Médio',
+  dificil: 'Difícil',
+  muito_dificil: 'Muito Difícil',
 }
 
-const difficultyColors = {
+const difficultyColors: Record<PathDifficulty, string> = {
   beginner: 'text-green-400',
   intermediate: 'text-yellow-400',
   advanced: 'text-red-400',
+  muito_facil: 'text-emerald-300',
+  facil: 'text-green-400',
+  medio: 'text-yellow-400',
+  dificil: 'text-orange-400',
+  muito_dificil: 'text-red-400',
+}
+
+const AREA_SET = new Set<ENAMEDArea>(Object.keys(AREA_LABELS) as ENAMEDArea[])
+const MODULE_TYPE_SET = new Set<ModuleType>(['reading', 'video', 'quiz', 'flashcards', 'case_study'])
+const PATH_DIFFICULTY_SET = new Set<PathDifficulty>([
+  'beginner',
+  'intermediate',
+  'advanced',
+  'muito_facil',
+  'facil',
+  'medio',
+  'dificil',
+  'muito_dificil',
+])
+
+function normalizePathArea(pathData: any): ENAMEDArea {
+  const areaCandidate = typeof pathData?.area === 'string'
+    ? pathData.area
+    : Array.isArray(pathData?.areas)
+      ? pathData.areas[0]
+      : null
+
+  if (typeof areaCandidate === 'string' && AREA_SET.has(areaCandidate as ENAMEDArea)) {
+    return areaCandidate as ENAMEDArea
+  }
+
+  return 'clinica_medica'
+}
+
+function normalizePathDifficulty(value: unknown): PathDifficulty {
+  if (typeof value === 'string' && PATH_DIFFICULTY_SET.has(value as PathDifficulty)) {
+    return value as PathDifficulty
+  }
+
+  const aliases: Record<string, PathDifficulty> = {
+    basico: 'facil',
+    intermediario: 'medio',
+    avancado: 'dificil',
+  }
+
+  if (typeof value === 'string') {
+    return aliases[value] || 'medio'
+  }
+
+  return 'medio'
+}
+
+function normalizeModuleType(value: unknown): ModuleType {
+  if (typeof value === 'string' && MODULE_TYPE_SET.has(value as ModuleType)) {
+    return value as ModuleType
+  }
+  return 'reading'
+}
+
+function normalizePositiveNumber(value: unknown) {
+  return typeof value === 'number' && Number.isFinite(value) && value > 0 ? value : null
+}
+
+function normalizeEstimatedHours(rawValue: unknown, moduleCount: number) {
+  const parsed = normalizePositiveNumber(rawValue)
+  if (parsed !== null) return parsed
+  if (moduleCount <= 0) return 0
+  return Number((moduleCount * 0.75).toFixed(1))
+}
+
+function toStringArray(value: unknown) {
+  if (!Array.isArray(value)) return []
+  return value.filter((item): item is string => typeof item === 'string' && item.trim().length > 0)
 }
 
 export default function PathOverviewPage() {
@@ -49,75 +138,76 @@ export default function PathOverviewPage() {
   }, [pathId])
 
   async function loadPath() {
-    const supabase = createClient()
-    const { data: user } = await supabase.auth.getUser()
+    setLoading(true)
 
-    // Load path details
+    const supabase = createClient()
+    const user = await getSessionUserSummary(supabase)
+
     const { data: pathData } = await (supabase
       .from('study_paths') as any)
       .select('*')
       .eq('id', pathId)
-      .single()
+      .maybeSingle()
 
     if (!pathData) {
+      setLoading(false)
       router.push('/trilhas')
       return
     }
 
-    setPath({
-      id: pathData.id,
-      title: pathData.title,
-      description: pathData.description,
-      area: pathData.area,
-      difficulty: pathData.difficulty || 'intermediate',
-      estimated_hours: pathData.estimated_hours || 10,
-      objectives: pathData.objectives || [],
-      prerequisites: pathData.prerequisites || [],
-    })
-
-    // Load modules
     const { data: modulesData } = await (supabase
       .from('study_modules') as any)
       .select('*')
       .eq('path_id', pathId)
       .order('order_index', { ascending: true })
 
-    // Get user progress
     let completedModules: string[] = []
-    if (user.user) {
+    if (user) {
       const { data: progressData } = await (supabase
         .from('user_path_progress') as any)
         .select('completed_modules')
         .eq('path_id', pathId)
-        .eq('user_id', user.user.id)
-        .single()
+        .eq('user_id', user.id)
+        .maybeSingle()
 
-      if (progressData) {
-        completedModules = progressData.completed_modules || []
+      if (progressData?.completed_modules) {
+        completedModules = toStringArray(progressData.completed_modules)
       }
     }
 
-    if (modulesData) {
-      const formattedModules: Module[] = modulesData.map((m: any, index: number) => ({
-        id: m.id,
-        title: m.title,
-        description: m.description,
-        type: m.type,
-        order_index: m.order_index,
-        estimated_minutes: m.estimated_minutes || 15,
-        is_completed: completedModules.includes(m.id),
-        is_locked: index > 0 && !completedModules.includes(modulesData[index - 1].id),
-      }))
-      setModules(formattedModules)
+    const formattedModules: Module[] = (modulesData || []).map((module: any, index: number) => ({
+      id: module.id,
+      title: module.title,
+      description: module.description || null,
+      type: normalizeModuleType(module.type),
+      order_index: typeof module.order_index === 'number' ? module.order_index : index,
+      estimated_minutes: normalizePositiveNumber(module.estimated_minutes) || 15,
+      is_completed: completedModules.includes(module.id),
+      is_locked: index > 0 && !completedModules.includes(modulesData[index - 1].id),
+    }))
 
-      const completedCount = formattedModules.filter(m => m.is_completed).length
-      setProgress(Math.round((completedCount / formattedModules.length) * 100) || 0)
-    }
+    const completedCount = formattedModules.filter((module) => module.is_completed).length
+    const progressPercent = formattedModules.length
+      ? Math.round((completedCount / formattedModules.length) * 100)
+      : 0
 
+    setPath({
+      id: pathData.id,
+      title: pathData.title,
+      description: pathData.description,
+      area: normalizePathArea(pathData),
+      difficulty: normalizePathDifficulty(pathData.difficulty),
+      estimated_hours: normalizeEstimatedHours(pathData.estimated_hours, formattedModules.length),
+      objectives: toStringArray(pathData.objectives),
+      prerequisites: toStringArray(pathData.prerequisites),
+    })
+
+    setModules(formattedModules)
+    setProgress(progressPercent)
     setLoading(false)
   }
 
-  const nextModule = modules.find(m => !m.is_completed && !m.is_locked)
+  const nextModule = modules.find((module) => !module.is_completed && !module.is_locked)
 
   if (loading) {
     return (
@@ -128,12 +218,30 @@ export default function PathOverviewPage() {
   }
 
   if (!path) {
-    return null
+    return (
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center p-4">
+        <Card className="max-w-md w-full">
+          <CardContent className="py-8 text-center">
+            <h2 className="text-xl font-semibold text-label-primary mb-2">Trilha indisponível</h2>
+            <p className="text-label-secondary mb-6">
+              Não foi possível carregar os dados desta trilha.
+            </p>
+            <div className="space-y-2">
+              <Button onClick={() => router.push('/trilhas')} fullWidth>
+                Voltar para Trilhas
+              </Button>
+              <Button variant="outline" onClick={() => router.refresh()} fullWidth>
+                Tentar novamente
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
   }
 
   return (
-    <div className="min-h-screen bg-surface-0 text-white">
-      {/* Header */}
+    <div className="min-h-screen bg-surface-0 text-label-primary">
       <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center gap-4">
@@ -162,9 +270,7 @@ export default function PathOverviewPage() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Description */}
             {path.description && (
               <Card>
                 <CardHeader>
@@ -176,7 +282,6 @@ export default function PathOverviewPage() {
               </Card>
             )}
 
-            {/* Objectives */}
             {path.objectives.length > 0 && (
               <Card>
                 <CardHeader>
@@ -197,16 +302,13 @@ export default function PathOverviewPage() {
               </Card>
             )}
 
-            {/* Modules */}
             <div>
               <h2 className="text-lg font-semibold mb-4">Módulos ({modules.length})</h2>
               <ModuleList pathId={pathId} modules={modules} />
             </div>
           </div>
 
-          {/* Sidebar */}
           <div className="space-y-4">
-            {/* Progress Card */}
             <Card>
               <CardContent className="pt-6">
                 <div className="text-center mb-4">
@@ -238,7 +340,7 @@ export default function PathOverviewPage() {
                     </div>
                   </div>
                   <p className="text-sm text-label-secondary mt-2">
-                    {modules.filter(m => m.is_completed).length} de {modules.length} módulos concluídos
+                    {modules.filter((module) => module.is_completed).length} de {modules.length} módulos concluídos
                   </p>
                 </div>
 
@@ -266,7 +368,6 @@ export default function PathOverviewPage() {
               </CardContent>
             </Card>
 
-            {/* Info Card */}
             <Card>
               <CardContent className="pt-6 space-y-4">
                 <div className="flex items-center gap-3">
@@ -309,7 +410,6 @@ export default function PathOverviewPage() {
               </CardContent>
             </Card>
 
-            {/* Prerequisites */}
             {path.prerequisites.length > 0 && (
               <Card>
                 <CardHeader>
@@ -317,12 +417,12 @@ export default function PathOverviewPage() {
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-2 text-sm">
-                    {path.prerequisites.map((prereq, index) => (
+                    {path.prerequisites.map((prerequisite, index) => (
                       <li key={index} className="flex items-start gap-2 text-label-secondary">
                         <svg className="w-4 h-4 text-label-tertiary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
-                        {prereq}
+                        {prerequisite}
                       </li>
                     ))}
                   </ul>

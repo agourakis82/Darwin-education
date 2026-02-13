@@ -101,6 +101,7 @@ NUNCA:
 - Criar distratores absurdos que eliminam escolha
 - Incluir dados irrelevantes que confundem sem testar conhecimento
 - Usar enunciados negativos sem destaque (EXCETO, NAO)
+- Inventar referencias/citacoes. Use fontes verificaveis e autoritativas (sociedades medicas, PubMed/NCBI, periodicos de alto impacto/Q1 quando aplicavel).
 `;
 
 /**
@@ -236,9 +237,6 @@ export class PromptBuilderService {
   buildGenerationPrompt(config: QGenGenerationConfig): string {
     const parts: string[] = [];
 
-    // System prompt
-    parts.push(QGEN_SYSTEM_PROMPT);
-
     // Context section
     parts.push(this.buildContextSection(config));
 
@@ -263,6 +261,72 @@ ${fewShot}
     parts.push(this.buildOutputSection());
 
     return parts.join('\n\n---\n\n');
+  }
+
+  /**
+   * Build a prompt to revise a previously generated question, using validation feedback.
+   */
+  buildRevisionPrompt(params: {
+    config: QGenGenerationConfig;
+    previous: {
+      stem: string;
+      alternatives: Record<string, string>;
+      correctAnswer: string;
+      explanation?: string | null;
+    };
+    issues: Array<{
+      severity: 'error' | 'warning' | 'info';
+      category: string;
+      message: string;
+      suggestion?: string;
+    }>;
+  }): string {
+    const issueLines = (params.issues || [])
+      .filter((i) => i.severity !== 'info')
+      .slice(0, 12)
+      .map(
+        (i) =>
+          `- (${i.severity}/${i.category}) ${i.message}${i.suggestion ? ` | Sugestão: ${i.suggestion}` : ''}`
+      );
+
+    const current = {
+      questao: {
+        enunciado: params.previous.stem,
+        alternativas: params.previous.alternatives,
+        gabarito: params.previous.correctAnswer,
+        comentario: params.previous.explanation || '',
+      },
+      metadados: {
+        area: params.config.targetArea,
+        tema: params.config.targetTopic || '',
+        nivel_bloom: params.config.targetBloomLevel || 'APPLICATION',
+        dificuldade_alvo: params.config.targetDifficulty ?? 3,
+        dificuldade_estimada_irt: params.config.targetDifficulty ?? 0.0,
+        discriminacao_estimada: 1.0,
+        key_concepts: [],
+        tipo_questao: params.config.targetQuestionType || 'CLINICAL_CASE',
+        tipo_distratores: {},
+        misconceptions_exploradas: [],
+      },
+    };
+
+    return [
+      '## TAREFA: Revisar e corrigir questão',
+      this.buildContextSection(params.config),
+      '## PROBLEMAS DETECTADOS (QUALITY GATE)',
+      issueLines.length > 0 ? issueLines.join('\n') : '- (nenhum problema listado)',
+      '## QUESTÃO ATUAL (PARA CORRIGIR)',
+      '```json',
+      JSON.stringify(current, null, 2),
+      '```',
+      '## INSTRUÇÕES DE CORREÇÃO',
+      '- Corrija TODOS os problemas acima.',
+      '- Garanta 1 melhor resposta (sem "todas/nenhuma as anteriores", sem combinações tipo "A e B").',
+      '- Evite termos absolutos na alternativa correta.',
+      '- Mantenha alternativas paralelas (mesma categoria: diagnóstico vs diagnóstico, conduta vs conduta).',
+      '- No FINAL do comentário, inclua "Referências:" com 1–3 URLs de fontes confiáveis (diretrizes/sociedades/PubMed).',
+      this.buildOutputSection(),
+    ].join('\n\n---\n\n');
   }
 
   /**
@@ -567,6 +631,7 @@ IMPORTANTE:
 - A resposta correta deve ser inequivoca
 - Os distratores devem ser todos plausiveis
 - O comentario deve explicar a resposta e os erros dos distratores
+- No FINAL do comentario, inclua "Referências:" com 1–3 fontes (com URL) de diretrizes/sociedades/PubMed quando aplicável
 
 GERE A QUESTAO AGORA:
 `;

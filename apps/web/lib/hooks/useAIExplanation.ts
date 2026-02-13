@@ -66,7 +66,7 @@ export function useAIExplanation(): UseAIExplanationReturn {
           return
         }
 
-        setError(errorData.error || 'Erro ao buscar explicação.')
+        setError(errorData.message || errorData.error || 'Erro ao buscar explicação.')
         return
       }
 

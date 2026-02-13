@@ -17,25 +17,25 @@ const QUADRANT_CONFIG: Record<
     color: 'text-emerald-400',
     bgColor: 'bg-emerald-900/30',
     borderColor: 'border-emerald-700/50',
-    description: 'Acertou com confianca',
+    description: 'Acertou com confiança',
   },
   illusion_of_knowing: {
     color: 'text-red-400',
     bgColor: 'bg-red-900/30',
     borderColor: 'border-red-700/50',
-    description: 'Errou com confianca alta',
+    description: 'Errou com confiança alta',
   },
   unconscious_competence: {
     color: 'text-blue-400',
     bgColor: 'bg-blue-900/30',
     borderColor: 'border-blue-700/50',
-    description: 'Acertou sem confianca',
+    description: 'Acertou sem confiança',
   },
   known_unknown: {
     color: 'text-yellow-400',
     bgColor: 'bg-yellow-900/30',
     borderColor: 'border-yellow-700/50',
-    description: 'Errou sabendo que nao sabia',
+    description: 'Errou sabendo que não sabia',
   },
 }
 

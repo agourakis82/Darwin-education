@@ -76,7 +76,7 @@ export function CIPResults({ score, totalTimeSeconds, onRetry, onBackToList }: C
               </svg>
               {/* Score text */}
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-4xl font-bold text-white">{score.scaledScore}</span>
+                <span className="text-4xl font-bold text-label-primary tabular-nums">{score.scaledScore}</span>
                 <span className="text-sm text-label-secondary">pontos</span>
               </div>
             </div>
@@ -122,24 +122,24 @@ export function CIPResults({ score, totalTimeSeconds, onRetry, onBackToList }: C
             {/* Summary stats */}
             <div className="flex justify-center gap-8 mt-6 text-sm flex-wrap">
               <div className="text-center">
-                <div className="text-2xl font-semibold text-white">
+                <div className="text-2xl font-semibold text-label-primary tabular-nums">
                   {score.correctCount}/{score.totalCells}
                 </div>
                 <div className="text-label-secondary">Acertos</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-semibold text-white">
+                <div className="text-2xl font-semibold text-label-primary tabular-nums">
                   {Math.round(score.percentageCorrect)}%
                 </div>
                 <div className="text-label-secondary">Aproveitamento</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-semibold text-white">{score.passThreshold}</div>
+                <div className="text-2xl font-semibold text-label-primary tabular-nums">{score.passThreshold}</div>
                 <div className="text-label-secondary">Mínimo p/ aprovação</div>
               </div>
               {totalTimeSeconds !== undefined && (
                 <div className="text-center">
-                  <div className="text-2xl font-semibold text-white">
+                  <div className="text-2xl font-semibold text-label-primary tabular-nums">
                     {formatTime(totalTimeSeconds)}
                   </div>
                   <div className="text-label-secondary">Tempo decorrido</div>
@@ -185,7 +185,7 @@ export function CIPResults({ score, totalTimeSeconds, onRetry, onBackToList }: C
               return (
                 <div key={section}>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-white">
+                    <span className="text-sm font-medium text-label-primary">
                       {CIP_SECTION_LABELS_PT[section]}
                     </span>
                     <div className="flex items-center gap-2">
@@ -235,7 +235,7 @@ export function CIPResults({ score, totalTimeSeconds, onRetry, onBackToList }: C
                     key={diag.diagnosisId}
                     className="flex items-center justify-between p-3 bg-surface-2/50 rounded-lg"
                   >
-                    <span className="text-sm text-white flex-1 mr-4 line-clamp-1">
+                    <span className="text-sm text-label-primary flex-1 mr-4 line-clamp-1">
                       {diag.diagnosisName}
                     </span>
                     <div className="flex items-center gap-3 flex-shrink-0">

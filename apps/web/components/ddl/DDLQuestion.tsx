@@ -2,7 +2,7 @@
 
 // ============================================================
 // DDL QUESTION COMPONENT
-// Questao dissertativa com captura comportamental
+// Questão dissertativa com captura comportamental
 // ============================================================
 
 import { useState, useCallback } from 'react'
@@ -51,7 +51,7 @@ export function DDLQuestion({
 
   const handleSubmit = async () => {
     if (response.trim().length < 10) {
-      setError('Por favor, forneca uma resposta mais completa (minimo 10 caracteres).')
+      setError('Por favor, forneça uma resposta mais completa (mínimo 10 caracteres).')
       return
     }
 
@@ -82,14 +82,14 @@ export function DDLQuestion({
       {/* Header */}
       <div className="mb-4">
         <div className="flex items-center gap-2 mb-2">
-          <span className="px-2 py-1 text-xs font-medium bg-emerald-900/50 text-emerald-400 rounded">
+          <span className="px-2 py-1 text-xs font-medium rounded border border-emerald-400/35 bg-emerald-500/12 text-emerald-200">
             {discipline}
           </span>
-          <span className="px-2 py-1 text-xs font-medium bg-surface-3 text-label-primary rounded">
+          <span className="px-2 py-1 text-xs font-medium rounded border border-separator/80 bg-surface-1/70 text-label-primary">
             {topic}
           </span>
         </div>
-        <h2 className="text-lg font-semibold text-white leading-relaxed">
+        <h2 className="text-lg font-semibold text-label-primary leading-relaxed">
           {questionText}
         </h2>
       </div>
@@ -105,10 +105,7 @@ export function DDLQuestion({
         <textarea
           id={`response-${questionId}`}
           rows={8}
-          className="w-full p-4 bg-surface-1 border border-label-quaternary rounded-lg
-                     text-white placeholder-label-tertiary
-                     focus:ring-2 focus:ring-emerald-500 focus:border-transparent
-                     resize-none transition-colors"
+          className="darwin-focus-ring w-full resize-none rounded-xl border border-separator bg-surface-1/70 p-4 text-label-primary placeholder:text-label-quaternary transition-colors focus:border-emerald-400/45 focus:ring-emerald-400/70"
           placeholder="Digite sua resposta aqui..."
           value={response}
           onChange={(e) => setResponse(e.target.value)}
@@ -180,7 +177,7 @@ export function DDLQuestion({
 
       {/* Help text */}
       <p className="mt-3 text-xs text-label-tertiary text-center">
-        Sua resposta sera analisada para identificar oportunidades de aprendizado
+        Sua resposta será analisada para identificar oportunidades de aprendizado
       </p>
     </div>
   )

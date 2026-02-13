@@ -57,7 +57,7 @@ export function FCRResults({ score }: FCRResultsProps) {
         stats={[
           {
             value: score.calibrationScore,
-            label: 'Calibracao',
+            label: 'Calibração',
             color: score.calibrationScore >= 70 ? 'text-emerald-400' : 'text-yellow-400',
             suffix: '%',
           },

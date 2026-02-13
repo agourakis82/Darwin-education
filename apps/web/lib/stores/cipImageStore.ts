@@ -27,7 +27,21 @@ interface CIPImageState {
   result: CIPImageScore | null
 
   // Actions
-  startCase: (imageCase: CIPImageCase, attemptId: string) => void
+  startCase: (
+    imageCase: CIPImageCase,
+    attemptId: string,
+    restoreState?: {
+      currentStep?: ImageInterpretationStep
+      selectedModality?: string | null
+      selectedFindings?: string[]
+      selectedDiagnosis?: string | null
+      selectedNextStep?: string | null
+      stepTimes?: Record<string, number>
+      totalTimeSeconds?: number
+      startedAt?: string | Date | null
+      isSubmitted?: boolean
+    }
+  ) => void
   selectModality: (modality: string) => void
   toggleFinding: (findingId: string) => void
   selectDiagnosis: (diagnosisId: string) => void
@@ -76,20 +90,20 @@ export const useCIPImageStore = create<CIPImageState>()(
     (set, get) => ({
       ...initialState,
 
-      startCase: (imageCase, attemptId) => {
+      startCase: (imageCase, attemptId, restoreState) => {
         set({
           currentCase: imageCase,
           attemptId,
-          currentStep: 'modality',
-          selectedModality: null,
-          selectedFindings: [],
-          selectedDiagnosis: null,
-          selectedNextStep: null,
-          stepTimes: {},
-          stepStartedAt: Date.now(),
-          totalTimeSeconds: 0,
-          startedAt: new Date(),
-          isSubmitted: false,
+          currentStep: restoreState?.currentStep || 'modality',
+          selectedModality: restoreState?.selectedModality || null,
+          selectedFindings: restoreState?.selectedFindings || [],
+          selectedDiagnosis: restoreState?.selectedDiagnosis || null,
+          selectedNextStep: restoreState?.selectedNextStep || null,
+          stepTimes: restoreState?.stepTimes || {},
+          stepStartedAt: restoreState?.isSubmitted ? null : Date.now(),
+          totalTimeSeconds: restoreState?.totalTimeSeconds || 0,
+          startedAt: restoreState?.startedAt ? new Date(restoreState.startedAt) : new Date(),
+          isSubmitted: restoreState?.isSubmitted || false,
           result: null,
         })
       },
@@ -177,6 +191,7 @@ export const useCIPImageStore = create<CIPImageState>()(
         selectedDiagnosis: state.selectedDiagnosis,
         selectedNextStep: state.selectedNextStep,
         stepTimes: state.stepTimes,
+        totalTimeSeconds: state.totalTimeSeconds,
         startedAt: state.startedAt,
         isSubmitted: state.isSubmitted,
       }),

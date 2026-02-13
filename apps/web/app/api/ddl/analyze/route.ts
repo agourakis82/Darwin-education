@@ -7,6 +7,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { ddlService } from '@/lib/ddl/services/ddl-service'
 import type { BehavioralData } from '@/lib/ddl/types'
+import { getSessionUserSummary } from '@/lib/auth/session'
+import { grokServiceUnavailable, hasGrokCompatibleApiKey } from '@/lib/ai/key-availability'
 
 interface AnalyzeRequestBody {
   responseId?: string
@@ -43,44 +45,46 @@ export async function POST(request: NextRequest) {
       userId = process.env.DDL_TEST_USER_ID || ''
     } else {
       // Verify user authentication
-      const { data: { user }, error: authError } = await supabase.auth.getUser()
-      if (authError || !user) {
+      const user = await getSessionUserSummary(supabase)
+      if (!user) {
         return NextResponse.json(
-          { error: 'Unauthorized' },
+          { error: 'Não autenticado' },
           { status: 401 }
         )
       }
       userId = user.id
     }
 
-    const body = await request.json() as AnalyzeRequestBody
+    const body = (await request.json()) as AnalyzeRequestBody
+
+    const shouldAnalyzeExisting = Boolean(body.responseId)
+    const shouldSubmitAndAnalyze = Boolean(body.questionId && body.responseText && body.behavioralData)
+
+    if (!shouldAnalyzeExisting && !shouldSubmitAndAnalyze) {
+      return NextResponse.json(
+        {
+          error: 'Requisição inválida. Envie "responseId" ou ("questionId", "responseText" e "behavioralData").',
+        },
+        { status: 400 }
+      )
+    }
+
+    if (!hasGrokCompatibleApiKey()) {
+      return grokServiceUnavailable('de análise DDL')
+    }
 
     let responseId: string
 
-    // Option 1: Analyze existing response
-    if (body.responseId) {
-      responseId = body.responseId
-    }
-    // Option 2: Submit new response and analyze
-    else if (body.questionId && body.responseText && body.behavioralData) {
-      // Generate session ID
+    if (shouldAnalyzeExisting) {
+      responseId = body.responseId as string
+    } else {
       const sessionId = crypto.randomUUID()
-
-      // Submit response
       responseId = await ddlService.submitResponse(
         userId,
-        body.questionId,
+        body.questionId as string,
         sessionId,
-        body.responseText,
-        body.behavioralData
-      )
-    }
-    else {
-      return NextResponse.json(
-        {
-          error: 'Invalid request. Provide either responseId or (questionId, responseText, behavioralData)'
-        },
-        { status: 400 }
+        body.responseText as string,
+        body.behavioralData as BehavioralData
       )
     }
 
@@ -116,8 +120,8 @@ export async function POST(request: NextRequest) {
     console.error('DDL Analysis Error:', error)
     return NextResponse.json(
       {
-        error: 'Analysis failed',
-        details: error instanceof Error ? error.message : 'Unknown error'
+        error: 'Falha ao analisar resposta',
+        details: error instanceof Error ? error.message : 'Erro desconhecido'
       },
       { status: 500 }
     )

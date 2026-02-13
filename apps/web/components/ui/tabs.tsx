@@ -32,7 +32,7 @@ export function TabsList({ className, ...props }: TabsListProps) {
   return (
     <div
       className={cn(
-        'inline-flex h-10 items-center justify-center rounded-md bg-surface-2 p-1 text-label-secondary',
+        'darwin-panel inline-flex h-11 items-center justify-center rounded-xl border border-separator/75 p-1 text-label-secondary',
         className
       )}
       role="tablist"
@@ -55,10 +55,10 @@ export function TabsTrigger({ className, value, ...props }: TabsTriggerProps) {
       aria-selected={isActive}
       onClick={() => ctx.onValueChange(value)}
       className={cn(
-        'inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium transition-all',
+        'darwin-focus-ring inline-flex items-center justify-center whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium transition-all',
         isActive
-          ? 'bg-surface-1 text-white shadow-sm'
-          : 'text-label-secondary hover:text-label-primary',
+          ? 'border border-emerald-500/35 bg-emerald-500/12 text-emerald-300 shadow-inner-shine'
+          : 'border border-transparent text-label-secondary hover:border-separator/75 hover:bg-surface-3/65 hover:text-label-primary',
         className
       )}
       {...props}

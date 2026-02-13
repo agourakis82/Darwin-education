@@ -97,7 +97,7 @@ export function SkeletonExample() {
               <div className="flex gap-4">
                 <div className="w-12 h-12 bg-emerald-500 rounded-full" />
                 <div className="flex-1">
-                  <h3 className="text-white font-semibold mb-2">Content Loaded</h3>
+                  <h3 className="text-label-primary font-semibold mb-2">Content Loaded</h3>
                   <p className="text-label-secondary text-sm">
                     This is the actual content that appears after loading.
                   </p>
@@ -224,7 +224,7 @@ export function GlobalUXPatternsShowcase() {
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-white mb-2">Global UX Patterns</h1>
+        <h1 className="text-3xl font-bold text-label-primary mb-2">Global UX Patterns</h1>
         <p className="text-label-secondary">
           Comprehensive examples of Toast notifications, Skeleton loaders, and Empty states
         </p>

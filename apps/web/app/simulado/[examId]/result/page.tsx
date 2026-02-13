@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import { getSessionUserSummary } from '@/lib/auth/session'
 import { useExamStore } from '@/lib/stores/examStore'
 import { ExamResults } from '../../components/ExamResults'
 import { ExamDDLResults } from '@/components/ddl/ExamDDLResults'
@@ -62,7 +63,7 @@ export default function ExamResultPage() {
 
       // Otherwise load from database
       const supabase = createClient()
-      const { data: { user } } = await supabase.auth.getUser()
+      const user = await getSessionUserSummary(supabase)
 
       if (!user) {
         router.push('/login')
@@ -132,7 +133,6 @@ export default function ExamResultPage() {
   }
 
   const handleReviewExam = () => {
-    // TODO: Implement review mode
     router.push(`/simulado/${examId}/review`)
   }
 
@@ -148,7 +148,26 @@ export default function ExamResultPage() {
   }
 
   if (!result) {
-    return null
+    return (
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center p-4">
+        <Card className="max-w-md w-full">
+          <CardContent className="py-8 text-center">
+            <h2 className="text-xl font-semibold text-label-primary mb-2">Resultado indisponível</h2>
+            <p className="text-label-secondary mb-6">
+              Não encontramos um resultado válido para este simulado.
+            </p>
+            <div className="space-y-2">
+              <Button onClick={() => router.push(`/simulado/${examId}`)} fullWidth>
+                Voltar para o simulado
+              </Button>
+              <Button variant="outline" onClick={() => router.push('/simulado')} fullWidth>
+                Ver lista de simulados
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
   }
 
   return (
@@ -156,11 +175,11 @@ export default function ExamResultPage() {
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Resultado do Simulado</h1>
+          <h1 className="text-3xl font-bold text-label-primary mb-2">Resultado do Simulado</h1>
           <div className="flex items-center justify-center gap-3">
             <p className="text-label-secondary">{examTitle}</p>
             {result.isAdaptive && (
-              <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
+              <span className="px-2 py-0.5 text-xs font-medium rounded-full bg-sky-500/12 text-sky-200 border border-sky-400/35 shadow-inner-shine">
                 Adaptativo
               </span>
             )}
@@ -197,20 +216,20 @@ export default function ExamResultPage() {
           <ScrollReveal>
             <Card className="mb-8">
               <CardContent>
-                <h3 className="text-lg font-semibold text-white mb-4">Teste Adaptativo</h3>
+                <h3 className="text-lg font-semibold text-label-primary mb-4">Teste Adaptativo</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-4">
                   <div>
                     <div className="text-label-secondary text-sm">Itens administrados</div>
-                    <div className="text-xl font-semibold text-white">{result.totalQuestions}</div>
+                    <div className="text-xl font-semibold text-label-primary">{result.totalQuestions}</div>
                   </div>
                   <div>
                     <div className="text-label-secondary text-sm">Erro padrão</div>
-                    <div className="text-xl font-semibold text-white">{result.standardError.toFixed(3)}</div>
+                    <div className="text-xl font-semibold text-label-primary">{result.standardError.toFixed(3)}</div>
                   </div>
                   {result.stoppingReason && (
                     <div>
                       <div className="text-label-secondary text-sm">Critério de parada</div>
-                      <div className="text-sm font-medium text-white">
+                      <div className="text-sm font-medium text-label-primary">
                         {result.stoppingReason === 'se_threshold'
                           ? 'Precisão atingida'
                           : 'Máximo de itens'}
@@ -276,17 +295,17 @@ export default function ExamResultPage() {
         <ScrollReveal delay={0.2}>
           <Card className="mt-8">
             <CardContent>
-              <h3 className="text-lg font-semibold text-white mb-4">Estatísticas de Tempo</h3>
+              <h3 className="text-lg font-semibold text-label-primary mb-4">Estatísticas de Tempo</h3>
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <div className="text-label-secondary text-sm">Tempo total</div>
-                  <div className="text-xl font-semibold text-white">
+                  <div className="text-xl font-semibold text-label-primary">
                     {Math.floor(result.timeSpent / 3600)}h {Math.floor((result.timeSpent % 3600) / 60)}min
                   </div>
                 </div>
                 <div>
                   <div className="text-label-secondary text-sm">Média por questão</div>
-                  <div className="text-xl font-semibold text-white">
+                  <div className="text-xl font-semibold text-label-primary">
                     {Math.round(result.timeSpent / result.totalQuestions / 60)}min
                   </div>
                 </div>
@@ -316,7 +335,7 @@ export default function ExamResultPage() {
                   </svg>
                 </div>
                 <div className="flex-1">
-                  <h4 className="font-semibold text-white mb-1">Melhore seu desempenho</h4>
+                  <h4 className="font-semibold text-label-primary mb-1">Melhore seu desempenho</h4>
                   <p className="text-sm text-label-secondary">
                     Use os flashcards para revisar as áreas com menor desempenho e fortaleça seus pontos fracos.
                   </p>

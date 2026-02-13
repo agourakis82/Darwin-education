@@ -34,7 +34,7 @@ export function ForgettingCurveChart({ curves }: ForgettingCurveChartProps) {
           Curvas de Esquecimento
         </h4>
         <div className="bg-surface-2 rounded-lg p-6 text-center text-label-quaternary text-sm">
-          Nenhuma curva disponivel. Complete revisoes de flashcard.
+          Nenhuma curva disponível ainda. Complete revisões de flashcards.
         </div>
       </div>
     )

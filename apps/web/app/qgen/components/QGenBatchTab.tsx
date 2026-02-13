@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Package } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { FeatureState } from '@/components/ui/FeatureState';
 
 interface BatchConfig {
   count: number;
@@ -103,7 +104,7 @@ export function QGenBatchTab() {
       const data = await response.json();
 
       if (!data.success) {
-        throw new Error(data.error || 'Failed to generate batch');
+        throw new Error(data.message || data.error || 'Falha ao gerar lote');
       }
 
       setResult(data);
@@ -158,7 +159,7 @@ export function QGenBatchTab() {
             <select
               value={config.area}
               onChange={(e) => setConfig((prev) => ({ ...prev, area: e.target.value }))}
-              className="w-full bg-surface-1 border border-surface-4 rounded-lg px-4 py-2 text-label-primary"
+              className="darwin-focus-ring w-full rounded-lg border border-separator/80 bg-surface-1 px-4 py-2 text-label-primary"
             >
               {AREAS.map((area) => (
                 <option key={area.value} value={area.value}>
@@ -261,9 +262,13 @@ export function QGenBatchTab() {
           </Button>
 
           {error && (
-            <div className="p-4 bg-red-900/50 border border-red-700 rounded-lg text-red-200">
-              {error}
-            </div>
+            <FeatureState
+              kind="error"
+              title="Falha na geração em lote"
+              description={error}
+              action={{ label: 'Tentar novamente', onClick: handleGenerate, variant: 'secondary' }}
+              compact
+            />
           )}
         </div>
 
@@ -272,7 +277,7 @@ export function QGenBatchTab() {
           <h2 className="text-lg font-semibold text-label-primary mb-4">Resultados</h2>
 
           {isGenerating && (
-            <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-6">
+            <div className="darwin-panel rounded-2xl p-6">
               <div className="mb-4">
                 <div className="w-full bg-surface-3 rounded-full h-3">
                   <div
@@ -285,10 +290,20 @@ export function QGenBatchTab() {
             </div>
           )}
 
+          {!isGenerating && !result && !error && (
+            <FeatureState
+              kind="empty"
+              title="Nenhum lote gerado ainda"
+              description="Defina configuração, execute a geração e acompanhe o resumo de sucesso/falhas aqui."
+              icon={<Package className="h-6 w-6" />}
+              compact
+            />
+          )}
+
           {result && (
             <div className="space-y-4">
               {/* Summary */}
-              <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-6">
+              <div className="darwin-panel rounded-2xl p-6">
                 <div className="grid grid-cols-4 gap-4 text-center">
                   <div>
                     <div className="text-2xl font-bold text-label-primary">
@@ -318,7 +333,7 @@ export function QGenBatchTab() {
               </div>
 
               {/* Individual Results */}
-              <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-4 max-h-80 overflow-y-auto">
+              <div className="darwin-panel rounded-2xl p-4 max-h-80 overflow-y-auto">
                 {result.results.map((r, idx) => (
                   <div
                     key={idx}

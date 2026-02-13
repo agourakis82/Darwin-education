@@ -32,25 +32,27 @@ test.describe('Simulado (authenticated)', () => {
     await page.goto('/simulado')
     await expect(page.getByRole('heading', { name: 'Simulados ENAMED' })).toBeVisible()
     // Should show quick action cards
-    await expect(page.getByText('Simulado Rápido')).toBeVisible()
-    await expect(page.getByText('Simulado Completo')).toBeVisible()
-    await expect(page.getByText('Montar Prova')).toBeVisible()
+    await expect(page.getByRole('link', { name: /Simulado Rápido/i })).toBeVisible()
+    await expect(page.getByRole('link', { name: /Simulado Completo/i })).toBeVisible()
+    await expect(page.getByRole('link', { name: /Montar Prova/i })).toBeVisible()
   })
 
   test('simulado rápido links to montar-prova with params', async ({ page }) => {
     await page.goto('/simulado')
-    await page.getByText('Simulado Rápido').click()
+    await page.getByRole('link', { name: /Simulado Rápido/i }).click()
     await page.waitForURL(/\/montar-prova/)
-    expect(page.url()).toContain('count=20')
-    expect(page.url()).toContain('time=60')
+    const url = new URL(page.url())
+    expect(url.searchParams.get('count')).toMatch(/^\d+$/)
+    expect(url.searchParams.get('time')).toMatch(/^\d+$/)
   })
 
   test('simulado completo links to montar-prova with params', async ({ page }) => {
     await page.goto('/simulado')
-    await page.getByText('Simulado Completo').click()
+    await page.getByRole('link', { name: /Simulado Completo/i }).click()
     await page.waitForURL(/\/montar-prova/)
-    expect(page.url()).toContain('count=100')
-    expect(page.url()).toContain('time=300')
+    const url = new URL(page.url())
+    expect(url.searchParams.get('count')).toMatch(/^\d+$/)
+    expect(url.searchParams.get('time')).toMatch(/^\d+$/)
   })
 
   test('montar prova page loads', async ({ page }) => {

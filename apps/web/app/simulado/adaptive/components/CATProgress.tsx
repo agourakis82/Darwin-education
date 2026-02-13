@@ -24,7 +24,7 @@ export function CATProgress({
     <div className="flex flex-col gap-1.5 w-full">
       {/* Top row: question number + precision */}
       <div className="flex items-center justify-between">
-        <span className="text-sm font-semibold text-white">
+        <span className="text-sm font-semibold text-label-primary">
           Questão {questionNumber}
         </span>
         <span className="text-sm text-label-secondary">

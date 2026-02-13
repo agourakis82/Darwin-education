@@ -15,6 +15,8 @@ import {
   type HLRTrainingObservation,
   type PersonalizedForgettingCurve,
 } from '@darwin-education/shared'
+import { isMissingTableError, isSchemaDriftError } from '@/lib/supabase/errors'
+import { getSessionUserSummary } from '@/lib/auth/session'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -30,8 +32,8 @@ export async function GET(request: NextRequest) {
   try {
     const supabase = await createServerClient()
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-    if (authError || !user) {
+    const user = await getSessionUserSummary(supabase)
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -43,15 +45,26 @@ export async function GET(request: NextRequest) {
       .eq('activity_type', 'flashcard_review')
       .order('created_at', { ascending: true })
 
-    if (revError) {
-      console.error('Error loading review data:', revError)
-      return NextResponse.json(
-        { error: 'Failed to load review history' },
-        { status: 500 }
-      )
-    }
+    let rows = reviewRows || []
+    let schemaWarning: string | undefined
 
-    const rows = reviewRows || []
+    if (revError) {
+      if (isMissingTableError(revError)) {
+        console.warn(
+          'HLR curves skipped: study_activity_log table missing in local beta.'
+        )
+        rows = []
+        schemaWarning = 'Dados indisponíveis neste ambiente (tabela de atividade ausente).'
+      } else if (isSchemaDriftError(revError)) {
+        console.warn('HLR curves skipped due to schema drift:', revError)
+        rows = []
+        schemaWarning = 'Dados indisponíveis neste ambiente (schema em migração).'
+      } else {
+        console.error('Error loading review data:', revError)
+        rows = []
+        schemaWarning = 'Não foi possível carregar histórico de revisão neste momento.'
+      }
+    }
 
     if (rows.length < 10) {
       return NextResponse.json({
@@ -60,7 +73,9 @@ export async function GET(request: NextRequest) {
         summary: {
           totalReviews: rows.length,
           minRequired: 10,
-          message: 'Complete pelo menos 10 revisoes de flashcard para curvas de esquecimento personalizadas.',
+          message:
+            schemaWarning ||
+            'Complete pelo menos 10 revisões de flashcards para curvas de esquecimento personalizadas.',
         },
       })
     }
@@ -92,11 +107,11 @@ export async function GET(request: NextRequest) {
     }
 
     const AREA_LABELS: Record<string, string> = {
-      clinica_medica: 'Clinica Medica',
+      clinica_medica: 'Clínica Médica',
       cirurgia: 'Cirurgia',
-      ginecologia_obstetricia: 'Ginecologia e Obstetricia',
+      ginecologia_obstetricia: 'Ginecologia e Obstetrícia',
       pediatria: 'Pediatria',
-      saude_coletiva: 'Saude Coletiva',
+      saude_coletiva: 'Saúde Coletiva',
     }
 
     const curves: PersonalizedForgettingCurve[] = []

@@ -10,6 +10,14 @@ type CacheEntry = {
   hits: number | null
 }
 
+function tryCreateAdminClient() {
+  try {
+    return createAdminClient()
+  } catch {
+    return null
+  }
+}
+
 export function stableStringify(value: unknown): string {
   if (Array.isArray(value)) {
     return `[${value.map(stableStringify).join(',')}]`
@@ -30,7 +38,11 @@ export function hashRequestPayload(payload: unknown): string {
 }
 
 export async function getCachedAIResponse(requestHash: string): Promise<CacheEntry | null> {
-  const admin = createAdminClient()
+  const admin = tryCreateAdminClient()
+  if (!admin) {
+    return null
+  }
+
   const { data, error } = await (admin.from('ai_response_cache') as any)
     .select('id, response_text, tokens_used, cost_brl, expires_at, hits')
     .eq('request_hash', requestHash)
@@ -63,7 +75,11 @@ export async function storeCachedAIResponse(options: {
   costBRL?: number | null
   expiresAt?: Date | null
 }) {
-  const admin = createAdminClient()
+  const admin = tryCreateAdminClient()
+  if (!admin) {
+    return
+  }
+
   await (admin.from('ai_response_cache') as any)
     .upsert(
       {

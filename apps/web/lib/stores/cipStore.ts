@@ -31,7 +31,16 @@ interface CIPState {
   result: CIPScore | null
 
   // Actions
-  startPuzzle: (puzzle: CIPPuzzle, attemptId: string) => void
+  startPuzzle: (
+    puzzle: CIPPuzzle,
+    attemptId: string,
+    restoreState?: {
+      gridState?: Record<string, string>
+      timePerCell?: Record<string, number>
+      remainingTime?: number
+      startedAt?: string | Date | null
+    }
+  ) => void
   selectCell: (row: number, section: CIPSection) => void
   selectFinding: (row: number, section: CIPSection, findingId: string) => void
   clearCell: (row: number, section: CIPSection) => void
@@ -59,7 +68,7 @@ export const useCIPStore = create<CIPState>()(
     (set, get) => ({
       ...initialState,
 
-      startPuzzle: (puzzle, attemptId) => {
+      startPuzzle: (puzzle, attemptId, restoreState) => {
         // Initialize cell states for all cells in the grid
         const cellStates: Record<string, CIPCellState> = {}
 
@@ -75,13 +84,39 @@ export const useCIPStore = create<CIPState>()(
           }
         }
 
+        // Hydrate existing progress when resuming an attempt.
+        if (restoreState?.gridState) {
+          for (const [key, findingId] of Object.entries(restoreState.gridState)) {
+            if (cellStates[key]) {
+              cellStates[key] = {
+                ...cellStates[key],
+                selectedFindingId: findingId || null,
+              }
+            }
+          }
+        }
+
+        if (restoreState?.timePerCell) {
+          for (const [key, seconds] of Object.entries(restoreState.timePerCell)) {
+            if (cellStates[key]) {
+              cellStates[key] = {
+                ...cellStates[key],
+                timeSpent: Math.max(0, Number(seconds) || 0),
+              }
+            }
+          }
+        }
+
         set({
           currentPuzzle: puzzle,
           attemptId,
           cellStates,
           activeCell: null,
-          remainingTime: puzzle.timeLimitMinutes * 60,
-          startedAt: new Date(),
+          remainingTime: Math.max(
+            0,
+            restoreState?.remainingTime ?? puzzle.timeLimitMinutes * 60
+          ),
+          startedAt: restoreState?.startedAt ? new Date(restoreState.startedAt) : new Date(),
           isSubmitted: false,
           result: null,
         })

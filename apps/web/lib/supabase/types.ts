@@ -196,6 +196,105 @@ export interface Database {
         }
       }
 
+      medical_diseases: {
+        Row: {
+          id: string
+          title: string
+          enamed_area:
+            | 'clinica_medica'
+            | 'cirurgia'
+            | 'pediatria'
+            | 'ginecologia_obstetricia'
+            | 'saude_coletiva'
+          categoria: string
+          subcategoria: string | null
+          cid10: string[]
+          summary: string | null
+          search_terms: string
+          payload: Json
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id: string
+          title: string
+          enamed_area:
+            | 'clinica_medica'
+            | 'cirurgia'
+            | 'pediatria'
+            | 'ginecologia_obstetricia'
+            | 'saude_coletiva'
+          categoria: string
+          subcategoria?: string | null
+          cid10?: string[]
+          summary?: string | null
+          search_terms: string
+          payload: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          title?: string
+          enamed_area?:
+            | 'clinica_medica'
+            | 'cirurgia'
+            | 'pediatria'
+            | 'ginecologia_obstetricia'
+            | 'saude_coletiva'
+          categoria?: string
+          subcategoria?: string | null
+          cid10?: string[]
+          summary?: string | null
+          search_terms?: string
+          payload?: Json
+          created_at?: string
+          updated_at?: string
+        }
+      }
+
+      medical_medications: {
+        Row: {
+          id: string
+          generic_name: string
+          brand_names: string[]
+          atc_code: string | null
+          drug_class: string
+          subclass: string | null
+          summary: string | null
+          search_terms: string
+          payload: Json
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id: string
+          generic_name: string
+          brand_names?: string[]
+          atc_code?: string | null
+          drug_class: string
+          subclass?: string | null
+          summary?: string | null
+          search_terms: string
+          payload: Json
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          generic_name?: string
+          brand_names?: string[]
+          atc_code?: string | null
+          drug_class?: string
+          subclass?: string | null
+          summary?: string | null
+          search_terms?: string
+          payload?: Json
+          created_at?: string
+          updated_at?: string
+        }
+      }
+
       exams: {
         Row: {
           id: string

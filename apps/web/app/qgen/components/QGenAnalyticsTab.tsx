@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { AREA_LABELS } from '@/lib/area-colors';
+import { FeatureState } from '@/components/ui/FeatureState';
 
 interface QGenStats {
   overview: {
@@ -76,7 +77,7 @@ export function QGenAnalyticsTab() {
       const data = await response.json();
 
       if (!data.success) {
-        throw new Error(data.error || 'Failed to fetch stats');
+        throw new Error(data.message || data.error || 'Falha ao buscar estatísticas');
       }
 
       setStats(data.stats);
@@ -89,28 +90,33 @@ export function QGenAnalyticsTab() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <div className="animate-spin h-8 w-8 border-2 border-emerald-500 border-t-transparent rounded-full" />
-      </div>
+      <FeatureState
+        kind="loading"
+        title="Atualizando estatísticas"
+        description="Consolidando geração, aprovação e qualidade por área."
+      />
     );
   }
 
   if (error) {
     return (
-      <div className="p-4 bg-red-900/50 border border-red-700 rounded-lg text-red-200">
-        {error}
-        <button
-          onClick={fetchStats}
-          className="ml-4 text-sm underline hover:no-underline"
-        >
-          Tentar novamente
-        </button>
-      </div>
+      <FeatureState
+        kind="error"
+        title="Falha ao carregar estatísticas"
+        description={error}
+        action={{ label: 'Tentar novamente', onClick: fetchStats, variant: 'secondary' }}
+      />
     );
   }
 
   if (!stats) {
-    return null;
+    return (
+      <FeatureState
+        kind="empty"
+        title="Sem dados de QGen por enquanto"
+        description="Gere algumas questões para visualizar métricas de qualidade e aprovação."
+      />
+    );
   }
 
   return (
@@ -146,7 +152,7 @@ export function QGenAnalyticsTab() {
 
       <div className="grid lg:grid-cols-2 gap-6">
         {/* By Area */}
-        <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-6">
+        <div className="darwin-panel rounded-2xl p-6">
           <h3 className="text-lg font-semibold text-label-primary mb-4">Por Área</h3>
           <div className="space-y-4">
             {Object.entries(stats.byArea).map(([area, data]) => (
@@ -191,7 +197,7 @@ export function QGenAnalyticsTab() {
         </div>
 
         {/* By Difficulty */}
-        <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-6">
+        <div className="darwin-panel rounded-2xl p-6">
           <h3 className="text-lg font-semibold text-label-primary mb-4">Por Dificuldade</h3>
           <div className="flex justify-between items-end h-40">
             {[1, 2, 3, 4, 5].map((diff) => {
@@ -221,7 +227,7 @@ export function QGenAnalyticsTab() {
         </div>
 
         {/* By Bloom Level */}
-        <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-6">
+        <div className="darwin-panel rounded-2xl p-6">
           <h3 className="text-lg font-semibold text-label-primary mb-4">Por Nível de Bloom</h3>
           <div className="space-y-3">
             {Object.entries(stats.byBloomLevel).map(([bloom, data]) => {
@@ -249,7 +255,7 @@ export function QGenAnalyticsTab() {
         </div>
 
         {/* Common Issues */}
-        <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-6">
+        <div className="darwin-panel rounded-2xl p-6">
           <h3 className="text-lg font-semibold text-label-primary mb-4">Problemas Comuns</h3>
           {stats.qualityMetrics.commonIssues.length > 0 ? (
             <div className="space-y-3">
@@ -274,7 +280,7 @@ export function QGenAnalyticsTab() {
       <div className="text-center">
         <button
           onClick={fetchStats}
-          className="text-emerald-400 hover:text-emerald-300 text-sm"
+          className="darwin-focus-ring text-sm text-emerald-400 hover:text-emerald-300"
         >
           ↻ Atualizar estatísticas
         </button>
@@ -302,7 +308,7 @@ function StatCard({
   };
 
   return (
-    <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-4">
+    <div className="darwin-panel rounded-2xl p-4">
       <div className={`text-3xl font-bold ${colorClasses[color]}`}>{value}</div>
       <div className="text-sm text-label-tertiary">{label}</div>
       {percentage !== undefined && (

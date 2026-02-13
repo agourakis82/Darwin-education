@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Check, Lightbulb, BarChart3, BookOpen, Dice5, Loader2, Star, Heart } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+import { useToast } from '@/lib/hooks/useToast'
 import type { TheoryTopic } from '@/lib/data/theory-content'
 
 interface GeneratedQuestion {
@@ -21,14 +22,17 @@ interface QuestionGeneratorProps {
 }
 
 export function QuestionGenerator({ topic }: QuestionGeneratorProps) {
+  const { error: toastError, success: toastSuccess } = useToast()
   const [isGenerating, setIsGenerating] = useState(false)
   const [quantity, setQuantity] = useState(1)
   const [difficulty, setDifficulty] = useState(2)
   const [generatedQuestions, setGeneratedQuestions] = useState<GeneratedQuestion[]>([])
   const [showResults, setShowResults] = useState(false)
+  const [generationError, setGenerationError] = useState<string | null>(null)
 
   const handleGenerate = async () => {
     setIsGenerating(true)
+    setGenerationError(null)
     try {
       // Call QGen API with topic context
       const response = await fetch('/api/qgen/generate', {
@@ -71,9 +75,12 @@ export function QuestionGenerator({ topic }: QuestionGeneratorProps) {
         }])
       }
       setShowResults(true)
+      toastSuccess(`Questão gerada com sucesso sobre ${topic.title}.`)
     } catch (error) {
       console.error('Error generating questions:', error)
-      alert('Erro ao gerar questões. Tente novamente.')
+      const message = 'Erro ao gerar questões. Tente novamente.'
+      setGenerationError(message)
+      toastError(message)
     } finally {
       setIsGenerating(false)
     }
@@ -103,7 +110,7 @@ export function QuestionGenerator({ topic }: QuestionGeneratorProps) {
               {/* Question Stem */}
               <div className="p-4 bg-surface-2/50 rounded-lg">
                 <p className="text-label-secondary text-sm mb-2">Questão</p>
-                <p className="text-white leading-relaxed">{q.stem}</p>
+                <p className="text-label-primary leading-relaxed">{q.stem}</p>
               </div>
 
               {/* Options */}
@@ -182,6 +189,20 @@ export function QuestionGenerator({ topic }: QuestionGeneratorProps) {
           Use o gerador de questões IA para criar questões práticas sobre este tópico.
           A IA será instruída a gerar questões contextualizadas com base no conteúdo teórico que você acabou de estudar.
         </p>
+        {generationError && (
+          <div className="rounded-lg border border-red-700/60 bg-red-950/30 px-4 py-3 text-sm text-red-200">
+            <p>{generationError}</p>
+            <Button
+              variant="outline"
+              size="sm"
+              className="mt-3"
+              onClick={handleGenerate}
+              disabled={isGenerating}
+            >
+              Tentar novamente
+            </Button>
+          </div>
+        )}
 
         {/* Quantity */}
         <div>

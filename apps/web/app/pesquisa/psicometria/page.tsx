@@ -85,10 +85,10 @@ export default function PsicometriaPage() {
         transition={spring.gentle}
       >
         <h1 className="text-3xl font-bold text-label-primary">
-          Psicometria <span className="gradient-text">Avancada</span>
+          Psicometria <span className="gradient-text">Avançada</span>
         </h1>
         <p className="text-label-tertiary mt-1">
-          Analise multidimensional de habilidades, velocidade-precisao e equidade de itens.
+          Análise multidimensional de habilidades, velocidade-precisão e equidade de itens.
         </p>
       </motion.div>
 
@@ -130,8 +130,8 @@ export default function PsicometriaPage() {
               <SpeedAccuracyPlot profile={rtirt.profile} />
             ) : (
               <EmptyState
-                title="Velocidade x Precisao"
-                message={rtirt?.summary?.message || 'Dados insuficientes para analise RT-IRT.'}
+                title="Velocidade x Precisão"
+                message={rtirt?.summary?.message || 'Dados insuficientes para análise RT-IRT.'}
               />
             )}
           </motion.div>
@@ -146,8 +146,8 @@ export default function PsicometriaPage() {
               <DIFBarChart analysis={dif.analysis} />
             ) : (
               <EmptyState
-                title="Analise DIF"
-                message={dif?.summary?.message || 'Dados insuficientes para analise de funcionamento diferencial.'}
+                title="Análise DIF"
+                message={dif?.summary?.message || 'Dados insuficientes para análise de funcionamento diferencial.'}
               />
             )}
           </motion.div>
@@ -162,8 +162,8 @@ export default function PsicometriaPage() {
               <SpeedDistributionHistogram profile={rtirt.profile} />
             ) : (
               <EmptyState
-                title="Distribuicao de Velocidade"
-                message="Complete mais questoes para distribuicao de tempo."
+                title="Distribuição de Velocidade"
+                message="Complete mais questões para distribuição de tempo."
               />
             )}
           </motion.div>
@@ -189,9 +189,9 @@ export default function PsicometriaPage() {
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}
       >
-        <strong>Metodologia:</strong> MIRT 5D com estimacao MAP via Newton-Raphson (Reckase, 2009).
-        RT-IRT via framework hierarquico de van der Linden (2006) com EAP bidimensional.
-        DIF via Mantel-Haenszel com classificacao ETS A/B/C (Holland & Thayer, 1988).
+        <strong>Metodologia:</strong> MIRT 5D com estimação MAP via Newton-Raphson (Reckase, 2009).
+        RT-IRT via framework hierárquico de van der Linden (2006) com EAP bidimensional.
+        DIF via Mantel-Haenszel com classificação ETS A/B/C (Holland & Thayer, 1988).
       </motion.div>
     </div>
   )

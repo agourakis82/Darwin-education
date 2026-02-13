@@ -2,10 +2,16 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Bot, BarChart3, BookOpen, Target, Star, FlaskConical, Link2, ClipboardList, Dice5, BookOpenText, Layers, BookMarked, Check, Clock, ArrowLeft, ChevronRight } from 'lucide-react'
+import Image from 'next/image'
+import { Bot, BarChart3, BookOpen, Target, FlaskConical, Link2, ClipboardList, Dice5, BookOpenText, Layers, BookMarked, Check, Clock, ArrowLeft, ChevronRight } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+import { FeatureState } from '@/components/ui/FeatureState'
 import { theoryTopics } from '@/lib/data/theory-content'
+import { createClient } from '@/lib/supabase/client'
+import { getSessionUserSummary } from '@/lib/auth/session'
+import { AREA_LABELS } from '@/lib/area-colors'
+import type { ENAMEDArea } from '@darwin-education/shared'
 
 interface StudentPerformance {
   area: string;
@@ -25,10 +31,19 @@ interface GuidanceRecommendation {
   actionableSteps: string[];
 }
 
+interface AreaBreakdownValue {
+  correct?: number
+  total?: number
+}
+
+const ENAMED_AREAS = Object.keys(AREA_LABELS) as ENAMEDArea[]
+
 export default function IaOrientacaoPage() {
   const [userPerformance, setUserPerformance] = useState<StudentPerformance | null>(null)
   const [recommendations, setRecommendations] = useState<GuidanceRecommendation[]>([])
-  const [showDemoData, setShowDemoData] = useState(false)
+  const [loadingPerformance, setLoadingPerformance] = useState(false)
+  const [loadError, setLoadError] = useState<string | null>(null)
+  const [loadErrorKind, setLoadErrorKind] = useState<'empty' | 'error' | null>(null)
 
   const generateRecommendations = (performance: StudentPerformance): GuidanceRecommendation[] => {
     const recs: GuidanceRecommendation[] = []
@@ -104,33 +119,159 @@ export default function IaOrientacaoPage() {
     return recs
   }
 
-  const handleLoadDemo = () => {
-    const demoData: StudentPerformance = {
-      area: 'Clínica Médica',
-      score: 65,
-      questionsAttempted: 45,
-      correctAnswers: 29,
-      weakAreas: ['hipertensao-arterial', 'diabetes-mellitus-tipo-2'],
-      strongAreas: ['asma', 'doenca-do-refluxo-gastroesofagico']
+  const handleLoadPerformance = async () => {
+    setLoadError(null)
+    setLoadErrorKind(null)
+    setLoadingPerformance(true)
+
+    try {
+      const supabase = createClient()
+      const user = await getSessionUserSummary(supabase)
+
+      if (!user) {
+        setLoadError('Faça login para gerar recomendações personalizadas.')
+        setLoadErrorKind('empty')
+        return
+      }
+
+      const { data: attempts, error } = await (supabase
+        .from('exam_attempts') as any)
+        .select('correct_count, area_breakdown, completed_at')
+        .eq('user_id', user.id)
+        .not('completed_at', 'is', null)
+        .order('completed_at', { ascending: false })
+        .limit(50)
+
+      if (error || !attempts || attempts.length === 0) {
+        setLoadError('Ainda não há tentativas concluídas suficientes para análise. Faça um simulado e volte aqui.')
+        setLoadErrorKind('empty')
+        return
+      }
+
+      const areaStats: Record<ENAMEDArea, { correct: number; total: number }> = ENAMED_AREAS.reduce((acc, area) => {
+        acc[area] = { correct: 0, total: 0 }
+        return acc
+      }, {} as Record<ENAMEDArea, { correct: number; total: number }>)
+
+      let totalQuestions = 0
+      let totalCorrect = 0
+
+      for (const attempt of attempts) {
+        const breakdown = attempt.area_breakdown as Record<string, AreaBreakdownValue> | null
+        if (!breakdown) continue
+
+        for (const [area, values] of Object.entries(breakdown)) {
+          if (!ENAMED_AREAS.includes(area as ENAMEDArea)) continue
+
+          const correct = values?.correct || 0
+          const total = values?.total || 0
+
+          areaStats[area as ENAMEDArea].correct += correct
+          areaStats[area as ENAMEDArea].total += total
+          totalCorrect += correct
+          totalQuestions += total
+        }
+      }
+
+      if (totalQuestions === 0) {
+        setLoadError('Não foi possível calcular desempenho por área com os dados atuais.')
+        setLoadErrorKind('empty')
+        return
+      }
+
+      const areaRanking = ENAMED_AREAS
+        .map((area) => {
+          const total = areaStats[area].total
+          const score = total > 0 ? (areaStats[area].correct / total) * 100 : 0
+          return { area, score, total }
+        })
+        .filter((item) => item.total > 0)
+        .sort((left, right) => left.score - right.score)
+
+      const weakest = areaRanking[0]
+      const strongest = [...areaRanking].sort((left, right) => right.score - left.score)[0]
+
+      const weakTopicIds =
+        theoryTopics
+          .filter((topic) => topic.area === AREA_LABELS[weakest?.area || 'clinica_medica'])
+          .slice(0, 3)
+          .map((topic) => topic.id)
+      const strongTopicIds =
+        theoryTopics
+          .filter((topic) => topic.area === AREA_LABELS[strongest?.area || 'clinica_medica'])
+          .slice(0, 3)
+          .map((topic) => topic.id)
+
+      const performance: StudentPerformance = {
+        area: AREA_LABELS[weakest?.area || 'clinica_medica'],
+        score: Math.round((totalCorrect / totalQuestions) * 100),
+        questionsAttempted: totalQuestions,
+        correctAnswers: totalCorrect,
+        weakAreas: weakTopicIds,
+        strongAreas: strongTopicIds,
+      }
+
+      setUserPerformance(performance)
+      setRecommendations(generateRecommendations(performance))
+    } catch (runtimeError) {
+      console.error(runtimeError)
+      setLoadError('Falha ao carregar seu desempenho no momento. Tente novamente.')
+      setLoadErrorKind('error')
+    } finally {
+      setLoadingPerformance(false)
     }
-    setUserPerformance(demoData)
-    setRecommendations(generateRecommendations(demoData))
-    setShowDemoData(true)
   }
 
   return (
-    <div className="min-h-screen bg-surface-0 text-white">
-      {/* Header */}
-      <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <h1 className="text-3xl font-bold flex items-center gap-3"><Bot className="w-8 h-8" /> IA Orientação de Estudos</h1>
-          <p className="text-sm text-label-secondary mt-1">
-            Sistema inteligente de recomendações personalizadas baseado no seu desempenho
+    <div className="min-h-screen bg-surface-0 text-label-primary">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-2">
+            <Bot className="w-8 h-8 text-emerald-300" />
+            <h1 className="text-3xl font-bold text-label-primary">IA Orientação de Estudos</h1>
+          </div>
+          <p className="text-label-secondary">
+            Recomendações personalizadas baseadas no seu desempenho em questões.
           </p>
         </div>
-      </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="relative mb-8 h-48 md:h-56 overflow-hidden rounded-2xl border border-separator/70">
+          <Image
+            src="/images/branding/ia-orientacao-hero-apple-v1.png"
+            alt="Visual de orientação de estudos com IA"
+            fill
+            sizes="(max-width: 768px) 100vw, 1200px"
+            priority
+            className="object-cover object-center opacity-75"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-surface-0/90 via-surface-0/70 to-surface-0/30" />
+          <div className="relative z-10 h-full flex items-end p-5 md:p-7">
+            <div className="max-w-xl">
+              <p className="text-xl md:text-2xl font-semibold text-label-primary">
+                Recomendações de estudo orientadas por dados.
+              </p>
+              <p className="text-sm md:text-base text-label-secondary mt-1">
+                Transforme desempenho em plano de ação claro e personalizado.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {loadError ? (
+          <FeatureState
+            kind={loadErrorKind || 'error'}
+            title={loadErrorKind === 'empty' ? 'Sem dados suficientes' : 'Não foi possível gerar recomendações'}
+            description={loadError}
+            action={
+              loadErrorKind === 'empty'
+                ? { label: 'Ir para simulados', onClick: () => (window.location.href = '/simulado'), variant: 'secondary' }
+                : { label: 'Tentar novamente', onClick: () => void handleLoadPerformance(), variant: 'secondary' }
+            }
+            className="mb-6"
+            compact
+          />
+        ) : null}
+
         {!userPerformance ? (
           <div className="space-y-6">
             {/* Welcome Section */}
@@ -223,15 +364,15 @@ export default function IaOrientacaoPage() {
             <Card className="border-emerald-500/50">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <FlaskConical className="w-5 h-5" /> Ver Exemplo de Recomendações
+                  <FlaskConical className="w-5 h-5" /> Gerar Recomendações com seus Dados
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-label-primary mb-4">
-                  Clique abaixo para carregar dados de exemplo e ver como o sistema faz recomendações personalizadas.
+                  Analise automaticamente suas tentativas concluídas e receba um plano de estudo personalizado.
                 </p>
-                <Button onClick={handleLoadDemo}>
-                  Carregar Exemplo de Desempenho
+                <Button onClick={handleLoadPerformance} loading={loadingPerformance}>
+                  Analisar Meu Desempenho
                 </Button>
               </CardContent>
             </Card>
@@ -398,7 +539,8 @@ export default function IaOrientacaoPage() {
                 onClick={() => {
                   setUserPerformance(null)
                   setRecommendations([])
-                  setShowDemoData(false)
+                  setLoadError(null)
+                  setLoadErrorKind(null)
                 }}
               >
                 Voltar
@@ -406,7 +548,7 @@ export default function IaOrientacaoPage() {
             </div>
           </div>
         )}
-      </main>
+      </div>
     </div>
   )
 }

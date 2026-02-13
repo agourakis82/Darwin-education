@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import { Puzzle } from 'lucide-react'
 import { celebrateCIPResult } from '@/lib/confetti'
 import { createClient } from '@/lib/supabase/client'
+import { getSessionUserSummary } from '@/lib/auth/session'
 import { useCIPStore } from '@/lib/stores/cipStore'
 import { CIPResults, CIPPuzzleGrid, AchievementToast, type Achievement } from '../../components'
 import { Button } from '@/components/ui/Button'
@@ -115,7 +116,7 @@ export default function CIPResultPage() {
       // Otherwise, load from database
       const supabase = createClient()
 
-      const { data: { user } } = await supabase.auth.getUser()
+      const user = await getSessionUserSummary(supabase)
       if (!user) {
         router.push('/login?redirectTo=/cip/' + puzzleId + '/result')
         return
@@ -130,7 +131,7 @@ export default function CIPResultPage() {
         .not('completed_at', 'is', null)
         .order('completed_at', { ascending: false })
         .limit(1)
-        .single()
+        .maybeSingle()
 
       const attempt = attemptRaw as CIPAttemptResultRow | null
 
@@ -145,7 +146,7 @@ export default function CIPResultPage() {
         .from('cip_puzzles')
         .select('*')
         .eq('id', puzzleId)
-        .single()
+        .maybeSingle()
 
       const puzzleData = puzzleDataRaw as CIPPuzzleRow | null
 
@@ -394,7 +395,7 @@ export default function CIPResultPage() {
         <div className="mb-8 text-center">
           <div className="flex items-center justify-center gap-3 mb-2">
             <Puzzle className="w-8 h-8 text-purple-400" />
-            <h1 className="text-3xl font-bold text-white">Resultado do Puzzle</h1>
+            <h1 className="text-3xl font-bold text-label-primary">Resultado do Puzzle</h1>
           </div>
           {displayPuzzle && (
             <p className="text-label-secondary">{displayPuzzle.title}</p>

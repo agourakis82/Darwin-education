@@ -32,7 +32,7 @@ export function FlashcardViewer({ front, back, isFlipped, onFlip }: FlashcardVie
             <div className="text-xs text-label-tertiary uppercase tracking-wider mb-4">
               Pergunta
             </div>
-            <p className="text-xl md:text-2xl text-white font-medium leading-relaxed">
+            <p className="text-xl md:text-2xl text-label-primary font-medium leading-relaxed">
               {front}
             </p>
           </div>
@@ -48,7 +48,7 @@ export function FlashcardViewer({ front, back, isFlipped, onFlip }: FlashcardVie
             <div className="text-xs text-emerald-500 uppercase tracking-wider mb-4">
               Resposta
             </div>
-            <p className="text-xl md:text-2xl text-white font-medium leading-relaxed">
+            <p className="text-xl md:text-2xl text-label-primary font-medium leading-relaxed">
               {back}
             </p>
           </div>

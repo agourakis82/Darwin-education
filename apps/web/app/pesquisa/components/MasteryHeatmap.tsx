@@ -34,7 +34,7 @@ export function MasteryHeatmap({ heatmap }: MasteryHeatmapProps) {
   return (
     <div className="space-y-3">
       <h4 className="text-sm font-semibold text-label-tertiary uppercase tracking-wider">
-        Mapa de Dominio (BKT)
+        Mapa de Domínio (BKT)
       </h4>
 
       <div className="bg-surface-2 rounded-lg p-4 space-y-4">
@@ -108,7 +108,7 @@ export function MasteryHeatmap({ heatmap }: MasteryHeatmapProps) {
             { label: 'Dominado', color: MASTERY_COLORS.mastered },
             { label: 'Quase', color: MASTERY_COLORS.near_mastery },
             { label: 'Aprendendo', color: MASTERY_COLORS.learning },
-            { label: 'Nao Iniciado', color: MASTERY_COLORS.not_started },
+            { label: 'Não iniciado', color: MASTERY_COLORS.not_started },
           ].map(({ label, color }) => (
             <div key={label} className="flex items-center gap-1 text-[10px] text-label-quaternary">
               <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: color, opacity: 0.8 }} />
@@ -131,7 +131,7 @@ export function MasteryHeatmap({ heatmap }: MasteryHeatmapProps) {
             <div className="text-label-primary font-mono">
               {Math.round(heatmap.overallMastery * 100)}%
             </div>
-            <div className="text-label-quaternary">Dominio Geral</div>
+            <div className="text-label-quaternary">Domínio Geral</div>
           </div>
         </div>
       </div>

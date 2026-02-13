@@ -1,9 +1,9 @@
 'use client'
 
-import { createContext, useCallback, useState, type ReactNode } from 'react'
+import { createContext, useCallback, useEffect, useState, type ReactNode } from 'react'
 import { createPortal } from 'react-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { X, Check, AlertTriangle, Info } from 'lucide-react'
+import { X, CircleCheck, CircleAlert, TriangleAlert, Info } from 'lucide-react'
 import { spring } from '@/lib/motion'
 
 export type ToastVariant = 'success' | 'error' | 'warning' | 'info'
@@ -70,40 +70,50 @@ interface ToastContainerProps {
 
 const variantConfig = {
   success: {
-    bg: 'bg-emerald-950/80',
-    border: 'border-emerald-500/20',
-    text: 'text-emerald-100',
-    Icon: Check,
-    iconColor: 'text-emerald-400',
+    bg: 'bg-emerald-500/14',
+    border: 'border-emerald-400/45',
+    text: 'text-label-primary',
+    Icon: CircleCheck,
+    iconColor: 'text-emerald-300',
+    title: 'Sucesso',
   },
   error: {
-    bg: 'bg-red-950/80',
-    border: 'border-red-500/20',
-    text: 'text-red-100',
-    Icon: X,
-    iconColor: 'text-red-400',
+    bg: 'bg-rose-500/14',
+    border: 'border-rose-400/42',
+    text: 'text-label-primary',
+    Icon: CircleAlert,
+    iconColor: 'text-rose-300',
+    title: 'Erro',
   },
   warning: {
-    bg: 'bg-amber-950/80',
-    border: 'border-amber-500/20',
-    text: 'text-amber-100',
-    Icon: AlertTriangle,
-    iconColor: 'text-amber-400',
+    bg: 'bg-amber-500/12',
+    border: 'border-amber-400/40',
+    text: 'text-label-primary',
+    Icon: TriangleAlert,
+    iconColor: 'text-amber-300',
+    title: 'Atenção',
   },
   info: {
-    bg: 'bg-blue-950/80',
-    border: 'border-blue-500/20',
-    text: 'text-blue-100',
+    bg: 'bg-sky-500/12',
+    border: 'border-sky-400/40',
+    text: 'text-label-primary',
     Icon: Info,
-    iconColor: 'text-blue-400',
+    iconColor: 'text-sky-300',
+    title: 'Informação',
   },
 }
 
 function ToastContainer({ toasts, onRemove }: ToastContainerProps) {
-  if (typeof window === 'undefined') return null
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null
 
   const toastContent = (
-    <div className="fixed bottom-20 md:bottom-4 right-4 z-toast flex flex-col gap-2 pointer-events-none">
+    <div className="pointer-events-none fixed bottom-[calc(5.6rem+env(safe-area-inset-bottom))] left-1/2 z-toast flex w-[min(92vw,26rem)] -translate-x-1/2 flex-col gap-2.5 md:bottom-auto md:left-auto md:right-5 md:top-5 md:w-[min(28rem,92vw)] md:translate-x-0">
       <AnimatePresence mode="popLayout">
         {toasts.map((toast) => {
           const config = variantConfig[toast.variant || 'info']
@@ -112,29 +122,30 @@ function ToastContainer({ toasts, onRemove }: ToastContainerProps) {
             <motion.div
               key={toast.id}
               layout
-              initial={{ opacity: 0, x: 80, scale: 0.95 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: 80, scale: 0.95 }}
+              initial={{ opacity: 0, y: 10, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 8, scale: 0.96 }}
               transition={spring.snappy}
               className={`
                 ${config.bg} ${config.border} ${config.text}
-                pointer-events-auto flex items-start gap-3 px-4 py-3 rounded-lg border
-                shadow-elevation-3 max-w-sm
+                pointer-events-auto flex items-start gap-3 rounded-2xl border px-3.5 py-3
+                shadow-elevation-4
               `}
-              style={{ WebkitBackdropFilter: 'blur(24px) saturate(180%)', backdropFilter: 'blur(24px) saturate(180%)' }}
+              style={{ WebkitBackdropFilter: 'blur(30px) saturate(180%)', backdropFilter: 'blur(30px) saturate(180%)' }}
               role="status"
               aria-live="polite"
               aria-atomic="true"
             >
-              <span className={`${config.iconColor} flex-shrink-0 mt-0.5`}>
-                <IconComponent className="w-5 h-5" />
+              <span className={`${config.iconColor} mt-0.5 inline-flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl border border-separator/70 bg-surface-2/70`}>
+                <IconComponent className="h-5 w-5" />
               </span>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium break-words">{toast.message}</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.08em] text-label-tertiary">{config.title}</p>
+                <p className="mt-1 text-sm leading-5 break-words">{toast.message}</p>
               </div>
               <button
                 onClick={() => onRemove(toast.id)}
-                className={`${config.iconColor} hover:opacity-70 flex-shrink-0 transition-opacity ml-2`}
+                className={`${config.iconColor} ml-1 flex-shrink-0 rounded-lg p-1 transition-opacity hover:bg-surface-2/70 hover:opacity-70`}
                 aria-label="Fechar notificação"
                 type="button"
               >

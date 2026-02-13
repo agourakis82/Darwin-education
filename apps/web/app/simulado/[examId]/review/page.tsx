@@ -3,10 +3,12 @@
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { getSessionUserSummary } from '@/lib/auth/session'
 import { Button } from '@/components/ui/Button'
 import { Spinner } from '@/components/ui/Spinner'
 import { Card, CardContent } from '@/components/ui/Card'
 import { AREA_LABELS } from '@/lib/area-colors'
+import { useToast } from '@/lib/hooks/useToast'
 import type { ENAMEDQuestion, IRTParameters, QuestionOntology, DifficultyLevel } from '@darwin-education/shared'
 
 interface QuestionReview {
@@ -26,11 +28,14 @@ export default function ExamReviewPage() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [examTitle, setExamTitle] = useState('')
   const [savingToFlashcards, setSavingToFlashcards] = useState<Set<string>>(new Set())
+  const [savedFlashcards, setSavedFlashcards] = useState<Set<string>>(new Set())
+  const [flashcardStatusMessage, setFlashcardStatusMessage] = useState<string | null>(null)
+  const { success: toastSuccess, error: toastError } = useToast()
 
   useEffect(() => {
     async function loadReview() {
       const supabase = createClient()
-      const { data: { user } } = await supabase.auth.getUser()
+      const user = await getSessionUserSummary(supabase)
 
       if (!user) {
         router.push('/login')
@@ -132,10 +137,16 @@ export default function ExamReviewPage() {
 
   const handleSaveToFlashcards = async (questionId: string) => {
     setSavingToFlashcards(prev => new Set(prev).add(questionId))
+    setFlashcardStatusMessage(null)
 
     try {
       const review = reviews.find(r => r.question.id === questionId)
-      if (!review) return
+      if (!review) {
+        const message = 'Não foi possível identificar esta questão para salvar.'
+        setFlashcardStatusMessage(message)
+        toastError(message)
+        return
+      }
 
       const correctOption = review.question.options[review.question.correctIndex]
       const userOption = review.question.options[review.userAnswer]
@@ -169,15 +180,21 @@ export default function ExamReviewPage() {
       if (!response.ok) {
         const error = await response.json()
         console.error('Error creating flashcard:', error)
-        alert('Erro ao salvar flashcard')
+        const message = 'Erro ao salvar flashcard. Tente novamente.'
+        setFlashcardStatusMessage(message)
+        toastError(message)
         return
       }
 
-      // Success feedback
-      alert('Questao adicionada aos flashcards!')
+      const successMessage = 'Questão adicionada aos flashcards.'
+      setSavedFlashcards(prev => new Set(prev).add(questionId))
+      setFlashcardStatusMessage(successMessage)
+      toastSuccess(successMessage)
     } catch (error) {
       console.error('Error saving to flashcards:', error)
-      alert('Erro ao salvar flashcard')
+      const message = 'Erro ao salvar flashcard. Tente novamente.'
+      setFlashcardStatusMessage(message)
+      toastError(message)
     } finally {
       setSavingToFlashcards(prev => {
         const next = new Set(prev)
@@ -203,7 +220,26 @@ export default function ExamReviewPage() {
   }
 
   if (!currentReview) {
-    return null
+    return (
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center p-4">
+        <Card className="max-w-md w-full">
+          <CardContent className="py-8 text-center">
+            <h2 className="text-xl font-semibold text-label-primary mb-2">Revisão indisponível</h2>
+            <p className="text-label-secondary mb-6">
+              Não há respostas válidas para revisar neste simulado.
+            </p>
+            <div className="space-y-2">
+              <Button onClick={() => router.push(`/simulado/${examId}/result`)} fullWidth>
+                Voltar aos Resultados
+              </Button>
+              <Button variant="outline" onClick={() => router.push('/simulado')} fullWidth>
+                Ver Simulados
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
   }
 
   return (
@@ -212,7 +248,7 @@ export default function ExamReviewPage() {
       <div className="sticky top-0 z-40 bg-surface-1 border-b border-separator">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           <div>
-            <h1 className="text-lg font-semibold text-white">{examTitle}</h1>
+            <h1 className="text-lg font-semibold text-label-primary">{examTitle}</h1>
             <p className="text-sm text-label-secondary">
               Revisão: {currentIndex + 1} de {reviews.length}
             </p>
@@ -288,8 +324,8 @@ export default function ExamReviewPage() {
             </div>
 
             {/* Question Stem */}
-            <div className="prose prose-invert max-w-none mb-6">
-              <p className="text-white whitespace-pre-wrap">{currentReview.question.stem}</p>
+            <div className="mb-6 whitespace-pre-wrap text-label-primary leading-relaxed">
+              {currentReview.question.stem}
             </div>
 
             {/* Options */}
@@ -357,13 +393,13 @@ export default function ExamReviewPage() {
         {/* Explanation Card */}
         <Card className="mb-6 bg-surface-1/50">
           <CardContent>
-            <h3 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+            <h3 className="text-lg font-semibold text-label-primary mb-3 flex items-center gap-2">
               <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
               </svg>
               Explicação
             </h3>
-            <div className="prose prose-invert prose-sm max-w-none">
+            <div className="prose prose-sm max-w-none dark:prose-invert">
               <p className="text-label-primary whitespace-pre-wrap">
                 {currentReview.question.explanation}
               </p>
@@ -395,18 +431,25 @@ export default function ExamReviewPage() {
                     </svg>
                   </div>
                   <div>
-                    <h4 className="font-medium text-white">Adicionar aos Flashcards</h4>
+                    <h4 className="font-medium text-label-primary">Adicionar aos Flashcards</h4>
                     <p className="text-sm text-label-secondary">
                       Salve esta questão para revisar mais tarde
                     </p>
+                    {flashcardStatusMessage && (
+                      <p className="text-sm text-label-primary mt-2">{flashcardStatusMessage}</p>
+                    )}
                   </div>
                 </div>
                 <Button
                   onClick={() => handleSaveToFlashcards(currentReview.question.id)}
-                  disabled={savingToFlashcards.has(currentReview.question.id)}
+                  disabled={savingToFlashcards.has(currentReview.question.id) || savedFlashcards.has(currentReview.question.id)}
                   loading={savingToFlashcards.has(currentReview.question.id)}
                 >
-                  {savingToFlashcards.has(currentReview.question.id) ? 'Salvando...' : 'Salvar'}
+                  {savedFlashcards.has(currentReview.question.id)
+                    ? 'Salvo'
+                    : savingToFlashcards.has(currentReview.question.id)
+                      ? 'Salvando...'
+                      : 'Salvar'}
                 </Button>
               </div>
             </CardContent>

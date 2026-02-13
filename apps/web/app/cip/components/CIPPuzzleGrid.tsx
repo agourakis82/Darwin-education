@@ -56,7 +56,7 @@ export function CIPPuzzleGrid({ puzzle, onCellClick, showResults = false }: CIPP
           {puzzle.diagnoses.map((diagnosis, rowIndex) => (
             <tr key={diagnosis.id}>
               {/* Diagnosis name cell */}
-              <td className="p-2 md:p-3 text-xs md:text-sm font-medium text-white bg-surface-1/60 border border-separator sticky left-0 z-10">
+              <td className="p-2 md:p-3 text-xs md:text-sm font-medium text-label-primary bg-surface-1/60 border border-separator sticky left-0 z-10">
                 <div className="flex items-center justify-between gap-2">
                   <span className="line-clamp-2">{diagnosis.namePt}</span>
                   <DiagnosisProgress row={rowIndex} />

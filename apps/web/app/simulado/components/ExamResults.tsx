@@ -31,7 +31,7 @@ export function ExamResults({ areaBreakdown }: ExamResultsProps) {
             return (
               <div key={area}>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-white">
+                  <span className="text-sm font-medium text-label-primary">
                     {AREA_LABELS[area]}
                   </span>
                   <div className="flex items-center gap-2">

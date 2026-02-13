@@ -9,6 +9,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { qgenGenerationService } from '@/lib/qgen';
 import { ENAMED_DISTRIBUTION } from '@/lib/qgen';
 import { QGenQuestionType, BloomLevel, type QGenGenerationConfig, type ENAMEDArea } from '@darwin-education/shared';
+import { hasQGenApiKey, qgenServiceUnavailable } from '@/lib/ai/key-availability';
 
 interface ExamGenerationRequest {
   examName: string;
@@ -65,6 +66,10 @@ export async function POST(request: NextRequest) {
         { success: false, error: 'totalQuestions must be between 5 and 200' },
         { status: 400 }
       );
+    }
+
+    if (!hasQGenApiKey()) {
+      return qgenServiceUnavailable('de geração de exames via QGen')
     }
 
     const startTime = Date.now();

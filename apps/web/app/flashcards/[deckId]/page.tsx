@@ -7,29 +7,46 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Spinner } from '@/components/ui/Spinner'
 import { ChevronLeft } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
 import { DeckStats } from '../components/DeckStats'
 import { AREA_COLORS, AREA_LABELS } from '@/lib/area-colors'
 import type { ENAMEDArea } from '@darwin-education/shared'
-
-
-
-interface FlashcardData {
-  id: string
-  front: string
-  back: string
-  ease_factor: number
-  interval: number
-  repetitions: number
-  next_review: string
-}
 
 interface DeckData {
   id: string
   name: string
   description: string | null
   area: ENAMEDArea | null
-  created_at: string
+  createdAt: string
+}
+
+interface FlashcardData {
+  id: string
+  front: string
+  back: string
+  repetitions: number
+  intervalDays: number
+  easeFactor: number
+  nextReviewAt: string
+  lastReviewAt: string | null
+  isDue: boolean
+  isNew: boolean
+}
+
+interface DeckApiResponse {
+  deck: {
+    id: string
+    name: string
+    description: string | null
+    area: ENAMEDArea | null
+    createdAt: string
+  }
+  cards: FlashcardData[]
+  summary: {
+    cardCount: number
+    dueCount: number
+  }
+  warning?: string
+  error?: string
 }
 
 interface CardPreviewState {
@@ -46,45 +63,44 @@ export default function DeckViewPage() {
   const [loading, setLoading] = useState(true)
   const [flippedCards, setFlippedCards] = useState<CardPreviewState>({})
   const [dueCount, setDueCount] = useState(0)
+  const [loadError, setLoadError] = useState<string | null>(null)
 
   useEffect(() => {
     loadDeck()
   }, [deckId])
 
   async function loadDeck() {
-    const supabase = createClient()
+    setLoading(true)
+    setLoadError(null)
 
-    // Load deck info
-    const { data: deckData } = await supabase
-      .from('flashcard_decks')
-      .select('*')
-      .eq('id', deckId)
-      .single() as { data: DeckData | null; error: any }
+    try {
+      const response = await fetch(`/api/flashcards/decks/${deckId}`, { cache: 'no-store' })
+      if (response.status === 401) {
+        router.push(`/login?redirectTo=/flashcards/${deckId}`)
+        return
+      }
 
-    if (!deckData) {
-      router.push('/flashcards')
-      return
+      if (response.status === 404) {
+        router.push('/flashcards')
+        return
+      }
+
+      const payload = (await response.json()) as DeckApiResponse
+
+      if (!response.ok || payload.error || !payload.deck) {
+        setLoadError('Não foi possível carregar este deck.')
+        setLoading(false)
+        return
+      }
+
+      setDeck(payload.deck)
+      setCards(payload.cards || [])
+      setDueCount(payload.summary?.dueCount || 0)
+      setLoading(false)
+    } catch {
+      setLoadError('Não foi possível carregar este deck. Verifique sua conexão e tente novamente.')
+      setLoading(false)
     }
-
-    setDeck(deckData)
-
-    // Load all cards
-    const { data: cardsData } = await supabase
-      .from('flashcards')
-      .select('*')
-      .eq('deck_id', deckId)
-      .order('created_at', { ascending: true }) as { data: FlashcardData[] | null; error: any }
-
-    if (cardsData) {
-      setCards(cardsData)
-
-      // Count due cards
-      const now = new Date().toISOString()
-      const due = cardsData.filter((c: FlashcardData) => c.next_review <= now).length
-      setDueCount(due)
-    }
-
-    setLoading(false)
   }
 
   const toggleCardFlip = (cardId: string) => {
@@ -102,9 +118,9 @@ export default function DeckViewPage() {
     )
   }
 
-  if (!deck) {
+  if (loadError) {
     return (
-      <div className="min-h-screen bg-surface-0 text-white">
+      <div className="min-h-screen bg-surface-0 text-label-primary">
         <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <Button variant="ghost" size="sm" onClick={() => router.back()}>
@@ -115,7 +131,7 @@ export default function DeckViewPage() {
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <Card>
             <CardContent className="py-12 text-center">
-              <p className="text-label-secondary">Deck não encontrado</p>
+              <p className="text-label-secondary">{loadError}</p>
             </CardContent>
           </Card>
         </main>
@@ -123,8 +139,12 @@ export default function DeckViewPage() {
     )
   }
 
+  if (!deck) {
+    return null
+  }
+
   return (
-    <div className="min-h-screen bg-surface-0 text-white">
+    <div className="min-h-screen bg-surface-0 text-label-primary">
       {/* Header */}
       <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -192,7 +212,7 @@ export default function DeckViewPage() {
                   <div>
                     <h3 className="text-sm font-medium text-label-primary mb-1">Criado em</h3>
                     <p className="text-label-secondary">
-                      {new Date(deck.created_at).toLocaleDateString('pt-BR')}
+                      {new Date(deck.createdAt).toLocaleDateString('pt-BR')}
                     </p>
                   </div>
                 </div>
@@ -215,9 +235,7 @@ export default function DeckViewPage() {
                   <div className="space-y-3">
                     {cards.map((card) => {
                       const isFlipped = flippedCards[card.id] || false
-                      const now = new Date()
-                      const nextReview = new Date(card.next_review)
-                      const isDue = nextReview <= now
+                      const isDue = card.isDue
 
                       return (
                         <div
@@ -229,17 +247,17 @@ export default function DeckViewPage() {
                           <div className="flex items-start justify-between gap-4">
                             <div className="flex-1">
                               <div className="text-sm text-label-secondary mb-2 flex gap-2">
-                                {card.repetitions === 0 && (
+                                {card.isNew && (
                                   <span className="px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded text-xs">
                                     Novo
                                   </span>
                                 )}
-                                {card.repetitions > 0 && card.interval < 21 && (
+                                {!card.isNew && card.intervalDays < 21 && (
                                   <span className="px-2 py-0.5 bg-yellow-500/20 text-yellow-400 rounded text-xs">
                                     Aprendendo
                                   </span>
                                 )}
-                                {card.interval >= 21 && (
+                                {!card.isNew && card.intervalDays >= 21 && (
                                   <span className="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-xs">
                                     Maduro
                                   </span>
@@ -277,10 +295,10 @@ export default function DeckViewPage() {
                               Repetições: <span className="text-label-primary">{card.repetitions}</span>
                             </span>
                             <span>
-                              Intervalo: <span className="text-label-primary">{card.interval}d</span>
+                              Intervalo: <span className="text-label-primary">{card.intervalDays}d</span>
                             </span>
                             <span>
-                              Fator: <span className="text-label-primary">{card.ease_factor.toFixed(2)}</span>
+                              Fator: <span className="text-label-primary">{card.easeFactor.toFixed(2)}</span>
                             </span>
                           </div>
                         </div>

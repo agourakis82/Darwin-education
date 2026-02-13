@@ -16,21 +16,21 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    'bg-gradient-to-b from-emerald-500 to-emerald-600 shadow-elevation-1 shadow-inner-shine text-white hover:from-emerald-400 hover:to-emerald-500 hover:shadow-elevation-2',
+    'bg-gradient-to-b from-emerald-500 to-emerald-600 text-white shadow-elevation-2 shadow-inner-shine hover:from-emerald-400 hover:to-emerald-500 hover:shadow-elevation-3',
   secondary:
-    'bg-surface-3 text-label-primary border border-separator shadow-elevation-1 hover:bg-surface-4',
+    'darwin-panel border border-separator/80 text-label-primary hover:bg-surface-2/85',
   outline:
-    'bg-transparent border border-emerald-500/40 text-emerald-400 hover:bg-emerald-500/10',
+    'border border-emerald-400/45 bg-transparent text-emerald-300 hover:bg-emerald-500/10',
   ghost:
-    'bg-transparent text-label-secondary hover:bg-surface-3 hover:text-label-primary',
+    'bg-transparent text-label-secondary hover:bg-surface-3/70 hover:text-label-primary',
   danger:
-    'bg-gradient-to-b from-red-500 to-red-600 shadow-elevation-1 shadow-inner-shine text-white hover:from-red-400 hover:to-red-500 hover:shadow-elevation-2',
+    'bg-gradient-to-b from-rose-500 to-rose-600 text-white shadow-elevation-2 shadow-inner-shine hover:from-rose-400 hover:to-rose-500 hover:shadow-elevation-3',
 }
 
 const sizeStyles: Record<ButtonSize, string> = {
-  sm: 'px-3 py-1.5 text-sm',
-  md: 'px-4 py-2 text-base',
-  lg: 'px-6 py-3 text-lg',
+  sm: 'px-3 py-2 text-sm rounded-lg',
+  md: 'px-4 py-2.5 text-base rounded-xl',
+  lg: 'px-6 py-3.5 text-lg rounded-xl',
 }
 
 export function getButtonClassName({
@@ -44,7 +44,7 @@ export function getButtonClassName({
   fullWidth?: boolean
   className?: string
 } = {}) {
-  return `inline-flex items-center justify-center gap-2 font-medium rounded-md transition-all active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-0 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 ${variantStyles[variant]} ${sizeStyles[size]} ${fullWidth ? 'w-full' : ''} ${className}`.trim()
+  return `darwin-focus-ring inline-flex items-center justify-center gap-2 font-medium transition-all active:scale-[0.98] disabled:active:scale-100 disabled:cursor-not-allowed disabled:opacity-50 ${variantStyles[variant]} ${sizeStyles[size]} ${fullWidth ? 'w-full' : ''} ${className}`.trim()
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(

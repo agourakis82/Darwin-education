@@ -15,6 +15,8 @@ import {
 } from '@darwin-education/shared';
 
 import { LINGUISTIC_PATTERNS, DISTRACTOR_THRESHOLDS } from '../constants/patterns';
+import { medicalVerificationService } from './medical-verification-service';
+import { CitationVerificationService } from '../../theory-gen/services/citation-verification-service';
 
 /**
  * Validation stage weights for overall score
@@ -41,6 +43,8 @@ const DECISION_THRESHOLDS = {
  * QGen Validation Service
  */
 export class QGenValidationService {
+  private citationVerifier = new CitationVerificationService();
+
   /**
    * Run full validation pipeline
    */
@@ -136,6 +140,66 @@ export class QGenValidationService {
       score -= 0.3;
     }
 
+    // Ban "all/none of the above" and similar meta-options (item-writing flaw)
+    const bannedOptionPatterns: Array<{
+      pattern: RegExp;
+      message: string;
+      suggestion: string;
+    }> = [
+      {
+        pattern: /\b(todas?\s+as\s+(anteriores|alternativas|op[cç][õo]es)|all\s+of\s+the\s+above)\b/i,
+        message: 'Alternativa do tipo "todas as anteriores" é proibida',
+        suggestion: 'Substitua por uma alternativa específica e autocontida.',
+      },
+      {
+        pattern: /\b(nenhuma\s+das?\s+(anteriores|alternativas|op[cç][õo]es)|none\s+of\s+the\s+above)\b/i,
+        message: 'Alternativa do tipo "nenhuma das anteriores" é proibida',
+        suggestion: 'Substitua por uma alternativa específica e autocontida.',
+      },
+      {
+        pattern: /\b(ambas?\s+as\s+alternativas|both\s+[A-E]\s+and\s+[A-E])\b/i,
+        message: 'Alternativa do tipo "A e B" (combinação de letras) é um vício de item-writing',
+        suggestion: 'Reescreva para "uma melhor resposta" sem combinações de alternativas.',
+      },
+    ];
+
+    const optionsEntries = Object.entries(question.alternatives || {});
+    for (const [letter, text] of optionsEntries) {
+      for (const banned of bannedOptionPatterns) {
+        if (banned.pattern.test(text)) {
+          issues.push({
+            severity: 'error',
+            category: 'structural',
+            message: `Alternativa ${letter}: ${banned.message}`,
+            suggestion: banned.suggestion,
+          });
+          score -= 0.25;
+          break;
+        }
+      }
+    }
+
+    // Check for duplicate alternatives (exact/near-exact)
+    const normalizedToLetters = new Map<string, string[]>();
+    for (const [letter, text] of optionsEntries) {
+      const normalized = this.normalizeForComparison(text);
+      if (!normalized) continue;
+      const prev = normalizedToLetters.get(normalized) || [];
+      prev.push(letter);
+      normalizedToLetters.set(normalized, prev);
+    }
+
+    const duplicates = Array.from(normalizedToLetters.entries()).filter(([, letters]) => letters.length >= 2);
+    for (const [, letters] of duplicates) {
+      issues.push({
+        severity: 'error',
+        category: 'structural',
+        message: `Alternativas duplicadas (${letters.join(', ')})`,
+        suggestion: 'Garanta que cada alternativa seja distinta e testável.',
+      });
+      score -= 0.2;
+    }
+
     // Check correct answer exists
     if (!question.alternatives[question.correctAnswer]) {
       issues.push({
@@ -162,14 +226,23 @@ export class QGenValidationService {
     }
 
     // Check for explanation
-    if (!question.explanation || question.explanation.length < 50) {
+    const explanationText = (question.explanation || '').trim();
+    if (!explanationText || explanationText.length < 120) {
+      issues.push({
+        severity: 'error',
+        category: 'structural',
+        message: 'Comentario explicativo ausente ou muito curto',
+        suggestion: 'Adicione explicacao completa (raciocínio + por que os distratores estão errados).',
+      });
+      score -= 0.25;
+    } else if (explanationText.length < 220) {
       issues.push({
         severity: 'warning',
         category: 'structural',
-        message: 'Comentario explicativo ausente ou muito curto',
-        suggestion: 'Adicione explicacao detalhada da resposta',
+        message: 'Comentário explicativo curto; pode faltar justificativa clínica',
+        suggestion: 'Amplie a explicação (inclua diagnóstico diferencial/conduta e refutação dos distratores).',
       });
-      score -= 0.1;
+      score -= 0.08;
     }
 
     return {
@@ -193,7 +266,8 @@ export class QGenValidationService {
     const issues: ValidationIssue[] = [];
     let score = 1.0;
 
-    const stem = question.stem.toLowerCase();
+    const stemRaw = question.stem || '';
+    const stem = stemRaw.toLowerCase();
     const correctAlt = question.alternatives[question.correctAnswer]?.toLowerCase() || '';
 
     // Check for hedging markers in stem
@@ -222,7 +296,14 @@ export class QGenValidationService {
 
     // Check for negative stem without highlight
     if (LINGUISTIC_PATTERNS.negativeStems.some(n => stem.includes(n))) {
-      if (!stem.includes('exceto') && !stem.match(/\bNÃO\b/) && !stem.match(/\bINCORRETA\b/)) {
+      const hasExplicitNegativeKeyword = stem.includes('exceto') || /\b(in)?corret[ao]\b/i.test(stem) || /\bn[ãa]o\b/i.test(stem);
+      const hasHighlight =
+        /\bEXCETO\b/.test(stemRaw) ||
+        /\bN[ÃA]O\b/.test(stemRaw) ||
+        /\bINCORRETA\b/.test(stemRaw) ||
+        /\bN[AÃ]O\b/.test(stemRaw);
+
+      if (hasExplicitNegativeKeyword && !hasHighlight) {
         issues.push({
           severity: 'warning',
           category: 'linguistic',
@@ -285,57 +366,155 @@ export class QGenValidationService {
    */
   async checkMedicalAccuracy(question: QGenGeneratedQuestion): Promise<ValidationStageResult> {
     const issues: ValidationIssue[] = [];
-    let score = 0.85; // Start with high assumption, deduct for issues
+    const explanation = question.explanation || '';
+    const alternatives = Object.values(question.alternatives || {}).filter(Boolean);
+    const correctAlt = question.alternatives?.[question.correctAnswer] || '';
 
-    // Basic heuristic checks (would use LLM in production)
+    const med = await medicalVerificationService.verifyQuestion(
+      question.stem,
+      alternatives,
+      correctAlt,
+      explanation
+    );
 
-    // Check for outdated drug names or practices
-    const outdatedTerms = [
-      'cimetidina', 'propranolol como primeira linha para HAS',
-      'aspirina para dengue', 'corticoide para bronquiolite',
-    ];
-    const lowerText = (question.stem + ' ' + question.explanation).toLowerCase();
+    let score = med.overallScore;
+    const lowerText = `${question.stem}\n${alternatives.join('\n')}\n${explanation}`.toLowerCase();
 
-    for (const term of outdatedTerms) {
-      if (lowerText.includes(term)) {
-        issues.push({
-          severity: 'warning',
-          category: 'medical',
-          message: `Possivel referencia a pratica desatualizada: ${term}`,
-          suggestion: 'Verifique se a informacao esta atualizada',
-        });
-        score -= 0.1;
-      }
+    // Dangerous patterns: CRITICAL -> error; WARNING -> warning (still blocks auto-approve)
+    for (const pattern of med.dangerousPatterns) {
+      issues.push({
+        severity: pattern.severity === 'CRITICAL' ? 'error' : 'warning',
+        category: 'medical',
+        message: `Risco médico: ${pattern.reason}`,
+        suggestion: 'Revise a recomendação e confirme em diretrizes oficiais.',
+      });
     }
 
-    // Check for potentially dangerous misinformation
-    const dangerousPatterns = [
-      { pattern: /aspirina.*dengue/i, message: 'Aspirina e contraindicada na dengue' },
-      { pattern: /corticoide.*bronquiolite.*rotina/i, message: 'Corticoide nao e rotina em bronquiolite' },
-    ];
+    // Outdated terminology/practices
+    for (const term of med.outdatedTerms) {
+      issues.push({
+        severity: 'warning',
+        category: 'medical',
+        message: `Termo/prática possivelmente desatualizada: ${term.term}`,
+        suggestion: term.currentTerm ? `Atualize para: ${term.currentTerm}` : 'Atualize a terminologia.',
+      });
+    }
 
-    for (const { pattern, message } of dangerousPatterns) {
-      if (pattern.test(lowerText)) {
+    // Claim verification: low confidence or unverified claims should force human review
+    const unverified = med.claimVerifications.filter((c) => !c.isVerified);
+    const lowConfidence = med.claimVerifications.filter((c) => c.confidence === 'LOW');
+
+    if (unverified.length > 0) {
+      issues.push({
+        severity: 'warning',
+        category: 'medical',
+        message: `${unverified.length} afirmação(ões) não verificadas automaticamente`,
+        suggestion: 'Adicione evidência e submeta para revisão humana.',
+      });
+      score -= 0.08;
+    }
+
+    if (lowConfidence.length > 0) {
+      issues.push({
+        severity: 'warning',
+        category: 'medical',
+        message: `${lowConfidence.length} afirmação(ões) com baixa confiança`,
+        suggestion: 'Confirme doses/condutas e adicione referências verificáveis.',
+      });
+      score -= 0.08;
+    }
+
+    const apiKeyMissing = med.claimVerifications.some((c) => c.concerns?.some((msg) => /api key/i.test(msg)));
+    if (apiKeyMissing) {
+      issues.push({
+        severity: 'warning',
+        category: 'medical',
+        message: 'Verificação automática limitada (API key não configurada)',
+        suggestion: 'Habilite o provedor de verificação médica ou force revisão humana.',
+      });
+      score -= 0.12;
+    }
+
+    // Scenario plausibility
+    if (med.scenarioValidation && !med.scenarioValidation.isPlausible) {
+      issues.push({
+        severity: 'warning',
+        category: 'medical',
+        message: 'Cenário clínico pode estar incoerente ou pouco plausível',
+        suggestion: 'Revise a vinheta (cronologia, sinais vitais, achados) para coerência clínica.',
+      });
+      score -= 0.1;
+    }
+
+    // Evidence / citations: require at least 1-2 verifiable sources for auto-approval.
+    const urls = this.extractUrls(explanation);
+    if (urls.length === 0 && explanation.trim().length > 0) {
+      issues.push({
+        severity: 'error',
+        category: 'evidence',
+        message: 'Comentário sem referências (URLs) verificáveis',
+        suggestion: 'Inclua 1–3 referências com URL (diretrizes de sociedades, PubMed/NCBI, periódicos Q1).',
+      });
+      score -= 0.22;
+    } else if (urls.length > 0) {
+      const unique = Array.from(new Set(urls)).slice(0, 3);
+      const verifications = await this.citationVerifier.verifyAllCitations(
+        unique.map((url) => ({ url, title: url, evidenceLevel: 'C' as const }))
+      );
+
+      const authoritative = verifications.filter((v) => v.isAuthoritative);
+      if (authoritative.length === 0) {
         issues.push({
           severity: 'error',
-          category: 'medical',
-          message: `Possivel erro medico: ${message}`,
-          suggestion: 'Revise urgentemente',
+          category: 'evidence',
+          message: 'Nenhuma referência de fonte confiável (sociedades/PubMed/periódicos)',
+          suggestion: 'Troque por fontes oficiais (sociedades médicas, PubMed/NCBI, NEJM/Lancet/JAMA/BMJ).',
         });
-        score -= 0.3;
+        score -= 0.25;
+      }
+
+      const weak = verifications.filter((v) => v.verificationScore < 0.6 || !v.isAuthoritative);
+      if (weak.length > 0) {
+        issues.push({
+          severity: 'warning',
+          category: 'evidence',
+          message: `${weak.length} referência(s) pouco confiável(is) ou inacessível(is)`,
+          suggestion: 'Prefira sociedades médicas, PubMed/NCBI, periódicos e diretrizes oficiais.',
+        });
+        score -= Math.min(0.15, weak.length * 0.05);
       }
     }
 
-    // In production, this would call an LLM to verify medical accuracy
-    // For now, we return a baseline score with any issues found
+    // Extra local heuristics (lightweight guardrails)
+    if (/\\baspirina\\b.*\\bdengue\\b/i.test(lowerText)) {
+      issues.push({
+        severity: 'error',
+        category: 'medical',
+        message: 'Possível contraindicação: AAS em dengue',
+        suggestion: 'Remova AAS e reescreva a conduta conforme diretrizes.',
+      });
+      score -= 0.25;
+    }
+
+    score = Math.max(0, Math.min(1, score));
 
     return {
       stageName: 'medicalAccuracy',
-      score: Math.max(0, score),
-      passed: score >= 0.7,
+      score,
+      passed: score >= 0.7 && !issues.some((i) => i.severity === 'error'),
       details: {
-        validationMethod: 'heuristic',
-        requiresExpertReview: issues.some(i => i.severity === 'error'),
+        validationMethod: 'medical-verification-service',
+        medicalScore: med.overallScore,
+        dangerousPatternCount: med.dangerousPatterns.length,
+        outdatedTermCount: med.outdatedTerms.length,
+        claimCount: med.claimVerifications.length,
+        citationsFound: this.extractUrls(explanation).length,
+        requiresExpertReview:
+          med.dangerousPatterns.length > 0 ||
+          !med.isAccurate ||
+          unverified.length > 0 ||
+          lowConfidence.length > 0 ||
+          apiKeyMissing,
       },
       issues,
     };
@@ -347,6 +526,8 @@ export class QGenValidationService {
   analyzeDistractors(question: QGenGeneratedQuestion): ValidationStageResult {
     const issues: ValidationIssue[] = [];
     let score = 1.0;
+
+    const correctAlt = question.alternatives?.[question.correctAnswer] || '';
 
     const distractors = Object.entries(question.alternatives).filter(
       ([letter]) => letter !== question.correctAnswer
@@ -395,7 +576,7 @@ export class QGenValidationService {
     for (let i = 0; i < distractorTexts.length; i++) {
       for (let j = i + 1; j < distractorTexts.length; j++) {
         const similarity = this.calculateTextSimilarity(distractorTexts[i], distractorTexts[j]);
-        if (similarity > 0.8) {
+        if (similarity > DISTRACTOR_THRESHOLDS.maxSemanticSimilarity) {
           issues.push({
             severity: 'warning',
             category: 'distractor',
@@ -405,6 +586,21 @@ export class QGenValidationService {
           score -= 0.15;
           break;
         }
+      }
+    }
+
+    // Check distractors too similar to the correct answer (ambiguity risk)
+    const correctLower = correctAlt.toLowerCase();
+    for (const [letter, text] of distractors) {
+      const simToCorrect = this.calculateTextSimilarity(correctLower, text.toLowerCase());
+      if (simToCorrect > DISTRACTOR_THRESHOLDS.maxSemanticSimilarity) {
+        issues.push({
+          severity: 'warning',
+          category: 'distractor',
+          message: `Distrator ${letter} pode estar próximo demais da resposta correta (ambiguidade)`,
+          suggestion: 'Ajuste o distrator para ser plausível, porém claramente distinto da correta.',
+        });
+        score -= 0.1;
       }
     }
 
@@ -551,11 +747,25 @@ export class QGenValidationService {
       return ValidationDecision.REJECT;
     }
 
+    // Any other error means the item needs revision (we don't auto-ship broken structure/evidence)
+    const hasAnyError = issues.some((i) => i.severity === 'error');
+    if (hasAnyError) {
+      return score >= DECISION_THRESHOLDS.NEEDS_REVISION
+        ? ValidationDecision.NEEDS_REVISION
+        : ValidationDecision.REJECT;
+    }
+
+    // Medical/evidence warnings should always trigger human review before auto-approval
+    const hasMedicalOrEvidenceWarnings = issues.some(
+      (i) => (i.category === 'medical' || i.category === 'evidence') && i.severity === 'warning'
+    );
+
     // Apply thresholds
     if (score >= DECISION_THRESHOLDS.AUTO_APPROVE) {
       // But require human review if there are any errors
       const hasErrors = issues.some(i => i.severity === 'error');
-      return hasErrors ? ValidationDecision.PENDING_REVIEW : ValidationDecision.AUTO_APPROVE;
+      if (hasErrors || hasMedicalOrEvidenceWarnings) return ValidationDecision.PENDING_REVIEW;
+      return ValidationDecision.AUTO_APPROVE;
     }
 
     if (score >= DECISION_THRESHOLDS.PENDING_REVIEW) {
@@ -582,6 +792,25 @@ export class QGenValidationService {
     }
 
     return suggestions;
+  }
+
+  private extractUrls(text: string): string[] {
+    if (!text) return []
+    const matches = text.match(/https?:\/\/[^\s)]+/g) || []
+    return matches
+      .map((url) => url.replace(/[.,;]+$/, ''))
+      .filter((url) => url.length > 0)
+  }
+
+  private normalizeForComparison(text: string): string {
+    return (text || '')
+      .trim()
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/\p{Diacritic}/gu, '')
+      .replace(/[^\p{Letter}\p{Number}]+/gu, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
   }
 
   /**

@@ -18,13 +18,13 @@ interface ThetaEvolutionChartProps {
  * Line chart showing IRT theta evolution over time.
  * Shows trend direction and pass threshold reference line.
  */
-export function ThetaEvolutionChart({ data, label = 'Evolucao do Theta' }: ThetaEvolutionChartProps) {
+export function ThetaEvolutionChart({ data, label = 'Evolução do Theta' }: ThetaEvolutionChartProps) {
   if (data.length < 2) {
     return (
       <div className="space-y-3">
         <h4 className="text-sm font-semibold text-label-tertiary uppercase tracking-wider">{label}</h4>
         <div className="bg-surface-2 rounded-lg p-6 text-center text-label-quaternary text-sm">
-          Dados insuficientes para visualizar evolucao.
+          Dados insuficientes para visualizar evolução.
         </div>
       </div>
     )
@@ -97,7 +97,7 @@ export function ThetaEvolutionChart({ data, label = 'Evolucao do Theta' }: Theta
                 stroke="#10B981" strokeWidth={1} strokeDasharray="4,4" opacity={0.5} />
               <text x={width - padding + 4} y={passY + 3}
                 className="fill-emerald-400" fontSize={7}>
-                Aprovacao
+                Aprovação
               </text>
             </g>
           )}

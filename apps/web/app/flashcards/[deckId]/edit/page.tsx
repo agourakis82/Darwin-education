@@ -135,8 +135,6 @@ export default function EditDeckPage() {
       if (deckError) throw deckError
 
       // Handle card changes
-      const now = new Date().toISOString()
-
       // Delete marked cards
       const toDelete = cards.filter(c => c.isDeleted && c.id)
       if (toDelete.length > 0) {
@@ -162,10 +160,6 @@ export default function EditDeckPage() {
           deck_id: deckId,
           front: c.front.trim(),
           back: c.back.trim(),
-          ease_factor: 2.5,
-          interval: 0,
-          repetitions: 0,
-          next_review: now,
         }))
 
       if (toInsert.length > 0) {
@@ -216,7 +210,7 @@ export default function EditDeckPage() {
   const deletedCards = cards.filter(c => c.isDeleted)
 
   return (
-    <div className="min-h-screen bg-surface-0 text-white">
+    <div className="min-h-screen bg-surface-0 text-label-primary">
       {/* Header */}
       <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -260,7 +254,7 @@ export default function EditDeckPage() {
                   placeholder="Descreva o conteúdo deste deck..."
                   rows={3}
                   className="w-full px-3 py-2 bg-surface-2 border border-separator rounded-lg
-                    text-white placeholder-label-tertiary focus:outline-none focus:ring-2
+                    text-label-primary placeholder-label-tertiary focus:outline-none focus:ring-2
                     focus:ring-emerald-500 focus:border-transparent resize-none"
                 />
               </div>
@@ -269,13 +263,13 @@ export default function EditDeckPage() {
                 <label className="block text-sm font-medium text-label-primary mb-1.5">
                   Área (opcional)
                 </label>
-                <select
-                  value={area}
-                  onChange={(e) => setArea(e.target.value as ENAMEDArea | '')}
-                  className="w-full px-3 py-2 bg-surface-2 border border-separator rounded-lg
-                    text-white focus:outline-none focus:ring-2 focus:ring-emerald-500
+                  <select
+                    value={area}
+                    onChange={(e) => setArea(e.target.value as ENAMEDArea | '')}
+                    className="w-full px-3 py-2 bg-surface-2 border border-separator rounded-lg
+                    text-label-primary focus:outline-none focus:ring-2 focus:ring-emerald-500
                     focus:border-transparent"
-                >
+                  >
                   <option value="">Selecione uma área</option>
                   {(Object.keys(AREA_LABELS) as ENAMEDArea[]).map((a) => (
                     <option key={a} value={a}>
@@ -333,7 +327,7 @@ export default function EditDeckPage() {
                           placeholder="Digite a pergunta..."
                           rows={3}
                           className="w-full px-3 py-2 bg-surface-1 border border-separator rounded-lg
-                            text-white placeholder-label-tertiary focus:outline-none focus:ring-2
+                            text-label-primary placeholder-label-tertiary focus:outline-none focus:ring-2
                             focus:ring-emerald-500 focus:border-transparent resize-none text-sm"
                         />
                       </div>
@@ -347,7 +341,7 @@ export default function EditDeckPage() {
                           placeholder="Digite a resposta..."
                           rows={3}
                           className="w-full px-3 py-2 bg-surface-1 border border-separator rounded-lg
-                            text-white placeholder-label-tertiary focus:outline-none focus:ring-2
+                            text-label-primary placeholder-label-tertiary focus:outline-none focus:ring-2
                             focus:ring-emerald-500 focus:border-transparent resize-none text-sm"
                         />
                       </div>
@@ -375,7 +369,7 @@ export default function EditDeckPage() {
                         <button
                           type="button"
                           onClick={() => restoreCard(realIndex)}
-                          className="text-xs text-red-400 hover:text-white transition-colors ml-2"
+                          className="text-xs text-red-400 hover:text-red-200 transition-colors ml-2"
                         >
                           Restaurar
                         </button>
@@ -389,7 +383,7 @@ export default function EditDeckPage() {
                 type="button"
                 onClick={addCard}
                 className="w-full py-3 border-2 border-dashed border-separator rounded-lg
-                  text-label-secondary hover:text-white hover:border-surface-4 transition-colors
+                  text-label-secondary hover:text-label-primary hover:border-surface-4 transition-colors
                   flex items-center justify-center gap-2"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -434,7 +428,7 @@ export default function EditDeckPage() {
             <CardContent>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-white">Excluir este deck</p>
+                  <p className="text-sm text-label-primary">Excluir este deck</p>
                   <p className="text-xs text-label-secondary">
                     Esta ação não pode ser desfeita. Todos os cards serão excluídos.
                   </p>

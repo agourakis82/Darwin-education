@@ -23,6 +23,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { BatchGenerationRequest } from '@darwin-education/shared';
 import GenerationService from '@/lib/theory-gen/services/generation-service';
 import { costCalculator } from '@/lib/theory-gen/utils/cost-calculator';
+import { hasGrokCompatibleApiKey, grokServiceUnavailable } from '@/lib/ai/key-availability';
 
 export async function POST(request: NextRequest) {
   try {
@@ -37,9 +38,13 @@ export async function POST(request: NextRequest) {
 
     if (!batchRequest.topics || batchRequest.topics.length === 0) {
       return NextResponse.json(
-        { error: 'No topics provided' },
+        { error: 'Nenhum tópico foi informado' },
         { status: 400 }
       );
+    }
+
+    if (!hasGrokCompatibleApiKey()) {
+      return grokServiceUnavailable('de geração em lote de teoria')
     }
 
     // Estimate cost
@@ -51,7 +56,7 @@ export async function POST(request: NextRequest) {
     if (batchRequest.costLimit && estimatedCost.total > batchRequest.costLimit) {
       return NextResponse.json(
         {
-          error: 'Cost limit exceeded',
+          error: 'Limite de custo excedido',
           estimatedCost: estimatedCost.total,
           limit: batchRequest.costLimit,
         },

@@ -33,10 +33,14 @@ fail() { echo -e "${RED}[ERROR]${NC} $1"; exit 1; }
 
 # ─── Generate consolidated SQL for manual deploy ───────────────
 generate_consolidated() {
-  local OUTPUT="$SUPABASE_DIR/deploy_consolidated.sql"
-  log "Gerando SQL consolidado em $OUTPUT ..."
+  local OUTPUT_ALL="$SUPABASE_DIR/deploy_consolidated.sql"
+  local OUTPUT_SCHEMA="$SUPABASE_DIR/deploy_schema.sql"
+  local OUTPUT_SEEDS="$SUPABASE_DIR/deploy_seeds.sql"
+  log "Gerando SQL consolidado em $OUTPUT_ALL ..."
+  log "Gerando SQL schema/migrations em $OUTPUT_SCHEMA ..."
+  log "Gerando SQL seeds em $OUTPUT_SEEDS ..."
 
-  cat > "$OUTPUT" << 'HEADER'
+  cat > "$OUTPUT_ALL" << 'HEADER'
 -- =============================================================
 -- Darwin Education - Deploy Consolidado
 -- Gerado automaticamente por deploy.sh
@@ -49,6 +53,89 @@ generate_consolidated() {
 -- =============================================================
 
 HEADER
+
+  cat > "$OUTPUT_SCHEMA" << 'HEADER'
+-- =============================================================
+-- Darwin Education - Deploy (Schema + Migrations)
+-- Gerado automaticamente por deploy.sh
+-- =============================================================
+-- INSTRUCOES:
+-- 1. Abra o Supabase Dashboard > SQL Editor
+-- 2. Cole este arquivo inteiro
+-- 3. Clique RUN
+-- =============================================================
+
+HEADER
+
+  cat > "$OUTPUT_SEEDS" << 'HEADER'
+-- =============================================================
+-- Darwin Education - Deploy (Seeds)
+-- Gerado automaticamente por deploy.sh
+-- =============================================================
+-- INSTRUCOES:
+-- 1. Rode schema+migrations antes (deploy_schema.sql)
+-- 2. Cole este arquivo inteiro no SQL Editor
+-- 3. Clique RUN
+-- =============================================================
+
+HEADER
+
+  # Schema (baseline)
+  if [ -f "$SUPABASE_DIR/schema.sql" ]; then
+    for out in "$OUTPUT_ALL" "$OUTPUT_SCHEMA"; do
+      echo "" >> "$out"
+      echo "-- ═══════════════════════════════════════" >> "$out"
+      echo "-- FILE: schema.sql" >> "$out"
+      echo "-- ═══════════════════════════════════════" >> "$out"
+      echo "" >> "$out"
+      cat "$SUPABASE_DIR/schema.sql" >> "$out"
+      echo "" >> "$out"
+    done
+  else
+    warn "schema.sql nao encontrado: $SUPABASE_DIR/schema.sql"
+  fi
+
+  # Migrations (ordered, beta baseline)
+  local MIGRATION_FILES=(
+    "$SUPABASE_DIR/migrations/001_cip_schema.sql"
+    "$SUPABASE_DIR/migrations/002_add_irt_estimation_metadata.sql"
+    "$SUPABASE_DIR/migrations/003_ai_integration.sql"
+    "$SUPABASE_DIR/migrations/004_ml_feature_store.sql"
+    "$SUPABASE_DIR/migrations/005_fsrs_and_cat_extensions.sql"
+    "$SUPABASE_DIR/migrations/006_access_codes_and_admin.sql"
+    "$SUPABASE_DIR/migrations/007_theory_generation_system.sql"
+    "$SUPABASE_DIR/migrations/008_cip_achievements_system.sql"
+    "$SUPABASE_DIR/migrations/008_ddl_full_system.sql"
+    "$SUPABASE_DIR/migrations/009_content_expansion.sql"
+    "$SUPABASE_DIR/migrations/010_exams_adaptive_type.sql"
+    "$SUPABASE_DIR/migrations/011_fractal_clinical_reasoning.sql"
+    "$SUPABASE_DIR/migrations/012_content_verification.sql"
+    "$SUPABASE_DIR/migrations/013_irt_bloom_calibration.sql"
+    "$SUPABASE_DIR/migrations/014_round4_flashcards.sql"
+    "$SUPABASE_DIR/migrations/015_fcr_cases_expansion.sql"
+    "$SUPABASE_DIR/migrations/016_research_psychometrics.sql"
+    "$SUPABASE_DIR/migrations/017_fix_cip_puzzle_data.sql"
+    "$SUPABASE_DIR/migrations/018_flashcard_review_logs.sql"
+    "$SUPABASE_DIR/migrations/019_medical_content_tables.sql"
+    "$SUPABASE_DIR/migrations/20260206183256_cip_achievements.sql"
+    "$SUPABASE_DIR/migrations/qgen/001_qgen_core_tables.sql"
+  )
+
+  for f in "${MIGRATION_FILES[@]}"; do
+    if [ -f "$f" ]; then
+      for out in "$OUTPUT_ALL" "$OUTPUT_SCHEMA"; do
+        echo "" >> "$out"
+        echo "-- ═══════════════════════════════════════" >> "$out"
+        echo "-- MIGRATION: $(basename $f)" >> "$out"
+        echo "-- ═══════════════════════════════════════" >> "$out"
+        echo "" >> "$out"
+        cat "$f" >> "$out"
+        echo "" >> "$out"
+      done
+    else
+      warn "Migration nao encontrada: $f"
+    fi
+  done
 
   # Seeds (in order)
   local SEED_FILES=(
@@ -80,20 +167,22 @@ HEADER
 
   for f in "${SEED_FILES[@]}"; do
     if [ -f "$f" ]; then
-      echo "" >> "$OUTPUT"
-      echo "-- ═══════════════════════════════════════" >> "$OUTPUT"
-      echo "-- FILE: $(basename $f)" >> "$OUTPUT"
-      echo "-- ═══════════════════════════════════════" >> "$OUTPUT"
-      echo "" >> "$OUTPUT"
-      cat "$f" >> "$OUTPUT"
-      echo "" >> "$OUTPUT"
+      for out in "$OUTPUT_ALL" "$OUTPUT_SEEDS"; do
+        echo "" >> "$out"
+        echo "-- ═══════════════════════════════════════" >> "$out"
+        echo "-- FILE: $(basename $f)" >> "$out"
+        echo "-- ═══════════════════════════════════════" >> "$out"
+        echo "" >> "$out"
+        cat "$f" >> "$out"
+        echo "" >> "$out"
+      done
     else
       warn "Arquivo nao encontrado: $f"
     fi
   done
 
   # Verification queries
-  cat >> "$OUTPUT" << 'VERIFY'
+  cat >> "$OUTPUT_ALL" << 'VERIFY'
 
 -- ═══════════════════════════════════════
 -- VERIFICACAO
@@ -113,13 +202,33 @@ UNION ALL SELECT 'ddl_questions', COUNT(*) FROM ddl_questions
 ORDER BY tabela;
 VERIFY
 
-  local SIZE=$(du -h "$OUTPUT" | cut -f1)
-  log "SQL consolidado gerado: $OUTPUT ($SIZE)"
+  cat >> "$OUTPUT_SEEDS" << 'VERIFY'
+
+-- ═══════════════════════════════════════
+-- VERIFICACAO (pos-seed)
+-- ═══════════════════════════════════════
+SELECT 'question_banks' as tabela, COUNT(*) as total FROM question_banks
+UNION ALL SELECT 'questions', COUNT(*) FROM questions
+UNION ALL SELECT 'exams', COUNT(*) FROM exams
+UNION ALL SELECT 'flashcard_decks', COUNT(*) FROM flashcard_decks
+UNION ALL SELECT 'flashcards', COUNT(*) FROM flashcards
+UNION ALL SELECT 'cip_puzzles', COUNT(*) FROM cip_puzzles
+UNION ALL SELECT 'fcr_cases', COUNT(*) FROM fcr_cases
+UNION ALL SELECT 'ddl_questions', COUNT(*) FROM ddl_questions
+ORDER BY tabela;
+VERIFY
+
+  local SIZE_ALL=$(du -h "$OUTPUT_ALL" | cut -f1)
+  local SIZE_SCHEMA=$(du -h "$OUTPUT_SCHEMA" | cut -f1)
+  local SIZE_SEEDS=$(du -h "$OUTPUT_SEEDS" | cut -f1)
+  log "SQL consolidado gerado: $OUTPUT_ALL ($SIZE_ALL)"
+  log "SQL schema/migrations gerado: $OUTPUT_SCHEMA ($SIZE_SCHEMA)"
+  log "SQL seeds gerado: $OUTPUT_SEEDS ($SIZE_SEEDS)"
   log ""
   log "Para deploy manual:"
   log "  1. Abra: https://supabase.com/dashboard/project/$PROJECT_REF/sql"
-  log "  2. Cole o conteudo de $OUTPUT"
-  log "  3. Clique RUN"
+  log "  2. Cole o conteudo de $OUTPUT_SCHEMA e clique RUN"
+  log "  3. Cole o conteudo de $OUTPUT_SEEDS e clique RUN"
 }
 
 # ─── Run seeds via Supabase CLI ───────────────────────────────

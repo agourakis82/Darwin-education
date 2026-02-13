@@ -2,14 +2,18 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Image from 'next/image'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
+import { FeatureState } from '@/components/ui/FeatureState'
 import { Input } from '@/components/ui/Input'
 import { createClient } from '@/lib/supabase/client'
+import { getSessionUserSummary } from '@/lib/auth/session'
 import { AreaFilter } from './components/AreaFilter'
 import { DifficultyFilter } from './components/DifficultyFilter'
 import { QuestionCount } from './components/QuestionCount'
 import { AREA_LABELS } from '@/lib/area-colors'
+import { useToast } from '@/lib/hooks/useToast'
 import type { ENAMEDArea, DifficultyLevel } from '@darwin-education/shared'
 
 interface QuestionStats {
@@ -18,9 +22,17 @@ interface QuestionStats {
   byDifficulty: Record<DifficultyLevel, number>
 }
 
+interface ExamReference {
+  id: string
+  title: string
+  questionCount: number
+  timeLimitMinutes: number
+}
+
 export default function MontarProvaPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { error: toastError } = useToast()
 
   // Read presets from query params (e.g., ?count=20&time=60)
   const presetCount = searchParams.get('count')
@@ -36,82 +48,136 @@ export default function MontarProvaPage() {
   const [timeLimit, setTimeLimit] = useState(presetTime ? Number(presetTime) : 60)
   const [loading, setLoading] = useState(true)
   const [creating, setCreating] = useState(false)
+  const [createError, setCreateError] = useState<string | null>(null)
+  const [statsError, setStatsError] = useState<string | null>(null)
   const [stats, setStats] = useState<QuestionStats | null>(null)
   const [availableQuestions, setAvailableQuestions] = useState(0)
+  const [referenceExam, setReferenceExam] = useState<ExamReference | null>(null)
 
   useEffect(() => {
     loadStats()
   }, [])
 
   useEffect(() => {
-    calculateAvailableQuestions()
+    void calculateAvailableQuestions()
   }, [selectedAreas, selectedDifficulties, stats])
 
+  useEffect(() => {
+    if (availableQuestions <= 0) return
+    setQuestionCount((previous) => Math.min(Math.max(previous, 5), availableQuestions))
+  }, [availableQuestions])
+
+  const minutesPerQuestion = referenceExam && referenceExam.questionCount > 0
+    ? referenceExam.timeLimitMinutes / referenceExam.questionCount
+    : 3
+
   async function loadStats() {
+    setStatsError(null)
     const supabase = createClient()
+    try {
+      const [{ data: questions, error }, { data: examsData }] = await Promise.all([
+        (supabase
+          .from('questions') as any)
+          .select('id, area, difficulty'),
+        (supabase
+          .from('exams') as any)
+          .select('id, title, question_count, time_limit_minutes, type, is_public')
+          .eq('is_public', true)
+          .gt('question_count', 0)
+          .gt('time_limit_minutes', 0),
+      ])
 
-    const { data: questions } = await (supabase
-      .from('questions') as any)
-      .select('id, area, difficulty')
+      if (error) {
+        setStatsError('Não foi possível carregar o banco de questões agora.')
+        setLoading(false)
+        return
+      }
 
-    if (questions) {
-      const statsByArea = (Object.keys(AREA_LABELS) as ENAMEDArea[]).reduce((acc, area) => {
-        acc[area] = questions.filter((q: any) => q.area === area).length
-        return acc
-      }, {} as Record<ENAMEDArea, number>)
+      if (questions) {
+        const statsByArea = (Object.keys(AREA_LABELS) as ENAMEDArea[]).reduce((acc, area) => {
+          acc[area] = questions.filter((q: any) => q.area === area).length
+          return acc
+        }, {} as Record<ENAMEDArea, number>)
 
-      const difficulties: DifficultyLevel[] = ['muito_facil', 'facil', 'medio', 'dificil', 'muito_dificil']
-      const statsByDifficulty = difficulties.reduce((acc, diff) => {
-        acc[diff] = questions.filter((q: any) => q.difficulty === diff).length
-        return acc
-      }, {} as Record<DifficultyLevel, number>)
+        const difficulties: DifficultyLevel[] = ['muito_facil', 'facil', 'medio', 'dificil', 'muito_dificil']
+        const statsByDifficulty = difficulties.reduce((acc, diff) => {
+          acc[diff] = questions.filter((q: any) => q.difficulty === diff).length
+          return acc
+        }, {} as Record<DifficultyLevel, number>)
 
-      setStats({
-        total: questions.length,
-        byArea: statsByArea,
-        byDifficulty: statsByDifficulty,
-      })
+        setStats({
+          total: questions.length,
+          byArea: statsByArea,
+          byDifficulty: statsByDifficulty,
+        })
+      }
+
+      const publicExams = (examsData || []).filter(
+        (exam: any) =>
+          typeof exam.question_count === 'number' &&
+          exam.question_count > 0 &&
+          typeof exam.time_limit_minutes === 'number' &&
+          exam.time_limit_minutes > 0
+      )
+
+      if (publicExams.length > 0) {
+        const sorted = [...publicExams].sort((left: any, right: any) => right.question_count - left.question_count)
+        const official = sorted.find((exam: any) => exam.type === 'official_simulation')
+        const selected = official || sorted[0]
+
+        setReferenceExam({
+          id: selected.id,
+          title: selected.title || 'Prova de referência',
+          questionCount: selected.question_count,
+          timeLimitMinutes: selected.time_limit_minutes,
+        })
+      } else {
+        setReferenceExam(null)
+      }
+    } catch {
+      setStatsError('Erro inesperado ao carregar dados de questões.')
+    } finally {
+      setLoading(false)
     }
-
-    setLoading(false)
   }
 
-  function calculateAvailableQuestions() {
+  async function calculateAvailableQuestions() {
     if (!stats) return
 
     const supabase = createClient()
+    let query = (supabase.from('questions') as any).select('id', { count: 'exact', head: true })
 
-    // Calculate based on filters
-    // If no filters selected, all questions are available
-    if (selectedAreas.length === 0 && selectedDifficulties.length === 0) {
-      setAvailableQuestions(stats.total)
+    if (selectedAreas.length > 0) {
+      query = query.in('area', selectedAreas)
+    }
+
+    if (selectedDifficulties.length > 0) {
+      query = query.in('difficulty', selectedDifficulties)
+    }
+
+    const { count, error } = await query
+    if (error) {
+      setAvailableQuestions(0)
       return
     }
 
-    // This is a simplified calculation
-    // In reality, we'd need to query the intersection
-    let available = stats.total
-
-    if (selectedAreas.length > 0) {
-      available = selectedAreas.reduce((sum, area) => sum + stats.byArea[area], 0)
-    }
-
-    // Rough estimate for difficulty filter
-    if (selectedDifficulties.length > 0 && selectedAreas.length === 0) {
-      available = selectedDifficulties.reduce((sum, diff) => sum + stats.byDifficulty[diff], 0)
-    }
-
-    setAvailableQuestions(available)
+    setAvailableQuestions(count || 0)
   }
 
   async function handleCreate() {
+    setCreateError(null)
+
     if (!title.trim()) {
-      alert('Por favor, insira um título para o simulado')
+      const message = 'Por favor, insira um título para o simulado.'
+      setCreateError(message)
+      toastError(message)
       return
     }
 
     if (questionCount > availableQuestions) {
-      alert(`Apenas ${availableQuestions} questões disponíveis com os filtros selecionados`)
+      const message = `Apenas ${availableQuestions} questões disponíveis com os filtros selecionados.`
+      setCreateError(message)
+      toastError(message)
       return
     }
 
@@ -119,7 +185,7 @@ export default function MontarProvaPage() {
 
     try {
       const supabase = createClient()
-      const { data: { user } } = await supabase.auth.getUser()
+      const user = await getSessionUserSummary(supabase)
 
       if (!user) {
         router.push('/login')
@@ -140,7 +206,9 @@ export default function MontarProvaPage() {
       const { data: questions } = await query
 
       if (!questions || questions.length < questionCount) {
-        alert('Não há questões suficientes com os filtros selecionados')
+        const message = 'Não há questões suficientes com os filtros selecionados.'
+        setCreateError(message)
+        toastError(message)
         setCreating(false)
         return
       }
@@ -167,7 +235,9 @@ export default function MontarProvaPage() {
 
       if (error) {
         console.error('Error creating exam:', error)
-        alert('Erro ao criar o simulado')
+        const message = 'Erro ao criar o simulado. Revise os filtros e tente novamente.'
+        setCreateError(message)
+        toastError(message)
         setCreating(false)
         return
       }
@@ -176,7 +246,9 @@ export default function MontarProvaPage() {
       router.push(`/simulado/${exam.id}`)
     } catch (error) {
       console.error('Error:', error)
-      alert('Erro ao criar o simulado')
+      const message = 'Erro ao criar o simulado. Tente novamente em instantes.'
+      setCreateError(message)
+      toastError(message)
     } finally {
       setCreating(false)
     }
@@ -184,14 +256,50 @@ export default function MontarProvaPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500" />
+      <div className="min-h-screen bg-surface-0 px-4 py-14">
+        <div className="mx-auto max-w-3xl">
+          <FeatureState
+            kind="loading"
+            title="Montando seu ambiente de prova"
+            description="Carregando disponibilidade de questões e filtros por área/dificuldade."
+          />
+        </div>
+      </div>
+    )
+  }
+
+  if (statsError) {
+    return (
+      <div className="min-h-screen bg-surface-0 px-4 py-14">
+        <div className="mx-auto max-w-3xl">
+          <FeatureState
+            kind="error"
+            title="Falha ao carregar questões"
+            description={statsError}
+            action={{ label: 'Tentar novamente', onClick: () => void loadStats(), variant: 'secondary' }}
+          />
+        </div>
+      </div>
+    )
+  }
+
+  if (stats && stats.total === 0) {
+    return (
+      <div className="min-h-screen bg-surface-0 px-4 py-14">
+        <div className="mx-auto max-w-3xl">
+          <FeatureState
+            kind="empty"
+            title="Ainda não há questões disponíveis"
+            description="Importe o conteúdo médico e as questões para habilitar a criação de simulados personalizados."
+            action={{ label: 'Atualizar disponibilidade', onClick: () => void loadStats(), variant: 'secondary' }}
+          />
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-surface-0 text-white">
+    <div className="min-h-screen bg-surface-0 text-label-primary">
       {/* Header */}
       <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -215,6 +323,27 @@ export default function MontarProvaPage() {
       </header>
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="relative mb-6 h-48 md:h-56 overflow-hidden rounded-2xl border border-separator/70">
+          <Image
+            src="/images/branding/montar-prova-hero-apple-v1.png"
+            alt="Ambiente de preparo de simulado personalizado"
+            fill
+            sizes="(max-width: 768px) 100vw, 1024px"
+            priority
+            className="object-cover object-center opacity-75"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-surface-0/90 via-surface-0/70 to-surface-0/30" />
+          <div className="relative z-10 h-full flex items-end p-5 md:p-7">
+            <div className="max-w-lg">
+              <p className="text-xl md:text-2xl font-semibold text-label-primary">
+                Monte uma prova com a sua estratégia.
+              </p>
+              <p className="text-sm md:text-base text-label-secondary mt-1">
+                Combine áreas, dificuldade e tempo para um treino sob medida.
+              </p>
+            </div>
+          </div>
+        </div>
         <div className="space-y-6">
           {/* Title */}
           <Card>
@@ -275,7 +404,8 @@ export default function MontarProvaPage() {
                 <QuestionCount
                   value={questionCount}
                   onChange={setQuestionCount}
-                  max={Math.min(availableQuestions, 180)}
+                  max={availableQuestions}
+                  referenceQuestionCount={referenceExam?.questionCount || Math.max(availableQuestions, 1)}
                 />
                 <p className="text-sm text-label-secondary mt-2">
                   {availableQuestions} questões disponíveis
@@ -300,7 +430,7 @@ export default function MontarProvaPage() {
                   <span className="text-label-secondary">minutos</span>
                 </div>
                 <p className="text-sm text-label-secondary mt-2">
-                  Recomendado: {Math.round(questionCount * 3)} min ({questionCount} x 3 min/questão)
+                  Recomendado: {Math.round(questionCount * minutesPerQuestion)} min ({questionCount} x {minutesPerQuestion.toFixed(1)} min/questão)
                 </p>
               </CardContent>
             </Card>
@@ -309,6 +439,20 @@ export default function MontarProvaPage() {
           {/* Summary & Create */}
           <Card className="bg-gradient-to-r from-emerald-900/30 to-surface-1 border-emerald-800/50">
             <CardContent className="py-6">
+              {createError && (
+                <div className="mb-4 rounded-lg border border-red-700/60 bg-red-950/30 px-4 py-3 text-sm text-red-200">
+                  <p>{createError}</p>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="mt-3"
+                    onClick={handleCreate}
+                    disabled={creating || !title.trim() || questionCount > availableQuestions}
+                  >
+                    Tentar novamente
+                  </Button>
+                </div>
+              )}
               <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                 <div>
                   <h3 className="text-lg font-semibold">Resumo</h3>
@@ -352,10 +496,10 @@ export default function MontarProvaPage() {
                 <div className="text-sm text-label-secondary">
                   <p className="font-medium text-label-primary mb-1">Sobre o ENAMED</p>
                   <p>
-                    O Exame Nacional de Medicina (ENAMED) possui 180 questões, distribuídas em 5 áreas
-                    com tempo total de 5 horas. O ponto de corte para aprovação é calculado usando TRI
-                    (Teoria de Resposta ao Item) e geralmente corresponde a uma pontuação normalizada
-                    de 600 ou mais em uma escala de 0-1000.
+                    {referenceExam
+                      ? `Referência atual: ${referenceExam.title} com ${referenceExam.questionCount} questões em ${Math.round(referenceExam.timeLimitMinutes / 60)}h ${referenceExam.timeLimitMinutes % 60}min.`
+                      : 'As referências de prova são carregadas dinamicamente da base pública de simulados.'}{' '}
+                    A pontuação final continua baseada em TRI (Teoria de Resposta ao Item) e as regras de corte podem variar por edição.
                   </p>
                 </div>
               </div>

@@ -6,6 +6,7 @@
  */
 
 import type { ENAMEDArea } from '../types/education'
+import { minimaxChat as minimaxChatViaMinimaxApi } from './ai/minimax-client'
 
 // ============================================================================
 // MESSAGE BUILDERS
@@ -229,13 +230,33 @@ export async function minimaxChat(
     throw new Error('Missing GROK_API_KEY, XAI_API_KEY, or MINIMAX_API_KEY')
   }
 
+  const shouldUseOpenAIStyle =
+    options?.apiStyle === 'openai' ||
+    Boolean(process.env.GROK_API_KEY || process.env.XAI_API_KEY)
+
   // Use Grok API if available (supports both env var names)
-  if (process.env.GROK_API_KEY || process.env.XAI_API_KEY) {
+  if (shouldUseOpenAIStyle) {
     return minimaxChatViaGrok(request, apiKey, options?.timeoutMs)
   }
 
-  // Fall back to Minimax API
-  throw new Error('Minimax API implementation pending - use XAI_API_KEY or GROK_API_KEY instead')
+  const minimax = await minimaxChatViaMinimaxApi(request, {
+    apiKey,
+    groupId: options?.groupId || process.env.MINIMAX_GROUP_ID,
+    baseUrl: options?.baseUrl || process.env.MINIMAX_API_URL,
+    apiStyle: options?.apiStyle ?? 'minimax',
+    timeoutMs: options?.timeoutMs,
+  })
+
+  return {
+    text: minimax.text,
+    usage: minimax.usage
+      ? {
+          totalTokens: minimax.usage.totalTokens,
+          inputTokens: minimax.usage.promptTokens,
+          outputTokens: minimax.usage.completionTokens,
+        }
+      : undefined,
+  }
 }
 
 /**

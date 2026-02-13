@@ -16,6 +16,7 @@ import {
   AlertTriangle,
 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
+import { getSessionUserSummary } from '@/lib/auth/session'
 import { Card, CardContent } from '@/components/ui/Card'
 import { AREA_COLORS, AREA_LABELS } from '@/lib/area-colors'
 import { ReliabilityDiagram } from '../components/ReliabilityDiagram'
@@ -70,7 +71,7 @@ export default function CalibracaoPage() {
   useEffect(() => {
     async function load() {
       const supabase = createClient()
-      const { data: { user } } = await supabase.auth.getUser()
+      const user = await getSessionUserSummary(supabase)
       if (!user) {
         router.push('/login?redirectTo=/fcr/calibracao')
         return
@@ -96,7 +97,7 @@ export default function CalibracaoPage() {
       <div className="min-h-screen bg-surface-0 flex items-center justify-center">
         <div className="text-center">
           <div className="w-10 h-10 border-4 border-violet-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-label-secondary">Analisando calibracao...</p>
+          <p className="text-label-secondary">Analisando calibração...</p>
         </div>
       </div>
     )
@@ -108,7 +109,7 @@ export default function CalibracaoPage() {
         <Card>
           <CardContent className="py-8 text-center">
             <AlertTriangle className="w-8 h-8 text-amber-400 mx-auto mb-3" />
-            <p className="text-label-secondary">{error || 'Erro ao carregar diagnosticos'}</p>
+            <p className="text-label-secondary">{error || 'Erro ao carregar diagnósticos'}</p>
           </CardContent>
         </Card>
       </div>
@@ -123,14 +124,14 @@ export default function CalibracaoPage() {
       <div className="max-w-5xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center gap-3 mb-2">
-          <Link href="/fcr" className="text-muted-foreground hover:text-white transition-colors">
+          <Link href="/fcr" className="text-label-secondary hover:text-label-primary transition-colors">
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <Brain className="w-7 h-7 text-violet-400" />
-          <h1 className="text-2xl font-bold text-white">Calibracao Metacognitiva</h1>
+          <h1 className="text-2xl font-bold text-label-primary">Calibração metacognitiva</h1>
         </div>
         <p className="text-label-secondary mb-8 ml-8">
-          Analise SOTA de calibracao de confianca, Dunning-Kruger e cascata de erros.
+          Análise SOTA de calibração de confiança, Dunning-Kruger e cascata de erros.
         </p>
 
         {needsMore ? (
@@ -138,19 +139,19 @@ export default function CalibracaoPage() {
           <Card>
             <CardContent className="py-12 text-center">
               <Activity className="w-12 h-12 text-violet-400/50 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-white mb-2">Dados Insuficientes</h3>
+              <h3 className="text-lg font-medium text-label-primary mb-2">Dados Insuficientes</h3>
               <p className="text-sm text-muted-foreground mb-4">
-                {summary.message || `Complete pelo menos 3 casos FCR para ativar a analise de calibracao.`}
+                {summary.message || `Complete pelo menos 3 casos FCR para ativar a análise de calibração.`}
               </p>
               <p className="text-sm text-muted-foreground mb-6">
-                Voce completou <strong className="text-violet-400">{summary.totalAttempts}</strong> de 3 casos necessarios.
+                Você completou <strong className="text-violet-400">{summary.totalAttempts}</strong> de 3 casos necessários.
               </p>
               <Link
                 href="/fcr"
                 className="inline-flex items-center gap-2 px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-500 transition-colors"
               >
                 <Brain className="w-4 h-4" />
-                Praticar Casos FCR
+                Praticar casos FCR
               </Link>
             </CardContent>
           </Card>
@@ -169,24 +170,24 @@ export default function CalibracaoPage() {
                 label="Casos Completos"
                 value={summary.totalAttempts.toString()}
               />
-              <StatCard
-                icon={<Gauge className="w-5 h-5 text-emerald-400" />}
-                label="Calibracao Media"
-                value={`${summary.avgCalibrationScore?.toFixed(0) ?? '–'}`}
-                suffix="/100"
-              />
+	              <StatCard
+	                icon={<Gauge className="w-5 h-5 text-emerald-400" />}
+	                label="Calibração média"
+	                value={`${summary.avgCalibrationScore?.toFixed(0) ?? '–'}`}
+	                suffix="/100"
+	              />
               <StatCard
                 icon={<BarChart3 className="w-5 h-5 text-amber-400" />}
                 label="ECE"
                 value={calibration?.ece?.toFixed(3) ?? '–'}
                 tooltip="Expected Calibration Error (menor = melhor)"
               />
-              <StatCard
-                icon={<AlertTriangle className="w-5 h-5 text-red-400" />}
-                label="Ilusoes de Saber"
-                value={summary.totalIllusionsOfKnowing?.toString() ?? '0'}
-                alert={!!summary.totalIllusionsOfKnowing && summary.totalIllusionsOfKnowing > 2}
-              />
+	              <StatCard
+	                icon={<AlertTriangle className="w-5 h-5 text-red-400" />}
+	                label="Ilusões de saber"
+	                value={summary.totalIllusionsOfKnowing?.toString() ?? '0'}
+	                alert={!!summary.totalIllusionsOfKnowing && summary.totalIllusionsOfKnowing > 2}
+	              />
             </motion.div>
 
             {/* Main visualizations grid */}
@@ -243,7 +244,7 @@ export default function CalibracaoPage() {
             {Object.keys(timeline.byArea).length > 0 && (
               <motion.div variants={item} className="space-y-3">
                 <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-                  Calibracao por Area
+                  Calibração por área
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {Object.values(timeline.byArea).map((areaData: any) => {
@@ -266,10 +267,10 @@ export default function CalibracaoPage() {
                         </div>
                         <div className="grid grid-cols-2 gap-2 text-center">
                           <div>
-                            <div className="text-lg font-bold text-white">
+                            <div className="text-lg font-bold text-label-primary tabular-nums">
                               {areaData.avgCalibration.toFixed(0)}
                             </div>
-                            <div className="text-xs text-muted-foreground">Calibracao</div>
+                            <div className="text-xs text-muted-foreground">Calibração</div>
                           </div>
                           <div>
                             <div className={`text-lg font-bold ${isOverconfident ? 'text-red-400' : 'text-emerald-400'}`}>
@@ -294,9 +295,9 @@ export default function CalibracaoPage() {
                     <div className="flex items-center gap-3">
                       <Sparkles className="w-6 h-6 text-violet-400" />
                       <div>
-                        <div className="font-medium text-white">Proximo Caso Adaptativo</div>
+                        <div className="font-medium text-label-primary">Próximo Caso Adaptativo</div>
                         <p className="text-xs text-muted-foreground">
-                          O algoritmo selecionara o caso ideal para seu perfil de calibracao.
+                          O algoritmo selecionará o caso ideal para seu perfil de calibração.
                         </p>
                       </div>
                     </div>
@@ -342,7 +343,7 @@ function StatCard({
         <span className="text-xs text-muted-foreground">{label}</span>
       </div>
       <div className="flex items-baseline">
-        <span className="text-2xl font-bold text-white">{value}</span>
+        <span className="text-2xl font-bold text-label-primary tabular-nums">{value}</span>
         {suffix && <span className="text-sm text-muted-foreground ml-1">{suffix}</span>}
       </div>
     </motion.div>

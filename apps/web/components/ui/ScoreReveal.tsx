@@ -22,11 +22,24 @@ export function ScoreReveal({
   passed,
   passLabel = 'Aprovado',
   failLabel = 'Reprovado',
-  subtitle = `Pontuacao TRI (0-${maxScore})`,
+  subtitle = `Pontuação TRI (0–${maxScore})`,
   cutoffLabel,
   stats,
   onRevealComplete,
 }: ScoreRevealProps) {
+  const gridColsClass =
+    !stats || stats.length <= 1
+      ? 'grid-cols-1'
+      : stats.length === 2
+        ? 'grid-cols-2'
+        : stats.length === 3
+          ? 'grid-cols-3'
+          : stats.length === 4
+            ? 'grid-cols-4'
+            : stats.length === 5
+              ? 'grid-cols-5'
+              : 'grid-cols-6'
+
   return (
     <div className="text-center py-8">
       {/* Stage 1: Pass/Fail Badge — slide in with bouncy spring */}
@@ -36,8 +49,8 @@ export function ScoreReveal({
         transition={{ ...spring.bouncy, delay: 0 }}
         className={`inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 ${
           passed
-            ? 'bg-emerald-900/50 text-emerald-300 border border-emerald-700'
-            : 'bg-red-900/50 text-red-300 border border-red-700'
+            ? 'bg-emerald-500/12 text-emerald-200 border border-emerald-400/35 shadow-inner-shine'
+            : 'bg-rose-500/12 text-rose-200 border border-rose-400/35 shadow-inner-shine'
         }`}
       >
         {passed ? (
@@ -65,7 +78,7 @@ export function ScoreReveal({
         className="mb-6"
         onAnimationComplete={onRevealComplete}
       >
-        <div className="text-6xl font-bold text-white mb-2">
+        <div className="text-6xl font-bold text-label-primary mb-2 tabular-nums">
           <AnimatedCounter value={score} duration={1.8} />
         </div>
         <div className="text-label-secondary">{subtitle}</div>
@@ -83,7 +96,7 @@ export function ScoreReveal({
             hidden: { opacity: 0 },
             show: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 1.2 } },
           }}
-          className={`grid grid-cols-${stats.length} gap-4 max-w-md mx-auto`}
+          className={`grid ${gridColsClass} gap-4 max-w-md mx-auto`}
         >
           {stats.map((stat, i) => (
             <motion.div
@@ -94,7 +107,7 @@ export function ScoreReveal({
               }}
               className="bg-surface-2/50 rounded-lg p-4"
             >
-              <div className={`text-2xl font-bold ${stat.color || 'text-white'}`}>
+              <div className={`text-2xl font-bold tabular-nums ${stat.color || 'text-label-primary'}`}>
                 <AnimatedCounter value={stat.value} suffix={stat.suffix} duration={1} />
               </div>
               <div className="text-xs text-label-secondary">{stat.label}</div>

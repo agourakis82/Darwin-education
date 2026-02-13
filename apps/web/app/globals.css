@@ -11,12 +11,97 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  color-scheme: light dark;
+}
+
+/* Darwin Clinical Premium tokens (brandkitA_starter_v1_assets.zip) */
+:root {
+  /* Semantic surface + text tokens (light) */
+  --surface-0: 246 248 252;
+  --surface-1: 255 255 255;
+  --surface-2: 242 246 251;
+  --surface-3: 228 234 243;
+  --surface-4: 208 217 230;
+  --surface-5: 182 194 210;
+  --label-primary: 15 23 42;
+  --label-secondary: 51 65 85;
+  --label-tertiary: 100 116 139;
+  --label-quaternary: 148 163 184;
+  --label-faint: 203 213 225;
+  --separator: 184 197 214;
+
+  --darwin-emerald: #18c29c;
+  --darwin-bg-light: #f5f7fa;
+  --darwin-bg-white: #ffffff;
+  --darwin-fg-dark: #0b0f14;
+  --darwin-fg-muted: #2a313a;
+  --darwin-glass-light: rgba(255, 255, 255, 0.1);
+  --darwin-glass-dark: rgba(255, 255, 255, 0.06);
+  --darwin-glass-border-light: rgba(255, 255, 255, 0.18);
+  --darwin-glass-border-dark: rgba(255, 255, 255, 0.12);
+  --darwin-shadow-soft: 0 10px 30px rgba(11, 15, 20, 0.12);
+  --darwin-shadow-ultra: 0 20px 60px rgba(11, 15, 20, 0.18);
+  --darwin-grain-opacity: 0.05;
+}
+
+.dark {
+  --surface-0: 12 16 21;
+  --surface-1: 20 25 33;
+  --surface-2: 30 36 45;
+  --surface-3: 42 49 61;
+  --surface-4: 57 67 81;
+  --surface-5: 76 88 104;
+  --label-primary: 244 248 255;
+  --label-secondary: 190 204 223;
+  --label-tertiary: 152 169 191;
+  --label-quaternary: 122 139 163;
+  --label-faint: 97 113 136;
+  --separator: 94 111 133;
+}
+
+body {
+  background: rgb(var(--surface-0));
+  color: rgb(var(--label-primary) / 0.98);
+  font-family:
+    'SF Pro Text',
+    'SF Pro Display',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Arial,
+    sans-serif;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(980px 620px at -6% -14%, rgba(16, 185, 129, 0.18), transparent 60%),
+    radial-gradient(760px 500px at 104% -8%, rgba(56, 189, 248, 0.14), transparent 58%),
+    radial-gradient(940px 640px at 40% 112%, rgba(8, 47, 73, 0.26), transparent 64%);
+  z-index: -2;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.32'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  mix-blend-mode: soft-light;
+  z-index: -1;
 }
 
 /* Selection color */
 ::selection {
   background: rgba(16, 185, 129, 0.3);
-  color: #ffffff;
+  color: rgb(var(--label-primary) / 1);
 }
 
 /* Global scrollbar */
@@ -30,12 +115,12 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #252528;
+  background: rgb(var(--surface-4) / 0.9);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3a3a3f;
+  background: rgb(var(--surface-5) / 0.95);
 }
 
 /* Exam-specific scrollbar (keep backwards compat) */
@@ -48,7 +133,7 @@ html {
 }
 
 .exam-scrollbar::-webkit-scrollbar-thumb {
-  background: #252528;
+  background: rgb(var(--surface-4) / 0.9);
   border-radius: 3px;
 }
 
@@ -57,20 +142,127 @@ html {
    ============================================ */
 
 @layer utilities {
+  .darwin-mesh-bg {
+    background:
+      radial-gradient(1200px 600px at -10% -20%, rgba(16, 185, 129, 0.2), transparent 62%),
+      radial-gradient(900px 500px at 110% -10%, rgba(14, 165, 233, 0.14), transparent 58%),
+      radial-gradient(980px 560px at 60% 130%, rgba(3, 105, 161, 0.12), transparent 60%);
+  }
+
+  .darwin-panel {
+    @apply rounded-2xl border border-separator/65 shadow-elevation-2;
+    background:
+      linear-gradient(
+        180deg,
+        rgb(var(--surface-1) / 0.84) 0%,
+        rgb(var(--surface-1) / 0.66) 100%
+      );
+    -webkit-backdrop-filter: blur(30px) saturate(165%);
+    backdrop-filter: blur(30px) saturate(165%);
+    box-shadow:
+      0 12px 28px rgba(2, 6, 23, 0.24),
+      inset 0 1px 0 rgb(255 255 255 / 0.08);
+  }
+
+  .darwin-panel-strong {
+    @apply rounded-2xl border border-separator/70 shadow-elevation-3;
+    background:
+      linear-gradient(
+        180deg,
+        rgb(var(--surface-1) / 0.94) 0%,
+        rgb(var(--surface-1) / 0.8) 100%
+      );
+    -webkit-backdrop-filter: blur(42px) saturate(190%);
+    backdrop-filter: blur(42px) saturate(190%);
+    box-shadow:
+      0 16px 36px rgba(2, 6, 23, 0.26),
+      inset 0 1px 0 rgb(255 255 255 / 0.12);
+  }
+
+  .darwin-card-interactive {
+    @apply transition-all duration-300;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, box-shadow, background-color;
+  }
+
+  .darwin-card-interactive:hover {
+    transform: translateY(-3px) scale(1.0025);
+  }
+
+  .darwin-nav-link {
+    @apply transition-all duration-300;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, color, background-color, border-color;
+  }
+
+  .darwin-nav-link:hover {
+    transform: translateY(-1px);
+  }
+
+  .darwin-nav-link:active {
+    transform: translateY(0) scale(0.985);
+  }
+
+  .darwin-pressable {
+    @apply transition-transform duration-200;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .darwin-pressable:active {
+    transform: scale(0.982);
+  }
+
+  .darwin-image-tile {
+    @apply relative overflow-hidden rounded-2xl border border-separator/70;
+    isolation: isolate;
+  }
+
+  .darwin-image-tile::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, rgb(0 0 0 / 0.04), rgb(0 0 0 / 0.56));
+    pointer-events: none;
+  }
+
+  .darwin-image-tile::after {
+    content: '';
+    position: absolute;
+    inset: -120% auto auto -35%;
+    width: 32%;
+    height: 260%;
+    z-index: 2;
+    background: linear-gradient(115deg, transparent, rgb(255 255 255 / 0.3), transparent);
+    transform: rotate(14deg) translateX(-120%);
+    opacity: 0;
+    transition: opacity 260ms ease;
+    pointer-events: none;
+  }
+
+  .darwin-image-tile:hover::after {
+    opacity: 1;
+    animation: darwin-sheen 1.05s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .darwin-focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-0;
+  }
+
   .material-thin {
-    @apply backdrop-blur-xl bg-[#1c1c1f]/60;
+    @apply bg-surface-1/70;
     -webkit-backdrop-filter: blur(24px) saturate(180%);
     backdrop-filter: blur(24px) saturate(180%);
   }
 
   .material-regular {
-    @apply bg-[#1c1c1f]/50;
+    @apply bg-surface-1/55;
     -webkit-backdrop-filter: blur(40px) saturate(200%);
     backdrop-filter: blur(40px) saturate(200%);
   }
 
   .material-thick {
-    @apply bg-[#111114]/40;
+    @apply bg-surface-2/80;
     -webkit-backdrop-filter: blur(60px) saturate(200%);
     backdrop-filter: blur(60px) saturate(200%);
   }
@@ -81,6 +273,43 @@ html {
 
   .gradient-text-accent {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400;
+  }
+}
+
+/* ============================================
+   Performance tuning (mobile)
+   ============================================ */
+
+@media (max-width: 640px) {
+  .darwin-panel {
+    -webkit-backdrop-filter: blur(22px) saturate(155%);
+    backdrop-filter: blur(22px) saturate(155%);
+    box-shadow:
+      0 10px 22px rgba(2, 6, 23, 0.22),
+      inset 0 1px 0 rgb(255 255 255 / 0.06);
+  }
+
+  .darwin-panel-strong {
+    -webkit-backdrop-filter: blur(28px) saturate(165%);
+    backdrop-filter: blur(28px) saturate(165%);
+    box-shadow:
+      0 14px 30px rgba(2, 6, 23, 0.24),
+      inset 0 1px 0 rgb(255 255 255 / 0.1);
+  }
+
+  .material-thin {
+    -webkit-backdrop-filter: blur(18px) saturate(165%);
+    backdrop-filter: blur(18px) saturate(165%);
+  }
+
+  .material-regular {
+    -webkit-backdrop-filter: blur(26px) saturate(175%);
+    backdrop-filter: blur(26px) saturate(175%);
+  }
+
+  .material-thick {
+    -webkit-backdrop-filter: blur(36px) saturate(185%);
+    backdrop-filter: blur(36px) saturate(185%);
   }
 }
 
@@ -97,6 +326,11 @@ html {
   0%, 100% { transform: translateX(0); }
   10%, 50%, 90% { transform: translateX(-3px); }
   30%, 70% { transform: translateX(3px); }
+}
+
+@keyframes darwin-sheen {
+  0% { transform: rotate(14deg) translateX(-120%); }
+  100% { transform: rotate(14deg) translateX(420%); }
 }
 
 .animate-shake {

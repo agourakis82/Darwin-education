@@ -5,10 +5,10 @@ interface SkeletonProps {
 export function Skeleton({ className = '' }: SkeletonProps) {
   return (
     <div
-      className={`bg-surface-3 rounded-lg relative overflow-hidden ${className}`}
+      className={`relative overflow-hidden rounded-lg bg-surface-3/75 ${className}`}
       aria-hidden="true"
     >
-      <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/[0.04] to-transparent" />
+      <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.55s_ease-in-out_infinite] bg-gradient-to-r from-transparent via-white/[0.08] to-transparent dark:via-white/[0.06]" />
     </div>
   )
 }
@@ -65,7 +65,7 @@ export function SkeletonCard({
   return (
     <div
       className={`
-        bg-surface-2 rounded-lg shadow-elevation-1 p-6
+        darwin-panel rounded-2xl border border-separator/75 p-5
         ${className}
       `}
       aria-hidden="true"

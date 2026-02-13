@@ -4,10 +4,11 @@ import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
-import type { User } from '@supabase/supabase-js'
+import { ChevronDown, LogOut, Layers, BarChart3 } from 'lucide-react'
+import { getUserDisplayName, getUserInitial, type UserSummary } from '@/lib/auth/user'
 
 interface UserMenuProps {
-  user: User
+  user: UserSummary
 }
 
 export function UserMenu({ user }: UserMenuProps) {
@@ -15,8 +16,8 @@ export function UserMenu({ user }: UserMenuProps) {
   const menuRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
 
-  const userName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Usuário'
-  const userInitial = userName.charAt(0).toUpperCase()
+  const userName = getUserDisplayName(user)
+  const userInitial = getUserInitial(user)
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -29,6 +30,15 @@ export function UserMenu({ user }: UserMenuProps) {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  useEffect(() => {
+    if (!isOpen) return
+    const handler = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsOpen(false)
+    }
+    document.addEventListener('keydown', handler)
+    return () => document.removeEventListener('keydown', handler)
+  }, [isOpen])
+
   const handleSignOut = async () => {
     const supabase = createClient()
     await supabase.auth.signOut()
@@ -40,75 +50,57 @@ export function UserMenu({ user }: UserMenuProps) {
     <div className="relative" ref={menuRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-surface-2 transition-colors"
+        className="darwin-focus-ring darwin-nav-link inline-flex items-center gap-2 rounded-xl border border-separator/70 bg-surface-2/65 px-3 py-2 text-sm text-label-primary shadow-elevation-1 hover:bg-surface-3/70"
+        aria-haspopup="menu"
+        aria-expanded={isOpen}
       >
-        <div className="w-8 h-8 bg-emerald-600 rounded-full flex items-center justify-center text-white font-medium text-sm">
+        <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-emerald-500/30 bg-gradient-to-b from-emerald-500/25 to-emerald-600/15 text-sm font-semibold text-emerald-200 shadow-inner-shine">
           {userInitial}
         </div>
-        <span className="text-label-primary hidden sm:block">{userName}</span>
-        <svg
-          className={`w-4 h-4 text-label-secondary transition-transform ${isOpen ? 'rotate-180' : ''}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
+        <span className="hidden max-w-[10rem] truncate text-sm font-medium text-label-primary sm:block">
+          {userName}
+        </span>
+        <ChevronDown
+          className={`h-4 w-4 text-label-tertiary transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          aria-hidden="true"
+        />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-56 bg-surface-1 border border-separator rounded-lg shadow-xl py-1 z-dropdown">
-          <div className="px-4 py-3 border-b border-separator">
-            <p className="text-sm font-medium text-white">{userName}</p>
-            <p className="text-xs text-label-secondary truncate">{user.email}</p>
+        <div
+          className="absolute right-0 z-dropdown mt-2 w-72 overflow-hidden rounded-2xl border border-separator/80 bg-surface-1/90 p-1 shadow-elevation-4 backdrop-blur-xl"
+          role="menu"
+        >
+          <div className="rounded-xl border border-separator/70 bg-surface-2/60 px-4 py-3">
+            <p className="text-sm font-semibold text-label-primary">{userName}</p>
+            <p className="mt-0.5 text-xs text-label-tertiary truncate">{user.email || ''}</p>
           </div>
 
           <Link
             href="/desempenho"
             onClick={() => setIsOpen(false)}
-            className="flex items-center gap-3 px-4 py-2 text-sm text-label-primary hover:bg-surface-2 hover:text-white transition-colors"
+            className="darwin-focus-ring darwin-nav-link mt-1 flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-label-secondary hover:bg-surface-3/70 hover:text-label-primary"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-              />
-            </svg>
+            <BarChart3 className="h-4 w-4 text-label-tertiary" aria-hidden="true" />
             Meu desempenho
           </Link>
 
           <Link
             href="/flashcards"
             onClick={() => setIsOpen(false)}
-            className="flex items-center gap-3 px-4 py-2 text-sm text-label-primary hover:bg-surface-2 hover:text-white transition-colors"
+            className="darwin-focus-ring darwin-nav-link flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-label-secondary hover:bg-surface-3/70 hover:text-label-primary"
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-              />
-            </svg>
+            <Layers className="h-4 w-4 text-label-tertiary" aria-hidden="true" />
             Meus flashcards
           </Link>
 
-          <div className="border-t border-separator mt-1 pt-1">
+          <div className="mt-1 border-t border-separator/70 pt-1">
             <button
               onClick={handleSignOut}
-              className="flex items-center gap-3 w-full px-4 py-2 text-sm text-red-400 hover:bg-surface-2 hover:text-red-300 transition-colors"
+              className="darwin-focus-ring darwin-nav-link flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-rose-300 hover:bg-rose-500/10 hover:text-rose-200"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                />
-              </svg>
-              Sair
+              <LogOut className="h-4 w-4" aria-hidden="true" />
+              Encerrar sessão
             </button>
           </div>
         </div>

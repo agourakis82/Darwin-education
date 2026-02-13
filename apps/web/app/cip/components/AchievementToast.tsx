@@ -110,12 +110,12 @@ export function AchievementToast({ achievements, onClose }: AchievementToastProp
                   <span className="text-4xl">{currentAchievement.icon}</span>
                 </div>
                 {/* Tier Badge */}
-                <div className="absolute -top-1 -right-1 w-6 h-6 flex items-center justify-center rounded-full bg-white/90 border-2 border-white shadow-lg">
+                <div className="absolute -top-1 -right-1 w-6 h-6 flex items-center justify-center rounded-full bg-surface-1/90 border border-separator/80 shadow-elevation-2 backdrop-blur-md">
                   <span className="text-xs flex items-center justify-center">
                     {currentAchievement.tier === 'bronze' && <CircleDot className="w-3 h-3 text-amber-600" />}
-                    {currentAchievement.tier === 'silver' && <Award className="w-3 h-3 text-gray-500" />}
-                    {currentAchievement.tier === 'gold' && <Medal className="w-3 h-3 text-yellow-500" />}
-                    {currentAchievement.tier === 'platinum' && <Gem className="w-3 h-3 text-cyan-500" />}
+                    {currentAchievement.tier === 'silver' && <Award className="w-3 h-3 text-label-tertiary" />}
+                    {currentAchievement.tier === 'gold' && <Medal className="w-3 h-3 text-yellow-400" />}
+                    {currentAchievement.tier === 'platinum' && <Gem className="w-3 h-3 text-cyan-400" />}
                   </span>
                 </div>
               </div>

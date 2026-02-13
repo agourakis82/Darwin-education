@@ -54,15 +54,15 @@ export function QuestionCard({
 
     if (showCorrectAnswer) {
       if (isCorrect) {
-        return 'border-emerald-500 bg-emerald-900/30 text-emerald-300'
+        return 'border-emerald-500/60 bg-emerald-500/12 text-label-primary shadow-inner-shine'
       }
       if (isSelected && !isCorrect) {
-        return 'border-red-500 bg-red-900/30 text-red-300'
+        return 'border-red-500/60 bg-red-500/10 text-label-primary shadow-inner-shine'
       }
     }
 
     if (isSelected) {
-      return 'border-emerald-500 bg-emerald-900/20 text-white'
+      return 'border-emerald-500/55 bg-emerald-500/12 text-label-primary shadow-inner-shine'
     }
 
     return 'border-separator hover:border-label-quaternary hover:bg-surface-2/50 text-label-primary'
@@ -97,8 +97,8 @@ export function QuestionCard({
       </div>
 
       {/* Question Text */}
-      <div className="prose prose-invert max-w-none mb-6">
-        <p className="text-white text-base leading-relaxed whitespace-pre-wrap">
+      <div className="prose max-w-none mb-6 dark:prose-invert">
+        <p className="text-label-primary text-base leading-relaxed whitespace-pre-wrap">
           {question.stem}
         </p>
       </div>

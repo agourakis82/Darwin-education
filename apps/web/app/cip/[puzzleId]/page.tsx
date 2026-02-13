@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { Puzzle } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
+import { getSessionUserSummary } from '@/lib/auth/session'
 import {
   useCIPStore,
   selectGridState,
@@ -84,6 +85,9 @@ interface CIPAttemptRow {
   puzzle_id: string
   user_id: string
   grid_state?: Record<string, string>
+  time_per_cell?: Record<string, number>
+  total_time_seconds?: number
+  started_at?: string
   completed_at?: string
 }
 
@@ -117,9 +121,7 @@ export default function CIPPuzzlePage() {
       const supabase = createClient()
 
       // Check user auth
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
+      const user = await getSessionUserSummary(supabase)
       if (!user) {
         router.push('/login?redirectTo=/cip/' + puzzleId)
         return
@@ -130,7 +132,7 @@ export default function CIPPuzzlePage() {
         .from('cip_puzzles')
         .select('*')
         .eq('id', puzzleId)
-        .single()
+        .maybeSingle()
 
       const puzzleData = puzzleDataRaw as CIPPuzzleRow | null
 
@@ -313,7 +315,7 @@ export default function CIPPuzzlePage() {
         .eq('puzzle_id', puzzleId)
         .eq('user_id', user.id)
         .is('completed_at', null)
-        .single()
+        .maybeSingle()
 
       const existingAttempt = existingAttemptRaw as CIPAttemptRow | null
 
@@ -321,7 +323,6 @@ export default function CIPPuzzlePage() {
 
       if (existingAttempt) {
         attemptId = existingAttempt.id
-        // TODO: Restore state from existing attempt
       } else {
         // Create new attempt
         const { data: newAttemptRaw, error: attemptError } = await supabase
@@ -347,7 +348,23 @@ export default function CIPPuzzlePage() {
       }
 
       // Initialize store
-      startPuzzle(puzzle, attemptId)
+      const remainingTime =
+        existingAttempt?.total_time_seconds != null
+          ? Math.max(0, puzzle.timeLimitMinutes * 60 - existingAttempt.total_time_seconds)
+          : puzzle.timeLimitMinutes * 60
+
+      startPuzzle(
+        puzzle,
+        attemptId,
+        existingAttempt
+          ? {
+              gridState: existingAttempt.grid_state || {},
+              timePerCell: existingAttempt.time_per_cell || {},
+              remainingTime,
+              startedAt: existingAttempt.started_at || null,
+            }
+          : undefined
+      )
       setLoading(false)
     }
 
@@ -382,9 +399,7 @@ export default function CIPPuzzlePage() {
 
     try {
       const supabase = createClient()
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
+      const user = await getSessionUserSummary(supabase)
 
       if (!user) {
         router.push('/login')
@@ -474,7 +489,26 @@ export default function CIPPuzzlePage() {
   }
 
   if (!currentPuzzle) {
-    return null
+    return (
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center p-4">
+        <Card className="max-w-md w-full">
+          <CardContent className="py-8 text-center">
+            <h2 className="text-xl font-semibold text-label-primary mb-2">Puzzle indisponível</h2>
+            <p className="text-label-secondary mb-6">
+              Não foi possível preparar seu puzzle neste momento.
+            </p>
+            <div className="space-y-2">
+              <Button onClick={() => router.push('/cip')} fullWidth>
+                Voltar para CIP
+              </Button>
+              <Button variant="outline" onClick={() => router.refresh()} fullWidth>
+                Tentar novamente
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
   }
 
   return (
@@ -486,7 +520,7 @@ export default function CIPPuzzlePage() {
             <div className="flex items-center gap-3">
               <Puzzle className="w-6 h-6 text-purple-400" />
               <div>
-                <h1 className="text-lg font-semibold text-white">{currentPuzzle.title}</h1>
+                <h1 className="text-lg font-semibold text-label-primary">{currentPuzzle.title}</h1>
                 <span className="text-sm text-label-secondary">
                   {answeredCount}/{totalCells} preenchidas
                 </span>

@@ -149,7 +149,7 @@ export function LearningTrajectory({
           </div>
           <div className="flex items-center gap-1">
             <div className="w-4 h-0.5 bg-emerald-500 rounded border-t border-dashed" />
-            <span className="text-label-secondary">P(Aprovacao)</span>
+            <span className="text-label-secondary">P(Aprovação)</span>
           </div>
         </div>
 

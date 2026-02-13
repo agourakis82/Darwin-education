@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { FSRS } from '@darwin-education/shared'
+import { getSessionUserSummary } from '@/lib/auth/session'
 
 /**
  * POST /api/flashcards/optimize
@@ -13,8 +14,8 @@ export async function POST(request: NextRequest) {
   try {
     const supabase = await createServerClient()
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-    if (authError || !user) {
+    const user = await getSessionUserSummary(supabase)
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 

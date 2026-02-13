@@ -2,7 +2,7 @@
 
 // ============================================================
 // DDL TEST PAGE
-// Pagina de teste do sistema DDL
+// Página de teste do sistema DDL
 // ============================================================
 
 import { useState, useEffect } from 'react'
@@ -58,12 +58,12 @@ export default function DDLTestPage() {
     async function loadQuestions() {
       try {
         const res = await fetch('/api/ddl/questions')
-        if (!res.ok) throw new Error('Failed to load questions')
+        if (!res.ok) throw new Error('Falha ao carregar questões')
         const data = await res.json()
         setQuestions(data.questions || [])
       } catch (err) {
-        setError('Erro ao carregar questoes piloto')
-        console.error(err)
+        setError('Erro ao carregar questões piloto')
+        if (process.env.NODE_ENV !== 'production') console.error(err)
       } finally {
         setLoading(false)
       }
@@ -96,7 +96,7 @@ export default function DDLTestPage() {
 
       if (!createRes.ok) {
         const errData = await createRes.json()
-        throw new Error(errData.error || 'Failed to save response')
+        throw new Error(errData.message || errData.error || 'Falha ao salvar resposta')
       }
 
       const { responseId: newResponseId } = await createRes.json()
@@ -111,7 +111,7 @@ export default function DDLTestPage() {
 
       if (!analyzeRes.ok) {
         const errData = await analyzeRes.json()
-        throw new Error(errData.error || errData.details || 'Analysis failed')
+        throw new Error(errData.message || errData.error || errData.details || 'Falha na análise')
       }
 
       const analysisResult = await analyzeRes.json()
@@ -120,7 +120,7 @@ export default function DDLTestPage() {
       setPhase('feedback')
 
     } catch (err) {
-      console.error('Error during submission:', err)
+      if (process.env.NODE_ENV !== 'production') console.error('Erro durante o envio:', err)
       setError((err as Error).message)
       setPhase('answer')
     }
@@ -147,7 +147,7 @@ export default function DDLTestPage() {
   }
 
   const phaseLabels: Record<TestPhase, string> = {
-    select: 'Selecionar Questao',
+    select: 'Selecionar Questão',
     answer: 'Responder',
     analyzing: 'Analisando...',
     feedback: 'Feedback',
@@ -161,11 +161,11 @@ export default function DDLTestPage() {
       <div className="max-w-4xl mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white">
-            DDL - Diagnostico Diferencial de Lacunas
+          <h1 className="text-3xl font-bold text-label-primary">
+            DDL - Diagnóstico Diferencial de Lacunas
           </h1>
           <p className="mt-2 text-label-secondary">
-            Sistema de analise semantica e comportamental para identificacao de lacunas de aprendizagem
+            Sistema de análise semântica e comportamental para identificação de lacunas de aprendizagem
           </p>
 
           {/* Phase indicator */}
@@ -218,7 +218,7 @@ export default function DDLTestPage() {
         {/* Phase: Select */}
         {phase === 'select' && (
           <div className="bg-surface-2 rounded-lg border border-separator p-6">
-            <h2 className="text-xl font-semibold text-white mb-4">Questoes Piloto</h2>
+            <h2 className="text-xl font-semibold text-label-primary mb-4">Questões Piloto</h2>
             {loading ? (
               <div className="space-y-4">
                 {[1, 2, 3].map((i) => (
@@ -230,9 +230,9 @@ export default function DDLTestPage() {
               </div>
             ) : questions.length === 0 ? (
               <div className="text-center py-8">
-                <p className="text-label-secondary">Nenhuma questao piloto encontrada.</p>
+                <p className="text-label-secondary">Nenhuma questão piloto encontrada.</p>
                 <p className="text-sm text-label-tertiary mt-2">
-                  Execute o seed SQL no Supabase para adicionar as questoes.
+                  Execute o seed SQL no Supabase para adicionar as questões.
                 </p>
               </div>
             ) : (
@@ -247,14 +247,14 @@ export default function DDLTestPage() {
                     <div className="flex items-center gap-2 mb-2">
                       <span className="text-xs font-mono text-label-tertiary">{q.question_code}</span>
                       <span className={`px-2 py-0.5 text-xs rounded ${getDifficultyColor(q.difficulty_level)}`}>
-                        Nivel {q.difficulty_level}
+                        Nível {q.difficulty_level}
                       </span>
                       <span className="px-2 py-0.5 text-xs bg-surface-3 text-label-primary rounded">
                         {q.discipline}
                       </span>
                     </div>
-                    <p className="text-white">{q.question_text}</p>
-                    <p className="text-sm text-label-secondary mt-1">Topico: {q.topic}</p>
+                    <p className="text-label-primary">{q.question_text}</p>
+                    <p className="text-sm text-label-secondary mt-1">Tópico: {q.topic}</p>
                   </button>
                 ))}
               </div>
@@ -272,7 +272,7 @@ export default function DDLTestPage() {
               className="mb-4 text-sm text-emerald-400 hover:text-emerald-300"
               leftIcon={<ArrowLeft className="w-4 h-4" />}
             >
-              Voltar para selecao
+              Voltar para seleção
             </Button>
             <DDLQuestion
               questionId={selectedQuestion.id}
@@ -288,12 +288,12 @@ export default function DDLTestPage() {
         {phase === 'analyzing' && (
           <div className="bg-surface-2 rounded-lg border border-separator p-8 text-center">
             <div className="animate-spin w-12 h-12 border-4 border-emerald-600 border-t-transparent rounded-full mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-white">Analisando sua resposta...</h2>
-            <p className="text-label-secondary mt-2">Processando analise semantica e comportamental</p>
+            <h2 className="text-xl font-semibold text-label-primary">Analisando sua resposta...</h2>
+            <p className="text-label-secondary mt-2">Processando análise semântica e comportamental</p>
             <div className="mt-6 space-y-2 text-sm text-label-tertiary">
               <p className="flex items-center gap-2"><FileText className="w-4 h-4" /> Extraindo conceitos da resposta</p>
-              <p className="flex items-center gap-2"><Link2 className="w-4 h-4" /> Avaliando integracoes conceituais</p>
-              <p className="flex items-center gap-2"><BarChart3 className="w-4 h-4" /> Analisando padroes comportamentais</p>
+              <p className="flex items-center gap-2"><Link2 className="w-4 h-4" /> Avaliando integrações conceituais</p>
+              <p className="flex items-center gap-2"><BarChart3 className="w-4 h-4" /> Analisando padrões comportamentais</p>
               <p className="flex items-center gap-2"><Target className="w-4 h-4" /> Classificando tipo de lacuna</p>
             </div>
           </div>
@@ -303,15 +303,15 @@ export default function DDLTestPage() {
         {phase === 'feedback' && feedbackId && classification && (
           <div>
             <div className="mb-6 flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-white">Resultado da Analise</h2>
+              <h2 className="text-xl font-semibold text-label-primary">Resultado da Análise</h2>
               <Button onClick={handleReset}>
-                Nova Questao
+                Nova Questão
               </Button>
             </div>
 
             {/* Classification Summary */}
             <div className="mb-6 p-4 bg-surface-2 rounded-lg border border-separator">
-              <h3 className="font-medium text-label-primary mb-3">Classificacao Detectada</h3>
+              <h3 className="font-medium text-label-primary mb-3">Classificação Detectada</h3>
               <div className="grid grid-cols-3 gap-4 text-center">
                 <div
                   className={`p-3 rounded-lg transition-all ${
@@ -321,8 +321,8 @@ export default function DDLTestPage() {
                   }`}
                 >
                   <div className="flex justify-center"><BookOpen className="w-6 h-6 text-blue-400" /></div>
-                  <div className="font-medium text-white">LE</div>
-                  <div className="text-xs text-label-secondary">Epistemica</div>
+                  <div className="font-medium text-label-primary">LE</div>
+                  <div className="text-xs text-label-secondary">Epistêmica</div>
                 </div>
                 <div
                   className={`p-3 rounded-lg transition-all ${
@@ -332,7 +332,7 @@ export default function DDLTestPage() {
                   }`}
                 >
                   <div className="flex justify-center"><MessageCircle className="w-6 h-6 text-purple-400" /></div>
-                  <div className="font-medium text-white">LEm</div>
+                  <div className="font-medium text-label-primary">LEm</div>
                   <div className="text-xs text-label-secondary">Emocional</div>
                 </div>
                 <div
@@ -343,13 +343,13 @@ export default function DDLTestPage() {
                   }`}
                 >
                   <div className="flex justify-center"><Link2 className="w-6 h-6 text-orange-400" /></div>
-                  <div className="font-medium text-white">LIE</div>
-                  <div className="text-xs text-label-secondary">Integracao</div>
+                  <div className="font-medium text-label-primary">LIE</div>
+                  <div className="text-xs text-label-secondary">Integração</div>
                 </div>
               </div>
               <div className="mt-4 text-center">
                 <span className="text-sm text-label-secondary">
-                  Confianca: {classification.confidence} ({(classification.probability * 100).toFixed(0)}%)
+                  Confiança: {classification.confidence} ({(classification.probability * 100).toFixed(0)}%)
                 </span>
               </div>
             </div>

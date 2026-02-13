@@ -1,0 +1,20 @@
+/* Darwin Clinical Premium — Brand Kit v1 (Direction A)
+   Note: adjust DARWIN_EMERALD to your official accent if different.
+*/
+:root{
+  --darwin-emerald: #18C29C;
+  --bg-light: #F5F7FA;
+  --bg-white: #FFFFFF;
+  --fg-dark: #0B0F14;
+  --fg-muted: #2A313A;
+
+  --glass-light: rgba(255,255,255,0.10);
+  --glass-dark: rgba(255,255,255,0.06);
+  --glass-border-light: rgba(255,255,255,0.18);
+  --glass-border-dark: rgba(255,255,255,0.12);
+
+  --shadow-soft: 0 10px 30px rgba(11,15,20,0.12);
+  --shadow-ultra: 0 20px 60px rgba(11,15,20,0.18);
+
+  --grain-opacity: 0.05;
+}

@@ -33,25 +33,34 @@ const config: Config = {
     },
     extend: {
       colors: {
-        // Surface hierarchy (Apple dark mode)
+        // Semantic surfaces (theme-driven)
         surface: {
-          '0': '#0a0a0c',
-          '1': '#111114',
-          '2': '#1c1c1f',
-          '3': '#252528',
-          '4': '#2e2e32',
-          '5': '#3a3a3f',
+          '0': 'rgb(var(--surface-0) / <alpha-value>)',
+          '1': 'rgb(var(--surface-1) / <alpha-value>)',
+          '2': 'rgb(var(--surface-2) / <alpha-value>)',
+          '3': 'rgb(var(--surface-3) / <alpha-value>)',
+          '4': 'rgb(var(--surface-4) / <alpha-value>)',
+          '5': 'rgb(var(--surface-5) / <alpha-value>)',
         },
-        // Text hierarchy (Apple opacity levels)
+        // Semantic text labels (theme-driven)
         label: {
-          'primary':    'rgba(255,255,255,0.98)',
-          'secondary':  'rgba(255,255,255,0.72)',
-          'tertiary':   'rgba(255,255,255,0.56)',
-          'quaternary': 'rgba(255,255,255,0.40)',
-          'faint':      'rgba(255,255,255,0.24)',
+          'primary': 'rgb(var(--label-primary) / <alpha-value>)',
+          'secondary': 'rgb(var(--label-secondary) / <alpha-value>)',
+          'tertiary': 'rgb(var(--label-tertiary) / <alpha-value>)',
+          'quaternary': 'rgb(var(--label-quaternary) / <alpha-value>)',
+          'faint': 'rgb(var(--label-faint) / <alpha-value>)',
         },
         // Separator
-        separator: 'rgba(255,255,255,0.08)',
+        separator: 'rgb(var(--separator) / <alpha-value>)',
+        // Compatibility aliases (legacy/shadcn-style tokens)
+        border: 'rgb(var(--separator) / <alpha-value>)',
+        background: 'rgb(var(--surface-0) / <alpha-value>)',
+        foreground: 'rgb(var(--label-primary) / <alpha-value>)',
+        card: 'rgb(var(--surface-1) / <alpha-value>)',
+        muted: {
+          DEFAULT: 'rgb(var(--surface-2) / <alpha-value>)',
+          foreground: 'rgb(var(--label-tertiary) / <alpha-value>)',
+        },
         // Primary: emerald
         primary: {
           50: '#ecfdf5',

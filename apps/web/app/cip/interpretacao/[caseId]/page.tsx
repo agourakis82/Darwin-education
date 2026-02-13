@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { Scan } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
+import { getSessionUserSummary } from '@/lib/auth/session'
 import {
   useCIPImageStore,
   selectCanAdvance,
@@ -69,6 +70,46 @@ interface ImageCaseRow {
   updated_at: string
 }
 
+interface ImageAttemptRow {
+  id: string
+  current_step?: string
+  selected_modality?: string | null
+  selected_findings?: string[]
+  selected_diagnosis?: string | null
+  selected_next_step?: string | null
+  step_times?: Record<string, number>
+  total_time_seconds?: number
+  started_at?: string | null
+}
+
+interface PersistableImageState {
+  currentStep: string
+  stepTimes: Record<string, number>
+  stepStartedAt: number | null
+  totalTimeSeconds: number
+}
+
+function toPersistableTiming(state: PersistableImageState) {
+  const mergedStepTimes = { ...state.stepTimes }
+  if (state.stepStartedAt && state.currentStep !== 'completed') {
+    const elapsed = Math.max(
+      0,
+      Math.round((Date.now() - state.stepStartedAt) / 1000)
+    )
+    mergedStepTimes[state.currentStep] =
+      (mergedStepTimes[state.currentStep] || 0) + elapsed
+  }
+
+  const totalTimeSeconds = Object.values(mergedStepTimes).reduce((sum, value) => {
+    return sum + (Number.isFinite(value) ? Math.max(0, value) : 0)
+  }, 0)
+
+  return {
+    stepTimes: mergedStepTimes,
+    totalTimeSeconds: totalTimeSeconds || state.totalTimeSeconds || 0,
+  }
+}
+
 function rowToCase(row: ImageCaseRow): CIPImageCase {
   return {
     id: row.id,
@@ -122,12 +163,17 @@ export default function ImageCasePage() {
 
   const {
     currentCase,
+    attemptId,
     currentStep,
     selectedModality,
     selectedFindings,
     selectedDiagnosis,
     selectedNextStep,
     isSubmitted,
+    stepTimes,
+    totalTimeSeconds,
+    stepStartedAt,
+    startedAt,
     startCase,
     selectModality,
     toggleFinding,
@@ -149,9 +195,7 @@ export default function ImageCasePage() {
       const supabase = createClient()
 
       // Check auth
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
+      const user = await getSessionUserSummary(supabase)
       if (!user) {
         router.push('/login?redirectTo=/cip/interpretacao/' + caseId)
         return
@@ -162,7 +206,7 @@ export default function ImageCasePage() {
         .from('cip_image_cases')
         .select('*')
         .eq('id', caseId)
-        .single()
+        .maybeSingle()
 
       const caseRow = caseRowRaw as ImageCaseRow | null
 
@@ -177,13 +221,15 @@ export default function ImageCasePage() {
       // Check for existing attempt or create new one
       const { data: existingAttemptRaw } = await supabase
         .from('cip_image_attempts')
-        .select('id')
+        .select(
+          'id, current_step, selected_modality, selected_findings, selected_diagnosis, selected_next_step, step_times, total_time_seconds, started_at'
+        )
         .eq('case_id', caseId)
         .eq('user_id', user.id)
         .is('completed_at', null)
-        .single()
+        .maybeSingle()
 
-      const existingAttempt = existingAttemptRaw as { id: string } | null
+      const existingAttempt = existingAttemptRaw as ImageAttemptRow | null
 
       let attemptId: string
 
@@ -213,7 +259,22 @@ export default function ImageCasePage() {
         attemptId = newAttempt.id
       }
 
-      startCase(imageCase, attemptId)
+      startCase(
+        imageCase,
+        attemptId,
+        existingAttempt
+          ? {
+              currentStep: (existingAttempt.current_step as any) || 'modality',
+              selectedModality: existingAttempt.selected_modality || null,
+              selectedFindings: existingAttempt.selected_findings || [],
+              selectedDiagnosis: existingAttempt.selected_diagnosis || null,
+              selectedNextStep: existingAttempt.selected_next_step || null,
+              stepTimes: existingAttempt.step_times || {},
+              totalTimeSeconds: existingAttempt.total_time_seconds || 0,
+              startedAt: existingAttempt.started_at || null,
+            }
+          : undefined
+      )
       setLoading(false)
     }
 
@@ -222,12 +283,92 @@ export default function ImageCasePage() {
       resetCase()
     }
 
-    if (!currentCase || currentCase.id !== caseId) {
+    if (!currentCase || currentCase.id !== caseId || !attemptId) {
       loadCase()
     } else {
+      if (!stepStartedAt && !isSubmitted) {
+        startCase(currentCase, attemptId, {
+          currentStep,
+          selectedModality,
+          selectedFindings,
+          selectedDiagnosis,
+          selectedNextStep,
+          stepTimes,
+          totalTimeSeconds,
+          startedAt: startedAt || null,
+        })
+      }
       setLoading(false)
     }
-  }, [caseId, router, startCase, resetCase, currentCase])
+  }, [
+    caseId,
+    router,
+    startCase,
+    resetCase,
+    currentCase,
+    attemptId,
+    stepStartedAt,
+    currentStep,
+    selectedModality,
+    selectedFindings,
+    selectedDiagnosis,
+    selectedNextStep,
+    stepTimes,
+    totalTimeSeconds,
+    startedAt,
+    isSubmitted,
+  ])
+
+  useEffect(() => {
+    if (!currentCase || !attemptId || isSubmitted) return
+
+    const supabase = createClient()
+
+    async function saveDraftProgress() {
+      const storeState = useCIPImageStore.getState()
+      if (!storeState.attemptId || storeState.isSubmitted) return
+
+      try {
+        const timing = toPersistableTiming({
+          currentStep: storeState.currentStep,
+          stepTimes: storeState.stepTimes,
+          stepStartedAt: storeState.stepStartedAt,
+          totalTimeSeconds: storeState.totalTimeSeconds,
+        })
+
+        await (supabase.from('cip_image_attempts') as any)
+          .update({
+            selected_modality: storeState.selectedModality,
+            selected_findings: storeState.selectedFindings,
+            selected_diagnosis: storeState.selectedDiagnosis,
+            selected_next_step: storeState.selectedNextStep,
+            current_step: storeState.currentStep,
+            step_times: timing.stepTimes,
+            total_time_seconds: timing.totalTimeSeconds,
+          })
+          .eq('id', storeState.attemptId)
+      } catch {
+        // Auto-save is best-effort
+      }
+    }
+
+    const intervalId = window.setInterval(() => {
+      void saveDraftProgress()
+    }, 15_000)
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        void saveDraftProgress()
+      }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+
+    return () => {
+      window.clearInterval(intervalId)
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }
+  }, [currentCase, attemptId, isSubmitted])
 
   const handleSubmit = async () => {
     if (!currentCase) return
@@ -236,9 +377,7 @@ export default function ImageCasePage() {
 
     try {
       const supabase = createClient()
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
+      const user = await getSessionUserSummary(supabase)
 
       if (!user) {
         router.push('/login')
@@ -246,6 +385,12 @@ export default function ImageCasePage() {
       }
 
       const storeState = useCIPImageStore.getState()
+      const timing = toPersistableTiming({
+        currentStep: storeState.currentStep,
+        stepTimes: storeState.stepTimes,
+        stepStartedAt: storeState.stepStartedAt,
+        totalTimeSeconds: storeState.totalTimeSeconds,
+      })
 
       // Build attempt for scoring
       const attempt = {
@@ -265,8 +410,8 @@ export default function ImageCasePage() {
         scaledScore: null,
         theta: null,
         standardError: null,
-        totalTimeSeconds: null,
-        stepTimes: storeState.stepTimes as any,
+        totalTimeSeconds: timing.totalTimeSeconds,
+        stepTimes: timing.stepTimes as any,
         currentStep: 'completed' as const,
         startedAt: storeState.startedAt || new Date(),
         completedAt: new Date(),
@@ -291,8 +436,7 @@ export default function ImageCasePage() {
 
       // Save to database
       const attemptId = storeState.attemptId
-      await supabase
-        .from('cip_image_attempts')
+      await (supabase.from('cip_image_attempts') as any)
         .update({
           selected_modality: storeState.selectedModality,
           selected_findings: storeState.selectedFindings,
@@ -307,12 +451,12 @@ export default function ImageCasePage() {
           scaled_score: score.scaledScore,
           theta: score.theta,
           standard_error: score.standardError,
-          total_time_seconds: storeState.totalTimeSeconds,
-          step_times: storeState.stepTimes,
+          total_time_seconds: timing.totalTimeSeconds,
+          step_times: timing.stepTimes,
           current_step: 'completed',
           completed_at: new Date().toISOString(),
-        } as unknown as never)
-        .eq('id', attemptId as unknown as {})
+        })
+        .eq('id', attemptId)
 
       submitCase(score)
       router.push(`/cip/interpretacao/${caseId}/result`)
@@ -346,7 +490,28 @@ export default function ImageCasePage() {
     )
   }
 
-  if (!currentCase) return null
+  if (!currentCase) {
+    return (
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center p-4">
+        <Card className="max-w-md w-full">
+          <CardContent className="py-8 text-center">
+            <h2 className="text-xl font-semibold text-label-primary mb-2">Caso indisponível</h2>
+            <p className="text-label-secondary mb-6">
+              Não foi possível carregar este caso de interpretação.
+            </p>
+            <div className="space-y-2">
+              <Button onClick={() => router.push('/cip/interpretacao')} fullWidth>
+                Voltar para Interpretação
+              </Button>
+              <Button variant="outline" onClick={() => router.refresh()} fullWidth>
+                Tentar novamente
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
 
   // Get current step options
   const stepOptionsMap = {
@@ -380,7 +545,7 @@ export default function ImageCasePage() {
             <div className="flex items-center gap-3">
               <Scan className="w-6 h-6 text-blue-400" />
               <div>
-                <h1 className="text-lg font-semibold text-white">
+                <h1 className="text-lg font-semibold text-label-primary">
                   {currentCase.titlePt}
                 </h1>
               </div>

@@ -103,7 +103,7 @@ export function Modal({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: duration.base }}
-          className="fixed inset-0 z-modal flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+          className="fixed inset-0 z-modal flex items-center justify-center bg-black/62 p-4 backdrop-blur-md"
           role="dialog"
           aria-modal="true"
           aria-label={title}
@@ -115,23 +115,23 @@ export function Modal({
             exit={{ opacity: 0, scale: 0.95, y: 8 }}
             transition={spring.snappy}
             className={`
-              w-full ${sizeStyles[size]} material-regular
-              rounded-xl shadow-elevation-5
+              darwin-panel-strong w-full ${sizeStyles[size]}
+              rounded-2xl border border-separator/75 shadow-elevation-5
             `}
           >
             {title && (
-              <div className="flex items-center justify-between px-6 py-4 border-b border-separator">
+              <div className="flex items-center justify-between border-b border-separator px-6 py-4">
                 <h2 className="text-lg font-semibold text-label-primary">{title}</h2>
                 <button
                   onClick={onClose}
-                  className="p-1 rounded-lg hover:bg-surface-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+                  className="darwin-focus-ring rounded-lg p-1 transition-colors hover:bg-surface-3/70"
                   aria-label="Fechar"
                 >
                   <X className="w-5 h-5 text-label-secondary" />
                 </button>
               </div>
             )}
-            <div className="p-6">{children}</div>
+            <div className="p-5 md:p-6">{children}</div>
           </motion.div>
         </motion.div>
       )}

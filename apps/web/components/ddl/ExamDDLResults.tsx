@@ -204,13 +204,13 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
                 ? `${(summary.avg_integration_score * 100).toFixed(0)}%`
                 : '-'}
             </div>
-            <div className="text-xs text-label-secondary">Score de Integracao</div>
+            <div className="text-xs text-label-secondary">Score de integração</div>
           </div>
           <div className="bg-surface-3/30 rounded-lg p-3">
             <div className="text-lg font-semibold text-label-primary">
               {summary.analyzed_count}/{summary.total_ddl_questions}
             </div>
-            <div className="text-xs text-label-secondary">Questoes Analisadas</div>
+            <div className="text-xs text-label-secondary">Questões analisadas</div>
           </div>
         </div>
 
@@ -221,12 +221,12 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
               {lacunaInfo[summary.dominant_lacuna_type].icon}
               <div>
                 <p className={`font-medium ${lacunaInfo[summary.dominant_lacuna_type].color}`}>
-                  Padrao Dominante: {lacunaInfo[summary.dominant_lacuna_type].name}
+                  Padrão dominante: {lacunaInfo[summary.dominant_lacuna_type].name}
                 </p>
                 <p className="text-sm text-label-secondary">
-                  {summary.dominant_lacuna_type === 'LE' && 'Foque em consolidar os conceitos basicos antes de avancar.'}
-                  {summary.dominant_lacuna_type === 'LEm' && 'Pratique tecnicas de gerenciamento de ansiedade durante provas.'}
-                  {summary.dominant_lacuna_type === 'LIE' && 'Trabalhe em conectar os conceitos atraves de mapas mentais.'}
+                  {summary.dominant_lacuna_type === 'LE' && 'Foque em consolidar os conceitos básicos antes de avançar.'}
+                  {summary.dominant_lacuna_type === 'LEm' && 'Pratique técnicas de gerenciamento de ansiedade durante provas.'}
+                  {summary.dominant_lacuna_type === 'LIE' && 'Trabalhe em conectar os conceitos através de mapas mentais.'}
                 </p>
               </div>
             </div>
@@ -237,7 +237,7 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
       {/* Individual Responses */}
       {responses.length > 0 && (
         <div className="bg-surface-2 rounded-lg shadow-elevation-1 p-6">
-          <h4 className="font-semibold text-label-primary mb-4">Detalhes por Questao</h4>
+          <h4 className="font-semibold text-label-primary mb-4">Detalhes por questão</h4>
           <div className="space-y-3">
             {responses.map((response, idx) => {
               const classification = response.ddl_classification?.[0]
@@ -288,7 +288,7 @@ export function ExamDDLResults({ examAttemptId }: ExamDDLResultsProps) {
           </div>
           <div className="flex-1">
             <h4 className="font-semibold text-label-primary mb-1">
-              Continue seu diagnostico
+              Continue seu diagnóstico
             </h4>
             <p className="text-sm text-label-secondary">
               Use o DDL standalone para analisar respostas individuais e receber feedback detalhado.

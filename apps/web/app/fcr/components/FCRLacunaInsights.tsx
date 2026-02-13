@@ -48,25 +48,25 @@ const LACUNA_CONFIG: Record<string, {
   description: string
 }> = {
   LE: {
-    label: 'Epistemica',
+    label: 'Epistêmica',
     color: 'text-blue-400',
     bgColor: 'bg-blue-500/10',
     icon: BookOpen,
-    description: 'Ausencia de conhecimento nos niveis de dados ou conduta',
+    description: 'Ausência de conhecimento nos níveis de dados ou conduta',
   },
   LEm: {
     label: 'Emocional',
     color: 'text-purple-400',
     bgColor: 'bg-purple-500/10',
     icon: MessageCircle,
-    description: 'Ilusao de saber — alta confianca + resposta incorreta',
+    description: 'Ilusão de saber — alta confiança + resposta incorreta',
   },
   LIE: {
-    label: 'Integracao',
+    label: 'Integração',
     color: 'text-orange-400',
     bgColor: 'bg-orange-500/10',
     icon: Link2,
-    description: 'Dificuldade em conectar padrao clinico com hipotese diagnostica',
+    description: 'Dificuldade em conectar padrão clínico com hipótese diagnóstica',
   },
 }
 
@@ -117,8 +117,8 @@ export function FCRLacunaInsights() {
         <CardContent className="py-5">
           <div className="flex items-center gap-2 mb-4">
             <Brain className="w-5 h-5 text-violet-400" />
-            <h3 className="font-semibold text-white text-sm">
-              Lacunas Detectadas via Raciocinio Clinico Fractal
+            <h3 className="font-semibold text-label-primary text-sm">
+              Lacunas Detectadas via Raciocínio Clínico Fractal
             </h3>
           </div>
 
@@ -164,7 +164,7 @@ export function FCRLacunaInsights() {
               <AlertTriangle className={`w-4 h-4 ${dominantConfig.color} mt-0.5 flex-shrink-0`} />
               <div>
                 <div className={`text-xs font-medium ${dominantConfig.color} mb-0.5`}>
-                  Padrao dominante: {dominant} ({dominantConfig.label})
+                  Padrão dominante: {dominant} ({dominantConfig.label})
                 </div>
                 <p className="text-xs text-muted-foreground">
                   {dominantConfig.description}
@@ -177,7 +177,7 @@ export function FCRLacunaInsights() {
           {riskAreas.length > 0 && (
             <div className="mb-4">
               <div className="text-xs text-muted-foreground uppercase tracking-wider mb-2">
-                Areas de Risco
+                Áreas de Risco
               </div>
               <div className="flex flex-wrap gap-2">
                 {riskAreas.slice(0, 5).map((ra) => {
@@ -205,7 +205,7 @@ export function FCRLacunaInsights() {
               href="/fcr/calibracao"
               className="text-xs text-violet-400 hover:text-violet-300 transition-colors"
             >
-              Ver analise completa
+              Ver análise completa
             </Link>
           </div>
         </CardContent>

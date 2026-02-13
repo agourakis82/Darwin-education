@@ -52,7 +52,7 @@ export function PassProbabilityGauge({ probability, overallCompetency }: PassPro
   return (
     <div className="space-y-3">
       <h4 className="text-sm font-semibold text-label-tertiary uppercase tracking-wider">
-        Probabilidade de Aprovacao
+        Probabilidade de Aprovação
       </h4>
 
       <div className="bg-surface-2 rounded-lg p-4">

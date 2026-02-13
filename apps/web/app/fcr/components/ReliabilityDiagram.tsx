@@ -158,7 +158,7 @@ export function ReliabilityDiagram({ reliabilityData, bins }: ReliabilityDiagram
             className="fill-muted-foreground"
             fontSize={10}
           >
-            Confianca Reportada
+            Confiança Reportada
           </text>
           <text
             x={8} y={height / 2}
@@ -167,7 +167,7 @@ export function ReliabilityDiagram({ reliabilityData, bins }: ReliabilityDiagram
             fontSize={10}
             transform={`rotate(-90 8 ${height / 2})`}
           >
-            Acuracia Observada
+            Acurácia Observada
           </text>
 
           {/* Axis tick labels */}
@@ -197,11 +197,11 @@ export function ReliabilityDiagram({ reliabilityData, bins }: ReliabilityDiagram
         <div className="flex items-center justify-center gap-4 mt-2 text-xs text-muted-foreground">
           <div className="flex items-center gap-1">
             <div className="w-3 h-3 rounded-sm bg-red-500/20 border border-red-500/30" />
-            <span>Excesso de confianca</span>
+            <span>Excesso de confiança</span>
           </div>
           <div className="flex items-center gap-1">
             <div className="w-3 h-3 rounded-sm bg-blue-500/20 border border-blue-500/30" />
-            <span>Subconfianca</span>
+            <span>Subconfiança</span>
           </div>
           <div className="flex items-center gap-1">
             <div className="w-6 h-0.5 border-t border-dashed border-muted-foreground/40" />

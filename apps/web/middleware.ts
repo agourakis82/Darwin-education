@@ -1,8 +1,9 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { getAppMetadataFromAccessToken } from '@/lib/auth/user'
 
 // Routes that require authentication
-const protectedRoutes = ['/simulado', '/flashcards', '/trilhas', '/montar-prova', '/desempenho', '/gerar-questao', '/caso-clinico', '/admin', '/fcr', '/ddl', '/cip']
+const protectedRoutes = ['/simulado', '/flashcards', '/trilhas', '/montar-prova', '/desempenho', '/gerar-questao', '/qgen', '/ia-orientacao', '/pesquisa', '/caso-clinico', '/admin', '/fcr', '/ddl', '/cip']
 
 // Routes that should redirect to dashboard if already authenticated
 const authRoutes = ['/login', '/signup']
@@ -33,10 +34,10 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // Refresh session if expired
+  // Use session-based auth to avoid rate-limiting `auth.getUser()` in middleware.
   const {
-    data: { user },
-  } = await supabase.auth.getUser()
+    data: { session },
+  } = await supabase.auth.getSession()
 
   const pathname = request.nextUrl.pathname
 
@@ -45,15 +46,31 @@ export async function middleware(request: NextRequest) {
   const isAuthRoute = authRoutes.some((route) => pathname.startsWith(route))
 
   // Redirect to login if accessing protected route without auth
-  if (isProtectedRoute && !user) {
+  if (isProtectedRoute && !session) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     url.searchParams.set('redirectTo', pathname)
     return NextResponse.redirect(url)
   }
 
+  // Closed beta gate: authenticated users need explicit beta access.
+  if (isProtectedRoute && session) {
+    const appMetadata =
+      typeof session.access_token === 'string'
+        ? getAppMetadataFromAccessToken(session.access_token)
+        : null
+    const hasBetaAccess = Boolean(appMetadata && (appMetadata as any).beta_access)
+
+    if (!hasBetaAccess) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/beta'
+      url.searchParams.set('redirectTo', pathname)
+      return NextResponse.redirect(url)
+    }
+  }
+
   // Redirect to home if accessing auth routes while authenticated
-  if (isAuthRoute && user) {
+  if (isAuthRoute && session) {
     const url = request.nextUrl.clone()
     url.pathname = '/'
     return NextResponse.redirect(url)

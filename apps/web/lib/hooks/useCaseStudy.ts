@@ -69,6 +69,12 @@ export function useCaseStudy(): UseCaseStudyReturn {
         return
       }
 
+      if (res.status === 503) {
+        const data = await res.json().catch(() => ({}))
+        setError(data.message || 'Serviço de IA indisponível no momento.')
+        return
+      }
+
       if (!res.ok) {
         setError('Erro ao gerar caso clínico. Tente novamente.')
         return

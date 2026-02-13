@@ -9,6 +9,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
 import { ddlService } from '@/lib/ddl/services/ddl-service'
+import { getSessionUserSummary } from '@/lib/auth/session'
 
 /**
  * GET /api/ddl/feedback/[id]
@@ -33,8 +34,8 @@ export async function GET(
     if (isServiceRole || isDev) {
       userId = process.env.DDL_TEST_USER_ID || ''
     } else {
-      const { data: { user }, error: authError } = await supabase.auth.getUser()
-      if (authError || !user) {
+      const user = await getSessionUserSummary(supabase)
+      if (!user) {
         return NextResponse.json(
           { error: 'Unauthorized' },
           { status: 401 }
@@ -99,8 +100,8 @@ export async function POST(
     const supabase = await createServerClient()
 
     // Verify authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-    if (authError || !user) {
+    const user = await getSessionUserSummary(supabase)
+    if (!user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }

@@ -1,4 +1,18 @@
+# Vercel deploy ignore list (monorepo)
+# Keep deploy payload focused on the web app + its runtime deps.
+
+# Research / paperpack artifacts
+_paperpack/
+submission_bundle/
+paper/
+
+# Native apps
+apps/ios-native/
+
+# Local outputs / caches
+output/
+tmp/
+
+# Large archives
 *.tar.gz
 *.zip
-.git
-infrastructure/

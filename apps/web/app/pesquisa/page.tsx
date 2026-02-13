@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { spring } from '@/lib/motion'
 import { FlaskConical, Brain, Layers, ArrowUpRight } from 'lucide-react'
@@ -9,17 +10,17 @@ const sections = [
   {
     href: '/pesquisa/psicometria',
     icon: Brain,
-    title: 'Psicometria Avancada',
+    title: 'Psicometria Avançada',
     description:
-      'MIRT 5D (Reckase, 2009), RT-IRT velocidade-precisao (van der Linden, 2006), analise DIF Mantel-Haenszel (Holland & Thayer, 1988) e evolucao de theta.',
+      'MIRT 5D (Reckase, 2009), RT-IRT velocidade-precisão (van der Linden, 2006), análise DIF Mantel-Haenszel (Holland & Thayer, 1988) e evolução de theta.',
     color: 'purple' as const,
   },
   {
     href: '/pesquisa/dominio',
     icon: Layers,
-    title: 'Dominio de Conhecimento',
+    title: 'Domínio de Conhecimento',
     description:
-      'BKT (Corbett & Anderson, 1995), curvas de esquecimento HLR (Settles & Meeder, 2016), perfil unificado do aprendiz e recomendacoes priorizadas.',
+      'BKT (Corbett & Anderson, 1995), curvas de esquecimento HLR (Settles & Meeder, 2016), perfil unificado do aprendiz e recomendações priorizadas.',
     color: 'emerald' as const,
   },
 ]
@@ -37,12 +38,29 @@ export default function PesquisaPage() {
           <FlaskConical className="w-8 h-8 text-emerald-400" />
         </div>
         <h1 className="text-3xl font-bold text-label-primary">
-          Pesquisa <span className="gradient-text">Psicometrica</span>
+          Pesquisa <span className="gradient-text">Psicométrica</span>
         </h1>
         <p className="text-label-tertiary mt-2 max-w-lg mx-auto">
           Algoritmos de pesquisa de ponta implementados na plataforma Darwin Education.
         </p>
       </motion.div>
+
+      <div className="relative mb-8 h-44 md:h-52 overflow-hidden rounded-2xl border border-separator/70">
+        <Image
+          src="/images/branding/pesquisa-hero-apple-v1.png"
+          alt="Visual de pesquisa psicométrica e análise multidimensional"
+          fill
+          sizes="(max-width: 768px) 100vw, 1024px"
+          priority
+          className="object-cover object-center opacity-75"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-surface-0/90 via-surface-0/70 to-surface-0/35" />
+        <div className="relative z-10 h-full flex items-end p-5 md:p-6">
+          <p className="text-sm md:text-base text-label-secondary max-w-lg">
+            Modelos psicométricos avançados aplicados em uma arquitetura unificada e auditável.
+          </p>
+        </div>
+      </div>
 
       <div className="grid md:grid-cols-2 gap-6">
         {sections.map((section, i) => {
@@ -83,7 +101,7 @@ export default function PesquisaPage() {
         transition={{ delay: 0.5 }}
       >
         <strong>Algoritmos:</strong> IRT 3PL + MIRT 5D + RT-IRT + BKT + HLR + DIF + FCR + Modelo Unificado.
-        Nenhuma plataforma de educacao medica combina todos estes modelos em um unico sistema.
+        Uma combinação rara de modelos em um único sistema, com foco em rastreabilidade e consistência.
       </motion.div>
     </div>
   )
