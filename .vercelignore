@@ -1,6 +1,30 @@
 # Vercel deploy ignore list (monorepo)
 # Keep deploy payload focused on the web app + its runtime deps.
 
+# Environment files (never upload secrets)
+.env
+.env.*
+.env.local
+.env.*.local
+
+# Dependencies / build outputs / caches
+node_modules/
+.pnpm-store/
+.pnpm/
+.next/
+.turbo/
+dist/
+out/
+coverage/
+**/*.log
+**/*.tsbuildinfo
+.vercel/
+
+# Playwright outputs (web)
+apps/web/test-results/
+apps/web/playwright-report/
+apps/web/e2e/.auth/
+
 # Research / paperpack artifacts
 _paperpack/
 submission_bundle/
@@ -21,3 +45,4 @@ tmp/
 # Large archives
 *.tar.gz
 *.zip
+*.tgz
