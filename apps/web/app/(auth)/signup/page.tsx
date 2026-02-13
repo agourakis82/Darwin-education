@@ -9,6 +9,7 @@ import { CheckCircle2, Sparkles, UserRoundPlus, Eye, EyeOff } from 'lucide-react
 import { BrandLogo } from '@/components/brand/BrandLogo'
 import { createClient } from '@/lib/supabase/client'
 import { spring } from '@/lib/motion'
+import { CURRENT_EULA_VERSION } from '@/lib/legal/eula'
 
 export default function SignupPage() {
   const [name, setName] = useState('')
@@ -20,6 +21,8 @@ export default function SignupPage() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
+  const [acceptedEula, setAcceptedEula] = useState(false)
+  const [researchConsent, setResearchConsent] = useState(false)
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -43,7 +46,15 @@ export default function SignupPage() {
       return
     }
 
+    if (!acceptedEula) {
+      setError('Você precisa aceitar o EULA (Termos de Uso) para criar sua conta.')
+      setLoading(false)
+      return
+    }
+
     const supabase = createClient()
+
+    const nowIso = new Date().toISOString()
 
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -51,6 +62,13 @@ export default function SignupPage() {
       options: {
         data: {
           full_name: name,
+          legal: {
+            eula_version: CURRENT_EULA_VERSION,
+            eula_accepted_at: nowIso,
+            research_consent: researchConsent,
+            research_consent_at: researchConsent ? nowIso : null,
+            research_consent_revoked_at: null,
+          },
         },
         emailRedirectTo: `${window.location.origin}/callback?next=${encodeURIComponent(redirectTo)}`,
       },
@@ -280,6 +298,45 @@ export default function SignupPage() {
                     {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
                 </div>
+              </div>
+
+              <div className="space-y-3 rounded-2xl border border-separator/70 bg-surface-1/55 p-4">
+                <label className="flex items-start gap-3 text-sm text-label-secondary">
+                  <input
+                    id="acceptedEula"
+                    type="checkbox"
+                    checked={acceptedEula}
+                    onChange={(e) => setAcceptedEula(e.target.checked)}
+                    className="mt-1 h-4 w-4 rounded border-separator bg-surface-2/75 text-emerald-500"
+                  />
+                  <span>
+                    Eu li e aceito o{' '}
+                    <Link href="/legal/eula" className="font-medium text-emerald-300 hover:text-emerald-200">
+                      EULA (Termos de Uso)
+                    </Link>
+                    .
+                  </span>
+                </label>
+
+                <label className="flex items-start gap-3 text-sm text-label-secondary">
+                  <input
+                    id="researchConsent"
+                    type="checkbox"
+                    checked={researchConsent}
+                    onChange={(e) => setResearchConsent(e.target.checked)}
+                    className="mt-1 h-4 w-4 rounded border-separator bg-surface-2/75 text-emerald-500"
+                  />
+                  <span>
+                    Autorizo o uso dos meus dados para{' '}
+                    <Link
+                      href="/legal/eula#pesquisa-academica"
+                      className="font-medium text-emerald-300 hover:text-emerald-200"
+                    >
+                      pesquisa acadêmica
+                    </Link>
+                    . (Opcional)
+                  </span>
+                </label>
               </div>
 
               <button

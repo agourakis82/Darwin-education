@@ -1,0 +1,2 @@
+export const CURRENT_EULA_VERSION = '2026-02-13'
+

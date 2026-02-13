@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import { getUserSummaryFromAccessToken } from '@/lib/auth/user'
+import { CURRENT_EULA_VERSION } from '@/lib/legal/eula'
 
 // Routes that require authentication
 const protectedRoutes = ['/simulado', '/flashcards', '/trilhas', '/montar-prova', '/desempenho', '/gerar-questao', '/qgen', '/ia-orientacao', '/pesquisa', '/caso-clinico', '/admin', '/fcr', '/ddl', '/cip']
@@ -40,6 +41,12 @@ function isBetaAllowed(email: string | null) {
   return allowedDomains.some((allowed) => domain === allowed || domain.endsWith(`.${allowed}`))
 }
 
+function hasAcceptedCurrentEula(accessToken: string | null) {
+  if (!accessToken) return false
+  const summary = getUserSummaryFromAccessToken(accessToken)
+  return summary?.legal?.eulaVersion === CURRENT_EULA_VERSION
+}
+
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
@@ -71,6 +78,9 @@ export async function middleware(request: NextRequest) {
     data: { session },
   } = await supabase.auth.getSession()
 
+  const accessToken =
+    session && typeof session.access_token === 'string' ? session.access_token : null
+
   const pathname = request.nextUrl.pathname
 
   // Check if current route is protected
@@ -93,6 +103,16 @@ export async function middleware(request: NextRequest) {
     if (!isBetaAllowed(summary?.email ?? null)) {
       const url = request.nextUrl.clone()
       url.pathname = '/beta'
+      url.searchParams.set('redirectTo', pathname)
+      return NextResponse.redirect(url)
+    }
+  }
+
+  // EULA gate: require acceptance for protected routes.
+  if (isProtectedRoute && session) {
+    if (!hasAcceptedCurrentEula(accessToken)) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/legal/consent'
       url.searchParams.set('redirectTo', pathname)
       return NextResponse.redirect(url)
     }
