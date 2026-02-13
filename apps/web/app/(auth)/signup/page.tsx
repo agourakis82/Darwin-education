@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { CheckCircle2, Sparkles, UserRoundPlus, Eye, EyeOff } from 'lucide-react'
 import { BrandLogo } from '@/components/brand/BrandLogo'
@@ -19,6 +20,11 @@ export default function SignupPage() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
+  const redirectToRaw = searchParams.get('redirectTo')
+  const redirectTo = redirectToRaw && redirectToRaw.startsWith('/') ? redirectToRaw : '/'
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -39,20 +45,26 @@ export default function SignupPage() {
 
     const supabase = createClient()
 
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         data: {
           full_name: name,
         },
-        emailRedirectTo: `${window.location.origin}/callback`,
+        emailRedirectTo: `${window.location.origin}/callback?next=${encodeURIComponent(redirectTo)}`,
       },
     })
 
     if (error) {
       setError(error.message)
       setLoading(false)
+      return
+    }
+
+    if (data.session) {
+      router.push(redirectTo)
+      router.refresh()
       return
     }
 
@@ -88,7 +100,7 @@ export default function SignupPage() {
               Enviamos um link de confirmação para <strong className="text-label-primary">{email}</strong>.
             </p>
             <Link
-              href="/login"
+              href={`/login?redirectTo=${encodeURIComponent(redirectTo)}`}
               className="darwin-focus-ring darwin-nav-link mt-6 inline-flex rounded-xl bg-gradient-to-b from-emerald-500 to-emerald-600 px-5 py-3 text-sm font-medium text-white shadow-elevation-2 shadow-inner-shine hover:from-emerald-400 hover:to-emerald-500"
             >
               Voltar para login
@@ -216,7 +228,7 @@ export default function SignupPage() {
                   required
                 />
                 <p className="mt-2 text-xs text-label-tertiary">
-                  Cadastro livre. Você receberá um e-mail para confirmar sua conta.
+                  Cadastro livre. Se necessário, enviaremos um e-mail para confirmar sua conta.
                 </p>
               </div>
 
@@ -282,7 +294,10 @@ export default function SignupPage() {
 
             <p className="mt-6 text-center text-sm text-label-secondary">
               Já tem conta?{' '}
-              <Link href="/login" className="font-medium text-emerald-300 hover:text-emerald-200">
+              <Link
+                href={`/login?redirectTo=${encodeURIComponent(redirectTo)}`}
+                className="font-medium text-emerald-300 hover:text-emerald-200"
+              >
                 Fazer login
               </Link>
             </p>

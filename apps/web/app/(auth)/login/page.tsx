@@ -32,7 +32,8 @@ function LoginForm() {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const searchParams = useSearchParams()
-  const redirectTo = searchParams.get('redirectTo') || '/'
+  const redirectToRaw = searchParams.get('redirectTo')
+  const redirectTo = redirectToRaw && redirectToRaw.startsWith('/') ? redirectToRaw : '/'
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -129,7 +130,10 @@ function LoginForm() {
 
         <p className="mt-6 text-center text-sm text-label-secondary">
           Não tem conta?{' '}
-          <Link href="/signup" className="font-medium text-emerald-300 hover:text-emerald-200">
+          <Link
+            href={`/signup?redirectTo=${encodeURIComponent(redirectTo)}`}
+            className="font-medium text-emerald-300 hover:text-emerald-200"
+          >
             Criar agora
           </Link>
         </p>
