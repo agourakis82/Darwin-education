@@ -215,6 +215,9 @@ export default function SignupPage() {
                   placeholder="seu@email.com"
                   required
                 />
+                <p className="mt-2 text-xs text-label-tertiary">
+                  Beta fechado: use o e-mail autorizado para acessar as áreas protegidas.
+                </p>
               </div>
 
               <div>
