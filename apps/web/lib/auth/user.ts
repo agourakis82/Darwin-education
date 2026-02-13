@@ -2,7 +2,7 @@ export interface UserSummary {
   id: string
   email: string | null
   fullName: string | null
-  legal: {
+  legal?: {
     eulaVersion: string | null
     eulaAcceptedAt: string | null
     researchConsent: boolean | null
