@@ -1,0 +1,62 @@
+{
+  "id": "mioma-uterino",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Sangramento uterino anormal (menorragia)",
+        "Dor/pressão pélvica",
+        "Sintomas compressivos: frequência urinária, constipação",
+        "USG ou RM: nódulos miometriais bem definidos"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Observação se assintomático",
+          "Embolização das artérias uterinas (alternativa cirúrgica)"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Sangramento: ácido tranexâmico, AINEs",
+              "Controle hormonal: ACO, DIU-LNG, progestágenos",
+              "Análogos de GnRH (pré-operatório): reduz tamanho",
+              "Cirurgia: miomectomia ou histerectomia se refratário"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Controle do sangramento",
+        "Preservar fertilidade se desejado"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

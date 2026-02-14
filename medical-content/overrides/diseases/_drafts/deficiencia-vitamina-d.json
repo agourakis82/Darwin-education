@@ -1,0 +1,61 @@
+{
+  "id": "deficiencia-vitamina-d",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "25(OH)D <20 ng/mL: Deficiência",
+        "25(OH)D 20-29 ng/mL: Insuficiência",
+        "25(OH)D ≥30 ng/mL: Suficiência",
+        "Rastrear grupos de risco: idosos, obesos, pele escura, pouca exposição solar"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Exposição solar moderada (10-15min/dia)",
+          "Alimentos fortificados",
+          "Peixes gordurosos, gema de ovo"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Deficiência: Colecalciferol 50.000 UI/semana por 8 semanas",
+              "Manutenção: 1.000-2.000 UI/dia",
+              "Idosos/obesos podem precisar de doses maiores"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "25(OH)D ≥30 ng/mL"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

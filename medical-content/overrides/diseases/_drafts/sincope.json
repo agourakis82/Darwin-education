@@ -1,0 +1,62 @@
+{
+  "id": "sincope",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Perda de consciência transitória com recuperação espontânea",
+        "Síncope reflexa (vasovagal): gatilho, pródromos (náusea, sudorese, visão turva)",
+        "Hipotensão ortostática: queda PA ≥20/10 mmHg ao ortostatismo",
+        "Cardíaca: exercício, palpitações, ECG anormal, cardiopatia estrutural"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Vasovagal: evitar gatilhos, reconhecer pródromos, manobras de contrapressão",
+          "Ortostática: hidratação, sal, levantar devagar, meias elásticas"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Vasovagal: geralmente não farmacológico. Fludrocortisona, midodrina se refratária",
+              "Ortostática: fludrocortisona 0,1-0,3mg/dia, midodrina 2,5-10mg 3x/dia",
+              "Cardíaca: tratar causa (marca-passo, CDI, antiarrítmico)"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Identificar causa",
+        "Prevenir recorrência",
+        "Avaliar risco de morte súbita"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

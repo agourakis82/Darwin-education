@@ -1,0 +1,61 @@
+{
+  "id": "constipacao",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "<3 evacuações/semana",
+        "Esforço excessivo",
+        "Fezes duras",
+        "Sensação de evacuação incompleta",
+        "Critérios de Roma IV"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Aumentar fibras (25-30g/dia)",
+          "Hidratação adequada",
+          "Exercícios",
+          "Estabelecer rotina evacuatória"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Laxante osmótico: Lactulona 15-30mL/dia",
+              "Ou Polietilenoglicol",
+              "Laxante estimulante apenas se necessário"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

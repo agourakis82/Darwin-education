@@ -1,0 +1,62 @@
+{
+  "id": "pericardite-aguda",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Dor torácica típica: precordial, piora com respiração/decúbito, melhora sentado",
+        "Atrito pericárdico",
+        "Alterações ECG: supradesnível difuso de ST, infradesnivelamento de PR",
+        "Derrame pericárdico novo ou aumento"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Repouso relativo até resolução de sintomas",
+          "Evitar exercício por 3 meses (atletas)"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "AAS 650-1000mg 8/8h por 1-2 semanas OU",
+              "Ibuprofeno 600mg 8/8h por 1-2 semanas",
+              "Colchicina 0,5mg 12/12h por 3 meses (reduz recorrência)",
+              "IBP para proteção gástrica"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Resolução da dor",
+        "Normalização de marcadores inflamatórios"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

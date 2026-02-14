@@ -1,0 +1,65 @@
+{
+  "id": "dislipidemia",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "LDL-c ≥160 mg/dL (alto) ou ≥130 mg/dL (limítrofe)",
+        "HDL-c <40 mg/dL (homens) ou <50 mg/dL (mulheres)",
+        "Triglicérides ≥150 mg/dL",
+        "Colesterol total ≥240 mg/dL",
+        "Calcular risco cardiovascular (ASCVD, Framingham)"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Dieta mediterrânea ou DASH",
+          "Exercício aeróbico 150min/semana",
+          "Perda de peso se sobrepeso/obesidade",
+          "Cessação do tabagismo",
+          "Reduzir álcool"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Estatinas: Sinvastatina 20-40mg, Atorvastatina 10-80mg, Rosuvastatina 5-20mg",
+              "Meta LDL-c conforme risco: <70 (muito alto), <100 (alto), <130 (moderado)",
+              "Ezetimiba 10mg se meta não atingida com estatina",
+              "Fibrato se TG >500 mg/dL"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Redução de 30-50% do LDL-c ou meta absoluta conforme risco"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

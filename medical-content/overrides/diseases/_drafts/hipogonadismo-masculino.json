@@ -1,0 +1,64 @@
+{
+  "id": "hipogonadismo-masculino",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Testosterona total matinal <300 ng/dL (repetir)",
+        "Sintomas: fadiga, disfunção erétil, libido reduzida, humor deprimido",
+        "Sinais: perda de massa muscular, osteoporose, ginecomastia",
+        "LH: elevado (primário) ou baixo/normal (secundário)"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Perda de peso se obeso",
+          "Exercício físico",
+          "Otimizar sono",
+          "Investigar causas secundárias"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Indicações claras: sintomas + testosterona baixa confirmada",
+              "Cipionato de testosterona 200mg IM a cada 2 semanas",
+              "Undecanoato de testosterona 1000mg IM a cada 10-12 semanas",
+              "Monitorar hematócrito, PSA, lipídeos"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Testosterona 400-700 ng/dL",
+        "Melhora dos sintomas"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

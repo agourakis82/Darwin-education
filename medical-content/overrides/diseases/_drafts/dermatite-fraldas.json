@@ -1,0 +1,64 @@
+{
+  "id": "dermatite-fraldas",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Eritema em áreas convexas (poupando dobras = irritativa)",
+        "Lesões satélites, pústulas, dobras afetadas = Candida",
+        "Descamação, erosões em casos graves",
+        "Diagnóstico clínico"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Troca frequente de fraldas",
+          "Manter área seca",
+          "Expor ao ar",
+          "Pasta d'água ou óxido de zinco como barreira"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Irritativa leve: barreira (óxido de zinco) suficiente",
+              "Se Candida: Nistatina creme 4x/dia por 7-14 dias",
+              "Ou Miconazol creme 2x/dia",
+              "Corticoide de baixa potência (hidrocortisona 1%) se inflamação intensa, uso breve"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Resolução do eritema",
+        "Prevenção de recorrência"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

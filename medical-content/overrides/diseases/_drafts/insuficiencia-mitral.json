@@ -1,0 +1,62 @@
+{
+  "id": "insuficiencia-mitral",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Sopro holossistólico em foco mitral, irradiação para axila",
+        "Eco: gravidade por volume regurgitante, área do jato, vena contracta",
+        "IM grave: FEVE ↓, dilatação de VE/AE, hipertensão pulmonar"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Restrição de sal e líquidos se IC",
+          "Atividade física conforme tolerância"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "IM secundária: otimizar tratamento de IC (IECA/BRA, betabloqueador, espironolactona)",
+              "IM primária: tratamento clínico limitado",
+              "Diuréticos se congestão",
+              "Anticoagulação se FA"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Manter FEVE",
+        "Controle de sintomas",
+        "Cirurgia se indicado"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

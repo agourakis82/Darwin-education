@@ -142,6 +142,15 @@ function nowMonthUtc() {
   return new Date().toISOString().slice(0, 7)
 }
 
+function toAsciiFilename(id: string) {
+  // Keep filenames ASCII-only to avoid cross-platform issues.
+  // Example: "sífilis-terciaria" -> "sifilis-terciaria"
+  return id
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-zA-Z0-9._-]+/g, '-')
+}
+
 function scaffoldDiseaseOverride(disease: PartialDisease) {
   const quickView = (disease.quickView || {}) as Record<string, unknown>
   const tratamentoPrimeiraLinha = (quickView.tratamentoPrimeiraLinha || {}) as Record<string, unknown>
@@ -250,7 +259,7 @@ async function run() {
   console.log(`Output dir: ${outDir}`)
 
   if (dryRun) {
-    for (const id of planned) console.log(`- ${id}.json`)
+    for (const id of planned) console.log(`- ${toAsciiFilename(id)}.json`)
     return
   }
 
@@ -263,7 +272,7 @@ async function run() {
     const id = String(disease.id || '').trim()
     if (!id) continue
 
-    const filePath = path.join(outDir, `${id}.json`)
+    const filePath = path.join(outDir, `${toAsciiFilename(id)}.json`)
     if (fs.existsSync(filePath) && !force) {
       skipped += 1
       continue
@@ -284,4 +293,3 @@ run().catch((error) => {
   console.error(error)
   process.exit(1)
 })
-

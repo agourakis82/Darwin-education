@@ -1,0 +1,65 @@
+{
+  "id": "menopausa-climatério",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "12 meses consecutivos de amenorreia em >45 anos",
+        "FSH >25-30 mUI/mL (se necessário confirmar)",
+        "Sintomas vasomotores: fogachos, sudorese noturna",
+        "Sintomas urogenitais: atrofia vaginal, dispareunia"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Exercício físico regular",
+          "Evitar gatilhos de fogachos (álcool, café, comida picante)",
+          "Lubrificantes vaginais",
+          "Terapias mente-corpo"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Terapia hormonal (TH) se sintomas moderados/graves e sem contraindicações",
+              "Estrogênio + progestagênio se útero intacto",
+              "Estrogênio tópico vaginal para sintomas urogenitais",
+              "Alternativas: ISRS, gabapentina, clonidina"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Controle de sintomas",
+        "Qualidade de vida",
+        "Prevenção de osteoporose"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}
