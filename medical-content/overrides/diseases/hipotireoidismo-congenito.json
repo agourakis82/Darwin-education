@@ -8,6 +8,24 @@
   ],
   "fullContent": {
     "epidemiologia": {
+      "prevalencia": "Detectado principalmente por rastreamento neonatal (teste do pezinho); a maioria dos casos é esporádica.",
+      "faixaEtaria": "Neonatal (diagnóstico no período neonatal; maior impacto no neurodesenvolvimento se não tratado precocemente).",
+      "fatoresRisco": [
+        "História materna de doença tireoidiana",
+        "Exposição fetal/neonatal a excesso ou deficiência de iodo",
+        "Uso materno de antitireoidianos (ou outras exposições com potencial de interferir na função tireoidiana)",
+        "Prematuridade/baixo peso ao nascer (pode alterar resultados do rastreio)",
+        "História familiar de disormonogênese (formas hereditárias)"
+      ],
+      "citations": [
+        {
+          "refId": "sbem-hipotireoidismo-congenito-2013",
+          "studyType": "Guideline"
+        }
+      ]
+    },
+    "fisiopatologia": {
+      "texto": "O hipotireoidismo congênito resulta de deficiência de hormônios tireoidianos desde o nascimento. As causas mais comuns incluem disgenesia tireoidiana (agenesia/ectopia/hipoplasia) e disormonogênese. Pode ser transitório (por anticorpos maternos, exposição a iodo/antitireoidianos) ou, mais raramente, central (hipotálamo/hipófise). A deficiência de T4 no período neonatal compromete a maturação do sistema nervoso central, especialmente quando o tratamento é tardio.",
       "citations": [
         {
           "refId": "sbem-hipotireoidismo-congenito-2013",
@@ -16,6 +34,28 @@
       ]
     },
     "quadroClinico": {
+      "sintomasPrincipais": [
+        "Assintomático ao nascimento (frequente)",
+        "Icterícia prolongada",
+        "Sonolência/letargia, sucção fraca",
+        "Constipação",
+        "Choro rouco",
+        "Dificuldade para ganhar peso"
+      ],
+      "sinaisExameFisico": [
+        "Macroglossia",
+        "Hérnia umbilical",
+        "Fontanelas amplas",
+        "Hipotonia",
+        "Pele fria e seca",
+        "Bradicardia (em casos graves)"
+      ],
+      "formasClinicas": [
+        "Disgenesia tireoidiana (agenesia/ectopia/hipoplasia)",
+        "Disormonogênese (formas hereditárias)",
+        "Hipotireoidismo transitório",
+        "Hipotireoidismo central (raro)"
+      ],
       "citations": [
         {
           "refId": "sbem-hipotireoidismo-congenito-2013",
@@ -24,6 +64,27 @@
       ]
     },
     "diagnostico": {
+      "criterios": [
+        "Rastreamento neonatal (teste do pezinho): alteração de TSH e/ou T4 conforme protocolo local",
+        "Confirmação com dosagem sérica de TSH e T4 livre (e/ou T4 total) sem atraso",
+        "Início do tratamento assim que a suspeita for confirmada, idealmente o mais cedo possível"
+      ],
+      "diagnosticoDiferencial": [
+        "Hipotiroxinemia da prematuridade",
+        "Síndrome do eutireoideo doente",
+        "Hipotireoidismo central (TSH baixo/normal com T4 baixo)",
+        "Erro pré-analítico/tempo de coleta inadequado no rastreio"
+      ],
+      "examesLaboratoriais": [
+        "TSH sérico",
+        "T4 livre (ou T4 total, conforme disponibilidade)",
+        "Considerar tireoglobulina e anticorpos (em casos selecionados)"
+      ],
+      "examesImagem": [
+        "Ultrassom de tireoide (localização/volume)",
+        "Cintilografia tireoidiana (avaliação etiológica quando disponível)"
+      ],
+      "outrosExames": [],
       "citations": [
         {
           "refId": "sbem-hipotireoidismo-congenito-2013",
@@ -33,6 +94,12 @@
     },
     "tratamento": {
       "naoFarmacologico": {
+        "medidas": [
+          "Iniciar levotiroxina imediatamente após confirmação diagnóstica (não postergar por exames etiológicos)",
+          "Orientar família sobre adesão e administração correta (dose diária; preferir comprimido triturado em pequena quantidade de água/leite)",
+          "Evitar administração junto a ferro, cálcio e fórmulas à base de soja (podem reduzir absorção)",
+          "Acompanhamento pediátrico e do neurodesenvolvimento"
+        ],
         "citations": [
           {
             "refId": "sbem-hipotireoidismo-congenito-2013",
@@ -41,15 +108,73 @@
         ]
       },
       "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Hormônio tireoidiano (reposição)",
+            "medicamentos": [
+              "Levotiroxina"
+            ],
+            "posologia": "Dose inicial típica: 10-15 mcg/kg/dia (via oral, 1x/dia). Ajustar com base em T4 livre e TSH, com reavaliações frequentes no primeiro ano."
+          }
+        ],
+        "segundaLinha": [],
+        "situacoesEspeciais": [
+          {
+            "situacao": "Prematuridade/baixo peso ao nascer",
+            "conduta": "Interpretar rastreio e metas laboratoriais com cautela; seguir protocolo local e acompanhamento estreito, evitando atrasos terapêuticos quando confirmado."
+          },
+          {
+            "situacao": "Suspeita de hipotireoidismo central",
+            "conduta": "Avaliar eixo hipotálamo-hipofisário e considerar outras deficiências hormonais; monitorar T4 livre como principal parâmetro de ajuste."
+          }
+        ],
         "citations": [
           {
             "refId": "sbem-hipotireoidismo-congenito-2013",
             "studyType": "Guideline"
           }
         ]
-      }
+      },
+      "objetivos": [
+        "Normalizar rapidamente T4 livre e, em seguida, TSH",
+        "Prevenir prejuízo neurocognitivo e alterações de crescimento/desenvolvimento",
+        "Identificar etiologia quando útil sem atrasar tratamento"
+      ],
+      "duracao": "Em muitos casos é permanente. Reavaliação para formas transitórias pode ser considerada em idade apropriada, conforme evolução clínica e laboratorial."
     },
     "acompanhamento": {
+      "frequenciaConsultas": "Reavaliações frequentes no início do tratamento e acompanhamento regular ao longo da infância, com ajustes conforme resultados laboratoriais e crescimento/desenvolvimento.",
+      "examesControle": [
+        "T4 livre (ou T4 total, conforme protocolo)",
+        "TSH"
+      ],
+      "metasTerapeuticas": [
+        "T4 livre em faixa-alvo para idade",
+        "TSH em normalidade ao longo do seguimento",
+        "Crescimento e marcos do desenvolvimento adequados"
+      ],
+      "criteriosEncaminhamento": [
+        "Dificuldade em normalizar T4/TSH apesar de adesão adequada",
+        "Suspeita de hipotireoidismo central ou outras endocrinopatias",
+        "Suspeita de condição sindrômica/malformações associadas",
+        "Atraso do desenvolvimento (necessidade de avaliação multiprofissional)"
+      ],
+      "citations": [
+        {
+          "refId": "sbem-hipotireoidismo-congenito-2013",
+          "studyType": "Guideline"
+        }
+      ]
+    },
+    "prevencao": {
+      "primaria": [
+        "Garantir ingestão adequada de iodo na gestação e lactação (conforme recomendações de saúde pública)",
+        "Acompanhamento pré-natal de disfunções tireoidianas maternas quando presentes"
+      ],
+      "secundaria": [
+        "Rastreamento neonatal universal (teste do pezinho) e confirmação rápida dos casos suspeitos",
+        "Início precoce de levotiroxina quando indicado"
+      ],
       "citations": [
         {
           "refId": "sbem-hipotireoidismo-congenito-2013",
@@ -60,4 +185,3 @@
   },
   "lastUpdate": "2026-02"
 }
-
