@@ -1,0 +1,107 @@
+{
+  "id": "transtorno-depressivo-maior",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "who-depression-2023"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "dsm5-tr"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Humor deprimido ou perda de interesse/prazer",
+        "Pelo menos 5 sintomas por 2 semanas",
+        "Sintomas: peso, sono, psicomotor, energia, cognição, culpa, ideação suicida",
+        "Prejuízo significativo no funcionamento"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "dsm5-tr"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Psicoterapia: TCC (terapia cognitivo-comportamental) - padrão-ouro",
+          "Psicoterapia: IPT (terapia interpessoal)",
+          "Ativação comportamental",
+          "Exercício físico regular"
+        ],
+        "citations": [
+          {
+            "refId": "canmat-2024"
+          },
+          {
+            "refId": "nice-depression-2022"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "ISRS: Sertralina, Escitalopram, Fluoxetina (primeira linha)",
+              "ISRN: Venlafaxina, Duloxetina",
+              "Antidepressivos tricíclicos: Amitriptilina (segunda linha)"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "canmat-2024"
+          },
+          {
+            "refId": "nice-depression-2022"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "canmat-2024"
+        },
+        {
+          "refId": "nice-depression-2022"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "canmat-2024"
+    },
+    {
+      "refId": "nice-depression-2022"
+    },
+    {
+      "refId": "dsm5-tr"
+    },
+    {
+      "refId": "who-depression-2023"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}
+

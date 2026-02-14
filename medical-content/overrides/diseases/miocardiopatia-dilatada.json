@@ -1,0 +1,108 @@
+{
+  "id": "miocardiopatia-dilatada",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "esc-hf-2021"
+        },
+        {
+          "refId": "diretriz-ic-2021"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "esc-hf-2021"
+        },
+        {
+          "refId": "diretriz-ic-2021"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "IC com fração de ejeção reduzida",
+        "Dilatação ventricular",
+        "Ecocardiograma: FE <40%"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "esc-hf-2021"
+        },
+        {
+          "refId": "diretriz-ic-2021"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Restrição de sal",
+          "Restrição de líquidos",
+          "Exercícios controlados"
+        ],
+        "citations": [
+          {
+            "refId": "esc-hf-2021"
+          },
+          {
+            "refId": "diretriz-ic-2021"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "IECA ou BRA: Enalapril ou Losartana",
+              "Beta-bloqueador: Carvedilol",
+              "Diurético se necessário"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "esc-hf-2021"
+          },
+          {
+            "refId": "diretriz-ic-2021"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "esc-hf-2021"
+        },
+        {
+          "refId": "diretriz-ic-2021"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "esc-hf-2021"
+    },
+    {
+      "refId": "diretriz-ic-2021"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}
+
