@@ -2,6 +2,9 @@
   "name": "@darwin-education/web",
   "version": "1.5.0",
   "private": true,
+  "engines": {
+    "node": ">=20 <21"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",

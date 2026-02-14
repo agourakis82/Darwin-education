@@ -37,7 +37,7 @@
     "vitest": "^1.0.0"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=20 <21"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.91.1",
