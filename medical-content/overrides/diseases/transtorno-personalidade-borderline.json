@@ -1,0 +1,89 @@
+{
+  "id": "transtorno-personalidade-borderline",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "nice-borderline-2009"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "nice-borderline-2009"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "≥5 dos 9 critérios: esforços para evitar abandono, relacionamentos instáveis, perturbação da identidade, impulsividade, comportamento suicida/automutilante, instabilidade afetiva, sentimento de vazio, raiva intensa, sintomas dissociativos/paranoides",
+        "Início no início da idade adulta",
+        "Presente em vários contextos"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "nice-borderline-2009"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "DBT (Dialectical Behavior Therapy) - padrão-ouro",
+          "TCC especializada",
+          "Terapia de esquemas",
+          "Terapia de grupo"
+        ],
+        "citations": [
+          {
+            "refId": "nice-borderline-2009"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Medicação para sintomas específicos:",
+              "- ISRS para instabilidade afetiva",
+              "- Antipsicóticos atípicos em baixa dose para sintomas cognitivos",
+              "- Estabilizadores de humor para impulsividade"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "nice-borderline-2009"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "nice-borderline-2009"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "nice-borderline-2009"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}
+

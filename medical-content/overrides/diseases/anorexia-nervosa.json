@@ -1,0 +1,89 @@
+{
+  "id": "anorexia-nervosa",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "nice-eating-disorders-2017"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "nice-eating-disorders-2017"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Restrição alimentar → peso significativamente baixo (IMC <18,5 ou peso <85% do esperado)",
+        "Medo intenso de ganhar peso",
+        "Perturbação na percepção do peso/corpo",
+        "Tipos: Restritivo ou Compulsão periódica/Purgação"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "nice-eating-disorders-2017"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Tratamento multidisciplinar: médico, nutricionista, psicólogo",
+          "Terapia familiar (para adolescentes)",
+          "Terapia cognitivo-comportamental especializada",
+          "Reabilitação nutricional (supervisionada)"
+        ],
+        "citations": [
+          {
+            "refId": "nice-eating-disorders-2017"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Olanzapina (ganho de peso, sintomas obsessivos)",
+              "ISRS para comorbidades (depressão, ansiedade)",
+              "Suplementação nutricional se necessário"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "nice-eating-disorders-2017"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "nice-eating-disorders-2017"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "nice-eating-disorders-2017"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}
+
