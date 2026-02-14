@@ -7,6 +7,7 @@ import {
   resolveDarwinReference,
   type DarwinCitation,
 } from '@/lib/darwinMfc/references'
+import { isBlockedCitationRefId } from '@/lib/darwinMfc/blocked-sources'
 
 function formatCitationLabel(citation: DarwinCitation) {
   const bits = [citation.page ? `p. ${citation.page}` : null, citation.note || null].filter(Boolean)
@@ -39,7 +40,31 @@ export function ReferencesBlock({
     )
   }
 
-  const resolved = citations.map((citation) => {
+  const blockedCount = citations.filter((citation) => isBlockedCitationRefId(citation.refId)).length
+  const visibleCitations = citations.filter((citation) => !isBlockedCitationRefId(citation.refId))
+
+  if (visibleCitations.length === 0) {
+    const suffix = blockedCount > 0 ? ` (${blockedCount} fonte(s) proprietária(s) omitida(s))` : ''
+    return (
+      <div
+        data-testid="references-block"
+        className="rounded-2xl border border-separator bg-surface-2/50 p-4 text-sm text-label-secondary"
+      >
+        {showTitle ? (
+          <div data-testid="references-title" className="flex items-center gap-2 text-label-primary font-semibold">
+            <BookMarked className="h-4 w-4" />
+            Referências
+          </div>
+        ) : null}
+        <p className="mt-2">
+          {emptyLabel}
+          {suffix}
+        </p>
+      </div>
+    )
+  }
+
+  const resolved = visibleCitations.map((citation) => {
     const ref = resolveDarwinReference(citation.refId)
     return {
       citation,
@@ -59,12 +84,20 @@ export function ReferencesBlock({
             <BookMarked className="h-4 w-4" />
             Referências
           </div>
-          {missingCount > 0 ? (
-            <div className="inline-flex items-center gap-1 rounded-full border border-amber-500/35 bg-amber-500/10 px-2 py-0.5 text-[11px] font-medium text-amber-200">
-              <AlertTriangle className="h-3.5 w-3.5" />
-              {missingCount} sem metadados
-            </div>
-          ) : null}
+          <div className="flex items-center gap-2">
+            {blockedCount > 0 ? (
+              <div className="inline-flex items-center gap-1 rounded-full border border-slate-500/35 bg-slate-500/10 px-2 py-0.5 text-[11px] font-medium text-slate-200">
+                <AlertTriangle className="h-3.5 w-3.5" />
+                {blockedCount} omitidas
+              </div>
+            ) : null}
+            {missingCount > 0 ? (
+              <div className="inline-flex items-center gap-1 rounded-full border border-amber-500/35 bg-amber-500/10 px-2 py-0.5 text-[11px] font-medium text-amber-200">
+                <AlertTriangle className="h-3.5 w-3.5" />
+                {missingCount} sem metadados
+              </div>
+            ) : null}
+          </div>
         </div>
       ) : null}
 

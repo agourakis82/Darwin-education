@@ -5,6 +5,7 @@ import {
   resolveDarwinReference,
   type DarwinCitation,
 } from '@/lib/darwinMfc/references'
+import { isBlockedCitationRefId } from '@/lib/darwinMfc/blocked-sources'
 
 type JsonLd = Record<string, unknown>
 
@@ -60,7 +61,9 @@ export function buildDiseaseJsonLd(params: {
 }): JsonLd {
   const baseUrl = getPublicSiteUrl()
   const pageUrl = `${baseUrl}/conteudo/doencas/${params.id}`
-  const citations = (params.citations || []).map((c) => citationToCreativeWork(c, pageUrl))
+  const citations = (params.citations || [])
+    .filter((c) => !isBlockedCitationRefId(c.refId))
+    .map((c) => citationToCreativeWork(c, pageUrl))
 
   const cid10 = (params.cid10 || []).filter(Boolean)
   const code =
@@ -106,7 +109,9 @@ export function buildMedicationJsonLd(params: {
 }): JsonLd {
   const baseUrl = getPublicSiteUrl()
   const pageUrl = `${baseUrl}/conteudo/medicamentos/${params.id}`
-  const citations = (params.citations || []).map((c) => citationToCreativeWork(c, pageUrl))
+  const citations = (params.citations || [])
+    .filter((c) => !isBlockedCitationRefId(c.refId))
+    .map((c) => citationToCreativeWork(c, pageUrl))
 
   const brandNames = (params.brandNames || []).filter(Boolean)
   const alternateName = brandNames.length > 0 ? brandNames : undefined
@@ -143,4 +148,3 @@ export function buildMedicationJsonLd(params: {
     ...(citations.length > 0 ? { citation: citations } : {}),
   }
 }
-

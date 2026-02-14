@@ -1,5 +1,6 @@
 import type { Reference } from '../../../../darwin-MFC/lib/types/references'
 import { references } from '../../../../darwin-MFC/lib/data/references'
+import { localReferences } from '@/lib/darwinMfc/local-references'
 
 export type DarwinCitation = {
   refId: string
@@ -15,10 +16,12 @@ export type DarwinCitation = {
 function isPlaceholderDoi(doi?: string) {
   if (!doi) return false
   const normalized = doi.toLowerCase().trim()
-  return normalized.includes('xxxx') || normalized.includes('todo') || normalized.endsWith('x')
+  return normalized.includes('xxxx') || normalized.includes('todo')
 }
 
 export function resolveDarwinReference(refId: string): Reference | null {
+  const local = (localReferences as Record<string, Reference | undefined>)[refId]
+  if (local) return local
   const ref = (references as Record<string, Reference | undefined>)[refId]
   return ref ?? null
 }
@@ -45,4 +48,3 @@ export function getDarwinReferenceUrl(ref: Reference): string | null {
   const url = (ref.url || '').trim()
   return url ? url : null
 }
-

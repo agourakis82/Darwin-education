@@ -1,6 +1,9 @@
 import { createClient } from '@supabase/supabase-js'
 
-import { doencasConsolidadas } from '../darwin-MFC/lib/data/doencas/index'
+import fs from 'node:fs'
+import path from 'node:path'
+
+import { todasDoencas } from '../darwin-MFC/lib/data/doencas/index'
 import { medicamentosConsolidados } from '../darwin-MFC/lib/data/medicamentos/index'
 import type { CategoriaDoenca, Doenca } from '../darwin-MFC/lib/types/doenca'
 import type { Medicamento } from '../darwin-MFC/lib/types/medicamento'
@@ -8,6 +11,79 @@ import type { Medicamento } from '../darwin-MFC/lib/types/medicamento'
 const DEFAULT_BATCH_SIZE = 200
 
 type ImportOnly = 'diseases' | 'medications' | 'all'
+
+function findRepoRoot() {
+  const candidates = [process.cwd(), path.join(process.cwd(), '..'), path.join(process.cwd(), '..', '..')]
+  for (const candidate of candidates) {
+    try {
+      if (
+        fs.existsSync(path.join(candidate, 'darwin-MFC')) &&
+        fs.existsSync(path.join(candidate, 'package.json'))
+      ) {
+        return candidate
+      }
+    } catch {
+      // ignore
+    }
+  }
+  return process.cwd()
+}
+
+function deepMerge<T>(base: T, patch: Partial<T>): T {
+  if (patch == null) return base
+  if (typeof patch !== 'object') return patch as T
+
+  if (Array.isArray(base) || Array.isArray(patch)) {
+    return (patch as T) ?? base
+  }
+
+  const out = { ...(base as Record<string, unknown>) } as Record<string, unknown>
+  for (const [key, value] of Object.entries(patch as Record<string, unknown>)) {
+    const prev = out[key]
+    if (value && typeof value === 'object' && !Array.isArray(value) && prev && typeof prev === 'object' && !Array.isArray(prev)) {
+      out[key] = deepMerge(prev, value as Record<string, unknown>)
+      continue
+    }
+    out[key] = value
+  }
+  return out as T
+}
+
+function mergeById<T extends { id?: unknown }>(items: Array<Partial<T>>): Array<Partial<T>> {
+  const merged = new Map<string, Partial<T>>()
+
+  for (const item of items) {
+    const id = String(item?.id || '').trim()
+    if (!id) continue
+
+    const prev = merged.get(id)
+    merged.set(id, prev ? deepMerge(prev, item) : item)
+  }
+
+  return Array.from(merged.values())
+}
+
+function loadJsonOverrides<T extends { id?: unknown }>(dirPath: string) {
+  const overrides = new Map<string, Partial<T>>()
+  if (!fs.existsSync(dirPath)) return overrides
+
+  const files = fs.readdirSync(dirPath).filter((f) => f.endsWith('.json'))
+  for (const file of files) {
+    const fullPath = path.join(dirPath, file)
+    const raw = fs.readFileSync(fullPath, 'utf8')
+    if (!raw.trim()) continue
+
+    const parsed = JSON.parse(raw) as Partial<T>
+    const id = typeof parsed?.id === 'string' ? parsed.id.trim() : ''
+    if (!id) {
+      console.warn(`[overrides] skipping ${file}: missing id`)
+      continue
+    }
+    overrides.set(id, parsed)
+  }
+
+  return overrides
+}
 
 function getArgValue(args: string[], flag: string) {
   const idx = args.indexOf(flag)
@@ -211,25 +287,50 @@ async function run() {
   const batchSize = parsePositiveInt(getArgValue(args, '--batch-size'), '--batch-size') ?? DEFAULT_BATCH_SIZE
   const limit = parsePositiveInt(getArgValue(args, '--limit'), '--limit')
 
+  const repoRoot = findRepoRoot()
+  const overridesRoot = path.join(repoRoot, 'medical-content', 'overrides')
+  const diseaseOverrides = loadJsonOverrides<Doenca>(path.join(overridesRoot, 'diseases'))
+  const medicationOverrides = loadJsonOverrides<Medicamento>(path.join(overridesRoot, 'medications'))
+
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-  if (!url || !serviceRoleKey) {
+  if (!dryRun && (!url || !serviceRoleKey)) {
     throw new Error(
       'Missing required env vars: NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY'
     )
   }
 
-  const client = createClient(url, serviceRoleKey, {
-    auth: { persistSession: false, autoRefreshToken: false },
+  const diseaseBase = mergeById<Doenca>(todasDoencas)
+
+  const diseaseMerged = diseaseBase.map((item) => {
+    const id = String(item.id || '').trim()
+    const patch = id ? diseaseOverrides.get(id) : null
+    return patch ? deepMerge(item, patch) : item
   })
 
-  const diseaseRowsAll = doencasConsolidadas
+  for (const [id, patch] of diseaseOverrides.entries()) {
+    const exists = diseaseMerged.some((d) => String(d.id || '').trim() === id)
+    if (!exists) diseaseMerged.push(patch as Partial<Doenca>)
+  }
+
+  const medicationMerged = medicamentosConsolidados.map((item) => {
+    const id = String(item.id || '').trim()
+    const patch = id ? medicationOverrides.get(id) : null
+    return patch ? deepMerge(item, patch) : item
+  })
+
+  for (const [id, patch] of medicationOverrides.entries()) {
+    const exists = medicationMerged.some((m) => String((m as { id?: unknown }).id || '').trim() === id)
+    if (!exists) medicationMerged.push(patch as Medicamento)
+  }
+
+  const diseaseRowsAll = diseaseMerged
     .filter((item) => Boolean(item.id && item.titulo && item.categoria))
     .map(mapDiseaseRow)
     .filter((item) => item.id)
 
-  const medicationRowsAll = medicamentosConsolidados
+  const medicationRowsAll = medicationMerged
     .filter((item) => Boolean(item.id && item.nomeGenerico && item.classeTerapeutica))
     .map(mapMedicationRow)
 
@@ -243,8 +344,14 @@ async function run() {
   console.log(`Batch size: ${batchSize}`)
   console.log(`Diseases ready: ${diseaseRows.length}`)
   console.log(`Medications ready: ${medicationRows.length}`)
+  console.log(`Disease overrides loaded: ${diseaseOverrides.size}`)
+  console.log(`Medication overrides loaded: ${medicationOverrides.size}`)
 
   if (dryRun) return
+
+  const client = createClient(url!, serviceRoleKey!, {
+    auth: { persistSession: false, autoRefreshToken: false },
+  })
 
   const diseasesReport =
     only === 'all' || only === 'diseases'

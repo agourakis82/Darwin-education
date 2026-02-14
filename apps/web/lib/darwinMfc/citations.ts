@@ -1,4 +1,5 @@
 import type { DarwinCitation } from '@/lib/darwinMfc/references'
+import { isBlockedCitationRefId } from '@/lib/darwinMfc/blocked-sources'
 
 function isCitationLike(value: unknown): value is DarwinCitation {
   if (!value || typeof value !== 'object') return false
@@ -22,6 +23,7 @@ export function collectDarwinCitations(payload: unknown): DarwinCitation[] {
     }
 
     if (isCitationLike(value)) {
+      if (isBlockedCitationRefId(value.refId)) return
       const key = keyOf(value)
       if (!seen.has(key)) {
         seen.add(key)
@@ -51,4 +53,3 @@ export function extractDarwinLastUpdate(payload: unknown): string | null {
   const maybe = payload as { lastUpdate?: unknown }
   return typeof maybe.lastUpdate === 'string' && maybe.lastUpdate.trim() ? maybe.lastUpdate.trim() : null
 }
-
