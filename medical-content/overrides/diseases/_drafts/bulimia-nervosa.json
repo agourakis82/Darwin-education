@@ -1,0 +1,58 @@
+{
+  "id": "bulimia-nervosa",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Episódios recorrentes de compulsão alimentar (grande quantidade em curto período, sensação de perda de controle)",
+        "Comportamentos compensatórios recorrentes: vômitos autoinduzidos, uso de laxantes/diuréticos, exercício excessivo, jejum",
+        "≥1 vez/semana por ≥3 meses",
+        "Autoavaliação indevidamente influenciada pela forma e peso do corpo"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "TCC especializada (TCC-BN) - padrão-ouro",
+          "Terapia interpessoal (IPT)",
+          "Psicoeducação nutricional"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "ISRS: Fluoxetina 60mg/dia (aprovado para BN)",
+              "Outros ISRS em altas doses"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

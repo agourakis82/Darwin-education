@@ -1,0 +1,61 @@
+{
+  "id": "dermatite-atopica-pediatrica",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Hanifin-Rajka: prurido + ≥3 critérios",
+        "Morfologia típica para idade",
+        "Lactentes: face e superfícies extensoras",
+        "Maiores: flexuras (fossas)",
+        "Curso crônico/recidivante"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Hidratação intensa (emolientes 2-3x/dia)",
+          "Banho curto, água morna",
+          "Evitar gatilhos",
+          "Cortar unhas"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Corticoide tópico baixa potência (hidrocortisona)",
+              "Crises: CT média potência curto prazo",
+              "Inibidor calcineurina (>2 anos)"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

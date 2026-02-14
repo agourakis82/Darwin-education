@@ -1,0 +1,59 @@
+{
+  "id": "cefaleia-em-salvas",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "≥5 crises",
+        "Dor unilateral, periorbitária/peritemporal, severa ou muito severa",
+        "Duração: 15-180 minutos",
+        "≥1 sintoma ipsilateral: lacrimejamento, congestão/rinorreia, sudorese facial, miose/ptose, edema palpebral",
+        "Frequência: de 1 em dias alternados a 8/dia"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Evitar álcool durante período de salva",
+          "Oxigenoterapia inalatória (100% O2, 7-15L/min por 15 minutos)"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Crise aguda: Sumatriptano 6mg SC ou 20mg intranasal",
+              "Prevenção: Verapamil 240-960mg/dia (padrão-ouro)",
+              "Alternativas: Prednisona, Topiramato"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

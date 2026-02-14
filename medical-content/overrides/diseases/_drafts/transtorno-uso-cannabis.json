@@ -1,0 +1,56 @@
+{
+  "id": "transtorno-uso-cannabis",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "≥2 critérios em 12 meses: uso maior que pretendido, esforços para reduzir, muito tempo gasto, fissura, fracasso em obrigações, problemas interpessoais, abandono de atividades, uso em situações perigosas, uso apesar de problemas, tolerância, abstinência"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Entrevista motivacional",
+          "TCC para uso de substâncias",
+          "Terapia de manejo de contingências",
+          "Grupos de apoio"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Tratamento de sintomas de abstinência se necessário",
+              "Naltrexona pode ajudar"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

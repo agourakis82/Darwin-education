@@ -1,0 +1,61 @@
+{
+  "id": "neuromielite-optica",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Critérios Wingerchuk 2015:",
+        "Neurite óptica + Mielite transversa",
+        "≥2 de 3:",
+        "- Mielite contínua ≥3 segmentos vertebrais",
+        "- RM cerebral não atende critérios de EM",
+        "- Soropositivo para AQP4-IgG"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Fisioterapia",
+          "Suporte visual",
+          "Reabilitação"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Surto agudo: Metilprednisolona 1g/dia IV por 3-5 dias",
+              "Se não responsivo: Plasmaférese",
+              "Prevenção: Azatioprina + Prednisona, ou Rituximab"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

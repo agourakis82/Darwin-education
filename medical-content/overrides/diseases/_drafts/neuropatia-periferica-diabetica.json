@@ -1,0 +1,62 @@
+{
+  "id": "neuropatia-periferica-diabetica",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "História de diabetes mellitus",
+        "Sintomas: dor, queimação, formigamento, formigamento em pés/mãos",
+        "Exame físico: diminuição de sensibilidade (vibração, tato fino), reflexos diminuídos",
+        "Exame: monofilamento de Semmes-Weinstein (10g)",
+        "EMG/NCV: confirmação de neuropatia"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Controle glicêmico rigoroso (HbA1c <7%)",
+          "Cuidados com os pés (prevenção de úlceras)",
+          "Exercício físico regular"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Dor neuropática:",
+              "- Gabapentina 300-3600mg/dia",
+              "- Pregabalina 75-600mg/dia",
+              "- Duloxetina 60-120mg/dia",
+              "- Amitriptilina 25-100mg/dia"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

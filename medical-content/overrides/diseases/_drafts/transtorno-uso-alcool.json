@@ -1,0 +1,59 @@
+{
+  "id": "transtorno-uso-alcool",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "≥2 critérios em 12 meses:",
+        "Consumo maior que pretendido, esforços para reduzir, muito tempo gasto, fissura, fracasso em obrigações, problemas interpessoais, abandono de atividades, uso em situações perigosas, uso apesar de problemas, tolerância, abstinência",
+        "Gravidade: Leve (2-3), Moderada (4-5), Grave (6+)"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Entrevista motivacional",
+          "Terapia cognitivo-comportamental",
+          "Grupos de apoio (AA)",
+          "Prevenção de recaída"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Desintoxicação se necessário (benzodiazepínicos para abstinência)",
+              "Prevenção de recaída: Naltrexona, Acamprosato",
+              "Deterrência: Dissulfiram"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}
