@@ -5,8 +5,13 @@ import path from 'node:path'
 
 import { todasDoencas } from '../darwin-MFC/lib/data/doencas/index'
 import { medicamentosConsolidados } from '../darwin-MFC/lib/data/medicamentos/index'
+import { references as mfcReferences } from '../darwin-MFC/lib/data/references'
+import type { Reference } from '../darwin-MFC/lib/types/references'
 import type { CategoriaDoenca, Doenca } from '../darwin-MFC/lib/types/doenca'
 import type { Medicamento } from '../darwin-MFC/lib/types/medicamento'
+
+import { localReferences } from '../apps/web/lib/darwinMfc/local-references'
+import { addInferredEvidenceToCitationsInPlace } from './lib/citation_evidence'
 
 const DEFAULT_BATCH_SIZE = 200
 
@@ -153,6 +158,13 @@ function toJson<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T
 }
 
+function resolveRef(refId: string): Reference | null {
+  const local = (localReferences as Record<string, Reference | undefined>)[refId]
+  if (local) return local
+  const mfc = (mfcReferences as Record<string, Reference | undefined>)[refId]
+  return mfc ?? null
+}
+
 function diseaseSummary(item: Partial<Doenca>) {
   return (
     normalizeText(item.quickView?.definicao) ||
@@ -171,6 +183,9 @@ function medicationSummary(item: Medicamento) {
 
 function mapDiseaseRow(item: Partial<Doenca>) {
   const categoria = (item.categoria || 'outros') as CategoriaDoenca
+
+  const payload = toJson(item)
+  addInferredEvidenceToCitationsInPlace(payload, resolveRef)
 
   return {
     id: item.id || '',
@@ -200,11 +215,14 @@ function mapDiseaseRow(item: Partial<Doenca>) {
       item.fullContent?.quadroClinico?.sinaisExameFisico,
       item.fullContent?.diagnostico?.criterios,
     ]),
-    payload: toJson(item),
+    payload,
   }
 }
 
 function mapMedicationRow(item: Medicamento) {
+  const payload = toJson(item)
+  addInferredEvidenceToCitationsInPlace(payload, resolveRef)
+
   return {
     id: item.id,
     generic_name: normalizeText(item.nomeGenerico),
@@ -227,7 +245,7 @@ function mapMedicationRow(item: Medicamento) {
       item.monitorizacao,
       item.interacoes?.map((entry) => [entry.medicamento, entry.efeito, entry.conduta]),
     ]),
-    payload: toJson(item),
+    payload,
   }
 }
 

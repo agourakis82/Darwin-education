@@ -8,6 +8,7 @@ import path from 'node:path'
 
 import { isBlockedCitationRefId } from '../apps/web/lib/darwinMfc/blocked-sources'
 import { localReferences } from '../apps/web/lib/darwinMfc/local-references'
+import { inferStudyTypeFromReference } from './lib/citation_evidence'
 
 type CitationLike = {
   refId: string
@@ -247,7 +248,8 @@ async function run() {
   const usage = new Map<string, number>()
   const missing = new Map<string, number>()
   const blocked = new Map<string, number>()
-  const missingEvidence = new Map<string, number>()
+  const missingEvidenceRaw = new Map<string, number>()
+  const missingEvidenceAfterDefaults = new Map<string, number>()
   const placeholderDoi = new Map<string, number>()
 
   for (const citation of allCitations) {
@@ -271,16 +273,23 @@ async function run() {
       placeholderDoi.set(refId, (placeholderDoi.get(refId) || 0) + 1)
     }
 
-    const hasEvidence = Boolean(citation.studyType || citation.evidenceLevel || citation.qualityScore != null)
-    if (!hasEvidence) {
-      missingEvidence.set(refId, (missingEvidence.get(refId) || 0) + 1)
+    const hasEvidenceRaw = Boolean(citation.studyType || citation.evidenceLevel || citation.qualityScore != null)
+    if (!hasEvidenceRaw) {
+      missingEvidenceRaw.set(refId, (missingEvidenceRaw.get(refId) || 0) + 1)
+
+      const inferredStudyType = inferStudyTypeFromReference(ref)
+      const hasEvidenceAfterDefaults = Boolean(inferredStudyType)
+      if (!hasEvidenceAfterDefaults) {
+        missingEvidenceAfterDefaults.set(refId, (missingEvidenceAfterDefaults.get(refId) || 0) + 1)
+      }
     }
   }
 
   const missingList = Array.from(missing.entries()).sort((a, b) => b[1] - a[1])
   const blockedList = Array.from(blocked.entries()).sort((a, b) => b[1] - a[1])
   const placeholderList = Array.from(placeholderDoi.entries()).sort((a, b) => b[1] - a[1])
-  const missingEvidenceList = Array.from(missingEvidence.entries()).sort((a, b) => b[1] - a[1])
+  const missingEvidenceRawList = Array.from(missingEvidenceRaw.entries()).sort((a, b) => b[1] - a[1])
+  const missingEvidenceAfterDefaultsList = Array.from(missingEvidenceAfterDefaults.entries()).sort((a, b) => b[1] - a[1])
 
   console.log('=== Darwin Education — Medical Content Audit ===')
   console.log(`Diseases: ${diseaseCount}`)
@@ -293,7 +302,8 @@ async function run() {
   console.log(`Blocked refIds (omitted): ${blocked.size}`)
   console.log(`Missing refIds (no metadata): ${missing.size}`)
   console.log(`RefIds with placeholder DOI: ${placeholderDoi.size}`)
-  console.log(`RefIds cited without evidence metadata: ${missingEvidence.size}`)
+  console.log(`RefIds cited without evidence metadata (raw): ${missingEvidenceRaw.size}`)
+  console.log(`RefIds cited without evidence metadata (after defaults): ${missingEvidenceAfterDefaults.size}`)
 
   if (listMissingFullContent) {
     console.log('')
@@ -327,10 +337,10 @@ async function run() {
     }
   }
 
-  if (missingEvidenceList.length > 0) {
+  if (missingEvidenceAfterDefaultsList.length > 0) {
     console.log('')
-    console.log('--- Top refIds cited without evidence metadata (count) ---')
-    for (const [refId, count] of topEntries(missingEvidenceList, limit)) {
+    console.log('--- Top refIds still missing evidence metadata after defaults (count) ---')
+    for (const [refId, count] of topEntries(missingEvidenceAfterDefaultsList, limit)) {
       console.log(`${count}\t${refId}`)
     }
   }
