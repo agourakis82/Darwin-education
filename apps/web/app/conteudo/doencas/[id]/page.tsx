@@ -130,6 +130,15 @@ function mergeCitations(...lists: Array<DarwinCitation[] | undefined>) {
   return out
 }
 
+function decodeRouteParam(value: string): string {
+  // For ids containing diacritics, we can receive percent-encoded params (ex: "%C3%A9").
+  try {
+    return decodeURIComponent(value)
+  } catch {
+    return value
+  }
+}
+
 function SectionReferences({ citations }: { citations?: DarwinCitation[] }) {
   const list = (citations || []).filter((citation) => Boolean(citation?.refId?.trim()))
   if (list.length === 0) return null
@@ -151,7 +160,8 @@ export default async function DiseaseDetailPage({
 }: {
   params: Promise<{ id: string }>
 }) {
-  const { id } = await params
+  const { id: rawId } = await params
+  const id = decodeRouteParam(rawId)
   const { data, error } = await getDiseaseById(id)
 
   if (error) {
