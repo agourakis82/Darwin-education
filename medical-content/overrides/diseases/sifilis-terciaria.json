@@ -1,0 +1,85 @@
+{
+  "id": "sífilis-terciaria",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "cdc-sti-2021"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "cdc-sti-2021"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "História de sífilis",
+        "VDRL/RPR positivo",
+        "TPHA/FTA-ABS positivo",
+        "Manifestações tardias"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "cdc-sti-2021"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Avaliação neurológica",
+          "Cardiológica se necessário"
+        ],
+        "citations": [
+          {
+            "refId": "cdc-sti-2021"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Penicilina G cristalina 18-24 milhões UI/dia IV 10-14 dias (neurolues)",
+              "Ou Ceftriaxona alternativa"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "cdc-sti-2021"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "cdc-sti-2021"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "cdc-sti-2021"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

@@ -1,0 +1,85 @@
+{
+  "id": "urticaria",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "eaaci-urt-2022"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "eaaci-urt-2022"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Pápulas/placas eritematosas",
+        "Prurido intenso",
+        "Lesões evanescentes (<24h)",
+        "Angioedema pode estar presente"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "eaaci-urt-2022"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Evitar desencadeantes identificados",
+          "Compressas frias"
+        ],
+        "citations": [
+          {
+            "refId": "eaaci-urt-2022"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Antihistamínico H1 não sedativo: Loratadina 10mg 1x/dia ou Cetirizina 10mg 1x/dia",
+              "Se refratária: aumentar dose ou adicionar outro antihistamínico"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "eaaci-urt-2022"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "eaaci-urt-2022"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "eaaci-urt-2022"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

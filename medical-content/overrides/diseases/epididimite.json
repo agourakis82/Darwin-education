@@ -1,0 +1,90 @@
+{
+  "id": "epididimite",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "cdc-sti-2021"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "cdc-sti-2021"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Dor testicular unilateral de início gradual",
+        "Aumento e endurecimento do epidídimo",
+        "Sinal de Prehn positivo (alívio com elevação)",
+        "Diferencial: torção testicular (emergência)"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "cdc-sti-2021"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Repouso, elevação escrotal",
+          "Gelo local",
+          "Abstinência sexual durante tratamento"
+        ],
+        "citations": [
+          {
+            "refId": "cdc-sti-2021"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Se IST suspeita (<35 anos): Ceftriaxona 500mg IM dose única + Doxiciclina 100mg 12/12h por 10 dias",
+              "Se uropatógeno (>35 anos): Levofloxacino 500mg/dia por 10 dias",
+              "Tratar parceira se IST"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "cdc-sti-2021"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Resolução da dor e inflamação",
+        "Erradicação da infecção"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "cdc-sti-2021"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "cdc-sti-2021"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

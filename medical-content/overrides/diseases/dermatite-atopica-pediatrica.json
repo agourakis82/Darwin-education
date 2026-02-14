@@ -1,0 +1,89 @@
+{
+  "id": "dermatite-atopica-pediatrica",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "aad-ad-2022"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "aad-ad-2022"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Hanifin-Rajka: prurido + ≥3 critérios",
+        "Morfologia típica para idade",
+        "Lactentes: face e superfícies extensoras",
+        "Maiores: flexuras (fossas)",
+        "Curso crônico/recidivante"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "aad-ad-2022"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Hidratação intensa (emolientes 2-3x/dia)",
+          "Banho curto, água morna",
+          "Evitar gatilhos",
+          "Cortar unhas"
+        ],
+        "citations": [
+          {
+            "refId": "aad-ad-2022"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Corticoide tópico baixa potência (hidrocortisona)",
+              "Crises: CT média potência curto prazo",
+              "Inibidor calcineurina (>2 anos)"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "aad-ad-2022"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "aad-ad-2022"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "aad-ad-2022"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}
