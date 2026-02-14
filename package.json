@@ -19,6 +19,7 @@
     "etl": "node --import tsx infrastructure/supabase/seed/etl.ts",
     "seed:medical-content": "pnpm --filter @darwin-education/web exec env TSX_TSCONFIG_PATH=../../darwin-MFC/tsconfig.json node --import tsx ../../scripts/import_medical_content.ts",
     "audit:medical-content": "env TSX_TSCONFIG_PATH=darwin-MFC/tsconfig.json node --import tsx scripts/audit_medical_content.ts",
+    "scaffold:medical-fullcontent": "env TSX_TSCONFIG_PATH=darwin-MFC/tsconfig.json node --import tsx scripts/scaffold_disease_fullcontent_drafts.ts",
     "harvest": "pnpm --filter @darwin-education/shared harvest",
     "harvest:test": "pnpm --filter @darwin-education/shared harvest:test",
     "harvest:sources": "pnpm --filter @darwin-education/shared harvest:sources",

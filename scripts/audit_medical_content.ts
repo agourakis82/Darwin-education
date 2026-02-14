@@ -19,6 +19,12 @@ type CitationLike = {
   qualityScore?: number
 }
 
+// Allow piping to tools like `head` without crashing the script.
+process.stdout.on('error', (error: unknown) => {
+  const code = (error as { code?: unknown } | null)?.code
+  if (code === 'EPIPE') process.exit(0)
+})
+
 function isCitationLike(value: unknown): value is CitationLike {
   if (!value || typeof value !== 'object') return false
   const maybe = value as { refId?: unknown }
@@ -195,6 +201,15 @@ function getArgFlag(name: string) {
   return process.argv.slice(2).includes(name)
 }
 
+function getArgValue(flag: string) {
+  const args = process.argv.slice(2)
+  const idx = args.indexOf(flag)
+  if (idx === -1) return null
+  const value = args[idx + 1]
+  if (!value || value.startsWith('-')) return null
+  return value
+}
+
 function topEntries<T>(items: Array<[string, T]>, limit = 50) {
   return items.slice(0, Math.max(0, limit))
 }
@@ -202,6 +217,8 @@ function topEntries<T>(items: Array<[string, T]>, limit = 50) {
 async function run() {
   const strict = getArgFlag('--strict')
   const listMissingFullContent = getArgFlag('--list-missing-fullcontent')
+  const listNoCitations = getArgFlag('--list-no-citations')
+  const exportMissingFullContent = getArgValue('--export-missing-fullcontent')
   const limit = process.argv.slice(2).includes('--all') ? Number.POSITIVE_INFINITY : 50
 
   const repoRoot = findRepoRoot()
@@ -240,6 +257,62 @@ async function run() {
     .filter((d) => !isFullContentPresent(d))
     .map((d) => String((d as { id?: unknown }).id || '').trim())
     .filter(Boolean)
+
+  const diseaseNoCitationsIds = diseases
+    .filter((d) => collectCitations(d).filter((c) => !isBlockedCitationRefId(c.refId)).length === 0)
+    .map((d) => String((d as { id?: unknown }).id || '').trim())
+    .filter(Boolean)
+
+  if (exportMissingFullContent) {
+    const outPath = path.isAbsolute(exportMissingFullContent)
+      ? exportMissingFullContent
+      : path.join(repoRoot, exportMissingFullContent)
+
+    const missingFull = diseases
+      .filter((d) => !isFullContentPresent(d))
+      .map((d) => {
+        const record = d as Record<string, unknown>
+        const id = String(record.id || '').trim()
+        const title = String(record.titulo || '').trim() || null
+        const categoria = typeof record.categoria === 'string' ? record.categoria : null
+        const subcategoria = typeof record.subcategoria === 'string' ? record.subcategoria : null
+        const lastUpdate = typeof record.lastUpdate === 'string' ? record.lastUpdate : null
+        const definicao =
+          typeof (record.quickView as Record<string, unknown> | undefined)?.definicao === 'string'
+            ? String((record.quickView as Record<string, unknown>).definicao).trim() || null
+            : null
+
+        return {
+          id,
+          title,
+          categoria,
+          subcategoria,
+          lastUpdate,
+          quickViewDefinicao: definicao,
+        }
+      })
+      .filter((entry) => Boolean(entry.id))
+      .sort((a, b) => (a.categoria || '').localeCompare(b.categoria || '') || a.id.localeCompare(b.id))
+
+    fs.mkdirSync(path.dirname(outPath), { recursive: true })
+    fs.writeFileSync(
+      outPath,
+      JSON.stringify(
+        {
+          generatedAtUtc: new Date().toISOString(),
+          diseasesTotal: diseaseCount,
+          diseasesWithFullContent: diseaseFullCount,
+          diseasesMissingFullContent: diseaseMissingFullIds.length,
+          diseasesWithoutCitations: diseaseNoCitationsIds.length,
+          missing: missingFull,
+        },
+        null,
+        2
+      ) + '\n'
+    )
+    console.log('')
+    console.log(`Exported missing fullContent report to: ${outPath}`)
+  }
 
   const diseaseCitations = diseases.flatMap((d) => collectCitations(d))
   const medicationCitations = medications.flatMap((m) => collectCitations(m))
@@ -294,6 +367,7 @@ async function run() {
   console.log('=== Darwin Education — Medical Content Audit ===')
   console.log(`Diseases: ${diseaseCount}`)
   console.log(`Diseases with fullContent present: ${diseaseFullCount}`)
+  console.log(`Diseases with zero citations (after blocked filter): ${diseaseNoCitationsIds.length}`)
   console.log(`Medications: ${medicationCount}`)
   console.log(`Disease overrides loaded: ${diseaseOverrides.size}`)
   console.log(`Medication overrides loaded: ${medicationOverrides.size}`)
@@ -309,6 +383,14 @@ async function run() {
     console.log('')
     console.log(`--- Diseases missing fullContent (${diseaseMissingFullIds.length}) ---`)
     for (const id of diseaseMissingFullIds.slice(0, limit)) {
+      console.log(id)
+    }
+  }
+
+  if (listNoCitations) {
+    console.log('')
+    console.log(`--- Diseases with zero citations (${diseaseNoCitationsIds.length}) ---`)
+    for (const id of diseaseNoCitationsIds.slice(0, limit)) {
       console.log(id)
     }
   }

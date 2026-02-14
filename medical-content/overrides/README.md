@@ -8,6 +8,7 @@ It is consumed by `scripts/import_medical_content.ts` during the Supabase sync.
 
 - `medical-content/overrides/diseases/*.json`
 - `medical-content/overrides/medications/*.json`
+- Drafts (not imported): `medical-content/overrides/**/_drafts/*.json`
 
 Each JSON file must contain at least an `id` (string). The importer will:
 
