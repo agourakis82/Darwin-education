@@ -39,6 +39,7 @@
     "node": ">=20"
   },
   "dependencies": {
+    "@supabase/supabase-js": "2.91.1",
     "pg": "^8.18.0",
     "postgres": "^3.4.8"
   }
