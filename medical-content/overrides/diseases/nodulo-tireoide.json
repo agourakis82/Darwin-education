@@ -1,0 +1,86 @@
+{
+  "id": "nodulo-tireoide",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "ata-thyroid-nodules-2015"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "ata-thyroid-nodules-2015"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Nódulo palpável ou incidental em imagem",
+        "TSH para avaliar função",
+        "US tireoide para caracterização",
+        "PAAF se >1cm com características suspeitas"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "ata-thyroid-nodules-2015"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Observação se benigno e pequeno",
+          "Seguimento com US periódico"
+        ],
+        "citations": [
+          {
+            "refId": "ata-thyroid-nodules-2015"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Não há tratamento medicamentoso para nódulos benignos",
+              "Levotiroxina NÃO suprime nódulos"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "ata-thyroid-nodules-2015"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "ata-thyroid-nodules-2015"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "ata-thyroid-nodules-2015"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}
+

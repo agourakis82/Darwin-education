@@ -1,0 +1,88 @@
+{
+  "id": "bronquiolite-aguda",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "aap-bronchiolitis-2014"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "aap-bronchiolitis-2014"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "<2 anos",
+        "Rinorreia precedendo sintomas respiratórios",
+        "Sibilância",
+        "Tosse",
+        "Tachipneia"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "aap-bronchiolitis-2014"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Suporte ventilatório se necessário",
+          "Hidratação",
+          "Aspiração nasal"
+        ],
+        "citations": [
+          {
+            "refId": "aap-bronchiolitis-2014"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Sintomático: Paracetamol",
+              "Salbutamol pode ser tentado mas eficácia limitada"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "aap-bronchiolitis-2014"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "aap-bronchiolitis-2014"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "aap-bronchiolitis-2014"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}
+

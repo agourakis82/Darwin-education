@@ -1,0 +1,86 @@
+{
+  "id": "hipertireoidismo",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "ata-hyperthyroidism-2016"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "ata-hyperthyroidism-2016"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "TSH suprimido",
+        "T4 livre e/ou T3 elevados",
+        "Sintomas: taquicardia, perda de peso, ansiedade, tremores"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "ata-hyperthyroidism-2016"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Repouso",
+          "Evitar estresse",
+          "Bloqueador beta para sintomas"
+        ],
+        "citations": [
+          {
+            "refId": "ata-hyperthyroidism-2016"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Metimazol 10-40mg/dia (primeira linha) OU Propiltiouracil se gestação/amamentação",
+              "Bloqueador beta: Propranolol para sintomas adrenérgicos"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "ata-hyperthyroidism-2016"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "ata-hyperthyroidism-2016"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "ata-hyperthyroidism-2016"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}
+
