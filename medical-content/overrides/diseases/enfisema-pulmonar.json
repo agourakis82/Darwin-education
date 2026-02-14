@@ -1,0 +1,86 @@
+{
+  "id": "enfisema-pulmonar",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "gold-2024"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "gold-2024"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Dispneia progressiva",
+        "Tórax em barril",
+        "Diminuição do murmúrio vesicular",
+        "RX: hiperinsuflação"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "gold-2024"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Cessação tabágica",
+          "Oxigenoterapia se SpO2 <88%",
+          "Reabilitação pulmonar"
+        ],
+        "citations": [
+          {
+            "refId": "gold-2024"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Broncodilatador: Tiotrópio 18mcg 1x/dia",
+              "Se exacerbações: adicionar corticoide inalatório"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "gold-2024"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "gold-2024"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "gold-2024"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

@@ -1,0 +1,88 @@
+{
+  "id": "asma-infantil",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "gina-2024"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "gina-2024"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Sibilância recorrente (≥3 episódios)",
+        "Tosse noturna/matinal",
+        "Dispneia aos esforços",
+        "Melhora com broncodilatador",
+        "IPA modificado (preditivo em <5 anos)"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "gina-2024"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Controle ambiental",
+          "Evitar tabagismo passivo",
+          "Vacinação em dia"
+        ],
+        "citations": [
+          {
+            "refId": "gina-2024"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Leve intermitente: SABA resgate",
+              "Persistente: CI dose baixa (budesonida 100-200mcg)",
+              "Step-up se não controlado"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "gina-2024"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "gina-2024"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "gina-2024"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

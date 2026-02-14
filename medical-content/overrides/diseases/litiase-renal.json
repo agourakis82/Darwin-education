@@ -1,0 +1,87 @@
+{
+  "id": "litiase-renal",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "eau-urolithiasis-2023"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "eau-urolithiasis-2023"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Cólica renal: dor lombar intensa, irradiação para flanco e virilha",
+        "Náuseas e vômitos",
+        "Hematúria",
+        "Agitação (não encontra posição de alívio)"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "eau-urolithiasis-2023"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Hidratação",
+          "Coar urina para capturar cálculo",
+          "Repouso durante crise"
+        ],
+        "citations": [
+          {
+            "refId": "eau-urolithiasis-2023"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Analgesia: Dipirona 1g EV + AINE (Cetoprofeno 100mg)",
+              "Antiespasmódico: Hioscina 20mg",
+              "Alfa-bloqueador: Tansulosina 0,4mg se cálculo 5-10mm"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "eau-urolithiasis-2023"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "eau-urolithiasis-2023"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "eau-urolithiasis-2023"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

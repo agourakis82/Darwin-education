@@ -1,0 +1,88 @@
+{
+  "id": "faringite-estreptococica",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "idsa-pharyngitis-2012"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "idsa-pharyngitis-2012"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Faringite/amigdalite",
+        "Exsudato tonsilar",
+        "Adenomegalia cervical",
+        "Febre",
+        "Teste rápido ou cultura positiva"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "idsa-pharyngitis-2012"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Analgésicos: Paracetamol ou Ibuprofeno",
+          "Gargarejos",
+          "Hidratação"
+        ],
+        "citations": [
+          {
+            "refId": "idsa-pharyngitis-2012"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Penicilina V 250-500mg 6/6h por 10 dias",
+              "Ou Amoxicilina 500mg 8/8h por 10 dias",
+              "Ou Azitromicina se alergia"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "idsa-pharyngitis-2012"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "idsa-pharyngitis-2012"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "idsa-pharyngitis-2012"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}
