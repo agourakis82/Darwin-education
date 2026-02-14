@@ -1,0 +1,63 @@
+{
+  "id": "hipotireoidismo-congenito",
+  "citations": [
+    {
+      "refId": "sbem-hipotireoidismo-congenito-2013",
+      "studyType": "Guideline"
+    }
+  ],
+  "fullContent": {
+    "epidemiologia": {
+      "citations": [
+        {
+          "refId": "sbem-hipotireoidismo-congenito-2013",
+          "studyType": "Guideline"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "citations": [
+        {
+          "refId": "sbem-hipotireoidismo-congenito-2013",
+          "studyType": "Guideline"
+        }
+      ]
+    },
+    "diagnostico": {
+      "citations": [
+        {
+          "refId": "sbem-hipotireoidismo-congenito-2013",
+          "studyType": "Guideline"
+        }
+      ]
+    },
+    "tratamento": {
+      "naoFarmacologico": {
+        "citations": [
+          {
+            "refId": "sbem-hipotireoidismo-congenito-2013",
+            "studyType": "Guideline"
+          }
+        ]
+      },
+      "farmacologico": {
+        "citations": [
+          {
+            "refId": "sbem-hipotireoidismo-congenito-2013",
+            "studyType": "Guideline"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "citations": [
+        {
+          "refId": "sbem-hipotireoidismo-congenito-2013",
+          "studyType": "Guideline"
+        }
+      ]
+    }
+  },
+  "lastUpdate": "2026-02"
+}
+

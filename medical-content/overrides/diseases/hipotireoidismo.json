@@ -6,6 +6,10 @@
       "studyType": "Guideline"
     },
     {
+      "refId": "sbem-hipotireoidismo-diretrizes-2013",
+      "studyType": "Guideline"
+    },
+    {
       "refId": "sbem-hipotireoidismo-subclinico-2013",
       "studyType": "Consensus"
     }
@@ -15,6 +19,10 @@
       "citations": [
         {
           "refId": "sbem-hipotireoidismo-especiais-2022",
+          "studyType": "Guideline"
+        },
+        {
+          "refId": "sbem-hipotireoidismo-diretrizes-2013",
           "studyType": "Guideline"
         },
         {
@@ -30,6 +38,10 @@
           "studyType": "Guideline"
         },
         {
+          "refId": "sbem-hipotireoidismo-diretrizes-2013",
+          "studyType": "Guideline"
+        },
+        {
           "refId": "sbem-hipotireoidismo-subclinico-2013",
           "studyType": "Consensus"
         }
@@ -42,6 +54,10 @@
           "studyType": "Guideline"
         },
         {
+          "refId": "sbem-hipotireoidismo-diretrizes-2013",
+          "studyType": "Guideline"
+        },
+        {
           "refId": "sbem-hipotireoidismo-subclinico-2013",
           "studyType": "Consensus"
         }
@@ -51,6 +67,10 @@
       "citations": [
         {
           "refId": "sbem-hipotireoidismo-especiais-2022",
+          "studyType": "Guideline"
+        },
+        {
+          "refId": "sbem-hipotireoidismo-diretrizes-2013",
           "studyType": "Guideline"
         },
         {
@@ -67,6 +87,10 @@
             "studyType": "Guideline"
           },
           {
+            "refId": "sbem-hipotireoidismo-diretrizes-2013",
+            "studyType": "Guideline"
+          },
+          {
             "refId": "sbem-hipotireoidismo-subclinico-2013",
             "studyType": "Consensus"
           }
@@ -76,6 +100,10 @@
         "citations": [
           {
             "refId": "sbem-hipotireoidismo-especiais-2022",
+            "studyType": "Guideline"
+          },
+          {
+            "refId": "sbem-hipotireoidismo-diretrizes-2013",
             "studyType": "Guideline"
           },
           {
@@ -92,11 +120,22 @@
           "studyType": "Guideline"
         },
         {
+          "refId": "sbem-hipotireoidismo-diretrizes-2013",
+          "studyType": "Guideline"
+        },
+        {
           "refId": "sbem-hipotireoidismo-subclinico-2013",
           "studyType": "Consensus"
+        }
+      ]
+    },
+    "prevencao": {
+      "citations": [
+        {
+          "refId": "sbem-hipotireoidismo-diretrizes-2013",
+          "studyType": "Guideline"
         }
       ]
     }
   }
 }
-
