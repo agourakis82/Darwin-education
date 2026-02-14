@@ -1,0 +1,59 @@
+{
+  "id": "conjuntivite",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Hiperemia conjuntival",
+        "Secreção (aquosa=viral, purulenta=bacteriana)",
+        "Prurido (alérgica)",
+        "Sensação de corpo estranho"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Compressas frias",
+          "Higiene das mãos",
+          "Evitar contato com outros"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Viral: autolimitada 7-14 dias",
+              "Bacteriana: Ciprofloxacino colírio 1 gota 4x/dia 7 dias",
+              "Alérgica: Anti-histamínico colírio"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}
