@@ -272,7 +272,6 @@ export const localReferences: Record<string, Reference> = {
     journal: 'Arquivos Brasileiros de Endocrinologia e Metabologia',
     year: 2013,
     volume: '57',
-    issue: '4',
     pages: '265-299',
     doi: '10.1590/S0004-27302013000400003',
     authors: [
@@ -297,7 +296,6 @@ export const localReferences: Record<string, Reference> = {
     journal: 'Arquivos Brasileiros de Endocrinologia e Metabologia',
     year: 2013,
     volume: '57',
-    issue: '3',
     pages: '184-192',
     doi: '10.1590/S0004-27302013000300004',
     authors: ['Chiesa A', 'Graziano C', 'Mussa GC', 'Melo M', 'Baptista MTM', 'Marques J', 'de Paula N', 'Vaisman M'],
