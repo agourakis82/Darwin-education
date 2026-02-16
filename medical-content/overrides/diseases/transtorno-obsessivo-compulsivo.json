@@ -1,0 +1,85 @@
+{
+  "id": "transtorno-obsessivo-compulsivo",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "nice-ocd-2005"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "nice-ocd-2005"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Obsessões: pensamentos, impulsos ou imagens recorrentes e persistentes, intrusivos e indesejados",
+        "Compulsões: comportamentos ou atos mentais repetitivos em resposta a obsessões",
+        "Consomem >1 hora/dia ou causam sofrimento/prejuízo significativo"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "nice-ocd-2005"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "TCC com prevenção de resposta e exposição (ERP) - padrão-ouro",
+          "Terapia de aceitação e compromisso (ACT)"
+        ],
+        "citations": [
+          {
+            "refId": "nice-ocd-2005"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "ISRS em altas doses: Sertralina (≥200mg), Fluoxetina (≥60mg), Fluvoxamina",
+              "Clomipramina (antidepressivo tricíclico, segunda linha)"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "nice-ocd-2005"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "nice-ocd-2005"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "nice-ocd-2005"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}
+

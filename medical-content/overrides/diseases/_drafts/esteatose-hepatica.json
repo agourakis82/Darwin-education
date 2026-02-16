@@ -1,0 +1,64 @@
+{
+  "id": "esteatose-hepatica",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Esteatose em exame de imagem (US, TC, RM)",
+        "Exclusão de consumo alcoólico significativo (<20g/dia M, <30g/dia H)",
+        "Exclusão de outras causas de hepatopatia",
+        "FIB-4 ou NAFLD Fibrosis Score para estratificação"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Perda de peso 7-10% (principal tratamento)",
+          "Exercício aeróbico + resistência",
+          "Dieta mediterrânea",
+          "Evitar frutose/bebidas açucaradas"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Vitamina E 800 UI/dia (não diabéticos com NASH comprovada)",
+              "Pioglitazona (diabéticos com NASH)",
+              "Agonistas GLP-1 (semaglutida) - evidência emergente",
+              "Tratar comorbidades: DM, dislipidemia"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Perda de peso sustentada",
+        "Normalização de transaminases"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

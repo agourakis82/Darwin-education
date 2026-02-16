@@ -7,54 +7,81 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { qgenGenerationService } from '@/lib/qgen';
-import type { QGenBatchRequest, QGenBatchResponse } from '@darwin-education/shared';
+import type { QGenGenerationConfig } from '@darwin-education/shared';
+import { hasQGenApiKey, qgenServiceUnavailable } from '@/lib/ai/key-availability';
 
 export async function POST(request: NextRequest) {
   try {
-    const body: QGenBatchRequest = await request.json();
+    const body = (await request.json()) as any;
 
-    // Validate required fields
-    if (!body.options?.configs || !Array.isArray(body.options.configs)) {
+    const configs: QGenGenerationConfig[] = Array.isArray(body?.options?.configs)
+      ? body.options.configs
+      : Array.isArray(body?.configs)
+      ? body.configs
+      : [];
+
+    if (!Array.isArray(configs) || configs.length === 0) {
       return NextResponse.json(
         { success: false, error: 'Missing or invalid configs array in request body' },
         { status: 400 }
       );
     }
 
-    if (body.options.configs.length === 0) {
-      return NextResponse.json(
-        { success: false, error: 'Configs array cannot be empty' },
-        { status: 400 }
-      );
-    }
-
-    if (body.options.configs.length > 50) {
+    if (configs.length > 50) {
       return NextResponse.json(
         { success: false, error: 'Maximum batch size is 50 questions' },
         { status: 400 }
       );
     }
 
+    const concurrency = Number(body?.options?.concurrency ?? body?.options?.parallelism ?? 3) || 3;
+
+    if (!hasQGenApiKey()) {
+      return qgenServiceUnavailable('de geração em lote via QGen')
+    }
+
     const startTime = Date.now();
+    const results: Array<
+      | { success: true; question: { id: string; stem: string } }
+      | { success: false; error: string }
+    > = new Array(configs.length);
 
-    // Generate questions in batch
-    const batchResult = await qgenGenerationService.generateBatch(body.options);
-
-    // Calculate total cost (sum of individual costs)
-    const totalCost = batchResult.questions.reduce((sum, q) => {
-      // Estimate cost based on token usage if available, otherwise use default
-      return sum + 0.001; // Default cost per question
-    }, 0);
-
-    const response: QGenBatchResponse = {
-      questions: batchResult.questions,
-      totalTimeMs: Date.now() - startTime,
-      successCount: batchResult.questions.filter(r => r.question).length,
-      failureCount: batchResult.questions.filter(r => !r.question).length,
-      totalCost,
+    let cursor = 0;
+    const worker = async () => {
+      while (true) {
+        const index = cursor++;
+        if (index >= configs.length) return;
+        try {
+          const resp = await qgenGenerationService.generateQuestion(configs[index]);
+          results[index] = {
+            success: true,
+            question: { id: resp.question.id, stem: resp.question.stem },
+          };
+        } catch (error) {
+          results[index] = {
+            success: false,
+            error: error instanceof Error ? error.message : 'Internal error',
+          };
+        }
+      }
     };
 
-    return NextResponse.json(response);
+    const workers = Array.from({ length: Math.min(concurrency, configs.length) }, () => worker());
+    await Promise.all(workers);
+
+    const successful = results.filter((r) => r && r.success).length;
+    const failed = results.length - successful;
+
+    return NextResponse.json({
+      success: true,
+      results,
+      summary: {
+        total: results.length,
+        successful,
+        failed,
+        duration_ms: Date.now() - startTime,
+      },
+    });
   } catch (error) {
     console.error('QGen batch generate error:', error);
     return NextResponse.json(

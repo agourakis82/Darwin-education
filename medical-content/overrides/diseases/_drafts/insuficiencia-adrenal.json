@@ -1,0 +1,64 @@
+{
+  "id": "insuficiencia-adrenal",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Cortisol matinal <5 mcg/dL: sugere insuficiência",
+        "Cortisol >18 mcg/dL: exclui insuficiência",
+        "Teste de estímulo com ACTH: cortisol <18 mcg/dL",
+        "ACTH: elevado (primária) ou baixo/normal (secundária)"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Educação sobre doença e identificação de crise",
+          "Pulseira/cartão de identificação médica",
+          "Ensinar auto-injeção de hidrocortisona"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Hidrocortisona 15-25mg/dia (dividido: 2/3 manhã, 1/3 tarde)",
+              "Ou Prednisona 3-5mg/dia",
+              "Fludrocortisona 0,05-0,2mg/dia se primária",
+              "Dobrar dose em estresse/doença"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Bem-estar clínico",
+        "PA normal",
+        "Eletrólitos normais"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

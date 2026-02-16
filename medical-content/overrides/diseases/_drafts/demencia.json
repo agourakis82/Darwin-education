@@ -1,0 +1,61 @@
+{
+  "id": "demencia",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Declínio cognitivo em ≥2 domínios",
+        "Prejuízo funcional (AVDs)",
+        "Não explicado por delirium",
+        "Não explicado por transtorno psiquiátrico",
+        "MEEM <24 (ajustar escolaridade)"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Estimulação cognitiva",
+          "Atividade física",
+          "Suporte ao cuidador",
+          "Segurança ambiental"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Inibidores colinesterase (donepezila 5-10mg) - leve a moderada",
+              "Memantina (moderada a grave)",
+              "Evitar anticolinérgicos"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

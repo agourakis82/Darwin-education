@@ -1,0 +1,63 @@
+{
+  "id": "escarlatina",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Faringite estreptocócica (odinofagia, exsudato)",
+        "Exantema: papular fino (\"lixa\"), palidez perioral, linhas de Pastia",
+        "Língua em framboesa",
+        "Descamação em dedos após 1-2 semanas",
+        "Teste rápido ou cultura para Streptococcus"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Hidratação",
+          "Repouso",
+          "Retorno às atividades 24h após início de ATB"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Penicilina V 250-500mg 12/12h por 10 dias",
+              "Ou Amoxicilina 50mg/kg/dia por 10 dias",
+              "Alergia a penicilina: Azitromicina 12mg/kg/dia por 5 dias"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Erradicação do Streptococcus",
+        "Prevenção de FR e GNDA"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

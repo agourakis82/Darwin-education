@@ -1,0 +1,56 @@
+{
+  "id": "leucemia-linfocitica-cronica",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Linfocitose >5000/μL",
+        "Morfológica compatível",
+        "Imunofenotipo característico"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Vigilância se assintomático e estável",
+          "Acompanhamento onco-hematológico"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Tratamento apenas se sintomático ou progressivo",
+              "Quimioterapia conforme estadiamento"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

@@ -1,0 +1,63 @@
+{
+  "id": "mastite-lactacional",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Dor mamária localizada, eritema, calor",
+        "Febre ≥38,5°C, mal-estar",
+        "Massa flutuante sugere abscesso",
+        "Geralmente unilateral"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "CONTINUAR AMAMENTAÇÃO (essencial)",
+          "Esvaziamento frequente da mama",
+          "Compressas mornas antes de amamentar",
+          "Compressas frias após para desconforto"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Analgésico: Ibuprofeno 400mg 8/8h ou Paracetamol",
+              "Antibiótico se não melhora em 24-48h ou sintomas sistêmicos: Cefalexina 500mg 6/6h por 10-14 dias",
+              "Alternativa: Amoxicilina-clavulanato"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Resolução da inflamação",
+        "Manutenção da amamentação"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

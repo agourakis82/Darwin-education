@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import { Scan } from 'lucide-react'
 import confetti from 'canvas-confetti'
 import { createClient } from '@/lib/supabase/client'
+import { getSessionUserSummary } from '@/lib/auth/session'
 import { useCIPImageStore } from '@/lib/stores/cipImageStore'
 import {
   ImageCaseViewer,
@@ -158,9 +159,7 @@ export default function ImageResultPage() {
       // Otherwise load from database
       const supabase = createClient()
 
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
+      const user = await getSessionUserSummary(supabase)
       if (!user) {
         router.push('/login?redirectTo=/cip/interpretacao/' + caseId + '/result')
         return
@@ -175,7 +174,7 @@ export default function ImageResultPage() {
         .not('completed_at', 'is', null)
         .order('completed_at', { ascending: false })
         .limit(1)
-        .single()
+        .maybeSingle()
 
       const attempt = attemptRaw as any
 
@@ -190,7 +189,7 @@ export default function ImageResultPage() {
         .from('cip_image_cases')
         .select('*')
         .eq('id', caseId)
-        .single()
+        .maybeSingle()
 
       const caseRow = caseRowRaw as ImageCaseRow | null
 
@@ -367,7 +366,7 @@ export default function ImageResultPage() {
         <div className="mb-8 text-center">
           <div className="flex items-center justify-center gap-3 mb-2">
             <Scan className="w-8 h-8 text-blue-400" />
-            <h1 className="text-3xl font-bold text-white">Resultado</h1>
+            <h1 className="text-3xl font-bold text-label-primary">Resultado</h1>
           </div>
           {displayCase && (
             <p className="text-label-secondary">{displayCase.titlePt}</p>

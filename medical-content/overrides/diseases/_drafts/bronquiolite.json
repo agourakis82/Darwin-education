@@ -1,0 +1,65 @@
+{
+  "id": "bronquiolite",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Idade <24 meses",
+        "Primeiro episódio de sibilância",
+        "Pródromos de IVAS (coriza, tosse)",
+        "Taquipneia, tiragem, sibilos, crepitantes",
+        "Diagnóstico clínico - exames raramente necessários"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Hidratação adequada",
+          "Aspiração nasal",
+          "Oxigenoterapia se SatO2 <90-92%",
+          "Posição elevada"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "NÃO usar rotineiramente: broncodilatadores, corticoides, antibióticos",
+              "Nebulização com salina hipertônica 3% pode ser tentada",
+              "Palivizumabe (profilaxia em alto risco - prematuro, cardiopatia)"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Manter oxigenação",
+        "Hidratação",
+        "Suporte até resolução"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

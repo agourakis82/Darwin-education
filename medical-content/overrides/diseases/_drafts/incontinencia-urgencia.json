@@ -1,0 +1,60 @@
+{
+  "id": "incontinencia-urgencia",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Perda de urina com urgência",
+        "Frequência miccional aumentada",
+        "Noctúria",
+        "Diário miccional pode ajudar no diagnóstico"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Exercícios de Kegel",
+          "Treino vesical",
+          "Modificações comportamentais",
+          "Reduzir cafeína/álcool"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Anticolinérgicos: Oxybutinina 5mg 2x/dia",
+              "Ou Solifenacina 5-10mg/dia",
+              "Ou Tolterodina 2mg 2x/dia"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

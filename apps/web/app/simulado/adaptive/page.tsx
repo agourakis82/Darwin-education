@@ -2,9 +2,11 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
+import { FeatureState } from '@/components/ui/FeatureState'
 import { useCATStore } from '@/lib/stores/catStore'
 import { AREA_COLORS, AREA_LABELS } from '@/lib/area-colors'
 import type { ENAMEDArea } from '@darwin-education/shared'
@@ -106,14 +108,14 @@ export default function AdaptiveSetupPage() {
   }
 
   return (
-    <div className="min-h-screen bg-surface-0 text-white">
+    <div className="min-h-screen bg-surface-0 text-label-primary">
       {/* Header */}
-      <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
+      <header className="sticky top-0 z-10 border-b border-separator bg-surface-1/80 backdrop-blur-xl">
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center gap-4">
             <button
               onClick={() => router.push('/simulado')}
-              className="p-2 hover:bg-surface-2 rounded-lg transition-colors"
+              className="darwin-focus-ring darwin-nav-link rounded-lg p-2 hover:bg-surface-2"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -130,6 +132,22 @@ export default function AdaptiveSetupPage() {
       </header>
 
       <main className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="darwin-image-tile relative mb-6 h-44 md:h-52">
+          <Image
+            src="/images/branding/adaptive-hero-apple-v1.png"
+            alt="Visual de simulado adaptativo com progressão de dificuldade"
+            fill
+            sizes="(max-width: 768px) 100vw, 768px"
+            priority
+            className="object-cover object-center opacity-75"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-surface-0/90 via-surface-0/70 to-surface-0/30" />
+          <div className="relative z-10 h-full flex items-end p-5">
+            <p className="text-sm md:text-base text-label-secondary max-w-md">
+              O algoritmo ajusta a prova em tempo real para estimar seu nível com precisão.
+            </p>
+          </div>
+        </div>
         <div className="space-y-6">
           {/* Area Selection */}
           <Card>
@@ -149,9 +167,9 @@ export default function AdaptiveSetupPage() {
                     <button
                       key={area}
                       onClick={() => toggleArea(area)}
-                      className={`p-4 rounded-xl border-2 transition-all ${
+                      className={`darwin-focus-ring darwin-nav-link p-4 rounded-xl border-2 ${
                         isSelected
-                          ? `${colors.bg} ${colors.text} ${colors.border} border-current`
+                          ? `${colors.bg} ${colors.text} ${colors.border} border-current shadow-inner-shine`
                           : 'bg-surface-2/50 border-separator hover:border-surface-4 text-label-secondary'
                       }`}
                     >
@@ -173,7 +191,7 @@ export default function AdaptiveSetupPage() {
             <CardHeader>
               <CardTitle>Configuracao</CardTitle>
               <CardDescription>
-                Defina o numero minimo e maximo de questoes.
+                Defina o número mínimo e máximo de questões.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -213,9 +231,9 @@ export default function AdaptiveSetupPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <p className="text-sm text-label-secondary leading-relaxed">
-                  O simulado adaptativo seleciona questoes baseado no seu desempenho em tempo real.
-                  Questoes mais dificeis sao apresentadas quando voce acerta, e mais faceis quando erra.
-                  O teste termina quando a precisao e suficiente ou o numero maximo de itens e atingido.
+                  O simulado adaptativo seleciona questões com base no seu desempenho em tempo real.
+                  Questões mais difíceis são apresentadas quando você acerta, e mais fáceis quando erra.
+                  O teste termina quando a precisão é suficiente ou o número máximo de itens é atingido.
                 </p>
               </div>
             </CardContent>
@@ -223,15 +241,19 @@ export default function AdaptiveSetupPage() {
 
           {/* Error message */}
           {error && (
-            <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
-              {error}
-            </div>
+            <FeatureState
+              kind="error"
+              title="Falha ao iniciar simulado adaptativo"
+              description={error}
+              compact
+            />
           )}
 
           {/* Start button */}
           <Button
             variant="primary"
             size="lg"
+            className="darwin-nav-link"
             fullWidth
             loading={loading}
             onClick={handleStart}

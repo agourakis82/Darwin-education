@@ -23,39 +23,39 @@ const ZONE_CONFIG: Record<DunningKrugerZone, {
 }> = {
   high_risk: {
     label: 'Pico do Monte da Estupidez',
-    description: 'Padrao Dunning-Kruger detectado: alta confianca com baixo desempenho. Voce superestima sistematicamente seu conhecimento.',
+    description: 'Padrão Dunning-Kruger detectado: alta confiança com baixo desempenho. Você superestima sistematicamente seu conhecimento.',
     icon: AlertTriangle,
     color: 'text-red-400',
     bgColor: 'bg-red-900/20',
     borderColor: 'border-red-700/50',
-    action: 'Pratique autoavaliacao consciente. Antes de responder, pergunte-se: "Qual evidencia tenho para esta certeza?"',
+    action: 'Pratique autoavaliação consciente. Antes de responder, pergunte-se: "Qual evidência tenho para esta certeza?"',
   },
   moderate: {
-    label: 'Zona de Atencao',
-    description: 'Alguma miscalibracao detectada. Sua confianca nem sempre reflete seu conhecimento real.',
+    label: 'Zona de Atenção',
+    description: 'Alguma miscalibração detectada. Sua confiança nem sempre reflete seu conhecimento real.',
     icon: Info,
     color: 'text-amber-400',
     bgColor: 'bg-amber-900/20',
     borderColor: 'border-amber-700/50',
-    action: 'Continue praticando calibracao. Tente usar a escala de confianca com mais intencionalidade.',
+    action: 'Continue praticando calibração. Tente usar a escala de confiança com mais intencionalidade.',
   },
   low_risk: {
     label: 'Bem Calibrado',
-    description: 'Sua autoavaliacao de confianca esta alinhada com seu desempenho real. Excelente metacognicao!',
+    description: 'Sua autoavaliação de confiança está alinhada com seu desempenho real. Excelente metacognição!',
     icon: CheckCircle,
     color: 'text-emerald-400',
     bgColor: 'bg-emerald-900/20',
     borderColor: 'border-emerald-700/50',
-    action: 'Mantenha esta pratica reflexiva. Sua autoconsciencia e uma vantagem na pratica clinica.',
+    action: 'Mantenha esta prática reflexiva. Sua autoconsciência é uma vantagem na prática clínica.',
   },
   inverse: {
     label: 'Vale do Desespero',
-    description: 'Padrao inverso: voce subestima seu conhecimento. Sua confianca e menor do que seu desempenho justifica.',
+    description: 'Padrão inverso: você subestima seu conhecimento. Sua confiança é menor do que seu desempenho justifica.',
     icon: TrendingDown,
     color: 'text-blue-400',
     bgColor: 'bg-blue-900/20',
     borderColor: 'border-blue-700/50',
-    action: 'Confie mais no seu raciocinio! Voce sabe mais do que acredita. Pratique afirmacoes positivas ao estudar.',
+    action: 'Confie mais no seu raciocínio! Você sabe mais do que acredita. Pratique afirmações positivas ao estudar.',
   },
 }
 
@@ -189,7 +189,7 @@ export function DunningKrugerDetector({
 
             {/* Y-axis label */}
             <text x={6} y={svgHeight / 2} textAnchor="middle" className="fill-muted-foreground" fontSize={7} transform={`rotate(-90 6 ${svgHeight / 2})`}>
-              Confianca
+              Confiança
             </text>
             <text x={svgWidth / 2} y={svgHeight - 2} textAnchor="middle" className="fill-muted-foreground" fontSize={7}>
               Habilidade (theta)
@@ -207,7 +207,7 @@ export function DunningKrugerDetector({
             <p className="text-xs text-muted-foreground mb-2">
               {config.description}
             </p>
-            <p className="text-xs text-white/70">
+            <p className="text-xs text-label-secondary">
               {config.action}
             </p>
           </div>
@@ -216,7 +216,7 @@ export function DunningKrugerDetector({
         {/* Numeric indicators */}
         <div className="grid grid-cols-2 gap-2 mt-3">
           <div className="bg-surface-0/30 rounded p-2 text-center">
-            <div className="text-xs text-muted-foreground">Indice DK</div>
+            <div className="text-xs text-muted-foreground">Índice DK</div>
             <div className={`text-sm font-bold ${config.color}`}>
               {index > 0 ? '+' : ''}{index.toFixed(2)}
             </div>

@@ -273,15 +273,15 @@ export function ImageCaseResults({ score, imageCase }: ImageCaseResultsProps) {
           </CardHeader>
           <CardContent>
             <ul className="space-y-2">
-              {score.insights.map((insight, index) => (
-                <li
-                  key={index}
-                  className="text-sm text-muted-foreground flex items-start gap-2"
-                >
-                  <span className="text-primary mt-0.5">•</span>
-                  <span>{insight}</span>
-                </li>
-              ))}
+                {score.insights.map((insight, index) => (
+                  <li
+                    key={index}
+                    className="text-sm text-muted-foreground flex items-start gap-2"
+                  >
+                    <span className="text-emerald-400 mt-0.5">•</span>
+                    <span>{insight}</span>
+                  </li>
+                ))}
             </ul>
           </CardContent>
         </Card>

@@ -1,0 +1,62 @@
+{
+  "id": "epididimite",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Dor testicular unilateral de início gradual",
+        "Aumento e endurecimento do epidídimo",
+        "Sinal de Prehn positivo (alívio com elevação)",
+        "Diferencial: torção testicular (emergência)"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Repouso, elevação escrotal",
+          "Gelo local",
+          "Abstinência sexual durante tratamento"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Se IST suspeita (<35 anos): Ceftriaxona 500mg IM dose única + Doxiciclina 100mg 12/12h por 10 dias",
+              "Se uropatógeno (>35 anos): Levofloxacino 500mg/dia por 10 dias",
+              "Tratar parceira se IST"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Resolução da dor e inflamação",
+        "Erradicação da infecção"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

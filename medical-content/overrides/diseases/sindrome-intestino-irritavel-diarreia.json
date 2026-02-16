@@ -1,0 +1,93 @@
+{
+  "id": "sindrome-intestino-irritavel-diarréia",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "acg-sii-2021"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "rome-iv-2016"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Dor abdominal recorrente ≥1x/semana",
+        "Associada a defecação e/ou alteração de frequência/forma",
+        "≥6 meses",
+        "Diarréia predominante"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "rome-iv-2016"
+        },
+        {
+          "refId": "acg-sii-2021"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Dieta FODMAP baixa",
+          "Fibras solúveis",
+          "Gerenciamento de estresse"
+        ],
+        "citations": [
+          {
+            "refId": "acg-sii-2021"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Loperamida 2mg após evacuações diarreicas (máx 16mg/dia)",
+              "Ou Rifaximina se sobrecrescimento bacteriano"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "acg-sii-2021"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "acg-sii-2021"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "acg-sii-2021"
+    },
+    {
+      "refId": "rome-iv-2016"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}
+

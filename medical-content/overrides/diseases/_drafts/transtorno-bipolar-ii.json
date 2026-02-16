@@ -1,0 +1,58 @@
+{
+  "id": "transtorno-bipolar-ii",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Episódio hipomaníaco: humor elevado/irritável + 3 sintomas por ≥4 dias, sem prejuízo funcional marcante",
+        "Episódio depressivo maior: presente ou passado",
+        "Nunca houve episódio maníaco completo"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Psicoeducação",
+          "Terapia familiar",
+          "Regulação de ritmos sociais"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Lítio ou Lamotrigina (prevenção de episódios)",
+              "Quetiapina (episódio depressivo)",
+              "Evitar antidepressivos isolados (risco de virada maníaca)"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

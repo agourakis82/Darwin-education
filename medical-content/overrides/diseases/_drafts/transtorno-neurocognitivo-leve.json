@@ -1,0 +1,59 @@
+{
+  "id": "transtorno-neurocognitivo-leve",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Declínio cognitivo modesto em ≥1 domínio",
+        "Avaliação objetiva (testes neuropsicológicos)",
+        "NÃO interfere com independência funcional",
+        "NÃO atende critérios de delirium"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Reabilitação cognitiva",
+          "Treinamento cognitivo",
+          "Exercício físico regular",
+          "Controle de fatores de risco cardiovascular"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Tratamento de causa subjacente",
+              "Donepezil ou Rivastigmina (se Alzheimer)"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

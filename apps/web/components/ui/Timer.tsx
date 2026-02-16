@@ -86,7 +86,7 @@ export function Timer({
     if (remainingTime <= warningThreshold) {
       return 'text-yellow-400'
     }
-    return 'text-white'
+    return 'text-label-primary'
   }
 
   return (

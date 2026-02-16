@@ -26,7 +26,7 @@ export function CIPProgress() {
       {/* Progress text */}
       <div className="flex items-center gap-2 text-sm">
         <span className="text-label-secondary">Progresso:</span>
-        <span className="text-white font-medium">
+        <span className="text-label-primary font-medium tabular-nums">
           {answered}/{total}
         </span>
         <span className="text-label-tertiary">({Math.round(progress)}%)</span>

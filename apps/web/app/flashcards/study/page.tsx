@@ -2,14 +2,16 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { spring } from '@/lib/motion'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
-import { Spinner } from '@/components/ui/Spinner'
+import { FeatureState } from '@/components/ui/FeatureState'
 import { ReviewButtons } from '../components/ReviewButtons'
 import { FSRS } from '@darwin-education/shared'
 import { celebrateSessionComplete } from '@/lib/confetti'
+import { useToast } from '@/lib/hooks/useToast'
 
 type FSRSRating = FSRS.FSRSRating
 
@@ -34,6 +36,7 @@ interface StudyStats {
 
 export default function FlashcardStudyPage() {
   const router = useRouter()
+  const { error: toastError, info: toastInfo } = useToast()
   const [cards, setCards] = useState<DueCard[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isFlipped, setIsFlipped] = useState(false)
@@ -41,30 +44,47 @@ export default function FlashcardStudyPage() {
   const [submitting, setSubmitting] = useState(false)
   const [stats, setStats] = useState<StudyStats>({ reviewed: 0, correct: 0, remaining: 0 })
   const [sessionComplete, setSessionComplete] = useState(false)
+  const [fetchError, setFetchError] = useState<string | null>(null)
+
+  const fetchDueCards = useCallback(async (signal?: AbortSignal) => {
+    setLoading(true)
+    setFetchError(null)
+    try {
+      const response = await fetch('/api/flashcards/due?limit=50', { signal, cache: 'no-store' })
+      if (!response.ok) {
+        if (response.status === 401) {
+          router.push('/login')
+          return
+        }
+        throw new Error('Falha ao carregar os flashcards da sessão.')
+      }
+      const data = await response.json()
+      setCards(data.cards)
+      setCurrentIndex(0)
+      setIsFlipped(false)
+      setSessionComplete(false)
+      setStats({ reviewed: 0, correct: 0, remaining: data.cards.length })
+    } catch (error) {
+      const requestWasAborted =
+        signal?.aborted ||
+        (error instanceof DOMException && error.name === 'AbortError')
+      if (requestWasAborted) {
+        return
+      }
+      const message = 'Não foi possível carregar os flashcards. Verifique sua conexão e tente novamente.'
+      setFetchError(message)
+      toastError(message)
+    } finally {
+      setLoading(false)
+    }
+  }, [router, toastError])
 
   // Fetch due cards
   useEffect(() => {
-    async function fetchDueCards() {
-      try {
-        const response = await fetch('/api/flashcards/due?limit=50')
-        if (!response.ok) {
-          if (response.status === 401) {
-            router.push('/login')
-            return
-          }
-          throw new Error('Failed to fetch cards')
-        }
-        const data = await response.json()
-        setCards(data.cards)
-        setStats({ reviewed: 0, correct: 0, remaining: data.cards.length })
-      } catch (error) {
-        console.error('Error fetching cards:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchDueCards()
-  }, [router])
+    const controller = new AbortController()
+    void fetchDueCards(controller.signal)
+    return () => controller.abort()
+  }, [fetchDueCards])
 
   const currentCard = cards[currentIndex]
 
@@ -116,11 +136,11 @@ export default function FlashcardStudyPage() {
         setSessionComplete(true)
       }
     } catch (error) {
-      console.error('Error submitting review:', error)
+      toastError('Não foi possível registrar sua revisão. Tente novamente.')
     } finally {
       setSubmitting(false)
     }
-  }, [currentCard, currentIndex, cards.length, stats, submitting])
+  }, [currentCard, currentIndex, cards.length, stats, submitting, toastError])
 
   // Celebrate session completion
   useEffect(() => {
@@ -132,10 +152,34 @@ export default function FlashcardStudyPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
-        <div className="text-center">
-          <Spinner size="lg" className="mx-auto mb-4" />
-          <p className="text-label-secondary">Carregando flashcards...</p>
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center p-4">
+        <div className="w-full max-w-lg">
+          <FeatureState
+            kind="loading"
+            title="Preparando sessão de revisão"
+            description="Carregando os flashcards com prazo de revisão para você começar."
+          />
+        </div>
+      </div>
+    )
+  }
+
+  if (fetchError) {
+    return (
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center p-4">
+        <div className="w-full max-w-lg">
+          <FeatureState
+            kind="error"
+            title="Falha ao carregar sessão"
+            description={fetchError}
+            action={{
+              label: 'Tentar novamente',
+              onClick: () => void fetchDueCards(),
+            }}
+          />
+          <Button variant="outline" onClick={() => router.push('/flashcards')} fullWidth className="darwin-nav-link mt-3">
+            Voltar aos Decks
+          </Button>
         </div>
       </div>
     )
@@ -143,21 +187,19 @@ export default function FlashcardStudyPage() {
 
   if (cards.length === 0) {
     return (
-      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
-        <Card className="max-w-md mx-auto">
-          <CardContent className="py-12 text-center">
-            <svg className="w-16 h-16 text-emerald-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <h2 className="text-xl font-bold text-white mb-2">Tudo em dia!</h2>
-            <p className="text-label-secondary mb-6">
-              Nenhum flashcard para revisar agora. Volte mais tarde!
-            </p>
-            <Button onClick={() => router.push('/flashcards')}>
-              Voltar aos Decks
-            </Button>
-          </CardContent>
-        </Card>
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center p-4">
+        <div className="w-full max-w-lg">
+          <FeatureState
+            kind="success"
+            title="Tudo em dia"
+            description="Nenhum flashcard para revisar agora. Sua fila está atualizada."
+            action={{
+              label: 'Voltar aos Decks',
+              onClick: () => router.push('/flashcards'),
+              variant: 'secondary',
+            }}
+          />
+        </div>
       </div>
     )
   }
@@ -174,12 +216,12 @@ export default function FlashcardStudyPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <h2 className="text-2xl font-bold text-white mb-2">Sessao Concluida!</h2>
+            <h2 className="text-2xl font-bold text-label-primary mb-2">Sessão concluída!</h2>
             <p className="text-label-secondary mb-6">Excelente trabalho!</p>
 
             <div className="grid grid-cols-3 gap-4 mb-6">
               <div className="bg-surface-2 rounded-lg p-4">
-                <div className="text-2xl font-bold text-white">{stats.reviewed}</div>
+                <div className="text-2xl font-bold text-label-primary">{stats.reviewed}</div>
                 <div className="text-xs text-label-secondary">Revisados</div>
               </div>
               <div className="bg-surface-2 rounded-lg p-4">
@@ -193,10 +235,17 @@ export default function FlashcardStudyPage() {
             </div>
 
             <div className="space-y-2">
-              <Button onClick={() => window.location.reload()} fullWidth>
+              <Button
+                onClick={async () => {
+                  toastInfo('Atualizando sua próxima sessão...')
+                  await fetchDueCards()
+                }}
+                className="darwin-nav-link"
+                fullWidth
+              >
                 Continuar Estudando
               </Button>
-              <Button variant="outline" onClick={() => router.push('/flashcards')} fullWidth>
+              <Button variant="outline" onClick={() => router.push('/flashcards')} className="darwin-nav-link" fullWidth>
                 Voltar aos Decks
               </Button>
             </div>
@@ -207,12 +256,12 @@ export default function FlashcardStudyPage() {
   }
 
   return (
-    <div className="min-h-screen bg-surface-0 text-white">
+    <div className="min-h-screen bg-surface-0 text-label-primary">
       {/* Header */}
-      <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
+      <header className="sticky top-0 z-10 border-b border-separator bg-surface-1/80 backdrop-blur-xl">
         <div className="max-w-3xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <Button variant="ghost" onClick={() => router.push('/flashcards')}>
+            <Button variant="ghost" className="darwin-nav-link" onClick={() => router.push('/flashcards')}>
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
@@ -223,7 +272,7 @@ export default function FlashcardStudyPage() {
               <span className="text-label-secondary">
                 {currentIndex + 1} / {cards.length}
               </span>
-              <span className="px-2 py-1 bg-emerald-600/20 text-emerald-400 rounded">
+              <span className="rounded-lg border border-emerald-500/35 bg-emerald-600/18 px-2 py-1 text-emerald-300">
                 {stats.correct} corretos
               </span>
             </div>
@@ -232,8 +281,25 @@ export default function FlashcardStudyPage() {
       </header>
 
       <main className="max-w-3xl mx-auto px-4 py-8">
+        <div className="darwin-image-tile mb-6 h-40">
+          <Image
+            src="/images/branding/flashcards-cover-photo-01.png"
+            alt="Sessão de revisão de flashcards"
+            fill
+            sizes="(max-width: 768px) 100vw, 768px"
+            className="object-cover object-center"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-surface-0/88 via-surface-0/55 to-surface-0/22" />
+          <div className="relative z-[3] flex h-full items-end p-4">
+            <p className="text-sm text-label-secondary max-w-md">
+              Repetição espaçada orientada por desempenho para consolidar memória de longo prazo.
+            </p>
+          </div>
+        </div>
+
         {/* Progress Bar */}
-        <div className="h-2 bg-surface-2 rounded-full mb-8 overflow-hidden">
+        <div className="h-2 bg-surface-2 rounded-full mb-8 overflow-hidden border border-separator/60">
           <div
             className="h-full bg-emerald-500 transition-all duration-300"
             style={{ width: `${((currentIndex + 1) / cards.length) * 100}%` }}
@@ -254,12 +320,12 @@ export default function FlashcardStudyPage() {
                 {currentCard.deckName}
               </span>
               {currentCard.area && (
-                <span className="px-2 py-1 bg-blue-600/20 text-blue-400 rounded">
+                <span className="rounded-lg border border-sky-500/35 bg-sky-500/12 px-2 py-1 text-sky-300">
                   {currentCard.area.replace('_', ' ')}
                 </span>
               )}
               {currentCard.state === 'new' && (
-                <span className="px-2 py-1 bg-purple-600/20 text-purple-400 rounded">
+                <span className="rounded-lg border border-violet-500/35 bg-violet-500/12 px-2 py-1 text-violet-300">
                   Novo
                 </span>
               )}
@@ -277,7 +343,7 @@ export default function FlashcardStudyPage() {
                 <CardContent className="flex items-center justify-center p-8 min-h-[300px]">
                   <div className={`text-center ${isFlipped ? 'hidden' : ''}`}>
                     <p className="text-xs text-label-tertiary mb-4">FRENTE</p>
-                    <p className="text-xl md:text-2xl text-white whitespace-pre-wrap">
+                    <p className="text-xl md:text-2xl text-label-primary whitespace-pre-wrap">
                       {currentCard.front}
                     </p>
                     <p className="text-sm text-label-tertiary mt-8">
@@ -286,7 +352,7 @@ export default function FlashcardStudyPage() {
                   </div>
                   <div className={`text-center ${isFlipped ? '' : 'hidden'}`}>
                     <p className="text-xs text-label-tertiary mb-4">VERSO</p>
-                    <p className="text-xl md:text-2xl text-white whitespace-pre-wrap">
+                    <p className="text-xl md:text-2xl text-label-primary whitespace-pre-wrap">
                       {currentCard.back}
                     </p>
                   </div>

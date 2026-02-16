@@ -108,7 +108,7 @@ export function DDLFeedback({
         setFeedback(data.feedback_content)
       } catch (err) {
         console.error('Failed to load feedback:', err)
-        setError('Nao foi possivel carregar o feedback.')
+        setError('Não foi possível carregar o feedback.')
       } finally {
         setLoading(false)
       }
@@ -156,7 +156,7 @@ export function DDLFeedback({
   if (error || !feedback) {
     return (
       <div className="p-6 bg-surface-2 rounded-lg border border-red-700">
-        <p className="text-red-400">{error || 'Feedback nao disponivel.'}</p>
+        <p className="text-red-400">{error || 'Feedback não disponível.'}</p>
       </div>
     )
   }
@@ -175,7 +175,7 @@ export function DDLFeedback({
                 {feedback.title}
               </h3>
               <span className="text-sm text-label-secondary">
-                {config.label} - {(classification.probability * 100).toFixed(0)}% confianca
+                {config.label} - {(classification.probability * 100).toFixed(0)}% confiança
               </span>
             </div>
           </div>
@@ -190,7 +190,7 @@ export function DDLFeedback({
         {/* Greeting & Main Message */}
         <div>
           <p className="text-label-primary">{feedback.greeting}</p>
-          <p className="mt-2 text-white font-medium">{feedback.main_message}</p>
+          <p className="mt-2 text-label-primary font-medium">{feedback.main_message}</p>
         </div>
 
         {/* Strengths */}
@@ -251,7 +251,7 @@ export function DDLFeedback({
         {feedback.action_items && feedback.action_items.length > 0 && (
           <div>
             <h4 className="font-medium text-blue-400 mb-2 flex items-center gap-2">
-              <ClipboardList className="w-4 h-4" /> Proximos Passos
+              <ClipboardList className="w-4 h-4" /> Próximos passos
             </h4>
             <div className="space-y-2">
               {feedback.action_items.map((item, i) => (
@@ -268,10 +268,10 @@ export function DDLFeedback({
                         : 'bg-green-900/50 text-green-400'
                     }
                   `}>
-                    {item.priority === 'high' ? 'Alta' : item.priority === 'medium' ? 'Media' : 'Baixa'}
+                    {item.priority === 'high' ? 'Alta' : item.priority === 'medium' ? 'Média' : 'Baixa'}
                   </span>
                   <div className="flex-1">
-                    <p className="font-medium text-white">{item.action}</p>
+                    <p className="font-medium text-label-primary">{item.action}</p>
                     <p className="text-sm text-label-secondary mt-1">{item.rationale}</p>
                     <p className="text-xs text-label-tertiary mt-1 flex items-center gap-1">
                       <Timer className="w-3 h-3" /> {item.estimated_time}
@@ -321,7 +321,7 @@ export function DDLFeedback({
         {!ratingSubmitted ? (
           <div className="pt-4 border-t border-separator">
             <p className="text-sm text-label-secondary mb-3 text-center">
-              Este feedback foi util para voce?
+              Este feedback foi útil para você?
             </p>
             <div className="flex justify-center gap-2">
               {[1, 2, 3, 4, 5].map((value) => (
@@ -329,7 +329,7 @@ export function DDLFeedback({
                   key={value}
                   onClick={() => handleRatingSubmit(value)}
                   className="w-10 h-10 rounded-full bg-surface-3 hover:bg-surface-4
-                           text-label-primary hover:text-white transition-colors
+                           text-label-primary transition-colors
                            flex items-center justify-center text-lg"
                 >
                   {value}
@@ -340,7 +340,7 @@ export function DDLFeedback({
         ) : (
           <div className="pt-4 border-t border-separator text-center">
             <p className="text-sm text-green-400">
-              Obrigado pelo seu feedback! Voce avaliou com {rating} estrelas.
+              Obrigado pelo seu feedback! Você avaliou com {rating} estrelas.
             </p>
           </div>
         )}

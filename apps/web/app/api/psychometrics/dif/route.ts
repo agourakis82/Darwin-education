@@ -11,6 +11,8 @@ import {
   type DIFGroupDefinition,
   type DIFAnalysis,
 } from '@darwin-education/shared'
+import { isMissingTableError, isSchemaDriftError } from '@/lib/supabase/errors'
+import { getSessionUserSummary } from '@/lib/auth/session'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -26,8 +28,8 @@ export async function GET(request: NextRequest) {
   try {
     const supabase = await createServerClient()
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-    if (authError || !user) {
+    const user = await getSessionUserSummary(supabase)
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -45,15 +47,26 @@ export async function GET(request: NextRequest) {
       .not('item_id', 'is', null)
       .limit(5000)
 
-    if (actError) {
-      console.error('Error loading activity data:', actError)
-      return NextResponse.json(
-        { error: 'Failed to load response data' },
-        { status: 500 }
-      )
-    }
+    let rows = activityRows || []
+    let schemaWarning: string | undefined
 
-    const rows = activityRows || []
+    if (actError) {
+      if (isMissingTableError(actError)) {
+        console.warn(
+          'DIF analysis skipped: study_activity_log table missing in local beta.'
+        )
+        rows = []
+        schemaWarning = 'Dados indisponíveis neste ambiente (tabela de atividade ausente).'
+      } else if (isSchemaDriftError(actError)) {
+        console.warn('DIF analysis skipped due to schema drift:', actError)
+        rows = []
+        schemaWarning = 'Dados indisponíveis neste ambiente (schema em migração).'
+      } else {
+        console.error('Error loading activity data:', actError)
+        rows = []
+        schemaWarning = 'Não foi possível carregar dados de respostas neste momento.'
+      }
+    }
 
     if (rows.length < 100) {
       return NextResponse.json({
@@ -61,7 +74,9 @@ export async function GET(request: NextRequest) {
         summary: {
           totalResponses: rows.length,
           minRequired: 100,
-          message: 'Pelo menos 100 respostas sao necessarias para analise DIF confiavel.',
+          message:
+            schemaWarning ||
+            'Pelo menos 100 respostas sao necessarias para analise DIF confiavel.',
         },
       })
     }

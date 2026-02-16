@@ -3,8 +3,10 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
+import { FeatureState } from '@/components/ui/FeatureState'
 import { createClient } from '@/lib/supabase/client'
 import { ScoreHistory } from './components/ScoreHistory'
 import { AreaRadar } from './components/AreaRadar'
@@ -18,6 +20,8 @@ import { AnimatedList, AnimatedItem } from '@/components/ui/AnimatedList'
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
 import type { ENAMEDArea } from '@darwin-education/shared'
+import { getSessionUserSummary } from '@/lib/auth/session'
+import { isMissingTableError, isSchemaDriftError } from '@/lib/supabase/errors'
 
 interface ExamAttempt {
   id: string
@@ -50,12 +54,54 @@ interface StudyActivity {
   questions_answered: number
 }
 
+function hasRecordedActivity(activity: StudyActivity) {
+  return (
+    (activity.exams_completed || 0) > 0 ||
+    (activity.flashcards_reviewed || 0) > 0 ||
+    (activity.questions_answered || 0) > 0
+  )
+}
+
+function calculateStudyStreakFromActivity(activityData: StudyActivity[]) {
+  const activeDates = new Set(activityData.filter(hasRecordedActivity).map((activity) => activity.activity_date))
+
+  if (activeDates.size === 0) {
+    return 0
+  }
+
+  const currentDate = new Date()
+  currentDate.setHours(0, 0, 0, 0)
+
+  const today = currentDate.toISOString().split('T')[0]
+  if (!activeDates.has(today)) {
+    currentDate.setDate(currentDate.getDate() - 1)
+    const yesterday = currentDate.toISOString().split('T')[0]
+    if (!activeDates.has(yesterday)) {
+      return 0
+    }
+  }
+
+  let streak = 0
+  while (activeDates.has(currentDate.toISOString().split('T')[0])) {
+    streak += 1
+    currentDate.setDate(currentDate.getDate() - 1)
+  }
+
+  return streak
+}
+
+function getLastStudyDateFromActivity(activityData: StudyActivity[]) {
+  const latest = activityData.find(hasRecordedActivity)
+  return latest?.activity_date || null
+}
+
 
 type TimePeriod = '7days' | '30days' | 'all'
 
 export default function DesempenhoPage() {
   const router = useRouter()
   const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState<string | null>(null)
   const [attempts, setAttempts] = useState<ExamAttempt[]>([])
   const [filteredAttempts, setFilteredAttempts] = useState<ExamAttempt[]>([])
   const [stats, setStats] = useState<PerformanceStats | null>(null)
@@ -84,109 +130,155 @@ export default function DesempenhoPage() {
   }, [timePeriod, attempts])
 
   async function loadPerformanceData() {
-    const supabase = createClient()
-    const { data: { user } } = await supabase.auth.getUser()
+    setLoading(true)
+    setLoadError(null)
 
-    if (!user) {
-      router.push('/login?redirectTo=/desempenho')
-      return
-    }
+    try {
+      const supabase = createClient()
+      const user = await getSessionUserSummary(supabase)
 
-    // Load exam attempts
-    const { data: attemptsData } = await (supabase
-      .from('exam_attempts') as any)
-      .select('*')
-      .eq('user_id', user.id)
-      .not('completed_at', 'is', null)
-      .order('completed_at', { ascending: false })
-
-    if (attemptsData && attemptsData.length > 0) {
-      setAttempts(attemptsData)
-      setFilteredAttempts(attemptsData)
-
-      // Calculate stats
-      const totalExams = attemptsData.length
-      const passedExams = attemptsData.filter((a: ExamAttempt) => a.passed).length
-      const totalQuestions = attemptsData.reduce((sum: number, a: ExamAttempt) => {
-        const breakdown = a.area_breakdown || {}
-        return sum + Object.values(breakdown).reduce((s, area) => s + (area?.total || 0), 0)
-      }, 0)
-      const correctQuestions = attemptsData.reduce((sum: number, a: ExamAttempt) => sum + (a.correct_count || 0), 0)
-      const averageScore = attemptsData.reduce((sum: number, a: ExamAttempt) => sum + (a.scaled_score || 0), 0) / totalExams
-      const bestScore = Math.max(...attemptsData.map((a: ExamAttempt) => a.scaled_score || 0))
-      const latestTheta = attemptsData[0]?.theta || 0
-
-      // Calculate study streak
-      const { data: streakData } = await (supabase
-        .from('user_achievements') as any)
-        .select('current_streak, last_activity_date')
-        .eq('user_id', user.id)
-        .single()
-
-      // Fetch study activity for last 7 days (for calendar view)
-      const sevenDaysAgo = new Date()
-      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
-      const { data: activityData } = await (supabase
-        .from('study_activity') as any)
-        .select('activity_date, exams_completed, flashcards_reviewed, questions_answered')
-        .eq('user_id', user.id)
-        .gte('activity_date', sevenDaysAgo.toISOString().split('T')[0])
-        .order('activity_date', { ascending: false })
-
-      if (activityData) {
-        setStudyActivity(activityData)
+      if (!user) {
+        router.push('/login?redirectTo=/desempenho')
+        return
       }
 
-      setStats({
-        totalExams,
-        averageScore: Math.round(averageScore),
-        passRate: Math.round((passedExams / totalExams) * 100),
-        totalQuestions,
-        correctQuestions,
-        studyStreak: streakData?.current_streak || 0,
-        lastStudyDate: streakData?.last_activity_date || attemptsData[0]?.completed_at,
-        bestScore: Math.round(bestScore),
-        latestTheta,
-      })
+      const attemptsResult = await (supabase
+        .from('exam_attempts') as any)
+        .select('*')
+        .eq('user_id', user.id)
+        .not('completed_at', 'is', null)
+        .order('completed_at', { ascending: false })
 
-      // Calculate area performance (aggregate across all attempts)
-      const areaStats: Record<ENAMEDArea, { correct: number; total: number }> = {} as any
-      for (const area of Object.keys(AREA_LABELS) as ENAMEDArea[]) {
-        areaStats[area] = { correct: 0, total: 0 }
-      }
+      const attemptsError = attemptsResult.error as any
+      const attemptsData = (attemptsResult.data || []) as ExamAttempt[]
 
-      for (const attempt of attemptsData) {
-        if (attempt.area_breakdown) {
-          for (const [area, data] of Object.entries(attempt.area_breakdown)) {
-            if (areaStats[area as ENAMEDArea]) {
-              areaStats[area as ENAMEDArea].correct += (data as any)?.correct || 0
-              areaStats[area as ENAMEDArea].total += (data as any)?.total || 0
-            }
-          }
+      const thirtyDaysAgo = new Date()
+      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+
+      const [
+        { data: profileData, error: profileError },
+        { data: activityData, error: activityError },
+      ] = await Promise.all([
+        (supabase.from('profiles') as any)
+          .select('streak_days, last_activity_at')
+          .eq('id', user.id)
+          .maybeSingle(),
+        (supabase.from('study_activity') as any)
+          .select('activity_date, exams_completed, flashcards_reviewed, questions_answered')
+          .eq('user_id', user.id)
+          .gte('activity_date', thirtyDaysAgo.toISOString().split('T')[0])
+          .order('activity_date', { ascending: false }),
+      ])
+
+      const activity = (activityData || []) as StudyActivity[]
+      setStudyActivity(activity)
+
+      const streakFromProfile = profileData?.streak_days || 0
+      const streakFromActivity = calculateStudyStreakFromActivity(activity)
+      const resolvedStudyStreak = streakFromProfile > 0 ? streakFromProfile : streakFromActivity
+      const resolvedLastStudyDate =
+        getLastStudyDateFromActivity(activity) ||
+        profileData?.last_activity_at ||
+        attemptsData?.[0]?.completed_at ||
+        null
+
+      if (attemptsError) {
+        if (isMissingTableError(attemptsError) || isSchemaDriftError(attemptsError)) {
+          setLoadError('Dados de desempenho indisponíveis neste ambiente (schema em migração).')
+        } else {
+          setLoadError('Não foi possível carregar seus dados de desempenho agora. Tente novamente.')
+        }
+      } else if (profileError || activityError) {
+        // Non-blocking: allow the page to render with partial data.
+        const shouldWarn = Boolean(profileError || activityError)
+        if (shouldWarn) {
+          console.warn('Dados de desempenho parciais:', { profileError, activityError })
         }
       }
 
-      const areaPerf = {} as Record<ENAMEDArea, number>
-      for (const [area, data] of Object.entries(areaStats)) {
-        areaPerf[area as ENAMEDArea] = data.total > 0 ? Math.round((data.correct / data.total) * 100) : 0
-      }
-      setAreaPerformance(areaPerf)
-    } else {
-      // No attempts yet
-      setStats({
-        totalExams: 0,
-        averageScore: 0,
-        passRate: 0,
-        totalQuestions: 0,
-        correctQuestions: 0,
-        studyStreak: 0,
-        lastStudyDate: null,
-        bestScore: 0,
-        latestTheta: 0,
-      })
-    }
+      setAttempts(attemptsData)
+      setFilteredAttempts(attemptsData)
 
-    setLoading(false)
+      const baseAreaPerf = {} as Record<ENAMEDArea, number>
+      for (const area of Object.keys(AREA_LABELS) as ENAMEDArea[]) {
+        baseAreaPerf[area] = 0
+      }
+
+      if (attemptsData.length > 0) {
+        // Calculate stats
+        const totalExams = attemptsData.length
+        const passedExams = attemptsData.filter((a: ExamAttempt) => a.passed).length
+        const totalQuestions = attemptsData.reduce((sum: number, a: ExamAttempt) => {
+          const breakdown = a.area_breakdown || {}
+          return sum + Object.values(breakdown).reduce((s, area) => s + (area?.total || 0), 0)
+        }, 0)
+        const correctQuestions = attemptsData.reduce((sum: number, a: ExamAttempt) => sum + (a.correct_count || 0), 0)
+        const averageScore =
+          attemptsData.reduce((sum: number, a: ExamAttempt) => sum + (a.scaled_score || 0), 0) /
+          totalExams
+        const bestScore = Math.max(...attemptsData.map((a: ExamAttempt) => a.scaled_score || 0))
+        const latestTheta = attemptsData[0]?.theta || 0
+
+        setStats({
+          totalExams,
+          averageScore: Math.round(averageScore),
+          passRate: Math.round((passedExams / totalExams) * 100),
+          totalQuestions,
+          correctQuestions,
+          studyStreak: resolvedStudyStreak,
+          lastStudyDate: resolvedLastStudyDate,
+          bestScore: Math.round(bestScore),
+          latestTheta,
+        })
+
+        // Calculate area performance (aggregate across all attempts)
+        const areaStats: Record<ENAMEDArea, { correct: number; total: number }> = {} as any
+        for (const area of Object.keys(AREA_LABELS) as ENAMEDArea[]) {
+          areaStats[area] = { correct: 0, total: 0 }
+        }
+
+        for (const attempt of attemptsData) {
+          if (attempt.area_breakdown) {
+            for (const [area, data] of Object.entries(attempt.area_breakdown)) {
+              if (areaStats[area as ENAMEDArea]) {
+                areaStats[area as ENAMEDArea].correct += (data as any)?.correct || 0
+                areaStats[area as ENAMEDArea].total += (data as any)?.total || 0
+              }
+            }
+          }
+        }
+
+        const areaPerf = { ...baseAreaPerf }
+        for (const [area, data] of Object.entries(areaStats)) {
+          areaPerf[area as ENAMEDArea] = data.total > 0 ? Math.round((data.correct / data.total) * 100) : 0
+        }
+        setAreaPerformance(areaPerf)
+      } else {
+        // No attempts yet
+        setStats({
+          totalExams: 0,
+          averageScore: 0,
+          passRate: 0,
+          totalQuestions: 0,
+          correctQuestions: 0,
+          studyStreak: resolvedStudyStreak,
+          lastStudyDate: resolvedLastStudyDate,
+          bestScore: 0,
+          latestTheta: 0,
+        })
+        setAreaPerformance(baseAreaPerf)
+      }
+    } catch (error) {
+      console.error('Falha ao carregar desempenho:', error)
+      setAttempts([])
+      setFilteredAttempts([])
+      setStats(null)
+      setAreaPerformance({} as Record<ENAMEDArea, number>)
+      setStudyActivity([])
+      setLoadError('Falha ao carregar seu desempenho no momento. Verifique sua conexão e tente novamente.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   if (loading) {
@@ -194,39 +286,62 @@ export default function DesempenhoPage() {
   }
 
   return (
-    <div className="min-h-screen bg-surface-0 text-white">
-      {/* Header */}
-      <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+    <div className="min-h-screen bg-surface-0 text-label-primary">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold">Desempenho</h1>
-            <p className="text-sm text-label-secondary mt-1">
+            <h1 className="text-3xl font-bold text-label-primary mb-2">Desempenho</h1>
+            <p className="text-label-secondary">
               Acompanhe seu progresso e identifique áreas para melhorar
             </p>
           </div>
-          {stats && stats.totalExams > 0 && <ExportData attempts={attempts} stats={stats} />}
+          {stats && stats.totalExams > 0 ? <ExportData attempts={attempts} stats={stats} /> : null}
         </div>
-      </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {stats && stats.totalExams === 0 ? (
-          // Empty state
-          <Card>
-            <CardContent className="py-12 text-center">
-              <svg className="w-16 h-16 text-label-quaternary mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
-              <h3 className="text-lg font-medium text-white mb-2">Nenhum dado de desempenho</h3>
-              <p className="text-label-secondary mb-6">
-                Complete pelo menos um simulado para ver suas estatísticas
+        <div className="relative mb-8 h-48 md:h-56 overflow-hidden rounded-2xl border border-separator/70">
+          <Image
+            src="/images/branding/dashboard-bg-v2.png"
+            alt="Banner do painel de desempenho"
+            fill
+            sizes="(max-width: 768px) 100vw, 1200px"
+            priority
+            className="object-cover object-center opacity-75"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-surface-0/90 via-surface-0/70 to-surface-0/35" />
+          <div className="relative z-10 h-full flex items-end p-5 md:p-7">
+            <div className="max-w-xl">
+              <p className="text-xl md:text-2xl font-semibold text-label-primary">
+                Analise seu desempenho com clareza.
               </p>
-              <Button asChild>
-                <Link href="/simulado">
-                  Iniciar um Simulado
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
+              <p className="text-sm md:text-base text-label-secondary mt-1">
+                Visualize evolução, pontos fracos e progresso de aprovação em um único painel.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {loadError ? (
+          <FeatureState
+            kind="error"
+            title="Não foi possível carregar seu desempenho"
+            description={loadError}
+            action={{ label: 'Tentar novamente', onClick: () => void loadPerformanceData(), variant: 'secondary' }}
+            className="mb-6"
+          />
+        ) : !stats ? (
+          <FeatureState
+            kind="error"
+            title="Dados indisponíveis"
+            description="Não foi possível montar o painel agora. Tente novamente em instantes."
+            action={{ label: 'Recarregar', onClick: () => void loadPerformanceData(), variant: 'secondary' }}
+          />
+        ) : stats.totalExams === 0 ? (
+          <FeatureState
+            kind="empty"
+            title="Sem dados de desempenho"
+            description="Complete pelo menos um simulado para ver suas estatísticas e previsões."
+            action={{ label: 'Iniciar simulado', onClick: () => router.push('/simulado'), variant: 'primary' }}
+          />
         ) : (
           <div className="space-y-6">
             {/* Top Stats */}
@@ -413,7 +528,7 @@ export default function DesempenhoPage() {
             </ScrollReveal>
           </div>
         )}
-      </main>
+      </div>
     </div>
   )
 }

@@ -73,7 +73,7 @@ export default function TheoryGenAdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-surface-0 text-white">
+    <div className="min-h-screen bg-surface-0 text-label-primary">
       <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <h1 className="text-3xl font-bold">Gerenciador de Geração de Teoria</h1>
@@ -116,7 +116,7 @@ export default function TheoryGenAdminPage() {
                     value={topicTitle}
                     onChange={(e) => setTopicTitle(e.target.value)}
                     placeholder="Ex: Hipertensão Arterial"
-                    className="w-full px-3 py-2 bg-surface-2 border border-separator rounded-lg text-white placeholder-label-tertiary"
+                    className="w-full px-3 py-2 bg-surface-2 border border-separator rounded-lg text-label-primary placeholder-label-tertiary"
                   />
                 </div>
 
@@ -126,7 +126,7 @@ export default function TheoryGenAdminPage() {
                     <select
                       value={area}
                       onChange={(e) => setArea(e.target.value)}
-                      className="w-full px-3 py-2 bg-surface-2 border border-separator rounded-lg text-white"
+                      className="w-full px-3 py-2 bg-surface-2 border border-separator rounded-lg text-label-primary"
                     >
                       <option value="clinica_medica">Clínica Médica</option>
                       <option value="cirurgia">Cirurgia</option>
@@ -141,7 +141,7 @@ export default function TheoryGenAdminPage() {
                     <select
                       value={difficulty}
                       onChange={(e) => setDifficulty(e.target.value)}
-                      className="w-full px-3 py-2 bg-surface-2 border border-separator rounded-lg text-white"
+                      className="w-full px-3 py-2 bg-surface-2 border border-separator rounded-lg text-label-primary"
                     >
                       <option value="basico">Básico</option>
                       <option value="intermediario">Intermediário</option>

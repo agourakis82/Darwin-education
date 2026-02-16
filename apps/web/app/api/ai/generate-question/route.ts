@@ -5,16 +5,18 @@ import { consumeAICredit } from '@/lib/ai/credits'
 import { getCachedAIResponse, hashRequestPayload, storeCachedAIResponse } from '@/lib/ai/cache'
 import { estimateCostBRL, runMinimaxChat } from '@/lib/ai/minimax'
 import { extractJsonFromText } from '@/lib/ai/parse'
+import { getSessionUserSummary } from '@/lib/auth/session'
+import { hasMinimaxApiKey, minimaxServiceUnavailable } from '@/lib/ai/key-availability'
 
 export async function POST(request: Request) {
   const payload = await request.json().catch(() => null)
   if (!payload?.area) {
-    return NextResponse.json({ error: 'area is required' }, { status: 400 })
+    return NextResponse.json({ error: 'Parâmetro "área" (area) é obrigatório.' }, { status: 400 })
   }
 
   const supabase = await createServerClient()
-  const { data: userData } = await supabase.auth.getUser()
-  if (!userData?.user) {
+  const user = await getSessionUserSummary(supabase)
+  if (!user) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
   }
 
@@ -42,7 +44,11 @@ export async function POST(request: Request) {
     })
   }
 
-  const credit = await consumeAICredit(supabase, userData.user.id)
+  if (!hasMinimaxApiKey()) {
+    return minimaxServiceUnavailable('de geração de questões')
+  }
+
+  const credit = await consumeAICredit(supabase, user.id)
   if (!credit.allowed) {
     return NextResponse.json(
       {

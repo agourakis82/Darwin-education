@@ -48,10 +48,24 @@ export interface AuditEntry {
 }
 
 const MEDICAL_AUTHORITIES = [
+  // Public health / regulators
+  'who.int',
+  'cdc.gov',
+  'nih.gov',
+  'clinicaltrials.gov',
+  'anvisa.gov.br',
+  'saude.gov.br',
+  'gov.br',
+
+  // Persistent identifiers (journal articles)
+  'doi.org',
+
   'sbcardiologia.org.br',
   'febrasgo.org.br',
   'sbp.com.br',
   'sbpd.org.br',
+  'sbim.org.br',
+  'amb.org.br',
   'sociedadesdeclassesdicos.org.br',
   'pubmed.ncbi.nlm.nih.gov',
   'uptodate.com',

@@ -1,8 +1,10 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+import { FeatureState } from '@/components/ui/FeatureState'
 import { useCaseStudy } from '@/lib/hooks/useCaseStudy'
 import { CaseStudyCard } from './components/CaseStudyCard'
 import type { ENAMEDArea } from '@darwin-education/shared'
@@ -47,11 +49,32 @@ export default function CasoClinicoPage() {
       <div className="max-w-3xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-white mb-2">Caso Clínico Interativo</h1>
+          <h1 className="text-2xl font-bold text-label-primary mb-2">Caso Clínico Interativo</h1>
           <p className="text-label-secondary text-sm">
             Pratique raciocínio clínico com casos gerados por IA. Selecione a área e
             dificuldade, leia o caso, formule sua resposta e compare com a conduta ideal.
           </p>
+        </div>
+        <div className="relative mb-8 h-48 md:h-56 overflow-hidden rounded-2xl border border-separator/70">
+          <Image
+            src="/images/branding/caso-clinico-hero-apple-v1.png"
+            alt="Visual de caso clínico interativo"
+            fill
+            sizes="(max-width: 768px) 100vw, 1024px"
+            priority
+            className="object-cover object-center opacity-75"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-surface-0/90 via-surface-0/70 to-surface-0/30" />
+          <div className="relative z-10 h-full flex items-end p-5 md:p-7">
+            <div className="max-w-xl">
+              <p className="text-xl md:text-2xl font-semibold text-label-primary">
+                Cenários clínicos com profundidade realista.
+              </p>
+              <p className="text-sm md:text-base text-label-secondary mt-1">
+                Treine tomada de decisão com foco em diagnóstico e conduta.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Configuration Form */}
@@ -128,16 +151,19 @@ export default function CasoClinicoPage() {
                   value={topic}
                   onChange={(e) => setTopic(e.target.value)}
                   placeholder="Ex: Infarto agudo do miocárdio, Dengue, Pré-eclâmpsia..."
-                  className="w-full bg-surface-2 border border-separator rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-label-tertiary focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  className="w-full bg-surface-2 border border-separator rounded-lg px-4 py-2.5 text-sm text-label-primary placeholder:text-label-tertiary focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500"
                 />
               </CardContent>
             </Card>
 
             {/* Error */}
             {error && (
-              <div className="p-4 bg-red-900/20 border border-red-800/50 rounded-lg">
-                <p className="text-sm text-red-300">{error}</p>
-              </div>
+              <FeatureState
+                kind="error"
+                title="Não foi possível gerar o caso"
+                description={error}
+                compact
+              />
             )}
 
             {/* Generate Button */}
@@ -160,15 +186,11 @@ export default function CasoClinicoPage() {
         {loading && (
           <Card>
             <CardContent>
-              <div className="flex flex-col items-center justify-center py-12 gap-4">
-                <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-emerald-500" />
-                <div className="text-center">
-                  <p className="text-white font-medium">Gerando caso clínico...</p>
-                  <p className="text-label-secondary text-sm mt-1">
-                    A IA está criando um cenário clínico personalizado
-                  </p>
-                </div>
-              </div>
+              <FeatureState
+                kind="loading"
+                title="Gerando caso clínico"
+                description="A IA está montando um cenário personalizado com foco na sua configuração."
+              />
             </CardContent>
           </Card>
         )}
@@ -176,12 +198,12 @@ export default function CasoClinicoPage() {
         {/* Error on generate */}
         {!loading && error && caseStudy === null && !showForm && (
           <div className="space-y-4">
-            <div className="p-4 bg-red-900/20 border border-red-800/50 rounded-lg">
-              <p className="text-sm text-red-300">{error}</p>
-            </div>
-            <Button variant="outline" size="sm" onClick={handleNewCase}>
-              Voltar
-            </Button>
+            <FeatureState
+              kind="error"
+              title="Falha na geração"
+              description={error}
+              action={{ label: 'Voltar', onClick: handleNewCase, variant: 'secondary' }}
+            />
           </div>
         )}
 

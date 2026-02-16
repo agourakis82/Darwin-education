@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Trophy, Gem, Medal, Award, CircleDot, PartyPopper } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
+import { getSessionUserSummary } from '@/lib/auth/session'
 import { AchievementBadge, type Achievement } from '../components/AchievementBadge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
@@ -22,7 +23,7 @@ export default function CIPAchievementsPage() {
     async function loadAchievements() {
       const supabase = createClient()
 
-      const { data: { user } } = await supabase.auth.getUser()
+      const user = await getSessionUserSummary(supabase)
       if (!user) {
         router.push('/login?redirectTo=/cip/achievements')
         return
@@ -118,7 +119,7 @@ export default function CIPAchievementsPage() {
             <div className="flex items-center gap-3">
               <Trophy className="w-8 h-8 text-amber-400" />
               <div>
-                <h1 className="text-3xl font-bold text-white">Conquistas CIP</h1>
+                <h1 className="text-3xl font-bold text-label-primary">Conquistas CIP</h1>
                 <p className="text-label-secondary">Desbloqueie conquistas completando puzzles</p>
               </div>
             </div>
@@ -132,7 +133,7 @@ export default function CIPAchievementsPage() {
             <CardContent className="p-6">
               <div className="flex items-center justify-between mb-4">
                 <div>
-                  <p className="text-2xl font-bold text-white">
+                  <p className="text-2xl font-bold text-label-primary">
                     {unlockedCount} / {totalCount}
                   </p>
                   <p className="text-sm text-label-secondary">Conquistas desbloqueadas</p>
@@ -239,7 +240,7 @@ export default function CIPAchievementsPage() {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Award className="w-5 h-5 text-gray-400" />
+                  <Award className="w-5 h-5 text-label-tertiary" />
                   <span>Prata</span>
                   <span className="text-sm text-label-secondary font-normal ml-2">
                     ({groupedByTier.silver.filter((a) => a.is_unlocked).length} /{' '}

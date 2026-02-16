@@ -1,0 +1,141 @@
+{
+  "id": "hipotireoidismo",
+  "citations": [
+    {
+      "refId": "sbem-hipotireoidismo-especiais-2022",
+      "studyType": "Guideline"
+    },
+    {
+      "refId": "sbem-hipotireoidismo-diretrizes-2013",
+      "studyType": "Guideline"
+    },
+    {
+      "refId": "sbem-hipotireoidismo-subclinico-2013",
+      "studyType": "Consensus"
+    }
+  ],
+  "fullContent": {
+    "epidemiologia": {
+      "citations": [
+        {
+          "refId": "sbem-hipotireoidismo-especiais-2022",
+          "studyType": "Guideline"
+        },
+        {
+          "refId": "sbem-hipotireoidismo-diretrizes-2013",
+          "studyType": "Guideline"
+        },
+        {
+          "refId": "sbem-hipotireoidismo-subclinico-2013",
+          "studyType": "Consensus"
+        }
+      ]
+    },
+    "fisiopatologia": {
+      "citations": [
+        {
+          "refId": "sbem-hipotireoidismo-especiais-2022",
+          "studyType": "Guideline"
+        },
+        {
+          "refId": "sbem-hipotireoidismo-diretrizes-2013",
+          "studyType": "Guideline"
+        },
+        {
+          "refId": "sbem-hipotireoidismo-subclinico-2013",
+          "studyType": "Consensus"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "citations": [
+        {
+          "refId": "sbem-hipotireoidismo-especiais-2022",
+          "studyType": "Guideline"
+        },
+        {
+          "refId": "sbem-hipotireoidismo-diretrizes-2013",
+          "studyType": "Guideline"
+        },
+        {
+          "refId": "sbem-hipotireoidismo-subclinico-2013",
+          "studyType": "Consensus"
+        }
+      ]
+    },
+    "diagnostico": {
+      "citations": [
+        {
+          "refId": "sbem-hipotireoidismo-especiais-2022",
+          "studyType": "Guideline"
+        },
+        {
+          "refId": "sbem-hipotireoidismo-diretrizes-2013",
+          "studyType": "Guideline"
+        },
+        {
+          "refId": "sbem-hipotireoidismo-subclinico-2013",
+          "studyType": "Consensus"
+        }
+      ]
+    },
+    "tratamento": {
+      "naoFarmacologico": {
+        "citations": [
+          {
+            "refId": "sbem-hipotireoidismo-especiais-2022",
+            "studyType": "Guideline"
+          },
+          {
+            "refId": "sbem-hipotireoidismo-diretrizes-2013",
+            "studyType": "Guideline"
+          },
+          {
+            "refId": "sbem-hipotireoidismo-subclinico-2013",
+            "studyType": "Consensus"
+          }
+        ]
+      },
+      "farmacologico": {
+        "citations": [
+          {
+            "refId": "sbem-hipotireoidismo-especiais-2022",
+            "studyType": "Guideline"
+          },
+          {
+            "refId": "sbem-hipotireoidismo-diretrizes-2013",
+            "studyType": "Guideline"
+          },
+          {
+            "refId": "sbem-hipotireoidismo-subclinico-2013",
+            "studyType": "Consensus"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "citations": [
+        {
+          "refId": "sbem-hipotireoidismo-especiais-2022",
+          "studyType": "Guideline"
+        },
+        {
+          "refId": "sbem-hipotireoidismo-diretrizes-2013",
+          "studyType": "Guideline"
+        },
+        {
+          "refId": "sbem-hipotireoidismo-subclinico-2013",
+          "studyType": "Consensus"
+        }
+      ]
+    },
+    "prevencao": {
+      "citations": [
+        {
+          "refId": "sbem-hipotireoidismo-diretrizes-2013",
+          "studyType": "Guideline"
+        }
+      ]
+    }
+  }
+}

@@ -5,12 +5,15 @@ import { useParams, useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { spring } from '@/lib/motion'
 import { createClient } from '@/lib/supabase/client'
+import { getSessionUserSummary } from '@/lib/auth/session'
 import { useExamStore } from '@/lib/stores/examStore'
 import { ExamTimer } from '../components/ExamTimer'
 import { QuestionNavigation } from '../components/QuestionNavigation'
 import { ExamQuestion } from '../components/ExamQuestion'
 import { Button } from '@/components/ui/Button'
 import { Modal } from '@/components/ui/Modal'
+import { Card, CardContent } from '@/components/ui/Card'
+import { FeatureState } from '@/components/ui/FeatureState'
 import type { ENAMEDQuestion, IRTParameters, QuestionOntology, DifficultyLevel } from '@darwin-education/shared'
 
 interface ExamData {
@@ -99,7 +102,7 @@ export default function ExamPage() {
       const supabase = createClient()
 
       // Check for existing in-progress attempt
-      const { data: { user } } = await supabase.auth.getUser()
+      const user = await getSessionUserSummary(supabase)
       if (!user) {
         router.push('/login?redirectTo=/simulado/' + examId)
         return
@@ -258,7 +261,7 @@ export default function ExamPage() {
 
     try {
       const supabase = createClient()
-      const { data: { user } } = await supabase.auth.getUser()
+      const user = await getSessionUserSummary(supabase)
 
       if (!user) {
         router.push('/login')
@@ -365,10 +368,13 @@ export default function ExamPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-label-secondary">Carregando simulado...</p>
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center p-4">
+        <div className="w-full max-w-lg">
+          <FeatureState
+            kind="loading"
+            title="Carregando simulado"
+            description="Estamos preparando suas questões e restaurando o progresso da sessão."
+          />
         </div>
       </div>
     )
@@ -376,37 +382,87 @@ export default function ExamPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-red-400 mb-4">{error}</p>
-          <Button onClick={() => router.push('/simulado')}>Voltar</Button>
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center p-4">
+        <div className="w-full max-w-lg">
+          <FeatureState
+            kind="error"
+            title="Falha ao abrir simulado"
+            description={error}
+            action={{
+              label: 'Voltar para simulados',
+              onClick: () => router.push('/simulado'),
+              variant: 'secondary',
+            }}
+          />
         </div>
       </div>
     )
   }
 
   if (!currentExam || currentExam.questions.length === 0) {
-    return null
+    return (
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center p-4">
+        <Card className="max-w-md w-full">
+          <CardContent className="py-8 text-center">
+            <FeatureState
+              kind="empty"
+              title="Simulado indisponível"
+              description="Não foi possível carregar as questões deste simulado."
+              action={{
+                label: 'Voltar para Simulados',
+                onClick: () => router.push('/simulado'),
+                variant: 'secondary',
+              }}
+            />
+            <Button variant="outline" onClick={() => router.refresh()} fullWidth className="darwin-nav-link mt-3">
+              Tentar novamente
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    )
   }
 
   const currentQuestion = currentExam.questions[currentQuestionIndex]
   if (!currentQuestion) {
-    return null
+    return (
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center p-4">
+        <Card className="max-w-md w-full">
+          <CardContent className="py-8 text-center">
+            <FeatureState
+              kind="error"
+              title="Questão indisponível"
+              description="A questão atual não pôde ser carregada. Você pode continuar em outra questão."
+              action={{
+                label: 'Tentar recuperar sessão',
+                onClick: () =>
+                  goToQuestion(
+                    Math.max(0, Math.min(currentQuestionIndex, currentExam.questions.length - 1))
+                  ),
+              }}
+            />
+            <Button variant="outline" onClick={() => router.push('/simulado')} fullWidth className="darwin-nav-link mt-3">
+              Voltar para Simulados
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    )
   }
   const answeredCount = Object.values(answers).filter(a => a.selectedAnswer !== null).length
   const direction = currentQuestionIndex >= prevIndexRef.current ? 1 : -1
   prevIndexRef.current = currentQuestionIndex
 
   return (
-    <div className="min-h-screen bg-surface-0">
+    <div className="min-h-screen bg-surface-0 text-label-primary">
       {/* Top Bar */}
-      <div className="sticky top-0 z-40 bg-surface-1 border-b border-separator">
+      <div className="sticky top-0 z-40 border-b border-separator bg-surface-1/85 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <h1 className="text-lg font-semibold text-white hidden sm:block">
+            <h1 className="text-lg font-semibold text-label-primary hidden sm:block">
               {currentExam.title}
             </h1>
-            <span className="text-sm text-label-secondary">
+            <span className="rounded-lg border border-separator/80 bg-surface-2/70 px-2.5 py-1 text-sm text-label-secondary">
               {answeredCount}/{currentExam.questions.length} respondidas
             </span>
           </div>
@@ -420,6 +476,7 @@ export default function ExamPage() {
             <Button
               variant="outline"
               size="sm"
+              className="darwin-nav-link"
               onClick={() => setShowSubmitModal(true)}
             >
               Finalizar
@@ -469,6 +526,7 @@ export default function ExamPage() {
             <div className="flex justify-between mt-6">
               <Button
                 variant="outline"
+                className="darwin-nav-link"
                 onClick={previousQuestion}
                 disabled={currentQuestionIndex === 0}
               >
@@ -476,6 +534,7 @@ export default function ExamPage() {
               </Button>
 
               <Button
+                className="darwin-nav-link"
                 onClick={nextQuestion}
                 disabled={currentQuestionIndex === currentExam.questions.length - 1}
               >
@@ -521,6 +580,7 @@ export default function ExamPage() {
           <div className="flex gap-3 mt-6">
             <Button
               variant="outline"
+              className="darwin-nav-link"
               onClick={() => setShowSubmitModal(false)}
               disabled={submitting}
               fullWidth
@@ -529,6 +589,7 @@ export default function ExamPage() {
             </Button>
             <Button
               variant="primary"
+              className="darwin-nav-link"
               onClick={handleSubmit}
               loading={submitting}
               fullWidth

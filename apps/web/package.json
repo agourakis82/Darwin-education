@@ -2,14 +2,19 @@
   "name": "@darwin-education/web",
   "version": "1.5.0",
   "private": true,
+  "engines": {
+    "node": ">=20 <21"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
-    "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui"
+    "test:e2e": "playwright test --project=chromium",
+    "test:e2e:webkit": "playwright test --project=webkit",
+    "test:e2e:all": "playwright test",
+    "test:e2e:ui": "playwright test --project=chromium --ui"
   },
   "dependencies": {
     "@darwin-education/shared": "workspace:*",
@@ -23,6 +28,8 @@
     "openai": "^6.17.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-markdown": "^9.0.1",
+    "remark-gfm": "^4.0.0",
     "tailwind-merge": "^3.4.0",
     "uuid": "^13.0.0",
     "zustand": "^5.0.0"

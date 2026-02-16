@@ -1,0 +1,59 @@
+{
+  "id": "epilepsia-generalizada",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "≥2 crises epilépticas não provocadas com intervalo >24 horas",
+        "Crises generalizadas: tônica-clônica, ausências, mioclônicas, tônicas, atônicas",
+        "EEG: atividade epileptiforme generalizada (espículas/poliespículas)",
+        "Ausência de foco focal no EEG"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Evitar fatores desencadeantes",
+          "Educação sobre primeiros socorros",
+          "Restrições de atividades (dirigir, natação)"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Crises tônicas-clônicas: Valproato, Lamotrigina, Levetiracetam",
+              "Ausências: Etosuximida, Valproato",
+              "Mioclônicas: Valproato, Levetiracetam, Topiramato"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

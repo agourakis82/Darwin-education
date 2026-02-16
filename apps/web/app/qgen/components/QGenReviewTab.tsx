@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Eye, Check, Pencil, X, AlertTriangle, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { FeatureState } from '@/components/ui/FeatureState';
 import { QGenQuestionPreview } from './QGenQuestionPreview';
 import { AREA_LABELS } from '@/lib/area-colors';
 
@@ -51,7 +52,7 @@ export function QGenReviewTab() {
       const data = await response.json();
 
       if (!data.success) {
-        throw new Error(data.error || 'Failed to fetch review queue');
+        throw new Error(data.message || data.error || 'Falha ao buscar fila de revisão');
       }
 
       let filteredItems = data.items;
@@ -88,7 +89,7 @@ export function QGenReviewTab() {
       const data = await response.json();
 
       if (!data.success) {
-        throw new Error(data.error || 'Failed to submit review');
+        throw new Error(data.message || data.error || 'Falha ao enviar revisão');
       }
 
       // Remove item from list and clear selection
@@ -103,9 +104,11 @@ export function QGenReviewTab() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <div className="animate-spin h-8 w-8 border-2 border-emerald-500 border-t-transparent rounded-full" />
-      </div>
+      <FeatureState
+        kind="loading"
+        title="Carregando fila de revisão"
+        description="Buscando questões pendentes para validação manual."
+      />
     );
   }
 
@@ -116,7 +119,7 @@ export function QGenReviewTab() {
         <select
           value={filter.area || ''}
           onChange={(e) => setFilter((prev) => ({ ...prev, area: e.target.value || undefined }))}
-          className="bg-surface-1 border border-surface-4 rounded-lg px-4 py-2 text-label-primary text-sm"
+          className="darwin-focus-ring rounded-lg border border-separator/80 bg-surface-1 px-4 py-2 text-sm text-label-primary"
         >
           <option value="">Todas as Áreas</option>
           {Object.entries(AREA_LABELS).map(([value, label]) => (
@@ -131,7 +134,7 @@ export function QGenReviewTab() {
           onChange={(e) =>
             setFilter((prev) => ({ ...prev, priority: e.target.value || undefined }))
           }
-          className="bg-surface-1 border border-surface-4 rounded-lg px-4 py-2 text-label-primary text-sm"
+          className="darwin-focus-ring rounded-lg border border-separator/80 bg-surface-1 px-4 py-2 text-sm text-label-primary"
         >
           <option value="">Todas as Prioridades</option>
           <option value="HIGH">Alta</option>
@@ -150,9 +153,13 @@ export function QGenReviewTab() {
       </div>
 
       {error && (
-        <div className="p-4 bg-red-900/50 border border-red-700 rounded-lg text-red-200">
-          {error}
-        </div>
+        <FeatureState
+          kind="error"
+          title="Erro na fila de revisão"
+          description={error}
+          action={{ label: 'Tentar novamente', onClick: fetchReviewQueue, variant: 'secondary' }}
+          compact
+        />
       )}
 
       <div className="grid lg:grid-cols-2 gap-6">
@@ -163,12 +170,13 @@ export function QGenReviewTab() {
           </h3>
 
           {items.length === 0 ? (
-            <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-8 text-center">
-              <div className="w-16 h-16 rounded-2xl bg-surface-3 flex items-center justify-center mx-auto mb-4">
-                <Check className="w-8 h-8 text-label-tertiary" />
-              </div>
-              <p className="text-label-secondary">Nenhuma questão pendente de revisão</p>
-            </div>
+            <FeatureState
+              kind="empty"
+              title="Nenhuma questão pendente"
+              description="A fila está limpa. Novas questões aparecerão aqui quando precisarem de revisão."
+              compact
+              icon={<Check className="h-6 w-6" />}
+            />
           ) : (
             <div className="space-y-2 max-h-[600px] overflow-y-auto pr-2">
               {items.map((item) => {
@@ -180,8 +188,8 @@ export function QGenReviewTab() {
                     onClick={() => setSelectedItem(item)}
                     className={`w-full text-left p-4 rounded-lg border transition-colors ${
                       selectedItem?.id === item.id
-                        ? 'bg-emerald-900/30 border-emerald-600'
-                        : 'bg-surface-1/50 border-surface-3 hover:border-surface-4'
+                        ? 'border-emerald-500/40 bg-emerald-500/10'
+                        : 'border-separator/80 bg-surface-1/55 hover:border-separator'
                     }`}
                   >
                     <div className="flex items-start justify-between gap-2 mb-2">
@@ -284,14 +292,13 @@ export function QGenReviewTab() {
               </div>
             </div>
           ) : (
-            <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-8 text-center">
-              <div className="w-16 h-16 rounded-2xl bg-surface-3 flex items-center justify-center mx-auto mb-4">
-                <Eye className="w-8 h-8 text-label-tertiary" />
-              </div>
-              <p className="text-label-secondary">
-                Selecione uma questão para revisar
-              </p>
-            </div>
+            <FeatureState
+              kind="empty"
+              title="Selecione uma questão para revisar"
+              description="Ao escolher um item na fila você verá o enunciado completo, flags e ações de decisão."
+              icon={<Eye className="h-6 w-6" />}
+              compact
+            />
           )}
         </div>
       </div>

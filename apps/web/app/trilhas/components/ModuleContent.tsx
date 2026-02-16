@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import type { ModuleType } from './ModuleList'
@@ -40,11 +42,8 @@ export function ModuleContent({ type, title, content, onComplete, isCompleting }
   const [currentCaseStep, setCurrentCaseStep] = useState(0)
 
   const renderReading = () => (
-    <div className="prose prose-invert prose-slate max-w-none">
-      <div
-        className="text-label-primary leading-relaxed"
-        dangerouslySetInnerHTML={{ __html: content.text || '' }}
-      />
+    <div className="prose max-w-none dark:prose-invert">
+      <ReactMarkdown remarkPlugins={[remarkGfm]}>{content.text || ''}</ReactMarkdown>
     </div>
   )
 
@@ -70,6 +69,24 @@ export function ModuleContent({ type, title, content, onComplete, isCompleting }
 
   const renderQuiz = () => {
     const questions = content.quiz_questions || []
+    if (questions.length === 0) {
+      return (
+        <Card className="bg-surface-1/40 border-separator">
+          <CardContent className="py-10 text-center">
+            <svg className="mx-auto mb-4 h-14 w-14 text-label-quaternary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <h3 className="mb-2 text-lg font-semibold text-label-primary">Quiz em preparação</h3>
+            <p className="mb-6 text-sm text-label-secondary">
+              Este módulo ainda não possui questões interativas. Você pode seguir para o próximo passo.
+            </p>
+            <Button onClick={onComplete} loading={isCompleting}>
+              Marcar como concluído
+            </Button>
+          </CardContent>
+        </Card>
+      )
+    }
     const allAnswered = questions.every(q => quizAnswers[q.id] !== undefined)
     const correctCount = showResults
       ? questions.filter(q => quizAnswers[q.id] === q.correct_index).length
@@ -82,7 +99,7 @@ export function ModuleContent({ type, title, content, onComplete, isCompleting }
             <CardContent className="py-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="font-semibold text-white">
+                  <p className="font-semibold text-label-primary tabular-nums">
                     Resultado: {correctCount}/{questions.length} corretas
                   </p>
                   <p className="text-sm text-label-secondary">
@@ -120,17 +137,17 @@ export function ModuleContent({ type, title, content, onComplete, isCompleting }
                       key={oIndex}
                       onClick={() => !showResults && setQuizAnswers(prev => ({ ...prev, [question.id]: oIndex }))}
                       disabled={showResults}
-                      className={`w-full text-left p-3 rounded-lg border transition-colors ${
-                        showCorrectness
-                          ? isCorrect
-                            ? 'bg-emerald-500/20 border-emerald-500 text-white'
-                            : isSelected
-                            ? 'bg-red-500/20 border-red-500 text-white'
-                            : 'border-separator text-label-secondary'
-                          : isSelected
-                          ? 'bg-emerald-500/20 border-emerald-500 text-white'
-                          : 'border-separator hover:border-surface-4 text-label-primary'
-                      }`}
+	                      className={`w-full text-left p-3 rounded-lg border transition-colors ${
+	                        showCorrectness
+	                          ? isCorrect
+	                            ? 'bg-emerald-500/20 border-emerald-500/40 text-label-primary'
+	                            : isSelected
+	                            ? 'bg-red-500/20 border-red-500/40 text-label-primary'
+	                            : 'border-separator text-label-secondary'
+	                          : isSelected
+	                          ? 'bg-emerald-500/20 border-emerald-500/40 text-label-primary'
+	                          : 'border-separator hover:border-surface-4 text-label-primary'
+	                      }`}
                     >
                       <span className="font-medium mr-2">
                         {String.fromCharCode(65 + oIndex)}.
@@ -170,12 +187,21 @@ export function ModuleContent({ type, title, content, onComplete, isCompleting }
       <p className="text-label-secondary mb-4">
         Este módulo contém um deck de flashcards para revisão.
       </p>
-      <Button onClick={() => window.open(`/flashcards/${content.flashcard_deck_id}`, '_blank')}>
-        Abrir Flashcards
-        <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-        </svg>
-      </Button>
+      {content.flashcard_deck_id ? (
+        <Button onClick={() => window.open(`/flashcards/${content.flashcard_deck_id}`, '_blank')}>
+          Abrir Flashcards
+          <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </Button>
+      ) : (
+        <Button onClick={() => window.open('/flashcards', '_blank')}>
+          Abrir Flashcards
+          <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+          </svg>
+        </Button>
+      )}
       <Button variant="outline" onClick={onComplete} loading={isCompleting} className="ml-2">
         Marcar como Concluído
       </Button>
@@ -221,7 +247,7 @@ export function ModuleContent({ type, title, content, onComplete, isCompleting }
           </CardHeader>
           <CardContent>
             {currentCaseStep < 3 ? (
-              <div className="prose prose-invert prose-slate max-w-none">
+              <div className="prose max-w-none dark:prose-invert">
                 <p className="text-label-primary leading-relaxed whitespace-pre-wrap">
                   {steps[currentCaseStep].content}
                 </p>

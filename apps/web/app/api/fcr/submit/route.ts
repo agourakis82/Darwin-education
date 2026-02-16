@@ -13,6 +13,7 @@ import {
   type ConfidenceRating,
   type IRTParameters,
 } from '@darwin-education/shared'
+import { getSessionUserSummary } from '@/lib/auth/session'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -70,8 +71,8 @@ export async function POST(request: NextRequest) {
     const supabase = await createServerClient()
 
     // Auth check
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-    if (authError || !user) {
+    const user = await getSessionUserSummary(supabase)
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 

@@ -8,6 +8,22 @@ import type {
 } from '@darwin-education/shared'
 import { FCR_LEVEL_ORDER } from '@darwin-education/shared'
 
+interface FCRRestoreState {
+  currentLevel?: FCRLevel
+  selectedDados?: string[]
+  selectedPadrao?: string | null
+  selectedHipotese?: string | null
+  selectedConduta?: string | null
+  confidenceDados?: ConfidenceRating | null
+  confidencePadrao?: ConfidenceRating | null
+  confidenceHipotese?: ConfidenceRating | null
+  confidenceConduta?: ConfidenceRating | null
+  stepTimes?: Record<string, number>
+  totalTimeSeconds?: number
+  startedAt?: string | Date | null
+  isSubmitted?: boolean
+}
+
 interface FCRState {
   // Current case data
   currentCase: FCRCase | null
@@ -39,7 +55,11 @@ interface FCRState {
   result: FCRScore | null
 
   // Actions
-  startCase: (fcrCase: FCRCase, attemptId: string) => void
+  startCase: (
+    fcrCase: FCRCase,
+    attemptId: string,
+    restoreState?: FCRRestoreState
+  ) => void
   toggleDados: (findingId: string) => void
   selectPadrao: (id: string) => void
   selectHipotese: (id: string) => void
@@ -71,6 +91,32 @@ const initialState = {
   result: null,
 }
 
+function inferCurrentLevel(restoreState?: FCRRestoreState): FCRLevel {
+  if (restoreState?.currentLevel) {
+    return restoreState.currentLevel
+  }
+
+  const hasDados =
+    (restoreState?.selectedDados?.length || 0) > 0 &&
+    restoreState?.confidenceDados !== null &&
+    restoreState?.confidenceDados !== undefined
+  if (!hasDados) return 'dados'
+
+  const hasPadrao =
+    Boolean(restoreState?.selectedPadrao) &&
+    restoreState?.confidencePadrao !== null &&
+    restoreState?.confidencePadrao !== undefined
+  if (!hasPadrao) return 'padrao'
+
+  const hasHipotese =
+    Boolean(restoreState?.selectedHipotese) &&
+    restoreState?.confidenceHipotese !== null &&
+    restoreState?.confidenceHipotese !== undefined
+  if (!hasHipotese) return 'hipotese'
+
+  return 'conduta'
+}
+
 function recordStepTime(
   state: Pick<FCRState, 'stepStartedAt' | 'stepTimes' | 'currentLevel'>
 ): Record<string, number> {
@@ -88,24 +134,26 @@ export const useFCRStore = create<FCRState>()(
     (set, get) => ({
       ...initialState,
 
-      startCase: (fcrCase, attemptId) => {
+      startCase: (fcrCase, attemptId, restoreState) => {
         set({
           currentCase: fcrCase,
           attemptId,
-          currentLevel: 'dados',
-          selectedDados: [],
-          selectedPadrao: null,
-          selectedHipotese: null,
-          selectedConduta: null,
-          confidenceDados: null,
-          confidencePadrao: null,
-          confidenceHipotese: null,
-          confidenceConduta: null,
-          stepTimes: {},
-          stepStartedAt: Date.now(),
-          totalTimeSeconds: 0,
-          startedAt: new Date(),
-          isSubmitted: false,
+          currentLevel: inferCurrentLevel(restoreState),
+          selectedDados: restoreState?.selectedDados || [],
+          selectedPadrao: restoreState?.selectedPadrao || null,
+          selectedHipotese: restoreState?.selectedHipotese || null,
+          selectedConduta: restoreState?.selectedConduta || null,
+          confidenceDados: restoreState?.confidenceDados || null,
+          confidencePadrao: restoreState?.confidencePadrao || null,
+          confidenceHipotese: restoreState?.confidenceHipotese || null,
+          confidenceConduta: restoreState?.confidenceConduta || null,
+          stepTimes: restoreState?.stepTimes || {},
+          stepStartedAt: restoreState?.isSubmitted ? null : Date.now(),
+          totalTimeSeconds: restoreState?.totalTimeSeconds || 0,
+          startedAt: restoreState?.startedAt
+            ? new Date(restoreState.startedAt)
+            : new Date(),
+          isSubmitted: restoreState?.isSubmitted || false,
           result: null,
         })
       },
@@ -205,6 +253,7 @@ export const useFCRStore = create<FCRState>()(
         confidenceHipotese: state.confidenceHipotese,
         confidenceConduta: state.confidenceConduta,
         stepTimes: state.stepTimes,
+        totalTimeSeconds: state.totalTimeSeconds,
         startedAt: state.startedAt,
         isSubmitted: state.isSubmitted,
       }),

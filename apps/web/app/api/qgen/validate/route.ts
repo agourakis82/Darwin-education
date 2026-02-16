@@ -104,9 +104,10 @@ export async function POST(request: NextRequest) {
     // Run main validation pipeline
     const validationResult = await qgenValidationService.validateQuestion(questionForValidation);
 
-    // Optionally run medical verification
+    // Optionally run *additional* medical verification payload (the main pipeline already
+    // performs medical checks; this block is only for debugging when explicitly requested).
     let medicalVerification;
-    if (body.options?.runMedicalVerification !== false) {
+    if (body.options?.runMedicalVerification === true) {
       const medResult = await medicalVerificationService.verifyQuestion(
         body.question.stem,
         body.question.options.map(o => o.text),

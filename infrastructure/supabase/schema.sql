@@ -105,6 +105,50 @@ CREATE INDEX idx_questions_irt_difficulty ON questions(irt_difficulty);
 CREATE INDEX idx_questions_stem_trgm ON questions USING gin(stem gin_trgm_ops);
 
 -- ============================================
+-- MEDICAL CONTENT (DARWIN-MFC)
+-- ============================================
+
+CREATE TABLE medical_diseases (
+  id TEXT PRIMARY KEY,
+  title TEXT NOT NULL,
+  enamed_area TEXT NOT NULL CHECK (enamed_area IN ('clinica_medica', 'cirurgia', 'pediatria', 'ginecologia_obstetricia', 'saude_coletiva')),
+  categoria TEXT NOT NULL,
+  subcategoria TEXT,
+  cid10 TEXT[] DEFAULT '{}',
+  summary TEXT,
+  search_terms TEXT NOT NULL,
+  payload JSONB NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE medical_medications (
+  id TEXT PRIMARY KEY,
+  generic_name TEXT NOT NULL,
+  brand_names TEXT[] DEFAULT '{}',
+  atc_code TEXT,
+  drug_class TEXT NOT NULL,
+  subclass TEXT,
+  summary TEXT,
+  search_terms TEXT NOT NULL,
+  payload JSONB NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX idx_medical_diseases_enamed_area ON medical_diseases(enamed_area);
+CREATE INDEX idx_medical_diseases_categoria ON medical_diseases(categoria);
+CREATE INDEX idx_medical_diseases_title ON medical_diseases(title);
+CREATE INDEX idx_medical_diseases_search_terms_trgm ON medical_diseases USING gin(search_terms gin_trgm_ops);
+CREATE INDEX idx_medical_diseases_search_terms_fts ON medical_diseases USING gin(to_tsvector('portuguese', search_terms));
+
+CREATE INDEX idx_medical_medications_drug_class ON medical_medications(drug_class);
+CREATE INDEX idx_medical_medications_generic_name ON medical_medications(generic_name);
+CREATE INDEX idx_medical_medications_atc_code ON medical_medications(atc_code);
+CREATE INDEX idx_medical_medications_search_terms_trgm ON medical_medications USING gin(search_terms gin_trgm_ops);
+CREATE INDEX idx_medical_medications_search_terms_fts ON medical_medications USING gin(to_tsvector('portuguese', search_terms));
+
+-- ============================================
 -- EXAMS
 -- ============================================
 
@@ -311,6 +355,14 @@ CREATE TRIGGER update_questions_updated_at
   BEFORE UPDATE ON questions
   FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
+CREATE TRIGGER update_medical_diseases_updated_at
+  BEFORE UPDATE ON medical_diseases
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+CREATE TRIGGER update_medical_medications_updated_at
+  BEFORE UPDATE ON medical_medications
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
 -- Update question count in banks
 CREATE OR REPLACE FUNCTION update_bank_question_count()
 RETURNS TRIGGER AS $$
@@ -339,6 +391,8 @@ ALTER TABLE flashcards ENABLE ROW LEVEL SECURITY;
 ALTER TABLE flashcard_sm2_states ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_path_progress ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_achievements ENABLE ROW LEVEL SECURITY;
+ALTER TABLE medical_diseases ENABLE ROW LEVEL SECURITY;
+ALTER TABLE medical_medications ENABLE ROW LEVEL SECURITY;
 
 -- Profiles: users can read/update their own profile
 CREATE POLICY profiles_select ON profiles
@@ -381,3 +435,10 @@ CREATE POLICY path_progress_all ON user_path_progress
 -- Achievements: users see their own
 CREATE POLICY user_achievements_select ON user_achievements
   FOR SELECT USING (auth.uid() = user_id);
+
+-- Medical content: public read-only access
+CREATE POLICY medical_diseases_public_select ON medical_diseases
+  FOR SELECT USING (true);
+
+CREATE POLICY medical_medications_public_select ON medical_medications
+  FOR SELECT USING (true);

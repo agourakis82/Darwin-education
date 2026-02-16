@@ -199,7 +199,7 @@ export function PomodoroTimer() {
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <span className="text-5xl font-mono font-bold tabular-nums text-white">
+            <span className="text-5xl font-mono font-bold tabular-nums text-label-primary">
               {pad(minutes)}:{pad(seconds)}
             </span>
           </div>
@@ -209,7 +209,7 @@ export function PomodoroTimer() {
         <div className="flex items-center gap-3">
           <button
             onClick={handleReset}
-            className="p-3 rounded-full bg-surface-2 hover:bg-surface-3 transition-colors text-label-secondary hover:text-white"
+            className="p-3 rounded-full bg-surface-2 hover:bg-surface-3 transition-colors text-label-secondary hover:text-label-primary"
             title="Reiniciar"
           >
             <RotateCcw className="w-5 h-5" />
@@ -232,7 +232,7 @@ export function PomodoroTimer() {
 
           <button
             onClick={handleSkip}
-            className="p-3 rounded-full bg-surface-2 hover:bg-surface-3 transition-colors text-label-secondary hover:text-white"
+            className="p-3 rounded-full bg-surface-2 hover:bg-surface-3 transition-colors text-label-secondary hover:text-label-primary"
             title="Pular"
           >
             <SkipForward className="w-5 h-5" />
@@ -244,7 +244,7 @@ export function PomodoroTimer() {
           <span>{totalSessionsToday} sessões hoje</span>
           <button
             onClick={() => setShowSettings(!showSettings)}
-            className="flex items-center gap-1 hover:text-white transition-colors"
+            className="flex items-center gap-1 hover:text-label-primary transition-colors"
           >
             <Settings className="w-4 h-4" />
             Configurar
@@ -282,7 +282,7 @@ function SettingsPanel({
       className="overflow-hidden"
     >
       <div className="mt-8 pt-6 border-t border-separator space-y-4">
-        <h3 className="text-sm font-medium text-white">Configurações</h3>
+        <h3 className="text-sm font-medium text-label-primary">Configurações</h3>
         <div className="grid grid-cols-2 gap-4">
           <label className="space-y-1">
             <span className="text-xs text-label-secondary">Foco (min)</span>
@@ -292,7 +292,7 @@ function SettingsPanel({
               max={90}
               value={local.workMinutes}
               onChange={e => setLocal({ ...local, workMinutes: Number(e.target.value) })}
-              className="w-full px-3 py-2 bg-surface-2 border border-separator rounded-lg text-white text-sm"
+              className="w-full px-3 py-2 bg-surface-2 border border-separator rounded-lg text-label-primary text-sm"
             />
           </label>
           <label className="space-y-1">
@@ -303,7 +303,7 @@ function SettingsPanel({
               max={30}
               value={local.shortBreakMinutes}
               onChange={e => setLocal({ ...local, shortBreakMinutes: Number(e.target.value) })}
-              className="w-full px-3 py-2 bg-surface-2 border border-separator rounded-lg text-white text-sm"
+              className="w-full px-3 py-2 bg-surface-2 border border-separator rounded-lg text-label-primary text-sm"
             />
           </label>
           <label className="space-y-1">
@@ -314,7 +314,7 @@ function SettingsPanel({
               max={60}
               value={local.longBreakMinutes}
               onChange={e => setLocal({ ...local, longBreakMinutes: Number(e.target.value) })}
-              className="w-full px-3 py-2 bg-surface-2 border border-separator rounded-lg text-white text-sm"
+              className="w-full px-3 py-2 bg-surface-2 border border-separator rounded-lg text-label-primary text-sm"
             />
           </label>
           <label className="space-y-1">
@@ -325,7 +325,7 @@ function SettingsPanel({
               max={10}
               value={local.sessionsBeforeLong}
               onChange={e => setLocal({ ...local, sessionsBeforeLong: Number(e.target.value) })}
-              className="w-full px-3 py-2 bg-surface-2 border border-separator rounded-lg text-white text-sm"
+              className="w-full px-3 py-2 bg-surface-2 border border-separator rounded-lg text-label-primary text-sm"
             />
           </label>
         </div>

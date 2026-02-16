@@ -1,0 +1,60 @@
+{
+  "id": "anorexia-nervosa",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Restrição alimentar → peso significativamente baixo (IMC <18,5 ou peso <85% do esperado)",
+        "Medo intenso de ganhar peso",
+        "Perturbação na percepção do peso/corpo",
+        "Tipos: Restritivo ou Compulsão periódica/Purgação"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Tratamento multidisciplinar: médico, nutricionista, psicólogo",
+          "Terapia familiar (para adolescentes)",
+          "Terapia cognitivo-comportamental especializada",
+          "Reabilitação nutricional (supervisionada)"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Olanzapina (ganho de peso, sintomas obsessivos)",
+              "ISRS para comorbidades (depressão, ansiedade)",
+              "Suplementação nutricional se necessário"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

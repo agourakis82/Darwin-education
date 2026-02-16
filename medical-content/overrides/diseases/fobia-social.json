@@ -1,0 +1,89 @@
+{
+  "id": "fobia-social",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "nice-social-anxiety-2013"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "nice-social-anxiety-2013"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Medo ou ansiedade marcante em situações sociais",
+        "Medo de ser avaliado negativamente",
+        "Situações sociais quase sempre provocam medo/ansiedade",
+        "Evitação ou suporte com intenso medo/ansiedade",
+        "Duração ≥6 meses",
+        "Prejuízo funcional significativo"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "nice-social-anxiety-2013"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "TCC com exposição - padrão-ouro",
+          "Treinamento de habilidades sociais",
+          "Terapia de grupo"
+        ],
+        "citations": [
+          {
+            "refId": "nice-social-anxiety-2013"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "ISRS: Paroxetina, Sertralina, Escitalopram",
+              "ISRN: Venlafaxina XR"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "nice-social-anxiety-2013"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "nice-social-anxiety-2013"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "nice-social-anxiety-2013"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}
+

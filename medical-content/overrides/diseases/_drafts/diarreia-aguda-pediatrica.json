@@ -1,0 +1,59 @@
+{
+  "id": "diarreia-aguda-pediatrica",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "≥3 evacuações líquidas/dia",
+        "Duração <14 dias (aguda)",
+        "Avaliar grau de desidratação",
+        "Sem sangue/muco = provavelmente viral"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "TRO (Soro caseiro ou SRO)",
+          "Manter alimentação",
+          "Aleitamento materno livre demanda"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Zinco 10-20mg/dia por 10-14 dias",
+              "SEM antidiarreicos",
+              "SEM antieméticos de rotina"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

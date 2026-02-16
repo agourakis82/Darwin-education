@@ -13,6 +13,8 @@ import {
   type SpeedAccuracyProfile,
   type RTIRTItem,
 } from '@darwin-education/shared'
+import { isMissingTableError, isSchemaDriftError } from '@/lib/supabase/errors'
+import { getSessionUserSummary } from '@/lib/auth/session'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -28,8 +30,8 @@ export async function GET(request: NextRequest) {
   try {
     const supabase = await createServerClient()
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-    if (authError || !user) {
+    const user = await getSessionUserSummary(supabase)
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -42,15 +44,26 @@ export async function GET(request: NextRequest) {
       .order('created_at', { ascending: false })
       .limit(200)
 
-    if (actError) {
-      console.error('Error loading activity log:', actError)
-      return NextResponse.json(
-        { error: 'Failed to load response data' },
-        { status: 500 }
-      )
-    }
+    let rows = activityRows || []
+    let schemaWarning: string | undefined
 
-    const rows = activityRows || []
+    if (actError) {
+      if (isMissingTableError(actError)) {
+        console.warn(
+          'RT-IRT skipped: study_activity_log table missing in local beta.'
+        )
+        rows = []
+        schemaWarning = 'Dados indisponíveis neste ambiente (tabela de atividade ausente).'
+      } else if (isSchemaDriftError(actError)) {
+        console.warn('RT-IRT skipped due to schema drift:', actError)
+        rows = []
+        schemaWarning = 'Dados indisponíveis neste ambiente (schema em migração).'
+      } else {
+        console.error('Error loading activity log:', actError)
+        rows = []
+        schemaWarning = 'Não foi possível carregar dados de respostas neste momento.'
+      }
+    }
 
     if (rows.length < 15) {
       return NextResponse.json({
@@ -58,7 +71,9 @@ export async function GET(request: NextRequest) {
         summary: {
           totalResponses: rows.length,
           minRequired: 15,
-          message: 'Complete pelo menos 15 questoes com dados de tempo para analise RT-IRT.',
+          message:
+            schemaWarning ||
+            'Complete pelo menos 15 questões com dados de tempo para análise RT-IRT.',
         },
       })
     }
@@ -103,7 +118,7 @@ export async function GET(request: NextRequest) {
     console.error('RT-IRT Error:', error)
     return NextResponse.json(
       {
-        error: 'Failed to compute speed-accuracy profile',
+        error: 'Falha ao calcular o perfil de velocidade e acurácia',
         details: error instanceof Error ? error.message : 'Unknown error',
       },
       { status: 500 }

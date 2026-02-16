@@ -1,4 +1,4 @@
-import { Spinner } from './Spinner'
+import { FeatureState } from './FeatureState'
 
 interface LoadingPageProps {
   message?: string
@@ -6,11 +6,13 @@ interface LoadingPageProps {
 
 export function LoadingPage({ message }: LoadingPageProps) {
   return (
-    <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
-      <Spinner size="lg" className="text-emerald-400" />
-      {message && (
-        <p className="text-label-secondary text-sm">{message}</p>
-      )}
+    <div className="min-h-[60vh] flex items-center justify-center px-4">
+      <FeatureState
+        kind="loading"
+        title="Carregando"
+        description={message || 'Aguarde um instante enquanto preparamos esta experiência.'}
+        className="w-full max-w-xl"
+      />
     </div>
   )
 }

@@ -5,6 +5,7 @@ node_modules/
 # Build outputs
 dist/
 .next/
+.next_root_owned_backup_*/
 .turbo/
 out/
 
@@ -17,7 +18,8 @@ out/
 
 # IDEs
 .idea/
-.vscode/
+.vscode/*
+!.vscode/extensions.json
 *.swp
 *.swo
 
@@ -71,7 +73,20 @@ logs/
 
 # Deploy artifacts
 infrastructure/supabase/deploy_consolidated.sql
+infrastructure/supabase/deploy_schema.sql
+infrastructure/supabase/deploy_seeds.sql
 
 # Playwright
 apps/web/test-results/
 apps/web/playwright-report/
+apps/web/e2e/.auth/
+.playwright-cli/
+output/
+apps/web/output/
+apps/web/apps/web/output/
+
+# Local image packs (generated assets)
+medical-edtech-*.zip
+
+# AI curation batch outputs (local only)
+.curate_batches/

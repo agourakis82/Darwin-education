@@ -1,0 +1,60 @@
+{
+  "id": "depressao-idoso",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "GDS-15 ≥5 (rastreamento)",
+        "Sintomas atípicos comuns: queixas somáticas",
+        "Perda de interesse mais que tristeza",
+        "Pseudodemência: déficit cognitivo reversível"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Atividade física",
+          "Ativação comportamental",
+          "Suporte social",
+          "Psicoterapia"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "ISRS: Sertralina 25-50mg (preferido)",
+              "Evitar tricíclicos (efeitos anticolinérgicos)",
+              "Start low, go slow"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

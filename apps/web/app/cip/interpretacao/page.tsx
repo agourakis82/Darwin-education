@@ -1,4 +1,5 @@
 import { createServerClient } from '@/lib/supabase/server'
+import { getSessionUserSummary } from '@/lib/auth/session'
 import Link from 'next/link'
 import { Scan, Brain, HeartPulse, Radio, Magnet, Image, ArrowLeft } from 'lucide-react'
 import {
@@ -59,9 +60,7 @@ export default async function InterpretacaoPage() {
   const cases = (casesRaw || []) as any[]
 
   // Fetch user's recent image attempts
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const user = await getSessionUserSummary(supabase)
   let recentAttempts: any[] = []
 
   if (user) {
@@ -82,7 +81,7 @@ export default async function InterpretacaoPage() {
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
             <Scan className="w-8 h-8 text-blue-400" />
-            <h1 className="text-3xl font-bold text-white">
+            <h1 className="text-3xl font-bold text-label-primary">
               Interpretação de Imagem
             </h1>
           </div>
@@ -107,7 +106,7 @@ export default async function InterpretacaoPage() {
                 <div className="w-12 h-12 bg-blue-600/20 rounded-full flex items-center justify-center mx-auto mb-3">
                   <span className="text-2xl">1</span>
                 </div>
-                <h4 className="font-medium text-white mb-1">Modalidade</h4>
+                <h4 className="font-medium text-label-primary mb-1">Modalidade</h4>
                 <p className="text-sm text-label-secondary">
                   Identifique o tipo de exame de imagem
                 </p>
@@ -116,7 +115,7 @@ export default async function InterpretacaoPage() {
                 <div className="w-12 h-12 bg-blue-600/20 rounded-full flex items-center justify-center mx-auto mb-3">
                   <span className="text-2xl">2</span>
                 </div>
-                <h4 className="font-medium text-white mb-1">Achados</h4>
+                <h4 className="font-medium text-label-primary mb-1">Achados</h4>
                 <p className="text-sm text-label-secondary">
                   Selecione os achados presentes na imagem
                 </p>
@@ -125,7 +124,7 @@ export default async function InterpretacaoPage() {
                 <div className="w-12 h-12 bg-blue-600/20 rounded-full flex items-center justify-center mx-auto mb-3">
                   <span className="text-2xl">3</span>
                 </div>
-                <h4 className="font-medium text-white mb-1">Diagnóstico</h4>
+                <h4 className="font-medium text-label-primary mb-1">Diagnóstico</h4>
                 <p className="text-sm text-label-secondary">
                   Formule o diagnóstico mais provável
                 </p>
@@ -134,7 +133,7 @@ export default async function InterpretacaoPage() {
                 <div className="w-12 h-12 bg-blue-600/20 rounded-full flex items-center justify-center mx-auto mb-3">
                   <span className="text-2xl">4</span>
                 </div>
-                <h4 className="font-medium text-white mb-1">Conduta</h4>
+                <h4 className="font-medium text-label-primary mb-1">Conduta</h4>
                 <p className="text-sm text-label-secondary">
                   Escolha a conduta mais adequada
                 </p>
@@ -162,7 +161,7 @@ export default async function InterpretacaoPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Available Cases */}
           <div className="lg:col-span-2">
-            <h2 className="text-xl font-semibold text-white mb-4">Casos Disponíveis</h2>
+            <h2 className="text-xl font-semibold text-label-primary mb-4">Casos Disponíveis</h2>
             <div className="space-y-4">
               {cases && cases.length > 0 ? (
                 cases.map((imageCase: any) => (
@@ -226,7 +225,7 @@ export default async function InterpretacaoPage() {
 
           {/* Sidebar */}
           <div>
-            <h2 className="text-xl font-semibold text-white mb-4">Histórico Recente</h2>
+            <h2 className="text-xl font-semibold text-label-primary mb-4">Histórico Recente</h2>
             <Card>
               <CardContent>
                 {recentAttempts.length > 0 ? (
@@ -241,7 +240,7 @@ export default async function InterpretacaoPage() {
                             <span>
                               {modalityIconComponents[attempt.cip_image_cases?.modality] || defaultModalityIcon}
                             </span>
-                            <span className="text-sm font-medium text-white">
+                            <span className="text-sm font-medium text-label-primary">
                               {attempt.cip_image_cases?.title_pt || 'Caso'}
                             </span>
                           </div>
@@ -256,7 +255,7 @@ export default async function InterpretacaoPage() {
                           )}
                         </div>
                         {attempt.scaled_score && (
-                          <div className="text-2xl font-bold text-white mb-1">
+                          <div className="text-2xl font-bold text-label-primary mb-1 tabular-nums">
                             {attempt.scaled_score}
                             <span className="text-sm font-normal text-label-secondary">/1000</span>
                           </div>

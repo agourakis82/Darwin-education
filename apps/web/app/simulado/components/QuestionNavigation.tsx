@@ -36,7 +36,7 @@ export function QuestionNavigation({
 
   const statusStyles = {
     current: 'bg-emerald-600 text-white border-emerald-500',
-    answered: 'bg-surface-3 text-white border-surface-4',
+    answered: 'bg-surface-3 text-label-primary border-surface-4',
     flagged: 'bg-yellow-600/20 text-yellow-400 border-yellow-600',
     unanswered: 'bg-surface-2 text-label-secondary border-separator hover:border-surface-4',
   }
@@ -48,7 +48,7 @@ export function QuestionNavigation({
     return (
       <div className="bg-surface-1 border border-separator rounded-xl p-4">
         <div className="flex items-center justify-between mb-3">
-          <span className="text-sm font-medium text-white">Navegação</span>
+          <span className="text-sm font-medium text-label-primary">Navegação</span>
           <div className="flex gap-3 text-xs">
             <span className="text-label-secondary">
               {answeredCount}/{questions.length} respondidas
@@ -81,7 +81,7 @@ export function QuestionNavigation({
 
   return (
     <div className="bg-surface-1 border border-separator rounded-xl p-4">
-      <h3 className="text-sm font-medium text-white mb-4">Questões</h3>
+      <h3 className="text-sm font-medium text-label-primary mb-4">Questões</h3>
 
       {/* Legend */}
       <div className="flex flex-wrap gap-3 mb-4 text-xs">
@@ -128,7 +128,7 @@ export function QuestionNavigation({
       <div className="mt-4 pt-4 border-t border-separator">
         <div className="grid grid-cols-2 gap-4 text-center">
           <div>
-            <div className="text-2xl font-bold text-white">{answeredCount}</div>
+            <div className="text-2xl font-bold text-label-primary tabular-nums">{answeredCount}</div>
             <div className="text-xs text-label-secondary">Respondidas</div>
           </div>
           <div>

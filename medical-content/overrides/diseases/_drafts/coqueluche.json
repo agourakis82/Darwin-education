@@ -1,0 +1,64 @@
+{
+  "id": "coqueluche",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Tosse ≥2 semanas com pelo menos um:",
+        "Paroxismos de tosse",
+        "Guincho inspiratório (whoop)",
+        "Vômito pós-tosse",
+        "Apneia em lactentes",
+        "PCR ou cultura para B. pertussis"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Isolamento respiratório por 5 dias de antibiótico",
+          "Monitoramento de lactentes (risco de apneia)"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Azitromicina 10mg/kg/dia por 5 dias (preferido em <1 mês)",
+              "Ou Claritromicina 15mg/kg/dia dividido 12/12h por 7 dias",
+              "Ou Eritromicina (menos usado - intolerância GI)",
+              "Quimioprofilaxia de contactantes domiciliares"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Reduzir transmissibilidade",
+        "Prevenção de complicações"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

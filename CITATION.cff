@@ -7,38 +7,25 @@ authors:
     given-names: Demetrios Chiuratto
     orcid: "https://orcid.org/0009-0001-8671-8878"
     affiliation: "PUC-SP, Brazil"
-contributors:
   - family-names: Amalcaburio
     given-names: Isadora Casagrande
     orcid: "https://orcid.org/0009-0005-6883-1809"
-    affiliation: "Faculdade São Leopoldo Mandic, Brazil"
-    roles:
-      - co-author
-      - reviewer
+    affiliation: "Faculdade Sao Leopoldo Mandic, Brazil"
 identifiers:
   - type: doi
-    value: "10.5281/zenodo.18487442"
-    description: "Zenodo software release"
-  - type: url
-    value: "https://github.com/darwin-mfc/darwin-education"
-repository-code: "https://github.com/darwin-mfc/darwin-education"
+    value: "10.5281/zenodo.18592149"
+    description: "Zenodo software release (versioned DOI)"
+repository-code: "https://github.com/agourakis82/Darwin-education"
 url: "https://darwinhub.org"
-repository: "https://github.com/darwin-mfc/darwin-education"
-abstract: "Medical exam preparation platform for ENAMED (Exame Nacional de Avaliação da Formação Médica) and other medical licensing exams. Features include exam simulator with TRI (Item Response Theory) scoring, flashcards with SM-2 spaced repetition, AI-powered study paths, and progress analytics."
+repository: "https://github.com/agourakis82/Darwin-education"
+abstract: "Medical exam preparation platform for ENAMED with adaptive learning, psychometric instrumentation, and safety-governed AI content generation."
 keywords:
   - medical-education
   - exam-preparation
   - ENAMED
   - item-response-theory
   - spaced-repetition
-  - machine-learning
-  - healthcare
-version: 1.0.0
-date-released: 2025-02-04
+  - educational-ai
+version: preprint-v0.3.1
+date-released: 2026-02-10
 license: MIT
-references:
-  - type: reference
-    authors:
-      - family-names: "Darwin-MFC"
-    title: "Darwin-MFC: Family Medicine Reference Platform"
-    url: "https://github.com/darwin-mfc/darwin-MFC"

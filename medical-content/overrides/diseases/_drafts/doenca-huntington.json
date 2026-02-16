@@ -1,0 +1,61 @@
+{
+  "id": "doenca-huntington",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "História familiar (autossômica dominante)",
+        "Coreia progressiva",
+        "Deterioração cognitiva/psiquiátrica",
+        "Teste genético: expansão CAG ≥36 repetições no gene HTT"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Suporte multidisciplinar",
+          "Fisioterapia",
+          "Fonoaudiologia",
+          "Suporte psicossocial",
+          "Aconselhamento genético"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Coreia: Tetrabenazina, Deutetrabenazina",
+              "Sintomas psiquiátricos: Antipsicóticos, ISRS",
+              "Rigidez: Levodopa"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

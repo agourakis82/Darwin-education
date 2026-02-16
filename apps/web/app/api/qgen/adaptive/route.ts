@@ -10,6 +10,7 @@ import { qgenGenerationService, ddlIntegrationService } from '@/lib/qgen';
 import type { StudentProfile } from '@/lib/qgen';
 import type { ClassificationResult } from '@/lib/ddl/types';
 import type { QGenAdaptiveResponse } from '@darwin-education/shared';
+import { hasQGenApiKey, qgenServiceUnavailable } from '@/lib/ai/key-availability';
 
 /**
  * Extended request body type for adaptive generation
@@ -43,6 +44,10 @@ export async function POST(request: NextRequest) {
         { success: false, error: 'Missing ddlClassification in request body' },
         { status: 400 }
       );
+    }
+
+    if (!hasQGenApiKey()) {
+      return qgenServiceUnavailable('de geração adaptativa via QGen')
     }
 
     // Build student profile from available data

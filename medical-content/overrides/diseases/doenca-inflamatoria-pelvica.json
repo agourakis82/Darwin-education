@@ -1,0 +1,90 @@
+{
+  "id": "doenca-inflamatoria-pelvica",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "cdc-sti-2021"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "cdc-sti-2021"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Dor pélvica/abdominal baixa",
+        "Dor à mobilização do colo uterino",
+        "Dor anexial à palpação",
+        "Critérios adicionais: febre, secreção mucopurulenta, leucocitose"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "cdc-sti-2021"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Repouso",
+          "Abstinência sexual durante tratamento",
+          "Tratar parceiro(s)"
+        ],
+        "citations": [
+          {
+            "refId": "cdc-sti-2021"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Ambulatorial (leve/moderada): Ceftriaxona 500mg IM + Doxiciclina 100mg 12/12h por 14 dias + Metronidazol 500mg 12/12h por 14 dias",
+              "Hospitalar (grave): IV até melhora, depois oral",
+              "Cirurgia se abscesso não responsivo"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "cdc-sti-2021"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Erradicação da infecção",
+        "Prevenção de sequelas (infertilidade, ectópica)"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "cdc-sti-2021"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "cdc-sti-2021"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

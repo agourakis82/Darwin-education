@@ -64,3 +64,6 @@ export * from './algorithms/cat';
 // export * from './generators/template-engine';
 // export * from './generators/question-generator';
 // export * from './generators/distractor-generator';
+
+// Experimental math (hypercomplex algebras: octonions, sedenions, etc.)
+export * as Hypercomplex from './math/hypercomplex';

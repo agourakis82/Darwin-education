@@ -7,6 +7,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   Target,
   BookOpen,
@@ -88,7 +89,7 @@ function AdaptiveQuestionCTA({ classification }: { classification: Classificatio
 
       if (!res.ok) {
         const data = await res.json()
-        throw new Error(data.error || 'Falha ao gerar questao')
+        throw new Error(data.error || 'Falha ao gerar questão')
       }
 
       const data = await res.json()
@@ -105,7 +106,7 @@ function AdaptiveQuestionCTA({ classification }: { classification: Classificatio
       <div className="mt-6 p-6 bg-indigo-900/30 border border-indigo-700 rounded-lg">
         <div className="flex items-center gap-3 mb-4">
           <Sparkles className="w-6 h-6 text-indigo-400" />
-          <h3 className="text-lg font-semibold text-label-primary">Questao Adaptativa para Voce</h3>
+          <h3 className="text-lg font-semibold text-label-primary">Questão Adaptativa para Você</h3>
         </div>
 
         <p className="text-sm text-indigo-300 mb-4">{adaptiveQuestion.adaptiveRationale}</p>
@@ -142,7 +143,7 @@ function AdaptiveQuestionCTA({ classification }: { classification: Classificatio
           onClick={generateAdaptiveQuestion}
           className="text-sm text-indigo-400 hover:text-indigo-300 hover:underline"
         >
-          Gerar outra questao
+          Gerar outra questão
         </Button>
       </div>
     )
@@ -155,9 +156,9 @@ function AdaptiveQuestionCTA({ classification }: { classification: Classificatio
           <Sparkles className="w-6 h-6 text-indigo-400" />
         </div>
         <div className="flex-1">
-          <h4 className="font-semibold text-label-primary mb-1">Pratique com Questoes Adaptativas</h4>
+          <h4 className="font-semibold text-label-primary mb-1">Pratique com Questões Adaptativas</h4>
           <p className="text-sm text-label-secondary">
-            Com base no seu diagnostico ({classification.type}), o QGen pode gerar questoes
+            Com base no seu diagnóstico ({classification.type}), o QGen pode gerar questões
             personalizadas para ajudar a superar suas lacunas.
           </p>
         </div>
@@ -167,7 +168,7 @@ function AdaptiveQuestionCTA({ classification }: { classification: Classificatio
           loading={loading}
           className="bg-indigo-600 hover:bg-indigo-500 from-indigo-600 to-indigo-600 hover:from-indigo-500 hover:to-indigo-500"
         >
-          {loading ? 'Gerando...' : 'Gerar Questao'}
+          {loading ? 'Gerando...' : 'Gerar Questão'}
         </Button>
       </div>
       {error && (
@@ -191,12 +192,12 @@ export default function DDLPage() {
     setLoading(true)
     try {
       const res = await fetch('/api/ddl/questions')
-      if (!res.ok) throw new Error('Failed to load questions')
+      if (!res.ok) throw new Error('Falha ao carregar questões')
       const data = await res.json()
       setQuestions(data.questions || [])
     } catch (err) {
-      setError('Erro ao carregar questoes')
-      console.error(err)
+      setError('Erro ao carregar questões')
+      if (process.env.NODE_ENV !== 'production') console.error(err)
     } finally {
       setLoading(false)
     }
@@ -231,7 +232,7 @@ export default function DDLPage() {
 
       if (!createRes.ok) {
         const errData = await createRes.json()
-        throw new Error(errData.error || 'Failed to save response')
+        throw new Error(errData.message || errData.error || 'Não foi possível salvar sua resposta. Tente novamente.')
       }
 
       const { responseId: newResponseId } = await createRes.json()
@@ -245,7 +246,12 @@ export default function DDLPage() {
 
       if (!analyzeRes.ok) {
         const errData = await analyzeRes.json()
-        throw new Error(errData.error || errData.details || 'Analysis failed')
+        throw new Error(
+          errData.message ||
+            errData.error ||
+            errData.details ||
+            'Falha ao analisar sua resposta. Tente novamente em alguns instantes.'
+        )
       }
 
       const analysisResult = await analyzeRes.json()
@@ -283,34 +289,34 @@ export default function DDLPage() {
   const getLacunaInfo = (type: LacunaType) => {
     const info: Record<LacunaType, { name: string; color: string; icon: React.ReactNode; description: string }> = {
       LE: {
-        name: 'Lacuna Epistemica',
+        name: 'Lacuna Epistêmica',
         color: 'bg-blue-500',
         icon: <BookOpen className="w-6 h-6 text-blue-400" />,
-        description: 'Ausencia de conhecimento - o conteudo ainda nao foi estudado ou consolidado',
+        description: 'Ausência de conhecimento — o conteúdo ainda não foi estudado ou consolidado',
       },
       LEm: {
         name: 'Lacuna Emocional',
         color: 'bg-purple-500',
         icon: <MessageCircle className="w-6 h-6 text-purple-400" />,
-        description: 'Conhecimento presente mas inacessivel sob pressao ou ansiedade',
+        description: 'Conhecimento presente, mas inacessível sob pressão ou ansiedade',
       },
       LIE: {
-        name: 'Lacuna de Integracao',
+        name: 'Lacuna de Integração',
         color: 'bg-orange-500',
         icon: <Link2 className="w-6 h-6 text-orange-400" />,
-        description: 'Conceitos isolados sem conexao - dificuldade em relacionar conhecimentos',
+        description: 'Conceitos isolados sem conexão — dificuldade em relacionar conhecimentos',
       },
       MIXED: {
-        name: 'Lacunas Mistas',
+        name: 'Lacunas mistas',
         color: 'bg-surface-5',
         icon: <Shuffle className="w-6 h-6 text-label-secondary" />,
-        description: 'Combinacao de diferentes tipos de lacunas',
+        description: 'Combinação de diferentes tipos de lacunas',
       },
       NONE: {
-        name: 'Sem Lacunas',
+        name: 'Sem lacunas',
         color: 'bg-green-500',
         icon: <CheckCircle2 className="w-6 h-6 text-green-400" />,
-        description: 'Resposta completa demonstrando dominio do conteudo',
+        description: 'Resposta completa demonstrando domínio do conteúdo',
       },
     }
     return info[type]
@@ -318,16 +324,38 @@ export default function DDLPage() {
 
   return (
     <main className="max-w-4xl mx-auto px-4 py-8">
+	      <div className="relative mb-8 h-48 md:h-56 overflow-hidden rounded-2xl border border-separator/70">
+	        <Image
+	          src="/images/branding/ddl-hero-apple-v1.png"
+	          alt="Visual de diagnóstico diferencial de lacunas"
+	          fill
+	          sizes="(max-width: 768px) 100vw, 1024px"
+	          priority
+	          className="object-cover object-center opacity-75"
+	        />
+        <div className="absolute inset-0 bg-gradient-to-r from-surface-0/90 via-surface-0/70 to-surface-0/30" />
+        <div className="relative z-10 h-full flex items-end p-5 md:p-7">
+          <div className="max-w-xl">
+            <p className="text-xl md:text-2xl font-semibold text-label-primary">
+              Diagnóstico de lacunas com contexto metacognitivo.
+            </p>
+            <p className="text-sm md:text-base text-label-secondary mt-1">
+              Entenda o tipo de erro e receba recomendações direcionadas para evoluir.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Error display */}
       {error && (
-        <div className="mb-6 p-4 bg-red-900/30 border border-red-700 rounded-lg">
+        <div className="mb-6 rounded-2xl border border-rose-400/35 bg-rose-500/12 p-4">
           <div className="flex items-center justify-between">
-            <p className="text-red-400">{error}</p>
+            <p className="text-label-primary">{error}</p>
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setError(null)}
-              className="text-red-300 hover:text-red-200"
+              className="text-rose-200 hover:text-rose-100"
             >
               <X className="w-4 h-4" />
             </Button>
@@ -342,11 +370,11 @@ export default function DDLPage() {
             <Target className="w-8 h-8 text-label-secondary" />
           </div>
           <h1 className="text-3xl font-bold text-label-primary mb-4">
-            Diagnostico Diferencial de Lacunas
+            Diagnóstico Diferencial de Lacunas
           </h1>
           <p className="text-label-secondary max-w-xl mx-auto mb-8">
-            Responda questoes dissertativas e receba um diagnostico personalizado
-            sobre seus padroes de aprendizagem. O sistema analisa sua resposta
+            Responda questões dissertativas e receba um diagnóstico personalizado
+            sobre seus padrões de aprendizagem. O sistema analisa sua resposta
             e seu comportamento durante a escrita para identificar o tipo de lacuna.
           </p>
 
@@ -379,7 +407,7 @@ export default function DDLPage() {
             disabled={loading}
             loading={loading}
           >
-            {loading ? 'Carregando...' : 'Iniciar Diagnostico'}
+            {loading ? 'Carregando...' : 'Iniciar Diagnóstico'}
           </Button>
         </div>
       )}
@@ -388,9 +416,9 @@ export default function DDLPage() {
       {phase === 'select' && (
         <div>
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-label-primary">Selecione uma Questao</h2>
+            <h2 className="text-2xl font-bold text-label-primary">Selecione uma Questão</h2>
             <p className="text-label-secondary mt-1">
-              Escolha uma questao dissertativa para responder
+              Escolha uma questão dissertativa para responder
             </p>
           </div>
 
@@ -406,7 +434,7 @@ export default function DDLPage() {
             </div>
           ) : questions.length === 0 ? (
             <div className="text-center py-12 bg-surface-2 rounded-lg shadow-elevation-1">
-              <p className="text-label-secondary">Nenhuma questao disponivel.</p>
+              <p className="text-label-secondary">Nenhuma questão disponível.</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -420,14 +448,14 @@ export default function DDLPage() {
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-xs font-mono text-label-tertiary">{q.question_code}</span>
                     <span className={`px-2 py-0.5 text-xs rounded ${getDifficultyColor(q.difficulty_level)}`}>
-                      Nivel {q.difficulty_level}
+                      Nível {q.difficulty_level}
                     </span>
                     <span className="px-2 py-0.5 text-xs bg-surface-3 text-label-secondary rounded">
                       {q.discipline}
                     </span>
                   </div>
                   <p className="text-label-primary">{q.question_text}</p>
-                  <p className="text-sm text-label-tertiary mt-1">Topico: {q.topic}</p>
+                  <p className="text-sm text-label-tertiary mt-1">Tópico: {q.topic}</p>
                 </button>
               ))}
             </div>
@@ -445,7 +473,7 @@ export default function DDLPage() {
             className="mb-4 text-sm text-emerald-400 hover:text-emerald-300"
             leftIcon={<ArrowLeft className="w-4 h-4" />}
           >
-            Voltar para selecao
+            Voltar para seleção
           </Button>
           <DDLQuestion
             questionId={selectedQuestion.id}
@@ -465,8 +493,8 @@ export default function DDLPage() {
           <p className="text-label-secondary mt-2">Este processo pode levar alguns segundos</p>
           <div className="mt-6 space-y-2 text-sm text-label-tertiary">
             <p className="flex items-center gap-2"><FileText className="w-4 h-4" /> Extraindo conceitos da resposta</p>
-            <p className="flex items-center gap-2"><Link2 className="w-4 h-4" /> Avaliando integracoes conceituais</p>
-            <p className="flex items-center gap-2"><BarChart3 className="w-4 h-4" /> Analisando padroes comportamentais</p>
+            <p className="flex items-center gap-2"><Link2 className="w-4 h-4" /> Avaliando integrações conceituais</p>
+            <p className="flex items-center gap-2"><BarChart3 className="w-4 h-4" /> Analisando padrões comportamentais</p>
             <p className="flex items-center gap-2"><Target className="w-4 h-4" /> Classificando tipo de lacuna</p>
           </div>
         </div>
@@ -476,15 +504,15 @@ export default function DDLPage() {
       {phase === 'feedback' && feedbackId && classification && (
         <div>
           <div className="mb-6 flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-label-primary">Seu Diagnostico</h2>
+            <h2 className="text-2xl font-bold text-label-primary">Seu Diagnóstico</h2>
             <Button onClick={handleReset}>
-              Nova Questao
+              Nova Questão
             </Button>
           </div>
 
           {/* Classification Summary */}
           <div className="mb-6 p-4 bg-surface-2 rounded-lg shadow-elevation-1">
-            <h3 className="font-medium text-label-secondary mb-3">Classificacao Detectada</h3>
+            <h3 className="font-medium text-label-secondary mb-3">Classificação Detectada</h3>
             <div className="grid grid-cols-3 gap-4 text-center">
               {(['LE', 'LEm', 'LIE'] as LacunaType[]).map((type) => {
                 const info = getLacunaInfo(type)
@@ -516,7 +544,7 @@ export default function DDLPage() {
             )}
             <div className="mt-4 text-center">
               <span className="text-sm text-label-secondary">
-                Confianca: {classification.confidence} ({(classification.probability * 100).toFixed(0)}%)
+                Confiança: {classification.confidence} ({(classification.probability * 100).toFixed(0)}%)
               </span>
             </div>
           </div>

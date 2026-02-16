@@ -80,15 +80,15 @@ export function WeeklyPlanner() {
     <div className="space-y-6">
       {/* Summary bar */}
       <div className="flex flex-wrap gap-3 p-4 bg-surface-1 rounded-lg border border-separator">
-        {hoursPerArea.map(({ area, hours }) => (
-          <div key={area} className="flex items-center gap-2 text-sm">
-            <div className={`w-3 h-3 rounded-sm ${AREA_SLOT_COLORS[area].split(' ')[0]}`} />
-            <span className="text-label-secondary">{AREA_LABELS[area]}:</span>
-            <span className="font-medium text-white">{hours}h</span>
-          </div>
-        ))}
-        <div className="ml-auto text-sm font-medium text-white">{totalHours}h total</div>
-      </div>
+	        {hoursPerArea.map(({ area, hours }) => (
+	          <div key={area} className="flex items-center gap-2 text-sm">
+	            <div className={`w-3 h-3 rounded-sm ${AREA_SLOT_COLORS[area].split(' ')[0]}`} />
+	            <span className="text-label-secondary">{AREA_LABELS[area]}:</span>
+	            <span className="font-medium text-label-primary tabular-nums">{hours}h</span>
+	          </div>
+	        ))}
+	        <div className="ml-auto text-sm font-medium text-label-primary tabular-nums">{totalHours}h total</div>
+	      </div>
 
       {/* Grid */}
       <div className="overflow-x-auto">
@@ -153,22 +153,22 @@ export function WeeklyPlanner() {
             transition={spring.gentle}
             className="p-4 bg-surface-2 rounded-lg border border-separator space-y-3"
           >
-            <div className="text-sm font-medium text-white">
-              {DAYS[adding.day]} — {adding.time}
-            </div>
+	            <div className="text-sm font-medium text-label-primary">
+	              {DAYS[adding.day]} — {adding.time}
+	            </div>
             <div className="flex flex-wrap gap-2">
               {(Object.keys(AREA_LABELS) as ENAMEDArea[]).map(area => (
                 <button
                   key={area}
                   onClick={() => setSelectedArea(area)}
-                  className={`px-3 py-1.5 text-xs rounded-lg border transition-colors ${
-                    selectedArea === area
-                      ? AREA_SLOT_COLORS[area]
-                      : 'border-separator text-label-secondary hover:text-white'
-                  }`}
-                >
-                  {AREA_LABELS[area]}
-                </button>
+	                  className={`px-3 py-1.5 text-xs rounded-lg border transition-colors ${
+	                    selectedArea === area
+	                      ? AREA_SLOT_COLORS[area]
+	                      : 'border-separator text-label-secondary hover:text-label-primary'
+	                  }`}
+	                >
+	                  {AREA_LABELS[area]}
+	                </button>
               ))}
             </div>
             <input
@@ -176,7 +176,7 @@ export function WeeklyPlanner() {
               placeholder="Tópico (opcional)"
               value={topicInput}
               onChange={e => setTopicInput(e.target.value)}
-              className="w-full px-3 py-2 bg-surface-1 border border-separator rounded-lg text-white text-sm placeholder:text-label-quaternary"
+              className="w-full px-3 py-2 bg-surface-1 border border-separator rounded-lg text-label-primary text-sm placeholder:text-label-quaternary"
             />
             <div className="flex gap-2 justify-end">
               <Button variant="ghost" size="sm" onClick={() => setAdding(null)}>Cancelar</Button>

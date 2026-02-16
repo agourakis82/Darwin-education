@@ -90,10 +90,10 @@ export default function DominioPage() {
         transition={spring.gentle}
       >
         <h1 className="text-3xl font-bold text-label-primary">
-          Dominio de <span className="gradient-text">Conhecimento</span>
+          Domínio de <span className="gradient-text">Conhecimento</span>
         </h1>
         <p className="text-label-tertiary mt-1">
-          Rastreamento de dominio por componente, curvas de esquecimento e perfil unificado do aprendiz.
+          Rastreamento de domínio por componente, curvas de esquecimento e perfil unificado do aprendiz.
         </p>
       </motion.div>
 
@@ -120,7 +120,7 @@ export default function DominioPage() {
                 <MasteryHeatmap heatmap={bktData.heatmap} />
               ) : (
                 <EmptyState
-                  title="Mapa de Dominio"
+                  title="Mapa de Domínio"
                   message="Complete atividades com componentes de conhecimento para rastreamento BKT."
                 />
               )}
@@ -138,8 +138,8 @@ export default function DominioPage() {
                 />
               ) : (
                 <EmptyState
-                  title="Probabilidade de Aprovacao"
-                  message="Complete mais atividades para estimativa de aprovacao."
+                  title="Probabilidade de Aprovação"
+                  message="Complete mais atividades para estimativa de aprovação."
                 />
               )}
             </motion.div>
@@ -212,7 +212,7 @@ export default function DominioPage() {
         animate={{ opacity: 1 }}
         transition={{ delay: 1 }}
       >
-        <strong>Metodologia:</strong> BKT via Corbett & Anderson (1995) com EM para estimacao de parametros.
+        <strong>Metodologia:</strong> BKT via Corbett & Anderson (1995) com EM para estimação de parâmetros.
         HLR via Settles & Meeder (2016) com SGD online. Modelo unificado agrega IRT + MIRT + FCR + BKT + HLR + engajamento
         com pesos competenciais (MIRT 30%, BKT 25%, FCR 20%, IRT 15%, HLR 10%).
       </motion.div>

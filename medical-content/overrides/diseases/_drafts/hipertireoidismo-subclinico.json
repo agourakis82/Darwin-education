@@ -1,0 +1,62 @@
+{
+  "id": "hipertireoidismo-subclinico",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "TSH <0,1-0,4 mUI/L (conforme laboratório)",
+        "T4 livre e T3 livre normais",
+        "Grau I: TSH 0,1-0,4 mUI/L",
+        "Grau II: TSH <0,1 mUI/L"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Observação se leve e assintomático",
+          "Investigar causa: cintilografia, anti-TRAB"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Tratar se: >65 anos, FA, osteoporose, sintomas",
+              "Causa endógena: metimazol ou radioiodo",
+              "Causa exógena: reduzir dose de levotiroxina",
+              "Betabloqueador se sintomas adrenérgicos"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "TSH normal",
+        "Eutireoidismo"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

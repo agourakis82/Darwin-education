@@ -1,0 +1,87 @@
+{
+  "id": "bulimia-nervosa",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "nice-eating-disorders-2017"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "nice-eating-disorders-2017"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Episódios recorrentes de compulsão alimentar (grande quantidade em curto período, sensação de perda de controle)",
+        "Comportamentos compensatórios recorrentes: vômitos autoinduzidos, uso de laxantes/diuréticos, exercício excessivo, jejum",
+        "≥1 vez/semana por ≥3 meses",
+        "Autoavaliação indevidamente influenciada pela forma e peso do corpo"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "nice-eating-disorders-2017"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "TCC especializada (TCC-BN) - padrão-ouro",
+          "Terapia interpessoal (IPT)",
+          "Psicoeducação nutricional"
+        ],
+        "citations": [
+          {
+            "refId": "nice-eating-disorders-2017"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "ISRS: Fluoxetina 60mg/dia (aprovado para BN)",
+              "Outros ISRS em altas doses"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "nice-eating-disorders-2017"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "nice-eating-disorders-2017"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "nice-eating-disorders-2017"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}
+

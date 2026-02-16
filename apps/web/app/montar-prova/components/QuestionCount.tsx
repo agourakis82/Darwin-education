@@ -4,11 +4,42 @@ interface QuestionCountProps {
   value: number
   onChange: (count: number) => void
   max: number
+  referenceQuestionCount: number
 }
 
-const presets = [10, 20, 40, 60, 90, 180]
+const MIN_QUESTIONS = 5
 
-export function QuestionCount({ value, onChange, max }: QuestionCountProps) {
+function roundToNearestFive(value: number) {
+  return Math.max(MIN_QUESTIONS, Math.round(value / 5) * 5)
+}
+
+function buildPresets(max: number, referenceQuestionCount: number) {
+  const base = referenceQuestionCount > 0 ? referenceQuestionCount : max
+  const candidates = [
+    roundToNearestFive(base * 0.1),
+    roundToNearestFive(base * 0.25),
+    roundToNearestFive(base * 0.5),
+    roundToNearestFive(base * 0.75),
+    roundToNearestFive(base),
+    max,
+  ]
+
+  return Array.from(new Set(candidates))
+    .filter((value) => value >= MIN_QUESTIONS && value <= max)
+    .sort((left, right) => left - right)
+}
+
+export function QuestionCount({
+  value,
+  onChange,
+  max,
+  referenceQuestionCount,
+}: QuestionCountProps) {
+  const presets = buildPresets(max, referenceQuestionCount)
+  const sliderMin = Math.min(MIN_QUESTIONS, max)
+  const referenceBase = referenceQuestionCount > 0 ? referenceQuestionCount : max
+  const referencePercent = referenceBase > 0 ? Math.min((value / referenceBase) * 100, 200) : 0
+
   return (
     <div className="space-y-4">
       {/* Preset buttons */}
@@ -40,8 +71,8 @@ export function QuestionCount({ value, onChange, max }: QuestionCountProps) {
       <div className="space-y-2">
         <input
           type="range"
-          min={5}
-          max={Math.min(max, 180)}
+          min={sliderMin}
+          max={max}
           value={value}
           onChange={(e) => onChange(Number(e.target.value))}
           className="w-full h-2 bg-surface-3 rounded-lg appearance-none cursor-pointer
@@ -61,9 +92,9 @@ export function QuestionCount({ value, onChange, max }: QuestionCountProps) {
             [&::-moz-range-thumb]:cursor-pointer"
         />
         <div className="flex justify-between text-xs text-label-tertiary">
-          <span>5</span>
+          <span>{sliderMin}</span>
           <span className="text-emerald-400 font-medium text-sm">{value} questões</span>
-          <span>{Math.min(max, 180)}</span>
+          <span>{max}</span>
         </div>
       </div>
 
@@ -72,13 +103,13 @@ export function QuestionCount({ value, onChange, max }: QuestionCountProps) {
         <div className="flex items-center justify-between text-sm">
           <span className="text-label-secondary">Equivale a:</span>
           <span className="text-label-primary">
-            {Math.round((value / 180) * 100)}% do ENAMED
+            {Math.round(referencePercent)}% da prova de referência
           </span>
         </div>
         <div className="mt-2 h-2 bg-surface-3 rounded-full overflow-hidden">
           <div
             className="h-full bg-emerald-500 transition-all"
-            style={{ width: `${Math.min((value / 180) * 100, 100)}%` }}
+            style={{ width: `${Math.min(referencePercent, 100)}%` }}
           />
         </div>
       </div>

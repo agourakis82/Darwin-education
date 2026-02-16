@@ -1,0 +1,112 @@
+{
+  "id": "transtorno-espectro-autista",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "nice-autism-adults-2012"
+        },
+        {
+          "refId": "nice-autism-under19-2011"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "nice-autism-adults-2012"
+        },
+        {
+          "refId": "nice-autism-under19-2011"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Déficits em comunicação social: reciprocidade socioemocional, comunicação não verbal, relacionamentos",
+        "Padrões restritos/repetitivos: ≥2: movimentos estereotipados, insistência na rotina, interesses fixos, hiper/hiporreatividade sensorial",
+        "Sintomas presentes no início do desenvolvimento (podem não ser evidentes até demandas sociais excederem capacidades)",
+        "Nível de suporte: 1 (leve), 2 (moderado), 3 (grave)"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "nice-autism-adults-2012"
+        },
+        {
+          "refId": "nice-autism-under19-2011"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Intervenções comportamentais precoces intensivas",
+          "Análise do Comportamento Aplicada (ABA)",
+          "Terapia de comunicação social",
+          "Terapia ocupacional (integração sensorial)",
+          "Suporte educacional especializado"
+        ],
+        "citations": [
+          {
+            "refId": "nice-autism-adults-2012"
+          },
+          {
+            "refId": "nice-autism-under19-2011"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Medicação para sintomas específicos:",
+              "- Risperidona ou Aripiprazol (agressividade, irritabilidade)",
+              "- ISRS para ansiedade/comportamento obsessivo",
+              "- Estimulantes para TDAH comórbido"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "nice-autism-adults-2012"
+          },
+          {
+            "refId": "nice-autism-under19-2011"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "nice-autism-adults-2012"
+        },
+        {
+          "refId": "nice-autism-under19-2011"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "nice-autism-adults-2012"
+    },
+    {
+      "refId": "nice-autism-under19-2011"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}
+

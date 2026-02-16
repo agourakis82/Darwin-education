@@ -1,0 +1,57 @@
+{
+  "id": "narcolepsia",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Sonolência diurna excessiva ≥3 meses",
+        "Episódios recorrentes de sono em situações inapropriadas",
+        "≥1: cataplexia, hipocretina baixa no LCR, latência REM ≤15 min no teste múltiplo de latência do sono"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Cochilos programados (2-3/dia, 15-20 min)",
+          "Higiene do sono rigorosa",
+          "Suporte psicossocial"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Estimulantes: Modafinil 200-400mg/dia ou Armodafinil",
+              "Para cataplexia: Venlafaxina, Fluoxetina, ou Oxibato de sódio"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

@@ -1,5 +1,6 @@
 export { Button } from './Button'
 export { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from './Card'
+export { FeatureState } from './FeatureState'
 export { Input } from './Input'
 export { Modal } from './Modal'
 export { Timer, useTimer } from './Timer'

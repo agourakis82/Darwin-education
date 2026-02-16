@@ -1,0 +1,62 @@
+{
+  "id": "transtorno-espectro-autista",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Déficits em comunicação social: reciprocidade socioemocional, comunicação não verbal, relacionamentos",
+        "Padrões restritos/repetitivos: ≥2: movimentos estereotipados, insistência na rotina, interesses fixos, hiper/hiporreatividade sensorial",
+        "Sintomas presentes no início do desenvolvimento (podem não ser evidentes até demandas sociais excederem capacidades)",
+        "Nível de suporte: 1 (leve), 2 (moderado), 3 (grave)"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Intervenções comportamentais precoces intensivas",
+          "Análise do Comportamento Aplicada (ABA)",
+          "Terapia de comunicação social",
+          "Terapia ocupacional (integração sensorial)",
+          "Suporte educacional especializado"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Medicação para sintomas específicos:",
+              "- Risperidona ou Aripiprazol (agressividade, irritabilidade)",
+              "- ISRS para ansiedade/comportamento obsessivo",
+              "- Estimulantes para TDAH comórbido"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

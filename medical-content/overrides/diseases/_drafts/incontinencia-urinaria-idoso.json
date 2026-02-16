@@ -1,0 +1,60 @@
+{
+  "id": "incontinencia-urinaria-idoso",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Identificar tipo: urgência, esforço, mista, funcional",
+        "Diário miccional",
+        "Teste de esforço positivo",
+        "Resíduo pós-miccional"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Exercícios de Kegel (assoalho pélvico)",
+          "Treinamento vesical",
+          "Micção programada",
+          "Reduzir cafeína"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Oxibutinina ou Tolterodina (urgência)",
+              "Mirabegrona (alternativa)",
+              "Cuidado com anticolinérgicos em idosos"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

@@ -1,0 +1,59 @@
+{
+  "id": "candidose-vulvovaginal",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Prurido vulvovaginal intenso",
+        "Corrimento branco grumoso (leite coalhado)",
+        "Hiperemia vulvar",
+        "Disúria e dispareunia"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Roupas íntimas de algodão",
+          "Evitar roupas apertadas",
+          "Manter área seca"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Fluconazol 150mg VO dose única",
+              "OU Clotrimazol creme vaginal 1% por 7 dias",
+              "Recorrente (≥4/ano): Fluconazol 150mg semanal por 6 meses"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

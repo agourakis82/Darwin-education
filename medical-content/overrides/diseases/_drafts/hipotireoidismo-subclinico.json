@@ -1,0 +1,61 @@
+{
+  "id": "hipotireoidismo-subclinico",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "TSH elevado (>4,0-4,5 mUI/L conforme laboratório)",
+        "T4 livre normal",
+        "Confirmar com segunda dosagem em 2-3 meses",
+        "Pesquisar anti-TPO para avaliar risco de progressão"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Observação com monitoramento se TSH <10 e assintomático",
+          "Repetir TSH em 6-12 meses"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Tratar se TSH ≥10 mUI/L",
+              "Considerar tratar se: TSH 7-10 + sintomas, anti-TPO+, gestantes, tentando engravidar",
+              "Levotiroxina: iniciar 25-50mcg/dia, ajustar a cada 6-8 semanas",
+              "Idosos: iniciar com 12,5-25mcg"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "TSH 0,5-4,0 mUI/L se tratado"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

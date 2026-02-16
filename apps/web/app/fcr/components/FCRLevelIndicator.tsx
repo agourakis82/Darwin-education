@@ -35,7 +35,7 @@ export function FCRLevelIndicator({
                     isDone
                       ? 'bg-green-500 text-white'
                       : isActive
-                        ? 'bg-primary text-primary-foreground ring-2 ring-primary/30'
+                        ? 'bg-emerald-600 text-white ring-2 ring-emerald-500/30'
                         : 'bg-muted text-muted-foreground'
                   }
                 `}

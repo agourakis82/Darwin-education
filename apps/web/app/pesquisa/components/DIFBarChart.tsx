@@ -10,7 +10,7 @@ interface DIFBarChartProps {
 }
 
 const ETS_COLORS: Record<ETSClassification, { bg: string; border: string; text: string; label: string }> = {
-  A: { bg: 'bg-emerald-500/10', border: 'border-emerald-500/30', text: 'text-emerald-400', label: 'Negligivel' },
+  A: { bg: 'bg-emerald-500/10', border: 'border-emerald-500/30', text: 'text-emerald-400', label: 'Negligível' },
   B: { bg: 'bg-amber-500/10', border: 'border-amber-500/30', text: 'text-amber-400', label: 'Moderado' },
   C: { bg: 'bg-red-500/10', border: 'border-red-500/30', text: 'text-red-400', label: 'Grande' },
 }
@@ -37,7 +37,7 @@ export function DIFBarChart({ analysis, maxItems = 15 }: DIFBarChartProps) {
   return (
     <div className="space-y-3">
       <h4 className="text-sm font-semibold text-label-tertiary uppercase tracking-wider">
-        Analise DIF (Mantel-Haenszel)
+        Análise DIF (Mantel-Haenszel)
       </h4>
 
       <div className="bg-surface-2 rounded-lg p-4">

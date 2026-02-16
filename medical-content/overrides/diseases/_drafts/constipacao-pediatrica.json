@@ -1,0 +1,62 @@
+{
+  "id": "constipacao-pediatrica",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Roma IV: ≥2 critérios por 1 mês",
+        "≤2 evacuações/semana",
+        "Retenção fecal excessiva",
+        "Evacuações dolorosas",
+        "Fezes volumosas no reto",
+        "Incontinência fecal (escape)"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Educação familiar (não punitivo)",
+          "Treinamento de hábito",
+          "Dieta com fibras",
+          "Hidratação"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Desimpactação: PEG (1-1,5g/kg/dia) ou enema",
+              "Manutenção: PEG 0,4-0,8g/kg/dia",
+              "Lactulose alternativa"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

@@ -74,7 +74,7 @@ export function AuthForm({ mode, onSuccess, redirectTo }: AuthFormProps) {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full px-4 py-3 bg-surface-2 border border-separator rounded-lg text-white placeholder-label-tertiary focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+            className="w-full px-4 py-3 bg-surface-2 border border-separator rounded-lg text-label-primary placeholder-label-tertiary focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
             placeholder="Seu nome"
             required
           />
@@ -90,7 +90,7 @@ export function AuthForm({ mode, onSuccess, redirectTo }: AuthFormProps) {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-4 py-3 bg-surface-2 border border-separator rounded-lg text-white placeholder-label-tertiary focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+          className="w-full px-4 py-3 bg-surface-2 border border-separator rounded-lg text-label-primary placeholder-label-tertiary focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
           placeholder="seu@email.com"
           required
         />
@@ -105,7 +105,7 @@ export function AuthForm({ mode, onSuccess, redirectTo }: AuthFormProps) {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-4 py-3 bg-surface-2 border border-separator rounded-lg text-white placeholder-label-tertiary focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+          className="w-full px-4 py-3 bg-surface-2 border border-separator rounded-lg text-label-primary placeholder-label-tertiary focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
           placeholder="••••••••"
           required
         />

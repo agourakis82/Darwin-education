@@ -1,0 +1,89 @@
+{
+  "id": "epilepsia-focal",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "ilae-2017"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "ilae-2017"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "≥2 crises epilépticas não provocadas com intervalo >24 horas",
+        "Crises com sintomas focais: motoros (músculos faciais, braço/perna), sensitivos, autonômicos, psíquicos",
+        "EEG: atividade epileptiforme focal",
+        "RM: pode mostrar lesão estrutural (cicatriz, tumor, malformação)"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "ilae-2017"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Evitar fatores desencadeantes (privação de sono, álcool)",
+          "Educação sobre primeiros socorros",
+          "Avaliar indicação cirúrgica se resistente"
+        ],
+        "citations": [
+          {
+            "refId": "ilae-2017"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Anticonvulsivantes de primeira linha:",
+              "- Carbamazepina 200-1200mg/dia",
+              "- Lamotrigina 100-400mg/dia",
+              "- Levetiracetam 1000-3000mg/dia",
+              "- Oxcarbazepina 600-2400mg/dia"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "ilae-2017"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "ilae-2017"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "ilae-2017"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

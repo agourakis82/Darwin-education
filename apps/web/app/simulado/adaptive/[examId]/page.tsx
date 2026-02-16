@@ -176,7 +176,7 @@ export default function CATExamPage() {
       <div className="sticky top-0 z-40 bg-surface-1 border-b border-separator">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
           <div className="flex items-center gap-4 flex-1 min-w-0">
-            <h1 className="text-lg font-semibold text-white hidden sm:block whitespace-nowrap">
+            <h1 className="text-lg font-semibold text-label-primary hidden sm:block whitespace-nowrap">
               Simulado Adaptativo
             </h1>
             <div className="flex-1 min-w-0">
@@ -292,12 +292,12 @@ export default function CATExamPage() {
       >
         <div className="text-label-primary">
           <p className="mb-4">
-            Voce respondeu <strong>{questionNumber}</strong> questoes ate agora.
+            Você respondeu <strong>{questionNumber}</strong> questões até agora.
           </p>
 
           <p className="text-yellow-400 mb-4">
             Encerrar o simulado antes do final pode gerar resultados menos precisos.
-            A estimativa atual de precisao e de <strong>{Math.round(precision)}%</strong>.
+            A estimativa atual de precisão é de <strong>{Math.round(precision)}%</strong>.
           </p>
 
           <p>Deseja realmente encerrar o simulado?</p>

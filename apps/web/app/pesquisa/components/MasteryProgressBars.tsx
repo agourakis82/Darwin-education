@@ -15,7 +15,7 @@ const CLASSIFICATION_STYLES: Record<MasteryClassification, {
   mastered: { bg: 'bg-emerald-500/10', fill: 'bg-emerald-500', label: 'Dominado' },
   near_mastery: { bg: 'bg-blue-500/10', fill: 'bg-blue-500', label: 'Quase' },
   learning: { bg: 'bg-amber-500/10', fill: 'bg-amber-500', label: 'Aprendendo' },
-  not_started: { bg: 'bg-gray-500/10', fill: 'bg-gray-600', label: 'Nao Iniciado' },
+  not_started: { bg: 'bg-surface-3/70', fill: 'bg-surface-4', label: 'Não iniciado' },
 }
 
 /**

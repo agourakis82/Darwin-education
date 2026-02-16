@@ -1,0 +1,62 @@
+{
+  "id": "flutter-atrial",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "ECG: ondas F (dentes de serra) em DII, DIII, aVF",
+        "Frequência atrial 250-350 bpm",
+        "Condução AV 2:1, 3:1, 4:1 ou variável",
+        "FC ventricular regular (exceto se condução variável)"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Cardioversão elétrica se instável (50-100J)",
+          "Ablação por cateter (alta taxa de sucesso)"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Controle de frequência: betabloqueador ou BCC não-dihidropiridínico",
+              "Anticoagulação: mesmas regras da FA (CHA2DS2-VASc)",
+              "Cardioversão farmacológica menos eficaz que na FA",
+              "Ibutilida IV para cardioversão (hospitalar)"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Restaurar ritmo sinusal ou controlar FC",
+        "Prevenir tromboembolismo"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

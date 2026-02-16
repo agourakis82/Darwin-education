@@ -1,0 +1,87 @@
+{
+  "id": "transtorno-bipolar-ii",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "nice-bipolar-2014"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "nice-bipolar-2014"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Episódio hipomaníaco: humor elevado/irritável + 3 sintomas por ≥4 dias, sem prejuízo funcional marcante",
+        "Episódio depressivo maior: presente ou passado",
+        "Nunca houve episódio maníaco completo"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "nice-bipolar-2014"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Psicoeducação",
+          "Terapia familiar",
+          "Regulação de ritmos sociais"
+        ],
+        "citations": [
+          {
+            "refId": "nice-bipolar-2014"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Lítio ou Lamotrigina (prevenção de episódios)",
+              "Quetiapina (episódio depressivo)",
+              "Evitar antidepressivos isolados (risco de virada maníaca)"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "nice-bipolar-2014"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "nice-bipolar-2014"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "nice-bipolar-2014"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}
+

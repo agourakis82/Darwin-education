@@ -24,7 +24,25 @@ export interface AICostSummary {
 export async function getAICostSummary(
   daysBack: number = 30
 ): Promise<AICostSummary> {
-  const admin = createAdminClient()
+  let admin: ReturnType<typeof createAdminClient> | null = null
+  try {
+    admin = createAdminClient()
+  } catch {
+    admin = null
+  }
+
+  if (!admin) {
+    return {
+      totalTokens: 0,
+      totalCostBRL: 0,
+      totalRequests: 0,
+      totalCacheHits: 0,
+      cacheHitRate: 0,
+      byType: [],
+      daily: [],
+    }
+  }
+
   const since = new Date(Date.now() - daysBack * 24 * 60 * 60 * 1000).toISOString()
 
   const { data: rows, error } = await (admin.from('ai_response_cache') as any)

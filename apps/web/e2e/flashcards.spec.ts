@@ -32,14 +32,14 @@ test.describe('Flashcards (authenticated)', () => {
     const content = await page.textContent('body')
     expect(content?.length).toBeGreaterThan(0)
     // Should show page title or deck list
-    await expect(page.getByText(/Flashcards|Meus Decks/i)).toBeVisible({ timeout: 10_000 })
+    await expect(page.getByRole('heading', { name: 'Flashcards' })).toBeVisible({ timeout: 10_000 })
   })
 
   test('create deck page loads', async ({ page }) => {
     await page.goto('/flashcards/create')
     await expect(page.getByRole('heading', { name: 'Criar Novo Deck' })).toBeVisible()
     await expect(page.getByText('Título')).toBeVisible()
-    await expect(page.getByText('Flashcards')).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'Flashcards' })).toBeVisible()
   })
 
   test('create deck validates required fields', async ({ page }) => {

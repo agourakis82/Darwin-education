@@ -1,0 +1,62 @@
+{
+  "id": "deficiencia-vitamina-b12",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "B12 sérica <200 pg/mL: deficiência",
+        "B12 200-300 pg/mL: zona cinzenta - dosar MMA e homocisteína",
+        "VCM >100 fL (anemia macrocítica)",
+        "Sintomas neurológicos: parestesias, ataxia, alteração cognitiva"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Investigar causa: dieta, anemia perniciosa, gastrite atrófica",
+          "Orientação dietética para vegetarianos"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Deficiência grave/sintomas neurológicos: Cianocobalamina 1000mcg IM 1x/dia por 7 dias, depois semanal por 4 sem, depois mensal",
+              "Deficiência leve: Cianocobalamina oral 1000-2000mcg/dia",
+              "Manutenção vitalícia se anemia perniciosa"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "B12 >400 pg/mL",
+        "Resolução da anemia",
+        "Melhora neurológica"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

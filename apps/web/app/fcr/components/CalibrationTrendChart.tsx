@@ -72,7 +72,7 @@ export function CalibrationTrendChart({ timeline, trending }: CalibrationTrendCh
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-          Tendencia de Calibracao
+          Tendência de Calibração
         </h4>
         <div className={`flex items-center gap-1 text-xs ${trendColor}`}>
           <TrendIcon className="w-3.5 h-3.5" />
@@ -217,7 +217,7 @@ export function CalibrationTrendChart({ timeline, trending }: CalibrationTrendCh
         <div className="flex items-center justify-center gap-4 mt-2 text-xs text-muted-foreground">
           <div className="flex items-center gap-1">
             <div className="w-3 h-0.5 bg-violet-500 rounded" />
-            <span>Calibracao</span>
+            <span>Calibração</span>
           </div>
           <div className="flex items-center gap-1">
             <div className="w-3 h-0.5 bg-amber-500 rounded border-t border-dashed" />

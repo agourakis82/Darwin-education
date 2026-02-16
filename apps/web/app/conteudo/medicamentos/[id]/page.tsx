@@ -1,335 +1,278 @@
-'use client'
-
-import { useState, useEffect } from 'react'
-import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
-import { Button } from '@/components/ui/Button'
-import { getMedicationById, type MedicationDetail } from '@/lib/adapters/medical-data'
+import { ProvenanceBlock } from '@/components/content/ProvenanceBlock'
+import { ReferencesBlock } from '@/components/content/ReferencesBlock'
+import { collectDarwinCitations, extractDarwinLastUpdate } from '@/lib/darwinMfc/citations'
+import { buildMedicationJsonLd } from '@/lib/darwinMfc/jsonld'
+import { getMedicationById } from '@/lib/medical'
 
-export default function MedicationDetailPage() {
-  const params = useParams()
-  const router = useRouter()
-  const medicationId = params.id as string
-
-  const [medication, setMedication] = useState<MedicationDetail | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [activeSection, setActiveSection] = useState('overview')
-
-  useEffect(() => {
-    // Fetch medication from @darwin-mfc/medical-data
-    const medicationData = getMedicationById(medicationId)
-    setMedication(medicationData)
-    setLoading(false)
-  }, [medicationId])
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500" />
-      </div>
-    )
+type MedicationPayload = {
+  mecanismoAcao?: string
+  indicacoes?: string[]
+  contraindicacoes?: string[]
+  efeitosAdversos?: {
+    comuns?: string[]
+    graves?: string[]
   }
+  interacoes?: Array<{ medicamento?: string; efeito?: string; conduta?: string }>
+  monitorizacao?: string[]
+  gestacao?: string
+  posologias?: Array<{
+    indicacao?: string
+    adultos?: string | { dose?: string; frequencia?: string; via?: string; duracao?: string; doseMaxima?: string; observacoes?: string }
+    pediatria?: string | { dose?: string; frequencia?: string; via?: string; duracao?: string; doseMaxima?: string; observacoes?: string }
+    pediatrico?: string | { dose?: string; frequencia?: string; via?: string; duracao?: string; doseMaxima?: string; observacoes?: string }
+  }>
+}
 
-  if (!medication) {
+function formatClassLabel(value: string) {
+  return value
+    .replaceAll('_', ' ')
+    .split(' ')
+    .map((word) => (word ? `${word[0].toUpperCase()}${word.slice(1)}` : word))
+    .join(' ')
+}
+
+function listOrFallback(items: string[] | undefined, fallback: string) {
+  if (!items || items.length === 0) return [fallback]
+  return items.filter(Boolean)
+}
+
+function formatDoseValue(
+  value:
+    | string
+    | {
+        dose?: string
+        frequencia?: string
+        via?: string
+        duracao?: string
+        doseMaxima?: string
+        observacoes?: string
+      }
+    | undefined
+) {
+  if (!value) return ''
+  if (typeof value === 'string') return value
+
+  const primaryParts = [value.dose, value.frequencia, value.via, value.duracao].filter(Boolean)
+  const secondaryParts = [value.doseMaxima ? `Dose máxima: ${value.doseMaxima}` : undefined, value.observacoes].filter(Boolean)
+
+  const primary = primaryParts.join(' • ')
+  const secondary = secondaryParts.join(' • ')
+  return [primary, secondary].filter(Boolean).join(' — ')
+}
+
+export default async function MedicationDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}) {
+  const { id } = await params
+  const { data, error } = await getMedicationById(id)
+
+  if (error) {
     return (
-      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
-        <Card>
-          <CardContent className="py-12 text-center">
-            <p className="text-label-secondary">Medicamento não encontrado</p>
-            <Button onClick={() => router.push('/conteudo/medicamentos')} className="mt-4">
-              Voltar
-            </Button>
+      <div className="min-h-screen bg-surface-0 text-label-primary p-6">
+        <Card className="max-w-3xl mx-auto">
+          <CardContent className="py-8 text-center text-label-secondary">
+            Não foi possível carregar este medicamento.
           </CardContent>
         </Card>
       </div>
     )
   }
 
-  const sections = [
-    { id: 'overview', label: 'Visão Geral' },
-    { id: 'pharmacokinetics', label: 'Farmacocinética' },
-    { id: 'clinical', label: 'Uso Clínico' },
-    { id: 'safety', label: 'Segurança' },
-    { id: 'dosing', label: 'Dosagem' },
-  ]
+  if (!data) {
+    notFound()
+  }
+
+  const payload = (data.payload || {}) as MedicationPayload
+  const citations = collectDarwinCitations(payload)
+  const lastUpdate = extractDarwinLastUpdate(payload)
+
+  const interactions = (payload.interacoes || []).map((item) => {
+    const drug = item.medicamento || 'Interação relevante'
+    const effect = item.efeito || item.conduta || ''
+    return effect ? `${drug}: ${effect}` : drug
+  })
+
+  const jsonLd = buildMedicationJsonLd({
+    id: data.id,
+    genericName: data.generic_name,
+    summary: data.summary || 'Resumo não disponível.',
+    brandNames: data.brand_names,
+    atcCode: data.atc_code,
+    drugClass: data.drug_class,
+    subclass: data.subclass,
+    updatedAt: data.updated_at,
+    citations,
+  })
 
   return (
-    <div className="min-h-screen bg-surface-0 text-white">
-      {/* Header */}
+    <div className="min-h-screen bg-surface-0 text-label-primary">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+
       <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center gap-4">
-            <button
-              onClick={() => router.push('/conteudo/medicamentos')}
-              className="p-2 hover:bg-surface-2 rounded-lg transition-colors"
-            >
+            <Link href="/conteudo/medicamentos" className="p-2 hover:bg-surface-2 rounded-lg transition-colors">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
-            </button>
+            </Link>
             <div className="flex-1">
-              <h1 className="text-xl font-bold">{medication.name}</h1>
+              <h1 className="text-xl font-bold">{data.generic_name}</h1>
               <div className="flex items-center gap-2 mt-1">
-                <span className="px-2 py-0.5 text-xs bg-surface-3 text-label-primary rounded">
-                  {medication.atcCode}
-                </span>
-                <span className="text-sm text-blue-400">{medication.drugClass}</span>
+                {data.atc_code && (
+                  <span className="px-2 py-0.5 text-xs bg-surface-3 text-label-primary rounded">
+                    {data.atc_code}
+                  </span>
+                )}
+                <span className="text-sm text-blue-400">{formatClassLabel(data.drug_class)}</span>
+                {data.subclass && (
+                  <>
+                    <span className="text-label-quaternary">•</span>
+                    <span className="text-sm text-label-secondary">{formatClassLabel(data.subclass)}</span>
+                  </>
+                )}
               </div>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Section Navigation */}
-      <div className="border-b border-separator bg-surface-1/30">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex gap-4 overflow-x-auto py-2">
-            {sections.map((section) => (
-              <button
-                key={section.id}
-                onClick={() => setActiveSection(section.id)}
-                className={`px-3 py-2 text-sm font-medium whitespace-nowrap transition-colors ${
-                  activeSection === section.id
-                    ? 'text-blue-400 border-b-2 border-blue-400'
-                    : 'text-label-secondary hover:text-label-primary'
-                }`}
-              >
-                {section.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Resumo</CardTitle>
+          </CardHeader>
+          <CardContent className="text-label-primary leading-relaxed">
+            {data.summary || 'Resumo não disponível.'}
+          </CardContent>
+        </Card>
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="space-y-6">
-          {/* Overview */}
-          {activeSection === 'overview' && (
-            <>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Resumo</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-label-primary leading-relaxed">{medication.summary}</p>
-                </CardContent>
-              </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Mecanismo e Indicações</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-label-primary leading-relaxed">
+              {payload.mecanismoAcao || 'Mecanismo de ação não informado.'}
+            </p>
+            <ul className="space-y-2 text-label-primary">
+              {listOrFallback(payload.indicacoes, 'Sem indicações detalhadas.').map((item) => (
+                <li key={item} className="list-disc ml-5">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Mecanismo de Ação</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-label-primary leading-relaxed">{medication.mechanism}</p>
-                </CardContent>
-              </Card>
-            </>
-          )}
+        <Card>
+          <CardHeader>
+            <CardTitle>Segurança</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Contraindicações</p>
+              <ul className="space-y-2 text-label-primary">
+                {listOrFallback(payload.contraindicacoes, 'Sem contraindicações detalhadas.').map((item) => (
+                  <li key={item} className="list-disc ml-5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Efeitos adversos</p>
+              <ul className="space-y-2 text-label-primary">
+                {listOrFallback(payload.efeitosAdversos?.comuns, 'Sem efeitos adversos detalhados.').map((item) => (
+                  <li key={item} className="list-disc ml-5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <p className="text-sm text-label-secondary">
+              Gestação: <span className="text-label-primary">{payload.gestacao || 'Não informado'}</span>
+            </p>
+          </CardContent>
+        </Card>
 
-          {/* Pharmacokinetics */}
-          {activeSection === 'pharmacokinetics' && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Farmacocinética</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {Object.entries(medication.pharmacokinetics).map(([key, value]) => {
-                    const labels: Record<string, string> = {
-                      absorption: 'Absorção',
-                      distribution: 'Distribuição',
-                      metabolism: 'Metabolismo',
-                      elimination: 'Eliminação',
-                      halfLife: 'Meia-vida',
-                    }
-                    return (
-                      <div key={key} className="p-3 bg-surface-2/50 rounded-lg">
-                        <p className="text-sm font-medium text-blue-400 mb-1">{labels[key]}</p>
-                        <p className="text-label-primary">{value}</p>
-                      </div>
-                    )
-                  })}
-                </div>
-              </CardContent>
-            </Card>
-          )}
+        <Card>
+          <CardHeader>
+            <CardTitle>Interações e Monitoramento</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Interações relevantes</p>
+              <ul className="space-y-2 text-label-primary">
+                {listOrFallback(interactions, 'Sem interações registradas.').map((item) => (
+                  <li key={item} className="list-disc ml-5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="text-sm text-label-secondary mb-2">Monitoramento</p>
+              <ul className="space-y-2 text-label-primary">
+                {listOrFallback(payload.monitorizacao, 'Sem orientações de monitoramento.').map((item) => (
+                  <li key={item} className="list-disc ml-5">
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </CardContent>
+        </Card>
 
-          {/* Clinical Use */}
-          {activeSection === 'clinical' && (
-            <>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Indicações</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    {medication.indications.map((item, index) => (
-                      <li key={index} className="flex items-start gap-2">
-                        <svg className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <span className="text-label-primary">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Contraindicações</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    {medication.contraindications.map((item, index) => (
-                      <li key={index} className="flex items-start gap-2">
-                        <svg className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-                        </svg>
-                        <span className="text-label-primary">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            </>
-          )}
-
-          {/* Safety */}
-          {activeSection === 'safety' && (
-            <>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Efeitos Adversos</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    {medication.adverseEffects.map((item, index) => (
-                      <li key={index} className="flex items-start gap-2">
-                        <svg className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                        </svg>
-                        <span className="text-label-primary">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Interações Medicamentosas</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    {medication.interactions.map((item, index) => (
-                      <li key={index} className="flex items-start gap-2">
-                        <svg className="w-5 h-5 text-orange-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                        </svg>
-                        <span className="text-label-primary">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Gestação</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-label-primary leading-relaxed">{medication.pregnancy}</p>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader>
-                  <CardTitle>Monitoramento</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2">
-                    {medication.monitoring.map((item, index) => (
-                      <li key={index} className="flex items-start gap-2">
-                        <svg className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                        </svg>
-                        <span className="text-label-primary">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-            </>
-          )}
-
-          {/* Dosing */}
-          {activeSection === 'dosing' && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Posologia</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="p-4 bg-surface-2/50 rounded-lg">
-                    <p className="text-sm font-medium text-emerald-400 mb-2">Adultos</p>
-                    <p className="text-label-primary">{medication.dosing.adult}</p>
-                  </div>
-
-                  {medication.dosing.pediatric && (
-                    <div className="p-4 bg-surface-2/50 rounded-lg">
-                      <p className="text-sm font-medium text-green-400 mb-2">Pediatria</p>
-                      <p className="text-label-primary">{medication.dosing.pediatric}</p>
+        <Card>
+          <CardHeader>
+            <CardTitle>Posologia</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-3 text-label-primary">
+              {(payload.posologias || []).length === 0 ? (
+                <li className="list-disc ml-5">Sem posologia estruturada no payload.</li>
+              ) : (
+                (payload.posologias || []).slice(0, 8).map((item, index) => (
+                  <li key={`${item.indicacao || 'posologia'}-${index}`} className="list-disc ml-5">
+                    <div className="space-y-1">
+                      <div className="font-medium">{item.indicacao || 'Indicação'}</div>
+                      {item.adultos && (
+                        <div className="text-sm text-label-secondary">
+                          Adultos:{' '}
+                          <span className="text-label-primary">
+                            {formatDoseValue(item.adultos) || 'Consultar referência completa'}
+                          </span>
+                        </div>
+                      )}
+                      {(item.pediatria || item.pediatrico) && (
+                        <div className="text-sm text-label-secondary">
+                          Pediátrico:{' '}
+                          <span className="text-label-primary">
+                            {formatDoseValue(item.pediatria || item.pediatrico) || 'Consultar referência completa'}
+                          </span>
+                        </div>
+                      )}
+                      {!item.adultos && !item.pediatria && !item.pediatrico && (
+                        <div className="text-sm text-label-secondary">Consultar referência completa.</div>
+                      )}
                     </div>
-                  )}
+                  </li>
+                ))
+              )}
+            </ul>
+          </CardContent>
+        </Card>
 
-                  {medication.dosing.renal && (
-                    <div className="p-4 bg-surface-2/50 rounded-lg">
-                      <p className="text-sm font-medium text-yellow-400 mb-2">Insuficiência Renal</p>
-                      <p className="text-label-primary">{medication.dosing.renal}</p>
-                    </div>
-                  )}
-
-                  {medication.dosing.hepatic && (
-                    <div className="p-4 bg-surface-2/50 rounded-lg">
-                      <p className="text-sm font-medium text-orange-400 mb-2">Insuficiência Hepática</p>
-                      <p className="text-label-primary">{medication.dosing.hepatic}</p>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Actions */}
-          <Card>
-            <CardContent className="py-4">
-              <div className="flex flex-wrap gap-3">
-                <Button variant="outline" size="sm">
-                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                  </svg>
-                  Criar Flashcard
-                </Button>
-                <Link href={`/simulado?topic=${encodeURIComponent(medication.name)}`}>
-                  <Button variant="outline" size="sm">
-                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                    </svg>
-                    Questões Relacionadas
-                  </Button>
-                </Link>
-                <Button variant="ghost" size="sm">
-                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                  </svg>
-                  Compartilhar
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+        <div className="grid gap-4 lg:grid-cols-2">
+          <ProvenanceBlock lastUpdate={lastUpdate} />
+          <ReferencesBlock citations={citations} />
         </div>
       </main>
     </div>

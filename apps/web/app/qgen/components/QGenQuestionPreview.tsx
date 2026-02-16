@@ -33,9 +33,18 @@ const BLOOM_LABELS: Record<string, string> = {
 
 export function QGenQuestionPreview({ question, showAnswer = true }: QuestionPreviewProps) {
   const letters = ['A', 'B', 'C', 'D', 'E'];
+  const references = extractUrls(question.explanation || '').slice(0, 6);
+  const jsonLd = buildQuestionJsonLd(question, showAnswer, references);
 
   return (
     <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-6">
+      {jsonLd ? (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      ) : null}
+
       {/* Metadata Tags */}
       <div className="flex flex-wrap gap-2 mb-4">
         {question.area && (
@@ -103,7 +112,28 @@ export function QGenQuestionPreview({ question, showAnswer = true }: QuestionPre
       {showAnswer && question.explanation && (
         <div className="mt-6 pt-4 border-t border-surface-3">
           <h4 className="text-sm font-medium text-label-secondary mb-2">Explicação:</h4>
-          <p className="text-label-primary text-sm leading-relaxed">{question.explanation}</p>
+          <p className="text-label-primary text-sm leading-relaxed whitespace-pre-wrap">
+            {question.explanation}
+          </p>
+          {references.length > 0 ? (
+            <div className="mt-3">
+              <h5 className="text-xs font-medium text-label-tertiary mb-1">Referências:</h5>
+              <ul className="space-y-1 text-xs">
+                {references.map((url) => (
+                  <li key={url}>
+                    <a
+                      href={url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="darwin-focus-ring text-emerald-300 hover:text-emerald-200 underline underline-offset-2"
+                    >
+                      {url}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
         </div>
       )}
 
@@ -135,4 +165,53 @@ export function QGenQuestionPreview({ question, showAnswer = true }: QuestionPre
       )}
     </div>
   );
+}
+
+function extractUrls(text: string): string[] {
+  const matches = text.match(/https?:\/\/[^\s)]+/g) || [];
+  return matches.map((u) => u.replace(/[.,;]+$/, '')).filter(Boolean);
+}
+
+function buildQuestionJsonLd(
+  question: QuestionPreviewProps['question'],
+  showAnswer: boolean,
+  references: string[]
+): Record<string, unknown> | null {
+  if (!question?.stem) return null;
+
+  const about = [
+    question.area ? { '@type': 'Thing', name: question.area } : null,
+    question.topic ? { '@type': 'Thing', name: question.topic } : null,
+    question.bloomLevel ? { '@type': 'Thing', name: `Bloom:${question.bloomLevel}` } : null,
+  ].filter(Boolean);
+
+  const suggestedAnswer = (question.options || []).map((opt, idx) => ({
+    '@type': 'Answer',
+    position: idx + 1,
+    text: opt.text,
+  }));
+
+  const accepted = showAnswer
+    ? (question.options || []).find((o) => o.isCorrect)?.text || null
+    : null;
+
+  const jsonLd: Record<string, unknown> = {
+    '@context': 'https://schema.org',
+    '@type': 'Question',
+    text: question.stem,
+    answerCount: suggestedAnswer.length,
+    suggestedAnswer,
+    ...(accepted ? { acceptedAnswer: { '@type': 'Answer', text: accepted } } : {}),
+    ...(about.length > 0 ? { about } : {}),
+    ...(references.length > 0
+      ? {
+          citation: references.map((url) => ({
+            '@type': 'CreativeWork',
+            url,
+          })),
+        }
+      : {}),
+  };
+
+  return jsonLd;
 }

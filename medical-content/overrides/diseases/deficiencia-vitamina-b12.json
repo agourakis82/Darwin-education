@@ -1,0 +1,91 @@
+{
+  "id": "deficiencia-vitamina-b12",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "bsh-b12-2014"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "bsh-b12-2014"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "B12 sérica <200 pg/mL: deficiência",
+        "B12 200-300 pg/mL: zona cinzenta - dosar MMA e homocisteína",
+        "VCM >100 fL (anemia macrocítica)",
+        "Sintomas neurológicos: parestesias, ataxia, alteração cognitiva"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "bsh-b12-2014"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Investigar causa: dieta, anemia perniciosa, gastrite atrófica",
+          "Orientação dietética para vegetarianos"
+        ],
+        "citations": [
+          {
+            "refId": "bsh-b12-2014"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Deficiência grave/sintomas neurológicos: Cianocobalamina 1000mcg IM 1x/dia por 7 dias, depois semanal por 4 sem, depois mensal",
+              "Deficiência leve: Cianocobalamina oral 1000-2000mcg/dia",
+              "Manutenção vitalícia se anemia perniciosa"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "bsh-b12-2014"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "B12 >400 pg/mL",
+        "Resolução da anemia",
+        "Melhora neurológica"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "bsh-b12-2014"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "bsh-b12-2014"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}
+

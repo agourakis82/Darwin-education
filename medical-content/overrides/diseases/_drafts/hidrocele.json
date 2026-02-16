@@ -1,0 +1,60 @@
+{
+  "id": "hidrocele",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Aumento escrotal indolor e progressivo",
+        "Transiluminação positiva (diferencia de hérnia/tumor)",
+        "Testículo não palpável (líquido ao redor)",
+        "USG confirma líquido ao redor do testículo"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Observação se pequena e assintomática",
+          "Em crianças <2 anos: geralmente resolve espontaneamente"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Não há tratamento medicamentoso",
+              "Cirurgia (hidrocelectomia) se sintomática ou grande",
+              "Investigar causa se secundária (trauma, infecção, tumor)"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Resolução do aumento escrotal se sintomático"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

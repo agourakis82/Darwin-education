@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { ClipboardList } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { FeatureState } from '@/components/ui/FeatureState';
 
 interface ExamConfig {
   examName: string;
@@ -80,7 +81,7 @@ export function QGenExamTab() {
       const data = await response.json();
 
       if (!data.success) {
-        throw new Error(data.error || 'Failed to generate exam');
+        throw new Error(data.message || data.error || 'Falha ao gerar prova');
       }
 
       setResult(data);
@@ -122,7 +123,7 @@ export function QGenExamTab() {
               type="text"
               value={config.examName}
               onChange={(e) => setConfig((prev) => ({ ...prev, examName: e.target.value }))}
-              className="w-full bg-surface-1 border border-surface-4 rounded-lg px-4 py-2 text-label-primary"
+              className="darwin-focus-ring w-full rounded-lg border border-separator/80 bg-surface-1 px-4 py-2 text-label-primary"
               placeholder="Simulado ENAMED"
             />
           </div>
@@ -232,9 +233,13 @@ export function QGenExamTab() {
           </Button>
 
           {error && (
-            <div className="p-4 bg-red-900/50 border border-red-700 rounded-lg text-red-200">
-              {error}
-            </div>
+            <FeatureState
+              kind="error"
+              title="Falha na geração da prova"
+              description={error}
+              action={{ label: 'Tentar novamente', onClick: handleGenerate, variant: 'secondary' }}
+              compact
+            />
           )}
         </div>
 
@@ -243,7 +248,7 @@ export function QGenExamTab() {
           <h2 className="text-lg font-semibold text-label-primary mb-4">Resultados</h2>
 
           {isGenerating && (
-            <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-6">
+            <div className="darwin-panel rounded-2xl p-6">
               <div className="mb-4">
                 <div className="w-full bg-surface-3 rounded-full h-3">
                   <div
@@ -261,10 +266,20 @@ export function QGenExamTab() {
             </div>
           )}
 
+          {!isGenerating && !result && !error && (
+            <FeatureState
+              kind="empty"
+              title="Pronto para gerar uma prova completa"
+              description="Configure nome, volume e distribuição para criar um simulado com rastreabilidade de qualidade."
+              icon={<ClipboardList className="h-6 w-6" />}
+              compact
+            />
+          )}
+
           {result && result.metadata && (
             <div className="space-y-4">
               {/* Summary */}
-              <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-6">
+              <div className="darwin-panel rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-label-primary font-medium">
                     {result.examId}
@@ -291,7 +306,7 @@ export function QGenExamTab() {
               </div>
 
               {/* Area Breakdown */}
-              <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-4">
+              <div className="darwin-panel rounded-2xl p-4">
                 <h4 className="text-sm font-medium text-label-secondary mb-3">
                   Distribuição por Área
                 </h4>
@@ -318,7 +333,7 @@ export function QGenExamTab() {
               </div>
 
               {/* Difficulty Breakdown */}
-              <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-4">
+              <div className="darwin-panel rounded-2xl p-4">
                 <h4 className="text-sm font-medium text-label-secondary mb-3">
                   Distribuição por Dificuldade
                 </h4>

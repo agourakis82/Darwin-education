@@ -2,25 +2,81 @@
 
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { createClient } from '@/lib/supabase/client'
+import { getSessionUserSummary } from '@/lib/auth/session'
 import { ModuleList, ModuleContent, type Module, type ModuleType } from '../../components'
 
 interface ModuleData {
   id: string
-  path_id: string
+  path_id: string | null
   title: string
   description: string | null
   type: ModuleType
   order_index: number
   estimated_minutes: number
-  content: any
+  content: Record<string, unknown>
 }
 
 interface PathData {
   id: string
   title: string
+  areas?: string[] | null
+  area?: string | null
+}
+
+const MODULE_TYPE_SET = new Set<ModuleType>(['reading', 'video', 'quiz', 'flashcards', 'case_study'])
+
+const SYSTEM_DECK_BY_AREA: Record<string, string> = {
+  clinica_medica: 'a0000001-0000-0000-0000-000000000001',
+  cirurgia: 'a0000001-0000-0000-0000-000000000002',
+  ginecologia_obstetricia: 'a0000001-0000-0000-0000-000000000003',
+  pediatria: 'a0000001-0000-0000-0000-000000000004',
+  saude_coletiva: 'a0000001-0000-0000-0000-000000000005',
+}
+
+function normalizeModuleType(value: unknown): ModuleType {
+  if (typeof value === 'string' && MODULE_TYPE_SET.has(value as ModuleType)) {
+    return value as ModuleType
+  }
+  return 'reading'
+}
+
+function normalizePositiveNumber(value: unknown) {
+  return typeof value === 'number' && Number.isFinite(value) && value > 0 ? value : null
+}
+
+function toStringArray(value: unknown) {
+  if (!Array.isArray(value)) return []
+  return value.filter((item): item is string => typeof item === 'string' && item.trim().length > 0)
+}
+
+function parseModuleContent(content: unknown): Record<string, unknown> {
+  if (!content) return {}
+
+  if (typeof content === 'string') {
+    const trimmed = content.trim()
+    if (!trimmed) return {}
+
+    try {
+      const parsed = JSON.parse(trimmed)
+      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+        return parsed as Record<string, unknown>
+      }
+    } catch {
+      return { text: trimmed }
+    }
+
+    return {}
+  }
+
+  if (typeof content === 'object' && !Array.isArray(content)) {
+    return content as Record<string, unknown>
+  }
+
+  return {}
 }
 
 export default function ModuleContentPage() {
@@ -40,71 +96,112 @@ export default function ModuleContentPage() {
   }, [pathId, moduleId])
 
   async function loadModule() {
-    const supabase = createClient()
-    const { data: user } = await supabase.auth.getUser()
+    setLoading(true)
 
-    // Load path info
-    const { data: pathData } = await (supabase
-      .from('study_paths') as any)
-      .select('id, title')
-      .eq('id', pathId)
-      .single()
+    const supabase = createClient()
+    const user = await getSessionUserSummary(supabase)
+
+    const pathAttempts: Array<{ select: string; usesAreasArray: boolean }> = [
+      { select: 'id, title, areas', usesAreasArray: true },
+      { select: 'id, title, area', usesAreasArray: false },
+      { select: 'id, title', usesAreasArray: false },
+    ]
+
+    let pathData: PathData | null = null
+    let usesAreasArray = false
+
+    for (const attempt of pathAttempts) {
+      const { data, error } = await (supabase
+        .from('study_paths') as any)
+        .select(attempt.select)
+        .eq('id', pathId)
+        .maybeSingle()
+
+      if (!error && data) {
+        pathData = data as PathData
+        usesAreasArray = attempt.usesAreasArray
+        break
+      }
+    }
 
     if (!pathData) {
+      setLoading(false)
       router.push('/trilhas')
       return
     }
     setPath(pathData)
 
-    // Load current module
+    const resolvedArea = usesAreasArray
+      ? (Array.isArray(pathData.areas) ? (pathData.areas[0] as string | undefined) : undefined)
+      : (typeof pathData.area === 'string' ? pathData.area : undefined)
+
     const { data: moduleData } = await (supabase
       .from('study_modules') as any)
       .select('*')
       .eq('id', moduleId)
-      .single()
+      .maybeSingle()
 
-    if (!moduleData) {
+    if (!moduleData || (moduleData.path_id && moduleData.path_id !== pathId)) {
+      setLoading(false)
       router.push(`/trilhas/${pathId}`)
       return
     }
-    setCurrentModule(moduleData)
 
-    // Load all modules for sidebar navigation
+    const moduleType = normalizeModuleType(moduleData.type)
+    const parsedContent = parseModuleContent(moduleData.content)
+
+    if (
+      moduleType === 'flashcards' &&
+      typeof parsedContent.flashcard_deck_id !== 'string' &&
+      resolvedArea &&
+      SYSTEM_DECK_BY_AREA[resolvedArea]
+    ) {
+      parsedContent.flashcard_deck_id = SYSTEM_DECK_BY_AREA[resolvedArea]
+    }
+
+    setCurrentModule({
+      id: moduleData.id,
+      path_id: moduleData.path_id || null,
+      title: moduleData.title,
+      description: moduleData.description || null,
+      type: moduleType,
+      order_index: typeof moduleData.order_index === 'number' ? moduleData.order_index : 0,
+      estimated_minutes: normalizePositiveNumber(moduleData.estimated_minutes) || 15,
+      content: parsedContent,
+    })
+
     const { data: modulesData } = await (supabase
       .from('study_modules') as any)
       .select('*')
       .eq('path_id', pathId)
       .order('order_index', { ascending: true })
 
-    // Get user progress
     let completedModules: string[] = []
-    if (user.user) {
+    if (user) {
       const { data: progressData } = await (supabase
         .from('user_path_progress') as any)
         .select('completed_modules')
         .eq('path_id', pathId)
-        .eq('user_id', user.user.id)
-        .single()
+        .eq('user_id', user.id)
+        .maybeSingle()
 
-      if (progressData) {
-        completedModules = progressData.completed_modules || []
+      if (progressData?.completed_modules) {
+        completedModules = toStringArray(progressData.completed_modules)
       }
     }
 
-    if (modulesData) {
-      const formattedModules: Module[] = modulesData.map((m: any, index: number) => ({
-        id: m.id,
-        title: m.title,
-        description: m.description,
-        type: m.type,
-        order_index: m.order_index,
-        estimated_minutes: m.estimated_minutes || 15,
-        is_completed: completedModules.includes(m.id),
-        is_locked: index > 0 && !completedModules.includes(modulesData[index - 1].id),
-      }))
-      setModules(formattedModules)
-    }
+    const formattedModules: Module[] = (modulesData || []).map((module: any, index: number) => ({
+      id: module.id,
+      title: module.title,
+      description: module.description || null,
+      type: normalizeModuleType(module.type),
+      order_index: typeof module.order_index === 'number' ? module.order_index : index,
+      estimated_minutes: normalizePositiveNumber(module.estimated_minutes) || 15,
+      is_completed: completedModules.includes(module.id),
+      is_locked: index > 0 && !completedModules.includes(modulesData[index - 1].id),
+    }))
 
+    setModules(formattedModules)
     setLoading(false)
   }
 
@@ -115,55 +212,58 @@ export default function ModuleContentPage() {
 
     try {
       const supabase = createClient()
-      const { data: { user } } = await supabase.auth.getUser()
+      const user = await getSessionUserSummary(supabase)
 
       if (!user) {
         router.push('/login')
         return
       }
 
-      // Get current progress
       const { data: existingProgress } = await (supabase
         .from('user_path_progress') as any)
-        .select('*')
+        .select('id, completed_modules')
         .eq('path_id', pathId)
         .eq('user_id', user.id)
-        .single()
+        .maybeSingle()
 
-      const completedModules = existingProgress?.completed_modules || []
+      const completedModules = toStringArray(existingProgress?.completed_modules)
 
       if (!completedModules.includes(moduleId)) {
         completedModules.push(moduleId)
 
-        if (existingProgress) {
-          // Update existing progress
+        const currentIndex = modules.findIndex((module) => module.id === moduleId)
+        const nextModule = modules[currentIndex + 1]
+        const nextModuleId = nextModule && !nextModule.is_locked ? nextModule.id : null
+        const completedAt = nextModuleId ? null : new Date().toISOString()
+
+        if (existingProgress?.id) {
           await (supabase
             .from('user_path_progress') as any)
             .update({
               completed_modules: completedModules,
-              updated_at: new Date().toISOString(),
+              current_module_id: nextModuleId,
+              completed_at: completedAt,
             })
             .eq('id', existingProgress.id)
         } else {
-          // Create new progress record
           await (supabase
             .from('user_path_progress') as any)
             .insert({
               path_id: pathId,
               user_id: user.id,
               completed_modules: completedModules,
+              current_module_id: nextModuleId,
+              completed_at: completedAt,
             })
         }
       }
 
-      // Find next module
-      const currentIndex = modules.findIndex(m => m.id === moduleId)
+      const currentIndex = modules.findIndex((module) => module.id === moduleId)
       const nextModule = modules[currentIndex + 1]
 
       if (nextModule && !nextModule.is_locked) {
         router.push(`/trilhas/${pathId}/${nextModule.id}`)
       } else {
-        // All done, go back to path overview
         router.push(`/trilhas/${pathId}`)
       }
     } catch (error) {
@@ -182,17 +282,35 @@ export default function ModuleContentPage() {
   }
 
   if (!currentModule || !path) {
-    return null
+    return (
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center p-4">
+        <Card className="max-w-md w-full">
+          <CardContent className="py-8 text-center">
+            <h2 className="text-xl font-semibold text-label-primary mb-2">Módulo indisponível</h2>
+            <p className="text-label-secondary mb-6">
+              Não foi possível carregar este módulo da trilha.
+            </p>
+            <div className="space-y-2">
+              <Button onClick={() => router.push(`/trilhas/${pathId}`)} fullWidth>
+                Voltar para a trilha
+              </Button>
+              <Button variant="outline" onClick={() => router.refresh()} fullWidth>
+                Tentar novamente
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
   }
 
-  const currentModuleInfo = modules.find(m => m.id === moduleId)
-  const currentIndex = modules.findIndex(m => m.id === moduleId)
+  const currentModuleInfo = modules.find((module) => module.id === moduleId)
+  const currentIndex = modules.findIndex((module) => module.id === moduleId)
   const prevModule = modules[currentIndex - 1]
   const nextModule = modules[currentIndex + 1]
 
   return (
-    <div className="min-h-screen bg-surface-0 text-white">
-      {/* Header */}
+    <div className="min-h-screen bg-surface-0 text-label-primary">
       <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
@@ -219,7 +337,6 @@ export default function ModuleContentPage() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Main Content */}
           <div className="lg:col-span-3">
             <Card>
               <CardHeader>
@@ -240,14 +357,13 @@ export default function ModuleContentPage() {
                 <ModuleContent
                   type={currentModule.type}
                   title={currentModule.title}
-                  content={currentModule.content || {}}
+                  content={currentModule.content}
                   onComplete={handleComplete}
                   isCompleting={isCompleting}
                 />
               </CardContent>
             </Card>
 
-            {/* Navigation */}
             <div className="flex justify-between mt-6">
               {prevModule && !prevModule.is_locked ? (
                 <Button
@@ -274,7 +390,6 @@ export default function ModuleContentPage() {
             </div>
           </div>
 
-          {/* Sidebar - Module Navigation */}
           <div className="hidden lg:block">
             <div className="sticky top-24">
               <h3 className="text-sm font-medium text-label-secondary mb-3">Módulos</h3>

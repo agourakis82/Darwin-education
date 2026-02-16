@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { Clock } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
+import { getSessionUserSummary } from '@/lib/auth/session'
 import { LeaderboardEntry } from './LeaderboardEntry'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Skeleton } from '@/components/ui/Skeleton'
@@ -33,7 +34,7 @@ export function LeaderboardWeekly() {
         const supabase = createClient()
 
         // Get current user
-        const { data: { user } } = await supabase.auth.getUser()
+        const user = await getSessionUserSummary(supabase)
         setCurrentUserId(user?.id || null)
 
         // Fetch weekly leaderboard

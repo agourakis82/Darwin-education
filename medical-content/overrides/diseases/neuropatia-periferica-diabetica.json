@@ -1,0 +1,244 @@
+{
+  "id": "neuropatia-periferica-diabetica",
+  "citations": [
+    {
+      "refId": "ada-diabetes-2024",
+      "studyType": "Guideline"
+    },
+    {
+      "refId": "sbd-2024",
+      "studyType": "Guideline"
+    }
+  ],
+  "fullContent": {
+    "epidemiologia": {
+      "prevalencia": "Complicacao comum do diabetes mellitus, associada ao tempo de doenca e ao controle glicemico.",
+      "faixaEtaria": "Mais frequente em adultos com diabetes de longa data, mas pode ocorrer em qualquer idade.",
+      "fatoresRisco": [
+        "Maior duracao do diabetes",
+        "Controle glicemico inadequado",
+        "Hipertensao e dislipidemia",
+        "Tabagismo",
+        "Obesidade",
+        "Doenca renal cronica",
+        "Historia previa de ulcera/lesao em pes"
+      ],
+      "citations": [
+        {
+          "refId": "ada-diabetes-2024",
+          "studyType": "Guideline"
+        },
+        {
+          "refId": "sbd-2024",
+          "studyType": "Guideline"
+        }
+      ]
+    },
+    "fisiopatologia": {
+      "texto": "A neuropatia diabetica envolve mecanismos metabolicos e microvasculares relacionados a hiperglicemia cronica, com dano a fibras nervosas perifericas. A forma mais comum e a polineuropatia sensitivo-motora distal simetrica, frequentemente iniciando em padrao 'meia e luva'.",
+      "citations": [
+        {
+          "refId": "ada-diabetes-2024",
+          "studyType": "Guideline"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [
+        "Dor em queimação ou pontadas (predominio distal)",
+        "Parestesias (formigamento, dormencia)",
+        "Hiperestesia/alodinia",
+        "Perda de sensibilidade protetora nos pes",
+        "Piora noturna",
+        "Instabilidade ao caminhar (por perda proprioceptiva)"
+      ],
+      "sinaisExameFisico": [
+        "Reducao de sensibilidade vibratoria e ao monofilamento",
+        "Reducao de sensibilidade dolorosa/termica",
+        "Reflexos aquileus reduzidos/ausentes",
+        "Alteracoes cutaneas e deformidades nos pes (calosidades, fissuras)",
+        "Ulcerações/lesoes (em casos avancados)"
+      ],
+      "formasClinicas": [
+        "Polineuropatia distal simetrica (mais comum)",
+        "Neuropatia dolorosa",
+        "Neuropatias focais (ex: mononeuropatias)",
+        "Neuropatia autonoma (ex: taquicardia de repouso, hipotensao ortostatica, gastroparesia)"
+      ],
+      "citations": [
+        {
+          "refId": "ada-diabetes-2024",
+          "studyType": "Guideline"
+        },
+        {
+          "refId": "sbd-2024",
+          "studyType": "Guideline"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Diabetes mellitus + sintomas e/ou sinais neurologicos perifericos compativeis",
+        "Exame neurologico focado em sensibilidade (vibracao, tato, dor) e reflexos",
+        "Triagem de perda de sensibilidade protetora com monofilamento de 10 g (Semmes-Weinstein)",
+        "Avaliar pulsos e integridade cutanea dos pes como parte do exame",
+        "Considerar eletroneuromiografia quando diagnostico incerto ou quadro atipico"
+      ],
+      "diagnosticoDiferencial": [
+        "Deficiencia de vitamina B12",
+        "Hipotireoidismo",
+        "Alcoolismo",
+        "Doenca renal cronica/uremia",
+        "Neuropatias hereditarias",
+        "Radiculopatia/estenose de canal",
+        "Uso de medicamentos/toxicos neurotoxicos"
+      ],
+      "examesLaboratoriais": [
+        "Glicemia e HbA1c (avaliar controle glicemico)",
+        "Vitamina B12 (especialmente se uso de metformina prolongado)",
+        "TSH (se suspeita de hipotireoidismo)",
+        "Funcao renal (ureia/creatinina) quando aplicavel"
+      ],
+      "examesImagem": [],
+      "outrosExames": [
+        "Monofilamento 10 g",
+        "Teste de vibracao (diapasao 128 Hz) quando disponivel",
+        "Eletroneuromiografia (casos selecionados)"
+      ],
+      "citations": [
+        {
+          "refId": "ada-diabetes-2024",
+          "studyType": "Guideline"
+        },
+        {
+          "refId": "sbd-2024",
+          "studyType": "Guideline"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [
+        "Reduzir sintomas (especialmente dor neuropatica)",
+        "Prevenir ulceras, infeccoes e amputacoes",
+        "Melhorar funcao e qualidade de vida",
+        "Otimizar controle glicemico e fatores de risco cardiovasculares"
+      ],
+      "naoFarmacologico": {
+        "medidas": [
+          "Otimizar controle glicemico e comorbidades (pressao, lipideos)",
+          "Cessar tabagismo",
+          "Atividade fisica regular, conforme tolerancia",
+          "Educacao e cuidados diarios com os pes (inspecao, higiene, hidratacao, calcados adequados)",
+          "Tratamento de calosidades e encaminhamento para podologia/pe diabetico quando indicado"
+        ],
+        "citations": [
+          {
+            "refId": "ada-diabetes-2024",
+            "studyType": "Guideline"
+          },
+          {
+            "refId": "sbd-2024",
+            "studyType": "Guideline"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Dor neuropatica (primeira linha, conforme disponibilidade e perfil do paciente)",
+            "medicamentos": [
+              "Duloxetina",
+              "Pregabalina",
+              "Gabapentina",
+              "Amitriptilina (ou outros triciclicos, com cautela em idosos)"
+            ],
+            "observacoes": "Escolha individualizada (comorbidades, risco de sedacao/queda, interacoes). Reavaliar resposta e tolerabilidade e titular dose conforme necessario."
+          }
+        ],
+        "segundaLinha": [
+          {
+            "classe": "Dor neuropatica (opcoes adicionais/adjuntas em casos selecionados)",
+            "medicamentos": [
+              "Capsaicina topica (quando disponivel)",
+              "Lidocaina topica (quando disponivel)",
+              "Associacoes farmacologicas sob monitorizacao"
+            ],
+            "observacoes": "Evitar opioides como estrategia cronica de primeira escolha; considerar apenas em situacoes selecionadas e por tempo limitado."
+          }
+        ],
+        "situacoesEspeciais": [
+          {
+            "situacao": "Suspeita de ulceracao/infeccao em pe diabetico",
+            "conduta": "Avaliar e tratar como urgencia relativa; realizar avaliacao vascular e infecciosa, desbridamento quando indicado e encaminhamento especializado."
+          },
+          {
+            "situacao": "Idosos com risco de quedas e polifarmacia",
+            "conduta": "Preferir esquemas com menor risco de sedacao/hipotensao; iniciar em doses baixas e titular lentamente."
+          }
+        ],
+        "citations": [
+          {
+            "refId": "ada-diabetes-2024",
+            "studyType": "Guideline"
+          },
+          {
+            "refId": "sbd-2024",
+            "studyType": "Guideline"
+          }
+        ]
+      },
+      "duracao": "Cronica. O controle de fatores de risco e cuidados com os pes devem ser mantidos continuamente; analgesicos para dor neuropatica devem ser reavaliados periodicamente."
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "Reavaliar em 4-12 semanas apos inicio/ajuste de tratamento para dor; acompanhamento regular conforme gravidade e risco de lesoes em pes.",
+      "examesControle": [
+        "Avaliação periodica dos pes (pele, deformidades, sensibilidade protetora, pulsos)",
+        "HbA1c conforme plano de controle do diabetes",
+        "Revisao de efeitos adversos e interacoes medicamentosas"
+      ],
+      "metasTerapeuticas": [
+        "Redução clinicamente relevante da dor e melhora funcional",
+        "Ausencia de ulcera/lesao em pes",
+        "Controle glicemico individualizado"
+      ],
+      "criteriosEncaminhamento": [
+        "Ulcera, infeccao ou isquemia em pes",
+        "Dor refrataria apesar de tratamento adequado",
+        "Quadro atipico (assimetrico, motor predominante, rapido) ou suspeita de outra etiologia",
+        "Suspeita de neuropatia autonoma significativa"
+      ],
+      "citations": [
+        {
+          "refId": "ada-diabetes-2024",
+          "studyType": "Guideline"
+        },
+        {
+          "refId": "sbd-2024",
+          "studyType": "Guideline"
+        }
+      ]
+    },
+    "prevencao": {
+      "primaria": [
+        "Prevencao de diabetes e controle de fatores de risco metabolicos (quando aplicavel)",
+        "Controle glicemico adequado ao longo do tempo"
+      ],
+      "secundaria": [
+        "Rastreamento periodico de neuropatia em pessoas com diabetes",
+        "Educacao estruturada e cuidados preventivos com os pes"
+      ],
+      "citations": [
+        {
+          "refId": "ada-diabetes-2024",
+          "studyType": "Guideline"
+        },
+        {
+          "refId": "sbd-2024",
+          "studyType": "Guideline"
+        }
+      ]
+    }
+  },
+  "lastUpdate": "2026-02"
+}
+

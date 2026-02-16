@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { FileText, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { FeatureState } from '@/components/ui/FeatureState';
 import { QGenConfigPanel } from './QGenConfigPanel';
 import { QGenQuestionPreview } from './QGenQuestionPreview';
 import { QGenValidationScore } from './QGenValidationScore';
@@ -69,7 +70,7 @@ export function QGenGenerateTab() {
       const data = await response.json();
 
       if (!data.success) {
-        throw new Error(data.error || 'Failed to generate question');
+        throw new Error(data.message || data.error || 'Falha ao gerar questão');
       }
 
       setGeneratedQuestion(data.question);
@@ -102,9 +103,14 @@ export function QGenGenerateTab() {
           </Button>
 
           {error && (
-            <div className="mt-4 p-4 bg-red-900/50 border border-red-700 rounded-lg text-red-200">
-              {error}
-            </div>
+            <FeatureState
+              kind="error"
+              title="Falha na geração de questão"
+              description={error}
+              action={{ label: 'Tentar novamente', onClick: handleGenerate, variant: 'secondary' }}
+              compact
+              className="mt-4"
+            />
           )}
         </div>
 
@@ -119,42 +125,16 @@ export function QGenGenerateTab() {
               )}
             </div>
           ) : (
-            <div className="bg-surface-1/50 shadow-elevation-1 rounded-lg p-8 text-center">
-              <div className="w-16 h-16 rounded-2xl bg-surface-3 flex items-center justify-center mx-auto mb-4">
-                <FileText className="w-8 h-8 text-label-tertiary" />
-              </div>
-              <p className="text-label-secondary">
-                Configure os parâmetros e clique em &quot;Gerar Questão&quot;
-              </p>
-            </div>
+            <FeatureState
+              kind="empty"
+              title="Prévia aguardando geração"
+              description="Configure os parâmetros e clique em “Gerar Questão” para visualizar o resultado com validação."
+              icon={<FileText className="h-6 w-6" />}
+              compact
+            />
           )}
         </div>
       </div>
     </div>
-  );
-}
-
-function LoadingSpinner() {
-  return (
-    <svg
-      className="animate-spin h-5 w-5"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-    >
-      <circle
-        className="opacity-25"
-        cx="12"
-        cy="12"
-        r="10"
-        stroke="currentColor"
-        strokeWidth="4"
-      />
-      <path
-        className="opacity-75"
-        fill="currentColor"
-        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-      />
-    </svg>
   );
 }

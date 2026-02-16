@@ -60,7 +60,7 @@ export function GeneratedQuestionPreview({
       <CardContent>
         {/* Stem */}
         <div className="mb-6">
-          <p className="text-white leading-relaxed">{question.stem}</p>
+          <p className="text-label-primary leading-relaxed">{question.stem}</p>
         </div>
 
         {/* Options */}

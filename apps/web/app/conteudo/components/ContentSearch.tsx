@@ -60,7 +60,7 @@ export function ContentSearch({ placeholder = 'Buscar...', type, onSearch }: Con
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           placeholder={placeholder}
-          className="w-full px-4 py-3 pl-12 pr-24 bg-surface-2 border border-separator rounded-lg text-white placeholder-label-secondary focus:outline-none focus:border-emerald-500 transition-colors"
+          className="w-full px-4 py-3 pl-12 pr-24 bg-surface-2 border border-separator rounded-lg text-label-primary placeholder-label-secondary focus:outline-none focus:border-emerald-500 transition-colors"
         />
 
         {/* Search icon */}
@@ -109,7 +109,7 @@ export function ContentSearch({ placeholder = 'Buscar...', type, onSearch }: Con
               <svg className="w-4 h-4 text-label-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
-              Buscar "{query}" em {type === 'doencas' ? 'Doenças' : 'Medicamentos'}
+              Buscar “{query}” em {type === 'doencas' ? 'Doenças' : type === 'teoria' ? 'Teoria Clínica' : 'Medicamentos'}
             </button>
           </div>
         </div>

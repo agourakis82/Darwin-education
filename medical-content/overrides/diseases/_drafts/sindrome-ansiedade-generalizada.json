@@ -1,0 +1,58 @@
+{
+  "id": "sindrome-ansiedade-generalizada",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Ansiedade excessiva ≥6 meses",
+        "Dificuldade em controlar preocupações",
+        "≥3 sintomas: inquietação, fadiga, dificuldade concentração, irritabilidade, tensão muscular, distúrbio sono"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "TCC",
+          "Psicoterapia",
+          "Técnicas de relaxamento",
+          "Exercícios"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "ISRS: Sertralina ou Escitalopram",
+              "Benzodiazepínicos apenas curto prazo se necessário"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

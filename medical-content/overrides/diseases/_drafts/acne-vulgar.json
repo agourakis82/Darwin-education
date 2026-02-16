@@ -1,0 +1,60 @@
+{
+  "id": "acne-vulgar",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Lesões típicas: comedões, pápulas, pústulas, nódulos",
+        "Localização: face, tórax, dorso",
+        "Idade: principalmente adolescentes/adultos jovens"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Higiene adequada",
+          "Evitar espremer lesões",
+          "Protetor solar não comedogênico",
+          "Dieta: reduzir açúcar/laticínios pode ajudar"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Leve: Peróxido de benzoíla tópico 2,5-10%",
+              "Moderada: Peróxido de benzoíla + Retinoide tópico",
+              "Severa: Doxiciclina ou Minociclina oral + Tretinoína tópica",
+              "Mulheres: Anticoncepcional oral combinado se indicado"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

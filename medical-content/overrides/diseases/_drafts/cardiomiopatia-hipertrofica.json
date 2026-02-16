@@ -1,0 +1,63 @@
+{
+  "id": "cardiomiopatia-hipertrofica",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Eco: espessura VE ≥15mm sem causa",
+        "Obstrução dinâmica de VSVE (gradiente ≥30 mmHg)",
+        "Movimento sistólico anterior da mitral (SAM)",
+        "ECG: hipertrofia VE, ondas Q, alterações de ST-T"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Evitar exercício competitivo de alta intensidade",
+          "Rastreamento familiar (1º grau)",
+          "Aconselhamento genético"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Betabloqueador (propranolol, metoprolol) - primeira linha",
+              "Verapamil se intolerância a BB",
+              "Mavacamten (inibidor de miosina) - novo",
+              "CDI se alto risco de morte súbita"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Prevenção de morte súbita",
+        "Controle de sintomas"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

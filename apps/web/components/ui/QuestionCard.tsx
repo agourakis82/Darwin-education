@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import type { ENAMEDQuestion, DifficultyLevel } from '@darwin-education/shared'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { ExplanationPanel } from '@/components/ai/ExplanationPanel'
 import { AREA_COLORS, AREA_LABELS } from '@/lib/area-colors'
 
@@ -54,15 +56,15 @@ export function QuestionCard({
 
     if (showCorrectAnswer) {
       if (isCorrect) {
-        return 'border-emerald-500 bg-emerald-900/30 text-emerald-300'
+        return 'border-emerald-500/60 bg-emerald-500/12 text-label-primary shadow-inner-shine'
       }
       if (isSelected && !isCorrect) {
-        return 'border-red-500 bg-red-900/30 text-red-300'
+        return 'border-red-500/60 bg-red-500/10 text-label-primary shadow-inner-shine'
       }
     }
 
     if (isSelected) {
-      return 'border-emerald-500 bg-emerald-900/20 text-white'
+      return 'border-emerald-500/55 bg-emerald-500/12 text-label-primary shadow-inner-shine'
     }
 
     return 'border-separator hover:border-label-quaternary hover:bg-surface-2/50 text-label-primary'
@@ -97,8 +99,8 @@ export function QuestionCard({
       </div>
 
       {/* Question Text */}
-      <div className="prose prose-invert max-w-none mb-6">
-        <p className="text-white text-base leading-relaxed whitespace-pre-wrap">
+      <div className="prose max-w-none mb-6 dark:prose-invert">
+        <p className="text-label-primary text-base leading-relaxed whitespace-pre-wrap">
           {question.stem}
         </p>
       </div>
@@ -178,7 +180,9 @@ export function QuestionCard({
       {showExplanation && question.explanation && (
         <div className="mt-6 p-4 bg-surface-2/50 rounded-lg border border-separator">
           <h4 className="text-sm font-medium text-emerald-400 mb-2">Explicação</h4>
-          <p className="text-label-primary text-sm leading-relaxed">{question.explanation}</p>
+          <div className="prose prose-sm max-w-none dark:prose-invert text-label-primary">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{question.explanation}</ReactMarkdown>
+          </div>
         </div>
       )}
 

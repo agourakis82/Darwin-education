@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react'
+import { type KeyboardEvent, type ReactNode } from 'react'
 
 type CardVariant = 'default' | 'glass' | 'elevated' | 'outlined'
 
@@ -19,17 +19,20 @@ const paddingStyles = {
 }
 
 const variantStyles: Record<CardVariant, string> = {
-  default: 'bg-surface-2 rounded-lg shadow-elevation-1',
-  glass: 'material-thin rounded-lg shadow-elevation-1 border border-white/[0.06] shadow-inner-shine',
-  elevated: 'bg-surface-3 rounded-lg shadow-elevation-3',
-  outlined: 'bg-transparent border border-separator rounded-lg',
+  default: 'darwin-panel rounded-2xl border border-separator/80',
+  glass: 'material-thin rounded-2xl border border-separator/70 shadow-elevation-2 shadow-inner-shine',
+  elevated: 'rounded-2xl border border-separator/80 bg-surface-2 shadow-elevation-3',
+  outlined: 'rounded-2xl border border-separator bg-transparent',
 }
 
 const hoverVariantStyles: Record<CardVariant, string> = {
-  default: 'hover:shadow-elevation-2 hover:bg-surface-3/80 transition-all duration-200 cursor-pointer',
-  glass: 'hover:shadow-elevation-2 hover:bg-white/[0.08] transition-all duration-200 cursor-pointer',
-  elevated: 'hover:shadow-elevation-4 transition-all duration-200 cursor-pointer',
-  outlined: 'hover:border-white/[0.12] hover:bg-surface-2/50 transition-all duration-200 cursor-pointer',
+  default:
+    'darwin-card-interactive cursor-pointer hover:border-separator/95 hover:bg-surface-2/90 hover:shadow-elevation-3',
+  glass:
+    'darwin-card-interactive cursor-pointer hover:border-separator/95 hover:bg-surface-1/90 hover:shadow-elevation-3',
+  elevated: 'darwin-card-interactive cursor-pointer hover:bg-surface-3/90 hover:shadow-elevation-4',
+  outlined:
+    'darwin-card-interactive cursor-pointer hover:border-separator/95 hover:bg-surface-1/60 hover:shadow-elevation-2',
 }
 
 export function Card({
@@ -40,21 +43,32 @@ export function Card({
   hover = false,
   onClick,
 }: CardProps) {
-  const Component = onClick ? 'button' : 'div'
+  const isClickable = Boolean(onClick)
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (!onClick) return
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      onClick()
+    }
+  }
 
   return (
-    <Component
+    <div
       onClick={onClick}
+      onKeyDown={isClickable ? handleKeyDown : undefined}
+      role={isClickable ? 'button' : undefined}
+      tabIndex={isClickable ? 0 : undefined}
       className={`
         ${variantStyles[variant]}
         ${paddingStyles[padding]}
         ${hover || onClick ? hoverVariantStyles[variant] : ''}
-        ${onClick ? 'text-left w-full' : ''}
+        ${isClickable ? 'text-left w-full darwin-focus-ring' : ''}
+        relative overflow-hidden
         ${className}
       `}
     >
       {children}
-    </Component>
+    </div>
   )
 }
 

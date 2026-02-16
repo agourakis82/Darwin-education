@@ -13,6 +13,8 @@ import {
   type BKTMasteryState,
   type ENAMEDArea,
 } from '@darwin-education/shared'
+import { isMissingTableError, isSchemaDriftError } from '@/lib/supabase/errors'
+import { getSessionUserSummary } from '@/lib/auth/session'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -26,28 +28,39 @@ export async function GET(request: NextRequest) {
   try {
     const supabase = await createServerClient()
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-    if (authError || !user) {
+    const user = await getSessionUserSummary(supabase)
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     // Load response history grouped by knowledge component
     const { data: activityRows, error: actError } = await (supabase as any)
       .from('study_activity_log')
-      .select('knowledge_component, correct, area, created_at')
+      .select('knowledge_component, correct, area, created_at, activity_type, item_id')
       .eq('user_id', user.id)
       .not('knowledge_component', 'is', null)
       .order('created_at', { ascending: true })
 
-    if (actError) {
-      console.error('Error loading activity data:', actError)
-      return NextResponse.json(
-        { error: 'Failed to load mastery data' },
-        { status: 500 }
-      )
-    }
+    let rows = activityRows || []
+    let schemaWarning: string | undefined
 
-    const rows = activityRows || []
+    if (actError) {
+      if (isMissingTableError(actError)) {
+        console.warn(
+          'BKT mastery skipped: study_activity_log table missing in local beta.'
+        )
+        rows = []
+        schemaWarning = 'Dados indisponíveis neste ambiente (tabela de atividade ausente).'
+      } else if (isSchemaDriftError(actError)) {
+        console.warn('BKT mastery skipped due to schema drift:', actError)
+        rows = []
+        schemaWarning = 'Dados indisponíveis neste ambiente (schema em migração).'
+      } else {
+        console.error('Error loading activity data:', actError)
+        rows = []
+        schemaWarning = 'Não foi possível carregar dados de atividade neste momento.'
+      }
+    }
 
     if (rows.length < 5) {
       return NextResponse.json({
@@ -56,7 +69,9 @@ export async function GET(request: NextRequest) {
         summary: {
           totalObservations: rows.length,
           minRequired: 5,
-          message: 'Complete pelo menos 5 atividades com componentes de conhecimento para rastreamento BKT.',
+          message:
+            schemaWarning ||
+            'Complete pelo menos 5 atividades com componentes de conhecimento para rastreamento BKT.',
         },
       })
     }

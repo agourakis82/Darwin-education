@@ -48,12 +48,12 @@ export function ImageStepContent({
             ? selectedValues.includes(option.id)
             : selectedValue === option.id
 
-          let borderColor = 'border-border hover:border-primary/50'
+          let borderColor = 'border-border hover:border-emerald-500/45'
           let bgColor = 'bg-card'
 
           if (isSelected && !isSubmitted) {
-            borderColor = 'border-primary'
-            bgColor = 'bg-primary/10'
+            borderColor = 'border-emerald-500/60'
+            bgColor = 'bg-emerald-500/10'
           } else if (isSubmitted && option.isCorrect) {
             borderColor = 'border-green-500'
             bgColor = 'bg-green-500/10'
@@ -88,7 +88,7 @@ export function ImageStepContent({
                       className={`w-5 h-5 rounded border-2 flex items-center justify-center text-xs
                         ${
                           isSelected
-                            ? 'bg-primary border-primary text-primary-foreground'
+                            ? 'bg-emerald-600 border-emerald-500 text-white'
                             : 'border-muted-foreground'
                         }
                         ${isSubmitted && option.isCorrect ? 'bg-green-500 border-green-500 text-white' : ''}
@@ -102,7 +102,7 @@ export function ImageStepContent({
                       className={`w-5 h-5 rounded-full border-2 flex items-center justify-center
                         ${
                           isSelected
-                            ? 'border-primary'
+                            ? 'border-emerald-500'
                             : 'border-muted-foreground'
                         }
                         ${isSubmitted && option.isCorrect ? 'border-green-500' : ''}
@@ -114,7 +114,7 @@ export function ImageStepContent({
                           className={`w-3 h-3 rounded-full
                             ${isSubmitted && option.isCorrect ? 'bg-green-500' : ''}
                             ${isSubmitted && isSelected && !option.isCorrect ? 'bg-red-500' : ''}
-                            ${!isSubmitted && isSelected ? 'bg-primary' : ''}
+                            ${!isSubmitted && isSelected ? 'bg-emerald-500' : ''}
                           `}
                         />
                       )}

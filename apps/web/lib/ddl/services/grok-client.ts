@@ -5,8 +5,9 @@
 import OpenAI from 'openai'
 
 // Grok API is OpenAI-compatible
+const grokApiKey = process.env.XAI_API_KEY || process.env.GROK_API_KEY || ''
 const grok = new OpenAI({
-  apiKey: process.env.XAI_API_KEY || '',
+  apiKey: grokApiKey,
   baseURL: 'https://api.x.ai/v1',
 })
 
@@ -33,8 +34,8 @@ export async function grokChat(
     temperature = 0.3,
   } = options
 
-  if (!process.env.XAI_API_KEY) {
-    throw new Error('XAI_API_KEY environment variable is not set')
+  if (!grokApiKey) {
+    throw new Error('XAI_API_KEY or GROK_API_KEY environment variable is not set')
   }
 
   const response = await grok.chat.completions.create({

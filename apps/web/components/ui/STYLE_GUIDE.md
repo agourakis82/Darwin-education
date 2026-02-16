@@ -1,25 +1,28 @@
 # Darwin Education UI Component Style Guide
 
-## Color Palette
+## Color System (V6)
 
-### Primary Colors
-- **Dark Background**: `bg-slate-900` (#0f172a)
-- **Darker Border**: `border-slate-800` (#1e293b)
-- **Light Border**: `border-slate-700` (#334155)
-- **Accent**: `text-slate-400` (#78716c)
+Darwin uses a semantic, theme-driven token palette. Prefer these tokens over hard-coded utilities like `bg-slate-*` and `text-white`.
 
-### Text Colors
-- **Primary Text**: `text-white` (#ffffff)
-- **Secondary Text**: `text-slate-300` (#cbd5e1)
-- **Tertiary Text**: `text-slate-400` (#94a3b8)
-- **Muted Text**: `text-slate-500` (#64748b)
+### Semantic surfaces (theme-driven)
+- **Backgrounds**: `bg-surface-0` → `bg-surface-5`
+- **Borders**: `border-separator` (and `border-separator/…` for opacity)
 
-### Accent Colors
-- **Primary (Emerald)**: `bg-emerald-600` / `text-emerald-400`
-- **Error (Red)**: `bg-red-600` / `text-red-400`
-- **Warning (Amber)**: `bg-amber-600` / `text-amber-400`
-- **Info (Blue)**: `bg-blue-600` / `text-blue-400`
-- **Success (Emerald)**: `bg-emerald-900` / `text-emerald-100` (for toast background)
+### Semantic text labels (theme-driven)
+- **Primary**: `text-label-primary`
+- **Secondary**: `text-label-secondary`
+- **Tertiary**: `text-label-tertiary`
+- **Quaternary**: `text-label-quaternary`
+- **Faint**: `text-label-faint`
+
+### Accent scales
+- **Primary (emerald)**: `bg-primary-600`, `text-primary-400`, etc.
+- **Accent (purple)**: `bg-accent-600`, `text-accent-400`, etc.
+
+### “Apple glass” utilities
+- Panels: `darwin-panel`, `darwin-panel-strong`
+- Materials: `material-thin`, `material-regular`, `material-thick`
+- Focus: `darwin-focus-ring`
 
 ## Component Styling Standards
 
@@ -27,41 +30,41 @@
 ```tsx
 // Base styles
 className={`
-  inline-flex items-center justify-center gap-2
-  font-medium rounded-lg border transition-colors
-  disabled:opacity-50 disabled:cursor-not-allowed
+  darwin-focus-ring inline-flex items-center justify-center gap-2
+  font-medium transition-all active:scale-[0.98]
+  disabled:cursor-not-allowed disabled:opacity-50
 `}
 
 // Variants
-primary:    'bg-emerald-600 hover:bg-emerald-500 text-white'
-secondary:  'bg-slate-700 hover:bg-slate-600 text-white'
-outline:    'bg-transparent hover:bg-slate-800 text-emerald-400 border-emerald-600'
-ghost:      'bg-transparent hover:bg-slate-800 text-slate-300'
-danger:     'bg-red-600 hover:bg-red-500 text-white'
+primary:    'bg-gradient-to-b from-emerald-500 to-emerald-600 text-white shadow-elevation-2 shadow-inner-shine hover:from-emerald-400 hover:to-emerald-500'
+secondary:  'darwin-panel border border-separator/80 text-label-primary hover:bg-surface-2/85'
+outline:    'border border-emerald-400/45 bg-transparent text-emerald-300 hover:bg-emerald-500/10'
+ghost:      'bg-transparent text-label-secondary hover:bg-surface-3/70 hover:text-label-primary'
+danger:     'bg-gradient-to-b from-rose-500 to-rose-600 text-white shadow-elevation-2 shadow-inner-shine hover:from-rose-400 hover:to-rose-500'
 
 // Sizes
-sm: 'px-3 py-1.5 text-sm'
-md: 'px-4 py-2 text-base'
-lg: 'px-6 py-3 text-lg'
+sm: 'px-3 py-2 text-sm rounded-lg'
+md: 'px-4 py-2.5 text-base rounded-xl'
+lg: 'px-6 py-3.5 text-lg rounded-xl'
 ```
 
 ### Cards
 ```tsx
 className={`
-  bg-slate-900 border border-slate-800 rounded-xl
+  bg-surface-2 border border-separator rounded-xl shadow-elevation-1
   ${padding}
-  ${hover ? 'hover:border-slate-700 hover:bg-slate-800/50 transition-colors' : ''}
+  ${hover ? 'hover:bg-surface-3/80 hover:shadow-elevation-2 transition-colors' : ''}
 `}
 ```
 
 ### Inputs
 ```tsx
 className={`
-  w-full px-4 py-3 bg-slate-800 border rounded-lg text-white
-  placeholder-slate-500 transition-colors
+  w-full px-4 py-3 bg-surface-2 border border-separator rounded-lg text-label-primary
+  placeholder:text-label-quaternary transition-colors
   focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent
   disabled:opacity-50 disabled:cursor-not-allowed
-  ${error ? 'border-red-500' : 'border-slate-700'}
+  ${error ? 'border-red-500' : 'border-separator'}
 `}
 ```
 
@@ -72,8 +75,8 @@ className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 b
 
 // Modal
 className={`
-  w-full ${sizeStyles[size]} bg-slate-900 border border-slate-800
-  rounded-xl shadow-2xl animate-in fade-in zoom-in-95 duration-200
+  w-full ${sizeStyles[size]} bg-surface-1 border border-separator/80
+  rounded-2xl shadow-elevation-5 animate-in fade-in zoom-in-95 duration-200
 `}
 ```
 
@@ -99,7 +102,7 @@ info:    'bg-blue-900/90 border-blue-700 text-blue-100'
 ### Skeletons
 ```tsx
 // Base
-className="bg-slate-800 rounded-lg animate-pulse"
+className="bg-surface-3/75 rounded-lg animate-pulse"
 
 // Usage examples
 h-4 w-full            // Text line
@@ -138,16 +141,16 @@ sm:  4px  (0.25rem)
 ## Typography
 
 ### Font Family
-- **Base**: Inter (from Google Fonts)
-- **All text**: Single family for consistency
+- **Base**: SF Pro scale (with system fallbacks)
+- **All text**: Keep typography semantic and consistent
 
 ### Font Sizes
 ```
-text-xs:  12px (0.75rem)
-text-sm:  14px (0.875rem)
-text-base: 16px (1rem)
-text-lg:  18px (1.125rem)
-text-xl:  20px (1.25rem)
+text-xs:  11px
+text-sm:  13px
+text-base: 15px
+text-lg:  17px
+text-xl:  20px
 ```
 
 ### Font Weights
@@ -160,15 +163,15 @@ font-bold:      700
 ### Text Hierarchy
 
 **Headings**
-- Page title: `text-3xl font-bold text-white`
-- Section title: `text-xl font-semibold text-white`
-- Card title: `text-lg font-semibold text-white`
-- Label: `text-sm font-medium text-slate-300`
+- Page title: `text-3xl font-bold text-label-primary`
+- Section title: `text-xl font-semibold text-label-primary`
+- Card title: `text-lg font-semibold text-label-primary`
+- Label: `text-sm font-medium text-label-secondary`
 
 **Body Text**
-- Default: `text-base text-slate-300`
-- Secondary: `text-sm text-slate-400`
-- Muted: `text-xs text-slate-500`
+- Default: `text-base text-label-secondary`
+- Secondary: `text-sm text-label-tertiary`
+- Muted: `text-xs text-label-quaternary`
 
 ## Animations
 
@@ -295,12 +298,9 @@ const { error: showError } = useToast()
 
 ## Dark Mode Notes
 
-- All components default to dark mode
-- Background: `bg-slate-900` (darkest)
-- Light text: `text-white` or `text-slate-300`
-- Borders: Use darker shades for contrast
-- Accent: Emerald is bright enough for dark backgrounds
-- No light mode variants currently (future enhancement)
+- Theme is controlled by `ThemeProvider` (adds `.light`/`.dark` on `html`).
+- Prefer semantic tokens (`surface-*`, `label-*`, `separator`) so components render correctly in both themes.
+- Avoid “theme-specific” hard-coding (e.g. `bg-slate-900`, `text-white`) unless intentionally used as a *non-semantic* accent (like CTA gradients).
 
 ## Component Composition Example
 

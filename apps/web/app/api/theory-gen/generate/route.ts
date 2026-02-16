@@ -25,15 +25,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GenerationRequest } from '@darwin-education/shared';
 import GenerationService from '@/lib/theory-gen/services/generation-service';
+import { createServerClient } from '@/lib/supabase/server';
+import { getSessionUserSummary } from '@/lib/auth/session';
+import { isMissingTableError, isSchemaDriftError } from '@/lib/supabase/errors';
+import { hasGrokCompatibleApiKey, grokServiceUnavailable } from '@/lib/ai/key-availability';
 
 export async function POST(request: NextRequest) {
   try {
     // Get user and check authorization
-    const user = await getUser(request);
+    const user = await getUser();
     if (!user || user.role !== 'admin') {
       return NextResponse.json(
-        { error: 'Unauthorized - Admin access required' },
-        { status: 401 }
+        { error: 'Acesso negado — somente administradores' },
+        { status: user ? 403 : 401 }
       );
     }
 
@@ -50,9 +54,13 @@ export async function POST(request: NextRequest) {
 
     if (!generationRequest.topicTitle || !generationRequest.area) {
       return NextResponse.json(
-        { error: 'Missing required fields: topicTitle, area' },
+        { error: 'Campos obrigatórios ausentes: topicTitle, area' },
         { status: 400 }
       );
+    }
+
+    if (!hasGrokCompatibleApiKey()) {
+      return grokServiceUnavailable('de geração de teoria')
     }
 
     // Initialize generation service
@@ -83,10 +91,35 @@ export async function POST(request: NextRequest) {
  * Helper: Get authenticated user from request
  * This would use Supabase or your auth provider
  */
-async function getUser(request: NextRequest) {
-  // TODO: Implement actual auth check
-  // For now, assume authentication is handled upstream
-  return { id: 'user-123', role: 'admin' };
+async function getUser() {
+  const supabase = await createServerClient()
+  const user = await getSessionUserSummary(supabase)
+  if (!user) {
+    return null
+  }
+
+  const { data: profile, error: profileError } = await (supabase.from('profiles') as any)
+    .select('subscription_tier')
+    .eq('id', user.id)
+    .single()
+
+  if (profileError) {
+    if (isMissingTableError(profileError) || isSchemaDriftError(profileError)) {
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('Admin check skipped due to schema drift:', profileError)
+      }
+      return { id: user.id, role: 'user' as const }
+    }
+
+    console.error('Error loading profile for admin check:', profileError)
+    return { id: user.id, role: 'user' as const }
+  }
+
+  if (!profile || profile.subscription_tier !== 'institutional') {
+    return { id: user.id, role: 'user' as const }
+  }
+
+  return { id: user.id, role: 'admin' as const }
 }
 
 /**

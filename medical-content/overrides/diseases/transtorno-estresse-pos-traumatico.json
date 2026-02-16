@@ -1,0 +1,90 @@
+{
+  "id": "transtorno-estresse-pos-traumatico",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "nice-ptsd-2018"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "nice-ptsd-2018"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Exposição a trauma (morte, lesão grave, violência)",
+        "Sintomas de intrusão: memórias, sonhos, flashbacks",
+        "Evitação persistente",
+        "Alterações cognitivas/mood negativas",
+        "Hiperexcitação e reatividade",
+        "Duração >1 mês"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "nice-ptsd-2018"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "TEPT-F (terapia focada em trauma): EMDR, terapia de exposição prolongada",
+          "TCC com exposição",
+          "Terapia cognitiva para TEPT"
+        ],
+        "citations": [
+          {
+            "refId": "nice-ptsd-2018"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "ISRS: Sertralina, Paroxetina (aprovados pelo FDA)",
+              "ISRN: Venlafaxina",
+              "Prazosina (para pesadelos)"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "nice-ptsd-2018"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "nice-ptsd-2018"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "nice-ptsd-2018"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}
+

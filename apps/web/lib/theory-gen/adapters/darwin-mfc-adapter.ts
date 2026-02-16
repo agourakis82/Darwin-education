@@ -1,7 +1,7 @@
 /**
  * Darwin-MFC Adapter
  *
- * Provides interface to Darwin-MFC medical data (368 diseases, 690 medications)
+ * Provides interface to Darwin-MFC medical data (runtime-enumerated; counts vary by release)
  * Supports disease lookup by ID, title, or ICD-10 code
  *
  * Falls back to empty data when package is unavailable (e.g., Vercel deployment)

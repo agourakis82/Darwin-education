@@ -1,0 +1,58 @@
+{
+  "id": "escabiose",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Prurido intenso noturno",
+        "Lesões em interdigitais, punhos, axilas, genitais",
+        "Sulcos/túneis característicos",
+        "Contato familiar com prurido"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Tratar todos os contatos domiciliares",
+          "Lavar roupas e lençóis em água quente",
+          "Ensacar roupas não laváveis por 72h"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Permetrina 5% creme: aplicar do pescoço aos pés, lavar após 8-14h, repetir em 7 dias",
+              "Ivermectina 200mcg/kg VO dose única (casos extensos)"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

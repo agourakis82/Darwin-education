@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { spring } from '@/lib/motion'
 import {
@@ -57,7 +58,7 @@ const methods = [
     slug: 'questoes-ativas',
     icon: <HelpCircle className="w-6 h-6" />,
     title: 'Questões Ativas',
-    description: 'Active recall: o método mais eficaz para retenção',
+    description: 'Active recall: recupere, erre, corrija e consolide',
     color: 'purple' as const,
     hasTool: false,
   },
@@ -81,7 +82,7 @@ const methods = [
 
 export default function MetodosEstudoPage() {
   return (
-    <div className="min-h-screen bg-surface-0 text-white">
+    <div className="min-h-screen bg-surface-0 text-label-primary">
       <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <Link href="/" className="inline-flex items-center gap-2 text-sm text-label-secondary hover:text-label-primary transition-colors mb-3">
@@ -98,6 +99,22 @@ export default function MetodosEstudoPage() {
       </header>
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="relative mb-8 h-44 md:h-52 overflow-hidden rounded-2xl border border-separator/70">
+          <Image
+            src="/images/branding/metodos-estudo-hero-apple-v1.png"
+            alt="Visual de métodos de estudo com materiais organizados"
+            fill
+            sizes="(max-width: 768px) 100vw, 1200px"
+            priority
+            className="object-cover object-center opacity-75"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-surface-0/90 via-surface-0/70 to-surface-0/35" />
+          <div className="relative z-10 h-full flex items-end p-5 md:p-7">
+            <p className="text-sm md:text-base text-label-secondary max-w-lg">
+              Estratégias práticas para foco, retenção e constância no preparo para o ENAMED.
+            </p>
+          </div>
+        </div>
         <motion.div
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
           variants={container}

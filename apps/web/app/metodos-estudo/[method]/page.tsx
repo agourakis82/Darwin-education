@@ -19,6 +19,8 @@ import {
 import type { ReactNode } from 'react'
 import { PomodoroTimer } from '../pomodoro/components/PomodoroTimer'
 import { WeeklyPlanner } from '../gestao-tempo/components/WeeklyPlanner'
+import { BibliographyBlock } from '@/components/content/BibliographyBlock'
+import { STUDY_METHODS_BIBLIOGRAPHY } from '@/lib/references/bibliography'
 
 interface MethodContent {
   title: string
@@ -38,7 +40,7 @@ const METHODS: Record<string, MethodContent> = {
     icon: <Timer className="w-6 h-6" />,
     color: 'emerald',
     base_cientifica:
-      'A Técnica Pomodoro, desenvolvida por Francesco Cirillo na década de 1980, baseia-se no princípio de que intervalos curtos de foco intenso melhoram a concentração e reduzem a fadiga mental. Estudos em neurociência demonstram que o cérebro humano mantém alta performance por cerca de 25 minutos antes de necessitar de pausas para restaurar a atenção. Para estudantes de medicina, que lidam com volumes extensos de conteúdo clínico, essa técnica otimiza o aprendizado ao dividir sessões longas em ciclos gerenciáveis, prevenindo o esgotamento e promovendo retenção de informações como anatomia e fisiopatologia. A base científica apoia-se em evidências de que pausas regulares ativam o sistema de recompensa dopaminérgico, aumentando a motivação para tarefas complexas.',
+      'A Técnica Pomodoro, criada por Francesco Cirillo, é uma estratégia prática de gestão de atenção: alterna blocos curtos de foco com pausas programadas. Na prática, isso ajuda a reduzir a fadiga e a procrastinação, porque transforma uma tarefa grande em etapas pequenas e mensuráveis. Para estudantes de medicina, funciona bem para leituras densas, revisão de diretrizes e resolução de questões — mantendo ritmo e constância sem “maratonas” improdutivas.',
     passo_a_passo: [
       'Escolha uma tarefa específica, como revisar um capítulo de farmacologia.',
       'Defina um timer para 25 minutos de foco absoluto, sem interrupções.',
@@ -56,7 +58,7 @@ const METHODS: Record<string, MethodContent> = {
     icon: <Brain className="w-6 h-6" />,
     color: 'purple',
     base_cientifica:
-      'A Revisão Espaçada, inspirada na curva do esquecimento de Hermann Ebbinghaus (1885) e aprimorada pelo algoritmo SM-2 de Piotr Wozniak nos anos 1980, explora o espaçamento de revisões para otimizar a memória de longo prazo. Ebbinghaus demonstrou que o esquecimento ocorre rapidamente sem reforço, mas intervalos crescentes fortalecem sinapses neurais. Para estudantes de medicina, isso é ideal para reter fatos como dosagens de medicamentos, critérios diagnósticos e protocolos terapêuticos, pois o SM-2 ajusta intervalos com base na facilidade de recall. Meta-análises em educação médica mostram ganhos de até 200% na retenção comparado a estudo massivo.',
+      'A Revisão Espaçada explora o efeito do espaçamento e a “curva do esquecimento”: revisar em intervalos crescentes tende a fortalecer a lembrança ao longo do tempo. Algoritmos como o SM‑2 ajustam esses intervalos com base no quanto você lembra, o que costuma ser especialmente útil para conteúdos factuais em medicina (critérios, doses, condutas e classificações).',
     passo_a_passo: [
       'Crie flashcards com perguntas e respostas sobre tópicos médicos.',
       'Revise diariamente, classificando cada item como fácil (intervalo longo) ou difícil (revisão frequente).',
@@ -65,7 +67,7 @@ const METHODS: Record<string, MethodContent> = {
       'Monitore acertos para refinar o deck e identificar lacunas.',
     ],
     dicas_enamed:
-      'No ENAMED, foque em flashcards para dosagens de antibióticos, critérios diagnósticos e protocolos terapêuticos. Integre com o currículo dos 5 eixos, revisando cada área semanalmente. Comece com 50 cards diários para construir hábito, garantindo recall preciso em questões de múltipla escolha que testam memória factual.',
+      'No ENAMED, use flashcards para dosagens de antibióticos, critérios diagnósticos e protocolos terapêuticos. Integre com os 5 eixos e mantenha um volume sustentável de revisão diária (comece pequeno e aumente aos poucos). O foco é consistência: revisar um pouco todo dia costuma funcionar melhor do que “compensar” na véspera.',
     relatedHref: '/flashcards',
     relatedLabel: 'Ir para Flashcards',
   },
@@ -74,7 +76,7 @@ const METHODS: Record<string, MethodContent> = {
     icon: <Network className="w-6 h-6" />,
     color: 'emerald',
     base_cientifica:
-      'Desenvolvidos por Tony Buzan na década de 1970, os Mapas Mentais utilizam a estrutura radial do cérebro para organizar informações visualmente, baseando-se na teoria de que o hemisfério direito processa imagens e associações melhor que listas lineares. Estudos de Buzan e pesquisas em cognição, como a dual-coding theory de Paivio, mostram que essa técnica melhora a compreensão e retenção em 10-15% para conteúdos complexos. Em medicina, conecta sintomas a diagnósticos diferenciais e algoritmos de tratamento, facilitando a navegação em redes conceituais como árvores de decisão em cardiologia.',
+      'Mapas mentais e outros organizadores visuais ajudam a “externalizar” relações entre conceitos, o que facilita compreensão e revisão. Quando combinados com explicação ativa (por exemplo, narrar o mapa em voz alta e justificar conexões), eles tendem a ser mais úteis do que apenas desenhar. Em medicina, são ótimos para diagnóstico diferencial, algoritmos de conduta e relações fisiopatológicas.',
     passo_a_passo: [
       'Coloque o tema central (ex.: "Insuficiência Cardíaca") no centro da página.',
       'Desenhe ramos principais para subtópicos: etiologia, sintomas, diagnóstico, tratamento.',
@@ -90,7 +92,7 @@ const METHODS: Record<string, MethodContent> = {
     icon: <HelpCircle className="w-6 h-6" />,
     color: 'purple',
     base_cientifica:
-      'O Recall Ativo, ou efeito de teste, foi demonstrado por Roediger e Karpicke (2006) em estudos que mostram superioridade do auto-teste sobre re-leitura para retenção de longo prazo, com ganhos de 50% em memória. Baseia-se na consolidação ativa de memórias durante a recuperação, fortalecendo trilhas neurais. Em educação médica, meta-análises confirmam que prática de testes melhora significativamente o desempenho em exames como o ENAMED, especialmente para conceitos clínicos onde a aplicação supera a passividade da leitura repetitiva.',
+      'Recall ativo (ou “efeito de teste”) é a prática de tentar lembrar/explicar antes de consultar a resposta. A ideia central é simples: recuperar a informação ativamente costuma consolidar melhor do que apenas reler. No dia a dia, isso vira um ciclo produtivo de questões, respostas curtas e revisão deliberada dos erros — especialmente útil para transformar leitura em performance de prova.',
     passo_a_passo: [
       'Após ler um tópico, feche o material completamente.',
       'Escreva ou responda perguntas sobre o conteúdo estudado.',
@@ -108,7 +110,7 @@ const METHODS: Record<string, MethodContent> = {
     icon: <Users className="w-6 h-6" />,
     color: 'emerald',
     base_cientifica:
-      'Inspirado na Zona de Desenvolvimento Proximal (ZPD) de Vygotsky (1978), o estudo em grupo promove aprendizado colaborativo onde pares mais experientes guiam discussões e expandem o potencial de aprendizado coletivo. Em educação médica, o Team-Based Learning (TBL) de Michaelsen et al. (2002) evidencia ganhos em raciocínio clínico, com estudos mostrando 20-30% de melhoria em retenção via debates estruturados. Facilita discussões de casos clínicos, integrando conhecimentos em diagnósticos e tratamentos entre diferentes especialidades.',
+      'O estudo em grupo pode acelerar o aprendizado quando existe estrutura: preparação individual, roteiro claro e feedback. O ganho vem de verbalizar o raciocínio, expor lacunas e comparar abordagens em casos clínicos. Sem um formato objetivo, porém, a sessão vira conversa e consome tempo — então trate o grupo como um “laboratório” de discussão clínica com entregáveis (questões resolvidas, lista de dúvidas e próximos passos).',
     passo_a_passo: [
       'Forme um grupo de 4-6 estudantes com níveis variados de conhecimento.',
       'Atribua papéis claros: líder da discussão, relator, mediador.',
@@ -124,10 +126,10 @@ const METHODS: Record<string, MethodContent> = {
     icon: <CalendarDays className="w-6 h-6" />,
     color: 'purple',
     base_cientifica:
-      'A Gestão de Tempo utiliza a Matriz de Eisenhower para priorizar tarefas por urgência e importância, e o Princípio de Pareto (80/20) para focar em esforços de alto impacto. Estudos em produtividade mostram que uma boa gestão do tempo reduz estresse e aumenta eficiência em até 40%. Para o ENAMED, a distribuição inteligente de horas de estudo pelos 5 eixos (clínica médica, cirurgia, pediatria, ginecologia-obstetrícia e saúde coletiva) com base em fraquezas individuais otimiza a preparação para o exame abrangente.',
+      'Gestão de tempo é menos sobre “fazer tudo” e mais sobre consistência. Ferramentas de priorização (urgente/importante) e planejamento semanal ajudam a distribuir energia e evitar picos de estudo na véspera. Para o ENAMED, faz sentido alternar os 5 eixos e ajustar a carga de estudo com base no que seus simulados mostram — com blocos realistas que você consegue sustentar por semanas.',
     passo_a_passo: [
       'Liste suas tarefas e classifique na Matriz Eisenhower (urgente/importante).',
-      'Identifique os 20% das atividades que geram 80% dos resultados.',
+      'Identifique quais atividades têm maior impacto no seu desempenho (e quais são “ruído”).',
       'Crie um cronograma semanal, alocando tempo proporcional por eixo.',
       'Use o planejador abaixo para rastrear e organizar sua semana.',
       'Revise e ajuste mensalmente com base em simulados e autoavaliações.',
@@ -151,8 +153,17 @@ export default function MethodPage() {
   const iconText = method.color === 'emerald' ? 'text-emerald-400' : 'text-purple-400'
   const accentBorder = method.color === 'emerald' ? 'border-emerald-800' : 'border-purple-800'
 
+  const bibliography =
+    slug === 'revisao-espacada'
+      ? STUDY_METHODS_BIBLIOGRAPHY.spaced_repetition
+      : slug === 'questoes-ativas'
+      ? STUDY_METHODS_BIBLIOGRAPHY.active_recall
+      : slug === 'pomodoro'
+      ? STUDY_METHODS_BIBLIOGRAPHY.pomodoro
+      : []
+
   return (
-    <div className="min-h-screen bg-surface-0 text-white">
+    <div className="min-h-screen bg-surface-0 text-label-primary">
       <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <Link
@@ -261,6 +272,14 @@ export default function MethodPage() {
             <WeeklyPlanner />
           </motion.section>
         )}
+
+        <motion.section
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...spring.gentle, delay: 0.5 }}
+        >
+          <BibliographyBlock title="Referências (base)" entries={bibliography} />
+        </motion.section>
       </main>
     </div>
   )

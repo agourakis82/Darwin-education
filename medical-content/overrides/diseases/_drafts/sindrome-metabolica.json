@@ -1,0 +1,66 @@
+{
+  "id": "sindrome-metabolica",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Critérios NCEP-ATPIII (≥3 de 5):",
+        "Circunferência abdominal: >102cm (H) ou >88cm (M)",
+        "Triglicérides ≥150 mg/dL",
+        "HDL-c <40 (H) ou <50 (M) mg/dL",
+        "PA ≥130/85 mmHg ou em tratamento",
+        "Glicemia jejum ≥100 mg/dL ou DM"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Perda de peso 7-10% (principal intervenção)",
+          "Exercício aeróbico + resistência",
+          "Dieta hipocalórica, baixo IG",
+          "Cessar tabagismo"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Tratar cada componente individualmente",
+              "Metformina se pré-diabetes + alto risco",
+              "Estatina conforme risco CV",
+              "Anti-hipertensivo se HAS"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Perda de peso sustentada",
+        "Normalização dos componentes"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

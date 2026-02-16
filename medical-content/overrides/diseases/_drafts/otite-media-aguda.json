@@ -1,0 +1,59 @@
+{
+  "id": "otite-media-aguda",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Otalgia aguda",
+        "Otoscopia: tímpano abombado/eritematoso",
+        "Febre",
+        "Irritabilidade em crianças",
+        "Pode ter otorreia"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Analgésicos: Paracetamol ou Ibuprofeno",
+          "Observação vigilante por 48-72h em casos leves (crianças >6 meses)"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Se tratamento: Amoxicilina 80-90mg/kg/dia por 7-10 dias",
+              "Ou Amoxicilina-clavulanato se uso recente de antibióticos",
+              "Se alergia: Azitromicina ou Ceftriaxona"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

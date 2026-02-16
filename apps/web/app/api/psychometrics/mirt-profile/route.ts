@@ -10,6 +10,8 @@ import {
   toMIRTItem,
   type MIRTAbilityProfile,
 } from '@darwin-education/shared'
+import { isMissingTableError, isSchemaDriftError } from '@/lib/supabase/errors'
+import { getSessionUserSummary } from '@/lib/auth/session'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -25,8 +27,8 @@ export async function GET(request: NextRequest) {
   try {
     const supabase = await createServerClient()
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-    if (authError || !user) {
+    const user = await getSessionUserSummary(supabase)
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -45,12 +47,19 @@ export async function GET(request: NextRequest) {
       .order('completed_at', { ascending: false })
       .limit(5)
 
+    let schemaWarning: string | undefined
+
     if (respError) {
-      console.error('Error loading exam attempts:', respError)
-      return NextResponse.json(
-        { error: 'Failed to load exam data' },
-        { status: 500 }
-      )
+      if (isMissingTableError(respError)) {
+        console.warn('MIRT profile skipped: exam_attempts table missing in local beta.')
+        schemaWarning = 'Dados indisponíveis neste ambiente (tabela de tentativas ausente).'
+      } else if (isSchemaDriftError(respError)) {
+        console.warn('MIRT profile skipped due to schema drift:', respError)
+        schemaWarning = 'Dados indisponíveis neste ambiente (schema em migração).'
+      } else {
+        console.error('Error loading exam attempts:', respError)
+        schemaWarning = 'Não foi possível carregar dados de prova neste momento.'
+      }
     }
 
     // Flatten individual question responses from exam attempts
@@ -78,7 +87,9 @@ export async function GET(request: NextRequest) {
         summary: {
           totalResponses: mirtResponses.length,
           minRequired: 10,
-          message: 'Complete pelo menos 10 questoes para perfil MIRT.',
+          message:
+            schemaWarning ||
+            'Complete pelo menos 10 questões para perfil MIRT.',
         },
       })
     }
@@ -101,7 +112,7 @@ export async function GET(request: NextRequest) {
     console.error('MIRT Profile Error:', error)
     return NextResponse.json(
       {
-        error: 'Failed to compute MIRT profile',
+        error: 'Falha ao calcular perfil MIRT',
         details: error instanceof Error ? error.message : 'Unknown error',
       },
       { status: 500 }

@@ -1,0 +1,18 @@
+{
+  "darwin_emerald": "#18C29C",
+  "bg_light": "#F5F7FA",
+  "bg_white": "#FFFFFF",
+  "fg_dark": "#0B0F14",
+  "fg_muted": "#2A313A",
+  "glass": {
+    "light": "rgba(255,255,255,0.10)",
+    "dark": "rgba(255,255,255,0.06)",
+    "border_light": "rgba(255,255,255,0.18)",
+    "border_dark": "rgba(255,255,255,0.12)"
+  },
+  "shadow": {
+    "soft": "0 10px 30px rgba(11,15,20,0.12)",
+    "ultra": "0 20px 60px rgba(11,15,20,0.18)"
+  },
+  "grain_opacity": 0.05
+}

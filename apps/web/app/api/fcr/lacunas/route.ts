@@ -5,6 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
+import { getSessionUserSummary } from '@/lib/auth/session'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -28,8 +29,8 @@ export async function GET(request: NextRequest) {
   try {
     const supabase = await createServerClient()
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-    if (authError || !user) {
+    const user = await getSessionUserSummary(supabase)
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -129,7 +130,7 @@ export async function GET(request: NextRequest) {
             levelBreakdown.push({
               level: lr.level,
               lacunaType: 'LEm',
-              evidence: `Ilusao de saber no nivel ${lr.level}: confianca ${lr.confidence}/5 mas resposta incorreta`,
+              evidence: `Ilusão de saber no nível ${lr.level}: confiança ${lr.confidence}/5, mas resposta incorreta`,
               area,
               caseTitle: attempt.fcr_cases?.title_pt || '',
               date: attempt.completed_at,

@@ -9,6 +9,7 @@ import {
   QGenGenerationConfig,
   QGenGeneratedQuestion,
   QGenGenerateResponse,
+  QGenValidationResult,
   QGenBatchOptions,
   QGenBatchResponse,
   QGenExamConfig,
@@ -22,6 +23,7 @@ import {
 
 import { PromptBuilderService } from './prompt-builder-service';
 import { CorpusAnalysisService } from './corpus-analysis-service';
+import { qgenValidationService } from './qgen-validation-service';
 import { ENAMED_DISTRIBUTION } from '../constants/patterns';
 
 /**
@@ -95,11 +97,18 @@ export class QGenGenerationService {
     const startTime = Date.now();
     let lastError: Error | null = null;
 
+    const minQualityScore =
+      genConfig.minQualityScore ?? this.config.minQualityScore ?? 0.7;
+
+    let prompt = this.promptBuilder.buildGenerationPrompt(genConfig);
+    let bestQuestion: QGenGeneratedQuestion | null = null;
+    let bestValidation: QGenValidationResult | null = null;
+    let bestOverallScore = -1;
+    let totalTokensUsed = 0;
+    let totalCost = 0;
+
     for (let attempt = 0; attempt < (this.config.maxRetries || 3); attempt++) {
       try {
-        // Build the prompt
-        const prompt = this.promptBuilder.buildGenerationPrompt(genConfig);
-
         // Call LLM
         const llmResponse = await this.callLLM(prompt, genConfig);
 
@@ -109,20 +118,66 @@ export class QGenGenerationService {
         // Create question object
         const question = this.createQuestionFromResponse(parsedResponse, genConfig, llmResponse);
 
-        // Basic validation
-        const validation = await this.performBasicValidation(question);
+        // Full validation pipeline (medical + linguistic + distractors + IRT)
+        const validation = await qgenValidationService.validateQuestion(question);
+
+        // Reflect decision back into the question payload for UI consumption
+        question.validationStatus =
+          validation.decision === ValidationDecision.AUTO_APPROVE
+            ? ValidationStatus.AUTO_VALIDATED
+            : validation.decision === ValidationDecision.PENDING_REVIEW
+            ? ValidationStatus.PENDING_REVIEW
+            : validation.decision === ValidationDecision.NEEDS_REVISION
+            ? ValidationStatus.NEEDS_REVISION
+            : ValidationStatus.REJECTED;
+
+        question.qualityScores = {
+          medicalAccuracy: validation.stages.medicalAccuracy.score,
+          linguisticQuality: validation.stages.linguistic.score,
+          distractorQuality: validation.stages.distractorQuality.score,
+          originality: validation.stages.originality.score,
+          difficultyMatch: validation.stages.irtEstimation.score,
+          overall: validation.overallScore,
+          };
 
         // Calculate cost
         const tokensUsed = this.estimateTokens(prompt, llmResponse);
         const cost = this.calculateCost(tokensUsed);
 
-        return {
-          question,
-          validation,
-          generationTimeMs: Date.now() - startTime,
-          tokensUsed,
-          cost,
-        };
+        totalTokensUsed += tokensUsed;
+        totalCost += cost;
+
+        if (validation.overallScore > bestOverallScore) {
+          bestOverallScore = validation.overallScore;
+          bestQuestion = question;
+          bestValidation = validation;
+        }
+
+        const acceptableDecision =
+          validation.decision === ValidationDecision.AUTO_APPROVE ||
+          validation.decision === ValidationDecision.PENDING_REVIEW;
+
+        if (acceptableDecision && validation.overallScore >= minQualityScore) {
+          return {
+            question,
+            validation,
+            generationTimeMs: Date.now() - startTime,
+            tokensUsed: totalTokensUsed,
+            cost: totalCost,
+          };
+        }
+
+        // If it didn't pass the quality gate, try to revise using the validation feedback.
+        prompt = this.promptBuilder.buildRevisionPrompt({
+          config: genConfig,
+          previous: {
+            stem: question.stem,
+            alternatives: question.alternatives,
+            correctAnswer: question.correctAnswer,
+            explanation: question.explanation,
+          },
+          issues: validation.issues,
+        });
       } catch (error) {
         lastError = error as Error;
         if (attempt < (this.config.maxRetries || 3) - 1) {
@@ -131,7 +186,37 @@ export class QGenGenerationService {
       }
     }
 
-    throw new Error(`Failed to generate question after ${this.config.maxRetries} attempts: ${lastError?.message}`);
+    if (bestQuestion && bestValidation) {
+      const acceptableDecision =
+        bestValidation.decision === ValidationDecision.AUTO_APPROVE ||
+        bestValidation.decision === ValidationDecision.PENDING_REVIEW;
+
+      if (acceptableDecision && bestOverallScore >= minQualityScore) {
+        return {
+          question: bestQuestion,
+          validation: bestValidation,
+          generationTimeMs: Date.now() - startTime,
+          tokensUsed: totalTokensUsed,
+          cost: totalCost,
+        };
+      }
+
+      const topIssues = (bestValidation.issues || [])
+        .filter((i) => i.severity !== 'info')
+        .slice(0, 5)
+        .map((i) => `${i.category}: ${i.message}`)
+        .join(' | ');
+
+      throw new Error(
+        `Quality gate failed after ${this.config.maxRetries} attempts. Best score=${bestOverallScore.toFixed(
+          2
+        )} decision=${bestValidation.decision}. Issues: ${topIssues || 'none'}`
+      );
+    }
+
+    throw new Error(
+      `Failed to generate question after ${this.config.maxRetries} attempts: ${lastError?.message}`
+    );
   }
 
   /**
@@ -145,7 +230,7 @@ export class QGenGenerationService {
     let totalCost = 0;
 
     // Process in parallel batches
-    const batchSize = this.config.maxParallelRequests || 5;
+    const batchSize = options.parallelism || this.config.maxParallelRequests || 5;
 
     for (let i = 0; i < options.configs.length; i += batchSize) {
       const batch = options.configs.slice(i, i + batchSize);
@@ -452,6 +537,8 @@ export class QGenGenerationService {
     rawResponse: string
   ): QGenGeneratedQuestion {
     const id = this.generateId();
+    const alternatives = this.normalizeAlternatives(parsed.questao?.alternativas);
+    const correctAnswer = this.normalizeCorrectAnswer(parsed.questao?.gabarito, Object.keys(alternatives));
 
     return {
       id,
@@ -459,8 +546,8 @@ export class QGenGenerationService {
       generationTimestamp: new Date().toISOString(),
 
       stem: parsed.questao.enunciado,
-      alternatives: parsed.questao.alternativas,
-      correctAnswer: parsed.questao.gabarito,
+      alternatives,
+      correctAnswer,
       explanation: parsed.questao.comentario,
 
       targetArea: parsed.metadados.area || config.targetArea,
@@ -491,6 +578,44 @@ export class QGenGenerationService {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
+  }
+
+  private normalizeAlternatives(input: Record<string, string> | undefined | null): Record<string, string> {
+    const out: Record<string, string> = {};
+    if (!input || typeof input !== 'object') return out;
+
+    const numericToLetter: Record<string, string> = {
+      '1': 'A',
+      '2': 'B',
+      '3': 'C',
+      '4': 'D',
+      '5': 'E',
+    };
+
+    for (const [rawKey, rawValue] of Object.entries(input)) {
+      const key = (rawKey || '').trim();
+      const mapped = numericToLetter[key] || key;
+      const letter = mapped.toUpperCase().replace(/[^A-E]/g, '').slice(0, 1);
+      if (!letter) continue;
+      if (typeof rawValue !== 'string') continue;
+      out[letter] = rawValue.trim();
+    }
+
+    return out;
+  }
+
+  private normalizeCorrectAnswer(raw: string | undefined | null, availableLetters: string[]): string {
+    const letter = (raw || '')
+      .trim()
+      .toUpperCase()
+      .replace(/[^A-E]/g, '')
+      .slice(0, 1);
+
+    if (letter && availableLetters.includes(letter)) return letter;
+
+    // Stable fallback: first available alternative (A..E), otherwise "A"
+    const sorted = [...availableLetters].sort();
+    return sorted[0] || 'A';
   }
 
   /**
@@ -561,7 +686,8 @@ export class QGenGenerationService {
    */
   private estimateTokens(prompt: string, response: string): number {
     // Rough estimate: ~4 characters per token for Portuguese
-    return Math.ceil((prompt.length + response.length) / 4);
+    const systemPrompt = this.promptBuilder.getSystemPrompt() || '';
+    return Math.ceil((systemPrompt.length + prompt.length + response.length) / 4);
   }
 
   /**

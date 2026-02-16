@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
+import { isSchemaDriftError } from '@/lib/supabase/errors'
+import { getSessionUserSummary } from '@/lib/auth/session'
 
 interface DueCard {
   id: string
@@ -31,8 +33,8 @@ export async function GET(request: NextRequest) {
     const supabase = await createServerClient()
 
     // Check authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser()
-    if (authError || !user) {
+    const user = await getSessionUserSummary(supabase)
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
@@ -102,11 +104,16 @@ export async function GET(request: NextRequest) {
       const { data: legacyCards, error: legacyError } = await legacyQuery
 
       if (legacyError) {
+        if (isSchemaDriftError(cardsError) || isSchemaDriftError(legacyError)) {
+          return NextResponse.json({
+            cards: [],
+            total: 0,
+            warning: 'Estados de revisão indisponíveis (schema em migração).',
+          })
+        }
+
         console.error('Error fetching due cards:', legacyError)
-        return NextResponse.json(
-          { error: 'Failed to fetch cards' },
-          { status: 500 }
-        )
+        return NextResponse.json({ cards: [], total: 0, warning: 'Falha ao carregar flashcards.' })
       }
 
       // Process legacy cards
@@ -126,10 +133,7 @@ export async function GET(request: NextRequest) {
     })
   } catch (error) {
     console.error('Due cards API error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    )
+    return NextResponse.json({ cards: [], total: 0, warning: 'Falha ao carregar flashcards.' })
   }
 }
 

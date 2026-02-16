@@ -3,26 +3,31 @@
 > 🎓 AI-powered platform for ENAMED (Exame Nacional de Avaliação da Formação Médica) exam preparation with adaptive learning and automated medical content generation.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18487442.svg)](https://doi.org/10.5281/zenodo.18487442)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18592149.svg)](https://doi.org/10.5281/zenodo.18592149)
 [![Node Version](https://img.shields.io/badge/node-20+-brightgreen)]()
 [![Vercel Deployment](https://img.shields.io/badge/deployment-vercel-success)](https://darwinhub.org)
 [![Citation](https://img.shields.io/badge/cite-as-blue)](CITATION.cff)
 
 **[Live Demo](https://darwinhub.org) • [Documentation](./docs) • [Contributing](./CONTRIBUTING.md) • [Roadmap](./docs/ROADMAP.md)**
 
+Zenodo DOI (concept): https://doi.org/10.5281/zenodo.18487441
+Zenodo DOI (versioned, preprint-v0.3.1): https://doi.org/10.5281/zenodo.18592149
+
 ---
 
 ## 🎯 Overview
 
-Darwin Education is a comprehensive medical education platform combining **adaptive learning**, **AI-powered content generation**, and **learning analytics** for ENAMED exam preparation.
+Darwin Education is a medical education platform for ENAMED preparation that integrates **adaptive learning**, **psychometric calibration**, and **safety-instrumented AI content generation**.
 
-**Key Capabilities:**
-- ✅ AI-powered exam simulation (TRI/IRT scoring)
-- ✅ Question generation via Grok 4.1-fast
-- ✅ Automated theory generation from 368 diseases
-- ✅ Learning gap detection (DDL system)
-- ✅ 70%+ auto-approval of generated content
-- ✅ Production-ready infrastructure
+**What makes it different (architecture-first):**
+- ✅ ENAMED-calibrated ETL and database schema (Supabase migrations + seed tooling)
+- ✅ Multidimensional psychometrics (MIRT 5D) + equity instrumentation (DIF/ETS)
+- ✅ Spaced repetition scheduling (SM-2 + FSRS with state migration)
+- ✅ Learning gap detection (DDL) that closes the loop from diagnosis to targeted generation
+- ✅ LLM-assisted question generation (Grok integration) gated by a multi-stage validation pipeline
+- ✅ Safety governance: explicit thresholds, medical danger-pattern checks, and human review escalation
+
+> For the preprint and the reproducible evidence pack (including integrity gate, manifests, and logs), see `_paperpack/preprint/`.
 
 ---
 
@@ -35,11 +40,22 @@ Darwin Education is a comprehensive medical education platform combining **adapt
 
 ### 📚 Study Tools
 - Flashcards with SM-2 spaced repetition
-- 6 specialty learning paths
-- 368 diseases + 690 medications library
+- Specialty-aligned learning pathways
+
+## 📚 Medical Knowledge Base (Darwin-MFC)
+
+Darwin Education integrates the Darwin-MFC knowledge base as a git submodule.
+
+**Runtime-enumerated corpus (preprint-v0.3.1, exported indices):**
+- Diseases: **252 raw entries / 215 unique IDs**
+- Medications: **889 raw entries / 602 unique IDs**
+
+Duplicate IDs arise from multi-source aggregation across category lists and consolidated exports. Historical documentation targets should be treated as prior snapshots or targets, not current ground truth.
+
+See `_paperpack/derived/darwin_mfc_runtime_counts.json` and the release manifest for hash-stamped provenance.
 
 ### 🤖 AI Features
-- Question generation ($0.06/question)
+- LLM-assisted question generation (Grok integration)
 - Concept explanations
 - Clinical case generation
 - Medical text summarization
@@ -51,9 +67,27 @@ Darwin Education is a comprehensive medical education platform combining **adapt
 
 ### 🏭 Theory Generation
 - Multi-source research (Darwin-MFC, guidelines, PubMed)
-- 5-stage validation pipeline
-- Hallucination detection
-- 70-80% auto-approval rate
+- Multi-stage validation pipeline
+- Hallucination detection and escalation checks
+
+## 🛡️ Safety Instrumentation (LLM Content)
+
+LLM-generated items are gated by a weighted validation pipeline with explicit decision thresholds:
+- auto-approval >= **0.85**
+- pending human review >= **0.70**
+- mandatory revision >= **0.50**
+
+Medical danger-pattern checks and a human review workflow provide escalation and override. Quantitative approval rates and failure-mode prevalence depend on runtime logs or labeled review datasets and are not asserted in this README by default.
+
+## 📊 Reproducibility (Release-Grade)
+
+This repository ships a reproducible evidence pack with:
+- hash-stamped release manifests,
+- integrity gate for manuscript claims,
+- reproducible scripts and logs,
+- green test status on the pinned release commit.
+
+See `_paperpack/scripts/release_v0.3.1.sh` and `_paperpack/derived/*manifest.json`.
 
 ---
 
@@ -68,12 +102,21 @@ Darwin Education is a comprehensive medical education platform combining **adapt
 
 **Setup (5 minutes):**
 ```bash
-git clone https://github.com/yourusername/darwin-education.git
+git clone https://github.com/agourakis82/Darwin-education.git
 cd darwin-education
 pnpm install
 cp apps/web/.env.example apps/web/.env.local
 # Edit .env.local with your credentials
 pnpm dev
+```
+
+**Supabase (hosted) — apply migrations + seed Darwin‑MFC (beta):**
+```bash
+./apps/web/node_modules/.bin/supabase login
+./apps/web/node_modules/.bin/supabase link --workdir infrastructure/supabase --project-ref <your_project_ref>
+./apps/web/node_modules/.bin/supabase db push --workdir infrastructure/supabase --linked --yes
+set -a && source apps/web/.env.local && set +a
+pnpm seed:medical-content
 ```
 
 **Commands:**
@@ -137,14 +180,7 @@ darwin-education/
 
 ## 📊 Metrics
 
-| Metric | Value |
-|--------|-------|
-| Questions Generated | 100+ |
-| Medical Conditions | 368 diseases |
-| AI Generation Cost | $0.06-0.08 per item |
-| Build Time | 36 seconds |
-| Initial Load | <1s |
-| Auto-Approval Rate | 70-80% |
+Runtime-sensitive metrics (for example model cost per item, approval-rate distribution, and latency percentiles) are reported via reproducible runs and release logs instead of static README targets.
 
 ---
 
@@ -155,6 +191,11 @@ darwin-education/
 NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=xxxxxx
 SUPABASE_SERVICE_ROLE_KEY=xxxxxx
+
+# AI (optional) — required only for IA/QGen/DDL/theory-gen routes
+# Recommended:
+XAI_API_KEY=xai-xxxxxx
+# Alias supported:
 GROK_API_KEY=xai-xxxxxx
 ```
 
@@ -187,12 +228,12 @@ MIT License - See [LICENSE](./LICENSE)
 
 **Citation:**
 ```bibtex
-@software{darwin_education_2025,
+@software{darwin_education_2026,
   author = {Agourakis, Demetrios Chiuratto and Amalcaburio, Isadora Casagrande},
   title = {Darwin Education: AI-powered ENAMED Exam Preparation},
-  year = {2025},
-  url = {https://github.com/darwin-mfc/darwin-education},
-  doi = {10.5281/zenodo.18487442},
+  year = {2026},
+  url = {https://github.com/agourakis82/Darwin-education},
+  doi = {10.5281/zenodo.18592149},
   version = {1.0.0}
 }
 ```
@@ -201,12 +242,11 @@ MIT License - See [LICENSE](./LICENSE)
 
 ## 🗺️ Roadmap
 
-- ✅ Core exam simulation (TRI-based)
-- ✅ AI question generation (Grok)
-- ✅ Theory generation system
-- 📅 Mobile app (React Native)
-- 📅 Collaborative learning
-- 📅 AI tutor agent
+- ✅ Core exam simulation + psychometric stack
+- ✅ AI generation + validation pipeline
+- ✅ Evidence pack + integrity gate + release manifest
+- 🔧 iOS native app (SwiftUI) - ongoing
+- 📅 Additional collaboration and tutoring features - planned
 
 See [ROADMAP.md](./docs/ROADMAP.md) for details.
 
@@ -215,8 +255,8 @@ See [ROADMAP.md](./docs/ROADMAP.md) for details.
 ## 📞 Support
 
 - **Docs**: [docs/](./docs/)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/darwin-education/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/darwin-education/discussions)
+- **Issues**: [GitHub Issues](https://github.com/agourakis82/Darwin-education/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/agourakis82/Darwin-education/discussions)
 
 ---
 

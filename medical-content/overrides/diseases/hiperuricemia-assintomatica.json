@@ -1,0 +1,93 @@
+{
+  "id": "hiperuricemia-assintomatica",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "acr-gout-2020"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "acr-gout-2020"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Ácido úrico >7 mg/dL (H) ou >6 mg/dL (M)",
+        "Ausência de artrite gotosa",
+        "Ausência de nefrolitíase por urato",
+        "Avaliar comorbidades: HAS, DRC, síndrome metabólica"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "acr-gout-2020"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Redução de peso",
+          "Limitar álcool (especialmente cerveja)",
+          "Evitar bebidas açucaradas",
+          "Reduzir carnes vermelhas e vísceras",
+          "Aumentar laticínios desnatados"
+        ],
+        "citations": [
+          {
+            "refId": "acr-gout-2020"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "NÃO tratar apenas pelo nível de ácido úrico",
+              "Considerar tratamento se: DRC progressiva, risco CV muito alto",
+              "Se indicado: Alopurinol 100mg, titular até alvo",
+              "Febuxostat como alternativa"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "acr-gout-2020"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Ácido úrico <6 mg/dL se tratado"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "acr-gout-2020"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "acr-gout-2020"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}
+

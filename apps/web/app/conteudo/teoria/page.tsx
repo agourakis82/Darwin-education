@@ -1,109 +1,115 @@
-'use client'
-
-import { Suspense, useState, useMemo } from 'react'
 import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
 import { BookOpen, Stethoscope, Check, Lightbulb, ChevronRight } from 'lucide-react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
-import { ContentSearch } from '../components/ContentSearch'
-import { theoryTopics } from '@/lib/data/theory-content'
 
-const areas = [
-  'Todas',
-  'Clínica Médica',
-  'Cirurgia',
-  'Pediatria',
-  'Ginecologia e Obstetrícia',
-  'Saúde Coletiva',
+import { Card, CardContent } from '@/components/ui/Card'
+import { ContentSearch } from '../components/ContentSearch'
+import { listTheoryTopics, type EnamedArea, type TheoryDifficulty } from '@/lib/medical'
+
+const AREAS: Array<{ value: EnamedArea; label: string }> = [
+  { value: 'clinica_medica', label: 'Clínica Médica' },
+  { value: 'cirurgia', label: 'Cirurgia' },
+  { value: 'pediatria', label: 'Pediatria' },
+  { value: 'ginecologia_obstetricia', label: 'Ginecologia e Obstetrícia' },
+  { value: 'saude_coletiva', label: 'Saúde Coletiva' },
 ]
 
-const difficulties = [
+const DIFFICULTIES: Array<{ value: TheoryDifficulty; label: string }> = [
   { value: 'basico', label: 'Básico' },
   { value: 'intermediario', label: 'Intermediário' },
   { value: 'avancado', label: 'Avançado' },
 ]
 
-function TeoriaPageContent() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const [selectedArea, setSelectedArea] = useState(searchParams.get('area') || 'Todas')
-  const [selectedDifficulty, setSelectedDifficulty] = useState<string | null>(
-    searchParams.get('difficulty') || null
-  )
-  const query = searchParams.get('q') || ''
+const AREA_LABEL_TO_VALUE = new Map<string, EnamedArea>(
+  AREAS.map((item) => [item.label, item.value])
+)
+const AREA_VALUE_SET = new Set<EnamedArea>(AREAS.map((item) => item.value))
+const DIFFICULTY_VALUE_SET = new Set<TheoryDifficulty>(
+  DIFFICULTIES.map((item) => item.value)
+)
 
-  const filteredTopics = useMemo(() => {
-    let topics = theoryTopics
+type SearchParams = {
+  q?: string
+  area?: string
+  difficulty?: string
+}
 
-    if (query) {
-      const lowerQuery = query.toLowerCase()
-      topics = topics.filter(
-        t =>
-          t.title.toLowerCase().includes(lowerQuery) ||
-          t.description.toLowerCase().includes(lowerQuery) ||
-          t.keyPoints.some(p => p.toLowerCase().includes(lowerQuery))
-      )
-    }
+function toPageHref({
+  q,
+  area,
+  difficulty,
+}: {
+  q?: string
+  area?: EnamedArea
+  difficulty?: TheoryDifficulty
+}) {
+  const params = new URLSearchParams()
+  if (q) params.set('q', q)
+  if (area) params.set('area', area)
+  if (difficulty) params.set('difficulty', difficulty)
+  const query = params.toString()
+  return query ? `/conteudo/teoria?${query}` : '/conteudo/teoria'
+}
 
-    if (selectedArea !== 'Todas') {
-      topics = topics.filter(t => t.area === selectedArea)
-    }
+function getDifficultyBadgeClass(difficulty: TheoryDifficulty) {
+  if (difficulty === 'basico') return 'bg-green-500/20 text-green-400'
+  if (difficulty === 'intermediario') return 'bg-yellow-500/20 text-yellow-400'
+  return 'bg-red-500/20 text-red-400'
+}
 
-    if (selectedDifficulty) {
-      topics = topics.filter(t => t.difficulty === selectedDifficulty)
-    }
+function getDifficultyLabel(difficulty: TheoryDifficulty) {
+  if (difficulty === 'basico') return 'Básico'
+  if (difficulty === 'intermediario') return 'Intermediário'
+  return 'Avançado'
+}
 
-    return topics
-  }, [query, selectedArea, selectedDifficulty])
+export default async function TeoriaPage({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>
+}) {
+  const params = await searchParams
+  const q = (params.q || '').trim()
 
-  const handleAreaChange = (area: string) => {
-    setSelectedArea(area)
-    const params = new URLSearchParams(searchParams.toString())
-    if (area === 'Todas') {
-      params.delete('area')
-    } else {
-      params.set('area', area)
-    }
-    router.push(`/conteudo/teoria?${params.toString()}`)
-  }
+  const selectedArea = AREA_VALUE_SET.has(params.area as EnamedArea)
+    ? (params.area as EnamedArea)
+    : AREA_LABEL_TO_VALUE.get(params.area || '')
 
-  const handleDifficultyChange = (difficulty: string | null) => {
-    setSelectedDifficulty(difficulty)
-    const params = new URLSearchParams(searchParams.toString())
-    if (difficulty) {
-      params.set('difficulty', difficulty)
-    } else {
-      params.delete('difficulty')
-    }
-    router.push(`/conteudo/teoria?${params.toString()}`)
-  }
+  const selectedDifficulty = DIFFICULTY_VALUE_SET.has(params.difficulty as TheoryDifficulty)
+    ? (params.difficulty as TheoryDifficulty)
+    : undefined
+
+  const result = await listTheoryTopics({
+    q,
+    area: selectedArea,
+    difficulty: selectedDifficulty,
+  })
+
+  const topics = result.data
 
   return (
-    <>
-      {/* Header */}
+    <div className="min-h-screen bg-surface-0 text-label-primary">
       <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center gap-4">
-            <button
-              onClick={() => router.push('/conteudo')}
-              className="p-2 hover:bg-surface-2 rounded-lg transition-colors"
-            >
+            <Link href="/conteudo" className="p-2 hover:bg-surface-2 rounded-lg transition-colors">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
-            </button>
+            </Link>
             <div>
               <h1 className="text-2xl font-bold">Teoria Clínica</h1>
-              <p className="text-sm text-label-secondary mt-1">
-                {filteredTopics.length} tópicos encontrados
-              </p>
+              <p className="text-sm text-label-secondary mt-1">{topics.length} tópicos encontrados</p>
+              {result.source === 'fallback' && (
+                <p className="text-xs text-label-tertiary mt-1">
+                  Conteúdo de backup local ativo enquanto a base dinâmica sincroniza.
+                </p>
+              )}
             </div>
           </div>
         </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Search */}
         <div className="mb-6">
           <ContentSearch
             type="teoria"
@@ -111,67 +117,73 @@ function TeoriaPageContent() {
           />
         </div>
 
-        {/* Filters */}
         <div className="space-y-4 mb-6">
-          {/* Area Filter */}
           <div>
             <p className="text-sm font-medium text-label-primary mb-2">Especialidade</p>
             <div className="flex gap-2 overflow-x-auto pb-2">
-              {areas.map((area) => (
-                <button
-                  key={area}
-                  onClick={() => handleAreaChange(area)}
+              <Link
+                href={toPageHref({ q, difficulty: selectedDifficulty })}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
+                  !selectedArea
+                    ? 'bg-violet-600 text-white'
+                    : 'bg-surface-2 text-label-primary hover:bg-surface-3'
+                }`}
+              >
+                Todas
+              </Link>
+              {AREAS.map((area) => (
+                <Link
+                  key={area.value}
+                  href={toPageHref({ q, area: area.value, difficulty: selectedDifficulty })}
                   className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
-                    selectedArea === area
+                    selectedArea === area.value
                       ? 'bg-violet-600 text-white'
                       : 'bg-surface-2 text-label-primary hover:bg-surface-3'
                   }`}
                 >
-                  {area}
-                </button>
+                  {area.label}
+                </Link>
               ))}
             </div>
           </div>
 
-          {/* Difficulty Filter */}
           <div>
             <p className="text-sm font-medium text-label-primary mb-2">Nível de Dificuldade</p>
             <div className="flex gap-2 pb-2">
-              <button
-                onClick={() => handleDifficultyChange(null)}
+              <Link
+                href={toPageHref({ q, area: selectedArea })}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
-                  selectedDifficulty === null
+                  !selectedDifficulty
                     ? 'bg-violet-600 text-white'
                     : 'bg-surface-2 text-label-primary hover:bg-surface-3'
                 }`}
               >
                 Todos
-              </button>
-              {difficulties.map((diff) => (
-                <button
-                  key={diff.value}
-                  onClick={() => handleDifficultyChange(diff.value)}
+              </Link>
+              {DIFFICULTIES.map((difficulty) => (
+                <Link
+                  key={difficulty.value}
+                  href={toPageHref({ q, area: selectedArea, difficulty: difficulty.value })}
                   className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
-                    selectedDifficulty === diff.value
+                    selectedDifficulty === difficulty.value
                       ? 'bg-violet-600 text-white'
                       : 'bg-surface-2 text-label-primary hover:bg-surface-3'
                   }`}
                 >
-                  {diff.label}
-                </button>
+                  {difficulty.label}
+                </Link>
               ))}
             </div>
           </div>
         </div>
 
-        {/* Results */}
-        {filteredTopics.length === 0 ? (
+        {topics.length === 0 ? (
           <Card>
             <CardContent className="py-12 text-center">
               <svg className="w-16 h-16 text-label-quaternary mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <h3 className="text-lg font-medium text-white mb-2">Nenhum resultado encontrado</h3>
+              <h3 className="text-lg font-medium text-label-primary mb-2">Nenhum resultado encontrado</h3>
               <p className="text-label-secondary">
                 Tente usar termos diferentes ou remover filtros
               </p>
@@ -179,24 +191,20 @@ function TeoriaPageContent() {
           </Card>
         ) : (
           <div className="grid gap-4">
-            {filteredTopics.map((topic) => (
+            {topics.map((topic) => (
               <Link key={topic.id} href={`/conteudo/teoria/${topic.id}`}>
                 <Card className="hover:border-surface-4 transition-colors cursor-pointer group">
                   <CardContent className="py-5">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-3 mb-2">
-                          <h3 className="font-semibold text-white text-lg group-hover:text-violet-400 transition-colors">
+                          <h3 className="font-semibold text-label-primary text-lg group-hover:text-violet-400 transition-colors">
                             {topic.title}
                           </h3>
                           <span className={`px-2.5 py-1 text-xs font-medium rounded-full whitespace-nowrap ${
-                            topic.difficulty === 'basico'
-                              ? 'bg-green-500/20 text-green-400'
-                              : topic.difficulty === 'intermediario'
-                                ? 'bg-yellow-500/20 text-yellow-400'
-                                : 'bg-red-500/20 text-red-400'
+                            getDifficultyBadgeClass(topic.difficulty)
                           }`}>
-                            {topic.difficulty === 'basico' ? 'Básico' : topic.difficulty === 'intermediario' ? 'Intermediário' : 'Avançado'}
+                            {getDifficultyLabel(topic.difficulty)}
                           </span>
                         </div>
                         <p className="text-sm text-label-secondary mb-3 line-clamp-2">
@@ -228,7 +236,6 @@ function TeoriaPageContent() {
           </div>
         )}
 
-        {/* Learning Tip */}
         <Card className="mt-8">
           <CardContent className="py-4">
             <div className="flex items-start gap-3">
@@ -247,16 +254,6 @@ function TeoriaPageContent() {
           </CardContent>
         </Card>
       </main>
-    </>
-  )
-}
-
-export default function TeoriaPage() {
-  return (
-    <div className="min-h-screen bg-surface-0 text-white">
-      <Suspense fallback={<div className="p-8 text-center">Carregando...</div>}>
-        <TeoriaPageContent />
-      </Suspense>
     </div>
   )
 }

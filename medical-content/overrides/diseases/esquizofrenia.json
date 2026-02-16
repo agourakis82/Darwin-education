@@ -1,0 +1,86 @@
+{
+  "id": "esquizofrenia",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "nice-schizophrenia-2014"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "nice-schizophrenia-2014"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Sintomas positivos ou negativos por ≥1 mês",
+        "Disfunção social/ocupacional",
+        "Duração ≥6 meses"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "nice-schizophrenia-2014"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Psicoterapia",
+          "Psicoeducação",
+          "Reabilitação psicossocial"
+        ],
+        "citations": [
+          {
+            "refId": "nice-schizophrenia-2014"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Antipsicótico: Risperidona ou Olanzapina",
+              "Manutenção prolongada"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "nice-schizophrenia-2014"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "nice-schizophrenia-2014"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "nice-schizophrenia-2014"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}
+

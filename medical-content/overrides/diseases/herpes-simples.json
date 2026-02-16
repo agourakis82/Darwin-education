@@ -1,0 +1,84 @@
+{
+  "id": "herpes-simples",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "cdc-sti-2021"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "cdc-sti-2021"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Vesículas agrupadas em base eritematosa",
+        "Pródromo: formigamento, queimação",
+        "Evolui para crostas em 7-10 dias"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "cdc-sti-2021"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Evitar contato na fase ativa",
+          "Evitar fatores desencadeantes (sol, estresse)"
+        ],
+        "citations": [
+          {
+            "refId": "cdc-sti-2021"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Episódio: Aciclovir 400mg 3x/dia por 5 dias",
+              "Supressão (≥6 recorrências/ano): Aciclovir 400mg 2x/dia contínuo"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "cdc-sti-2021"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "cdc-sti-2021"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "cdc-sti-2021"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

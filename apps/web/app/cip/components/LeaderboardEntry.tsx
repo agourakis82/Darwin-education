@@ -25,16 +25,16 @@ const difficultyLabels: Record<string, string> = {
 }
 
 const difficultyColors: Record<string, string> = {
-  muito_facil: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-  facil: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-  medio: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-  dificil: 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200',
-  muito_dificil: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+  muito_facil: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-200',
+  facil: 'border-sky-500/30 bg-sky-500/10 text-sky-700 dark:text-sky-200',
+  medio: 'border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-200',
+  dificil: 'border-orange-500/30 bg-orange-500/10 text-orange-700 dark:text-orange-200',
+  muito_dificil: 'border-rose-500/30 bg-rose-500/10 text-rose-700 dark:text-rose-200',
 }
 
 function getRankMedal(rank: number): React.ReactNode | null {
   if (rank === 1) return <Medal className="w-7 h-7 text-yellow-400" />
-  if (rank === 2) return <Award className="w-7 h-7 text-gray-400" />
+  if (rank === 2) return <Award className="w-7 h-7 text-label-tertiary" />
   if (rank === 3) return <CircleDot className="w-7 h-7 text-amber-600" />
   return null
 }
@@ -77,8 +77,8 @@ export function LeaderboardEntry({
   return (
     <div
       className={cn(
-        'flex items-center gap-4 p-4 rounded-lg border bg-card transition-colors',
-        isCurrentUser && 'border-primary bg-primary/5',
+        'flex items-center gap-4 rounded-xl border border-separator/80 bg-surface-1/60 p-4 shadow-elevation-1 backdrop-blur-md transition-colors',
+        isCurrentUser && 'border-emerald-500/40 bg-emerald-500/10',
         rank <= 3 && 'border-yellow-500/50 bg-yellow-500/5'
       )}
     >
@@ -100,7 +100,7 @@ export function LeaderboardEntry({
       {/* User Info */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-1">
-          <span className={cn('font-semibold truncate', isCurrentUser && 'text-primary')}>
+          <span className={cn('font-semibold truncate', isCurrentUser && 'text-emerald-600 dark:text-emerald-200')}>
             {displayName}
           </span>
           {isCurrentUser && (

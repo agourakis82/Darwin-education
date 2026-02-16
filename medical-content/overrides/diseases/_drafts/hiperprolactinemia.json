@@ -1,0 +1,62 @@
+{
+  "id": "hiperprolactinemia",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Prolactina >25 ng/mL em mulheres, >20 ng/mL em homens",
+        "Excluir causas secundárias: medicamentos, hipotireoidismo",
+        "Se PRL >200 ng/mL: altamente sugestivo de prolactinoma",
+        "RM de sela túrcica se PRL >100 ou sintomas compressivos"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Suspender medicamento causador se possível",
+          "Tratar hipotireoidismo se presente"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Agonista dopaminérgico: Cabergolina 0,25-1mg 1-2x/semana",
+              "Bromocriptina como alternativa",
+              "Cirurgia se refratário ou compressão quiasmática"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Prolactina normal",
+        "Restaurar função gonadal",
+        "Redução tumoral"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

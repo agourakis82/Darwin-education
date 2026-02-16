@@ -16,10 +16,14 @@
     "type-check": "turbo type-check",
     "clean": "turbo clean && rm -rf node_modules",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "etl": "tsx infrastructure/supabase/seed/etl.ts",
+    "etl": "node --import tsx infrastructure/supabase/seed/etl.ts",
+    "seed:medical-content": "pnpm --filter @darwin-education/web exec env TSX_TSCONFIG_PATH=../../darwin-MFC/tsconfig.json node --import tsx ../../scripts/import_medical_content.ts",
+    "audit:medical-content": "env TSX_TSCONFIG_PATH=darwin-MFC/tsconfig.json node --import tsx scripts/audit_medical_content.ts",
+    "scaffold:medical-fullcontent": "env TSX_TSCONFIG_PATH=darwin-MFC/tsconfig.json node --import tsx scripts/scaffold_disease_fullcontent_drafts.ts",
     "harvest": "pnpm --filter @darwin-education/shared harvest",
     "harvest:test": "pnpm --filter @darwin-education/shared harvest:test",
     "harvest:sources": "pnpm --filter @darwin-education/shared harvest:sources",
+    "brand:score-logo": "node --import tsx scripts/brand/score_logo_candidates.ts",
     "db:push": "bash deploy.sh",
     "db:login": "supabase login",
     "db:link": "cd infrastructure/supabase && supabase link --project-ref jpzkjkwcoudaxscrukye",
@@ -33,9 +37,10 @@
     "vitest": "^1.0.0"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=20 <21"
   },
   "dependencies": {
+    "@supabase/supabase-js": "2.91.1",
     "pg": "^8.18.0",
     "postgres": "^3.4.8"
   }

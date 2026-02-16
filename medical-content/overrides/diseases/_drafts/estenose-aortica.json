@@ -1,0 +1,62 @@
+{
+  "id": "estenose-aortica",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Sopro sistólico ejetivo em foco aórtico, irradiação para carótidas",
+        "Eco: EAo grave = área valvar <1,0 cm², gradiente médio >40 mmHg, Vmáx >4 m/s",
+        "Sintomas: dispneia, angina, síncope",
+        "Pulso parvus et tardus (tardio e de baixa amplitude)"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Evitar exercício intenso se sintomático",
+          "Profilaxia de endocardite (se alto risco)"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Tratamento clínico limitado - cirurgia é definitivo",
+              "Evitar vasodilatadores intensos (risco de hipotensão)",
+              "Betabloqueador se FA ou angina",
+              "Estatina NÃO reduz progressão"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Encaminhamento precoce se sintomático",
+        "Troca valvar (TAVR ou cirúrgica)"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

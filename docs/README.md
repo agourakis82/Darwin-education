@@ -6,6 +6,63 @@ This directory contains technical documentation for the Darwin Education platfor
 
 ## Document Index
 
+### 0. [BRAND_KIT_LOGO_SPEC_V1.md](BRAND_KIT_LOGO_SPEC_V1.md)
+**Darwin Logo and Brand Kit Specification**
+
+Production-ready logo system specification including:
+- Logo lockups and variants
+- Naming convention and export matrix
+- Quality gate checklist
+- App icon and favicon requirements
+- Repository placement and handoff flow
+
+**Audience**: Designers, product owners, frontend engineers
+**When to read**: Before generating or approving any Darwin logo assets
+
+---
+
+### 0.1 [brand/LOGO_PROMPT_PACK_V1.md](brand/LOGO_PROMPT_PACK_V1.md)
+**Prompt Pack for Logo Generation (30 prompts)**
+
+Includes:
+- Symbol exploration prompts
+- Horizontal and stacked lockup prompts
+- Monochrome stress-test prompts
+- App icon and favicon-oriented prompts
+
+**Audience**: Designers and content creators generating logo candidates
+**When to read**: During logo exploration and iteration cycles
+
+---
+
+### 0.2 [brand/LOGO_SCORECARD_V1.md](brand/LOGO_SCORECARD_V1.md)
+**Automatic Logo Selection Matrix**
+
+Includes:
+- Weighted scoring criteria
+- Critical fail gates
+- Approval thresholds
+- CLI usage for automatic ranking
+
+**Audience**: Design review committee and product owners
+**When to read**: During candidate selection and approval
+
+---
+
+### 0.3 [brand/LOGO_INTEGRATION_WEB_PLAN_V1.md](brand/LOGO_INTEGRATION_WEB_PLAN_V1.md)
+**Web Integration Plan (Header, Auth, Favicon, OG)**
+
+Decision-complete plan including:
+- Required assets
+- File-level implementation steps
+- Acceptance criteria
+- Rollback strategy
+
+**Audience**: Frontend engineers and technical leads
+**When to read**: Before implementing the final logo in production
+
+---
+
 ### 1. [darwin-education-technical-spec.md](darwin-education-technical-spec.md)
 **Comprehensive Technical Specification (2000+ lines)**
 

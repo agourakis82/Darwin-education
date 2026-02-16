@@ -1,0 +1,65 @@
+{
+  "id": "doenca-arterial-periferica",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "ITB (Índice Tornozelo-Braquial) <0,9",
+        "Claudicação intermitente: dor em panturrilha ao caminhar, alivia com repouso",
+        "Pulsos periféricos diminuídos/ausentes",
+        "ITB <0,4 ou dor em repouso: isquemia crítica"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Exercício supervisionado de caminhada (principal)",
+          "Cessação do tabagismo (obrigatória)",
+          "Cuidados com pés"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "AAS 100mg/dia ou Clopidogrel 75mg/dia",
+              "Estatina de alta potência",
+              "IECA se HAS ou DM",
+              "Cilostazol 100mg 2x/dia (claudicação limitante)"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "LDL-c <70 mg/dL",
+        "PA <130/80",
+        "HbA1c <7%",
+        "Cessar tabagismo"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [],
+  "lastUpdate": "2026-02"
+}

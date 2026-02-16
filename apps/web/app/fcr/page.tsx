@@ -3,16 +3,16 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { spring } from '@/lib/motion'
-import { Brain, Filter, Clock, Target, TrendingUp, Gauge, Sparkles, Activity } from 'lucide-react'
+import { Brain, Filter, Target, TrendingUp, Gauge, Sparkles, Activity } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
+import { getSessionUserSummary } from '@/lib/auth/session'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent } from '@/components/ui/Card'
 import { AREA_COLORS, AREA_LABELS } from '@/lib/area-colors'
 import type { ENAMEDArea } from '@darwin-education/shared'
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 interface FCRCaseRow {
   id: string
@@ -45,12 +45,12 @@ interface AdaptiveRecommendation {
 }
 
 const SELECTION_REASON_LABELS: Record<string, string> = {
-  max_information: 'Maximo ganho de informacao',
-  calibration_probe: 'Testar calibracao de confianca',
-  cascade_probe: 'Testar cadeia de raciocinio',
-  area_coverage: 'Cobrir area pouco praticada',
+  max_information: 'Máximo ganho de informação',
+  calibration_probe: 'Testar calibração de confiança',
+  cascade_probe: 'Testar cadeia de raciocínio',
+  area_coverage: 'Cobrir área pouco praticada',
   dunning_kruger_probe: 'Testar zona Dunning-Kruger',
-  difficulty_ladder: 'Proximo nivel de dificuldade',
+  difficulty_ladder: 'Próximo nível de dificuldade',
 }
 
 const AREAS: ENAMEDArea[] = [
@@ -62,11 +62,11 @@ const AREAS: ENAMEDArea[] = [
 ]
 
 const DIFFICULTY_LABELS: Record<string, string> = {
-  muito_facil: 'Muito Facil',
-  facil: 'Facil',
-  medio: 'Medio',
-  dificil: 'Dificil',
-  muito_dificil: 'Muito Dificil',
+  muito_facil: 'Muito Fácil',
+  facil: 'Fácil',
+  medio: 'Médio',
+  dificil: 'Difícil',
+  muito_dificil: 'Muito Difícil',
 }
 
 export default function FCRHubPage() {
@@ -76,11 +76,12 @@ export default function FCRHubPage() {
   const [loading, setLoading] = useState(true)
   const [selectedArea, setSelectedArea] = useState<ENAMEDArea | null>(null)
   const [adaptive, setAdaptive] = useState<AdaptiveRecommendation | null>(null)
+  const recommendedCase = adaptive?.recommendation || null
 
   useEffect(() => {
     async function load() {
       const supabase = createClient()
-      const { data: { user } } = await supabase.auth.getUser()
+      const user = await getSessionUserSummary(supabase)
       if (!user) {
         router.push('/login?redirectTo=/fcr')
         return
@@ -114,16 +115,8 @@ export default function FCRHubPage() {
   const getAttemptForCase = (caseId: string) =>
     userAttempts.find((a) => a.case_id === caseId)
 
-  const handleStartCase = async (caseId: string) => {
-    const response = await fetch('/api/fcr/start', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ caseId }),
-    })
-
-    if (response.ok) {
-      router.push(`/fcr/${caseId}`)
-    }
+  const handleStartCase = (caseId: string) => {
+    router.push(`/fcr/${caseId}`)
   }
 
   return (
@@ -132,36 +125,58 @@ export default function FCRHubPage() {
         {/* Header */}
         <div className="flex items-center gap-3 mb-2">
           <Brain className="w-8 h-8 text-violet-400" />
-          <h1 className="text-2xl font-bold text-white">Raciocinio Clinico Fractal</h1>
+          <h1 className="text-3xl font-bold text-label-primary">Raciocínio Clínico Fractal</h1>
         </div>
         <p className="text-label-secondary mb-8">
-          Avalie seu raciocinio clinico em 4 niveis de abstracao com calibracao de confianca.
+          Avalie seu raciocínio clínico em 4 níveis de abstração com calibração de confiança.
         </p>
+
+        <div className="relative mb-8 h-48 md:h-56 overflow-hidden rounded-2xl border border-separator/70">
+          <Image
+            src="/images/branding/fcr-hero-apple-v1.png"
+            alt="Visual de raciocínio clínico com camadas diagnósticas"
+            fill
+            sizes="(max-width: 768px) 100vw, 1200px"
+            priority
+            className="object-cover object-center opacity-70"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-surface-0/90 via-surface-0/70 to-surface-0/30" />
+          <div className="relative z-10 h-full flex items-end p-5 md:p-7">
+            <div className="max-w-xl">
+              <p className="text-xl md:text-2xl font-semibold text-label-primary">
+                Raciocínio clínico com sinal adaptativo.
+              </p>
+              <p className="text-sm md:text-base text-label-secondary mt-1">
+                Treine níveis de abstração e calibração com feedback acionável.
+              </p>
+            </div>
+          </div>
+        </div>
 
         {/* How it works */}
         <Card className="mb-8">
           <CardContent className="py-5">
-            <h3 className="font-semibold text-white mb-3">Como Funciona</h3>
+            <h3 className="font-semibold text-label-primary mb-3">Como funciona</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
                 { num: 1, label: 'Dados', desc: 'Identifique achados-chave', weight: '15%' },
-                { num: 2, label: 'Padrao', desc: 'Reconheca a sindrome', weight: '25%' },
-                { num: 3, label: 'Hipotese', desc: 'Diagnostico diferencial', weight: '35%' },
+                { num: 2, label: 'Padrão', desc: 'Reconheça a síndrome', weight: '25%' },
+                { num: 3, label: 'Hipótese', desc: 'Diagnóstico diferencial', weight: '35%' },
                 { num: 4, label: 'Conduta', desc: 'Manejo adequado', weight: '25%' },
               ].map((step) => (
                 <div key={step.num} className="text-center">
                   <div className="w-10 h-10 rounded-full bg-violet-500/20 text-violet-400 font-bold flex items-center justify-center mx-auto mb-2">
                     {step.num}
                   </div>
-                  <div className="text-sm font-medium text-white">{step.label}</div>
-                  <div className="text-xs text-muted-foreground">{step.desc}</div>
+                  <div className="text-sm font-medium text-label-primary">{step.label}</div>
+                  <div className="text-xs text-label-secondary">{step.desc}</div>
                   <div className="text-xs text-violet-400 mt-1">Peso: {step.weight}</div>
                 </div>
               ))}
             </div>
-            <p className="text-xs text-muted-foreground mt-4 text-center">
-              Em cada nivel, voce tambem avalia sua confianca (1-5). O cruzamento confianca x acerto gera uma
-              <strong className="text-violet-400"> matriz metacognitiva 2x2</strong> que identifica ilusoes de saber.
+            <p className="text-xs text-label-secondary mt-4 text-center">
+              Em cada nível, você também avalia sua confiança (1–5). O cruzamento confiança × acerto gera uma
+              <strong className="text-violet-400"> matriz metacognitiva 2×2</strong> que identifica ilusões de saber.
             </p>
           </CardContent>
         </Card>
@@ -169,7 +184,7 @@ export default function FCRHubPage() {
         {/* SOTA: Adaptive Recommendation + Calibration Dashboard */}
         <div className="grid md:grid-cols-2 gap-4 mb-8">
           {/* Adaptive Next Case */}
-          {adaptive?.recommendation ? (
+          {recommendedCase ? (
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -178,16 +193,16 @@ export default function FCRHubPage() {
             >
               <div className="flex items-center gap-2 mb-3">
                 <Sparkles className="w-5 h-5 text-violet-400" />
-                <h3 className="font-semibold text-white text-sm">Caso Recomendado pelo Algoritmo</h3>
+                <h3 className="font-semibold text-label-primary text-sm">Caso recomendado pelo algoritmo</h3>
               </div>
-              <p className="text-xs text-muted-foreground mb-3">
-                {SELECTION_REASON_LABELS[adaptive.recommendation.selectionReason] || 'Selecionado adaptativamente'}
-                {' — '}ganho esperado: {(adaptive.recommendation.expectedInformationGain * 100).toFixed(0)}%
+              <p className="text-xs text-label-secondary mb-3">
+                {SELECTION_REASON_LABELS[recommendedCase.selectionReason] || 'Selecionado adaptativamente'}
+                {' — '}ganho esperado: {(recommendedCase.expectedInformationGain * 100).toFixed(0)}%
               </p>
               <Button
                 variant="primary"
                 size="sm"
-                onClick={() => handleStartCase(adaptive.recommendation!.caseId)}
+                onClick={() => handleStartCase(recommendedCase.caseId)}
                 className="w-full"
               >
                 <Brain className="w-4 h-4 mr-2" />
@@ -198,8 +213,8 @@ export default function FCRHubPage() {
             <div className="bg-surface-2 border border-border rounded-lg p-5 flex items-center justify-center">
               <div className="text-center">
                 <Activity className="w-6 h-6 text-violet-400/50 mx-auto mb-2" />
-                <p className="text-xs text-muted-foreground">
-                  Complete mais casos para ativar recomendacoes adaptativas.
+                <p className="text-xs text-label-secondary">
+                  Complete mais casos para ativar recomendações adaptativas.
                 </p>
               </div>
             </div>
@@ -218,12 +233,12 @@ export default function FCRHubPage() {
               >
                 <div className="flex items-center gap-2 mb-3">
                   <Gauge className="w-5 h-5 text-emerald-400" />
-                  <h3 className="font-semibold text-white text-sm group-hover:text-violet-300 transition-colors">
-                    Dashboard de Calibracao
+                  <h3 className="font-semibold text-label-primary text-sm group-hover:text-violet-300 transition-colors">
+                    Dashboard de Calibração
                   </h3>
                 </div>
-                <p className="text-xs text-muted-foreground mb-2">
-                  Analise SOTA: ECE, Dunning-Kruger, cascata de erros e tendencias de calibracao.
+                <p className="text-xs text-label-secondary mb-2">
+                  Análise SOTA: ECE, Dunning-Kruger, cascata de erros e tendências de calibração.
                 </p>
                 <div className="flex items-center gap-4 text-xs">
                   <span className="text-violet-400">{adaptive.totalAttempts} casos</span>
@@ -236,13 +251,13 @@ export default function FCRHubPage() {
 
         {/* Area Filter */}
         <div className="flex items-center gap-2 mb-6 flex-wrap">
-          <Filter className="w-4 h-4 text-muted-foreground" />
+          <Filter className="w-4 h-4 text-label-tertiary" />
           <button
             onClick={() => setSelectedArea(null)}
             className={`px-3 py-1 rounded-full text-xs transition-colors ${
               !selectedArea
                 ? 'bg-violet-500/20 text-violet-400 border border-violet-500/30'
-                : 'bg-surface-2 text-muted-foreground hover:bg-surface-3'
+                : 'bg-surface-2 text-label-secondary hover:bg-surface-3'
             }`}
           >
             Todas
@@ -257,7 +272,7 @@ export default function FCRHubPage() {
                 className={`px-3 py-1 rounded-full text-xs transition-colors ${
                   isActive
                     ? `${colors.badge} border`
-                    : 'bg-surface-2 text-muted-foreground hover:bg-surface-3'
+                    : 'bg-surface-2 text-label-secondary hover:bg-surface-3'
                 }`}
               >
                 {AREA_LABELS[area]}
@@ -275,11 +290,19 @@ export default function FCRHubPage() {
         ) : cases.length === 0 ? (
           <Card>
             <CardContent className="py-12 text-center">
-              <Brain className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-              <p className="text-label-secondary mb-2">Nenhum caso disponivel</p>
-              <p className="text-sm text-muted-foreground">
-                Casos de raciocinio clinico fractal serao adicionados em breve.
+              <Brain className="w-12 h-12 text-label-tertiary mx-auto mb-4" />
+              <p className="text-label-secondary mb-2">Nenhum caso disponível</p>
+              <p className="text-sm text-label-secondary mb-6">
+                Ainda não há casos publicados para os filtros atuais.
               </p>
+              <div className="space-y-2 max-w-xs mx-auto">
+                <Button onClick={() => setSelectedArea(null)} fullWidth>
+                  Limpar filtro de área
+                </Button>
+                <Button variant="outline" onClick={() => router.push('/simulado')} fullWidth>
+                  Ir para Simulados
+                </Button>
+              </div>
             </CardContent>
           </Card>
         ) : (
@@ -302,10 +325,10 @@ export default function FCRHubPage() {
                           <span className={`text-xs px-2 py-0.5 rounded-full border ${colors.badge}`}>
                             {AREA_LABELS[fcrCase.area] || fcrCase.area}
                           </span>
-                          <span className="text-xs text-muted-foreground">{diffLabel}</span>
+                          <span className="text-xs text-label-tertiary">{diffLabel}</span>
                         </div>
-                        <h3 className="font-medium text-white truncate">{fcrCase.title_pt}</h3>
-                        <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
+                        <h3 className="font-medium text-label-primary truncate">{fcrCase.title_pt}</h3>
+                        <div className="flex items-center gap-3 mt-1 text-xs text-label-tertiary">
                           <span className="flex items-center gap-1">
                             <Target className="w-3 h-3" />
                             {fcrCase.times_attempted} tentativas
@@ -313,7 +336,7 @@ export default function FCRHubPage() {
                           {fcrCase.avg_score && (
                             <span className="flex items-center gap-1">
                               <TrendingUp className="w-3 h-3" />
-                              Media: {Math.round(fcrCase.avg_score)}
+                              Média: {Math.round(fcrCase.avg_score)}
                             </span>
                           )}
                         </div>
@@ -325,7 +348,7 @@ export default function FCRHubPage() {
                             <div className="text-sm font-bold text-violet-400">
                               {attempt.scaled_score}
                             </div>
-                            <div className="text-xs text-muted-foreground">
+                            <div className="text-xs text-label-tertiary">
                               Cal: {attempt.calibration_score}%
                             </div>
                           </div>

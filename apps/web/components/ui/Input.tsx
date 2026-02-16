@@ -37,9 +37,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           id={inputId}
           className={`
-            w-full px-4 py-3 bg-surface-2 border rounded-md text-label-primary
+            darwin-focus-ring w-full rounded-xl border bg-surface-2 px-4 py-3 text-label-primary
             placeholder-label-quaternary transition-all duration-300
-            focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 focus:shadow-glow-emerald
+            focus:border-emerald-500/60 focus:shadow-glow-emerald
             disabled:opacity-50 disabled:cursor-not-allowed
             ${error ? 'border-red-500' : 'border-separator'}
             ${shake ? 'animate-shake' : ''}

@@ -1,0 +1,95 @@
+{
+  "id": "angina-estavel",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "esc-dac-2019"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "esc-dac-2019"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Dor retroesternal, em aperto/pressão",
+        "Desencadeada por esforço/estresse",
+        "Aliviada em <10 min com repouso ou nitrato",
+        "Angina típica: 3/3 critérios. Atípica: 2/3"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "esc-dac-2019"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Modificação de fatores de risco",
+          "Exercício supervisionado (reabilitação cardíaca)",
+          "Cessação do tabagismo"
+        ],
+        "citations": [
+          {
+            "refId": "esc-dac-2019"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "AAS 100mg/dia",
+              "Estatina de alta potência (atorvastatina 40-80mg)",
+              "Betabloqueador (metoprolol, bisoprolol) - primeira linha antianginoso",
+              "Nitrato SL de resgate",
+              "Adicionar BCC se sintomas persistem"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "esc-dac-2019"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "LDL-c <55 mg/dL",
+        "PA <130/80",
+        "FC 55-60 bpm",
+        "Cessar tabaco"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "esc-dac-2019"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "esc-dac-2019"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}
+
