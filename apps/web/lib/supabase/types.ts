@@ -19,6 +19,46 @@ export interface Database {
   public: {
     Tables: {
       // ============================================
+      // BETA FEEDBACK
+      // ============================================
+
+      beta_feedback: {
+        Row: {
+          id: string
+          user_id: string | null
+          email: string | null
+          category: 'bug' | 'feature' | 'usability' | 'content' | 'general'
+          message: string
+          page_url: string | null
+          user_agent: string | null
+          rating: number | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id?: string | null
+          email?: string | null
+          category?: 'bug' | 'feature' | 'usability' | 'content' | 'general'
+          message: string
+          page_url?: string | null
+          user_agent?: string | null
+          rating?: number | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string | null
+          email?: string | null
+          category?: 'bug' | 'feature' | 'usability' | 'content' | 'general'
+          message?: string
+          page_url?: string | null
+          user_agent?: string | null
+          rating?: number | null
+          created_at?: string
+        }
+      }
+
+      // ============================================
       // CORE TABLES (schema.sql)
       // ============================================
 

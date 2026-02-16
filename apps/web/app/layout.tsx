@@ -6,6 +6,7 @@ import { ToastProvider } from '@/components/ui/Toast';
 import { PageTransition } from '@/components/ui/PageTransition';
 import { ThemeProvider } from '@/components/theme/ThemeProvider';
 import { ThemeScript } from '@/components/theme/ThemeScript';
+import { FeedbackWidget } from '@/components/FeedbackWidget';
 import { createServerClient } from '@/lib/supabase/server';
 import { getUserSummaryFromAccessToken, type UserSummary } from '@/lib/auth/user';
 
@@ -77,6 +78,7 @@ export default async function RootLayout({
                   <PageTransition>{children}</PageTransition>
                 </main>
                 <BottomNav user={userSummary} />
+                <FeedbackWidget />
               </div>
             </div>
           </ToastProvider>
