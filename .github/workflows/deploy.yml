@@ -9,6 +9,10 @@ env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
+permissions:
+  contents: read
+  statuses: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -18,22 +22,41 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
+
+      - name: Seed project binding
+        run: |
+          mkdir -p .vercel
+          cat > .vercel/project.json <<EOF
+          {
+            "projectId": "${{ secrets.VERCEL_PROJECT_ID }}",
+            "orgId": "${{ secrets.VERCEL_ORG_ID }}",
+            "projectName": "darwin-education"
+          }
+          EOF
 
       - name: Pull Vercel environment
         run: |
           vercel pull --yes --environment=production \
+            --local-config vercel.json \
             --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build project
         run: |
           vercel build --prod \
+            --local-config vercel.json \
             --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy to Vercel
         run: |
           vercel deploy --prebuilt --prod \
+            --local-config vercel.json \
             --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Add deployment status

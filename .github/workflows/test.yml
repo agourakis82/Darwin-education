@@ -19,22 +19,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: pnpm
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Type check
-        run: pnpm type-check
+      - name: Type check shared package
+        run: pnpm --filter @darwin-education/shared type-check
 
       - name: Run linter
         run: pnpm lint
@@ -47,6 +47,38 @@ jobs:
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co' }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder' }}
+
+      - name: Type check web package
+        run: pnpm --filter @darwin-education/web type-check
+
+      - name: Validate JSON-LD ontology and citation metadata
+        run: pnpm run validate:jsonld -- --max=200 --report-dir=.artifacts/jsonld-audit --json-out=.artifacts/jsonld-audit/validate-jsonld.json --entity-csv=.artifacts/jsonld-audit/entities.csv
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co' }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder' }}
+
+      - name: Validate JSON-LD strictness (main branch)
+        if: github.ref == 'refs/heads/main'
+        run: pnpm run validate:jsonld -- --max=200 --strict --strict-evidence-after-defaults --report-dir=.artifacts/jsonld-audit --json-out=.artifacts/jsonld-audit/validate-jsonld-strict.json
+        continue-on-error: true
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co' }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder' }}
+
+      - name: Validate medical content evidence metadata pipeline
+        run: pnpm audit:medical-content -- --strict-evidence-after-defaults --list-missing-evidence-after-defaults
+        continue-on-error: true
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co' }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder' }}
+
+      - name: Upload JSON-LD quality artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jsonld-quality-${{ github.run_id }}
+          path: .artifacts/jsonld-audit
+          if-no-files-found: ignore
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
