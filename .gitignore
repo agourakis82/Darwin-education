@@ -87,3 +87,6 @@ apps/web/apps/web/output/
 
 # Local image packs (generated assets)
 medical-edtech-*.zip
+
+# AI curation batch outputs (local only)
+.curate_batches/

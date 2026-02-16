@@ -7,6 +7,8 @@ import { getSessionUserSummary } from '@/lib/auth/session'
 import { Button } from '@/components/ui/Button'
 import { Spinner } from '@/components/ui/Spinner'
 import { Card, CardContent } from '@/components/ui/Card'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { AREA_LABELS } from '@/lib/area-colors'
 import { useToast } from '@/lib/hooks/useToast'
 import type { ENAMEDQuestion, IRTParameters, QuestionOntology, DifficultyLevel } from '@darwin-education/shared'
@@ -400,9 +402,9 @@ export default function ExamReviewPage() {
               Explicação
             </h3>
             <div className="prose prose-sm max-w-none dark:prose-invert">
-              <p className="text-label-primary whitespace-pre-wrap">
-                {currentReview.question.explanation}
-              </p>
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {currentReview.question.explanation || ''}
+              </ReactMarkdown>
             </div>
 
             {/* References */}

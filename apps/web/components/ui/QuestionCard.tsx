@@ -2,6 +2,8 @@
 
 import { useState } from 'react'
 import type { ENAMEDQuestion, DifficultyLevel } from '@darwin-education/shared'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { ExplanationPanel } from '@/components/ai/ExplanationPanel'
 import { AREA_COLORS, AREA_LABELS } from '@/lib/area-colors'
 
@@ -178,7 +180,9 @@ export function QuestionCard({
       {showExplanation && question.explanation && (
         <div className="mt-6 p-4 bg-surface-2/50 rounded-lg border border-separator">
           <h4 className="text-sm font-medium text-emerald-400 mb-2">Explicação</h4>
-          <p className="text-label-primary text-sm leading-relaxed">{question.explanation}</p>
+          <div className="prose prose-sm max-w-none dark:prose-invert text-label-primary">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{question.explanation}</ReactMarkdown>
+          </div>
         </div>
       )}
 

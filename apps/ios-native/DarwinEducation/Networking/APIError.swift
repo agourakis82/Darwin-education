@@ -4,6 +4,7 @@ enum APIError: LocalizedError {
     case invalidURL
     case invalidResponse
     case unauthorized
+    case notFound
     case httpStatus(Int, String)
     case decoding(Error)
     case transport(Error)
@@ -16,6 +17,8 @@ enum APIError: LocalizedError {
             return "Invalid response from server."
         case .unauthorized:
             return "Session expired. Please sign in again."
+        case .notFound:
+            return "Resource not found."
         case let .httpStatus(code, body):
             return "HTTP \(code): \(body)"
         case let .decoding(error):

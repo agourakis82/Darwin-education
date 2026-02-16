@@ -1,5 +1,7 @@
 'use client'
 
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { Button } from '@/components/ui/Button'
 import { useAIExplanation } from '@/lib/hooks/useAIExplanation'
 
@@ -37,7 +39,9 @@ export function ExplanationPanel({
             Explicação com IA
           </Button>
         </div>
-        <p className="text-label-primary text-sm leading-relaxed">{staticExplanation}</p>
+        <div className="prose prose-sm max-w-none dark:prose-invert text-label-primary">
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{staticExplanation}</ReactMarkdown>
+        </div>
       </div>
     )
   }
@@ -93,9 +97,9 @@ export function ExplanationPanel({
             )}
           </div>
         </div>
-        <p className="text-label-primary text-sm leading-relaxed whitespace-pre-wrap">
-          {explanation.text}
-        </p>
+        <div className="prose prose-sm max-w-none dark:prose-invert text-label-primary">
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{explanation.text}</ReactMarkdown>
+        </div>
       </div>
     )
   }
