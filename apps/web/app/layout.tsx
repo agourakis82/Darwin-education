@@ -9,6 +9,7 @@ import { ThemeScript } from '@/components/theme/ThemeScript';
 import { FeedbackWidget } from '@/components/FeedbackWidget';
 import { createServerClient } from '@/lib/supabase/server';
 import { getUserSummaryFromAccessToken, type UserSummary } from '@/lib/auth/user';
+import { Analytics } from '@vercel/analytics/next';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://darwinhub.org'),
@@ -83,6 +84,7 @@ export default async function RootLayout({
             </div>
           </ToastProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
