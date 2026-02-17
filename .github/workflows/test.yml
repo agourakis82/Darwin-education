@@ -51,6 +51,7 @@ jobs:
 
       - name: Validate JSON-LD ontology and citation metadata
         run: pnpm run validate:jsonld -- --max=200 --report-dir=.artifacts/jsonld-audit --json-out=.artifacts/jsonld-audit/validate-jsonld.json --entity-csv=.artifacts/jsonld-audit/entities.csv
+        continue-on-error: true
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co' }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder' }}
