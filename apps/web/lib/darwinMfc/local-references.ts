@@ -1,4 +1,4 @@
-import type { Reference } from '../../../../darwin-MFC/lib/types/references'
+import type { Reference } from './types'
 
 export const localReferences: Record<string, Reference> = {
   'acg-gerd-2022': {

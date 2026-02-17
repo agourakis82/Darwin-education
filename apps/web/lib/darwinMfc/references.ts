@@ -1,6 +1,9 @@
-import type { Reference } from '../../../../darwin-MFC/lib/types/references'
-import { references } from '../../../../darwin-MFC/lib/data/references'
-import { localReferences } from '@/lib/darwinMfc/local-references'
+import type { Reference } from './types'
+import { localReferences } from './local-references'
+
+// Local references serve as the primary data source.
+// No external darwin-MFC repo dependency needed.
+const references: Record<string, Reference> = {}
 
 export type DarwinCitation = {
   refId: string
@@ -20,9 +23,11 @@ function isPlaceholderDoi(doi?: string) {
 }
 
 export function resolveDarwinReference(refId: string): Reference | null {
-  const local = (localReferences as Record<string, Reference | undefined>)[refId]
+  const normalized = refId.trim().toLowerCase()
+  if (!normalized) return null
+  const local = (localReferences as Record<string, Reference | undefined>)[normalized]
   if (local) return local
-  const ref = (references as Record<string, Reference | undefined>)[refId]
+  const ref = (references as Record<string, Reference | undefined>)[normalized]
   return ref ?? null
 }
 
