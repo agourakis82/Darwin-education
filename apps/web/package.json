@@ -20,6 +20,7 @@
     "@darwin-education/shared": "workspace:*",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.45.0",
+    "@vercel/analytics": "^1.6.1",
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",
     "framer-motion": "^11.0.0",
