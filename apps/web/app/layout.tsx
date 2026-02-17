@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { Analytics } from '@vercel/analytics/next';
 import { Navigation } from '@/components/Navigation';
 import { BottomNav } from '@/components/BottomNav';
 import { ToastProvider } from '@/components/ui/Toast';
@@ -83,6 +84,7 @@ export default async function RootLayout({
             </div>
           </ToastProvider>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
