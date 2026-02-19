@@ -1,0 +1,67 @@
+{
+  "id": "embolia-pulmonar",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Escore de Wells para TEP: alta (>6), moderada (2-6), baixa (<2)",
+        "PERC rule: se todos negativos e baixa probabilidade, excluído",
+        "D-dímero: alto VPN se baixa/moderada probabilidade",
+        "Angio-TC de tórax: padrão-ouro",
+        "Dispneia súbita, dor torácica pleurítica, taquicardia, hipoxemia"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Estabilização hemodinâmica",
+          "Oxigenoterapia"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "TEP de baixo risco: DOAC (rivaroxabana ou apixabana)",
+              "TEP de risco intermediário: anticoagulação + monitoramento",
+              "TEP alto risco (instável): trombólise sistêmica (alteplase)",
+              "Duração: igual a TVP"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Anticoagulação precoce",
+        "Estabilização hemodinâmica"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

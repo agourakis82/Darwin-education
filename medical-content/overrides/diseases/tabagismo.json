@@ -1,0 +1,64 @@
+{
+  "id": "tabagismo",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Fagerström ≥6 = dependência alta",
+        "Uso diário apesar de conhecer riscos",
+        "Tentativas prévias de cessar sem sucesso",
+        "Sintomas de abstinência"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Abordagem breve (5 As)",
+          "Aconselhamento motivacional",
+          "Grupo de apoio",
+          "Linha telefônica (136)"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Primeira linha: Bupropiona 150mg 2x/dia por 7-12 semanas",
+              "OU Vareniclina 0,5mg → 1mg 2x/dia",
+              "TRN: adesivo + pastilha/goma conforme necessidade"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

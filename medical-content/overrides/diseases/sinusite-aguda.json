@@ -1,0 +1,63 @@
+{
+  "id": "sinusite-aguda",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Congestão nasal",
+        "Rinorreia purulenta",
+        "Dor facial/pressão",
+        "Hiposmia",
+        "Duração 7-10 dias (viral) ou >10 dias (bacteriana)"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Lavagem nasal com SF",
+          "Hidratação",
+          "Umidificação do ar"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Sintomático: analgésico + descongestionante tópico (máx 5 dias)",
+              "ATB se bacteriana: Amoxicilina 500mg 8/8h 7-10 dias"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

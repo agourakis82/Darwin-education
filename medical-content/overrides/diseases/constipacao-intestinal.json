@@ -1,0 +1,64 @@
+{
+  "id": "constipacao-intestinal",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "<3 evacuações/semana",
+        "Esforço excessivo",
+        "Fezes endurecidas",
+        "Sensação de esvaziamento incompleto",
+        "Critérios Roma IV"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Aumento de fibras (25-30g/dia)",
+          "Hidratação adequada",
+          "Atividade física",
+          "Hábitos intestinais regulares"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Primeira linha: Laxante formador de bolo (Psyllium) ou osmótico (Lactulose 15-30ml/dia)",
+              "Se refratária: Polietilenoglicol ou laxante estimulante (senna)"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

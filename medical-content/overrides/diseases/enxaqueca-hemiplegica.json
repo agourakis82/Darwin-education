@@ -1,0 +1,62 @@
+{
+  "id": "enxaqueca-hemiplegica",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Critérios ICHD-3 para enxaqueca com aura",
+        "Aura com fraqueza motora unilateral",
+        "Aura totalmente reversível",
+        "Familiar ou esporádica (genética)"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Evitar gatilhos",
+          "Educação sobre o transtorno"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Evitar triptanos e ergotamina (risco de AVC)",
+              "Prevenção: Verapamil, Lamotrigina",
+              "Crise: AINEs, Analgésicos simples"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

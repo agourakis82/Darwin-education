@@ -1,0 +1,66 @@
+{
+  "id": "prostatite",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Tipo I: febre, disúria, dor perineal, próstata edemaciada e dolorosa",
+        "Tipo II: infecções urinárias recorrentes, sintomas >3 meses",
+        "Tipo III: dor pélvica crônica sem infecção comprovada",
+        "Urocultura, PSA pode estar elevado transitoriamente"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Hidratação adequada",
+          "Banhos de assento mornos",
+          "Evitar cafeína e álcool"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Tipo I: Ciprofloxacino 500mg 12/12h por 4-6 semanas",
+              "Tipo II: fluoroquinolona por 4-6 semanas",
+              "Tipo III: alfa-bloqueador, fitoterapia (serenoa), analgésicos"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Resolução de sintomas",
+        "Erradicação bacteriana"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

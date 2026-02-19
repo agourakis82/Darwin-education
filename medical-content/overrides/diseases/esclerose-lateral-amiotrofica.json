@@ -1,0 +1,66 @@
+{
+  "id": "esclerose-lateral-amiotrofica",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Critérios de El Escorial Revisados:",
+        "Evidência de degeneração de neurônio motor superior (espasticidade, hiperreflexia)",
+        "Evidência de degeneração de neurônio motor inferior (atrofia, fasciculações, fraqueza)",
+        "Progressão da doença",
+        "Exclusão de outras causas"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Cuidados multidisciplinares",
+          "Fisioterapia e terapia ocupacional",
+          "Suporte respiratório (ventilação não invasiva quando necessário)",
+          "Nutrição (gastrostomia se necessário)",
+          "Suporte psicológico"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Riluzol 50mg 2x/dia (prolonga sobrevida em 2-3 meses)",
+              "Edaravone (IV - alguns casos)",
+              "Sintomáticos: Baclofeno (espasticidade), Anticolinérgicos (sialorreia)"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

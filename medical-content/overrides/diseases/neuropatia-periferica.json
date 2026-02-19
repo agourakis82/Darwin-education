@@ -1,0 +1,65 @@
+{
+  "id": "neuropatia-periferica",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Parestesia/formigamento",
+        "Dor neuropática",
+        "Fraqueza muscular",
+        "Reflexos diminuídos",
+        "Exame neurológico: alterações sensitivas/motoras"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Tratar causa subjacente",
+          "Fisioterapia",
+          "Apoio ortopédico se necessário"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Analgésicos: Amitriptilina 10-50mg/dia",
+              "Ou Gabapentina 300-1800mg/dia",
+              "Ou Pregabalina 75-300mg/dia",
+              "Suplementação: B12, B6, Ácido fólico se deficiente"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

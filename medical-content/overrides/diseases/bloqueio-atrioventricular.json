@@ -1,0 +1,67 @@
+{
+  "id": "bloqueio-atrioventricular",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "BAV 1º grau: PR >200ms, todos P conduzidos",
+        "BAV 2º grau Mobitz I: PR progressivamente maior até P bloqueado (Wenckebach)",
+        "BAV 2º grau Mobitz II: P bloqueado sem alargamento prévio de PR",
+        "BAV 3º grau (BAVT): nenhum P conduzido, escape ventricular"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "BAV 1º e Mobitz I: observação, remover drogas bradicardizantes",
+          "BAVT e Mobitz II: marca-passo provisório → definitivo"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Atropina 0,5-1mg IV (emergência, BAVT sintomático)",
+              "Isoproterenol (temporário)",
+              "Suspender drogas: betabloqueador, BCC, digoxina, amiodarona",
+              "Tratar causa: isquemia, Lyme, hipercalemia"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Marca-passo se indicado",
+        "FC adequada",
+        "Ausência de sintomas"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

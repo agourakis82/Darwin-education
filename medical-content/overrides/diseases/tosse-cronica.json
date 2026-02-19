@@ -1,0 +1,64 @@
+{
+  "id": "tosse-cronica",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Tosse >8 semanas",
+        "Investigar causas: DRGE, asma, rinite, IECA",
+        "Radiografia de tórax normal",
+        "Exclusão de outras causas"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Tratar causa subjacente",
+          "Suspender IECA se uso recente",
+          "Evitar irritantes"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Se DRGE: IBP",
+              "Se asma: Broncodilatadores + Corticosteroides inalatórios",
+              "Se rinite: Anti-histamínicos + Corticosteroides nasais",
+              "Codeína ou Dextrometorfano apenas curto prazo se necessário"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

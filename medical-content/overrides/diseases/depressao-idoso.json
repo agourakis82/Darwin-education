@@ -1,0 +1,113 @@
+{
+  "id": "depressao-idoso",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "who-depression-2023"
+        },
+        {
+          "refId": "nice-depression-2022"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "dsm5-tr"
+        },
+        {
+          "refId": "who-depression-2023"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "GDS-15 ≥5 no rastreamento",
+        "Sintomas de humor depressivo com ou sem queixas somáticas",
+        "Perda de interesse/anedonia com prejuízo funcional",
+        "Sintomas cognitivos e pseudodemência podem coexistir"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "dsm5-tr"
+        },
+        {
+          "refId": "who-depression-2023"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Ativação comportamental",
+          "Atividade física adaptada",
+          "Psicoterapia estruturada (TCC/interpessoal)"
+        ],
+        "citations": [
+          {
+            "refId": "nice-depression-2022"
+          },
+          {
+            "refId": "canmat-2024"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "ISRS: Sertralina, Escitalopram (baixas doses iniciais)",
+              "Evitar tricíclicos e fármacos com alto risco anticolinérgico"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "canmat-2024"
+          },
+          {
+            "refId": "nice-depression-2022"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "canmat-2024"
+        },
+        {
+          "refId": "nice-depression-2022"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "canmat-2024"
+    },
+    {
+      "refId": "nice-depression-2022"
+    },
+    {
+      "refId": "dsm5-tr"
+    },
+    {
+      "refId": "who-depression-2023"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

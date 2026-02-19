@@ -1,0 +1,88 @@
+{
+  "id": "demencia",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "dsm5-tr"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "dsm5-tr"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Declínio cognitivo em múltiplos domínios em comparação ao funcionamento prévio",
+        "Prejuízo funcional em atividades de vida diária",
+        "Não explicado por delirium nem piora psiquiátrica primária",
+        "Declínio progressivo e persistente"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "dsm5-tr"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Estimulação cognitiva e funcional",
+          "Atividade física e estruturação de rotina",
+          "Suporte à família e cuidadores",
+          "Adaptação de segurança ambiental"
+        ],
+        "citations": [
+          {
+            "refId": "dsm5-tr"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Considerar inibidores da colinesterase em doença leve a moderada",
+              "Considerar memantina conforme gravidade funcional",
+              "Evitar medicações com alto risco anticolinérgico"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "dsm5-tr"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "dsm5-tr"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

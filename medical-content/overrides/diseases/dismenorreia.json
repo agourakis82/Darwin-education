@@ -1,0 +1,63 @@
+{
+  "id": "dismenorreia",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Dor em cólica suprapúbica",
+        "Início com a menstruação (primária) ou antes (secundária)",
+        "Náuseas, diarreia, cefaleia associados",
+        "Primária: início 6-12 meses pós-menarca"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Exercício físico regular",
+          "Calor local (bolsa térmica)",
+          "TENS"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "AINE: Ibuprofeno 400mg 6/6h iniciando 1 dia antes da menstruação",
+              "ACO combinado contínuo ou estendido",
+              "DIU de levonorgestrel (se contracepção desejada)"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

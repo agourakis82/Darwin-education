@@ -1,0 +1,64 @@
+{
+  "id": "sindrome-fragilidade",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Fenótipo de Fried: ≥3 critérios = frágil, 1-2 = pré-frágil",
+        "Perda de peso não intencional >4,5kg/ano",
+        "Exaustão autorrelatada",
+        "Baixa atividade física",
+        "Lentidão de marcha",
+        "Fraqueza (grip strength)"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Exercício multicomponente (resistência + equilíbrio)",
+          "Intervenção nutricional proteica",
+          "Avaliação geriátrica ampla"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Vitamina D se deficiência",
+              "Revisão e desprescrição de medicamentos"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

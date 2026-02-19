@@ -1,0 +1,68 @@
+{
+  "id": "laringite-aguda",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Tosse ladrante (\"de cachorro\")",
+        "Estridor inspiratório (pior à noite)",
+        "Rouquidão",
+        "Febre baixa, pródromos de IVAS",
+        "Sinal da torre em radiografia (estreitamento subglótico) - não obrigatório"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Ar frio ou umidificado",
+          "Manter calmo (choro piora)",
+          "Monitorar progressão"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Leve: observação, pode não precisar de medicação",
+              "Moderado: Dexametasona 0,15-0,6mg/kg VO dose única",
+              "Grave: Dexametasona + Nebulização de adrenalina (1:1000) 3-5mL - pronto-socorro",
+              "Adrenalina: efeito temporário (2h) - observar após"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Alívio do estridor",
+        "Prevenção de obstrução"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

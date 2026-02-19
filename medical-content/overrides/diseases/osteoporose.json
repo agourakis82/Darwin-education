@@ -1,0 +1,64 @@
+{
+  "id": "osteoporose",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "DXA: T-score ≤-2,5 (coluna/fêmur)",
+        "OU fratura por fragilidade prévia",
+        "T-score -1 a -2,5 = osteopenia",
+        "FRAX para calcular risco"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Exercício com carga",
+          "Prevenção de quedas",
+          "Cessar tabagismo",
+          "Cálcio dietético 1000-1200mg/dia"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Alendronato 70mg/semana ou Risedronato 35mg/semana",
+              "Vitamina D 800-2000UI/dia",
+              "Denosumabe se intolerância a bifosfonatos"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

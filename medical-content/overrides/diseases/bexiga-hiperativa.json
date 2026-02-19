@@ -1,0 +1,68 @@
+{
+  "id": "bexiga-hiperativa",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Urgência urinária (desejo súbito e imperioso)",
+        "Frequência urinária >8x/dia",
+        "Noctúria >1 episódio/noite",
+        "Incontinência de urgência (úmida) vs sem incontinência (seca)",
+        "Exclusão de ITU, tumor, cálculo"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Treinamento vesical (aumentar intervalo entre micções)",
+          "Exercícios de Kegel",
+          "Reduzir cafeína e líquidos à noite",
+          "Diário miccional"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Antimuscarínicos: Oxibutinina 5mg 2-3x/dia, Tolterodina 2mg 2x/dia",
+              "Beta-3 agonista: Mirabegrona 25-50mg/dia (alternativa)",
+              "Cuidado com anticolinérgicos em idosos (risco cognitivo)"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Redução de 50% na frequência",
+        "Melhora da qualidade de vida"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

@@ -1,0 +1,65 @@
+{
+  "id": "miastenia-gravis",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Fraqueza muscular flutuante",
+        "Piora com atividade, melhora com repouso",
+        "Padrão típico: ptose, diplopia, fraqueza facial/bulbar/proximal",
+        "Teste de Tensilom (edrofônio): melhora temporária",
+        "Anticorpos anti-AChR ou anti-MuSK",
+        "EMG: decremento na estimulação repetitiva"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Evitar exercício excessivo",
+          "Repouso adequado",
+          "Evitar medicamentos que pioram (aminoglicosídeos, quinolonas)"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Inibidores de colinesterase: Piridostigmina 30-120mg 3-4x/dia",
+              "Imunossupressão: Prednisona, Azatioprina, Micofenolato",
+              "Crise miastênica: Imunoglobulina IV ou Plasmaférese"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

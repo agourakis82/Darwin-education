@@ -1,0 +1,64 @@
+{
+  "id": "impetigo",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Lesões vesiculares/pustulares",
+        "Evoluem para crostas melicéricas",
+        "Localização: face, extremidades",
+        "Mais comum em crianças"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Higiene local",
+          "Remover crostas",
+          "Evitar contato"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Tópico: Mupirocina 2% 3x/dia por 7-10 dias",
+              "Ou Ácido fusídico tópico",
+              "Se extenso: Cefalexina oral 25-50mg/kg/dia por 7 dias",
+              "Ou Amoxicilina-clavulanato"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

@@ -1,0 +1,68 @@
+{
+  "id": "trombose-venosa-profunda",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Escore de Wells para TVP (probabilidade clínica)",
+        "D-dímero: alto VPN se probabilidade baixa",
+        "USG Doppler venoso: diagnóstico definitivo",
+        "Edema unilateral, dor em panturrilha, empastamento"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Deambulação precoce (não mais repouso)",
+          "Meia elástica de compressão",
+          "Elevação do membro"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "DOACs: Rivaroxabana 15mg 2x/dia por 21 dias, depois 20mg/dia",
+              "Ou Apixabana 10mg 2x/dia por 7 dias, depois 5mg 2x/dia",
+              "Alternativa: Enoxaparina + Varfarina (bridge)",
+              "Duração: 3-6 meses (provocado), indefinido (não provocado/recorrente)"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Anticoagulação terapêutica",
+        "Prevenção de TEP",
+        "Prevenção de recorrência"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

@@ -1,0 +1,65 @@
+{
+  "id": "hipotensao-ortostatica",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Queda PA ao ortostatismo (1-3 min)",
+        "Sintomas: tontura, escurecimento visual",
+        "Reprodutível ao teste postural",
+        "Avaliar medicamentos causadores"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Levantar em etapas",
+          "Elevar cabeceira",
+          "Meias compressivas",
+          "Hidratação adequada",
+          "Aumentar sal (se não HAS grave)"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Revisar e reduzir anti-hipertensivos",
+              "Fludrocortisona 0,1mg/dia (se refratário)",
+              "Midodrina 2,5-10mg 3x/dia"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

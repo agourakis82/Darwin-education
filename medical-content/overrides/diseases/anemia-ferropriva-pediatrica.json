@@ -1,0 +1,63 @@
+{
+  "id": "anemia-ferropriva-pediatrica",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Hb <11g/dL (6m-5a) ou <11,5g/dL (5-11a)",
+        "VCM baixo (microcitose)",
+        "RDW elevado (anisocitose)",
+        "Ferritina <12ng/mL (ou <30 se inflamação)"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Alimentação rica em ferro",
+          "Vitamina C nas refeições",
+          "Evitar leite de vaca em excesso"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Sulfato ferroso 3-5mg/kg/dia de Fe elementar",
+              "Longe das refeições",
+              "Duração: 3-6 meses (repor estoques)"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

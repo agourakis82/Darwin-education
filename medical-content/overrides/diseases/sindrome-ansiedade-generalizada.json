@@ -1,0 +1,94 @@
+{
+  "id": "sindrome-ansiedade-generalizada",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "nice-social-anxiety-2013"
+        },
+        {
+          "refId": "dsm5-tr"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "dsm5-tr"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Preocupação excessiva persistente por >=6 meses",
+        "Dificuldade em controlar preocupação",
+        "≥3 sintomas somáticos: tensão muscular, fadiga, irritabilidade, sono alterado, inquietação ou dificuldade concentração"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "dsm5-tr"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Terapia cognitivo-comportamental",
+          "Técnicas de respiração e redução de ansiedade",
+          "Atividades físicas e higiene do sono"
+        ],
+        "citations": [
+          {
+            "refId": "nice-social-anxiety-2013"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "ISRS: Sertralina, Escitalopram",
+              "ISRN: Venlafaxina"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "nice-social-anxiety-2013"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "nice-social-anxiety-2013"
+        },
+        {
+          "refId": "dsm5-tr"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "nice-social-anxiety-2013"
+    },
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

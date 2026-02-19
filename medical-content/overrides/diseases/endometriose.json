@@ -1,0 +1,68 @@
+{
+  "id": "endometriose",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Dismenorreia progressiva e incapacitante",
+        "Dispareunia profunda",
+        "Dor pélvica crônica",
+        "Infertilidade",
+        "Laparoscopia com biópsia: padrão-ouro"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Atividade física regular",
+          "Calor local para alívio da dor"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "AINEs para dor",
+              "Contraceptivo hormonal combinado contínuo",
+              "Progestágenos: dienogeste 2mg/dia, DIU-LNG",
+              "Análogos de GnRH (casos graves): uso temporário"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Controle da dor",
+        "Preservação da fertilidade",
+        "Qualidade de vida"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

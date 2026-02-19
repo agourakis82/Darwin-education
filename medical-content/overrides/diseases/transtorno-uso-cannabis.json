@@ -1,0 +1,86 @@
+{
+  "id": "transtorno-uso-cannabis",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "dsm5-tr"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "dsm5-tr"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Pelo menos 2 critérios de uso prejudicial em 12 meses",
+        "Comprometimento funcional ou social associando-se ao uso",
+        "Dificuldade de controle, fissura e manutenção de abstinência"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "dsm5-tr"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Entrevista motivacional",
+          "TCC para uso de substâncias",
+          "Estratégias de prevenção de recaída",
+          "Encaminhamento para grupos terapêuticos"
+        ],
+        "citations": [
+          {
+            "refId": "dsm5-tr"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Manejo de abstinência conforme gravidade",
+              "Naltrexona pode ser considerada em contextos selecionados"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "dsm5-tr"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "dsm5-tr"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

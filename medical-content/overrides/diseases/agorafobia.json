@@ -1,0 +1,95 @@
+{
+  "id": "agorafobia",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "nice-social-anxiety-2013"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "dsm5-tr"
+        },
+        {
+          "refId": "nice-social-anxiety-2013"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Medo ou ansiedade marcante em ≥2 situações: transporte público, espaços abertos, locais fechados, multidão ou sair de casa sozinho",
+        "Evitação por medo de não conseguir escapar ou de não receber ajuda",
+        "Prejuízo funcional significativo",
+        "Duração dos sintomas: ≥6 meses"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "dsm5-tr"
+        },
+        {
+          "refId": "nice-social-anxiety-2013"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "TCC com exposição gradual (exposição interoceptiva e in vivo)",
+          "Treinamento de respiração/controle fisiológico",
+          "Psicoeducação e planejamento de enfrentamento"
+        ],
+        "citations": [
+          {
+            "refId": "nice-social-anxiety-2013"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "ISRS: Paroxetina, Sertralina",
+              "ISRN: Venlafaxina"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "nice-social-anxiety-2013"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "nice-social-anxiety-2013"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "nice-social-anxiety-2013"
+    },
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

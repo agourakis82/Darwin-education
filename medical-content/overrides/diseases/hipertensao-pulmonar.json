@@ -1,0 +1,68 @@
+{
+  "id": "hipertensao-pulmonar",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Sintomas: dispneia aos esforços progressiva, fadiga, síncope",
+        "Eco: PSAP estimada >35-40 mmHg, dilatação de VD",
+        "Cateterismo direito: PAPm ≥25 mmHg (diagnóstico definitivo)",
+        "BNP/NT-proBNP elevados"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Limitar esforço físico intenso",
+          "Oxigenoterapia se hipoxemia",
+          "Anticoncepção (gestação contraindicada)"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Grupo 2: tratar cardiopatia de base",
+              "Grupo 3: tratar pneumopatia, O2",
+              "Grupo 4 (CTEPH): anticoagulação, considerar cirurgia",
+              "HAP: terapias específicas (sildenafil, bosentana, prostanoides)"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Classe funcional OMS I-II",
+        "BNP baixo",
+        "Distância no TC6M"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

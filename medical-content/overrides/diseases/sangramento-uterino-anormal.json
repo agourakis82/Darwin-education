@@ -1,0 +1,66 @@
+{
+  "id": "sangramento-uterino-anormal",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": []
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": []
+    },
+    "diagnostico": {
+      "criterios": [
+        "Sangramento >80mL/ciclo ou >7 dias",
+        "Ciclos <21 ou >35 dias",
+        "Sangramento intermenstrual ou pós-coito",
+        "Investigar causa conforme PALM-COEIN"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": []
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Diário menstrual",
+          "Suplementação de ferro se anemia"
+        ],
+        "citations": []
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Agudo: ácido tranexâmico 1g 8/8h, ACO em alta dose",
+              "Crônico ovulatório: DIU-LNG, ACO",
+              "Crônico anovulatório: progestágeno cíclico, ACO",
+              "Tratar causa específica (pólipo, mioma)"
+            ]
+          }
+        ],
+        "citations": []
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [
+        "Regularização do ciclo",
+        "Correção da anemia"
+      ],
+      "criteriosEncaminhamento": [],
+      "citations": []
+    }
+  },
+  "citations": [
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}

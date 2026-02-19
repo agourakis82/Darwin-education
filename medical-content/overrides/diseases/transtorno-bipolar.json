@@ -1,0 +1,98 @@
+{
+  "id": "transtorno-bipolar",
+  "fullContent": {
+    "epidemiologia": {
+      "fatoresRisco": [],
+      "citations": [
+        {
+          "refId": "nice-bipolar-2014"
+        }
+      ]
+    },
+    "quadroClinico": {
+      "sintomasPrincipais": [],
+      "sinaisExameFisico": [],
+      "citations": [
+        {
+          "refId": "dsm5-tr"
+        },
+        {
+          "refId": "nice-bipolar-2014"
+        }
+      ]
+    },
+    "diagnostico": {
+      "criterios": [
+        "Pelo menos um episódio maníaco ou hipomaníaco",
+        "Episódios depressivos recorrentes ou hipomania com sintomas de base",
+        "Deterioração funcional e impacto social/familiar"
+      ],
+      "diagnosticoDiferencial": [],
+      "examesLaboratoriais": [],
+      "examesImagem": [],
+      "outrosExames": [],
+      "citations": [
+        {
+          "refId": "dsm5-tr"
+        },
+        {
+          "refId": "nice-bipolar-2014"
+        }
+      ]
+    },
+    "tratamento": {
+      "objetivos": [],
+      "naoFarmacologico": {
+        "medidas": [
+          "Psicoeducação e manejo de adesão",
+          "Psicoterapia de suporte",
+          "Envolvimento familiar"
+        ],
+        "citations": [
+          {
+            "refId": "nice-bipolar-2014"
+          }
+        ]
+      },
+      "farmacologico": {
+        "primeiraLinha": [
+          {
+            "classe": "Primeira linha (resumo)",
+            "medicamentos": [
+              "Lítio",
+              "Valproato",
+              "Quetiapina / Olanzapina conforme contexto clínico"
+            ]
+          }
+        ],
+        "citations": [
+          {
+            "refId": "nice-bipolar-2014"
+          },
+          {
+            "refId": "dsm5-tr"
+          }
+        ]
+      }
+    },
+    "acompanhamento": {
+      "frequenciaConsultas": "",
+      "metasTerapeuticas": [],
+      "criteriosEncaminhamento": [],
+      "citations": [
+        {
+          "refId": "nice-bipolar-2014"
+        }
+      ]
+    }
+  },
+  "citations": [
+    {
+      "refId": "nice-bipolar-2014"
+    },
+    {
+      "refId": "dsm5-tr"
+    }
+  ],
+  "lastUpdate": "2026-02"
+}
