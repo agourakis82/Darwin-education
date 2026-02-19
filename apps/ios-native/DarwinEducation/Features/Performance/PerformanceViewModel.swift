@@ -3,13 +3,13 @@ import Foundation
 @MainActor
 final class PerformanceViewModel: ObservableObject {
     @Published private(set) var isLoading = false
-    @Published private(set) var summary = LearnerProfileSummary.placeholder
+    @Published private(set) var summary = PerformanceSummary.empty
     @Published var errorMessage: String?
 
-    private let apiClient: DarwinAPIClient
+    private let repository: PerformanceRepository
 
-    init(apiClient: DarwinAPIClient = DarwinAPIClient()) {
-        self.apiClient = apiClient
+    init(repository: PerformanceRepository) {
+        self.repository = repository
     }
 
     func load(accessToken: String?) async {
@@ -18,10 +18,10 @@ final class PerformanceViewModel: ObservableObject {
         defer { isLoading = false }
 
         do {
-            summary = try await apiClient.fetchLearnerProfile(accessToken: accessToken)
+            summary = try await repository.fetchSummary(accessToken: accessToken)
         } catch {
             errorMessage = error.localizedDescription
-            summary = .placeholder
+            summary = .empty
         }
     }
 }

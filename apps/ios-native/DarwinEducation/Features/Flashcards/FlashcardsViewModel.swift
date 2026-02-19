@@ -3,13 +3,13 @@ import Foundation
 @MainActor
 final class FlashcardsViewModel: ObservableObject {
     @Published private(set) var isLoading = false
-    @Published private(set) var decks: [FlashcardDeckSummary] = []
+    @Published private(set) var decks: [DeckSummary] = []
     @Published var errorMessage: String?
 
-    private let apiClient: DarwinAPIClient
+    private let repository: FlashcardsRepository
 
-    init(apiClient: DarwinAPIClient = DarwinAPIClient()) {
-        self.apiClient = apiClient
+    init(repository: FlashcardsRepository) {
+        self.repository = repository
     }
 
     func load(accessToken: String?) async {
@@ -18,7 +18,7 @@ final class FlashcardsViewModel: ObservableObject {
         defer { isLoading = false }
 
         do {
-            decks = try await apiClient.fetchDueDecks(accessToken: accessToken)
+            decks = try await repository.listDueDecks(accessToken: accessToken)
         } catch {
             errorMessage = error.localizedDescription
             decks = []

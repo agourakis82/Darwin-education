@@ -6,8 +6,7 @@ struct RootView: View {
     var body: some View {
         Group {
             if sessionStore.isLoading {
-                ProgressView("Carregando...")
-                    .progressViewStyle(.circular)
+                DarwinLoadingView(title: "Carregando sessao...")
             } else if sessionStore.isAuthenticated {
                 RootTabView()
             } else {
@@ -23,4 +22,7 @@ struct RootView: View {
 #Preview {
     RootView()
         .environmentObject(SessionStore())
+        .environmentObject(AppStore())
+        .environmentObject(ThemeStore())
+        .environmentObject(FeatureFlagStore())
 }

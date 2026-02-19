@@ -2,6 +2,7 @@ import SwiftUI
 
 struct AccountView: View {
     @EnvironmentObject private var sessionStore: SessionStore
+    @EnvironmentObject private var themeStore: ThemeStore
 
     var body: some View {
         List {
@@ -10,8 +11,21 @@ struct AccountView: View {
                     .foregroundStyle(.secondary)
             }
 
+            Section("Tema") {
+                Picker("Aparencia", selection: Binding(
+                    get: { themeStore.preference },
+                    set: { themeStore.preference = $0 }
+                )) {
+                    ForEach(ThemePreference.allCases) { option in
+                        Label(option.title, systemImage: option.icon).tag(option)
+                    }
+                }
+                .pickerStyle(.segmented)
+            }
+
             Section {
                 Button(role: .destructive) {
+                    DarwinHaptics.warning()
                     sessionStore.signOut()
                 } label: {
                     Text("Sair")
@@ -19,6 +33,8 @@ struct AccountView: View {
             }
         }
         .navigationTitle("Conta")
+        .scrollContentBackground(.hidden)
+        .background(AppBackground())
     }
 }
 
@@ -26,5 +42,6 @@ struct AccountView: View {
     NavigationStack {
         AccountView()
             .environmentObject(SessionStore())
+            .environmentObject(ThemeStore())
     }
 }

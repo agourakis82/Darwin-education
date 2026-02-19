@@ -2,36 +2,37 @@ import SwiftUI
 
 struct PerformanceView: View {
     @EnvironmentObject private var sessionStore: SessionStore
-    @StateObject private var viewModel = PerformanceViewModel()
+    @StateObject private var viewModel: PerformanceViewModel
+
+    init(repository: PerformanceRepository) {
+        _viewModel = StateObject(wrappedValue: PerformanceViewModel(repository: repository))
+    }
 
     var body: some View {
-        List {
-            Section("Resumo") {
-                MetricRow(
-                    title: "Dominio Geral",
-                    value: String(format: "%.1f%%", viewModel.summary.overallMastery * 100)
-                )
-                MetricRow(
-                    title: "Minutos na semana",
-                    value: "\(viewModel.summary.weeklyStudyMinutes)"
-                )
-                MetricRow(
-                    title: "Questoes respondidas",
-                    value: "\(viewModel.summary.answeredQuestions)"
-                )
-            }
+        ScrollView {
+            VStack(spacing: DarwinSpacing.md) {
+                DarwinCard {
+                    VStack(alignment: .leading, spacing: DarwinSpacing.sm) {
+                        Text("Resumo")
+                            .font(.headline)
+                        metricRow(title: "Dominio Geral", value: String(format: "%.1f%%", viewModel.summary.masteryPercent * 100))
+                        metricRow(title: "Minutos na semana", value: "\(viewModel.summary.weeklyMinutes)")
+                        metricRow(title: "Questoes respondidas", value: "\(viewModel.summary.answeredQuestions)")
+                    }
+                }
 
-            if let errorMessage = viewModel.errorMessage {
-                Section("Aviso") {
-                    Text(errorMessage)
-                        .foregroundStyle(.red)
+                if let errorMessage = viewModel.errorMessage {
+                    DarwinErrorView(title: "Falha ao carregar", message: errorMessage)
                 }
             }
+            .padding(DarwinSpacing.md)
         }
+        .background(AppBackground())
         .navigationTitle("Desempenho")
         .overlay {
             if viewModel.isLoading {
-                ProgressView("Carregando indicadores...")
+                DarwinLoadingView(title: "Carregando indicadores...")
+                    .background(.ultraThinMaterial)
             }
         }
         .task {
@@ -41,25 +42,19 @@ struct PerformanceView: View {
             await viewModel.load(accessToken: sessionStore.accessToken)
         }
     }
-}
 
-private struct MetricRow: View {
-    let title: String
-    let value: String
-
-    var body: some View {
+    private func metricRow(title: String, value: String) -> some View {
         HStack {
             Text(title)
             Spacer()
-            Text(value)
-                .fontWeight(.semibold)
+            Text(value).fontWeight(.semibold)
         }
     }
 }
 
 #Preview {
     NavigationStack {
-        PerformanceView()
+        PerformanceView(repository: LivePerformanceRepository())
             .environmentObject(SessionStore())
     }
 }
