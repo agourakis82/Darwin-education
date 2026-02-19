@@ -25,6 +25,10 @@ type MedicationPayload = {
     pediatria?: string | { dose?: string; frequencia?: string; via?: string; duracao?: string; doseMaxima?: string; observacoes?: string }
     pediatrico?: string | { dose?: string; frequencia?: string; via?: string; duracao?: string; doseMaxima?: string; observacoes?: string }
   }>
+  snomedCT?: string | string[]
+  rxNormCui?: string
+  drugBankId?: string
+  loinc?: string[]
 }
 
 function formatClassLabel(value: string) {
@@ -104,6 +108,10 @@ export default async function MedicationDetailPage({
     summary: data.summary || 'Resumo não disponível.',
     brandNames: data.brand_names,
     atcCode: data.atc_code,
+    snomedCT: payload.snomedCT,
+    rxNormCui: payload.rxNormCui,
+    drugBankId: payload.drugBankId,
+    loinc: payload.loinc,
     drugClass: data.drug_class,
     subclass: data.subclass,
     updatedAt: data.updated_at,

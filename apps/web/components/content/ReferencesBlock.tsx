@@ -14,6 +14,23 @@ function formatCitationLabel(citation: DarwinCitation) {
   return bits.length ? `(${bits.join(' — ')})` : null
 }
 
+function formatEvidenceLabel(citation: DarwinCitation) {
+  const items = [
+    citation.studyType ? `estudo: ${citation.studyType}` : null,
+    citation.evidenceLevel ? `evidência: ${citation.evidenceLevel}` : null,
+    citation.qualityScore !== undefined ? `qualidade: ${citation.qualityScore}/10` : null,
+  ].filter(Boolean)
+
+  if (items.length === 0) return null
+  return items.join(' • ')
+}
+
+function hasEvidenceMetadata(citation: DarwinCitation) {
+  return Boolean(
+    citation.studyType || citation.evidenceLevel || citation.qualityScore != null || citation.limitations?.length
+  )
+}
+
 export function ReferencesBlock({
   citations,
   emptyLabel = 'Sem referências bibliográficas registradas para esta entrada.',
@@ -74,7 +91,20 @@ export function ReferencesBlock({
     }
   })
 
-  const missingCount = resolved.filter((item) => !item.ref).length
+  const dedupedResolved = []
+  const seen = new Set<string>()
+
+  for (const item of resolved) {
+    const key = `${(item.citation.refId || '').trim().toLowerCase()}|${item.citation.page?.trim() || ''}|${
+      item.citation.note?.trim() || ''
+    }`
+    if (seen.has(key)) continue
+    seen.add(key)
+    dedupedResolved.push(item)
+  }
+
+  const missingCount = dedupedResolved.filter((item) => !item.ref).length
+  const missingEvidenceCount = dedupedResolved.filter((item) => item.ref && !hasEvidenceMetadata(item.citation)).length
 
   return (
     <div data-testid="references-block" className="rounded-2xl border border-separator bg-surface-2/50 p-4">
@@ -97,24 +127,33 @@ export function ReferencesBlock({
                 {missingCount} sem metadados
               </div>
             ) : null}
+            {missingEvidenceCount > 0 ? (
+              <div className="inline-flex items-center gap-1 rounded-full border border-blue-500/35 bg-blue-500/10 px-2 py-0.5 text-[11px] font-medium text-blue-200">
+                <BookMarked className="h-3.5 w-3.5" />
+                {missingEvidenceCount} sem evidência estruturada
+              </div>
+            ) : null}
           </div>
         </div>
       ) : null}
 
       <ol className="mt-3 space-y-2 text-sm text-label-secondary">
-        {resolved.map(({ citation, ref, url, text }, idx) => {
+        {dedupedResolved.map(({ citation, ref, url, text }, idx) => {
           const label = formatCitationLabel(citation)
-          return (
-            <li key={`${citation.refId}-${idx}`} className="flex gap-2">
-              <span className="text-label-tertiary">{idx + 1}.</span>
-              <div className="min-w-0">
-                <p className="break-words text-label-secondary">
-                  {text}
-                  {label ? <span className="text-label-tertiary"> {label}</span> : null}
-                </p>
-                {ref && url ? (
-                  <Link
-                    href={url}
+              return (
+                <li key={`${citation.refId}-${idx}`} className="flex gap-2">
+                  <span className="text-label-tertiary">{idx + 1}.</span>
+                  <div className="min-w-0">
+                    <p className="break-words text-label-secondary">
+                      {text}
+                      {label ? <span className="text-label-tertiary"> {label}</span> : null}
+                    </p>
+                    {formatEvidenceLabel(citation) ? (
+                      <p className="mt-1 text-[11px] text-label-tertiary">{formatEvidenceLabel(citation)}</p>
+                    ) : null}
+                    {ref && url ? (
+                      <Link
+                        href={url}
                     target="_blank"
                     rel="noreferrer"
                     className="mt-1 inline-flex items-center gap-1 text-xs font-medium text-emerald-300 hover:underline"

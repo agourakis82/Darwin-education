@@ -16,7 +16,6 @@ const AREA_LABELS: Record<EnamedArea, string> = {
   ginecologia_obstetricia: 'Ginecologia e Obstetrícia',
   saude_coletiva: 'Saúde Coletiva',
 }
-
 type DiseasePayload = {
   quickView?: {
     definicao?: string
@@ -79,19 +78,29 @@ type DiseasePayload = {
       criteriosEncaminhamento?: string[]
       citations?: DarwinCitation[]
     }
-    prevencao?: {
-      primaria?: string[]
-      secundaria?: string[]
-      citations?: DarwinCitation[]
-    }
-    populacoesEspeciais?: {
-      idosos?: string
-      gestantes?: string
-      criancas?: string
-      drc?: string
-      hepatopatas?: string
-    }
   }
+  prevencao?: {
+    primaria?: string[]
+    secundaria?: string[]
+    citations?: DarwinCitation[]
+  }
+  populacoesEspeciais?: {
+    idosos?: string
+    gestantes?: string
+    criancas?: string
+    drc?: string
+    hepatopatas?: string
+  }
+
+  // Ontology/standard identifiers
+  cid10?: string[]
+  cid11?: string[]
+  snomedCT?: string
+  meshId?: string
+  doid?: string
+  umlsCui?: string
+  ordo?: string[] | string
+  loinc?: string[]
 }
 
 function listOrFallback(items: string[] | undefined, fallback: string) {
@@ -236,12 +245,12 @@ export default async function DiseaseDetailPage({
   const followUpReferral = followUp?.criteriosEncaminhamento || []
   const followUpCitations = followUp?.citations
 
-  const prevention = payload.fullContent?.prevencao
+  const prevention = payload.prevencao
   const primaryPrevention = prevention?.primaria || []
   const secondaryPrevention = prevention?.secundaria || []
   const preventionCitations = prevention?.citations
 
-  const populations = payload.fullContent?.populacoesEspeciais
+  const populations = payload.populacoesEspeciais
   const populationsLines = compact([
     populations?.idosos ? `Idosos: ${populations.idosos}` : null,
     populations?.gestantes ? `Gestantes: ${populations.gestantes}` : null,
@@ -294,6 +303,13 @@ export default async function DiseaseDetailPage({
     title: data.title,
     summary,
     cid10: data.cid10,
+    cid11: payload.cid11,
+    snomedCT: payload.snomedCT,
+    meshId: payload.meshId,
+    doid: payload.doid,
+    umlsCui: payload.umlsCui,
+    ordo: payload.ordo,
+    loinc: payload.loinc,
     updatedAt: data.updated_at,
     citations,
   })

@@ -1,0 +1,15 @@
+# Keep the Vercel upload focused on the runnable web app and skip heavy caches or build outputs.
+node_modules/
+.pnpm/
+.pnpm-store/
+.next/
+dist/
+out/
+output/
+coverage/
+**/*.log
+**/*.tsbuildinfo
+test-results/
+playwright-report/
+apps/
+scripts/

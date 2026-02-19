@@ -1,5 +1,5 @@
-import type { DarwinCitation } from '@/lib/darwinMfc/references'
-import { isBlockedCitationRefId } from '@/lib/darwinMfc/blocked-sources'
+import type { DarwinCitation } from './references'
+import { isBlockedCitationRefId } from './blocked-sources'
 
 function isCitationLike(value: unknown): value is DarwinCitation {
   if (!value || typeof value !== 'object') return false
@@ -8,7 +8,11 @@ function isCitationLike(value: unknown): value is DarwinCitation {
 }
 
 function keyOf(citation: DarwinCitation) {
-  return [citation.refId.trim(), citation.page?.trim() || '', citation.note?.trim() || ''].join('|')
+  return [
+    citation.refId.trim().toLowerCase(),
+    citation.page?.trim() || '',
+    citation.note?.trim() || '',
+  ].join('|')
 }
 
 export function collectDarwinCitations(payload: unknown): DarwinCitation[] {
