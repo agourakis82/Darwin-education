@@ -1,0 +1,7 @@
+# Fill scores from 1 to 5 for each criterion, then run:
+# pnpm brand:score-logo -- --input scripts/brand/logo_scorecard_template.csv --out docs/brand/logo_score_results.json
+candidate_id,variant_file,silhouette_distinctiveness,legibility_24px,dark_light_versatility,non_cliche_uniqueness,lockup_balance,app_icon_fit,production_readiness,notes
+logo-01,logo-01.svg,4,5,4,5,4,5,4,strong silhouette and app icon fit
+logo-02,logo-02.svg,3,4,5,4,4,4,5,excellent dark-light behavior
+logo-03,logo-03.svg,2,3,4,3,4,3,4,fails at very small sizes
+

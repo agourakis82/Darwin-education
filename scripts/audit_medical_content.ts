@@ -210,15 +210,29 @@ function getArgValue(flag: string) {
   return value
 }
 
+function resolveEvidenceSourceTitle(ref: Reference | null) {
+  if (!ref) return null
+  return [ref.title, ref.journal, ref.publisher, ref.url]
+    .filter(Boolean)
+    .map((value) => String(value).trim())
+    .filter(Boolean)
+    .join(' | ')
+}
+
 function topEntries<T>(items: Array<[string, T]>, limit = 50) {
   return items.slice(0, Math.max(0, limit))
 }
 
 async function run() {
   const strict = getArgFlag('--strict')
+  const strictEvidence = getArgFlag('--strict-evidence')
+  const strictEvidenceAfterDefaults = getArgFlag('--strict-evidence-after-defaults')
   const listMissingFullContent = getArgFlag('--list-missing-fullcontent')
   const listNoCitations = getArgFlag('--list-no-citations')
+  const listMissingEvidence = getArgFlag('--list-missing-evidence')
+  const listMissingEvidenceAfterDefaults = getArgFlag('--list-missing-evidence-after-defaults')
   const exportMissingFullContent = getArgValue('--export-missing-fullcontent')
+  const exportMissingEvidence = getArgValue('--export-missing-evidence')
   const limit = process.argv.slice(2).includes('--all') ? Number.POSITIVE_INFINITY : 50
 
   const repoRoot = findRepoRoot()
@@ -427,9 +441,63 @@ async function run() {
     }
   }
 
+  if (listMissingEvidence) {
+    console.log('')
+    console.log('--- RefIds missing evidence metadata (raw) ---')
+    for (const [refId, count] of topEntries(missingEvidenceRawList, limit)) {
+      const ref = resolveRef(refId)
+      console.log(`${count}\t${refId}${ref ? `\t${resolveEvidenceSourceTitle(ref) || ''}` : ''}`)
+    }
+  }
+
+  if (listMissingEvidenceAfterDefaults) {
+    console.log('')
+    console.log('--- RefIds missing evidence metadata after inference ---')
+    for (const [refId, count] of topEntries(missingEvidenceAfterDefaultsList, limit)) {
+      const ref = resolveRef(refId)
+      console.log(`${count}\t${refId}${ref ? `\t${resolveEvidenceSourceTitle(ref) || ''}` : ''}`)
+    }
+  }
+
+  if (exportMissingEvidence) {
+    const outPath = path.isAbsolute(exportMissingEvidence)
+      ? exportMissingEvidence
+      : path.join(repoRoot, exportMissingEvidence)
+
+    fs.mkdirSync(path.dirname(outPath), { recursive: true })
+    fs.writeFileSync(
+      outPath,
+      JSON.stringify(
+        {
+          generatedAtUtc: new Date().toISOString(),
+          diseasesTotal: diseaseCount,
+          medicationsTotal: medicationCount,
+          refIdsMissingEvidenceAfterDefaults: missingEvidenceAfterDefaultsList.map(([refId, count]) => ({
+            refId,
+            count,
+            source: resolveEvidenceSourceTitle(resolveRef(refId)),
+          })),
+        },
+        null,
+        2
+      ) + '\n'
+    )
+    console.log('')
+    console.log(`Exported evidence metadata gap report to: ${outPath}`)
+  }
+
   if (strict) {
     const errors: string[] = []
     if (missing.size > 0) errors.push(`Missing reference metadata for ${missing.size} refIds`)
+
+    if (strictEvidence && missingEvidenceRaw.size > 0) {
+      errors.push(`Citations with missing evidence metadata for ${missingEvidenceRaw.size} refIds`)
+    }
+
+    if (strictEvidenceAfterDefaults && missingEvidenceAfterDefaults.size > 0) {
+      errors.push(`Citations missing evidence metadata after defaults for ${missingEvidenceAfterDefaults.size} refIds`)
+    }
+
     if (errors.length > 0) {
       console.error('')
       console.error('STRICT MODE FAILED:')
