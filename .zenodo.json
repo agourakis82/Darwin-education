@@ -1,0 +1,32 @@
+{
+  "title": "Darwin Education",
+  "description": "Architecture-first adaptive learning platform for ENAMED preparation with psychometric instrumentation, safety controls, and reproducible evidence packaging.",
+  "upload_type": "software",
+  "license": "MIT",
+  "version": "preprint-v0.3.1",
+  "publication_date": "2026-02-10",
+  "creators": [
+    {
+      "name": "Agourakis, Demetrios Chiuratto",
+      "orcid": "0009-0001-8671-8878",
+      "affiliation": "PUC-SP, Brazil"
+    },
+    {
+      "name": "Amalcaburio, Isadora Casagrande",
+      "orcid": "0009-0005-6883-1809",
+      "affiliation": "Faculdade Sao Leopoldo Mandic, Brazil"
+    }
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/agourakis82/Darwin-education/releases/tag/preprint-v0.3.1",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://doi.org/10.5281/zenodo.18487441",
+      "relation": "isVersionOf",
+      "scheme": "doi"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "generated_at_utc": "2026-02-10T09:17:17Z",
+  "repo_root": "/home/demetrios/work/darwin-education",
+  "pack_dir": "/home/demetrios/work/darwin-education/_paperpack",
+  "git": {
+    "branch": "paper/v0.3-evidence-hardening",
+    "commit": "924fee69bac70fdec8baee32c057f0f0f704a79b",
+    "status_short": "M apps/web/tsconfig.tsbuildinfo\n M pnpm-lock.yaml\n?? AGENTS.md\n?? PLAN_DEPLOY_TESTES_FEATURES.md\n?? _paperpack/",
+    "submodules": [
+      "34d5c94f0de814cac45d907352fb580babadd812 darwin-MFC (heads/main)"
+    ]
+  },
+  "env_files": {
+    "cargo_version.txt": "/home/demetrios/work/darwin-education/_paperpack/env/cargo_version.txt",
+    "docker_version.txt": "/home/demetrios/work/darwin-education/_paperpack/env/docker_version.txt",
+    "node_version.txt": "/home/demetrios/work/darwin-education/_paperpack/env/node_version.txt",
+    "npm_list.txt": "/home/demetrios/work/darwin-education/_paperpack/env/npm_list.txt",
+    "pip_freeze.txt": "/home/demetrios/work/darwin-education/_paperpack/env/pip_freeze.txt",
+    "pnpm_list.txt": "/home/demetrios/work/darwin-education/_paperpack/env/pnpm_list.txt",
+    "python_version.txt": "/home/demetrios/work/darwin-education/_paperpack/env/python_version.txt",
+    "rust_version.txt": "/home/demetrios/work/darwin-education/_paperpack/env/rust_version.txt",
+    "yarn_list.txt": "/home/demetrios/work/darwin-education/_paperpack/env/yarn_list.txt"
+  },
+  "steps": [
+    {
+      "step": "collect_repo_info",
+      "status": "ok",
+      "rc": "0",
+      "started_utc": "2026-02-10T09:16:57Z",
+      "ended_utc": "2026-02-10T09:17:09Z",
+      "log_file": "/home/demetrios/work/darwin-education/_paperpack/logs/collect_repo_info.log",
+      "command": "bash '/home/demetrios/work/darwin-education/_paperpack/scripts/collect_repo_info.sh'"
+    },
+    {
+      "step": "find_artifacts",
+      "status": "ok",
+      "rc": "0",
+      "started_utc": "2026-02-10T09:17:09Z",
+      "ended_utc": "2026-02-10T09:17:09Z",
+      "log_file": "/home/demetrios/work/darwin-education/_paperpack/logs/find_artifacts.log",
+      "command": "python3 '/home/demetrios/work/darwin-education/_paperpack/scripts/find_artifacts.py' --out-csv '/home/demetrios/work/darwin-education/_paperpack/keyword_hits.csv' --out-json '/home/demetrios/work/darwin-education/_paperpack/keyword_hits.json'"
+    },
+    {
+      "step": "extract_schemas",
+      "status": "ok",
+      "rc": "0",
+      "started_utc": "2026-02-10T09:17:09Z",
+      "ended_utc": "2026-02-10T09:17:10Z",
+      "log_file": "/home/demetrios/work/darwin-education/_paperpack/logs/extract_schemas.log",
+      "command": "python3 '/home/demetrios/work/darwin-education/_paperpack/scripts/extract_schemas.py'"
+    },
+    {
+      "step": "benchmark_probe",
+      "status": "ok",
+      "rc": "0",
+      "started_utc": "2026-02-10T09:17:10Z",
+      "ended_utc": "2026-02-10T09:17:15Z",
+      "log_file": "/home/demetrios/work/darwin-education/_paperpack/logs/benchmark_probe.log",
+      "command": "bash '/home/demetrios/work/darwin-education/_paperpack/scripts/benchmark_probe.sh'"
+    },
+    {
+      "step": "generate_reports",
+      "status": "ok",
+      "rc": "0",
+      "started_utc": "2026-02-10T09:17:15Z",
+      "ended_utc": "2026-02-10T09:17:15Z",
+      "log_file": "/home/demetrios/work/darwin-education/_paperpack/logs/generate_reports.log",
+      "command": "python3 '/home/demetrios/work/darwin-education/_paperpack/scripts/generate_reports.py'"
+    },
+    {
+      "step": "darwin_mfc_runtime_counts",
+      "status": "ok",
+      "rc": "0",
+      "started_utc": "2026-02-10T09:17:15Z",
+      "ended_utc": "2026-02-10T09:17:17Z",
+      "log_file": "/home/demetrios/work/darwin-education/_paperpack/logs/darwin_mfc_runtime_counts.log",
+      "command": "bash '/home/demetrios/work/darwin-education/_paperpack/scripts/run_darwin_mfc_runtime_counts.sh'"
+    },
+    {
+      "step": "verify_pack",
+      "status": "ok",
+      "rc": "0",
+      "started_utc": "2026-02-10T09:17:17Z",
+      "ended_utc": "2026-02-10T09:17:17Z",
+      "log_file": "/home/demetrios/work/darwin-education/_paperpack/logs/verify_pack.log",
+      "command": "bash '/home/demetrios/work/darwin-education/_paperpack/scripts/verify_pack.sh'"
+    },
+    {
+      "step": "ci_gate",
+      "status": "ok",
+      "rc": "0",
+      "started_utc": "2026-02-10T09:17:17Z",
+      "ended_utc": "2026-02-10T09:17:17Z",
+      "log_file": "/home/demetrios/work/darwin-education/_paperpack/logs/ci_gate.log",
+      "command": "bash '/home/demetrios/work/darwin-education/_paperpack/scripts/ci_gate.sh'"
+    }
+  ],
+  "overall_status": "success"
+}

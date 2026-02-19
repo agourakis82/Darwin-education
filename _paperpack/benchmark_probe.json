@@ -1,0 +1,20 @@
+{
+  "generated_at_utc": "2026-02-10T09:17:15Z",
+  "prerequisites": {
+    "node_version": "v20.20.0",
+    "pnpm_available": true,
+    "runnable": true
+  },
+  "benchmark_probe": {
+    "status": "RUN_OK",
+    "command": "pnpm --filter @darwin-education/shared test",
+    "exit_code": 0,
+    "duration_seconds": 5,
+    "log_file": "/home/demetrios/work/darwin-education/_paperpack/logs/benchmark_run.log",
+    "discovery_file": "/home/demetrios/work/darwin-education/_paperpack/logs/benchmark_discovery.txt",
+    "blockers": [],
+    "token_cost_proxy": "NOT FOUND",
+    "throughput": "NOT FOUND",
+    "failure_rate": "NOT FOUND"
+  }
+}

@@ -1,0 +1,3787 @@
+{
+  "timestamp_utc": "2026-02-10T09:17:16.986Z",
+  "repo_commit": "924fee69bac70fdec8baee32c057f0f0f704a79b",
+  "submodule_commit": "34d5c94f0de814cac45d907352fb580babadd812",
+  "node_version": "v20.20.0",
+  "script_path": "_paperpack/scripts/darwin_mfc_runtime_counts.ts",
+  "script_hash_sha256": "723d452bc139736a71f2c35dd57427c18d4f352200e6610c7fe90da20894245c",
+  "source_indexes": {
+    "diseases": "darwin-MFC/lib/data/doencas/index.ts",
+    "medications": "darwin-MFC/lib/data/medicamentos/index.ts"
+  },
+  "diseases": {
+    "raw_count": 252,
+    "unique_count_by_id": 215,
+    "duplicates_report": [
+      {
+        "id": "anemia-ferropriva",
+        "count": 3,
+        "sample_names": [
+          "Anemia Ferropriva"
+        ],
+        "raw_ids": [
+          "anemia-ferropriva"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/adicionais.ts",
+          "darwin-MFC/lib/data/doencas/expansao-ultima.ts",
+          "darwin-MFC/lib/data/doencas/hematologicas.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas"
+        ]
+      },
+      {
+        "id": "doenca-parkinson",
+        "count": 3,
+        "sample_names": [
+          "Doença de Parkinson"
+        ],
+        "raw_ids": [
+          "doenca-parkinson"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/expansao-sota-avancada.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas",
+          "darwin-MFC/lib/data/doencas/neurologicas.ts",
+          "darwin-MFC/lib/data/doencas/neurologicas/expansao-neurologia.ts"
+        ]
+      },
+      {
+        "id": "fibromialgia",
+        "count": 3,
+        "sample_names": [
+          "Fibromialgia"
+        ],
+        "raw_ids": [
+          "fibromialgia"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/adicionais.ts",
+          "darwin-MFC/lib/data/doencas/expansao-sota-avancada.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas",
+          "darwin-MFC/lib/data/doencas/musculoesqueleticas.ts"
+        ]
+      },
+      {
+        "id": "gastrite",
+        "count": 3,
+        "sample_names": [
+          "Gastrite",
+          "Gastrite e Dispepsia"
+        ],
+        "raw_ids": [
+          "gastrite"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/adicionais.ts",
+          "darwin-MFC/lib/data/doencas/expansao-sota-final.ts",
+          "darwin-MFC/lib/data/doencas/gastrointestinais.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas"
+        ]
+      },
+      {
+        "id": "otite-media-aguda",
+        "count": 3,
+        "sample_names": [
+          "Otite Média Aguda"
+        ],
+        "raw_ids": [
+          "otite-media-aguda"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/adicionais.ts",
+          "darwin-MFC/lib/data/doencas/expansao-ultima.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas",
+          "darwin-MFC/lib/data/doencas/pediatricas.ts"
+        ]
+      },
+      {
+        "id": "rinite-alergica",
+        "count": 3,
+        "sample_names": [
+          "Rinite Alérgica"
+        ],
+        "raw_ids": [
+          "rinite-alergica"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/adicionais.ts",
+          "darwin-MFC/lib/data/doencas/expansao-ultima.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas",
+          "darwin-MFC/lib/data/doencas/respiratorias.ts"
+        ]
+      },
+      {
+        "id": "acne-vulgar",
+        "count": 2,
+        "sample_names": [
+          "Acne Vulgar"
+        ],
+        "raw_ids": [
+          "acne-vulgar"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/adicionais.ts",
+          "darwin-MFC/lib/data/doencas/expansao-ultima.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas"
+        ]
+      },
+      {
+        "id": "anemia-megaloblastica",
+        "count": 2,
+        "sample_names": [
+          "Anemia Megaloblástica"
+        ],
+        "raw_ids": [
+          "anemia-megaloblastica"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/expansao-sota-final.ts",
+          "darwin-MFC/lib/data/doencas/hematologicas.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas"
+        ]
+      },
+      {
+        "id": "bronquiolite",
+        "count": 2,
+        "sample_names": [
+          "Bronquiolite",
+          "Bronquiolite Viral Aguda"
+        ],
+        "raw_ids": [
+          "bronquiolite"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/expansao-sprint3-especialidades.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas",
+          "darwin-MFC/lib/data/doencas/pediatricas.ts"
+        ]
+      },
+      {
+        "id": "cefaleia-tensional",
+        "count": 2,
+        "sample_names": [
+          "Cefaleia Tensional",
+          "Cefaleia do Tipo Tensional"
+        ],
+        "raw_ids": [
+          "cefaleia-tensional"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas",
+          "darwin-MFC/lib/data/doencas/neurologicas.ts",
+          "darwin-MFC/lib/data/doencas/neurologicas/expansao-neurologia.ts"
+        ]
+      },
+      {
+        "id": "dermatite-atopica",
+        "count": 2,
+        "sample_names": [
+          "Dermatite Atópica"
+        ],
+        "raw_ids": [
+          "dermatite-atopica"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/dermatologicas.ts",
+          "darwin-MFC/lib/data/doencas/expansao-sota-avancada.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas"
+        ]
+      },
+      {
+        "id": "doenca-refluxo-gastroesofagico",
+        "count": 2,
+        "sample_names": [
+          "Doença do Refluxo Gastroesofágico",
+          "Doença do Refluxo Gastroesofágico (DRGE)"
+        ],
+        "raw_ids": [
+          "doenca-refluxo-gastroesofagico"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/expansao-ultima.ts",
+          "darwin-MFC/lib/data/doencas/gastrointestinais.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas"
+        ]
+      },
+      {
+        "id": "esclerose-multipla",
+        "count": 2,
+        "sample_names": [
+          "Esclerose Múltipla"
+        ],
+        "raw_ids": [
+          "esclerose-multipla"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/expansao-sota.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas",
+          "darwin-MFC/lib/data/doencas/neurologicas/expansao-neurologia.ts"
+        ]
+      },
+      {
+        "id": "esquizofrenia",
+        "count": 2,
+        "sample_names": [
+          "Esquizofrenia"
+        ],
+        "raw_ids": [
+          "esquizofrenia"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/expansao-sota.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas",
+          "darwin-MFC/lib/data/doencas/saude-mental/dsm5-transtornos.ts"
+        ]
+      },
+      {
+        "id": "faringoamigdalite",
+        "count": 2,
+        "sample_names": [
+          "Faringoamigdalite Aguda"
+        ],
+        "raw_ids": [
+          "faringoamigdalite"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas",
+          "darwin-MFC/lib/data/doencas/infecciosas.ts",
+          "darwin-MFC/lib/data/doencas/pediatricas.ts"
+        ]
+      },
+      {
+        "id": "gota",
+        "count": 2,
+        "sample_names": [
+          "Gota"
+        ],
+        "raw_ids": [
+          "gota"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/adicionais.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas",
+          "darwin-MFC/lib/data/doencas/musculoesqueleticas.ts"
+        ]
+      },
+      {
+        "id": "hipotireoidismo",
+        "count": 2,
+        "sample_names": [
+          "Hipotireoidismo"
+        ],
+        "raw_ids": [
+          "hipotireoidismo"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/adicionais.ts",
+          "darwin-MFC/lib/data/doencas/endocrinas.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas"
+        ]
+      },
+      {
+        "id": "impetigo",
+        "count": 2,
+        "sample_names": [
+          "Impetigo"
+        ],
+        "raw_ids": [
+          "impetigo"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/adicionais.ts",
+          "darwin-MFC/lib/data/doencas/expansao-ultima.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas"
+        ]
+      },
+      {
+        "id": "insonia",
+        "count": 2,
+        "sample_names": [
+          "Insônia"
+        ],
+        "raw_ids": [
+          "insonia"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/adicionais.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas",
+          "darwin-MFC/lib/data/doencas/saude-mental.ts"
+        ]
+      },
+      {
+        "id": "laringite-aguda",
+        "count": 2,
+        "sample_names": [
+          "Laringite/Crupe Viral",
+          "Laringotraqueobronquite Aguda (Crupe)"
+        ],
+        "raw_ids": [
+          "laringite-aguda"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/expansao-sprint3-especialidades.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas",
+          "darwin-MFC/lib/data/doencas/pediatricas.ts"
+        ]
+      },
+      {
+        "id": "neuropatia-periferica",
+        "count": 2,
+        "sample_names": [
+          "Neuropatia Periférica"
+        ],
+        "raw_ids": [
+          "neuropatia-periferica"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/expansao-sota.ts",
+          "darwin-MFC/lib/data/doencas/expansao-ultima.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas"
+        ]
+      },
+      {
+        "id": "osteoartrite",
+        "count": 2,
+        "sample_names": [
+          "Osteoartrite",
+          "Osteoartrite (Artrose)"
+        ],
+        "raw_ids": [
+          "osteoartrite"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/adicionais.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas",
+          "darwin-MFC/lib/data/doencas/musculoesqueleticas.ts"
+        ]
+      },
+      {
+        "id": "psoriase",
+        "count": 2,
+        "sample_names": [
+          "Psoríase"
+        ],
+        "raw_ids": [
+          "psoriase"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/dermatologicas.ts",
+          "darwin-MFC/lib/data/doencas/expansao-sota-avancada.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas"
+        ]
+      },
+      {
+        "id": "sindrome-intestino-irritavel",
+        "count": 2,
+        "sample_names": [
+          "Síndrome do Intestino Irritável",
+          "Síndrome do Intestino Irritável (SII)"
+        ],
+        "raw_ids": [
+          "sindrome-intestino-irritavel"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/expansao-ultima.ts",
+          "darwin-MFC/lib/data/doencas/gastrointestinais.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas"
+        ]
+      },
+      {
+        "id": "sindrome-metabolica",
+        "count": 2,
+        "sample_names": [
+          "Síndrome Metabólica"
+        ],
+        "raw_ids": [
+          "sindrome-metabolica"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/expansao-sota-avancada.ts",
+          "darwin-MFC/lib/data/doencas/expansao-sprint3-metabolico.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas"
+        ]
+      },
+      {
+        "id": "sindrome-ovarios-policisticos",
+        "count": 2,
+        "sample_names": [
+          "Síndrome dos Ovários Policísticos",
+          "Síndrome dos Ovários Policísticos (SOP)"
+        ],
+        "raw_ids": [
+          "sindrome-ovarios-policisticos"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/adicionais.ts",
+          "darwin-MFC/lib/data/doencas/gineco-obstetricas.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas"
+        ]
+      },
+      {
+        "id": "sindrome-tunel-carpiano",
+        "count": 2,
+        "sample_names": [
+          "Síndrome do Túnel do Carpo"
+        ],
+        "raw_ids": [
+          "sindrome-tunel-carpiano"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/expansao-sota.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas",
+          "darwin-MFC/lib/data/doencas/neurologicas/expansao-neurologia.ts"
+        ]
+      },
+      {
+        "id": "transtorno-ansiedade-generalizada",
+        "count": 2,
+        "sample_names": [
+          "Transtorno de Ansiedade Generalizada",
+          "Transtorno de Ansiedade Generalizada (TAG)"
+        ],
+        "raw_ids": [
+          "transtorno-ansiedade-generalizada"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas",
+          "darwin-MFC/lib/data/doencas/saude-mental.ts",
+          "darwin-MFC/lib/data/doencas/saude-mental/dsm5-transtornos.ts"
+        ]
+      },
+      {
+        "id": "transtorno-panico",
+        "count": 2,
+        "sample_names": [
+          "Transtorno de Pânico"
+        ],
+        "raw_ids": [
+          "transtorno-panico"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas",
+          "darwin-MFC/lib/data/doencas/saude-mental.ts",
+          "darwin-MFC/lib/data/doencas/saude-mental/dsm5-transtornos.ts"
+        ]
+      },
+      {
+        "id": "urticaria-cronica",
+        "count": 2,
+        "sample_names": [
+          "Urticária Crônica"
+        ],
+        "raw_ids": [
+          "urticaria-cronica"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/dermatologicas.ts",
+          "darwin-MFC/lib/data/doencas/expansao-sota.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas"
+        ]
+      },
+      {
+        "id": "vaginose-bacteriana",
+        "count": 2,
+        "sample_names": [
+          "Vaginose Bacteriana"
+        ],
+        "raw_ids": [
+          "vaginose-bacteriana"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/doencas/adicionais.ts",
+          "darwin-MFC/lib/data/doencas/gineco-obstetricas.ts",
+          "darwin-MFC/lib/data/doencas/index.ts#default",
+          "darwin-MFC/lib/data/doencas/index.ts#doencasConsolidadas",
+          "darwin-MFC/lib/data/doencas/index.ts#todasDoencas"
+        ]
+      }
+    ],
+    "missing_id_report": []
+  },
+  "medications": {
+    "raw_count": 889,
+    "unique_count_by_id": 602,
+    "duplicates_report": [
+      {
+        "id": "acido-folico",
+        "count": 5,
+        "sample_names": [
+          "Ácido Fólico",
+          "Ácido fólico"
+        ],
+        "raw_ids": [
+          "acido-folico"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/complementares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-diversos-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-hematologia.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosComplementares",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "cefalexina",
+        "count": 5,
+        "sample_names": [
+          "Cefalexina"
+        ],
+        "raw_ids": [
+          "cefalexina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos-expanded.ts",
+          "darwin-MFC/lib/data/medicamentos/antibioticos.ts",
+          "darwin-MFC/lib/data/medicamentos/complementares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-antibioticos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-sota.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#antibioticos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosComplementares",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosExpanded",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "domperidona",
+        "count": 5,
+        "sample_names": [
+          "Domperidona"
+        ],
+        "raw_ids": [
+          "domperidona"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/diversos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-complementar.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-gastrointestinal.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-target-600.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosDiversos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "fluoxetina",
+        "count": 5,
+        "sample_names": [
+          "Cloridrato de fluoxetina",
+          "Fluoxetina"
+        ],
+        "raw_ids": [
+          "fluoxetina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos-expanded.ts",
+          "darwin-MFC/lib/data/medicamentos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-600-complete.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-neuropsiquiatrico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosBase",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosExpanded",
+          "darwin-MFC/lib/data/medicamentos/index.ts#psicofarmacos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos",
+          "darwin-MFC/lib/data/medicamentos/psicofarmacos.ts",
+          "darwin-MFC/lib/data/medicamentos/psicotropicos.ts"
+        ]
+      },
+      {
+        "id": "hidroclorotiazida",
+        "count": 5,
+        "sample_names": [
+          "Hidroclorotiazida"
+        ],
+        "raw_ids": [
+          "hidroclorotiazida"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos-expanded.ts",
+          "darwin-MFC/lib/data/medicamentos.ts",
+          "darwin-MFC/lib/data/medicamentos/cardiovasculares.ts",
+          "darwin-MFC/lib/data/medicamentos/diversos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-600-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosBase",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosDiversos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosExpanded",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "metformina",
+        "count": 5,
+        "sample_names": [
+          "Cloridrato de metformina",
+          "Metformina"
+        ],
+        "raw_ids": [
+          "metformina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos-expanded.ts",
+          "darwin-MFC/lib/data/medicamentos.ts",
+          "darwin-MFC/lib/data/medicamentos/diversos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-12.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-metabolico-endocrino.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosBase",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosDiversos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosExpanded",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "nitrofurantoina",
+        "count": 5,
+        "sample_names": [
+          "Nitrofurantoína"
+        ],
+        "raw_ids": [
+          "nitrofurantoina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos-expanded.ts",
+          "darwin-MFC/lib/data/medicamentos/antibioticos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-600-complete.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-antibioticos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-urologico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#antibioticos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosExpanded",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "omeprazol",
+        "count": 5,
+        "sample_names": [
+          "Omeprazol"
+        ],
+        "raw_ids": [
+          "omeprazol"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos-expanded.ts",
+          "darwin-MFC/lib/data/medicamentos/diversos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-600-complete.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-gastrointestinal.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/gastro-metabolicos.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosDiversos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosExpanded",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "sulfametoxazol-trimetoprima",
+        "count": 5,
+        "sample_names": [
+          "Sulfametoxazol + Trimetoprima"
+        ],
+        "raw_ids": [
+          "sulfametoxazol-trimetoprima"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos-expanded.ts",
+          "darwin-MFC/lib/data/medicamentos/antibioticos.ts",
+          "darwin-MFC/lib/data/medicamentos/complementares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-600-complete.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-antibioticos.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#antibioticos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosComplementares",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosExpanded",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "amitriptilina",
+        "count": 4,
+        "sample_names": [
+          "Amitriptilina",
+          "Cloridrato de amitriptilina"
+        ],
+        "raw_ids": [
+          "amitriptilina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos-expanded.ts",
+          "darwin-MFC/lib/data/medicamentos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosBase",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosExpanded",
+          "darwin-MFC/lib/data/medicamentos/index.ts#psicofarmacos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos",
+          "darwin-MFC/lib/data/medicamentos/psicofarmacos.ts",
+          "darwin-MFC/lib/data/medicamentos/psicotropicos.ts"
+        ]
+      },
+      {
+        "id": "atorvastatina",
+        "count": 4,
+        "sample_names": [
+          "Atorvastatina",
+          "Atorvastatina cálcica"
+        ],
+        "raw_ids": [
+          "atorvastatina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos-expanded.ts",
+          "darwin-MFC/lib/data/medicamentos/cardiovasculares.ts",
+          "darwin-MFC/lib/data/medicamentos/diversos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-completo.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-12.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosDiversos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosExpanded",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "azitromicina",
+        "count": 4,
+        "sample_names": [
+          "Azitromicina"
+        ],
+        "raw_ids": [
+          "azitromicina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos-expanded.ts",
+          "darwin-MFC/lib/data/medicamentos/antibioticos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-antibioticos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-sota.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#antibioticos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosExpanded",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "carbamazepina",
+        "count": 4,
+        "sample_names": [
+          "Carbamazepina"
+        ],
+        "raw_ids": [
+          "carbamazepina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/complementares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-12.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-neuropsiquiatrico.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-sota.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosComplementares",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos",
+          "darwin-MFC/lib/data/medicamentos/psicotropicos.ts"
+        ]
+      },
+      {
+        "id": "clonazepam",
+        "count": 4,
+        "sample_names": [
+          "Clonazepam"
+        ],
+        "raw_ids": [
+          "clonazepam"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-complete.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-neuropsiquiatrico.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#psicofarmacos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos",
+          "darwin-MFC/lib/data/medicamentos/psicofarmacos.ts",
+          "darwin-MFC/lib/data/medicamentos/psicotropicos.ts"
+        ]
+      },
+      {
+        "id": "dipirona",
+        "count": 4,
+        "sample_names": [
+          "Dipirona",
+          "Dipirona (Metamizol)",
+          "Dipirona sódica",
+          "Dipirona sódica (Metamizol)"
+        ],
+        "raw_ids": [
+          "dipirona"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos-expanded.ts",
+          "darwin-MFC/lib/data/medicamentos/analgesicos-aines.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-batch.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#analgesicosAines",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosExpanded",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "doxiciclina",
+        "count": 4,
+        "sample_names": [
+          "Doxiciclina"
+        ],
+        "raw_ids": [
+          "doxiciclina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/antibioticos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-antibioticos-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-antibioticos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-sota-final.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#antibioticos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "fenitoina",
+        "count": 4,
+        "sample_names": [
+          "Fenitoína",
+          "Fenitoína sódica"
+        ],
+        "raw_ids": [
+          "fenitoina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/complementares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-12.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-sota.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosComplementares",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "glibenclamida",
+        "count": 4,
+        "sample_names": [
+          "Glibenclamida"
+        ],
+        "raw_ids": [
+          "glibenclamida"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/diversos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-endocrino-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-12.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/gastro-metabolicos.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosDiversos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "gliclazida",
+        "count": 4,
+        "sample_names": [
+          "Gliclazida"
+        ],
+        "raw_ids": [
+          "gliclazida"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos-expanded.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-endocrino-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-complementar.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-metabolico-endocrino.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosExpanded",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "glimepirida",
+        "count": 4,
+        "sample_names": [
+          "Glimepirida"
+        ],
+        "raw_ids": [
+          "glimepirida"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-endocrino-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-12.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-complementar.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-metabolico-endocrino.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "ibuprofeno",
+        "count": 4,
+        "sample_names": [
+          "Ibuprofeno"
+        ],
+        "raw_ids": [
+          "ibuprofeno"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos-expanded.ts",
+          "darwin-MFC/lib/data/medicamentos.ts",
+          "darwin-MFC/lib/data/medicamentos/analgesicos-aines.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-600-complete.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#analgesicosAines",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosBase",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosExpanded",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "levotiroxina",
+        "count": 4,
+        "sample_names": [
+          "Levotiroxina",
+          "Levotiroxina sódica"
+        ],
+        "raw_ids": [
+          "levotiroxina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos-expanded.ts",
+          "darwin-MFC/lib/data/medicamentos/diversos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-12.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/gastro-metabolicos.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosDiversos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosExpanded",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "loratadina",
+        "count": 4,
+        "sample_names": [
+          "Loratadina"
+        ],
+        "raw_ids": [
+          "loratadina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos-expanded.ts",
+          "darwin-MFC/lib/data/medicamentos/complementares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-respiratorio.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosComplementares",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosExpanded",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "losartana",
+        "count": 4,
+        "sample_names": [
+          "Losartana",
+          "Losartana potássica"
+        ],
+        "raw_ids": [
+          "losartana"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-completo.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-12.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosBase",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "metoclopramida",
+        "count": 4,
+        "sample_names": [
+          "Cloridrato de metoclopramida",
+          "Metoclopramida"
+        ],
+        "raw_ids": [
+          "metoclopramida"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/complementares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-600-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-gastrointestinal.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/gastro-metabolicos.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosComplementares",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "naproxeno",
+        "count": 4,
+        "sample_names": [
+          "Naproxeno",
+          "Naproxeno sódico"
+        ],
+        "raw_ids": [
+          "naproxeno"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/analgesicos-aines.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-600-complete.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-musculoesqueletico.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#analgesicosAines",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "ondansetrona",
+        "count": 4,
+        "sample_names": [
+          "Cloridrato de ondansetrona",
+          "Ondansetrona"
+        ],
+        "raw_ids": [
+          "ondansetrona"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/complementares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-600-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-gastrointestinal.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/gastro-metabolicos.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosComplementares",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "ranitidina",
+        "count": 4,
+        "sample_names": [
+          "Cloridrato de ranitidina",
+          "Ranitidina"
+        ],
+        "raw_ids": [
+          "ranitidina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/diversos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-batch.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-gastrointestinal.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/gastro-metabolicos.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosDiversos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "salbutamol",
+        "count": 4,
+        "sample_names": [
+          "Salbutamol",
+          "Salbutamol (Albuterol)",
+          "Sulfato de salbutamol"
+        ],
+        "raw_ids": [
+          "salbutamol"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos-expanded.ts",
+          "darwin-MFC/lib/data/medicamentos/diversos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-respiratorio.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosDiversos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosExpanded",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "sertralina",
+        "count": 4,
+        "sample_names": [
+          "Cloridrato de sertralina",
+          "Sertralina"
+        ],
+        "raw_ids": [
+          "sertralina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos-expanded.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-600-complete.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-neuropsiquiatrico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosExpanded",
+          "darwin-MFC/lib/data/medicamentos/index.ts#psicofarmacos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos",
+          "darwin-MFC/lib/data/medicamentos/psicofarmacos.ts",
+          "darwin-MFC/lib/data/medicamentos/psicotropicos.ts"
+        ]
+      },
+      {
+        "id": "acido-tranexamico",
+        "count": 3,
+        "sample_names": [
+          "Ácido Tranexâmico"
+        ],
+        "raw_ids": [
+          "acido-tranexamico"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-ultimo.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ginecologia.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-hematologia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "albendazol",
+        "count": 3,
+        "sample_names": [
+          "Albendazol"
+        ],
+        "raw_ids": [
+          "albendazol"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/complementares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-batch.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosComplementares",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "amoxicilina",
+        "count": 3,
+        "sample_names": [
+          "Amoxicilina"
+        ],
+        "raw_ids": [
+          "amoxicilina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos-expanded.ts",
+          "darwin-MFC/lib/data/medicamentos.ts",
+          "darwin-MFC/lib/data/medicamentos/antibioticos.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#antibioticos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosBase",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosExpanded",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "anlodipino",
+        "count": 3,
+        "sample_names": [
+          "Anlodipino",
+          "Besilato de anlodipino"
+        ],
+        "raw_ids": [
+          "anlodipino"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-completo.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-12.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosBase",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "apixabana",
+        "count": 3,
+        "sample_names": [
+          "Apixabana"
+        ],
+        "raw_ids": [
+          "apixabana"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-completo.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-hematologia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "atenolol",
+        "count": 3,
+        "sample_names": [
+          "Atenolol"
+        ],
+        "raw_ids": [
+          "atenolol"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos-expanded.ts",
+          "darwin-MFC/lib/data/medicamentos/cardiovasculares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-12.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosExpanded",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "benzoato-benzila",
+        "count": 3,
+        "sample_names": [
+          "Benzoato de Benzila"
+        ],
+        "raw_ids": [
+          "benzoato-benzila"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/complementares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-dermatologia-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-batch.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosComplementares",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "bisacodil",
+        "count": 3,
+        "sample_names": [
+          "Bisacodil"
+        ],
+        "raw_ids": [
+          "bisacodil"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-diversos-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-gastrointestinal.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-target-600.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "clopidogrel",
+        "count": 3,
+        "sample_names": [
+          "Bissulfato de clopidogrel",
+          "Clopidogrel"
+        ],
+        "raw_ids": [
+          "clopidogrel"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/cardiovasculares.ts",
+          "darwin-MFC/lib/data/medicamentos/complementares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-completo.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-hematologia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosComplementares",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "codeina",
+        "count": 3,
+        "sample_names": [
+          "Codeína",
+          "Fosfato de codeína"
+        ],
+        "raw_ids": [
+          "codeina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/analgesicos-aines.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-respiratorio.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#analgesicosAines",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "colchicina",
+        "count": 3,
+        "sample_names": [
+          "Colchicina"
+        ],
+        "raw_ids": [
+          "colchicina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-metabolico-endocrino.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-musculoesqueletico.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-reumatologia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "dabigatrana",
+        "count": 3,
+        "sample_names": [
+          "Dabigatrana"
+        ],
+        "raw_ids": [
+          "dabigatrana"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-completo.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-hematologia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "desloratadina",
+        "count": 3,
+        "sample_names": [
+          "Desloratadina"
+        ],
+        "raw_ids": [
+          "desloratadina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-final-complementar.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-respiratorio.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-target-600.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "dexametasona",
+        "count": 3,
+        "sample_names": [
+          "Dexametasona",
+          "Fosfato dissódico de dexametasona"
+        ],
+        "raw_ids": [
+          "dexametasona"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/complementares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-600-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/gastro-metabolicos.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosComplementares",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "dextrometorfano",
+        "count": 3,
+        "sample_names": [
+          "Dextrometorfano"
+        ],
+        "raw_ids": [
+          "dextrometorfano"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-otorrino.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-respiratorio.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-target-600.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "diazepam",
+        "count": 3,
+        "sample_names": [
+          "Diazepam"
+        ],
+        "raw_ids": [
+          "diazepam"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-complete.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-neuropsiquiatrico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#psicofarmacos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos",
+          "darwin-MFC/lib/data/medicamentos/psicofarmacos.ts",
+          "darwin-MFC/lib/data/medicamentos/psicotropicos.ts"
+        ]
+      },
+      {
+        "id": "enalapril",
+        "count": 3,
+        "sample_names": [
+          "Enalapril",
+          "Maleato de enalapril"
+        ],
+        "raw_ids": [
+          "enalapril"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-completo.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-12.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosBase",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "enoxaparina",
+        "count": 3,
+        "sample_names": [
+          "Enoxaparina",
+          "Enoxaparina sódica"
+        ],
+        "raw_ids": [
+          "enoxaparina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/complementares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-600-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-hematologia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosComplementares",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "hidrocortisona-topica",
+        "count": 3,
+        "sample_names": [
+          "Hidrocortisona",
+          "Hidrocortisona Tópica"
+        ],
+        "raw_ids": [
+          "hidrocortisona-topica"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-ultimo.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-dermatologia-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-dermatologico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "hidroxicloroquina",
+        "count": 3,
+        "sample_names": [
+          "Hidroxicloroquina"
+        ],
+        "raw_ids": [
+          "hidroxicloroquina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-ultimo.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-reumatologia.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-sota.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "insulina-glargina",
+        "count": 3,
+        "sample_names": [
+          "Insulina Glargina"
+        ],
+        "raw_ids": [
+          "insulina-glargina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-endocrino-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-batch.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-metabolico-endocrino.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "insulina-lispro",
+        "count": 3,
+        "sample_names": [
+          "Insulina Lispro"
+        ],
+        "raw_ids": [
+          "insulina-lispro"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-endocrino-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-batch.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-metabolico-endocrino.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "insulina-nph",
+        "count": 3,
+        "sample_names": [
+          "Insulina NPH (Isofana)",
+          "Insulina NPH (isofana)",
+          "Insulina humana NPH"
+        ],
+        "raw_ids": [
+          "insulina-nph"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos-expanded.ts",
+          "darwin-MFC/lib/data/medicamentos/complementares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-endocrino-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/gastro-metabolicos.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosComplementares",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosExpanded",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "lactulose",
+        "count": 3,
+        "sample_names": [
+          "Lactulose"
+        ],
+        "raw_ids": [
+          "lactulose"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-diversos-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-gastrointestinal.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-target-600.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "oseltamivir",
+        "count": 3,
+        "sample_names": [
+          "Oseltamivir"
+        ],
+        "raw_ids": [
+          "oseltamivir"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-ultimo.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-antivirais.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-sota-final.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "pantoprazol",
+        "count": 3,
+        "sample_names": [
+          "Pantoprazol"
+        ],
+        "raw_ids": [
+          "pantoprazol"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-gastrointestinal.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/gastro-metabolicos.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "paracetamol",
+        "count": 3,
+        "sample_names": [
+          "Paracetamol",
+          "Paracetamol (Acetaminofeno)"
+        ],
+        "raw_ids": [
+          "paracetamol"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos-expanded.ts",
+          "darwin-MFC/lib/data/medicamentos/analgesicos-aines.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-600-complete.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#analgesicosAines",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosExpanded",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "polietilenoglicol",
+        "count": 3,
+        "sample_names": [
+          "Polietilenoglicol (Macrogol)",
+          "Polietilenoglicol 3350",
+          "Polietilenoglicol 4000"
+        ],
+        "raw_ids": [
+          "polietilenoglicol"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-diversos-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-gastrointestinal.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "prednisona",
+        "count": 3,
+        "sample_names": [
+          "Prednisona"
+        ],
+        "raw_ids": [
+          "prednisona"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/complementares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-600-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/gastro-metabolicos.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosComplementares",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "prometazina",
+        "count": 3,
+        "sample_names": [
+          "Cloridrato de prometazina",
+          "Prometazina"
+        ],
+        "raw_ids": [
+          "prometazina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/complementares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-batch.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosComplementares",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "propranolol",
+        "count": 3,
+        "sample_names": [
+          "Propranolol"
+        ],
+        "raw_ids": [
+          "propranolol"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos-expanded.ts",
+          "darwin-MFC/lib/data/medicamentos/cardiovasculares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-12.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosExpanded",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "risperidona",
+        "count": 3,
+        "sample_names": [
+          "Risperidona"
+        ],
+        "raw_ids": [
+          "risperidona"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-neuropsiquiatrico.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#psicofarmacos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos",
+          "darwin-MFC/lib/data/medicamentos/psicofarmacos.ts",
+          "darwin-MFC/lib/data/medicamentos/psicotropicos.ts"
+        ]
+      },
+      {
+        "id": "rivaroxabana",
+        "count": 3,
+        "sample_names": [
+          "Rivaroxabana"
+        ],
+        "raw_ids": [
+          "rivaroxabana"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/cardiovasculares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-600-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-completo.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-hematologia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "sinvastatina",
+        "count": 3,
+        "sample_names": [
+          "Sinvastatina"
+        ],
+        "raw_ids": [
+          "sinvastatina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos-expanded.ts",
+          "darwin-MFC/lib/data/medicamentos/cardiovasculares.ts",
+          "darwin-MFC/lib/data/medicamentos/diversos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-12.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosDiversos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosExpanded",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "tramadol",
+        "count": 3,
+        "sample_names": [
+          "Cloridrato de tramadol",
+          "Tramadol"
+        ],
+        "raw_ids": [
+          "tramadol"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/analgesicos-aines.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-600-ultimo.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#analgesicosAines",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "acetilcisteina",
+        "count": 2,
+        "sample_names": [
+          "Acetilcisteína"
+        ],
+        "raw_ids": [
+          "acetilcisteina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-respiratorio.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-target-600.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "aciclovir",
+        "count": 2,
+        "sample_names": [
+          "Aciclovir"
+        ],
+        "raw_ids": [
+          "aciclovir"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-antivirais.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-sota.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "adapaleno",
+        "count": 2,
+        "sample_names": [
+          "Adapaleno"
+        ],
+        "raw_ids": [
+          "adapaleno"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-dermatologia-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-dermatologico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "adenosina",
+        "count": 2,
+        "sample_names": [
+          "Adenosina"
+        ],
+        "raw_ids": [
+          "adenosina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-emergencia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "alendronato",
+        "count": 2,
+        "sample_names": [
+          "Alendronato de Sódio"
+        ],
+        "raw_ids": [
+          "alendronato"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-musculoesqueletico.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-reumatologia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "ambroxol",
+        "count": 2,
+        "sample_names": [
+          "Ambroxol"
+        ],
+        "raw_ids": [
+          "ambroxol"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-respiratorio.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-target-600.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "amicacina",
+        "count": 2,
+        "sample_names": [
+          "Amicacina"
+        ],
+        "raw_ids": [
+          "amicacina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-antibioticos-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-antibioticos.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "amiodarona",
+        "count": 2,
+        "sample_names": [
+          "Amiodarona"
+        ],
+        "raw_ids": [
+          "amiodarona"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-completo.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-final.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "amoxicilina-clavulanato",
+        "count": 2,
+        "sample_names": [
+          "Amoxicilina + Clavulanato"
+        ],
+        "raw_ids": [
+          "amoxicilina-clavulanato"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-complete.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-antibioticos.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "aripiprazol",
+        "count": 2,
+        "sample_names": [
+          "Aripiprazol"
+        ],
+        "raw_ids": [
+          "aripiprazol"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-final-complementar.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-neuropsiquiatrico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "atropina",
+        "count": 2,
+        "sample_names": [
+          "Atropina"
+        ],
+        "raw_ids": [
+          "atropina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-emergencia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "baclofeno",
+        "count": 2,
+        "sample_names": [
+          "Baclofeno"
+        ],
+        "raw_ids": [
+          "baclofeno"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-musculoesqueletico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "beclometasona",
+        "count": 2,
+        "sample_names": [
+          "Beclometasona",
+          "Dipropionato de beclometasona"
+        ],
+        "raw_ids": [
+          "beclometasona"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos-expanded.ts",
+          "darwin-MFC/lib/data/medicamentos/diversos.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosDiversos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosExpanded",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "betaistina",
+        "count": 2,
+        "sample_names": [
+          "Betaistina"
+        ],
+        "raw_ids": [
+          "betaistina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-ultimo.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-otorrino.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "betametasona-topica",
+        "count": 2,
+        "sample_names": [
+          "Betametasona",
+          "Betametasona Tópica"
+        ],
+        "raw_ids": [
+          "betametasona-topica"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-ultimo.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-dermatologico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "bilastina",
+        "count": 2,
+        "sample_names": [
+          "Bilastina"
+        ],
+        "raw_ids": [
+          "bilastina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-final-complementar.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-target-600.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "bromoprida",
+        "count": 2,
+        "sample_names": [
+          "Bromoprida"
+        ],
+        "raw_ids": [
+          "bromoprida"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-final-complementar.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-target-600.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "budesonida-formoterol",
+        "count": 2,
+        "sample_names": [
+          "Budesonida + Formoterol"
+        ],
+        "raw_ids": [
+          "budesonida-formoterol"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-respiratorio.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "budesonida-inalatorio",
+        "count": 2,
+        "sample_names": [
+          "Budesonida"
+        ],
+        "raw_ids": [
+          "budesonida-inalatorio"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-respiratorio.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "buprenorfina",
+        "count": 2,
+        "sample_names": [
+          "Buprenorfina"
+        ],
+        "raw_ids": [
+          "buprenorfina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-psiquiatria-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "carisoprodol",
+        "count": 2,
+        "sample_names": [
+          "Carisoprodol"
+        ],
+        "raw_ids": [
+          "carisoprodol"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-musculoesqueletico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "cetirizina",
+        "count": 2,
+        "sample_names": [
+          "Cetirizina",
+          "Dicloridrato de cetirizina"
+        ],
+        "raw_ids": [
+          "cetirizina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/complementares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-sota-final.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosComplementares",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "cetoconazol-topico",
+        "count": 2,
+        "sample_names": [
+          "Cetoconazol",
+          "Cetoconazol Tópico"
+        ],
+        "raw_ids": [
+          "cetoconazol-topico"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-dermatologia-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-dermatologico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "cianocobalamina",
+        "count": 2,
+        "sample_names": [
+          "Cianocobalamina (B12)",
+          "Cianocobalamina (Vitamina B12)"
+        ],
+        "raw_ids": [
+          "cianocobalamina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-diversos-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "ciclobenzaprina",
+        "count": 2,
+        "sample_names": [
+          "Ciclobenzaprina"
+        ],
+        "raw_ids": [
+          "ciclobenzaprina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-musculoesqueletico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "ciprofloxacino",
+        "count": 2,
+        "sample_names": [
+          "Ciprofloxacino"
+        ],
+        "raw_ids": [
+          "ciprofloxacino"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/antibioticos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#antibioticos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "clomifeno",
+        "count": 2,
+        "sample_names": [
+          "Citrato de Clomifeno",
+          "Citrato de clomifeno"
+        ],
+        "raw_ids": [
+          "clomifeno"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/complementares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ginecologia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosComplementares",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "clonidina",
+        "count": 2,
+        "sample_names": [
+          "Clonidina"
+        ],
+        "raw_ids": [
+          "clonidina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-final-batch.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-complementar.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "clotrimazol-topico",
+        "count": 2,
+        "sample_names": [
+          "Clotrimazol"
+        ],
+        "raw_ids": [
+          "clotrimazol-topico"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-dermatologia-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-target-600.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "codeina-antitussigeno",
+        "count": 2,
+        "sample_names": [
+          "Codeína",
+          "Codeína (antitussígeno)"
+        ],
+        "raw_ids": [
+          "codeina-antitussigeno"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-otorrino.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-target-600.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "colecalciferol",
+        "count": 2,
+        "sample_names": [
+          "Colecalciferol (Vitamina D3)"
+        ],
+        "raw_ids": [
+          "colecalciferol"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-diversos-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "dapagliflozina",
+        "count": 2,
+        "sample_names": [
+          "Dapagliflozina"
+        ],
+        "raw_ids": [
+          "dapagliflozina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-endocrino-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-metabolico-endocrino.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "diclofenaco",
+        "count": 2,
+        "sample_names": [
+          "Diclofenaco",
+          "Diclofenaco sódico"
+        ],
+        "raw_ids": [
+          "diclofenaco"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/analgesicos-aines.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#analgesicosAines",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "digoxina",
+        "count": 2,
+        "sample_names": [
+          "Digoxina"
+        ],
+        "raw_ids": [
+          "digoxina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/cardiovasculares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-completo.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-batch.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "diltiazem",
+        "count": 2,
+        "sample_names": [
+          "Diltiazem"
+        ],
+        "raw_ids": [
+          "diltiazem"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-completo.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-batch.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "dimenidrinato",
+        "count": 2,
+        "sample_names": [
+          "Dimenidrinato"
+        ],
+        "raw_ids": [
+          "dimenidrinato"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-target-600.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "dobutamina",
+        "count": 2,
+        "sample_names": [
+          "Dobutamina"
+        ],
+        "raw_ids": [
+          "dobutamina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-emergencia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "dopamina",
+        "count": 2,
+        "sample_names": [
+          "Dopamina"
+        ],
+        "raw_ids": [
+          "dopamina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-emergencia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "dorzolamida",
+        "count": 2,
+        "sample_names": [
+          "Dorzolamida"
+        ],
+        "raw_ids": [
+          "dorzolamida"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-final-complementar.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-target-600.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "duloxetina",
+        "count": 2,
+        "sample_names": [
+          "Duloxetina"
+        ],
+        "raw_ids": [
+          "duloxetina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-neuropsiquiatrico.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-psiquiatria-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "empagliflozina",
+        "count": 2,
+        "sample_names": [
+          "Empagliflozina"
+        ],
+        "raw_ids": [
+          "empagliflozina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-endocrino-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-metabolico-endocrino.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "eritropoetina-alfa",
+        "count": 2,
+        "sample_names": [
+          "Eritropoetina Alfa"
+        ],
+        "raw_ids": [
+          "eritropoetina-alfa"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-diversos-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-hematologia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "ertapenem",
+        "count": 2,
+        "sample_names": [
+          "Ertapenem"
+        ],
+        "raw_ids": [
+          "ertapenem"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-antibioticos-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-antibioticos.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "escitalopram",
+        "count": 2,
+        "sample_names": [
+          "Escitalopram"
+        ],
+        "raw_ids": [
+          "escitalopram"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-final-complementar.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-neuropsiquiatrico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos",
+          "darwin-MFC/lib/data/medicamentos/psicotropicos.ts"
+        ]
+      },
+      {
+        "id": "esomeprazol",
+        "count": 2,
+        "sample_names": [
+          "Esomeprazol"
+        ],
+        "raw_ids": [
+          "esomeprazol"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-gastrointestinal.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "espironolactona",
+        "count": 2,
+        "sample_names": [
+          "Espironolactona"
+        ],
+        "raw_ids": [
+          "espironolactona"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/cardiovasculares.ts",
+          "darwin-MFC/lib/data/medicamentos/diversos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosDiversos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "fenobarbital",
+        "count": 2,
+        "sample_names": [
+          "Fenobarbital",
+          "Fenobarbital sódico"
+        ],
+        "raw_ids": [
+          "fenobarbital"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/complementares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosComplementares",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "fentanil",
+        "count": 2,
+        "sample_names": [
+          "Fentanil"
+        ],
+        "raw_ids": [
+          "fentanil"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-emergencia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "ferro-sulfato",
+        "count": 2,
+        "sample_names": [
+          "Sulfato Ferroso"
+        ],
+        "raw_ids": [
+          "ferro-sulfato"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-diversos-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "fluconazol",
+        "count": 2,
+        "sample_names": [
+          "Fluconazol"
+        ],
+        "raw_ids": [
+          "fluconazol"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-sota.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "flumazenil",
+        "count": 2,
+        "sample_names": [
+          "Flumazenil"
+        ],
+        "raw_ids": [
+          "flumazenil"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-emergencia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "fluticasona",
+        "count": 2,
+        "sample_names": [
+          "Fluticasona"
+        ],
+        "raw_ids": [
+          "fluticasona"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-respiratorio.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "formoterol",
+        "count": 2,
+        "sample_names": [
+          "Formoterol"
+        ],
+        "raw_ids": [
+          "formoterol"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-respiratorio.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "fosfomicina",
+        "count": 2,
+        "sample_names": [
+          "Fosfomicina",
+          "Fosfomicina Trometamol"
+        ],
+        "raw_ids": [
+          "fosfomicina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-antibioticos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-urologico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "furosemida",
+        "count": 2,
+        "sample_names": [
+          "Furosemida"
+        ],
+        "raw_ids": [
+          "furosemida"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/cardiovasculares.ts",
+          "darwin-MFC/lib/data/medicamentos/diversos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-600-final.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosDiversos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "gabapentina",
+        "count": 2,
+        "sample_names": [
+          "Gabapentina"
+        ],
+        "raw_ids": [
+          "gabapentina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-psiquiatria-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "gluconato-calcio",
+        "count": 2,
+        "sample_names": [
+          "Gluconato de Cálcio"
+        ],
+        "raw_ids": [
+          "gluconato-calcio"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-emergencia.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-target-600.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "haloperidol",
+        "count": 2,
+        "sample_names": [
+          "Haloperidol"
+        ],
+        "raw_ids": [
+          "haloperidol"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#psicofarmacos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos",
+          "darwin-MFC/lib/data/medicamentos/psicofarmacos.ts",
+          "darwin-MFC/lib/data/medicamentos/psicotropicos.ts"
+        ]
+      },
+      {
+        "id": "heparina-nao-fracionada",
+        "count": 2,
+        "sample_names": [
+          "Heparina Não Fracionada"
+        ],
+        "raw_ids": [
+          "heparina-nao-fracionada"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-hematologia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "hidralazina",
+        "count": 2,
+        "sample_names": [
+          "Hidralazina"
+        ],
+        "raw_ids": [
+          "hidralazina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-final-batch.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-complementar.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "indapamida",
+        "count": 2,
+        "sample_names": [
+          "Indapamida"
+        ],
+        "raw_ids": [
+          "indapamida"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-completo.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "insulina-aspart",
+        "count": 2,
+        "sample_names": [
+          "Insulina Aspart"
+        ],
+        "raw_ids": [
+          "insulina-aspart"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-endocrino-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-batch.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "ivermectina",
+        "count": 2,
+        "sample_names": [
+          "Ivermectina"
+        ],
+        "raw_ids": [
+          "ivermectina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/complementares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-batch.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosComplementares",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "ivermectina-topica",
+        "count": 2,
+        "sample_names": [
+          "Ivermectina",
+          "Ivermectina Tópica"
+        ],
+        "raw_ids": [
+          "ivermectina-topica"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-dermatologia-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-dermatologico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "ketamina",
+        "count": 2,
+        "sample_names": [
+          "Cetamina (Ketamina)",
+          "Ketamina"
+        ],
+        "raw_ids": [
+          "ketamina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-emergencia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "lamotrigina",
+        "count": 2,
+        "sample_names": [
+          "Lamotrigina"
+        ],
+        "raw_ids": [
+          "lamotrigina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-final-complementar.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-neuropsiquiatrico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "latanoprosta",
+        "count": 2,
+        "sample_names": [
+          "Latanoprosta"
+        ],
+        "raw_ids": [
+          "latanoprosta"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-final-complementar.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-oftalmologico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "leflunomida",
+        "count": 2,
+        "sample_names": [
+          "Leflunomida"
+        ],
+        "raw_ids": [
+          "leflunomida"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-musculoesqueletico.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-reumatologia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "levodopa-carbidopa",
+        "count": 2,
+        "sample_names": [
+          "Levodopa + Carbidopa"
+        ],
+        "raw_ids": [
+          "levodopa-carbidopa"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-diversos-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-neuropsiquiatrico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "loperamida",
+        "count": 2,
+        "sample_names": [
+          "Loperamida"
+        ],
+        "raw_ids": [
+          "loperamida"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-gastrointestinal.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-target-600.ts",
+          "darwin-MFC/lib/data/medicamentos/gastro-metabolicos.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "mebendazol",
+        "count": 2,
+        "sample_names": [
+          "Mebendazol"
+        ],
+        "raw_ids": [
+          "mebendazol"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-final-batch.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "meclizina",
+        "count": 2,
+        "sample_names": [
+          "Meclizina"
+        ],
+        "raw_ids": [
+          "meclizina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-otorrino.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "meropenem",
+        "count": 2,
+        "sample_names": [
+          "Meropenem"
+        ],
+        "raw_ids": [
+          "meropenem"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-antibioticos-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-antibioticos.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "metadona",
+        "count": 2,
+        "sample_names": [
+          "Metadona"
+        ],
+        "raw_ids": [
+          "metadona"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-psiquiatria-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "metimazol",
+        "count": 2,
+        "sample_names": [
+          "Metimazol",
+          "Metimazol (Tiamazol)"
+        ],
+        "raw_ids": [
+          "metimazol"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-endocrino-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-metabolico-endocrino.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "metotrexato-reumatologia",
+        "count": 2,
+        "sample_names": [
+          "Metotrexato"
+        ],
+        "raw_ids": [
+          "metotrexato-reumatologia"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-musculoesqueletico.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-reumatologia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "metronidazol",
+        "count": 2,
+        "sample_names": [
+          "Metronidazol"
+        ],
+        "raw_ids": [
+          "metronidazol"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/antibioticos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#antibioticos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "midazolam",
+        "count": 2,
+        "sample_names": [
+          "Midazolam"
+        ],
+        "raw_ids": [
+          "midazolam"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-emergencia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "mometasona-nasal",
+        "count": 2,
+        "sample_names": [
+          "Furoato de Mometasona Nasal",
+          "Mometasona Nasal"
+        ],
+        "raw_ids": [
+          "mometasona-nasal"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-otorrino.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-respiratorio.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "morfina",
+        "count": 2,
+        "sample_names": [
+          "Morfina",
+          "Sulfato de morfina"
+        ],
+        "raw_ids": [
+          "morfina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/analgesicos-aines.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-final.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#analgesicosAines",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "mupirocina",
+        "count": 2,
+        "sample_names": [
+          "Mupirocina"
+        ],
+        "raw_ids": [
+          "mupirocina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-dermatologia-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-dermatologico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "naloxona",
+        "count": 2,
+        "sample_names": [
+          "Naloxona"
+        ],
+        "raw_ids": [
+          "naloxona"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-emergencia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "norepinefrina",
+        "count": 2,
+        "sample_names": [
+          "Norepinefrina",
+          "Norepinefrina (Noradrenalina)"
+        ],
+        "raw_ids": [
+          "norepinefrina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-emergencia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "norfloxacino",
+        "count": 2,
+        "sample_names": [
+          "Norfloxacino"
+        ],
+        "raw_ids": [
+          "norfloxacino"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-complete.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-antibioticos.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "octreotida",
+        "count": 2,
+        "sample_names": [
+          "Octreotida"
+        ],
+        "raw_ids": [
+          "octreotida"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-endocrino-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-oncologia-suporte.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "orfenadrina",
+        "count": 2,
+        "sample_names": [
+          "Orfenadrina"
+        ],
+        "raw_ids": [
+          "orfenadrina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-musculoesqueletico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "orlistate",
+        "count": 2,
+        "sample_names": [
+          "Orlistate"
+        ],
+        "raw_ids": [
+          "orlistate"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-endocrino-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-metabolico-endocrino.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "oxibutinina",
+        "count": 2,
+        "sample_names": [
+          "Oxibutinina"
+        ],
+        "raw_ids": [
+          "oxibutinina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-ultimo.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-urologico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "oximetazolina-nasal",
+        "count": 2,
+        "sample_names": [
+          "Oximetazolina",
+          "Oximetazolina Nasal"
+        ],
+        "raw_ids": [
+          "oximetazolina-nasal"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-otorrino.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-target-600.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "permetrina",
+        "count": 2,
+        "sample_names": [
+          "Permetrina"
+        ],
+        "raw_ids": [
+          "permetrina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-dermatologia-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-dermatologico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "pramipexol",
+        "count": 2,
+        "sample_names": [
+          "Pramipexol"
+        ],
+        "raw_ids": [
+          "pramipexol"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-diversos-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-neuropsiquiatrico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "prednisolona",
+        "count": 2,
+        "sample_names": [
+          "Prednisolona"
+        ],
+        "raw_ids": [
+          "prednisolona"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/complementares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-metabolico-endocrino.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosComplementares",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "progesterona-micronizada",
+        "count": 2,
+        "sample_names": [
+          "Progesterona Micronizada"
+        ],
+        "raw_ids": [
+          "progesterona-micronizada"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-final-complementar.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ginecologia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "propiltiouracil",
+        "count": 2,
+        "sample_names": [
+          "Propiltiouracil",
+          "Propiltiouracil (PTU)"
+        ],
+        "raw_ids": [
+          "propiltiouracil"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-endocrino-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-metabolico-endocrino.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "propofol",
+        "count": 2,
+        "sample_names": [
+          "Propofol"
+        ],
+        "raw_ids": [
+          "propofol"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-emergencia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "racecadotrila",
+        "count": 2,
+        "sample_names": [
+          "Racecadotrila"
+        ],
+        "raw_ids": [
+          "racecadotrila"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-gastrointestinal.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-target-600.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "risedronato",
+        "count": 2,
+        "sample_names": [
+          "Risedronato de Sódio"
+        ],
+        "raw_ids": [
+          "risedronato"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-musculoesqueletico.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-reumatologia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "rupatadina",
+        "count": 2,
+        "sample_names": [
+          "Rupatadina"
+        ],
+        "raw_ids": [
+          "rupatadina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-final-complementar.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-target-600.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "sitagliptina",
+        "count": 2,
+        "sample_names": [
+          "Sitagliptina"
+        ],
+        "raw_ids": [
+          "sitagliptina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-endocrino-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-metabolico-endocrino.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "sucralfato",
+        "count": 2,
+        "sample_names": [
+          "Sucralfato"
+        ],
+        "raw_ids": [
+          "sucralfato"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-final-batch.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-gastrointestinal.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "sulfassalazina",
+        "count": 2,
+        "sample_names": [
+          "Sulfassalazina"
+        ],
+        "raw_ids": [
+          "sulfassalazina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-gastrointestinal.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-reumatologia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "teicoplanina",
+        "count": 2,
+        "sample_names": [
+          "Teicoplanina"
+        ],
+        "raw_ids": [
+          "teicoplanina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-antibioticos-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-antibioticos.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "terbinafina",
+        "count": 2,
+        "sample_names": [
+          "Terbinafina"
+        ],
+        "raw_ids": [
+          "terbinafina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-complete.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "terbinafina-topica",
+        "count": 2,
+        "sample_names": [
+          "Terbinafina",
+          "Terbinafina Tópica"
+        ],
+        "raw_ids": [
+          "terbinafina-topica"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-dermatologia-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-dermatologico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "tiamina",
+        "count": 2,
+        "sample_names": [
+          "Cloridrato de tiamina (Vitamina B1)",
+          "Tiamina (Vitamina B1)"
+        ],
+        "raw_ids": [
+          "tiamina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/complementares.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-diversos-final.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosComplementares",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "ticagrelor",
+        "count": 2,
+        "sample_names": [
+          "Ticagrelor"
+        ],
+        "raw_ids": [
+          "ticagrelor"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-completo.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-hematologia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "timolol-colirio",
+        "count": 2,
+        "sample_names": [
+          "Timolol",
+          "Timolol Colírio"
+        ],
+        "raw_ids": [
+          "timolol-colirio"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-final-complementar.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-oftalmologico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "tizanidina",
+        "count": 2,
+        "sample_names": [
+          "Tizanidina"
+        ],
+        "raw_ids": [
+          "tizanidina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-musculoesqueletico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "tretinoina-topica",
+        "count": 2,
+        "sample_names": [
+          "Tretinoína",
+          "Tretinoína Tópica"
+        ],
+        "raw_ids": [
+          "tretinoina-topica"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-dermatologia-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-dermatologico.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "valproato-sodio",
+        "count": 2,
+        "sample_names": [
+          "Valproato de Sódio"
+        ],
+        "raw_ids": [
+          "valproato-sodio"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-neuropsiquiatrico.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-ultima.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "vancomicina",
+        "count": 2,
+        "sample_names": [
+          "Vancomicina"
+        ],
+        "raw_ids": [
+          "vancomicina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-antibioticos-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-antibioticos.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "varfarina",
+        "count": 2,
+        "sample_names": [
+          "Varfarina",
+          "Varfarina sódica"
+        ],
+        "raw_ids": [
+          "varfarina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/cardiovasculares.ts",
+          "darwin-MFC/lib/data/medicamentos/diversos.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-completo.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosDiversos",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "vasopressina",
+        "count": 2,
+        "sample_names": [
+          "Vasopressina"
+        ],
+        "raw_ids": [
+          "vasopressina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-emergencia.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "venlafaxina",
+        "count": 2,
+        "sample_names": [
+          "Venlafaxina"
+        ],
+        "raw_ids": [
+          "venlafaxina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-neuropsiquiatrico.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-psiquiatria-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "verapamil",
+        "count": 2,
+        "sample_names": [
+          "Verapamil"
+        ],
+        "raw_ids": [
+          "verapamil"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-cardiovascular-completo.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-final-batch.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "vildagliptina",
+        "count": 2,
+        "sample_names": [
+          "Vildagliptina"
+        ],
+        "raw_ids": [
+          "vildagliptina"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-endocrino-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-metabolico-endocrino.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "zinco-sulfato",
+        "count": 2,
+        "sample_names": [
+          "Sulfato de Zinco"
+        ],
+        "raw_ids": [
+          "zinco-sulfato"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-diversos-final.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-target-600.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      },
+      {
+        "id": "zolpidem",
+        "count": 2,
+        "sample_names": [
+          "Zolpidem"
+        ],
+        "raw_ids": [
+          "zolpidem"
+        ],
+        "origins": [
+          "darwin-MFC/lib/data/medicamentos/expansao-600-ultimo.ts",
+          "darwin-MFC/lib/data/medicamentos/expansao-psiquiatria-adicional.ts",
+          "darwin-MFC/lib/data/medicamentos/index.ts#medicamentosConsolidados",
+          "darwin-MFC/lib/data/medicamentos/index.ts#todosMedicamentos"
+        ]
+      }
+    ],
+    "missing_id_report": []
+  },
+  "documented_targets": {
+    "diseases": 368,
+    "medications": 690,
+    "diseases_match": false,
+    "medications_match": false
+  },
+  "diagnostics": {
+    "disease_origin_import_errors": [],
+    "medication_origin_import_errors": []
+  }
+}

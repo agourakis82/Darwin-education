@@ -1,0 +1,15 @@
+flowchart LR
+  A[ENAMED Microdata] --> B[Calibration ETL]
+  B --> C[(Supabase)]
+  C --> D[MIRT/DIF/Unified Model]
+  C --> E[DDL Analysis]
+  D --> F[Adaptive Question Mapping]
+  E --> F
+  F --> G[QGen LLM]
+  G --> H[Validation + Safety Filters]
+  H --> I{Auto-approve?}
+  I -->|Yes| J[Serve Content]
+  I -->|No| K[Expert Review]
+  K --> J
+  G --> L[Theory Generation]
+  L --> M[Citation/Hallucination Audit]

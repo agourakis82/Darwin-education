@@ -1,0 +1,31 @@
+{
+  "release_id": "v0.3.1_release_2026-02-10T09-16-37Z",
+  "timestamp_utc": "2026-02-10T09:16:37Z",
+  "repo_commit": "924fee69bac70fdec8baee32c057f0f0f704a79b",
+  "submodule_commit": "34d5c94f0de814cac45d907352fb580babadd812",
+  "artifacts": {
+    "preprint_md": {
+      "path": "_paperpack/preprint/preprint.md",
+      "sha256": "71fd480c3d2a67f7c80edca28a803b2c0af2e7c37a3865a120ebe33060743a3f"
+    },
+    "benchmarks_md": {
+      "path": "_paperpack/benchmarks.md",
+      "sha256": "cff89cdb45727b3a2ac3a3bfa58e612d215e56ffb0c58ae5a3d09183a560e928"
+    },
+    "darwin_mfc_runtime_counts": {
+      "path": "_paperpack/derived/darwin_mfc_runtime_counts.json",
+      "sha256": "e179945291610d60b8752c810e4fcf39aa436c97f771cbdde356db3c0360d559"
+    }
+  },
+  "checks": {
+    "run_all": "PASS",
+    "verify_pack": "PASS",
+    "ci_gate": "PASS",
+    "tests_shared": "PASS",
+    "tests_darwin_mfc": "PASS"
+  },
+  "notes": [
+    "This manifest does not include any DOI. Insert Zenodo DOI after deposit.",
+    "Release should be tagged in git and archived on Zenodo with the evidence pack."
+  ]
+}

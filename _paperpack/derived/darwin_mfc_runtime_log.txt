@@ -1,0 +1,8 @@
+timestamp_utc: 2026-02-10T09:17:15Z
+cwd: /home/demetrios/work/darwin-education
+command: /home/demetrios/work/darwin-education/node_modules/.bin/tsx /home/demetrios/work/darwin-education/_paperpack/scripts/darwin_mfc_runtime_counts.ts
+
+wrote_json: _paperpack/derived/darwin_mfc_runtime_counts.json
+wrote_csv: _paperpack/derived/darwin_mfc_duplicates.csv
+diseases_raw_vs_unique: 252 vs 215 (target 368; match=false)
+medications_raw_vs_unique: 889 vs 602 (target 690; match=false)

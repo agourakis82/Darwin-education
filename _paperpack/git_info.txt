@@ -1,0 +1,8 @@
+branch=NOT RUN
+commit=NOT RUN
+
+=== submodules ===
+NOT RUN (no submodules or git error)
+
+=== status (short) ===
+NOT RUN
