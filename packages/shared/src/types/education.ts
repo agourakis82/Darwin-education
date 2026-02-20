@@ -87,6 +87,8 @@ export interface ENAMEDQuestion {
   isAIGenerated: boolean;
   /** Validation status */
   validatedBy?: 'community' | 'expert' | 'both';
+  /** Optional clinical image URL (from Supabase Storage) */
+  image_url?: string;
 }
 
 export interface QuestionOption {

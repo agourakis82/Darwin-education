@@ -110,6 +110,7 @@ export default function ExamReviewPage() {
         references: q.reference_list,
         isAIGenerated: q.is_ai_generated,
         validatedBy: q.validated_by,
+        image_url: q.image_url ?? undefined,
       }))
 
       // Build review array

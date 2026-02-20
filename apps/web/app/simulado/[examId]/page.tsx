@@ -167,6 +167,7 @@ export default function ExamPage() {
         references: q.reference_list,
         isAIGenerated: q.is_ai_generated,
         validatedBy: q.validated_by,
+        image_url: q.image_url ?? undefined,
       }))
 
       // Sort questions by the order in exam.question_ids

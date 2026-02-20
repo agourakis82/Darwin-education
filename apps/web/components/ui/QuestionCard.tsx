@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import type { ENAMEDQuestion, DifficultyLevel } from '@darwin-education/shared'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -70,6 +71,28 @@ function StemWithImages({ stem }: { stem: string }) {
           </div>
         )
       )}
+    </div>
+  )
+}
+
+// Renders a clinical image from Supabase Storage with a caption derived from the alt text.
+function ClinicalImage({ src, alt }: { src: string; alt: string }) {
+  return (
+    <div className="my-4 rounded-xl overflow-hidden border border-separator bg-surface-2/40">
+      <div className="relative w-full" style={{ maxHeight: '400px' }}>
+        <Image
+          src={src}
+          alt={alt}
+          width={800}
+          height={400}
+          className="w-full h-auto object-contain"
+          style={{ maxHeight: '400px' }}
+          unoptimized
+        />
+      </div>
+      <p className="px-4 py-2 text-xs text-label-tertiary border-t border-separator/50 text-center italic">
+        {alt}
+      </p>
     </div>
   )
 }
@@ -148,6 +171,14 @@ export function QuestionCard({
       <div className="prose max-w-none mb-6 dark:prose-invert">
         <StemWithImages stem={question.stem} />
       </div>
+
+      {/* Clinical Image (from Supabase Storage) */}
+      {question.image_url && (
+        <ClinicalImage
+          src={question.image_url}
+          alt={`Imagem clínica da questão ${questionNumber ?? ''}`}
+        />
+      )}
 
       {/* Options */}
       <div className="space-y-3">
