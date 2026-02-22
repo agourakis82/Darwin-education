@@ -3,11 +3,20 @@
 import { useState, useCallback } from 'react'
 
 export interface CaseStudyData {
-  case_summary: string
-  question: string
-  ideal_answer: string
-  red_flags: string[]
-  next_steps: string[]
+  // New MCQ schema
+  caso?: string
+  pergunta?: string
+  alternativas?: string[]
+  resposta_correta?: number
+  explicacao?: string
+  sinais_alerta?: string[]
+  proximos_passos?: string[]
+  // Legacy fields (backward compat)
+  case_summary?: string
+  question?: string
+  ideal_answer?: string
+  red_flags?: string[]
+  next_steps?: string[]
 }
 
 export interface CaseStudyResult {

@@ -74,8 +74,8 @@ export async function GET(request: NextRequest) {
       query = query.eq('area', area)
     }
 
-    // Get cards that belong to user's decks
-    query = query.eq('flashcard_decks.user_id', user.id)
+    // Note: RLS on flashcard_decks handles access (is_public OR is_system OR user_id = auth.uid())
+    // System decks have user_id = null so we do NOT filter by user_id here
 
     const { data: cards, error: cardsError } = await query.limit(limit * 2) // Get extra to filter
 

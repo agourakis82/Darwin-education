@@ -11,13 +11,59 @@ interface CaseStudyCardProps {
   onNewCase: () => void
 }
 
+const OPTION_LETTERS = ['A', 'B', 'C', 'D'] as const
+
 export function CaseStudyCard({ data, cached, remaining, onNewCase }: CaseStudyCardProps) {
-  const [userAnswer, setUserAnswer] = useState('')
-  const [revealed, setRevealed] = useState(false)
+  const [selected, setSelected] = useState<number | null>(null)
+
+  // Normalize: support both new MCQ schema and legacy schema
+  const caso = data.caso ?? data.case_summary ?? ''
+  const pergunta = data.pergunta ?? data.question ?? ''
+  const alternativas = data.alternativas ?? []
+  const respostaCorreta = data.resposta_correta ?? -1
+  const explicacao = data.explicacao ?? data.ideal_answer ?? ''
+  const sinaisAlerta = data.sinais_alerta ?? data.red_flags ?? []
+  const proximosPassos = data.proximos_passos ?? data.next_steps ?? []
+
+  const hasMCQ = alternativas.length === 4
+  const revealed = selected !== null
+
+  function handleSelect(idx: number) {
+    if (revealed) return
+    setSelected(idx)
+  }
+
+  function getOptionStyle(idx: number) {
+    if (!revealed) {
+      return 'border-separator hover:border-emerald-500/60 hover:bg-emerald-900/10 cursor-pointer'
+    }
+    if (idx === respostaCorreta) {
+      return 'border-emerald-500 bg-emerald-900/20 cursor-default'
+    }
+    if (idx === selected) {
+      return 'border-red-500 bg-red-900/20 cursor-default'
+    }
+    return 'border-separator opacity-50 cursor-default'
+  }
+
+  function getOptionLabel(idx: number) {
+    if (!revealed) return null
+    if (idx === respostaCorreta) return (
+      <svg className="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+      </svg>
+    )
+    if (idx === selected && idx !== respostaCorreta) return (
+      <svg className="w-4 h-4 text-red-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    )
+    return null
+  }
 
   return (
     <div className="space-y-6">
-      {/* Case Summary */}
+      {/* Case Presentation */}
       <div className="bg-surface-1 border border-separator rounded-xl p-6">
         <div className="flex items-center gap-2 mb-4">
           <svg className="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -25,75 +71,77 @@ export function CaseStudyCard({ data, cached, remaining, onNewCase }: CaseStudyC
           </svg>
           <h3 className="text-lg font-semibold text-label-primary">Apresentação do Caso</h3>
         </div>
-        <p className="text-label-primary text-sm leading-relaxed whitespace-pre-wrap">
-          {data.case_summary}
-        </p>
+        <p className="text-label-primary text-sm leading-relaxed whitespace-pre-wrap">{caso}</p>
       </div>
 
       {/* Question */}
-      <div className="bg-surface-1 border border-emerald-800/50 rounded-xl p-6">
-        <div className="flex items-center gap-2 mb-4">
-          <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <h3 className="text-lg font-semibold text-emerald-400">Pergunta</h3>
-        </div>
-        <p className="text-label-primary text-base leading-relaxed mb-4">{data.question}</p>
-
-        {/* User Answer Input */}
-        {!revealed && (
-          <div className="space-y-3">
-            <textarea
-              value={userAnswer}
-              onChange={(e) => setUserAnswer(e.target.value)}
-              placeholder="Escreva sua resposta aqui..."
-              rows={4}
-              className="w-full bg-surface-2 border border-separator rounded-lg p-3 text-sm text-label-primary placeholder:text-label-tertiary focus:border-emerald-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 resize-none"
-            />
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={() => setRevealed(true)}
-              disabled={userAnswer.trim().length === 0}
-            >
-              <svg className="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-              </svg>
-              Revelar Resposta
-            </Button>
+      {pergunta && (
+        <div className="bg-surface-1 border border-emerald-800/50 rounded-xl p-6">
+          <div className="flex items-center gap-2 mb-4">
+            <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 className="text-lg font-semibold text-emerald-400">Questão</h3>
           </div>
-        )}
-      </div>
+          <p className="text-label-primary text-base leading-relaxed mb-5">{pergunta}</p>
 
-      {/* Revealed Section */}
+          {/* MCQ Options */}
+          {hasMCQ ? (
+            <div className="space-y-3">
+              {alternativas.map((alt, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleSelect(idx)}
+                  disabled={revealed}
+                  className={`w-full text-left flex items-start gap-3 border rounded-lg p-4 transition-all duration-150 ${getOptionStyle(idx)}`}
+                >
+                  <span className="font-bold text-sm text-label-secondary w-5 flex-shrink-0 mt-0.5">
+                    {OPTION_LETTERS[idx]}
+                  </span>
+                  <span className="text-sm text-label-primary flex-1">{alt.replace(/^[A-D]\.\s*/, '')}</span>
+                  {getOptionLabel(idx)}
+                </button>
+              ))}
+            </div>
+          ) : (
+            /* Legacy: no options — just show reveal button */
+            !revealed && (
+              <Button variant="primary" size="sm" onClick={() => setSelected(0)}>
+                Revelar Resposta
+              </Button>
+            )
+          )}
+        </div>
+      )}
+
+      {/* Result Section — shown after selection */}
       {revealed && (
         <>
-          {/* User answer recap */}
-          <div className="bg-surface-2/50 border border-separator rounded-xl p-5">
-            <h4 className="text-sm font-medium text-label-secondary mb-2">Sua Resposta</h4>
-            <p className="text-label-primary text-sm leading-relaxed whitespace-pre-wrap">
-              {userAnswer}
-            </p>
-          </div>
-
-          {/* Ideal Answer */}
-          <div className="bg-gradient-to-r from-emerald-900/20 to-cyan-900/20 border border-emerald-800/50 rounded-xl p-6">
-            <div className="flex items-center gap-2 mb-3">
-              <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <h3 className="text-lg font-semibold text-emerald-400">Resposta Ideal</h3>
+          {/* Feedback banner */}
+          {hasMCQ && (
+            <div className={`rounded-xl p-4 border ${selected === respostaCorreta ? 'bg-emerald-900/20 border-emerald-700/50' : 'bg-red-900/20 border-red-700/50'}`}>
+              <p className={`font-semibold text-sm ${selected === respostaCorreta ? 'text-emerald-400' : 'text-red-400'}`}>
+                {selected === respostaCorreta ? '✓ Correto!' : `✗ Incorreto — a resposta certa é ${OPTION_LETTERS[respostaCorreta]}`}
+              </p>
             </div>
-            <p className="text-label-primary text-sm leading-relaxed whitespace-pre-wrap">
-              {data.ideal_answer}
-            </p>
-          </div>
+          )}
+
+          {/* Explanation */}
+          {explicacao && (
+            <div className="bg-gradient-to-r from-emerald-900/20 to-cyan-900/20 border border-emerald-800/50 rounded-xl p-6">
+              <div className="flex items-center gap-2 mb-3">
+                <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h3 className="text-lg font-semibold text-emerald-400">Explicação</h3>
+              </div>
+              <p className="text-label-primary text-sm leading-relaxed whitespace-pre-wrap">{explicacao}</p>
+            </div>
+          )}
 
           {/* Red Flags & Next Steps */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Red Flags */}
-            {data.red_flags && data.red_flags.length > 0 && (
+            {sinaisAlerta.length > 0 && (
               <div className="bg-red-900/10 border border-red-800/40 rounded-xl p-5">
                 <div className="flex items-center gap-2 mb-3">
                   <svg className="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -102,7 +150,7 @@ export function CaseStudyCard({ data, cached, remaining, onNewCase }: CaseStudyC
                   <h4 className="text-sm font-semibold text-red-400">Sinais de Alerta</h4>
                 </div>
                 <ul className="space-y-2">
-                  {data.red_flags.map((flag, i) => (
+                  {sinaisAlerta.map((flag, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm text-label-primary">
                       <span className="text-red-400 mt-0.5">•</span>
                       {flag}
@@ -112,8 +160,7 @@ export function CaseStudyCard({ data, cached, remaining, onNewCase }: CaseStudyC
               </div>
             )}
 
-            {/* Next Steps */}
-            {data.next_steps && data.next_steps.length > 0 && (
+            {proximosPassos.length > 0 && (
               <div className="bg-cyan-900/10 border border-cyan-800/40 rounded-xl p-5">
                 <div className="flex items-center gap-2 mb-3">
                   <svg className="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -122,7 +169,7 @@ export function CaseStudyCard({ data, cached, remaining, onNewCase }: CaseStudyC
                   <h4 className="text-sm font-semibold text-cyan-400">Próximos Passos</h4>
                 </div>
                 <ol className="space-y-2">
-                  {data.next_steps.map((step, i) => (
+                  {proximosPassos.map((step, i) => (
                     <li key={i} className="flex items-start gap-2 text-sm text-label-primary">
                       <span className="text-cyan-400 font-medium mt-0.5">{i + 1}.</span>
                       {step}

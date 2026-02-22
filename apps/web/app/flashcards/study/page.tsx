@@ -333,29 +333,45 @@ export default function FlashcardStudyPage() {
 
             {/* Flashcard */}
             <div
-              className="relative perspective-1000 cursor-pointer mb-8"
+              className="relative cursor-pointer mb-8"
               onClick={() => setIsFlipped(!isFlipped)}
             >
-              <Card className={`
-                min-h-[300px] transition-all duration-500 transform-style-3d
-                ${isFlipped ? 'rotate-y-180' : ''}
-              `}>
+              <Card className="min-h-[300px]">
                 <CardContent className="flex items-center justify-center p-8 min-h-[300px]">
-                  <div className={`text-center ${isFlipped ? 'hidden' : ''}`}>
-                    <p className="text-xs text-label-tertiary mb-4">FRENTE</p>
-                    <p className="text-xl md:text-2xl text-label-primary whitespace-pre-wrap">
-                      {currentCard.front}
-                    </p>
-                    <p className="text-sm text-label-tertiary mt-8">
-                      Clique ou pressione espaco para virar
-                    </p>
-                  </div>
-                  <div className={`text-center ${isFlipped ? '' : 'hidden'}`}>
-                    <p className="text-xs text-label-tertiary mb-4">VERSO</p>
-                    <p className="text-xl md:text-2xl text-label-primary whitespace-pre-wrap">
-                      {currentCard.back}
-                    </p>
-                  </div>
+                  <AnimatePresence mode="wait">
+                    {!isFlipped ? (
+                      <motion.div
+                        key="front"
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.15 }}
+                        className="text-center w-full"
+                      >
+                        <p className="text-xs text-label-tertiary mb-4 uppercase tracking-wider">Frente</p>
+                        <p className="text-xl md:text-2xl text-label-primary whitespace-pre-wrap">
+                          {currentCard.front}
+                        </p>
+                        <p className="text-sm text-label-tertiary mt-8">
+                          Clique ou pressione espaço para virar
+                        </p>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="back"
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -8 }}
+                        transition={{ duration: 0.15 }}
+                        className="text-center w-full"
+                      >
+                        <p className="text-xs text-label-tertiary mb-4 uppercase tracking-wider">Verso</p>
+                        <p className="text-xl md:text-2xl text-label-primary whitespace-pre-wrap">
+                          {currentCard.back}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </CardContent>
               </Card>
             </div>

@@ -5,6 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@/lib/supabase/server'
+import { safeInsert } from '@/lib/supabase/safe-queries'
 import {
   initCATSession,
   selectNextItem,
@@ -16,9 +17,41 @@ import {
 } from '@darwin-education/shared'
 import { getSessionUserSummary } from '@/lib/auth/session'
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/**
+ * Database question row shape from Supabase.
+ * Used for type-safe transformation to ENAMEDQuestion.
+ */
+interface DatabaseQuestion {
+  id: string
+  bank_id: string
+  year: number
+  stem: string
+  options: string[]
+  correct_index: number
+  explanation: string
+  irt_difficulty: number
+  irt_discrimination: number
+  irt_guessing: number
+  irt_infit: number | null
+  irt_outfit: number | null
+  difficulty: 'easy' | 'medium' | 'hard'
+  area: ENAMEDArea
+  subspecialty: string | null
+  topic: string | null
+  icd10_codes: string[]
+  atc_codes: string[]
+  reference_list: string[]
+  is_ai_generated: boolean
+  validated_by: string | null
+  validation_status?: 'pending' | 'approved' | 'rejected'
+  validation_feedback?: string | null
+  flagged_for_review?: boolean
+}
 
-function transformQuestion(q: any): ENAMEDQuestion {
+/**
+ * Transforms a database question row to the ENAMEDQuestion type.
+ */
+function transformQuestion(q: DatabaseQuestion): ENAMEDQuestion {
   return {
     id: q.id,
     bankId: q.bank_id,
@@ -37,8 +70,8 @@ function transformQuestion(q: any): ENAMEDQuestion {
     difficulty: q.difficulty,
     ontology: {
       area: q.area,
-      subspecialty: q.subspecialty || '',
-      topic: q.topic || '',
+      subspecialty: q.subspecialty ?? '',
+      topic: q.topic ?? '',
       icd10: q.icd10_codes,
       atcCodes: q.atc_codes,
     },
@@ -46,6 +79,29 @@ function transformQuestion(q: any): ENAMEDQuestion {
     isAIGenerated: q.is_ai_generated,
     validatedBy: q.validated_by,
   }
+}
+
+/**
+ * Request body shape for POST /api/cat/start
+ */
+interface CATStartRequest {
+  areas?: ENAMEDArea[]
+  minItems?: number
+  maxItems?: number
+  idempotencyKey?: string
+}
+
+/**
+ * Response shape for POST /api/cat/start
+ * Server-side CAT session - only returns opaque sessionId
+ */
+interface CATStartResponse {
+  examId: string
+  attemptId: string
+  sessionId: string
+  config: CATConfig
+  question: Omit<ENAMEDQuestion, 'correctIndex' | 'explanation'>
+  message?: string
 }
 
 /**
@@ -57,6 +113,7 @@ function transformQuestion(q: any): ENAMEDQuestion {
  *   - areas?: ENAMEDArea[] (filter item bank by areas)
  *   - minItems?: number (minimum items before SE stopping)
  *   - maxItems?: number (maximum items to administer)
+ *   - idempotencyKey?: string (prevents duplicate exam creation)
  *
  * Returns: { examId, attemptId, session, config, question }
  */
@@ -71,11 +128,27 @@ export async function POST(request: NextRequest) {
     }
 
     // Parse request body
-    const body = await request.json()
-    const { areas, minItems, maxItems } = body as {
-      areas?: ENAMEDArea[]
-      minItems?: number
-      maxItems?: number
+    const body = await request.json() as CATStartRequest
+    const { areas, minItems, maxItems, idempotencyKey } = body
+
+    // Check for existing exam with same idempotency key
+    if (idempotencyKey) {
+      const { data: existingExam } = await supabase
+        .from('exams')
+        .select('id')
+        .eq('idempotency_key', idempotencyKey)
+        .eq('created_by', user.id)
+        .single()
+
+      if (existingExam) {
+        return NextResponse.json(
+          { 
+            examId: existingExam.id,
+            message: 'Exam already exists',
+          },
+          { status: 200 }
+        )
+      }
     }
 
     // Build CATConfig merging with defaults
@@ -86,16 +159,18 @@ export async function POST(request: NextRequest) {
     }
 
     // Load item bank from questions table
-    let query = (supabase as any)
+    let query = supabase
       .from('questions')
       .select('*')
       .not('irt_difficulty', 'is', null)
+      .eq('validation_status', 'approved')
+      .neq('flagged_for_review', true)
 
     if (areas && areas.length > 0) {
       query = query.in('area', areas)
     }
 
-    const { data: rawQuestions, error: questionsError } = await query
+    const { data: rawQuestions, error: questionsError } = await query.returns<DatabaseQuestion[]>()
 
     if (questionsError) {
       console.error('Error loading item bank:', questionsError)
@@ -116,7 +191,7 @@ export async function POST(request: NextRequest) {
     const itemBank: ENAMEDQuestion[] = rawQuestions.map(transformQuestion)
 
     // Create exam record (adaptive type)
-    const { data: exam, error: examError } = await (supabase as any)
+    const { data: exam, error: examError } = await supabase
       .from('exams')
       .insert({
         title: 'Simulado Adaptativo',
@@ -127,6 +202,7 @@ export async function POST(request: NextRequest) {
         type: 'adaptive',
         created_by: user.id,
         is_public: false,
+        idempotency_key: idempotencyKey ?? crypto.randomUUID(),
       })
       .select('id')
       .single()
@@ -140,7 +216,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create exam attempt record
-    const { data: attempt, error: attemptError } = await (supabase as any)
+    const { data: attempt, error: attemptError } = await supabase
       .from('exam_attempts')
       .insert({
         exam_id: exam.id,
@@ -162,6 +238,34 @@ export async function POST(request: NextRequest) {
     // Initialize CAT session
     const session = initCATSession()
 
+    // Persist CAT session to database (server-side storage)
+    const { data: sessionRecord, error: sessionError } = await supabase
+      .from('cat_sessions')
+      .insert({
+        attempt_id: attempt.id,
+        user_id: user.id,
+        theta: session.theta,
+        se: session.se,
+        items_administered: session.itemsAdministered,
+        responses: session.responses,
+        item_areas: session.itemAreas,
+        theta_history: session.thetaHistory,
+        is_complete: session.isComplete,
+        stopping_reason: session.stoppingReason,
+      })
+      .select('id')
+      .single()
+
+    if (sessionError) {
+      console.error('Error creating CAT session:', sessionError)
+      return NextResponse.json(
+        { error: 'Failed to initialize CAT session' },
+        { status: 500 }
+      )
+    }
+
+    const sessionId = sessionRecord.id
+
     // Select the first question
     const firstQuestion = selectNextItem(session, itemBank, new Map(), config)
 
@@ -172,13 +276,25 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Log first item exposure (non-critical, fire-and-forget with retry)
+    void safeInsert(
+      supabase,
+      'item_exposure_log',
+      {
+        question_id: firstQuestion.id,
+        user_theta: session.theta,
+        exam_attempt_id: attempt.id,
+      },
+      { maxRetries: 2, logError: true }
+    )
+
     // Strip correctIndex and explanation for security
     const { correctIndex, explanation, ...safeQuestion } = firstQuestion
 
     return NextResponse.json({
       examId: exam.id,
       attemptId: attempt.id,
-      session,
+      sessionId,
       config,
       question: safeQuestion,
     })

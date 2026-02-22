@@ -1,6 +1,6 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
-import type { ENAMEDQuestion, ENAMEDArea, CATConfig, CATSession } from '@darwin-education/shared'
+import { persist, createJSONStorage } from 'zustand/middleware'
+import type { ENAMEDQuestion, CATConfig } from '@darwin-education/shared'
 
 interface CATAnswer {
   questionId: string
@@ -8,19 +8,20 @@ interface CATAnswer {
   confirmed: boolean
 }
 
-interface CATState {
-  // Session data
+// Export CATState interface for use in selectors
+export interface CATState {
+  // Session data (opaque sessionId - server stores actual CAT state)
   examId: string | null
   attemptId: string | null
+  sessionId: string | null
   config: CATConfig | null
-  session: CATSession | null
 
   // Current question
   currentQuestion: ENAMEDQuestion | null
   currentAnswer: string | null
   questionNumber: number
 
-  // UI state
+  // UI state (not persisted)
   loading: boolean
   submitting: boolean
   error: string | null
@@ -29,27 +30,33 @@ interface CATState {
   // History (for display)
   answers: CATAnswer[]
 
+  // Pre-fetched question buffer (for shadow pre-fetching)
+  prefetchedQuestion: ENAMEDQuestion | null
+
   // Actions
   startCAT: (params: {
     examId: string
     attemptId: string
+    sessionId: string
     config: CATConfig
-    session: CATSession
     firstQuestion: ENAMEDQuestion
   }) => void
   selectAnswer: (answer: string) => void
-  confirmAnswer: (nextQuestion: ENAMEDQuestion | null, updatedSession: CATSession) => void
+  confirmAnswer: (nextQuestion: ENAMEDQuestion | null, questionNumber?: number) => void
   setLoading: (loading: boolean) => void
   setSubmitting: (submitting: boolean) => void
   setError: (error: string | null) => void
   resetCAT: () => void
+  // Pre-fetch actions
+  setPrefetchedQuestion: (question: ENAMEDQuestion | null) => void
+  consumePrefetchedQuestion: () => ENAMEDQuestion | null
 }
 
 const initialState = {
   examId: null,
   attemptId: null,
+  sessionId: null,
   config: null,
-  session: null,
   currentQuestion: null,
   currentAnswer: null,
   questionNumber: 0,
@@ -58,6 +65,45 @@ const initialState = {
   error: null,
   startedAt: null,
   answers: [],
+  prefetchedQuestion: null,
+}
+
+/**
+ * Creates a debounced storage wrapper for Zustand persist middleware.
+ * Prevents excessive localStorage writes by batching changes.
+ */
+const createDebouncedStorage = (delay: number = 500) => {
+  let timeoutId: ReturnType<typeof setTimeout> | null = null
+
+  return {
+    getItem: (name: string): string | null => {
+      if (typeof window === 'undefined') return null
+      try {
+        return localStorage.getItem(name)
+      } catch {
+        return null
+      }
+    },
+    setItem: (name: string, value: string): void => {
+      if (typeof window === 'undefined') return
+      if (timeoutId) clearTimeout(timeoutId)
+      timeoutId = setTimeout(() => {
+        try {
+          localStorage.setItem(name, value)
+        } catch (error) {
+          console.error('Failed to persist CAT state:', error)
+        }
+      }, delay)
+    },
+    removeItem: (name: string): void => {
+      if (typeof window === 'undefined') return
+      try {
+        localStorage.removeItem(name)
+      } catch (error) {
+        console.error('Failed to remove CAT state:', error)
+      }
+    },
+  }
 }
 
 export const useCATStore = create<CATState>()(
@@ -65,12 +111,12 @@ export const useCATStore = create<CATState>()(
     (set, get) => ({
       ...initialState,
 
-      startCAT: ({ examId, attemptId, config, session, firstQuestion }) => {
+      startCAT: ({ examId, attemptId, sessionId, config, firstQuestion }) => {
         set({
           examId,
           attemptId,
+          sessionId,
           config,
-          session,
           currentQuestion: firstQuestion,
           currentAnswer: null,
           questionNumber: 1,
@@ -79,6 +125,7 @@ export const useCATStore = create<CATState>()(
           error: null,
           startedAt: new Date(),
           answers: [],
+          prefetchedQuestion: null,
         })
       },
 
@@ -86,7 +133,7 @@ export const useCATStore = create<CATState>()(
         set({ currentAnswer: answer })
       },
 
-      confirmAnswer: (nextQuestion, updatedSession) => {
+      confirmAnswer: (nextQuestion, newQuestionNumber) => {
         const { currentQuestion, currentAnswer, questionNumber, answers } = get()
 
         const newAnswers = currentQuestion
@@ -101,12 +148,12 @@ export const useCATStore = create<CATState>()(
           : answers
 
         set({
-          session: updatedSession,
           currentQuestion: nextQuestion,
           currentAnswer: null,
-          questionNumber: nextQuestion ? questionNumber + 1 : questionNumber,
+          questionNumber: newQuestionNumber ?? (nextQuestion ? questionNumber + 1 : questionNumber),
           answers: newAnswers,
           submitting: false,
+          prefetchedQuestion: null, // Clear prefetched question after consumption
         })
       },
 
@@ -114,33 +161,40 @@ export const useCATStore = create<CATState>()(
       setSubmitting: (submitting) => set({ submitting }),
       setError: (error) => set({ error }),
       resetCAT: () => set(initialState),
+
+      // Pre-fetch actions
+      setPrefetchedQuestion: (question) => set({ prefetchedQuestion: question }),
+      consumePrefetchedQuestion: () => {
+        const { prefetchedQuestion } = get()
+        if (prefetchedQuestion) {
+          set({ prefetchedQuestion: null })
+        }
+        return prefetchedQuestion
+      },
     }),
     {
       name: 'darwin-cat-store',
+      storage: createJSONStorage(createDebouncedStorage),
       partialize: (state) => ({
+        // Only persist essential session data, exclude transient UI state
         examId: state.examId,
         attemptId: state.attemptId,
+        sessionId: state.sessionId,
         config: state.config,
-        session: state.session,
         currentQuestion: state.currentQuestion,
         questionNumber: state.questionNumber,
         startedAt: state.startedAt,
         answers: state.answers,
+        // Explicitly NOT persisting: loading, submitting, error, currentAnswer, prefetchedQuestion
       }),
     }
   )
 )
 
-// Selectors
-export const selectPrecision = (state: CATState) => {
-  if (!state.session || state.session.se === Infinity) return 0
-  return Math.min(100, Math.max(0, 100 - state.session.se * 300))
-}
-
-export const selectScaledTheta = (state: CATState) => {
-  if (!state.session) return 500
-  return Math.round(500 + state.session.theta * 100)
-}
-
-export const selectIsComplete = (state: CATState) =>
-  state.session?.isComplete ?? false
+// Selectors (server provides theta/se via API, not stored client-side)
+export const selectQuestionNumber = (state: CATState) => state.questionNumber
+export const selectIsComplete = (state: CATState) => !state.currentQuestion && state.questionNumber > 0
+export const selectProgress = (state: CATState) => ({
+  questionNumber: state.questionNumber,
+  totalAnswered: state.answers.length,
+})

@@ -15,6 +15,8 @@ import { StudyStreak } from './components/StudyStreak'
 import { WeakAreas } from './components/WeakAreas'
 import { ExportData } from './components/ExportData'
 import { LoadingSkeleton } from './components/LoadingSkeleton'
+import { ThetaTrajectory } from './components/ThetaTrajectory'
+import { WrongItemsTable } from './components/WrongItemsTable'
 import { AREA_LABELS } from '@/lib/area-colors'
 import { AnimatedList, AnimatedItem } from '@/components/ui/AnimatedList'
 import { AnimatedCounter } from '@/components/ui/AnimatedCounter'
@@ -28,11 +30,13 @@ interface ExamAttempt {
   exam_id: string
   completed_at: string
   theta: number
+  standard_error?: number
   scaled_score: number
   passed: boolean
   correct_count: number
   area_breakdown: Record<ENAMEDArea, { correct: number; total: number }>
   total_time_seconds: number
+  is_adaptive?: boolean
 }
 
 interface PerformanceStats {
@@ -434,6 +438,23 @@ export default function DesempenhoPage() {
                     <AreaRadar performance={areaPerformance} />
                   </CardContent>
                 </Card>
+
+                {/* Theta Trajectory (adaptive exams only) */}
+                {attempts.some((a) => typeof a.theta === 'number') && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Trajetória de Habilidade (θ)</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <ThetaTrajectory attempts={[...attempts].reverse()} />
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Wrong items from latest adaptive attempt */}
+                <WrongItemsTable
+                  attemptId={attempts.find((a) => a.is_adaptive)?.id ?? null}
+                />
               </div>
 
               {/* Right Column */}

@@ -11,13 +11,46 @@ import { getSessionUserSummary } from '@/lib/auth/session'
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 /**
+ * Database CAT session row shape.
+ */
+interface DatabaseCATSession {
+  id: string
+  attempt_id: string
+  user_id: string
+  theta: number
+  se: number
+  items_administered: string[]
+  responses: boolean[]
+  item_areas: string[]
+  theta_history: number[]
+  is_complete: boolean
+  stopping_reason: string | null
+}
+
+/**
+ * Converts database CAT session to CATSession type.
+ */
+function dbSessionToCATSession(dbSession: DatabaseCATSession): CATSession {
+  return {
+    theta: dbSession.theta,
+    se: dbSession.se,
+    itemsAdministered: dbSession.items_administered,
+    responses: dbSession.responses,
+    itemAreas: dbSession.item_areas as ENAMEDArea[],
+    thetaHistory: dbSession.theta_history,
+    isComplete: dbSession.is_complete,
+    stoppingReason: dbSession.stopping_reason as CATSession['stoppingReason'],
+  }
+}
+
+/**
  * POST /api/cat/submit
  *
  * Finalize a completed CAT session and persist all results.
  *
  * Request body:
  *   - attemptId: string
- *   - session: CATSession
+ *   - sessionId: string (opaque session identifier)
  *   - timeSpent?: number (total time in seconds)
  *
  * Returns: { success, scaledScore, passed, correctCount, totalItems }
@@ -34,18 +67,37 @@ export async function POST(request: NextRequest) {
 
     // Parse request body
     const body = await request.json()
-    const { attemptId, session, timeSpent } = body as {
+    const { attemptId, sessionId, timeSpent } = body as {
       attemptId: string
-      session: CATSession
+      sessionId: string
       timeSpent?: number
     }
 
-    if (!attemptId || !session) {
+    if (!attemptId || !sessionId) {
       return NextResponse.json(
-        { error: 'Missing required fields: attemptId, session' },
+        { error: 'Missing required fields: attemptId, sessionId' },
         { status: 400 }
       )
     }
+
+    // Load CAT session from database (server-side storage)
+    const { data: dbSession, error: sessionError } = await supabase
+      .from('cat_sessions')
+      .select('*')
+      .eq('id', sessionId)
+      .eq('user_id', user.id)
+      .single()
+
+    if (sessionError || !dbSession) {
+      console.error('Error loading CAT session:', sessionError)
+      return NextResponse.json(
+        { error: 'Session not found or unauthorized' },
+        { status: 404 }
+      )
+    }
+
+    // Convert database session to CATSession
+    const session = dbSessionToCATSession(dbSession as DatabaseCATSession)
 
     // Calculate final score
     const scaledScore = Math.round(500 + session.theta * 100)
