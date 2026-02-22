@@ -33,7 +33,7 @@ interface DatabaseQuestion {
   irt_guessing: number
   irt_infit: number | null
   irt_outfit: number | null
-  difficulty: 'easy' | 'medium' | 'hard'
+  difficulty: 'muito_facil' | 'facil' | 'medio' | 'dificil' | 'muito_dificil'
   area: ENAMEDArea
   subspecialty: string | null
   topic: string | null
@@ -41,7 +41,7 @@ interface DatabaseQuestion {
   atc_codes: string[]
   reference_list: string[]
   is_ai_generated: boolean
-  validated_by: string | null
+  validated_by: 'community' | 'expert' | 'both' | null
   validation_status?: 'pending' | 'approved' | 'rejected'
   validation_feedback?: string | null
   flagged_for_review?: boolean
@@ -59,7 +59,7 @@ interface DatabaseCATSession {
   items_administered: string[]
   responses: boolean[]
   item_areas: string[]
-  theta_history: number[]
+  theta_history: { itemNum: number; theta: number; se: number }[]
   is_complete: boolean
   stopping_reason: string | null
   created_at: string
@@ -70,12 +70,18 @@ interface DatabaseCATSession {
  * Transforms a database question row to the ENAMEDQuestion type.
  */
 function transformQuestion(q: DatabaseQuestion): ENAMEDQuestion {
+  const letters = ['A', 'B', 'C', 'D', 'E']
+  const options = q.options.map((text, i) => ({
+    letter: letters[i] || String.fromCharCode(65 + i),
+    text,
+  }))
+
   return {
     id: q.id,
     bankId: q.bank_id,
     year: q.year,
     stem: q.stem,
-    options: q.options,
+    options,
     correctIndex: q.correct_index,
     explanation: q.explanation,
     irt: {
@@ -95,7 +101,7 @@ function transformQuestion(q: DatabaseQuestion): ENAMEDQuestion {
     },
     references: q.reference_list,
     isAIGenerated: q.is_ai_generated,
-    validatedBy: q.validated_by,
+    validatedBy: q.validated_by ?? undefined,
   }
 }
 

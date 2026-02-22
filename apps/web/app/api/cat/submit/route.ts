@@ -22,7 +22,7 @@ interface DatabaseCATSession {
   items_administered: string[]
   responses: boolean[]
   item_areas: string[]
-  theta_history: number[]
+  theta_history: { itemNum: number; theta: number; se: number }[]
   is_complete: boolean
   stopping_reason: string | null
 }
