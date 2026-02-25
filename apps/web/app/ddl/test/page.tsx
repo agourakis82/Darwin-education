@@ -204,7 +204,7 @@ export default function DDLTestPage() {
             <div className="flex items-center justify-between">
               <p className="text-red-400">{error}</p>
               <Button
-                variant="ghost"
+                variant="plain"
                 size="sm"
                 onClick={() => setError(null)}
                 className="text-red-300 hover:text-red-200"
@@ -266,7 +266,7 @@ export default function DDLTestPage() {
         {phase === 'answer' && selectedQuestion && (
           <div>
             <Button
-              variant="ghost"
+              variant="plain"
               size="sm"
               onClick={() => setPhase('select')}
               className="mb-4 text-sm text-emerald-400 hover:text-emerald-300"

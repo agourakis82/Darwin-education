@@ -25,7 +25,7 @@ export default function CATExamPage() {
   const [showSubmitModal, setShowSubmitModal] = useState(false)
   const [theta, setTheta] = useState(0)
   const [se, setSe] = useState(1)
-  const [thetaHistory, setThetaHistory] = useState<number[]>([])
+  const [thetaHistory, setThetaHistory] = useState<any[]>([])
 
   const {
     config,
@@ -264,21 +264,33 @@ export default function CATExamPage() {
   if (loading || !currentQuestion) {
     return (
       <div className="min-h-screen bg-surface-0 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-label-secondary">Carregando simulado adaptativo...</p>
+        <div className="text-center space-y-4">
+          <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto" />
+          <div>
+            <p className="text-label-primary font-medium">Carregando questão</p>
+            <p className="text-sm text-label-secondary mt-1">O algoritmo adaptativo está preparando sua próxima questão...</p>
+          </div>
         </div>
       </div>
     )
   }
 
-  // Error state (when no question is available)
   if (error && !currentQuestion) {
     return (
-      <div className="min-h-screen bg-surface-0 flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-red-400 mb-4">{error}</p>
-          <Button onClick={() => router.push('/simulado/adaptive')}>Voltar</Button>
+      <div className="min-h-screen bg-surface-0 flex items-center justify-center p-4">
+        <div className="max-w-sm w-full bg-surface-1 border border-red-500/30 rounded-xl p-6 text-center space-y-4">
+          <div className="w-12 h-12 bg-red-500/10 rounded-full flex items-center justify-center mx-auto">
+            <svg className="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <div>
+            <p className="font-semibold text-label-primary">Erro ao carregar questão</p>
+            <p className="text-sm text-label-secondary mt-1">{error}</p>
+          </div>
+          <Button variant="bordered" fullWidth onClick={() => router.push('/simulado/adaptive')}>
+            Voltar ao início
+          </Button>
         </div>
       </div>
     )
@@ -322,7 +334,7 @@ export default function CATExamPage() {
             </div>
 
             <Button
-              variant="outline"
+              variant="bordered"
               size="sm"
               onClick={() => setShowSubmitModal(true)}
             >
@@ -334,32 +346,27 @@ export default function CATExamPage() {
         {/* Error banner */}
         {error && (
           <div className="max-w-7xl mx-auto px-4 pt-4">
-            <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-red-400 text-sm">
-              {error}
+            <div className="flex items-start gap-3 p-3 rounded-lg bg-red-500/10 border border-red-500/30 text-sm">
+              <svg className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              <span className="text-red-400 flex-1">{error}</span>
+              <button
+                onClick={() => setError(null)}
+                className="text-red-400/60 hover:text-red-400 transition-colors"
+                aria-label="Fechar aviso"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
             </div>
           </div>
         )}
 
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Left sidebar - Desktop only */}
-            <div className="hidden lg:block">
-              <div className="sticky top-24 space-y-4">
-                <ThetaIndicator
-                  theta={theta}
-                  se={se === Infinity ? 3 : se}
-                  thetaHistory={thetaHistory}
-                />
-                {areaCoverage && (
-                  <CATAreaCoverage
-                    areaCoverage={areaCoverage}
-                    totalItems={questionNumber}
-                  />
-                )}
-              </div>
-            </div>
-
-            {/* Main Question Area */}
+            {/* Main Question Area — left 2/3 on desktop */}
             <div className="lg:col-span-2">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -377,6 +384,7 @@ export default function CATExamPage() {
                     isFlagged={false}
                     onAnswerSelect={handleAnswerSelect}
                     onToggleFlag={() => {}}
+                    hideFlagButton
                   />
                 </motion.div>
               </AnimatePresence>
@@ -384,7 +392,7 @@ export default function CATExamPage() {
               {/* Confirm Answer Button */}
               <div className="mt-6">
                 <Button
-                  variant="primary"
+                  variant="filled"
                   size="lg"
                   fullWidth
                   disabled={!currentAnswer}
@@ -410,6 +418,23 @@ export default function CATExamPage() {
                 )}
               </div>
             </div>
+
+            {/* Right sidebar — Desktop only */}
+            <div className="hidden lg:block">
+              <div className="sticky top-24 space-y-4">
+                <ThetaIndicator
+                  theta={theta}
+                  se={se === Infinity ? 3 : se}
+                  thetaHistory={thetaHistory}
+                />
+                {areaCoverage && (
+                  <CATAreaCoverage
+                    areaCoverage={areaCoverage}
+                    totalItems={questionNumber}
+                  />
+                )}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -419,29 +444,53 @@ export default function CATExamPage() {
           onClose={() => !submitting && setShowSubmitModal(false)}
           title="Encerrar Antecipadamente"
         >
-          <div className="text-label-primary">
-            <p className="mb-4">
-              Você respondeu <strong>{questionNumber}</strong> questões até agora.
-            </p>
+          <div className="text-label-primary space-y-4">
+            {/* Stats row */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="bg-surface-2 rounded-lg p-3 text-center">
+                <p className="text-2xl font-bold tabular-nums">{questionNumber}</p>
+                <p className="text-xs text-label-secondary mt-0.5">questões respondidas</p>
+              </div>
+              <div className="bg-surface-2 rounded-lg p-3 text-center">
+                <p className={`text-2xl font-bold tabular-nums ${Math.round(Math.min(100, Math.max(0, 100 - se * 300))) >= 80 ? 'text-emerald-400' : 'text-yellow-400'}`}>
+                  {Math.round(Math.min(100, Math.max(0, 100 - se * 300)))}%
+                </p>
+                <p className="text-xs text-label-secondary mt-0.5">precisão atual</p>
+              </div>
+            </div>
 
-            <p className="text-yellow-400 mb-4">
-              Encerrar o simulado antes do final pode gerar resultados menos precisos.
-              A estimativa atual de precisão é de <strong>{Math.round(Math.min(100, Math.max(0, 100 - se * 300)))}%</strong>.
-            </p>
+            {/* Warning */}
+            {config && questionNumber < config.minItems ? (
+              <div className="flex items-start gap-2.5 p-3 rounded-lg bg-red-500/10 border border-red-500/30">
+                <svg className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <p className="text-sm text-red-400">
+                  O mínimo configurado é de <strong>{config.minItems}</strong> questões. Encerrar agora pode gerar uma estimativa pouco confiável.
+                </p>
+              </div>
+            ) : (
+              <div className="flex items-start gap-2.5 p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/30">
+                <svg className="w-4 h-4 text-yellow-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p className="text-sm text-yellow-400">
+                  Continuar respondendo aumenta a precisão da sua estimativa de desempenho.
+                </p>
+              </div>
+            )}
 
-            <p>Deseja realmente encerrar o simulado?</p>
-
-            <div className="flex gap-3 mt-6">
+            <div className="flex gap-3 pt-1">
               <Button
-                variant="outline"
+                variant="bordered"
                 onClick={() => setShowSubmitModal(false)}
                 disabled={submitting}
                 fullWidth
               >
-                Voltar
+                Continuar
               </Button>
               <Button
-                variant="primary"
+                variant="filled"
                 onClick={handleEarlySubmit}
                 loading={submitting}
                 fullWidth

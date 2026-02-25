@@ -37,14 +37,14 @@ export function LeaderboardGlobal() {
         setCurrentUserId(user?.id || null)
 
         // Fetch global leaderboard
-        const { data, error: fetchError } = await supabase
+        const { data, error: fetchError } = await (supabase as any)
           .from('cip_leaderboard_global')
           .select('*')
           .limit(100)
 
         if (fetchError) throw fetchError
 
-        setEntries(data || [])
+        setEntries((data || []) as any)
       } catch (err) {
         console.error('Error fetching global leaderboard:', err)
         setError('Erro ao carregar ranking global')

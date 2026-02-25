@@ -4,7 +4,8 @@
 // using inverse-variance weighting for uncertainty-aware aggregation
 // ============================================================
 
-import { createClient } from '@supabase/supabase-js'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
+import type { Database } from '../supabase/types'
 import {
   RiskScore,
   createRiskScore,
@@ -70,7 +71,7 @@ export const DEFAULT_FUSION_CONFIG: RiskFusionConfig = {
 // ============================================================
 
 export async function extractThetaTrendSignal(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   userId: string,
   lookbackDays: number = 30
 ): Promise<RiskScore> {
@@ -141,7 +142,7 @@ export async function extractThetaTrendSignal(
 }
 
 export async function extractThetaVolatilitySignal(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   userId: string,
   lookbackDays: number = 30
 ): Promise<RiskScore> {
@@ -192,7 +193,7 @@ export async function extractThetaVolatilitySignal(
 }
 
 export async function extractSemanticScoreSignal(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   userId: string,
   lookbackDays: number = 30
 ): Promise<RiskScore> {
@@ -201,7 +202,7 @@ export async function extractSemanticScoreSignal(
   const { data: analyses, error } = await supabase
     .from('ddl_semantic_analysis')
     .select('semantic_similarity_score, concept_coverage, analyzed_at')
-    .eq('response_id', supabase.rpc('get_user_response_ids', { user_id_param: userId }))
+    .eq('response_id', (supabase as any).rpc('get_user_response_ids', { user_id_param: userId }))
     .gte('analyzed_at', cutoffDate.toISOString())
 
   if (error || !analyses || analyses.length === 0) {
@@ -236,7 +237,7 @@ export async function extractSemanticScoreSignal(
 }
 
 export async function extractLacunaPatternSignal(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   userId: string,
   lookbackDays: number = 30
 ): Promise<RiskScore> {
@@ -290,7 +291,7 @@ export async function extractLacunaPatternSignal(
 }
 
 export async function extractConceptCoverageSignal(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   userId: string,
   lookbackDays: number = 30
 ): Promise<RiskScore> {
@@ -345,7 +346,7 @@ export async function extractConceptCoverageSignal(
 // ============================================================
 
 export async function extractLoginFrequencySignal(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   userId: string,
   lookbackDays: number = 30
 ): Promise<RiskScore> {
@@ -385,7 +386,7 @@ export async function extractLoginFrequencySignal(
 }
 
 export async function extractSessionDurationSignal(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   userId: string,
   lookbackDays: number = 30
 ): Promise<RiskScore> {
@@ -446,7 +447,7 @@ export async function extractSessionDurationSignal(
 }
 
 export async function extractPausePatternSignal(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   userId: string,
   lookbackDays: number = 30
 ): Promise<RiskScore> {
@@ -504,7 +505,7 @@ export async function extractPausePatternSignal(
 }
 
 export async function extractResponseTimePatternSignal(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   userId: string,
   lookbackDays: number = 30
 ): Promise<RiskScore> {
@@ -578,7 +579,7 @@ export async function extractResponseTimePatternSignal(
 // ============================================================
 
 export async function extractHesitationPatternSignal(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   userId: string,
   lookbackDays: number = 30
 ): Promise<RiskScore> {
@@ -635,7 +636,7 @@ export async function extractHesitationPatternSignal(
 }
 
 export async function extractAnxietyIndicatorsSignal(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   userId: string,
   lookbackDays: number = 30
 ): Promise<RiskScore> {
@@ -685,7 +686,7 @@ export async function extractAnxietyIndicatorsSignal(
 }
 
 export async function extractStudyScheduleRegularitySignal(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   userId: string,
   lookbackDays: number = 30
 ): Promise<RiskScore> {
@@ -733,7 +734,7 @@ export async function extractStudyScheduleRegularitySignal(
 }
 
 export async function extractKeystrokeDynamicsSignal(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   userId: string,
   lookbackDays: number = 30
 ): Promise<RiskScore> {
@@ -786,7 +787,7 @@ export async function extractKeystrokeDynamicsSignal(
 // ============================================================
 
 export async function extractAreaPerformanceVarianceSignal(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   userId: string,
   lookbackDays: number = 30
 ): Promise<RiskScore> {
@@ -850,7 +851,7 @@ export async function extractAreaPerformanceVarianceSignal(
 }
 
 export async function extractRecentPerformanceTrendSignal(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   userId: string,
   lookbackDays: number = 30
 ): Promise<RiskScore> {
@@ -916,13 +917,13 @@ export async function extractRecentPerformanceTrendSignal(
 }
 
 export async function extractDifficultyProgressionSignal(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   userId: string,
   lookbackDays: number = 30
 ): Promise<RiskScore> {
   const cutoffDate = new Date(Date.now() - lookbackDays * 24 * 60 * 60 * 1000)
 
-  const { data: responses, error } = await supabase
+  const { data: responses, error } = await (supabase as any)
     .from('irt_response_log')
     .select(`
       correct,
@@ -933,7 +934,7 @@ export async function extractDifficultyProgressionSignal(
     .gte('created_at', cutoffDate.toISOString())
     .order('created_at', { ascending: true })
 
-  if (error || !responses || responses.length < 10) {
+  if (error || !responses || (responses as any[]).length < 10) {
     return createRiskScore(0.5, 0.1, 'difficulty_progression_insufficient_data', {
       distribution: 'uniform',
       spread: 0.4,
@@ -943,7 +944,7 @@ export async function extractDifficultyProgressionSignal(
   // Track accuracy by difficulty buckets
   const buckets = { easy: { correct: 0, total: 0 }, medium: { correct: 0, total: 0 }, hard: { correct: 0, total: 0 } }
 
-  responses.forEach((r) => {
+  ;(responses as any[]).forEach((r: any) => {
     const difficulty = (r.questions as { irt_difficulty: number }).irt_difficulty
     let bucket: 'easy' | 'medium' | 'hard'
     if (difficulty < -0.5) bucket = 'easy'
@@ -975,7 +976,7 @@ export async function extractDifficultyProgressionSignal(
 }
 
 export async function extractKnowledgeRetentionSignal(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   userId: string,
   lookbackDays: number = 30
 ): Promise<RiskScore> {
@@ -1027,7 +1028,7 @@ export async function extractKnowledgeRetentionSignal(
 // ============================================================
 
 export async function extractClinicalReasoningRisk(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   userId: string,
   config: RiskFusionConfig = DEFAULT_FUSION_CONFIG
 ): Promise<RiskScore> {
@@ -1050,7 +1051,7 @@ export async function extractClinicalReasoningRisk(
 }
 
 export async function extractEngagementRisk(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   userId: string,
   config: RiskFusionConfig = DEFAULT_FUSION_CONFIG
 ): Promise<RiskScore> {
@@ -1071,7 +1072,7 @@ export async function extractEngagementRisk(
 }
 
 export async function extractWellbeingRisk(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   userId: string,
   config: RiskFusionConfig = DEFAULT_FUSION_CONFIG
 ): Promise<RiskScore> {
@@ -1092,7 +1093,7 @@ export async function extractWellbeingRisk(
 }
 
 export async function extractAcademicRisk(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   userId: string,
   config: RiskFusionConfig = DEFAULT_FUSION_CONFIG
 ): Promise<RiskScore> {
@@ -1113,7 +1114,7 @@ export async function extractAcademicRisk(
 }
 
 export async function computeCompositeRiskScore(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   userId: string,
   config: RiskFusionConfig = DEFAULT_FUSION_CONFIG
 ): Promise<{

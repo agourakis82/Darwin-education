@@ -155,7 +155,7 @@ export function GeneratedQuestionPreview({
 
       <CardFooter className="flex gap-3">
         <Button
-          variant="primary"
+          variant="filled"
           onClick={onSave}
           loading={saving}
           disabled={saved}
@@ -163,7 +163,7 @@ export function GeneratedQuestionPreview({
           {saved ? 'Salvo no banco' : 'Salvar no banco de questões'}
         </Button>
         <Button
-          variant="outline"
+          variant="bordered"
           onClick={onRegenerate}
           disabled={saving}
         >

@@ -203,7 +203,7 @@ export default function ImageCasePage() {
 
       // Fetch case
       const { data: caseRowRaw, error: caseError } = await supabase
-        .from('cip_image_cases')
+        .from('cip_image_cases' as any)
         .select('*')
         .eq('id', caseId)
         .maybeSingle()
@@ -219,8 +219,8 @@ export default function ImageCasePage() {
       const imageCase = rowToCase(caseRow)
 
       // Check for existing attempt or create new one
-      const { data: existingAttemptRaw } = await supabase
-        .from('cip_image_attempts')
+      const { data: existingAttemptRaw } = await (supabase as any)
+        .from('cip_image_attempts' as any)
         .select(
           'id, current_step, selected_modality, selected_findings, selected_diagnosis, selected_next_step, step_times, total_time_seconds, started_at'
         )
@@ -236,7 +236,7 @@ export default function ImageCasePage() {
       if (existingAttempt) {
         attemptId = existingAttempt.id
       } else {
-        const { data: newAttemptRaw, error: attemptError } = await supabase
+        const { data: newAttemptRaw, error: attemptError } = await (supabase as any)
           .from('cip_image_attempts')
           .insert([
             {
@@ -244,7 +244,7 @@ export default function ImageCasePage() {
               user_id: user.id,
               current_step: 'modality',
             },
-          ] as unknown as never[])
+          ])
           .select('id')
           .single()
 
@@ -336,7 +336,7 @@ export default function ImageCasePage() {
           totalTimeSeconds: storeState.totalTimeSeconds,
         })
 
-        await (supabase.from('cip_image_attempts') as any)
+        await (supabase as any).from('cip_image_attempts')
           .update({
             selected_modality: storeState.selectedModality,
             selected_findings: storeState.selectedFindings,
@@ -436,7 +436,7 @@ export default function ImageCasePage() {
 
       // Save to database
       const attemptId = storeState.attemptId
-      await (supabase.from('cip_image_attempts') as any)
+      await (supabase as any).from('cip_image_attempts')
         .update({
           selected_modality: storeState.selectedModality,
           selected_findings: storeState.selectedFindings,
@@ -503,7 +503,7 @@ export default function ImageCasePage() {
               <Button onClick={() => router.push('/cip/interpretacao')} fullWidth>
                 Voltar para Interpretação
               </Button>
-              <Button variant="outline" onClick={() => router.refresh()} fullWidth>
+              <Button variant="bordered" onClick={() => router.refresh()} fullWidth>
                 Tentar novamente
               </Button>
             </div>
@@ -551,7 +551,7 @@ export default function ImageCasePage() {
               </div>
             </div>
             <Button
-              variant="outline"
+              variant="bordered"
               size="sm"
               onClick={() => {
                 resetCase()
@@ -590,7 +590,7 @@ export default function ImageCasePage() {
             <div className="flex gap-3 pt-4">
               {!isFirstStep && (
                 <Button
-                  variant="outline"
+                  variant="bordered"
                   onClick={goBackStep}
                   fullWidth
                 >
@@ -600,7 +600,7 @@ export default function ImageCasePage() {
 
               {isLastStep ? (
                 <Button
-                  variant="primary"
+                  variant="filled"
                   onClick={handleSubmit}
                   disabled={!canAdvance || submitting}
                   loading={submitting}
@@ -610,7 +610,7 @@ export default function ImageCasePage() {
                 </Button>
               ) : (
                 <Button
-                  variant="primary"
+                  variant="filled"
                   onClick={advanceStep}
                   disabled={!canAdvance}
                   fullWidth

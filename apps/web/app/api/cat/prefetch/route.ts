@@ -160,7 +160,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const session = dbSession as DatabaseCATSession
+    const session = dbSession as unknown as DatabaseCATSession
 
     // If session is already complete, return completion status
     if (session.is_complete) {

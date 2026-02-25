@@ -9,7 +9,7 @@ import { buildDiseaseJsonLd } from '@/lib/darwinMfc/jsonld'
 import type { DarwinCitation } from '@/lib/darwinMfc/references'
 import { getDiseaseById, type EnamedArea } from '@/lib/medical'
 
-const AREA_LABELS: Record<EnamedArea, string> = {
+const AREA_LABELS: Record<string, string> = {
   clinica_medica: 'Clínica Médica',
   cirurgia: 'Cirurgia',
   pediatria: 'Pediatria',

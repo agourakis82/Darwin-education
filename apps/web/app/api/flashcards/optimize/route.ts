@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
     // Check cooldown (24 hours) unless forced
     if (!forceReoptimize) {
       const { data: existing } = await (supabase
-        .from('user_fsrs_weights') as any)
+        .from('user_fsrs_weights' as any) as any)
         .select('updated_at')
         .eq('user_id', user.id)
         .single() as { data: { updated_at: string } | null; error: any }
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
 
     // Load review logs
     const { data: logs, error: logsError } = await (supabase
-      .from('flashcard_review_logs') as any)
+      .from('flashcard_review_logs' as any) as any)
       .select('card_id, rating, elapsed_days, state, reviewed_at')
       .eq('user_id', user.id)
       .order('reviewed_at', { ascending: true }) as {
@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
 
     // Upsert weights
     const { error: upsertError } = await (supabase
-      .from('user_fsrs_weights') as any)
+      .from('user_fsrs_weights' as any) as any)
       .upsert({
         user_id: user.id,
         weights: result.weights,

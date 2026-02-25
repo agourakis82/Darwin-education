@@ -230,7 +230,7 @@ export default function PathOverviewPage() {
               <Button onClick={() => router.push('/trilhas')} fullWidth>
                 Voltar para Trilhas
               </Button>
-              <Button variant="outline" onClick={() => router.refresh()} fullWidth>
+              <Button variant="bordered" onClick={() => router.refresh()} fullWidth>
                 Tentar novamente
               </Button>
             </div>

@@ -166,7 +166,7 @@ export default function ImageResultPage() {
       }
 
       // Fetch most recent completed attempt
-      const { data: attemptRaw, error: attemptError } = await supabase
+      const { data: attemptRaw, error: attemptError } = await (supabase as any)
         .from('cip_image_attempts')
         .select('*')
         .eq('case_id', caseId)
@@ -185,7 +185,7 @@ export default function ImageResultPage() {
       }
 
       // Fetch case data
-      const { data: caseRowRaw, error: caseError } = await supabase
+      const { data: caseRowRaw, error: caseError } = await (supabase as any)
         .from('cip_image_cases')
         .select('*')
         .eq('id', caseId)
@@ -385,10 +385,10 @@ export default function ImageResultPage() {
 
         {/* Actions */}
         <div className="flex gap-4 mt-8">
-          <Button variant="outline" onClick={handleBackToList} fullWidth>
+          <Button variant="bordered" onClick={handleBackToList} fullWidth>
             Voltar à Lista
           </Button>
-          <Button variant="primary" onClick={handleRetry} fullWidth>
+          <Button variant="filled" onClick={handleRetry} fullWidth>
             Tentar Novamente
           </Button>
         </div>

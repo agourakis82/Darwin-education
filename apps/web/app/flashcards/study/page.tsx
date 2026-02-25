@@ -177,7 +177,7 @@ export default function FlashcardStudyPage() {
               onClick: () => void fetchDueCards(),
             }}
           />
-          <Button variant="outline" onClick={() => router.push('/flashcards')} fullWidth className="darwin-nav-link mt-3">
+          <Button variant="bordered" onClick={() => router.push('/flashcards')} fullWidth className="darwin-nav-link mt-3">
             Voltar aos Decks
           </Button>
         </div>
@@ -245,7 +245,7 @@ export default function FlashcardStudyPage() {
               >
                 Continuar Estudando
               </Button>
-              <Button variant="outline" onClick={() => router.push('/flashcards')} className="darwin-nav-link" fullWidth>
+              <Button variant="bordered" onClick={() => router.push('/flashcards')} className="darwin-nav-link" fullWidth>
                 Voltar aos Decks
               </Button>
             </div>
@@ -261,7 +261,7 @@ export default function FlashcardStudyPage() {
       <header className="sticky top-0 z-10 border-b border-separator bg-surface-1/80 backdrop-blur-xl">
         <div className="max-w-3xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <Button variant="ghost" className="darwin-nav-link" onClick={() => router.push('/flashcards')}>
+            <Button variant="plain" className="darwin-nav-link" onClick={() => router.push('/flashcards')}>
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
@@ -331,49 +331,47 @@ export default function FlashcardStudyPage() {
               )}
             </div>
 
-            {/* Flashcard */}
+            {/* Flashcard — 3D flip */}
             <div
-              className="relative cursor-pointer mb-8"
+              className="relative cursor-pointer mb-8 select-none"
+              style={{ perspective: 1200 }}
               onClick={() => setIsFlipped(!isFlipped)}
+              role="button"
+              aria-label={isFlipped ? 'Verso. Clique para voltar.' : 'Frente. Clique para virar.'}
             >
-              <Card className="min-h-[300px]">
-                <CardContent className="flex items-center justify-center p-8 min-h-[300px]">
-                  <AnimatePresence mode="wait">
-                    {!isFlipped ? (
-                      <motion.div
-                        key="front"
-                        initial={{ opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -8 }}
-                        transition={{ duration: 0.15 }}
-                        className="text-center w-full"
-                      >
-                        <p className="text-xs text-label-tertiary mb-4 uppercase tracking-wider">Frente</p>
-                        <p className="text-xl md:text-2xl text-label-primary whitespace-pre-wrap">
-                          {currentCard.front}
-                        </p>
-                        <p className="text-sm text-label-tertiary mt-8">
-                          Clique ou pressione espaço para virar
-                        </p>
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        key="back"
-                        initial={{ opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -8 }}
-                        transition={{ duration: 0.15 }}
-                        className="text-center w-full"
-                      >
-                        <p className="text-xs text-label-tertiary mb-4 uppercase tracking-wider">Verso</p>
-                        <p className="text-xl md:text-2xl text-label-primary whitespace-pre-wrap">
-                          {currentCard.back}
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </CardContent>
-              </Card>
+              <motion.div
+                animate={{ rotateY: isFlipped ? 180 : 0 }}
+                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                className="preserve-3d relative"
+              >
+                {/* Front face */}
+                <div className="backface-hidden min-h-[300px]">
+                  <Card className="h-full min-h-[300px]">
+                    <CardContent className="flex flex-col items-center justify-center p-8 min-h-[300px] text-center">
+                      <p className="text-xs text-label-tertiary mb-4 uppercase tracking-wider">Frente</p>
+                      <p className="text-xl md:text-2xl text-label-primary whitespace-pre-wrap">
+                        {currentCard.front}
+                      </p>
+                      <p className="text-sm text-label-tertiary mt-8 flex items-center gap-1.5">
+                        <span className="rounded border border-separator/60 bg-surface-2/70 px-1.5 py-0.5 font-mono text-xs">espaço</span>
+                        para virar
+                      </p>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Back face */}
+                <div className="backface-hidden rotate-y-180 absolute inset-0 min-h-[300px]">
+                  <Card className="h-full min-h-[300px] border-emerald-500/20">
+                    <CardContent className="flex flex-col items-center justify-center p-8 min-h-[300px] text-center">
+                      <p className="text-xs text-emerald-400 mb-4 uppercase tracking-wider">Verso</p>
+                      <p className="text-xl md:text-2xl text-label-primary whitespace-pre-wrap">
+                        {currentCard.back}
+                      </p>
+                    </CardContent>
+                  </Card>
+                </div>
+              </motion.div>
             </div>
           </motion.div>
         </AnimatePresence>

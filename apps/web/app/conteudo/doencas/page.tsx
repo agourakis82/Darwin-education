@@ -188,7 +188,7 @@ export default async function DoencasPage({
                             )}
                           </div>
                           <div className="flex items-center gap-2 mb-2">
-                            <span className="text-sm text-emerald-400">{AREA_LABELS[disease.enamed_area]}</span>
+                            <span className="text-sm text-emerald-400">{AREA_LABELS[disease.enamed_area as EnamedArea]}</span>
                             {disease.subcategoria && (
                               <>
                                 <span className="text-label-quaternary">•</span>

@@ -60,6 +60,7 @@ export function HomeClient({
     <div className="relative mx-auto max-w-7xl px-4 pb-24 pt-8 md:px-6 md:pb-20 md:pt-12">
       {onboardingEnabled ? <OnboardingModal /> : null}
 
+      {/* Hero Panel */}
       <motion.section
         className="darwin-panel-strong relative overflow-hidden border border-separator/80 p-6 md:p-8"
         initial={{ opacity: 0, y: 10 }}
@@ -136,6 +137,7 @@ export function HomeClient({
         </div>
       </motion.section>
 
+      {/* Stats */}
       <ScrollReveal>
         <div className="mt-6 grid grid-cols-2 gap-3.5 md:grid-cols-4">
           <StatPill value={<AnimatedCounter value={questionsCount} />} label="Questões" />
@@ -145,51 +147,118 @@ export function HomeClient({
         </div>
       </ScrollReveal>
 
+      {/* Primary features — Bento Grid */}
       <motion.header
-        className="mt-12 mb-6"
+        className="mt-12 mb-5"
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={spring.gentle}
       >
-        <h2 className="text-2xl font-semibold text-label-primary md:text-3xl">Fluxos principais para a sua rotina</h2>
-        <p className="mt-2 text-sm text-label-secondary md:text-base">
-          Tudo no mesmo ecossistema: prática, diagnóstico, conteúdo médico e orientação personalizada.
+        <h2 className="text-2xl font-semibold text-label-primary md:text-3xl">Fluxos principais</h2>
+        <p className="mt-1.5 text-sm text-label-secondary md:text-base">
+          Prática, diagnóstico, conteúdo médico e orientação personalizada em um ecossistema integrado.
         </p>
       </motion.header>
 
       <motion.div
-        className="grid gap-4 md:grid-cols-2 xl:grid-cols-3"
+        className="grid grid-cols-6 auto-rows-[200px] gap-4 md:gap-5"
         variants={container}
         initial="hidden"
         animate="show"
       >
-        <FeatureCard
+        {/* Simulado — hero card: 4 cols × 2 rows on desktop */}
+        <BentoCard
           href="/simulado"
           icon={<FileText className="w-5 h-5" />}
           title="Simulado ENAMED"
-          description="Questões com timer e pontuação TRI real"
+          description="Questões com timer e pontuação TRI real. Desempenho calculado pelo modelo de 3 parâmetros."
           tone="emerald"
           imageSrc="/images/branding/simulado-banner-v2.png"
           imageAlt="Simulado de alta fidelidade para preparação ENAMED"
+          colSpan="col-span-6 md:col-span-4"
+          rowSpan="row-span-1 md:row-span-2"
         />
-        <FeatureCard
+
+        {/* Flashcards — 2 cols × 1 row */}
+        <BentoCard
           href="/flashcards"
           icon={<Layers className="w-5 h-5" />}
           title="Flashcards"
-          description="Repetição espaçada SM-2 para retenção de longo prazo"
+          description="Repetição espaçada FSRS para retenção de longo prazo."
           tone="violet"
           imageSrc="/images/branding/flashcards-cover-photo-01.png"
           imageAlt="Cartões de estudo com apoio visual clínico"
+          colSpan="col-span-6 md:col-span-2"
+          rowSpan="row-span-1"
         />
-        <FeatureCard
+
+        {/* Trilhas — 2 cols × 1 row */}
+        <BentoCard
           href="/trilhas"
           icon={<Route className="w-5 h-5" />}
           title="Trilhas de Estudo"
-          description="Caminhos adaptativos conforme desempenho por área"
+          description="Caminhos adaptativos conforme desempenho por área."
           tone="emerald"
           imageSrc="/images/branding/trilhas-cover-photo-01.png"
           imageAlt="Planejamento de trilhas de estudo"
+          colSpan="col-span-6 md:col-span-2"
+          rowSpan="row-span-1"
         />
+
+        {/* Row 3: Desempenho + IA + Conteúdo */}
+        <BentoCard
+          href="/desempenho"
+          icon={<BarChart3 className="w-5 h-5" />}
+          title="Desempenho"
+          description="Progressão, previsão de aprovação e métricas por domínio."
+          tone="violet"
+          imageSrc="/images/branding/dashboard-bg-v2.png"
+          imageAlt="Painel analítico de desempenho"
+          colSpan="col-span-6 md:col-span-2"
+          rowSpan="row-span-1"
+        />
+
+        <BentoCard
+          href="/ia-orientacao"
+          icon={<Bot className="w-5 h-5" />}
+          title="IA Orientação"
+          description="Recomendações de estudo personalizadas por lacunas identificadas."
+          tone="emerald"
+          imageSrc="/images/branding/ia-orientacao-hero-apple-v1.png"
+          imageAlt="Assistente de orientação de estudo com IA"
+          colSpan="col-span-6 md:col-span-2"
+          rowSpan="row-span-1"
+        />
+
+        <BentoCard
+          href="/conteudo"
+          icon={<BookOpen className="w-5 h-5" />}
+          title="Conteúdo Médico"
+          description="Doenças e medicamentos sincronizados com a base Darwin-MFC."
+          tone="violet"
+          imageSrc="/brand/kitA/conteudo-hero-v3-dark-1200x630.png"
+          imageAlt="Base de conteúdo médico estruturado"
+          colSpan="col-span-6 md:col-span-2"
+          rowSpan="row-span-1"
+        />
+      </motion.div>
+
+      {/* Secondary features — compact grid */}
+      <motion.header
+        className="mt-10 mb-5"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={spring.gentle}
+      >
+        <h2 className="text-lg font-semibold text-label-primary">Ferramentas avançadas</h2>
+      </motion.header>
+
+      <motion.div
+        className="grid gap-4 md:grid-cols-2 xl:grid-cols-4"
+        variants={container}
+        initial="hidden"
+        animate="show"
+      >
         <FeatureCard
           href="/cip"
           icon={<Puzzle className="w-5 h-5" />}
@@ -207,33 +276,6 @@ export function HomeClient({
           tone="emerald"
           imageSrc="/images/branding/montar-prova-hero-apple-v1.png"
           imageAlt="Composição visual de montagem de prova"
-        />
-        <FeatureCard
-          href="/desempenho"
-          icon={<BarChart3 className="w-5 h-5" />}
-          title="Desempenho"
-          description="Progressão, previsão de aprovação e métricas por domínio"
-          tone="violet"
-          imageSrc="/images/branding/dashboard-bg-v2.png"
-          imageAlt="Painel analítico de desempenho"
-        />
-        <FeatureCard
-          href="/ia-orientacao"
-          icon={<Bot className="w-5 h-5" />}
-          title="IA Orientação"
-          description="Recomendações de estudo personalizadas por lacunas"
-          tone="emerald"
-          imageSrc="/images/branding/ia-orientacao-hero-apple-v1.png"
-          imageAlt="Assistente de orientação de estudo com IA"
-        />
-        <FeatureCard
-          href="/conteudo"
-          icon={<BookOpen className="w-5 h-5" />}
-          title="Conteúdo Médico"
-          description="Doenças e medicamentos sincronizados com Supabase"
-          tone="violet"
-          imageSrc="/brand/kitA/conteudo-hero-v3-dark-1200x630.png"
-          imageAlt="Base de conteúdo médico estruturado"
         />
         <FeatureCard
           href="/ddl"
@@ -317,6 +359,84 @@ export function HomeClient({
   )
 }
 
+/* ─── Bento Card (primary grid) ─── */
+
+function BentoCard({
+  href,
+  icon,
+  title,
+  description,
+  tone,
+  imageSrc,
+  imageAlt,
+  colSpan,
+  rowSpan,
+}: {
+  href: string
+  icon: ReactNode
+  title: string
+  description: string
+  tone: 'emerald' | 'violet'
+  imageSrc?: string
+  imageAlt?: string
+  colSpan: string
+  rowSpan: string
+}) {
+  const iconTone =
+    tone === 'emerald'
+      ? 'text-emerald-300 bg-emerald-500/15 border-emerald-500/35'
+      : 'text-violet-300 bg-violet-500/15 border-violet-500/35'
+  const accent =
+    tone === 'emerald'
+      ? 'from-emerald-400/55 via-transparent to-cyan-400/55'
+      : 'from-violet-400/55 via-transparent to-fuchsia-400/55'
+
+  return (
+    <motion.div
+      variants={item}
+      className={`${colSpan} ${rowSpan}`}
+      whileHover={{ scale: 1.015 }}
+      whileTap={{ scale: 0.985 }}
+      transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <Link
+        href={href}
+        className="block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-2xl"
+      >
+        <Card variant="default" hover className="group h-full overflow-hidden p-5 flex flex-col">
+          {imageSrc && (
+            <div className="darwin-image-tile flex-1 mb-4 min-h-0">
+              <Image
+                src={imageSrc}
+                alt={imageAlt ?? title}
+                fill
+                sizes="(max-width: 768px) 90vw, (max-width: 1280px) 60vw, 680px"
+                className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
+              />
+              <span
+                className={`absolute inset-x-0 top-0 z-[3] h-px bg-gradient-to-r ${accent}`}
+                aria-hidden="true"
+              />
+            </div>
+          )}
+          <div className="flex items-start justify-between gap-3 shrink-0">
+            <div
+              className={`inline-flex h-10 w-10 items-center justify-center rounded-xl border ${iconTone}`}
+            >
+              {icon}
+            </div>
+            <ArrowUpRight className="h-4 w-4 text-label-quaternary transition-colors group-hover:text-label-secondary" />
+          </div>
+          <h3 className="mt-3 text-base font-semibold text-label-primary shrink-0">{title}</h3>
+          <p className="mt-1 text-sm leading-6 text-label-secondary shrink-0 line-clamp-2">{description}</p>
+        </Card>
+      </Link>
+    </motion.div>
+  )
+}
+
+/* ─── Feature Card (secondary grid) ─── */
+
 function FeatureCard({
   href,
   icon,
@@ -334,19 +454,21 @@ function FeatureCard({
   imageSrc?: string
   imageAlt?: string
 }) {
-  const iconTone = tone === 'emerald' ? 'text-emerald-300 bg-emerald-500/15 border-emerald-500/35' : 'text-violet-300 bg-violet-500/15 border-violet-500/35'
-  const accent = tone === 'emerald' ? 'from-emerald-400/55 via-transparent to-cyan-400/55' : 'from-violet-400/55 via-transparent to-fuchsia-400/55'
+  const iconTone =
+    tone === 'emerald'
+      ? 'text-emerald-300 bg-emerald-500/15 border-emerald-500/35'
+      : 'text-violet-300 bg-violet-500/15 border-violet-500/35'
+  const accent =
+    tone === 'emerald'
+      ? 'from-emerald-400/55 via-transparent to-cyan-400/55'
+      : 'from-violet-400/55 via-transparent to-fuchsia-400/55'
 
   return (
     <motion.div variants={item}>
       <Link href={href} className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded-2xl">
-        <Card
-          variant="default"
-          hover
-          className="group overflow-hidden p-5"
-        >
+        <Card variant="default" hover className="group overflow-hidden p-5">
           {imageSrc ? (
-            <div className="darwin-image-tile mb-4 h-28">
+            <div className="darwin-image-tile mb-4 h-24">
               <Image
                 src={imageSrc}
                 alt={imageAlt ?? title}
@@ -370,6 +492,8 @@ function FeatureCard({
     </motion.div>
   )
 }
+
+/* ─── Stat Pill ─── */
 
 function StatPill({ value, label }: { value: ReactNode; label: string }) {
   return (

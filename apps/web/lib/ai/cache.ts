@@ -43,7 +43,7 @@ export async function getCachedAIResponse(requestHash: string): Promise<CacheEnt
     return null
   }
 
-  const { data, error } = await (admin.from('ai_response_cache') as any)
+  const { data, error } = await (admin as any).from('ai_response_cache')
     .select('id, response_text, tokens_used, cost_brl, expires_at, hits')
     .eq('request_hash', requestHash)
     .maybeSingle()
@@ -55,12 +55,12 @@ export async function getCachedAIResponse(requestHash: string): Promise<CacheEnt
   if (data.expires_at) {
     const expiresAt = new Date(data.expires_at)
     if (Number.isNaN(expiresAt.getTime()) || expiresAt <= new Date()) {
-      await (admin.from('ai_response_cache') as any).delete().eq('id', data.id)
+      await (admin as any).from('ai_response_cache').delete().eq('id', data.id)
       return null
     }
   }
 
-  await (admin.from('ai_response_cache') as any)
+  await (admin as any).from('ai_response_cache')
     .update({ hits: (data.hits ?? 0) + 1 })
     .eq('id', data.id)
 
@@ -80,7 +80,7 @@ export async function storeCachedAIResponse(options: {
     return
   }
 
-  await (admin.from('ai_response_cache') as any)
+  await (admin as any).from('ai_response_cache')
     .upsert(
       {
         request_type: options.requestType,

@@ -71,7 +71,7 @@ export async function GET(request: NextRequest) {
     }
 
     if (area) {
-      query = query.eq('area', area)
+      query = query.eq('area', area as any)
     }
 
     // Note: RLS on flashcard_decks handles access (is_public OR is_system OR user_id = auth.uid())

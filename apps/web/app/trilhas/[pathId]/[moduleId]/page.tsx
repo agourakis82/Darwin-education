@@ -294,7 +294,7 @@ export default function ModuleContentPage() {
               <Button onClick={() => router.push(`/trilhas/${pathId}`)} fullWidth>
                 Voltar para a trilha
               </Button>
-              <Button variant="outline" onClick={() => router.refresh()} fullWidth>
+              <Button variant="bordered" onClick={() => router.refresh()} fullWidth>
                 Tentar novamente
               </Button>
             </div>
@@ -367,7 +367,7 @@ export default function ModuleContentPage() {
             <div className="flex justify-between mt-6">
               {prevModule && !prevModule.is_locked ? (
                 <Button
-                  variant="outline"
+                  variant="bordered"
                   onClick={() => router.push(`/trilhas/${pathId}/${prevModule.id}`)}
                 >
                   <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

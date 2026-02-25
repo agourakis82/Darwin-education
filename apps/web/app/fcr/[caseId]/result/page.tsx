@@ -143,7 +143,7 @@ export default function FCRResultPage() {
               <Button onClick={() => router.push('/fcr')} fullWidth>
                 Voltar para FCR
               </Button>
-              <Button variant="outline" onClick={() => router.refresh()} fullWidth>
+              <Button variant="bordered" onClick={() => router.refresh()} fullWidth>
                 Tentar novamente
               </Button>
             </div>
@@ -171,7 +171,7 @@ export default function FCRResultPage() {
         {/* Actions */}
         <div className="flex gap-3 mt-8">
           <Button
-            variant="outline"
+            variant="bordered"
             fullWidth
             onClick={() => {
               resetCase()
@@ -181,7 +181,7 @@ export default function FCRResultPage() {
             Tentar Outro Caso
           </Button>
           <Button
-            variant="primary"
+            variant="filled"
             fullWidth
             onClick={() => router.push('/fcr')}
           >

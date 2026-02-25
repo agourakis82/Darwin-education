@@ -202,7 +202,7 @@ export function ModuleContent({ type, title, content, onComplete, isCompleting }
           </svg>
         </Button>
       )}
-      <Button variant="outline" onClick={onComplete} loading={isCompleting} className="ml-2">
+      <Button variant="bordered" onClick={onComplete} loading={isCompleting} className="ml-2">
         Marcar como Concluído
       </Button>
     </div>
@@ -262,7 +262,7 @@ export function ModuleContent({ type, title, content, onComplete, isCompleting }
         {currentCaseStep < 3 && (
           <div className="flex justify-between">
             <Button
-              variant="outline"
+              variant="bordered"
               onClick={() => setCurrentCaseStep(prev => Math.max(0, prev - 1))}
               disabled={currentCaseStep === 0}
             >

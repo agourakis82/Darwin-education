@@ -91,7 +91,11 @@ export default function AdaptiveSetupPage() {
             <CardHeader>
               <CardTitle>Áreas do Conhecimento</CardTitle>
               <CardDescription>
-                Selecione as áreas que deseja incluir. Pelo menos 1 área deve estar selecionada.
+                {selectedAreas.length === 5
+                  ? 'Todas as 5 áreas selecionadas.'
+                  : selectedAreas.length === 1
+                    ? '1 área selecionada — mínimo atingido.'
+                    : `${selectedAreas.length} de 5 áreas selecionadas.`}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -125,6 +129,7 @@ export default function AdaptiveSetupPage() {
                     }}
                     onBlur={handleMinBlur}
                     error={validationErrors.minItems}
+                    hint={!validationErrors.minItems ? 'Entre 10 e 180' : undefined}
                     aria-describedby="min-items-help"
                   />
                   <p id="min-items-help" className="sr-only">
@@ -144,6 +149,7 @@ export default function AdaptiveSetupPage() {
                     }}
                     onBlur={handleMaxBlur}
                     error={validationErrors.maxItems}
+                    hint={!validationErrors.maxItems ? 'Entre 10 e 180' : undefined}
                     aria-describedby="max-items-help"
                   />
                   <p id="max-items-help" className="sr-only">
@@ -185,9 +191,25 @@ export default function AdaptiveSetupPage() {
             )}
           </div>
 
+          {/* Session summary */}
+          {isValid && (
+            <div className="flex items-center justify-center gap-2 text-sm text-label-secondary">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-2 border border-separator">
+                <svg className="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {selectedAreas.length} {selectedAreas.length === 1 ? 'área' : 'áreas'}
+              </span>
+              <span className="text-label-quaternary">·</span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-2 border border-separator">
+                {minItemsInput}–{maxItemsInput} questões
+              </span>
+            </div>
+          )}
+
           {/* Start button */}
           <Button
-            variant="primary"
+            variant="filled"
             size="lg"
             className="darwin-nav-link"
             fullWidth

@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
     // Get current card state (using the renamed table from migration 005)
     // First try flashcard_review_states, fall back to flashcard_sm2_states
     let { data: state, error: stateError } = await (supabase
-      .from('flashcard_review_states') as any)
+      .from('flashcard_review_states' as any) as any)
       .select('*')
       .eq('card_id', cardId)
       .eq('user_id', user.id)
@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
     // If table doesn't exist or no state found, try legacy table
     if (stateError) {
       const legacyResult = await (supabase
-        .from('flashcard_sm2_states') as any)
+        .from('flashcard_sm2_states' as any) as any)
         .select('*')
         .eq('card_id', cardId)
         .eq('user_id', user.id)
@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
     let fsrsParams = FSRS.DEFAULT_FSRS_PARAMETERS
     try {
       const { data: userWeights } = await (supabase
-        .from('user_fsrs_weights') as any)
+        .from('user_fsrs_weights' as any) as any)
         .select('weights')
         .eq('user_id', user.id)
         .single() as { data: { weights: number[] } | null; error: any }
@@ -139,7 +139,7 @@ export async function POST(request: NextRequest) {
     if (newTableError) {
       // Try legacy table
       const { error: legacyError } = await (supabase
-        .from('flashcard_sm2_states') as any)
+        .from('flashcard_sm2_states' as any) as any)
         .upsert({
           user_id: user.id,
           card_id: cardId,
@@ -163,7 +163,7 @@ export async function POST(request: NextRequest) {
 
     // Log review event for optimizer (fire-and-forget)
     try {
-      await (supabase.from('flashcard_review_logs') as any).insert({
+      await (supabase.from('flashcard_review_logs' as any) as any).insert({
         user_id: user.id,
         card_id: cardId,
         rating,
@@ -192,7 +192,7 @@ export async function POST(request: NextRequest) {
       if (rpcError) {
         // Fall back to direct upsert if RPC doesn't exist
         await (supabase
-          .from('study_activity') as any)
+          .from('study_activity' as any) as any)
           .upsert({
             user_id: user.id,
             activity_date: today,

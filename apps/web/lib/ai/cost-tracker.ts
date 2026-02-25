@@ -45,7 +45,7 @@ export async function getAICostSummary(
 
   const since = new Date(Date.now() - daysBack * 24 * 60 * 60 * 1000).toISOString()
 
-  const { data: rows, error } = await (admin.from('ai_response_cache') as any)
+  const { data: rows, error } = await (admin as any).from('ai_response_cache')
     .select('request_type, tokens_used, cost_brl, created_at, hits')
     .gte('created_at', since)
     .order('created_at', { ascending: true })

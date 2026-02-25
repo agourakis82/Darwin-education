@@ -84,7 +84,7 @@ export default async function SimuladoPage() {
       .order('started_at', { ascending: false })
       .limit(5)
 
-    recentAttempts = (data || []) as AttemptRow[]
+    recentAttempts = (data || []) as unknown as AttemptRow[]
   }
 
   return (
@@ -296,7 +296,7 @@ export default async function SimuladoPage() {
                         </div>
                         {!attempt.completed_at && (
                           <Link href={`/simulado/${attempt.exam_id}`}>
-                            <Button size="sm" variant="outline" className="mt-2">
+                            <Button size="small" variant="bordered" className="mt-2">
                               Continuar
                             </Button>
                           </Link>

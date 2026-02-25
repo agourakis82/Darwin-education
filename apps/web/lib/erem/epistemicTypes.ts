@@ -189,7 +189,7 @@ export function isReliable<T>(epistemic: EpistemicValue<T>, threshold?: number):
 }
 
 export function formatRiskScore(score: RiskScore): string {
-  const decayed = applyDecay(score)
+  const decayed = applyDecay(score) as RiskScore
   return `${Math.round(decayed.value * 100)}% risk (CI: ${Math.round(decayed.lowerBound * 100)}-${Math.round(decayed.upperBound * 100)}%, confidence: ${Math.round(decayed.confidence * 100)}%)`
 }
 

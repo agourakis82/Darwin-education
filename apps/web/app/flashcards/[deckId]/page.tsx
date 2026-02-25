@@ -123,7 +123,7 @@ export default function DeckViewPage() {
       <div className="min-h-screen bg-surface-0 text-label-primary">
         <header className="border-b border-separator bg-surface-1/50 backdrop-blur-sm sticky top-0 z-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <Button variant="ghost" size="sm" onClick={() => router.back()}>
+            <Button variant="plain" size="small" onClick={() => router.back()}>
               <ChevronLeft className="w-5 h-5" />
             </Button>
           </div>
@@ -150,7 +150,7 @@ export default function DeckViewPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <Button variant="ghost" size="sm" onClick={() => router.back()}>
+              <Button variant="plain" size="small" onClick={() => router.back()}>
                 <ChevronLeft className="w-5 h-5" />
               </Button>
               <div>
@@ -162,7 +162,7 @@ export default function DeckViewPage() {
             </div>
             <div className="flex gap-2">
               <Link href={`/flashcards/${deckId}/edit`}>
-                <Button variant="secondary" size="sm">
+                <Button variant="tinted" size="small">
                   <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                   </svg>
@@ -171,7 +171,7 @@ export default function DeckViewPage() {
               </Link>
               {dueCount > 0 && (
                 <Link href="/flashcards/study">
-                  <Button size="sm">
+                  <Button size="small">
                     <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
@@ -321,7 +321,7 @@ export default function DeckViewPage() {
               </CardHeader>
               <CardContent className="space-y-2">
                 <Link href={`/flashcards/${deckId}/edit`} className="block">
-                  <Button variant="secondary" size="sm" className="w-full">
+                  <Button variant="tinted" size="small" className="w-full">
                     <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                     </svg>
@@ -330,7 +330,7 @@ export default function DeckViewPage() {
                 </Link>
                 {dueCount > 0 && (
                   <Link href="/flashcards/study" className="block">
-                    <Button size="sm" className="w-full">
+                    <Button size="small" className="w-full">
                       Estudar Agora
                     </Button>
                   </Link>

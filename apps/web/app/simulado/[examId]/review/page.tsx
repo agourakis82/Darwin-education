@@ -235,7 +235,7 @@ export default function ExamReviewPage() {
               <Button onClick={() => router.push(`/simulado/${examId}/result`)} fullWidth>
                 Voltar aos Resultados
               </Button>
-              <Button variant="outline" onClick={() => router.push('/simulado')} fullWidth>
+              <Button variant="bordered" onClick={() => router.push('/simulado')} fullWidth>
                 Ver Simulados
               </Button>
             </div>
@@ -274,7 +274,7 @@ export default function ExamReviewPage() {
             </div>
 
             <Button
-              variant="outline"
+              variant="bordered"
               size="sm"
               onClick={() => router.push(`/simulado/${examId}/result`)}
             >
@@ -294,25 +294,51 @@ export default function ExamReviewPage() {
           <CardContent>
             {/* Status Badge */}
             <div className="flex items-center justify-between mb-4">
-              <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${
-                currentReview.isCorrect
-                  ? 'bg-emerald-900/50 text-emerald-300'
-                  : 'bg-red-900/50 text-red-300'
-              }`}>
-                {currentReview.isCorrect ? (
-                  <>
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                    </svg>
-                    Acertou
-                  </>
-                ) : (
-                  <>
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                    </svg>
-                    Errou
-                  </>
+              <div className="flex gap-2">
+                <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${
+                  currentReview.isCorrect
+                    ? 'bg-emerald-900/50 text-emerald-300'
+                    : 'bg-red-900/50 text-red-300'
+                }`}>
+                  {currentReview.isCorrect ? (
+                    <>
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      Acertou
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                      </svg>
+                      Errou
+                    </>
+                  )}
+                </div>
+
+                {/* IRT Signature */}
+                {currentReview.question.irt && (
+                  <div className="hidden sm:flex gap-2">
+                    <span className="px-3 py-1 bg-surface-3 rounded-full text-xs font-medium text-label-secondary border border-separator flex items-center gap-1.5">
+                      <svg className="w-3 h-3 text-label-quaternary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                      Dificuldade: {
+                        currentReview.question.irt.difficulty < -1 ? 'Baixa' :
+                        currentReview.question.irt.difficulty < 1 ? 'Média' : 'Alta'
+                      }
+                    </span>
+                    <span className="px-3 py-1 bg-surface-3 rounded-full text-xs font-medium text-label-secondary border border-separator flex items-center gap-1.5">
+                      <svg className="w-3 h-3 text-label-quaternary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                      </svg>
+                      Impacto: {
+                        currentReview.question.irt.discrimination < 0.8 ? 'Focado' :
+                        currentReview.question.irt.discrimination < 1.5 ? 'Alto' : 'Crítico'
+                      }
+                    </span>
+                  </div>
                 )}
               </div>
 
@@ -462,7 +488,7 @@ export default function ExamReviewPage() {
         {/* Navigation */}
         <div className="flex items-center justify-between">
           <Button
-            variant="outline"
+            variant="bordered"
             onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
             disabled={currentIndex === 0}
           >
@@ -490,7 +516,7 @@ export default function ExamReviewPage() {
         {/* Filter Buttons */}
         <div className="flex gap-3 mt-6">
           <Button
-            variant="outline"
+            variant="bordered"
             size="sm"
             onClick={() => {
               const nextIncorrect = reviews.findIndex((r, idx) => idx > currentIndex && !r.isCorrect)
@@ -500,7 +526,7 @@ export default function ExamReviewPage() {
             Próxima Errada
           </Button>
           <Button
-            variant="outline"
+            variant="bordered"
             size="sm"
             onClick={() => {
               const nextCorrect = reviews.findIndex((r, idx) => idx > currentIndex && r.isCorrect)

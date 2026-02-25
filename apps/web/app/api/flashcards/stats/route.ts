@@ -75,7 +75,7 @@ export async function GET(request: NextRequest) {
         )
       }
 
-      cards = legacyResult.data
+      cards = legacyResult.data as any[]
     }
 
     if (!cards) cards = []
@@ -147,7 +147,7 @@ export async function GET(request: NextRequest) {
 
     // Calculate streak (simplified - count consecutive days with reviews)
     const { data: recentReviews } = await (supabase
-      .from('flashcard_review_states') as any)
+      .from('flashcard_review_states' as any) as any)
       .select('last_review_at')
       .eq('user_id', user.id)
       .not('last_review_at', 'is', null)

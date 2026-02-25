@@ -149,7 +149,7 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const session = dbSession as DatabaseCATSession
+    const session = dbSession as unknown as DatabaseCATSession
 
     // Load exam attempt to get config
     const { data: attempt, error: attemptError } = await (supabase as any)

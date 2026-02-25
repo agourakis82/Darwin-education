@@ -179,8 +179,8 @@ export function WeeklyPlanner() {
               className="w-full px-3 py-2 bg-surface-1 border border-separator rounded-lg text-label-primary text-sm placeholder:text-label-quaternary"
             />
             <div className="flex gap-2 justify-end">
-              <Button variant="ghost" size="sm" onClick={() => setAdding(null)}>Cancelar</Button>
-              <Button size="sm" onClick={addBlock}>Adicionar</Button>
+              <Button variant="plain" size="small" onClick={() => setAdding(null)}>Cancelar</Button>
+              <Button size="small" onClick={addBlock}>Adicionar</Button>
             </div>
           </motion.div>
         )}
@@ -188,7 +188,7 @@ export function WeeklyPlanner() {
 
       {/* Print button */}
       <div className="flex justify-end">
-        <Button variant="ghost" size="sm" onClick={() => window.print()}>
+        <Button variant="plain" size="small" onClick={() => window.print()}>
           <Printer className="w-4 h-4 mr-2" />
           Imprimir
         </Button>

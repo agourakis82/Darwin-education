@@ -226,14 +226,14 @@ export function OnboardingModal() {
                 Fazer Simulado Rápido
               </Button>
               <Button
-                variant="secondary"
+                variant="tinted"
                 fullWidth
                 onClick={() => handleComplete('flashcards')}
               >
                 Ir para Flashcards
               </Button>
               <Button
-                variant="ghost"
+                variant="plain"
                 fullWidth
                 onClick={() => handleComplete('explore')}
               >
@@ -245,7 +245,7 @@ export function OnboardingModal() {
           {/* Navigation */}
           {step < 2 && (
             <div className="flex gap-3">
-              <Button variant="ghost" fullWidth onClick={handleSkip}>
+              <Button variant="plain" fullWidth onClick={handleSkip}>
                 Pular
               </Button>
               <Button

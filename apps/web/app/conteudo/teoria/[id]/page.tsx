@@ -70,7 +70,7 @@ export default async function TeoriaDetailPage({
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center gap-4">
             <Button
-              variant="ghost"
+              variant="plain"
               size="sm"
               asChild
             >
@@ -217,12 +217,12 @@ export default async function TeoriaDetailPage({
         <QuestionGenerator topic={topic} />
 
         <div className="mt-8 flex gap-4">
-          <Button variant="secondary" asChild>
+          <Button variant="tinted" asChild>
             <Link href="/conteudo/teoria">
               <ChevronLeft className="w-4 h-4" /> Voltar para Teoria
             </Link>
           </Button>
-          <Button variant="outline" asChild>
+          <Button variant="bordered" asChild>
             <Link href="/conteudo">
               Voltar para Conteúdo
             </Link>

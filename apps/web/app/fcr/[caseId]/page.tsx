@@ -338,7 +338,7 @@ export default function FCRCasePage() {
               variant: 'secondary',
             }}
           />
-          <Button variant="outline" onClick={() => router.refresh()} fullWidth className="darwin-nav-link mt-3">
+          <Button variant="bordered" onClick={() => router.refresh()} fullWidth className="darwin-nav-link mt-3">
             Tentar novamente
           </Button>
         </div>
@@ -385,7 +385,7 @@ export default function FCRCasePage() {
               </div>
             </div>
             <Button
-              variant="outline"
+              variant="bordered"
               size="sm"
               className="darwin-nav-link"
               onClick={() => {
@@ -468,14 +468,14 @@ export default function FCRCasePage() {
             {/* Navigation */}
             <div className="flex gap-3 pt-4">
               {!isFirstLevel && (
-                <Button variant="outline" className="darwin-nav-link" onClick={goBackLevel} fullWidth>
+                <Button variant="bordered" className="darwin-nav-link" onClick={goBackLevel} fullWidth>
                   Voltar
                 </Button>
               )}
 
               {isLastLevel ? (
                 <Button
-                  variant="primary"
+                  variant="filled"
                   className="darwin-nav-link"
                   onClick={handleSubmit}
                   disabled={!canAdvance || submitting}
@@ -486,7 +486,7 @@ export default function FCRCasePage() {
                 </Button>
               ) : (
                 <Button
-                  variant="primary"
+                  variant="filled"
                   className="darwin-nav-link"
                   onClick={advanceLevel}
                   disabled={!canAdvance}

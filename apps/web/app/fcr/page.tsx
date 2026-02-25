@@ -200,7 +200,7 @@ export default function FCRHubPage() {
                 {' — '}ganho esperado: {(recommendedCase.expectedInformationGain * 100).toFixed(0)}%
               </p>
               <Button
-                variant="primary"
+                variant="filled"
                 size="sm"
                 onClick={() => handleStartCase(recommendedCase.caseId)}
                 className="w-full"
@@ -299,7 +299,7 @@ export default function FCRHubPage() {
                 <Button onClick={() => setSelectedArea(null)} fullWidth>
                   Limpar filtro de área
                 </Button>
-                <Button variant="outline" onClick={() => router.push('/simulado')} fullWidth>
+                <Button variant="bordered" onClick={() => router.push('/simulado')} fullWidth>
                   Ir para Simulados
                 </Button>
               </div>
@@ -353,7 +353,7 @@ export default function FCRHubPage() {
                             </div>
                           </div>
                         ) : (
-                          <Button variant="primary" size="sm">
+                          <Button variant="filled" size="small">
                             Iniciar
                           </Button>
                         )}

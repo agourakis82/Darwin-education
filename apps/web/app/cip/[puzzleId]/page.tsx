@@ -429,7 +429,7 @@ export default function CIPPuzzlePage() {
 
       // Update attempt in database
       const attemptId = useCIPStore.getState().attemptId
-      await supabase
+      await (supabase as any)
         .from('cip_attempts')
         .update({
           grid_state: gridState,
@@ -444,8 +444,8 @@ export default function CIPPuzzlePage() {
           total_cells: score.totalCells,
           section_breakdown: score.sectionBreakdown,
           diagnosis_breakdown: score.diagnosisBreakdown,
-        } as unknown as never)
-        .eq('id', attemptId as unknown as {})
+        })
+        .eq('id', attemptId)
 
       // Update store
       submitPuzzle(score)
@@ -501,7 +501,7 @@ export default function CIPPuzzlePage() {
               <Button onClick={() => router.push('/cip')} fullWidth>
                 Voltar para CIP
               </Button>
-              <Button variant="outline" onClick={() => router.refresh()} fullWidth>
+              <Button variant="bordered" onClick={() => router.refresh()} fullWidth>
                 Tentar novamente
               </Button>
             </div>
@@ -530,8 +530,8 @@ export default function CIPPuzzlePage() {
             <div className="flex items-center gap-4">
               <CIPTimer onTimeUp={handleTimeUp} />
               <Button
-                variant="outline"
-                size="sm"
+                variant="bordered"
+                size="small"
                 onClick={() => setShowSubmitModal(true)}
                 disabled={isSubmitted}
               >
@@ -630,14 +630,14 @@ export default function CIPPuzzlePage() {
 
           <div className="flex gap-3 mt-6">
             <Button
-              variant="outline"
+              variant="bordered"
               onClick={() => setShowSubmitModal(false)}
               disabled={submitting}
               fullWidth
             >
               Continuar
             </Button>
-            <Button variant="primary" onClick={handleSubmit} loading={submitting} fullWidth>
+            <Button variant="filled" onClick={handleSubmit} loading={submitting} fullWidth>
               Finalizar
             </Button>
           </div>

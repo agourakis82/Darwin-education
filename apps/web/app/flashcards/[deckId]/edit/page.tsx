@@ -405,7 +405,7 @@ export default function EditDeckPage() {
           <div className="flex gap-4 mb-8">
             <Button
               type="button"
-              variant="ghost"
+              variant="plain"
               onClick={() => router.back()}
               className="flex-1"
             >
@@ -435,7 +435,7 @@ export default function EditDeckPage() {
                 </div>
                 <Button
                   type="button"
-                  variant="ghost"
+                  variant="plain"
                   onClick={() => setShowDeleteConfirm(true)}
                   className="text-red-400 hover:text-red-300 hover:bg-red-900/20"
                 >
@@ -460,7 +460,7 @@ export default function EditDeckPage() {
                 </p>
                 <div className="flex gap-4">
                   <Button
-                    variant="ghost"
+                    variant="plain"
                     onClick={() => setShowDeleteConfirm(false)}
                     className="flex-1"
                   >

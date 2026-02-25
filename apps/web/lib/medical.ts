@@ -355,7 +355,7 @@ function buildTheoryQuery({
   const normalizedDifficulty = normalizeTheoryDifficultyInput(difficulty)
   const sanitizedQuery = sanitizeQuery(q)
 
-  let query = (supabase.from('theory_topics_generated') as any)
+  let query = (supabase as any).from('theory_topics_generated')
     .select(THEORY_SELECT)
     .order('topic_id', { ascending: true })
     .order('version', { ascending: false })
@@ -456,7 +456,7 @@ export async function getTheoryTopicById(id: string): Promise<TheoryResult<Theor
 
   const supabase = await createServerClient()
 
-  const byTopicId = await (supabase.from('theory_topics_generated') as any)
+  const byTopicId = await (supabase as any).from('theory_topics_generated')
     .select(THEORY_SELECT)
     .eq('topic_id', sanitizedId)
     .order('version', { ascending: false })
@@ -485,7 +485,7 @@ export async function getTheoryTopicById(id: string): Promise<TheoryResult<Theor
       ]
 
       for (const select of selectAttempts) {
-        const result = await (supabase.from('theory_topics_generated') as any).select(select).eq('id', rowId).maybeSingle()
+        const result = await (supabase as any).from('theory_topics_generated').select(select).eq('id', rowId).maybeSingle()
         if (!result?.error && result?.data) return result.data as any
         if (result?.error && !isMissingColumnError(result.error)) break
       }
@@ -498,7 +498,7 @@ export async function getTheoryTopicById(id: string): Promise<TheoryResult<Theor
       const rowId = (base?.id as string | undefined) || null
       if (!rowId) return []
 
-      const joined = await (supabase.from('theory_topic_citations') as any)
+      const joined = await (supabase as any).from('theory_topic_citations')
         .select(
           'section_name, theory_citations(url, title, source, evidence_level, publication_year, authors, journal, doi)'
         )
@@ -565,7 +565,7 @@ export async function getTheoryTopicById(id: string): Promise<TheoryResult<Theor
   }
 
   if (byTopicId.error && isMissingColumnError(byTopicId.error) && isUuid(sanitizedId)) {
-    const byUuid = await (supabase.from('theory_topics_generated') as any)
+    const byUuid = await (supabase as any).from('theory_topics_generated')
       .select(THEORY_SELECT)
       .eq('id', sanitizedId)
       .maybeSingle()
@@ -578,7 +578,7 @@ export async function getTheoryTopicById(id: string): Promise<TheoryResult<Theor
       }
     }
   } else if (!byTopicId.error && !byTopicId.data && isUuid(sanitizedId)) {
-    const byUuid = await (supabase.from('theory_topics_generated') as any)
+    const byUuid = await (supabase as any).from('theory_topics_generated')
       .select(THEORY_SELECT)
       .eq('id', sanitizedId)
       .maybeSingle()
@@ -770,8 +770,8 @@ export async function listMedicationClasses(): Promise<{ data: string[]; error: 
 export async function getTheoryTopicCount() {
   const supabase = await createServerClient()
 
-  const { count: publishedCount, error: publishedError } = await (supabase
-    .from('theory_topics_generated') as any)
+  const { count: publishedCount, error: publishedError } = await (supabase as any)
+    .from('theory_topics_generated')
     .select('id', { count: 'exact', head: true })
     .in('status', ['approved', 'published'])
 
@@ -779,7 +779,7 @@ export async function getTheoryTopicCount() {
     return publishedCount || 0
   }
 
-  const { count: allCount, error: allError } = await (supabase.from('theory_topics_generated') as any)
+  const { count: allCount, error: allError } = await (supabase as any).from('theory_topics_generated')
     .select('id', { count: 'exact', head: true })
 
   if (!allError) {

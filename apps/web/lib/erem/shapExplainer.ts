@@ -3,7 +3,8 @@
 // ML-based risk prediction with SHAP values for explainability
 // ============================================================
 
-import { createClient } from '@supabase/supabase-js'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
+import type { Database } from '../supabase/types'
 import {
   RiskScore,
   StudentRiskProfile,
@@ -95,7 +96,7 @@ export const DEFAULT_SHAP_CONFIG: SHAPConfig = {
 // ============================================================
 
 export async function extractFeatureVector(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   studentId: string
 ): Promise<FeatureVector> {
   const lookbackDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
@@ -425,7 +426,7 @@ export function computeSHAPValues(features: FeatureVector): SHAPResult {
 // ============================================================
 
 export async function computeCohortSHAPSummary(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   limit: number = 500
 ): Promise<CohortSHAPSummary[]> {
   // Get recent risk snapshots with SHAP data
@@ -498,7 +499,7 @@ function getDefaultCohortSummary(): CohortSHAPSummary[] {
 // ============================================================
 
 export async function saveSHAPValues(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   studentId: string,
   shapResult: SHAPResult
 ): Promise<void> {
@@ -524,7 +525,7 @@ export async function saveSHAPValues(
 // ============================================================
 
 export async function enhanceProfileWithSHAP(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   studentId: string,
   profile: StudentRiskProfile
 ): Promise<StudentRiskProfile> {

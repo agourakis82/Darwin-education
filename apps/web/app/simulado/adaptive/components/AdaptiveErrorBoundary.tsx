@@ -117,7 +117,7 @@ export class AdaptiveErrorBoundary extends Component<Props, State> {
             <div className="space-y-3">
               {this.props.sessionId && (
                 <Button
-                  variant="primary"
+                  variant="filled"
                   fullWidth
                   loading={this.state.isResuming}
                   onClick={this.handleResume}
@@ -127,7 +127,7 @@ export class AdaptiveErrorBoundary extends Component<Props, State> {
               )}
 
               <Button
-                variant="outline"
+                variant="bordered"
                 fullWidth
                 disabled={this.state.isResuming}
                 onClick={this.handleReset}

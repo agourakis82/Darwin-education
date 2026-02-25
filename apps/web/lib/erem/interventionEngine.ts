@@ -3,7 +3,8 @@
 // Case-based reasoning for intervention recommendations
 // ============================================================
 
-import { createClient } from '@supabase/supabase-js'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
+import type { Database, Json } from '../supabase/types'
 import { StudentRiskProfile, RiskScore, createRiskScore } from './epistemicTypes'
 
 // ============================================================
@@ -201,7 +202,7 @@ export function computeCaseSimilarity(
 // ============================================================
 
 export async function getSimilarCases(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   profile: StudentRiskProfile,
   config: InterventionConfig = DEFAULT_INTERVENTION_CONFIG
 ): Promise<CaseMatch[]> {
@@ -222,9 +223,9 @@ export async function getSimilarCases(
     const caseData: InterventionCase = {
       id: caseRow.id,
       studentId: caseRow.student_id,
-      riskProfileSnapshot: caseRow.risk_profile_snapshot,
-      intervention: caseRow.intervention_type,
-      outcome: caseRow.outcome,
+      riskProfileSnapshot: caseRow.risk_profile_snapshot as unknown as InterventionCase['riskProfileSnapshot'],
+      intervention: caseRow.intervention_type as InterventionType,
+      outcome: caseRow.outcome as InterventionCase['outcome'],
       improvementDelta: caseRow.improvement_delta,
       timeToImprovement: caseRow.time_to_improvement,
       createdAt: new Date(caseRow.created_at),
@@ -294,7 +295,7 @@ export function determinePriority(
 }
 
 export async function generateInterventionRecommendations(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   profile: StudentRiskProfile,
   config: InterventionConfig = DEFAULT_INTERVENTION_CONFIG
 ): Promise<InterventionRecommendation[]> {
@@ -430,7 +431,7 @@ function generateReasoningText(
 // ============================================================
 
 export async function saveIntervention(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   intervention: Intervention
 ): Promise<{ success: boolean; id?: string; error?: string }> {
   const { data, error } = await supabase
@@ -446,7 +447,7 @@ export async function saveIntervention(
       expected_impact: intervention.expectedImpact,
       confidence: intervention.confidence,
       based_on_cases: intervention.basedOnCases,
-      metadata: intervention.metadata || {},
+      metadata: (intervention.metadata || {}) as Json,
     })
     .select('id')
     .single()
@@ -460,7 +461,7 @@ export async function saveIntervention(
 }
 
 export async function updateInterventionStatus(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   interventionId: string,
   status: InterventionStatus,
   outcome?: 'success' | 'partial' | 'no_effect' | 'negative'
@@ -485,7 +486,7 @@ export async function updateInterventionStatus(
 }
 
 export async function recordInterventionCase(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   studentId: string,
   riskProfileSnapshot: InterventionCase['riskProfileSnapshot'],
   interventionType: InterventionType,
@@ -508,7 +509,7 @@ export async function recordInterventionCase(
 // ============================================================
 
 export async function processStudentInterventions(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   studentId: string,
   config: InterventionConfig = DEFAULT_INTERVENTION_CONFIG
 ): Promise<InterventionRecommendation[]> {

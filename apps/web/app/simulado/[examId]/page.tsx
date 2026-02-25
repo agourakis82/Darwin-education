@@ -328,7 +328,7 @@ export default function ExamPage() {
 
         if (rpcError) {
           // Fall back to direct upsert if RPC doesn't exist
-          await (supabase.from('study_activity') as any).upsert({
+          await (supabase as any).from('study_activity').upsert({
             user_id: user!.id,
             activity_date: today,
             exams_completed: 1,
@@ -415,7 +415,7 @@ export default function ExamPage() {
                 variant: 'secondary',
               }}
             />
-            <Button variant="outline" onClick={() => router.refresh()} fullWidth className="darwin-nav-link mt-3">
+            <Button variant="bordered" onClick={() => router.refresh()} fullWidth className="darwin-nav-link mt-3">
               Tentar novamente
             </Button>
           </CardContent>
@@ -442,7 +442,7 @@ export default function ExamPage() {
                   ),
               }}
             />
-            <Button variant="outline" onClick={() => router.push('/simulado')} fullWidth className="darwin-nav-link mt-3">
+            <Button variant="bordered" onClick={() => router.push('/simulado')} fullWidth className="darwin-nav-link mt-3">
               Voltar para Simulados
             </Button>
           </CardContent>
@@ -475,7 +475,7 @@ export default function ExamPage() {
               onTick={updateRemainingTime}
             />
             <Button
-              variant="outline"
+              variant="bordered"
               size="sm"
               className="darwin-nav-link"
               onClick={() => setShowSubmitModal(true)}
@@ -526,7 +526,7 @@ export default function ExamPage() {
             {/* Navigation Buttons */}
             <div className="flex justify-between mt-6">
               <Button
-                variant="outline"
+                variant="bordered"
                 className="darwin-nav-link"
                 onClick={previousQuestion}
                 disabled={currentQuestionIndex === 0}
@@ -580,7 +580,7 @@ export default function ExamPage() {
 
           <div className="flex gap-3 mt-6">
             <Button
-              variant="outline"
+              variant="bordered"
               className="darwin-nav-link"
               onClick={() => setShowSubmitModal(false)}
               disabled={submitting}
@@ -589,7 +589,7 @@ export default function ExamPage() {
               Continuar
             </Button>
             <Button
-              variant="primary"
+              variant="filled"
               className="darwin-nav-link"
               onClick={handleSubmit}
               loading={submitting}

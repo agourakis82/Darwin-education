@@ -38,14 +38,14 @@ export function LeaderboardWeekly() {
         setCurrentUserId(user?.id || null)
 
         // Fetch weekly leaderboard
-        const { data, error: fetchError } = await supabase
+        const { data, error: fetchError } = await (supabase as any)
           .from('cip_leaderboard_weekly')
           .select('*')
           .limit(50)
 
         if (fetchError) throw fetchError
 
-        setEntries(data || [])
+        setEntries((data || []) as any)
       } catch (err) {
         console.error('Error fetching weekly leaderboard:', err)
         setError('Erro ao carregar ranking semanal')

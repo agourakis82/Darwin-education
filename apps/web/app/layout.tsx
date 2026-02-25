@@ -1,14 +1,16 @@
-import type { Metadata } from 'next';
-import './globals.css';
-import { Navigation } from '@/components/Navigation';
-import { BottomNav } from '@/components/BottomNav';
-import { ToastProvider } from '@/components/ui/Toast';
-import { PageTransition } from '@/components/ui/PageTransition';
-import { ThemeProvider } from '@/components/theme/ThemeProvider';
-import { ThemeScript } from '@/components/theme/ThemeScript';
-import { FeedbackWidget } from '@/components/FeedbackWidget';
-import { createServerClient } from '@/lib/supabase/server';
-import { getUserSummaryFromAccessToken, type UserSummary } from '@/lib/auth/user';
+import type { Metadata, Viewport } from 'next'
+import './globals.css'
+import { inter } from './fonts'
+import { Navigation } from '@/components/Navigation'
+import { BottomNav } from '@/components/BottomNav'
+import { ToastProvider } from '@/components/ui/Toast'
+import { PageTransition } from '@/components/ui/PageTransition'
+import { ThemeProvider } from '@/components/theme/ThemeProvider'
+import { ThemeScript } from '@/components/theme/ThemeScript'
+import { FeedbackWidget } from '@/components/FeedbackWidget'
+import { createServerClient } from '@/lib/supabase/server'
+import { getUserSummaryFromAccessToken, type UserSummary } from '@/lib/auth/user'
+import { CommandPalette } from '@/components/ui/CommandPalette'
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://darwinhub.org'),
@@ -23,6 +25,12 @@ export const metadata: Metadata = {
     ],
     shortcut: '/brand/favicon/darwin-favicon-32.png',
     apple: '/brand/logo/darwin-appicon-master-1024.png',
+  },
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Darwin Education',
   },
   openGraph: {
     title: 'Darwin Education - ENAMED Prep',
@@ -48,42 +56,79 @@ export const metadata: Metadata = {
       'Plataforma de preparação para o ENAMED (Exame Nacional de Avaliação da Formação Médica)',
     images: ['/brand/logo/darwin-og-1200x630.png'],
   },
-};
+}
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#000000' },
+  ],
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+}
 
 export default async function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
-  const supabase = await createServerClient();
-  const { data: { session } } = await supabase.auth.getSession();
+  const supabase = await createServerClient()
+  const { data: { session } } = await supabase.auth.getSession()
 
   let userSummary: UserSummary | null = session?.access_token
     ? getUserSummaryFromAccessToken(session.access_token)
-    : null;
-  const showBottomNav = Boolean(userSummary);
+    : null
+  const showBottomNav = Boolean(userSummary)
 
   return (
-    <html lang="pt-BR" suppressHydrationWarning>
+    <html 
+      lang="pt-BR" 
+      suppressHydrationWarning
+      className={inter.variable}
+    >
       <head>
         <ThemeScript />
       </head>
-      <body className="bg-surface-0 text-label-primary antialiased">
+      <body 
+        className="
+          min-h-screen
+          bg-system-background
+          text-label
+          antialiased
+          selection:bg-darwin-emerald/35
+          selection:text-label
+        "
+      >
         <ThemeProvider>
           <ToastProvider>
-            <div className="min-h-screen bg-surface-0">
-              <div className="relative min-h-screen">
-                <Navigation user={userSummary} />
-                <main id="main-content" className={showBottomNav ? 'pb-16 md:pb-0' : undefined}>
-                  <PageTransition>{children}</PageTransition>
-                </main>
-                <BottomNav user={userSummary} />
-                <FeedbackWidget />
+            <CommandPalette />
+            <div className="relative min-h-screen">
+              {/* Background gradient mesh */}
+              <div 
+                className="fixed inset-0 pointer-events-none -z-10"
+                aria-hidden="true"
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-darwin-emerald/5 via-transparent to-system-cyan/5" />
               </div>
+              
+              <Navigation user={userSummary} />
+              
+              <main 
+                id="main-content" 
+                className={showBottomNav ? 'pb-16 md:pb-0' : undefined}
+              >
+                <PageTransition>
+                  {children}
+                </PageTransition>
+              </main>
+              
+              <BottomNav user={userSummary} />
+              <FeedbackWidget />
             </div>
           </ToastProvider>
         </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }

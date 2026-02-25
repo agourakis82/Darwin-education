@@ -39,24 +39,24 @@ export function ToastExample() {
       <CardDescription>Click a button to trigger a toast notification</CardDescription>
 
       <CardContent className="mt-6 space-y-3">
-        <Button variant="primary" fullWidth onClick={() => success('Operação realizada com sucesso!')}>
+        <Button variant="filled" fullWidth onClick={() => success('Operação realizada com sucesso!')}>
           Success Toast
         </Button>
-        <Button variant="danger" fullWidth onClick={() => error('Ocorreu um erro! Tente novamente.')}>
+        <Button variant="filled" color="red" fullWidth onClick={() => error('Ocorreu um erro! Tente novamente.')}>
           Error Toast
         </Button>
         <Button
-          variant="outline"
+          variant="bordered"
           fullWidth
           onClick={() => warning('Este é um aviso importante.')}
         >
           Warning Toast
         </Button>
-        <Button variant="ghost" fullWidth onClick={() => info('Informação: Algo aconteceu!')}>
+        <Button variant="plain" fullWidth onClick={() => info('Informação: Algo aconteceu!')}>
           Info Toast
         </Button>
         <Button
-          variant="secondary"
+          variant="tinted"
           fullWidth
           onClick={() =>
             toast('Toast customizado!', {

@@ -168,8 +168,8 @@ export default function CasoClinicoPage() {
 
             {/* Generate Button */}
             <Button
-              variant="primary"
-              size="lg"
+              variant="filled"
+              size="large"
               onClick={handleGenerate}
               disabled={!selectedArea}
               className="w-full"
@@ -227,7 +227,7 @@ export default function CasoClinicoPage() {
                 </p>
               </CardContent>
             </Card>
-            <Button variant="outline" size="sm" onClick={handleNewCase}>
+            <Button variant="bordered" size="small" onClick={handleNewCase}>
               Novo Caso Clínico
             </Button>
           </div>

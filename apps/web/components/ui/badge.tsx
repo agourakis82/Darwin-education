@@ -1,7 +1,7 @@
 import { type HTMLAttributes } from 'react'
 import { cn } from '@/lib/utils'
 
-type BadgeVariant = 'default' | 'secondary' | 'outline' | 'destructive'
+type BadgeVariant = 'default' | 'secondary' | 'outline' | 'destructive' | 'tinted' | 'bordered'
 
 interface BadgeProps extends HTMLAttributes<HTMLDivElement> {
   variant?: BadgeVariant
@@ -12,6 +12,8 @@ const variantStyles: Record<BadgeVariant, string> = {
   secondary: 'bg-surface-3 text-label-primary border-transparent',
   outline: 'bg-transparent border-label-quaternary text-label-primary',
   destructive: 'bg-red-600 text-white border-transparent',
+  tinted: 'bg-blue-500/15 text-blue-400 border-transparent',
+  bordered: 'bg-transparent border-label-quaternary text-label-secondary',
 }
 
 export function Badge({ className, variant = 'default', ...props }: BadgeProps) {

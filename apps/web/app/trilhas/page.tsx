@@ -390,7 +390,7 @@ export default function TrilhasPage() {
                               />
                             </div>
                           </div>
-                          <Button size="sm" className="mt-2 w-full">
+                          <Button size="small" className="mt-2 w-full">
                             Continuar
                             <svg className="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
@@ -446,7 +446,7 @@ export default function TrilhasPage() {
                     <Button onClick={() => setFilter('all')} fullWidth>
                       Ver todas as áreas
                     </Button>
-                    <Button variant="outline" onClick={() => router.push('/conteudo')} fullWidth>
+                    <Button variant="bordered" onClick={() => router.push('/conteudo')} fullWidth>
                       Estudar no conteúdo
                     </Button>
                   </div>

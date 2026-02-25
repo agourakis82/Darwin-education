@@ -276,12 +276,12 @@ export function CIPResults({ score, totalTimeSeconds, onRetry, onBackToList }: C
       {/* Actions */}
       <div className="flex justify-center gap-4">
         {onRetry && (
-          <Button variant="outline" onClick={onRetry}>
+          <Button variant="bordered" onClick={onRetry}>
             Tentar novamente
           </Button>
         )}
         {onBackToList && (
-          <Button variant="primary" onClick={onBackToList}>
+          <Button variant="filled" onClick={onBackToList}>
             Voltar para lista
           </Button>
         )}

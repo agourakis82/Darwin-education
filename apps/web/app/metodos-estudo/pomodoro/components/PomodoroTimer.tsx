@@ -330,8 +330,8 @@ function SettingsPanel({
           </label>
         </div>
         <div className="flex gap-2 justify-end">
-          <Button variant="ghost" size="sm" onClick={onClose}>Cancelar</Button>
-          <Button size="sm" onClick={() => onSave(local)}>Salvar</Button>
+          <Button variant="plain" size="small" onClick={onClose}>Cancelar</Button>
+          <Button size="small" onClick={() => onSave(local)}>Salvar</Button>
         </div>
       </div>
     </motion.div>

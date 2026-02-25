@@ -123,7 +123,7 @@ export default function CIPAchievementsPage() {
                 <p className="text-label-secondary">Desbloqueie conquistas completando puzzles</p>
               </div>
             </div>
-            <Button variant="outline" onClick={() => router.push('/cip')}>
+            <Button variant="bordered" onClick={() => router.push('/cip')}>
               Voltar
             </Button>
           </div>

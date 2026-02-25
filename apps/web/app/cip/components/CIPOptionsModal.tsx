@@ -129,14 +129,14 @@ export function CIPOptionsModal({
         {/* Actions */}
         <div className="flex justify-between pt-4 border-t border-separator">
           <Button
-            variant="ghost"
+            variant="plain"
             size="sm"
             onClick={handleClear}
             disabled={!currentFinding}
           >
             Limpar seleção
           </Button>
-          <Button variant="secondary" size="sm" onClick={onClose}>
+          <Button variant="tinted" size="small" onClick={onClose}>
             Fechar
           </Button>
         </div>

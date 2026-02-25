@@ -190,7 +190,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Convert database session to CATSession
-    const session = dbSessionToCATSession(dbSession as DatabaseCATSession)
+    const session = dbSessionToCATSession(dbSession as unknown as DatabaseCATSession)
 
     // Load the current question from DB to validate the answer
     const { data: currentQuestion, error: questionError } = await (supabase as any)
@@ -279,7 +279,7 @@ export async function POST(request: NextRequest) {
       .update({
         theta: updatedSession.theta,
         se: updatedSession.se,
-        items_administered: updatedSession.itemsAdministered,
+        items_administered: updatedSession.itemsAdministered.length,
         responses: updatedSession.responses,
         item_areas: updatedSession.itemAreas,
         theta_history: updatedSession.thetaHistory,

@@ -191,7 +191,7 @@ async function loadDeckStates({
     return { source: 'review', rows: (reviewAttempt.data || []) as ReviewStateRow[] }
   }
 
-  const legacyAttempt = await (supabase.from('flashcard_sm2_states') as any)
+  const legacyAttempt = await (supabase.from('flashcard_sm2_states' as any) as any)
     .select('card_id,ease_factor,interval_days,repetitions,next_review_at,last_review_at')
     .eq('user_id', userId)
     .in('card_id', cardIds)

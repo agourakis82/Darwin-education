@@ -144,7 +144,7 @@ export function QGenReviewTab() {
 
         <Button
           onClick={fetchReviewQueue}
-          variant="ghost"
+          variant="plain"
           size="sm"
           leftIcon={<RefreshCw className="w-3.5 h-3.5" />}
         >
@@ -285,7 +285,7 @@ export function QGenReviewTab() {
                   leftIcon={<X className="w-4 h-4" />}
                   fullWidth
                   size="lg"
-                  variant="danger"
+                  variant="filled" color="red"
                 >
                   Rejeitar
                 </Button>

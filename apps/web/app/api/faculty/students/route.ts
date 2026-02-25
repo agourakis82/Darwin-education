@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
 
     // Query using the current_student_risk view
     let query = supabase
-      .from('current_student_risk')
+      .from('current_student_risk' as any)
       .select('*')
       .gte('composite_risk', minRisk)
       .lte('composite_risk', maxRisk)
@@ -62,7 +62,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      students: (students || []).map((s) => ({
+      students: (students || []).map((s: any) => ({
         id: s.student_id,
         name: s.full_name || 'Unknown',
         email: s.email,

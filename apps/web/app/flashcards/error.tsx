@@ -32,7 +32,7 @@ export default function FlashcardsError({
           <Button onClick={reset}>
             Tentar Novamente
           </Button>
-          <Button variant="secondary" asChild>
+          <Button variant="tinted" asChild>
             <Link href="/">Página Inicial</Link>
           </Button>
         </div>

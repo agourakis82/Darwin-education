@@ -93,7 +93,7 @@ export function QuestionGenerator({ topic }: QuestionGeneratorProps) {
           <CardTitle className="flex items-center justify-between">
             <span className="flex items-center gap-2"><Check className="w-5 h-5 text-green-400" /> Questão Gerada sobre {topic.title}</span>
             <Button
-              variant="secondary"
+              variant="tinted"
               size="sm"
               onClick={() => {
                 setShowResults(false)
@@ -193,7 +193,7 @@ export function QuestionGenerator({ topic }: QuestionGeneratorProps) {
           <div className="rounded-lg border border-red-700/60 bg-red-950/30 px-4 py-3 text-sm text-red-200">
             <p>{generationError}</p>
             <Button
-              variant="outline"
+              variant="bordered"
               size="sm"
               className="mt-3"
               onClick={handleGenerate}

@@ -104,7 +104,7 @@ export function LeaderboardEntry({
             {displayName}
           </span>
           {isCurrentUser && (
-            <Badge variant="secondary" className="text-xs">
+            <Badge variant="tinted" className="text-xs">
               Você
             </Badge>
           )}
@@ -112,13 +112,13 @@ export function LeaderboardEntry({
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           {entryType === 'image' && (
             <>
-              <Badge variant="outline" className="text-xs bg-blue-900/50 text-blue-300 border-blue-700 inline-flex items-center gap-1">
+              <Badge variant="bordered" className="text-xs bg-blue-900/50 text-blue-300 border-blue-700 inline-flex items-center gap-1">
                 <Scan className="w-3 h-3" /> Imagem
               </Badge>
               <span>•</span>
             </>
           )}
-          <Badge variant="outline" className={cn('text-xs', difficultyColors[difficulty])}>
+          <Badge variant="bordered" className={cn('text-xs', difficultyColors[difficulty])}>
             {difficultyLabels[difficulty] || difficulty}
           </Badge>
           <span>•</span>

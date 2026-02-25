@@ -167,7 +167,7 @@ export default function DesempenhoPage() {
           .select('streak_days, last_activity_at')
           .eq('id', user.id)
           .maybeSingle(),
-        (supabase.from('study_activity') as any)
+        (supabase as any).from('study_activity')
           .select('activity_date, exams_completed, flashcards_reviewed, questions_answered')
           .eq('user_id', user.id)
           .gte('activity_date', thirtyDaysAgo.toISOString().split('T')[0])

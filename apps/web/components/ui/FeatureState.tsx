@@ -75,7 +75,7 @@ export function FeatureState({
       {description ? <p className="mx-auto mt-2 max-w-xl text-sm text-label-secondary">{description}</p> : null}
       {action ? (
         <div className="mt-5">
-          <Button variant={action.variant ?? 'secondary'} onClick={action.onClick}>
+          <Button variant={action.variant ?? 'tinted'} onClick={action.onClick}>
             {action.label}
           </Button>
         </div>

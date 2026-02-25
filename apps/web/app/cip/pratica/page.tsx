@@ -104,7 +104,7 @@ function CIPPraticaContent() {
               <Button onClick={() => router.push('/cip')} fullWidth>
                 Voltar para Puzzles
               </Button>
-              <Button variant="outline" onClick={() => void findOrCreatePuzzle()} fullWidth>
+              <Button variant="bordered" onClick={() => void findOrCreatePuzzle()} fullWidth>
                 Tentar Novamente
               </Button>
             </div>

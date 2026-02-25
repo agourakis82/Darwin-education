@@ -12,7 +12,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- ============================================================
 
 CREATE TABLE IF NOT EXISTS student_risk_snapshots (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     student_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
     
     -- Risk values [0, 1]
@@ -63,7 +63,7 @@ CREATE INDEX IF NOT EXISTS idx_risk_snapshots_composite ON student_risk_snapshot
 -- ============================================================
 
 CREATE TABLE IF NOT EXISTS erem_shap_values (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     student_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
     snapshot_id UUID REFERENCES student_risk_snapshots(id) ON DELETE CASCADE,
     
@@ -106,7 +106,7 @@ CREATE TYPE intervention_status AS ENUM ('suggested', 'in_progress', 'completed'
 CREATE TYPE intervention_outcome AS ENUM ('success', 'partial', 'no_effect', 'negative');
 
 CREATE TABLE IF NOT EXISTS intervention_recommendations (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     student_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
     
     -- Intervention details
@@ -151,7 +151,7 @@ CREATE INDEX IF NOT EXISTS idx_interventions_created ON intervention_recommendat
 -- ============================================================
 
 CREATE TABLE IF NOT EXISTS intervention_cases (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     student_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
     
     -- Risk profile at time of intervention
@@ -186,7 +186,7 @@ CREATE TYPE alert_severity AS ENUM ('info', 'warning', 'critical');
 CREATE TYPE alert_status AS ENUM ('active', 'acknowledged', 'resolved');
 
 CREATE TABLE IF NOT EXISTS risk_alerts (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     student_id UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
     snapshot_id UUID REFERENCES student_risk_snapshots(id) ON DELETE SET NULL,
     

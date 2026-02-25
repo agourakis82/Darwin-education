@@ -272,7 +272,7 @@ export default function CreateDeckPage() {
           <div className="flex gap-4">
             <Button
               type="button"
-              variant="ghost"
+              variant="plain"
               onClick={() => router.back()}
               className="flex-1"
             >

@@ -443,7 +443,7 @@ export default function MontarProvaPage() {
                 <div className="mb-4 rounded-lg border border-red-700/60 bg-red-950/30 px-4 py-3 text-sm text-red-200">
                   <p>{createError}</p>
                   <Button
-                    variant="outline"
+                    variant="bordered"
                     size="sm"
                     className="mt-3"
                     onClick={handleCreate}

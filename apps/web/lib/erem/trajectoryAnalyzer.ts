@@ -3,7 +3,8 @@
 // Time-series analysis for risk trend detection and forecasting
 // ============================================================
 
-import { createClient } from '@supabase/supabase-js'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
+import type { Database, Json } from '../supabase/types'
 import {
   RiskScore,
   RiskTrajectory,
@@ -79,7 +80,7 @@ export const DEFAULT_TRAJECTORY_CONFIG: TrajectoryConfig = {
 // ============================================================
 
 export async function saveRiskSnapshot(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   snapshot: RiskSnapshot
 ): Promise<{ success: boolean; id?: string; error?: string }> {
   const { data, error } = await supabase
@@ -92,7 +93,7 @@ export async function saveRiskSnapshot(
       wellbeing_risk: snapshot.wellbeingRisk,
       academic_risk: snapshot.academicRisk,
       confidence: snapshot.confidence,
-      metadata: snapshot.metadata || {},
+      metadata: (snapshot.metadata || {}) as Json,
     })
     .select('id')
     .single()
@@ -106,7 +107,7 @@ export async function saveRiskSnapshot(
 }
 
 export async function getRiskSnapshots(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   studentId: string,
   days: number = 90
 ): Promise<RiskSnapshot[]> {
@@ -134,12 +135,12 @@ export async function getRiskSnapshots(
     wellbeingRisk: row.wellbeing_risk,
     academicRisk: row.academic_risk,
     confidence: row.confidence,
-    metadata: row.metadata,
+    metadata: (row.metadata ?? undefined) as Record<string, unknown> | undefined,
   }))
 }
 
 export async function getLatestSnapshot(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   studentId: string
 ): Promise<RiskSnapshot | null> {
   const { data, error } = await supabase
@@ -164,7 +165,7 @@ export async function getLatestSnapshot(
     wellbeingRisk: data.wellbeing_risk,
     academicRisk: data.academic_risk,
     confidence: data.confidence,
-    metadata: data.metadata,
+    metadata: (data.metadata ?? undefined) as Record<string, unknown> | undefined,
   }
 }
 
@@ -491,7 +492,7 @@ export function classifyTrajectory(
 // ============================================================
 
 export async function computeAndSaveSnapshot(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   studentId: string,
   fusionConfig: RiskFusionConfig = DEFAULT_FUSION_CONFIG
 ): Promise<RiskSnapshot | null> {
@@ -533,7 +534,7 @@ export async function computeAndSaveSnapshot(
 }
 
 export async function getStudentTrajectoryAnalysis(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   studentId: string,
   days: number = 90,
   config: TrajectoryConfig = DEFAULT_TRAJECTORY_CONFIG
@@ -543,7 +544,7 @@ export async function getStudentTrajectoryAnalysis(
 }
 
 export async function getStudentRiskProfile(
-  supabase: ReturnType<typeof createClient>,
+  supabase: SupabaseClient<Database>,
   studentId: string,
   fusionConfig: RiskFusionConfig = DEFAULT_FUSION_CONFIG,
   trajectoryConfig: TrajectoryConfig = DEFAULT_TRAJECTORY_CONFIG

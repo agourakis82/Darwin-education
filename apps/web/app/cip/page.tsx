@@ -413,7 +413,7 @@ export default async function CIPPage() {
                         </div>
                         {!attempt.completed_at && (
                           <Link href={`/cip/${attempt.puzzle_id}`}>
-                            <Button size="sm" variant="outline" className="mt-2">
+                            <Button size="small" variant="bordered" className="mt-2">
                               Continuar
                             </Button>
                           </Link>

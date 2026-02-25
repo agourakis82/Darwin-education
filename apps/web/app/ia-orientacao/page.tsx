@@ -534,7 +534,7 @@ export default function IaOrientacaoPage() {
             {/* Return Button */}
             <div className="flex gap-4">
               <Button
-                variant="secondary"
+                variant="tinted"
                 leftIcon={<ArrowLeft className="w-4 h-4" />}
                 onClick={() => {
                   setUserPerformance(null)

@@ -52,7 +52,7 @@ export default async function InterpretacaoPage() {
 
   // Fetch available image cases
   const { data: casesRaw } = await supabase
-    .from('cip_image_cases')
+    .from('cip_image_cases' as any)
     .select('*')
     .eq('is_public', true)
     .order('created_at', { ascending: false })
@@ -64,7 +64,7 @@ export default async function InterpretacaoPage() {
   let recentAttempts: any[] = []
 
   if (user) {
-    const { data } = await supabase
+    const { data } = await (supabase as any)
       .from('cip_image_attempts')
       .select('*, cip_image_cases(title_pt, modality, difficulty)')
       .eq('user_id', user.id)
@@ -265,7 +265,7 @@ export default async function InterpretacaoPage() {
                         </div>
                         {!attempt.completed_at && (
                           <Link href={`/cip/interpretacao/${attempt.case_id}`}>
-                            <Button size="sm" variant="outline" className="mt-2">
+                            <Button size="small" variant="bordered" className="mt-2">
                               Continuar
                             </Button>
                           </Link>

@@ -97,7 +97,7 @@ export async function GET() {
     return await respondWithDecks({
       supabase,
       userId: user.id,
-      deckRows: (decksAttemptC.data || []) as DeckRow[],
+      deckRows: (decksAttemptC.data || []) as unknown as DeckRow[],
     })
   }
 
@@ -220,7 +220,7 @@ async function loadReviewStates({
     return { source: 'review', rows: (reviewAttempt.data || []) as ReviewStateRow[] }
   }
 
-  const legacyAttempt = await (supabase.from('flashcard_sm2_states') as any)
+  const legacyAttempt = await (supabase.from('flashcard_sm2_states' as any) as any)
     .select('card_id,next_review_at,last_review_at')
     .eq('user_id', userId)
     .limit(20_000)

@@ -104,7 +104,7 @@ export function ImageCaseViewer({
           onClick={() => setZoomed(false)}
         >
           <Button
-            variant="ghost"
+            variant="plain"
             className="absolute top-4 right-4 text-white bg-black/50 rounded-full w-10 h-10 flex items-center justify-center hover:bg-black/70 p-0"
             onClick={() => setZoomed(false)}
           >

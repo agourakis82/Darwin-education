@@ -414,7 +414,7 @@ export default function CIPResultPage() {
         {displayPuzzle && (
           <div className="mt-8">
             <Button
-              variant="outline"
+              variant="bordered"
               onClick={() => setShowGrid(!showGrid)}
               fullWidth
             >

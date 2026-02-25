@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 /* ============================================
-   Darwin Education — Apple-Native Brand Kit
+   Darwin Education — Apple Native Design System
+   iOS + macOS + visionOS Glass Materials
    ============================================ */
 
 /* Font smoothing + smooth scroll */
@@ -15,57 +16,134 @@ html {
   color-scheme: light dark;
 }
 
-/* Darwin Clinical Premium tokens (brandkitA_starter_v1_assets.zip) */
-:root {
-  /* Semantic surface + text tokens (light) */
-  --surface-0: 246 248 252;
-  --surface-1: 255 255 255;
-  --surface-2: 242 246 251;
-  --surface-3: 228 234 243;
-  --surface-4: 208 217 230;
-  --surface-5: 182 194 210;
-  --label-primary: 15 23 42;
-  --label-secondary: 51 65 85;
-  --label-tertiary: 100 116 139;
-  --label-quaternary: 148 163 184;
-  --label-faint: 203 213 225;
-  --separator: 184 197 214;
+/* ============================================
+   Apple Design System — Color Tokens
+   ============================================ */
 
-  --darwin-emerald: #18c29c;
-  --darwin-bg-light: #f5f7fa;
-  --darwin-bg-white: #ffffff;
-  --darwin-fg-dark: #0b0f14;
-  --darwin-fg-muted: #2a313a;
-  --darwin-glass-light: rgba(255, 255, 255, 0.1);
-  --darwin-glass-dark: rgba(255, 255, 255, 0.06);
-  --darwin-glass-border-light: rgba(255, 255, 255, 0.18);
-  --darwin-glass-border-dark: rgba(255, 255, 255, 0.12);
-  --darwin-shadow-soft: 0 10px 30px rgba(11, 15, 20, 0.12);
-  --darwin-shadow-ultra: 0 20px 60px rgba(11, 15, 20, 0.18);
-  --darwin-grain-opacity: 0.05;
+:root {
+  /* Apple System Backgrounds */
+  --system-background: 255 255 255;
+  --secondary-system-background: 242 242 247;
+  --tertiary-system-background: 255 255 255;
+  --system-grouped-background: 242 242 247;
+  --secondary-system-grouped-background: 255 255 255;
+  --tertiary-system-grouped-background: 242 242 247;
+  
+  /* Apple System Labels */
+  --label: 0 0 0;
+  --secondary-label: 60 60 67;
+  --tertiary-label: 120 120 128;
+  --quaternary-label: 180 180 186;
+  --placeholder-text: 199 199 204;
+  
+  /* Apple System Separators */
+  --separator: 60 60 67;
+  --opaque-separator: 198 198 200;
+  
+  /* Apple System Fill */
+  --system-fill: 120 120 128;
+  --secondary-system-fill: 120 120 128;
+  --tertiary-system-fill: 118 118 128;
+  --quaternary-system-fill: 118 118 128;
+  
+  /* Apple System Grays */
+  --system-gray: 142 142 147;
+  --system-gray-2: 174 174 178;
+  --system-gray-3: 199 199 204;
+  --system-gray-4: 209 209 214;
+  --system-gray-5: 229 229 234;
+  --system-gray-6: 242 242 247;
+  
+  /* Apple System Colors */
+  --system-red: 255 59 48;
+  --system-orange: 255 149 0;
+  --system-yellow: 255 204 0;
+  --system-green: 52 199 89;
+  --system-mint: 0 199 190;
+  --system-teal: 48 176 199;
+  --system-cyan: 50 173 230;
+  --system-blue: 0 122 255;
+  --system-indigo: 88 86 214;
+  --system-purple: 175 82 222;
+  --system-pink: 255 45 85;
+  --system-brown: 162 132 94;
+  
+  /* Darwin Brand Colors (Apple-style) */
+  --darwin-emerald: 16 185 129;
+  --darwin-emerald-light: 52 211 153;
+  --darwin-emerald-dark: 5 150 105;
+  
+  /* Glass Material Opacities */
+  --glass-ultra-thin: 0.55;
+  --glass-thin: 0.70;
+  --glass-regular: 0.75;
+  --glass-thick: 0.82;
+  --glass-chrome: 0.92;
 }
 
 .dark {
-  --surface-0: 12 16 21;
-  --surface-1: 20 25 33;
-  --surface-2: 30 36 45;
-  --surface-3: 42 49 61;
-  --surface-4: 57 67 81;
-  --surface-5: 76 88 104;
-  --label-primary: 244 248 255;
-  --label-secondary: 190 204 223;
-  --label-tertiary: 152 169 191;
-  --label-quaternary: 122 139 163;
-  --label-faint: 97 113 136;
-  --separator: 94 111 133;
+  /* Apple Dark Mode Backgrounds */
+  --system-background: 0 0 0;
+  --secondary-system-background: 28 28 30;
+  --tertiary-system-background: 44 44 46;
+  --system-grouped-background: 0 0 0;
+  --secondary-system-grouped-background: 28 28 30;
+  --tertiary-system-grouped-background: 44 44 46;
+  
+  /* Apple Dark Mode Labels */
+  --label: 255 255 255;
+  --secondary-label: 235 235 245;
+  --tertiary-label: 152 152 159;
+  --quaternary-label: 110 110 118;
+  --placeholder-text: 122 122 126;
+  
+  /* Apple Dark Mode Separators */
+  --separator: 84 84 88;
+  --opaque-separator: 56 56 58;
+  
+  /* Apple Dark Mode Fill */
+  --system-fill: 120 120 128;
+  --secondary-system-fill: 120 120 128;
+  --tertiary-system-fill: 118 118 128;
+  --quaternary-system-fill: 118 118 128;
+  
+  /* Apple Dark Mode Grays */
+  --system-gray: 142 142 147;
+  --system-gray-2: 99 99 102;
+  --system-gray-3: 72 72 74;
+  --system-gray-4: 58 58 60;
+  --system-gray-5: 44 44 46;
+  --system-gray-6: 28 28 30;
+  
+  /* Apple Dark Mode Colors */
+  --system-red: 255 69 58;
+  --system-orange: 255 159 10;
+  --system-yellow: 255 214 10;
+  --system-green: 48 209 88;
+  --system-mint: 99 230 226;
+  --system-teal: 64 200 224;
+  --system-cyan: 100 210 255;
+  --system-blue: 10 132 255;
+  --system-indigo: 94 92 230;
+  --system-purple: 191 90 242;
+  --system-pink: 255 55 95;
+  --system-brown: 172 142 104;
+  
+  /* Darwin Dark Brand */
+  --darwin-emerald: 52 211 153;
+  --darwin-emerald-light: 110 231 183;
+  --darwin-emerald-dark: 16 185 129;
 }
 
+/* ============================================
+   Base Styles
+   ============================================ */
+
 body {
-  background: rgb(var(--surface-0));
-  color: rgb(var(--label-primary) / 0.98);
+  background: rgb(var(--system-background));
+  color: rgb(var(--label) / 0.92);
   font-family:
     'SF Pro Text',
-    'SF Pro Display',
     -apple-system,
     BlinkMacSystemFont,
     'Segoe UI',
@@ -73,41 +151,49 @@ body {
     'Helvetica Neue',
     Arial,
     sans-serif;
+  font-size: 17px;
+  line-height: 1.47059;
+  letter-spacing: -0.022em;
 }
 
+/* Mesh Gradient Background */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(980px 620px at -6% -14%, rgba(16, 185, 129, 0.18), transparent 60%),
-    radial-gradient(760px 500px at 104% -8%, rgba(56, 189, 248, 0.14), transparent 58%),
-    radial-gradient(940px 640px at 40% 112%, rgba(8, 47, 73, 0.26), transparent 64%);
+    radial-gradient(1200px 800px at 0% 0%, rgba(var(--darwin-emerald), 0.12), transparent 60%),
+    radial-gradient(900px 600px at 100% 0%, rgba(var(--system-cyan), 0.08), transparent 55%),
+    radial-gradient(1000px 700px at 50% 100%, rgba(var(--system-indigo), 0.10), transparent 65%);
   z-index: -2;
 }
 
+/* Noise Texture Overlay */
 body::after {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.32'/%3E%3C/svg%3E");
-  opacity: 0.03;
-  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  opacity: 0.025;
+  mix-blend-mode: overlay;
   z-index: -1;
 }
 
-/* Selection color */
+/* Selection */
 ::selection {
-  background: rgba(16, 185, 129, 0.3);
-  color: rgb(var(--label-primary) / 1);
+  background: rgb(var(--darwin-emerald) / 0.35);
+  color: rgb(var(--label));
 }
 
-/* Global scrollbar */
+/* ============================================
+   Scrollbar (Apple-style)
+   ============================================ */
+
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -115,230 +201,429 @@ body::after {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgb(var(--surface-4) / 0.9);
-  border-radius: 3px;
+  background: rgb(var(--system-gray-3));
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(var(--surface-5) / 0.95);
+  background: rgb(var(--system-gray-2));
+  border: 2px solid transparent;
+  background-clip: padding-box;
 }
 
-/* Exam-specific scrollbar (keep backwards compat) */
-.exam-scrollbar::-webkit-scrollbar {
-  width: 6px;
+.dark ::-webkit-scrollbar-thumb {
+  background: rgb(var(--system-gray-3) / 0.5);
 }
 
-.exam-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.exam-scrollbar::-webkit-scrollbar-thumb {
-  background: rgb(var(--surface-4) / 0.9);
-  border-radius: 3px;
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--system-gray-2) / 0.6);
 }
 
 /* ============================================
-   Material classes (Apple glass vibrancy)
+   Apple Glass Materials (visionOS-style)
    ============================================ */
 
 @layer utilities {
-  .darwin-mesh-bg {
-    background:
-      radial-gradient(1200px 600px at -10% -20%, rgba(16, 185, 129, 0.2), transparent 62%),
-      radial-gradient(900px 500px at 110% -10%, rgba(14, 165, 233, 0.14), transparent 58%),
-      radial-gradient(980px 560px at 60% 130%, rgba(3, 105, 161, 0.12), transparent 60%);
+  
+  /* Material: Ultra Thin (20px blur) */
+  .material-ultra-thin {
+    background: rgb(var(--system-background) / var(--glass-ultra-thin));
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
   }
-
-  .darwin-panel {
-    @apply rounded-2xl border border-separator/65 shadow-elevation-2;
-    background:
-      linear-gradient(
-        180deg,
-        rgb(var(--surface-1) / 0.84) 0%,
-        rgb(var(--surface-1) / 0.66) 100%
-      );
-    -webkit-backdrop-filter: blur(30px) saturate(165%);
-    backdrop-filter: blur(30px) saturate(165%);
-    box-shadow:
-      0 12px 28px rgba(2, 6, 23, 0.24),
-      inset 0 1px 0 rgb(255 255 255 / 0.08);
-  }
-
-  .darwin-panel-strong {
-    @apply rounded-2xl border border-separator/70 shadow-elevation-3;
-    background:
-      linear-gradient(
-        180deg,
-        rgb(var(--surface-1) / 0.94) 0%,
-        rgb(var(--surface-1) / 0.8) 100%
-      );
-    -webkit-backdrop-filter: blur(42px) saturate(190%);
-    backdrop-filter: blur(42px) saturate(190%);
-    box-shadow:
-      0 16px 36px rgba(2, 6, 23, 0.26),
-      inset 0 1px 0 rgb(255 255 255 / 0.12);
-  }
-
-  .darwin-card-interactive {
-    @apply transition-all duration-300;
-    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: transform, box-shadow, background-color;
-  }
-
-  .darwin-card-interactive:hover {
-    transform: translateY(-3px) scale(1.0025);
-  }
-
-  .darwin-nav-link {
-    @apply transition-all duration-300;
-    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: transform, color, background-color, border-color;
-  }
-
-  .darwin-nav-link:hover {
-    transform: translateY(-1px);
-  }
-
-  .darwin-nav-link:active {
-    transform: translateY(0) scale(0.985);
-  }
-
-  .darwin-pressable {
-    @apply transition-transform duration-200;
-    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .darwin-pressable:active {
-    transform: scale(0.982);
-  }
-
-  .darwin-image-tile {
-    @apply relative overflow-hidden rounded-2xl border border-separator/70;
-    isolation: isolate;
-  }
-
-  .darwin-image-tile::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: linear-gradient(180deg, rgb(0 0 0 / 0.04), rgb(0 0 0 / 0.56));
-    pointer-events: none;
-  }
-
-  .darwin-image-tile::after {
-    content: '';
-    position: absolute;
-    inset: -120% auto auto -35%;
-    width: 32%;
-    height: 260%;
-    z-index: 2;
-    background: linear-gradient(115deg, transparent, rgb(255 255 255 / 0.3), transparent);
-    transform: rotate(14deg) translateX(-120%);
-    opacity: 0;
-    transition: opacity 260ms ease;
-    pointer-events: none;
-  }
-
-  .darwin-image-tile:hover::after {
-    opacity: 1;
-    animation: darwin-sheen 1.05s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .darwin-focus-ring {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-0;
-  }
-
+  
+  /* Material: Thin (40px blur) */
   .material-thin {
-    @apply bg-surface-1/70;
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    backdrop-filter: blur(24px) saturate(180%);
-  }
-
-  .material-regular {
-    @apply bg-surface-1/55;
+    background: rgb(var(--system-background) / var(--glass-thin));
     -webkit-backdrop-filter: blur(40px) saturate(200%);
     backdrop-filter: blur(40px) saturate(200%);
   }
-
-  .material-thick {
-    @apply bg-surface-2/80;
-    -webkit-backdrop-filter: blur(60px) saturate(200%);
-    backdrop-filter: blur(60px) saturate(200%);
-  }
-
-  .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400;
-  }
-
-  .gradient-text-accent {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-400;
-  }
-}
-
-/* ============================================
-   Performance tuning (mobile)
-   ============================================ */
-
-@media (max-width: 640px) {
-  .darwin-panel {
-    -webkit-backdrop-filter: blur(22px) saturate(155%);
-    backdrop-filter: blur(22px) saturate(155%);
-    box-shadow:
-      0 10px 22px rgba(2, 6, 23, 0.22),
-      inset 0 1px 0 rgb(255 255 255 / 0.06);
-  }
-
-  .darwin-panel-strong {
-    -webkit-backdrop-filter: blur(28px) saturate(165%);
-    backdrop-filter: blur(28px) saturate(165%);
-    box-shadow:
-      0 14px 30px rgba(2, 6, 23, 0.24),
-      inset 0 1px 0 rgb(255 255 255 / 0.1);
-  }
-
-  .material-thin {
-    -webkit-backdrop-filter: blur(18px) saturate(165%);
-    backdrop-filter: blur(18px) saturate(165%);
-  }
-
+  
+  /* Material: Regular (60px blur) */
   .material-regular {
-    -webkit-backdrop-filter: blur(26px) saturate(175%);
-    backdrop-filter: blur(26px) saturate(175%);
+    background: rgb(var(--system-background) / var(--glass-regular));
+    -webkit-backdrop-filter: blur(60px) saturate(210%);
+    backdrop-filter: blur(60px) saturate(210%);
   }
-
+  
+  /* Material: Thick (80px blur) */
   .material-thick {
-    -webkit-backdrop-filter: blur(36px) saturate(185%);
-    backdrop-filter: blur(36px) saturate(185%);
+    background: rgb(var(--secondary-system-background) / var(--glass-thick));
+    -webkit-backdrop-filter: blur(80px) saturate(220%);
+    backdrop-filter: blur(80px) saturate(220%);
+  }
+  
+  /* Material: Chrome (120px blur - title bar style) */
+  .material-chrome {
+    background: rgb(var(--secondary-system-background) / var(--glass-chrome));
+    -webkit-backdrop-filter: blur(120px) saturate(240%);
+    backdrop-filter: blur(120px) saturate(240%);
+  }
+  
+  /* ============================================
+     Apple Component Styles
+     ============================================ */
+  
+  /* iOS-style Card */
+  .apple-card {
+    background: rgb(var(--secondary-system-background));
+    border-radius: 16px;
+    border: 0.5px solid rgb(var(--separator) / 0.2);
+    box-shadow: 
+      0 1px 2px rgba(0, 0, 0, 0.04),
+      0 2px 4px rgba(0, 0, 0, 0.04),
+      inset 0 0.5px 0 rgba(255, 255, 255, 0.06);
+  }
+  
+  .dark .apple-card {
+    background: rgb(var(--secondary-system-background));
+    box-shadow: 
+      0 1px 2px rgba(0, 0, 0, 0.2),
+      0 2px 4px rgba(0, 0, 0, 0.15),
+      inset 0 0.5px 0 rgba(255, 255, 255, 0.04);
+  }
+  
+  /* Glass Card */
+  .glass-card {
+    @apply material-regular;
+    border-radius: 20px;
+    border: 0.5px solid rgb(var(--separator) / 0.25);
+    box-shadow: 
+      0 4px 8px rgba(0, 0, 0, 0.08),
+      0 8px 16px rgba(0, 0, 0, 0.04),
+      inset 0 0.5px 0 rgba(255, 255, 255, 0.08);
+  }
+  
+  /* macOS-style Window Chrome */
+  .window-chrome {
+    @apply material-chrome;
+    border-radius: 14px;
+    border: 0.5px solid rgb(var(--separator) / 0.35);
+    box-shadow: 
+      0 0 0 0.5px rgba(0, 0, 0, 0.08),
+      0 22px 70px 4px rgba(0, 0, 0, 0.28),
+      0 8px 20px rgba(0, 0, 0, 0.15),
+      inset 0 0.5px 0 rgba(255, 255, 255, 0.1);
+  }
+  
+  /* iOS Navigation Bar */
+  .ios-nav-bar {
+    @apply material-chrome;
+    border-bottom: 0.5px solid rgb(var(--separator) / 0.25);
+  }
+  
+  /* iOS Tab Bar */
+  .ios-tab-bar {
+    @apply material-thick;
+    border-top: 0.5px solid rgb(var(--separator) / 0.25);
+  }
+  
+  /* iOS Button: Filled */
+  .ios-button-filled {
+    background: rgb(var(--system-blue));
+    color: white;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 17px;
+    padding: 10px 20px;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .ios-button-filled:hover {
+    background: rgb(var(--system-blue) / 0.85);
+    transform: scale(1.02);
+  }
+  
+  .ios-button-filled:active {
+    transform: scale(0.96);
+    opacity: 0.9;
+  }
+  
+  /* iOS Button: Glass */
+  .ios-button-glass {
+    @apply material-regular;
+    color: rgb(var(--label));
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 17px;
+    padding: 10px 20px;
+    border: 0.5px solid rgb(var(--separator) / 0.3);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .ios-button-glass:hover {
+    background: rgb(var(--system-background) / 0.85);
+    transform: scale(1.02);
+  }
+  
+  .ios-button-glass:active {
+    transform: scale(0.96);
+  }
+  
+  /* iOS Segmented Control */
+  .ios-segmented-control {
+    background: rgb(var(--system-gray-5) / 0.5);
+    border-radius: 9px;
+    padding: 2px;
+  }
+  
+  .ios-segment {
+    border-radius: 7px;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgb(var(--label));
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .ios-segment.active {
+    background: rgb(var(--system-background));
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  }
+  
+  /* iOS List Cell */
+  .ios-list-cell {
+    background: rgb(var(--secondary-system-background));
+    padding: 12px 16px;
+    border-bottom: 0.5px solid rgb(var(--separator) / 0.2);
+  }
+  
+  .ios-list-cell:first-child {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+  }
+  
+  .ios-list-cell:last-child {
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    border-bottom: none;
+  }
+  
+  /* iOS Toggle Switch */
+  .ios-toggle {
+    width: 51px;
+    height: 31px;
+    background: rgb(var(--system-gray-4));
+    border-radius: 15.5px;
+    position: relative;
+    transition: background 0.2s ease;
+  }
+  
+  .ios-toggle::after {
+    content: '';
+    position: absolute;
+    width: 27px;
+    height: 27px;
+    background: white;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .ios-toggle.active {
+    background: rgb(var(--system-green));
+  }
+  
+  .ios-toggle.active::after {
+    transform: translateX(20px);
+  }
+  
+  /* Apple Focus Ring */
+  .apple-focus-ring {
+    @apply focus-visible:outline-none;
+    @apply focus-visible:ring-2 focus-visible:ring-blue-500/60;
+    @apply focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--system-background))];
+  }
+  
+  /* Pressable Scale Effect */
+  .apple-pressable {
+    transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+  }
+  
+  .apple-pressable:active {
+    transform: scale(0.96);
+  }
+  
+  /* Hover Lift Effect */
+  .apple-lift {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform, box-shadow;
+  }
+  
+  .apple-lift:hover {
+    transform: translateY(-2px);
+  }
+  
+  /* iOS-style Text Styles */
+  .text-large-title {
+    font-size: 34px;
+    line-height: 41px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  
+  .text-title-1 {
+    font-size: 28px;
+    line-height: 34px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  
+  .text-title-2 {
+    font-size: 22px;
+    line-height: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  
+  .text-title-3 {
+    font-size: 20px;
+    line-height: 25px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  
+  .text-headline {
+    font-size: 17px;
+    line-height: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  
+  .text-body {
+    font-size: 17px;
+    line-height: 22px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  
+  .text-callout {
+    font-size: 16px;
+    line-height: 21px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  
+  .text-subheadline {
+    font-size: 15px;
+    line-height: 20px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  
+  .text-footnote {
+    font-size: 13px;
+    line-height: 18px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  
+  .text-caption {
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 400;
+  }
+  
+  .text-caption-2 {
+    font-size: 11px;
+    line-height: 13px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
+  
+  /* Darwin Brand Gradient Text */
+  .darwin-gradient-text {
+    background: linear-gradient(135deg, 
+      rgb(var(--darwin-emerald)) 0%, 
+      rgb(var(--system-cyan)) 50%,
+      rgb(var(--system-indigo)) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Depth Shadows (visionOS-style) */
+  .depth-1 {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+  
+  .depth-2 {
+    box-shadow: 
+      0 4px 16px rgba(0, 0, 0, 0.08),
+      0 2px 4px rgba(0, 0, 0, 0.04);
+  }
+  
+  .depth-3 {
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.12),
+      0 4px 8px rgba(0, 0, 0, 0.06);
+  }
+  
+  .depth-4 {
+    box-shadow: 
+      0 16px 48px rgba(0, 0, 0, 0.16),
+      0 8px 16px rgba(0, 0, 0, 0.08);
+  }
+  
+  .depth-5 {
+    box-shadow: 
+      0 32px 64px rgba(0, 0, 0, 0.2),
+      0 16px 32px rgba(0, 0, 0, 0.1);
   }
 }
 
 /* ============================================
-   Animations
+   Mobile Optimizations
    ============================================ */
 
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  10%, 50%, 90% { transform: translateX(-3px); }
-  30%, 70% { transform: translateX(3px); }
-}
-
-@keyframes darwin-sheen {
-  0% { transform: rotate(14deg) translateX(-120%); }
-  100% { transform: rotate(14deg) translateX(420%); }
-}
-
-.animate-shake {
-  animation: shake 0.4s ease-in-out;
+@media (max-width: 768px) {
+  /* Reduce blur intensity on mobile for performance */
+  .material-ultra-thin {
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    backdrop-filter: blur(16px) saturate(160%);
+  }
+  
+  .material-thin {
+    -webkit-backdrop-filter: blur(28px) saturate(175%);
+    backdrop-filter: blur(28px) saturate(175%);
+  }
+  
+  .material-regular {
+    -webkit-backdrop-filter: blur(40px) saturate(190%);
+    backdrop-filter: blur(40px) saturate(190%);
+  }
+  
+  .material-thick {
+    -webkit-backdrop-filter: blur(52px) saturate(200%);
+    backdrop-filter: blur(52px) saturate(200%);
+  }
+  
+  .material-chrome {
+    -webkit-backdrop-filter: blur(72px) saturate(210%);
+    backdrop-filter: blur(72px) saturate(210%);
+  }
+  
+  /* Smaller text on mobile */
+  .text-large-title {
+    font-size: 28px;
+    line-height: 34px;
+  }
+  
+  .text-title-1 {
+    font-size: 24px;
+    line-height: 30px;
+  }
 }
 
 /* ============================================
-   Accessibility — Reduced Motion
+   Reduced Motion
    ============================================ */
 
 @media (prefers-reduced-motion: reduce) {
@@ -349,5 +634,86 @@ body::after {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  .apple-pressable:active,
+  .apple-lift:hover {
+    transform: none;
+  }
+}
+
+/* ============================================
+   OKLCH Medical Semantic Tokens — SOTA+++ UI
+   Perceptually uniform, P3 gamut, ideal for dark mode
+   ============================================ */
+
+@property --gradient-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 135deg;
+}
+
+:root {
+  /* ENAMED Area Colors — OKLCH */
+  --color-area-clinica:   oklch(0.60 0.15 230);
+  --color-area-cirurgia:  oklch(0.65 0.16 40);
+  --color-area-gineco:    oklch(0.60 0.16 340);
+  --color-area-pediatria: oklch(0.65 0.15 145);
+  --color-area-saude:     oklch(0.62 0.14 275);
+
+  /* Answer semantics */
+  --color-correct:   oklch(0.65 0.18 145);
+  --color-incorrect: oklch(0.55 0.22 25);
+  --color-partial:   oklch(0.65 0.18 85);
+
+  /* IRT difficulty levels */
+  --color-irt-easy:      oklch(0.72 0.14 145);
+  --color-irt-medium:    oklch(0.72 0.14 85);
+  --color-irt-hard:      oklch(0.62 0.17 35);
+  --color-irt-very-hard: oklch(0.52 0.22 25);
+}
+
+@keyframes gradient-rotate {
+  to { --gradient-angle: 495deg; }
+}
+
+@layer utilities {
+  /* ENAMED area semantic text colors */
+  .text-area-clinica   { color: var(--color-area-clinica); }
+  .text-area-cirurgia  { color: var(--color-area-cirurgia); }
+  .text-area-gineco    { color: var(--color-area-gineco); }
+  .text-area-pediatria { color: var(--color-area-pediatria); }
+  .text-area-saude     { color: var(--color-area-saude); }
+
+  /* ENAMED area semantic bg tints */
+  .bg-area-clinica   { background-color: color-mix(in oklch, var(--color-area-clinica)   15%, transparent); }
+  .bg-area-cirurgia  { background-color: color-mix(in oklch, var(--color-area-cirurgia)  15%, transparent); }
+  .bg-area-gineco    { background-color: color-mix(in oklch, var(--color-area-gineco)    15%, transparent); }
+  .bg-area-pediatria { background-color: color-mix(in oklch, var(--color-area-pediatria) 15%, transparent); }
+  .bg-area-saude     { background-color: color-mix(in oklch, var(--color-area-saude)     15%, transparent); }
+
+  /* Answer semantic colors */
+  .text-correct   { color: var(--color-correct); }
+  .text-incorrect { color: var(--color-incorrect); }
+  .text-partial   { color: var(--color-partial); }
+
+  /* IRT difficulty semantic colors */
+  .text-irt-easy      { color: var(--color-irt-easy); }
+  .text-irt-medium    { color: var(--color-irt-medium); }
+  .text-irt-hard      { color: var(--color-irt-hard); }
+  .text-irt-very-hard { color: var(--color-irt-very-hard); }
+
+  /* 3D transform helpers for flashcard flip */
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .rotate-y-180 {
+    transform: rotateY(180deg);
   }
 }

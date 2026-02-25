@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
 
     const response = {
       success: true,
-      snapshots: (snapshots || []).map((s) => ({
+      snapshots: (snapshots || []).map((s: any) => ({
         id: s.id,
         timestamp: s.created_at,
         compositeRisk: s.composite_risk,

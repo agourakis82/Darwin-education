@@ -252,7 +252,7 @@ export async function POST(request: NextRequest) {
         user_id: user.id,
         theta: session.theta,
         se: session.se,
-        items_administered: session.itemsAdministered,
+        items_administered: session.itemsAdministered.length,
         responses: session.responses,
         item_areas: session.itemAreas,
         theta_history: session.thetaHistory,

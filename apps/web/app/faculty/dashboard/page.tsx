@@ -52,7 +52,7 @@ interface StudentRiskData {
   }
   provenance: Array<{
     source: string
-    timestamp: string
+    timestamp: Date
     confidence: number
   }>
 }

@@ -1,25 +1,32 @@
-import { HomeClient } from './HomeClient'
+import { redirect } from 'next/navigation'
 import { createServerClient } from '@/lib/supabase/server'
-import { isSchemaDriftError } from '@/lib/supabase/errors'
+import { HeroSection } from '@/components/marketing/HeroSection'
+import { StatsRow } from '@/components/marketing/StatsRow'
+import { FeatureGrid } from '@/components/marketing/FeatureGrid'
+import { MethodologySection } from '@/components/marketing/MethodologySection'
+import { FinalCTA } from '@/components/marketing/FinalCTA'
 
-export default async function HomePage() {
+export default async function LandingPage() {
   const supabase = await createServerClient()
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
 
-  const [questionsResult, diseasesResult, medicationsResult] = await Promise.all([
-    supabase.from('questions').select('id', { count: 'exact', head: true }),
-    supabase.from('medical_diseases').select('id', { count: 'exact', head: true }),
-    supabase.from('medical_medications').select('id', { count: 'exact', head: true }),
-  ])
+  // Authenticated users go straight to the app
+  if (session) redirect('/simulado')
 
-  const errors = [questionsResult.error, diseasesResult.error, medicationsResult.error].filter(Boolean)
-  const schemaDrift = errors.some((error) => isSchemaDriftError(error as any))
+  // Fetch live question count for social proof
+  const { count: questionsCount } = await supabase
+    .from('questions')
+    .select('id', { count: 'exact', head: true })
 
   return (
-    <HomeClient
-      questionsCount={questionsResult.count || 0}
-      diseasesCount={diseasesResult.count || 0}
-      medicationsCount={medicationsResult.count || 0}
-      schemaDrift={schemaDrift}
-    />
+    <div className="min-h-screen bg-system-background">
+      <HeroSection />
+      <StatsRow questionsCount={questionsCount ?? 3847} />
+      <FeatureGrid />
+      <MethodologySection />
+      <FinalCTA />
+    </div>
   )
 }

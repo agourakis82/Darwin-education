@@ -97,7 +97,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Convert database session to CATSession
-    const session = dbSessionToCATSession(dbSession as DatabaseCATSession)
+    const session = dbSessionToCATSession(dbSession as unknown as DatabaseCATSession)
 
     // Calculate final score
     const scaledScore = Math.round(500 + session.theta * 100)

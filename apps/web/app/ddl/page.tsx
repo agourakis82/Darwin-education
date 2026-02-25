@@ -138,7 +138,7 @@ function AdaptiveQuestionCTA({ classification }: { classification: Classificatio
         </div>
 
         <Button
-          variant="ghost"
+          variant="plain"
           size="sm"
           onClick={generateAdaptiveQuestion}
           className="text-sm text-indigo-400 hover:text-indigo-300 hover:underline"
@@ -352,7 +352,7 @@ export default function DDLPage() {
           <div className="flex items-center justify-between">
             <p className="text-label-primary">{error}</p>
             <Button
-              variant="ghost"
+              variant="plain"
               size="sm"
               onClick={() => setError(null)}
               className="text-rose-200 hover:text-rose-100"
@@ -467,7 +467,7 @@ export default function DDLPage() {
       {phase === 'answer' && selectedQuestion && (
         <div>
           <Button
-            variant="ghost"
+            variant="plain"
             size="sm"
             onClick={() => setPhase('select')}
             className="mb-4 text-sm text-emerald-400 hover:text-emerald-300"
@@ -561,13 +561,13 @@ export default function DDLPage() {
 
           {/* Action buttons */}
           <div className="mt-8 flex justify-center gap-4">
-            <Button className="bg-indigo-600 hover:bg-indigo-500 from-indigo-600 to-indigo-600 hover:from-indigo-500 hover:to-indigo-500" asChild>
+            <Button color="blue" asChild>
               <Link href="/qgen">Ir para QGen</Link>
             </Button>
-            <Button variant="secondary" asChild>
+            <Button variant="tinted" asChild>
               <Link href="/trilhas">Ver Trilhas de Estudo</Link>
             </Button>
-            <Button variant="outline" asChild>
+            <Button variant="bordered" asChild>
               <Link href="/">Voltar ao Inicio</Link>
             </Button>
           </div>

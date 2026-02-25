@@ -32,7 +32,10 @@ export function CATAreaCoverage({
   areaTargets,
 }: CATAreaCoverageProps) {
   return (
-    <div className="flex flex-col gap-2.5">
+    <div className="bg-surface-1 border border-separator rounded-xl p-4 flex flex-col gap-3">
+      <span className="text-xs font-semibold uppercase tracking-wider text-label-tertiary">
+        Cobertura por Área
+      </span>
       {AREAS.map((area) => {
         const count = areaCoverage[area] ?? 0
         const barPercent = totalItems > 0 ? (count / totalItems) * 100 : 0
@@ -60,8 +63,9 @@ export function CATAreaCoverage({
               {/* Target marker */}
               {targetPercent > 0 && targetPercent < 100 && (
                 <div
-                  className="absolute top-0 bottom-0 w-px bg-white/20"
+                  className="absolute top-0 bottom-0 w-0.5 bg-white/40 z-10"
                   style={{ left: `${targetPercent}%` }}
+                  title={`Meta: ${Math.round(targetPercent)}%`}
                 />
               )}
 

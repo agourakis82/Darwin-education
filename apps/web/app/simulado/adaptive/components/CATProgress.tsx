@@ -56,7 +56,7 @@ export function CATProgress({
           />
         </div>
         <span className="text-xs text-label-quaternary whitespace-nowrap">
-          {minItems}-{maxItems} itens
+          máx. {maxItems}
         </span>
       </div>
     </div>

@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
       question_id: event.questionId,
       question_number: event.questionNumber,
       event_timestamp: event.timestamp,
-      metadata: event.metadata || {},
+      metadata: (event.metadata || {}) as any,
     }))
 
     // Insert telemetry events (fire-and-forget, don't block response)
