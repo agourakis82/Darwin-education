@@ -592,7 +592,26 @@ body::after {
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  
+  /* ── Darwin Mesh Background — gradient mesh overlay for hero cards ── */
+  .darwin-mesh-bg {
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 30%, rgb(var(--darwin-emerald) / 0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 70%, rgb(var(--system-indigo) / 0.10) 0%, transparent 55%),
+      radial-gradient(ellipse 50% 40% at 60% 10%, rgb(var(--system-cyan) / 0.08) 0%, transparent 50%);
+  }
+
+  /* Alias — some components use the un-prefixed form */
+  .gradient-text {
+    background: linear-gradient(135deg,
+      rgb(var(--darwin-emerald)) 0%,
+      rgb(var(--system-cyan)) 50%,
+      rgb(var(--system-indigo)) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
   /* Depth Shadows (visionOS-style) */
   .depth-1 {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
