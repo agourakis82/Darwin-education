@@ -83,14 +83,15 @@ export function Navigation({ user }: { user: UserSummary | null }) {
 
   const isAuthPage = pathname === '/login' || pathname === '/signup'
 
+  // No navigation chrome on login/signup — fullscreen auth experience
+  if (isAuthPage) return null
+
   // Render clean marketing header for unauthenticated visitors on public marketing pages
   if (MARKETING_ROUTES.includes(pathname) && !user) {
     return <MarketingHeader />
   }
-  const desktopNavItems = isAuthPage ? [] : primaryNavItems
-  const mobileItems = isAuthPage
-    ? [{ href: '/', label: 'Início', icon: Home }]
-    : allNavItems
+  const desktopNavItems = primaryNavItems
+  const mobileItems = allNavItems
 
   useEffect(() => {
     setMobileMenuOpen(false)

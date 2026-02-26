@@ -50,6 +50,11 @@ const config: Config = {
         'secondary-label': 'rgb(var(--secondary-label) / <alpha-value>)',
         'tertiary-label': 'rgb(var(--tertiary-label) / <alpha-value>)',
         'quaternary-label': 'rgb(var(--quaternary-label) / <alpha-value>)',
+        // Aliases: code throughout the app uses text-label-primary / text-label-secondary etc.
+        'label-primary':    'rgb(var(--label) / <alpha-value>)',
+        'label-secondary':  'rgb(var(--secondary-label) / <alpha-value>)',
+        'label-tertiary':   'rgb(var(--tertiary-label) / <alpha-value>)',
+        'label-quaternary': 'rgb(var(--quaternary-label) / <alpha-value>)',
         'placeholder-text': 'rgb(var(--placeholder-text) / <alpha-value>)',
         
         // System Separators

@@ -155,6 +155,8 @@ export async function GET(request: NextRequest) {
       fcrOverconfidenceIndex: fcrResult.data?.overconfidence_index ?? 0,
       bktMastery,
       hlrAverageRetention: snapshotRow?.hlr_average_retention ?? 0.7,
+      cdmAttributeMastery: null,
+      cdmPosteriorEntropy: null,
       engagement,
     }
 

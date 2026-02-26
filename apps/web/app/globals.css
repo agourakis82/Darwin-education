@@ -537,6 +537,50 @@ body::after {
     letter-spacing: 0.01em;
   }
   
+  /* ── Darwin Panel — Glass containers for auth and feature panels ── */
+  .darwin-panel {
+    background: rgb(var(--secondary-system-background) / 0.60);
+    backdrop-filter: blur(20px) saturate(1.8);
+    -webkit-backdrop-filter: blur(20px) saturate(1.8);
+    border-radius: 20px;
+  }
+
+  .darwin-panel-strong {
+    background: rgb(var(--secondary-system-background) / 0.82);
+    backdrop-filter: blur(28px) saturate(2.0);
+    -webkit-backdrop-filter: blur(28px) saturate(2.0);
+    border-radius: 24px;
+  }
+
+  /* ── Darwin Focus Ring — Emerald glow on keyboard focus ── */
+  .darwin-focus-ring {
+    outline: none;
+  }
+  .darwin-focus-ring:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgb(var(--darwin-emerald) / 0.45);
+  }
+
+  /* ── Darwin Nav Link — Micro-lift press feedback on CTA buttons ── */
+  .darwin-nav-link {
+    transition: transform 150ms cubic-bezier(0.25, 0.1, 0.25, 1),
+                opacity 150ms cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+  .darwin-nav-link:hover {
+    transform: translateY(-0.5px);
+  }
+  .darwin-nav-link:active {
+    transform: translateY(0);
+    opacity: 0.88;
+  }
+
+  /* ── Darwin Image Tile — Overflow-safe image container ── */
+  .darwin-image-tile {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+  }
+
   /* Darwin Brand Gradient Text */
   .darwin-gradient-text {
     background: linear-gradient(135deg, 

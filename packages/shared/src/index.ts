@@ -20,6 +20,7 @@ export * from './types/bkt';
 export * from './types/dif';
 export * from './types/mirt';
 export * from './types/unified-learner';
+export * from './types/cdm';
 
 // Data loaders
 export * from './data/ontology-loaders';
@@ -56,6 +57,7 @@ export * from './calculators/bkt';
 export * from './calculators/dif';
 export * from './calculators/mirt';
 export * from './calculators/unified-learner-model';
+export * from './calculators/cdm';
 
 // Advanced features
 export * from './algorithms/cat';

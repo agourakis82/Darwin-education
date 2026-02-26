@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Plus } from 'lucide-react'
@@ -43,6 +44,7 @@ interface FlashcardDeckResponse {
 
 
 export default function FlashcardsPage() {
+  const router = useRouter()
   const [decks, setDecks] = useState<FlashcardDeck[]>([])
   const [loading, setLoading] = useState(true)
   const [requiresAuth, setRequiresAuth] = useState(false)
@@ -171,7 +173,7 @@ export default function FlashcardsPage() {
             kind="empty"
             title="Entre para acessar seus decks"
             description="Faça login para sincronizar seus flashcards, acompanhar revisões pendentes e manter o progresso salvo."
-            action={{ label: 'Ir para login', onClick: () => (window.location.href = '/login'), variant: 'primary' }}
+            action={{ label: 'Ir para login', onClick: () => router.push('/login'), variant: 'primary' }}
             className="mb-6"
           />
         ) : (
@@ -352,7 +354,7 @@ export default function FlashcardsPage() {
                   kind="empty"
                   title={filter === 'all' ? 'Nenhum deck criado' : 'Nenhum deck nesta área'}
                   description="Crie seu primeiro deck de flashcards para começar a revisar de forma adaptativa."
-                  action={{ label: 'Criar deck', onClick: () => (window.location.href = '/flashcards/create'), variant: 'primary' }}
+                  action={{ label: 'Criar deck', onClick: () => router.push('/flashcards/create'), variant: 'primary' }}
                 />
               ) : (
                 <AnimatedList className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">

@@ -230,7 +230,7 @@ export default function FlashcardStudyPage() {
               </div>
               <div className="bg-surface-2 rounded-lg p-4">
                 <div className="text-2xl font-bold text-blue-400">{accuracy}%</div>
-                <div className="text-xs text-label-secondary">Precisao</div>
+                <div className="text-xs text-label-secondary">Precisão</div>
               </div>
             </div>
 

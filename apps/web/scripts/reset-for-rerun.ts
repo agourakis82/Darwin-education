@@ -25,11 +25,11 @@ async function main() {
 
   // Reset needs_review + pending questions: clear area so convergence pipeline re-processes them
   // Also clear curator_notes so quality check runs fresh
-  const { error, count } = await supabase
+  const { error, count } = await (supabase as any)
     .from('ingested_questions')
     .update({ area: null, tags: [], curator_notes: null })
     .in('status', ['needs_review', 'pending'])
-    .select('*', { count: 'exact', head: true } as any);
+    .select('*', { count: 'exact', head: true });
 
   if (error) {
     console.error('Reset failed:', error);

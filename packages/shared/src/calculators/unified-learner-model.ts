@@ -7,9 +7,9 @@
  * and prioritized study recommendations.
  *
  * Inputs: IRT theta, MIRT 5D profile, FCR calibration, BKT mastery,
- *         HLR retention, engagement metrics.
+ *         HLR retention, CDM attribute mastery, engagement metrics.
  *
- * Competency per area = 0.30*MIRT + 0.25*BKT + 0.20*FCR + 0.15*IRT + 0.10*HLR
+ * Competency per area = 0.30*MIRT + 0.20*BKT + 0.15*CDM + 0.20*FCR + 0.10*IRT + 0.05*HLR
  */
 
 import type { ENAMEDArea } from '../types/education';
@@ -29,14 +29,31 @@ import type {
   COMPETENCY_WEIGHTS,
 } from '../types/unified-learner';
 import { MIRT_DIMENSIONS, MIRT_DIMENSION_LABELS_PT } from '../types/mirt';
+import { CDM_ATTRIBUTES, CDM_ATTRIBUTE_LABELS_PT } from '../types/cdm';
 
-// Local reference to weights
+// Local reference to weights (must match COMPETENCY_WEIGHTS in types/unified-learner.ts)
 const WEIGHTS = {
   mirt: 0.30,
-  bkt: 0.25,
+  bkt: 0.20,
+  cdm: 0.15,
   fcr: 0.20,
-  irt: 0.15,
-  hlr: 0.10,
+  irt: 0.10,
+  hlr: 0.05,
+};
+
+/**
+ * CDM attribute indices (0-based) relevant to each ENAMED area.
+ * Used to map CDM EAP mastery estimates to per-area competency scores.
+ *
+ * Attribute indices: 0=data_gathering, 1=diagnostic_reasoning, 2=clinical_judgment,
+ *                    3=therapeutic_decision, 4=preventive_medicine, 5=emergency_management
+ */
+const AREA_CDM_ATTRIBUTES: Record<ENAMEDArea, number[]> = {
+  clinica_medica:          [0, 1, 2],  // data_gathering + diagnostic_reasoning + clinical_judgment
+  cirurgia:                [2, 3, 5],  // clinical_judgment + therapeutic_decision + emergency_management
+  ginecologia_obstetricia: [1, 3, 4],  // diagnostic_reasoning + therapeutic_decision + preventive_medicine
+  pediatria:               [0, 1, 4],  // data_gathering + diagnostic_reasoning + preventive_medicine
+  saude_coletiva:          [1, 4],     // diagnostic_reasoning + preventive_medicine
 };
 
 const ALL_AREAS: ENAMEDArea[] = [
@@ -122,7 +139,7 @@ export function buildUnifiedProfile(
 
 /**
  * Compute competency for a single area.
- * Weighted: 0.30*MIRT + 0.25*BKT + 0.20*FCR + 0.15*IRT + 0.10*HLR
+ * Weighted: 0.30*MIRT + 0.20*BKT + 0.15*CDM + 0.20*FCR + 0.10*IRT + 0.05*HLR
  */
 export function computeAreaCompetency(
   area: ENAMEDArea,
@@ -131,6 +148,7 @@ export function computeAreaCompetency(
   const signals = {
     mirt: null as number | null,
     bkt: null as number | null,
+    cdm: null as number | null,
     fcr: null as number | null,
     irt: null as number | null,
     hlr: null as number | null,
@@ -144,6 +162,14 @@ export function computeAreaCompetency(
   // BKT signal (area mastery)
   if (inputs.bktMastery) {
     signals.bkt = inputs.bktMastery.areaMastery[area] ?? null;
+  }
+
+  // CDM signal: mean EAP mastery over the attributes relevant to this area
+  if (inputs.cdmAttributeMastery !== null && inputs.cdmAttributeMastery.length === 6) {
+    const relevantIndices = AREA_CDM_ATTRIBUTES[area];
+    const mean = relevantIndices.reduce((s, k) => s + inputs.cdmAttributeMastery![k], 0)
+      / relevantIndices.length;
+    signals.cdm = Math.max(0, Math.min(1, mean));
   }
 
   // FCR signal (global calibration, normalized)
@@ -166,7 +192,7 @@ export function computeAreaCompetency(
   let totalWeight = 0;
 
   for (const [source, weight] of Object.entries(WEIGHTS) as [CompetencySource, number][]) {
-    const val = signals[source];
+    const val = signals[source as keyof typeof signals];
     if (val !== null) {
       composite += weight * val;
       totalWeight += weight;
@@ -176,9 +202,9 @@ export function computeAreaCompetency(
   // Re-normalize to [0,1] accounting for missing signals
   composite = totalWeight > 0 ? composite / totalWeight : 0;
 
-  // Confidence based on data availability
+  // Confidence based on data availability (denominator = 6 signals)
   const availableCount = Object.values(signals).filter((v) => v !== null).length;
-  const confidence = availableCount / 5;
+  const confidence = availableCount / 6;
 
   return {
     area,
@@ -226,6 +252,16 @@ export function predictUnifiedPassProbability(
     logit += 0.3 * inputs.hlrAverageRetention;
   }
 
+  // CDM signal: mean attribute mastery weighted by classification certainty
+  if (inputs.cdmAttributeMastery !== null && inputs.cdmAttributeMastery.length === 6) {
+    const meanMastery = inputs.cdmAttributeMastery.reduce((s, v) => s + v, 0) / 6;
+    // Entropy penalty: high uncertainty (max 6 bits) reduces signal reliability
+    const certainty = inputs.cdmPosteriorEntropy !== null
+      ? Math.max(0, 1 - inputs.cdmPosteriorEntropy / 6)
+      : 0.5;
+    logit += 0.8 * meanMastery * certainty;
+  }
+
   // Fallback: use overall competency
   logit += 1.0 * overallCompetency;
 
@@ -255,6 +291,7 @@ function analyzeStrengthsWeaknesses(
       switch (source) {
         case 'mirt': desc = `Habilidade em ${label} (MIRT)`; break;
         case 'bkt': desc = `Dominio de conteudo em ${label}`; break;
+        case 'cdm': desc = `Atributos cognitivos em ${label} (CDM)`; break;
         case 'fcr': desc = `Calibracao metacognitiva`; break;
         case 'irt': desc = `Proficiencia geral (IRT)`; break;
         case 'hlr': desc = `Retencao de conhecimento`; break;
@@ -353,6 +390,30 @@ export function generateRecommendations(
     });
   }
 
+  // 3b. CDM-driven attribute gap recommendations
+  if (inputs.cdmAttributeMastery !== null && inputs.cdmAttributeMastery.length === 6) {
+    for (let k = 0; k < 6; k++) {
+      const mastery = inputs.cdmAttributeMastery[k];
+      if (mastery < 0.5) {
+        const attrId = CDM_ATTRIBUTES[k];
+        const attrLabel = CDM_ATTRIBUTE_LABELS_PT[attrId];
+        recs.push({
+          priority: 0,
+          type: 'fill_lacuna',
+          area: 'clinica_medica', // generic — CDM cuts across areas
+          descriptionPt: `Desenvolver ${attrLabel}`,
+          reasonPt: `Domínio CDM estimado em ${(mastery * 100).toFixed(0)}% para este atributo cognitivo.`,
+          priorityScore: (1 - mastery) * 0.88,
+          action: {
+            feature: 'cat',
+            href: '/simulado/adaptive',
+            labelPt: 'Teste Adaptativo CDM',
+          },
+        });
+      }
+    }
+  }
+
   // 4. Forgetting risk
   if (inputs.hlrAverageRetention !== null && inputs.hlrAverageRetention < 0.7) {
     recs.push({
@@ -427,9 +488,10 @@ function assessDataCompleteness(inputs: UnifiedModelInputs): DataCompleteness {
   const hasFCR = inputs.fcrCalibrationScore !== null;
   const hasBKT = inputs.bktMastery !== null;
   const hasHLR = inputs.hlrAverageRetention !== null;
+  const hasCDM = inputs.cdmAttributeMastery !== null;
   const hasEngagement = inputs.engagement !== null;
 
-  const count = [hasIRT, hasMIRT, hasFCR, hasBKT, hasHLR, hasEngagement]
+  const count = [hasIRT, hasMIRT, hasFCR, hasBKT, hasHLR, hasCDM, hasEngagement]
     .filter(Boolean).length;
 
   return {
@@ -438,8 +500,9 @@ function assessDataCompleteness(inputs: UnifiedModelInputs): DataCompleteness {
     hasFCR,
     hasBKT,
     hasHLR,
+    hasCDM,
     hasEngagement,
-    overallCompleteness: count / 6,
+    overallCompleteness: count / 7,
     isReliable: count >= 3,
   };
 }

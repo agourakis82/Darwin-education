@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { spring } from '@/lib/motion'
-import { FlaskConical, Brain, Layers, ArrowUpRight } from 'lucide-react'
+import { FlaskConical, Brain, Layers, Dna, ArrowUpRight } from 'lucide-react'
 
 const sections = [
   {
@@ -22,6 +22,14 @@ const sections = [
     description:
       'BKT (Corbett & Anderson, 1995), curvas de esquecimento HLR (Settles & Meeder, 2016), perfil unificado do aprendiz e recomendações priorizadas.',
     color: 'emerald' as const,
+  },
+  {
+    href: '/pesquisa/cognitivo',
+    icon: Dna,
+    title: 'Diagnóstico Cognitivo (CDM)',
+    description:
+      'DINA/G-DINA (de la Torre, 2011) com EM-MMLE. Q-matrix clínica K=6 atributos, 64 classes latentes, posteriors de domínio e CAT por entropia de Shannon.',
+    color: 'blue' as const,
   },
 ]
 
@@ -62,11 +70,19 @@ export default function PesquisaPage() {
         </div>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {sections.map((section, i) => {
           const Icon = section.icon
-          const iconBg = section.color === 'emerald' ? 'bg-emerald-500/10' : 'bg-purple-500/10'
-          const iconText = section.color === 'emerald' ? 'text-emerald-400' : 'text-purple-400'
+          const iconBg = section.color === 'emerald'
+            ? 'bg-emerald-500/10'
+            : section.color === 'blue'
+            ? 'bg-blue-500/10'
+            : 'bg-purple-500/10'
+          const iconText = section.color === 'emerald'
+            ? 'text-emerald-400'
+            : section.color === 'blue'
+            ? 'text-blue-400'
+            : 'text-purple-400'
 
           return (
             <motion.div
@@ -100,8 +116,8 @@ export default function PesquisaPage() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
       >
-        <strong>Algoritmos:</strong> IRT 3PL + MIRT 5D + RT-IRT + BKT + HLR + DIF + FCR + Modelo Unificado.
-        Uma combinação rara de modelos em um único sistema, com foco em rastreabilidade e consistência.
+        <strong>Algoritmos:</strong> IRT 3PL + MIRT 5D + CDM (DINA/G-DINA) + RT-IRT + BKT + HLR + DIF + FCR + Modelo Unificado.
+        Uma combinação inédita de modelos em um único sistema, com foco em rastreabilidade e consistência científica.
       </motion.div>
     </div>
   )

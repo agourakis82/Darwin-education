@@ -35,6 +35,10 @@ export interface UnifiedModelInputs {
   bktMastery: MasteryHeatmapData | null;
   /** HLR average retention across items */
   hlrAverageRetention: number | null;
+  /** CDM EAP marginal posteriors per attribute ∈ [0,1]^6 (null if unavailable) */
+  cdmAttributeMastery: number[] | null;
+  /** CDM posterior entropy (bits, 0–6); lower = more certain classification */
+  cdmPosteriorEntropy: number | null;
   /** Engagement metrics */
   engagement: EngagementMetrics | null;
 }
@@ -61,13 +65,18 @@ export interface EngagementMetrics {
 // Competency Weights
 // ============================================
 
-/** Per-area competency weights */
+/**
+ * Per-area competency weights.
+ * CDM replaces the IRT-only signal; BKT and IRT contributions reduced.
+ * Sum = 1.00
+ */
 export const COMPETENCY_WEIGHTS = {
   mirt: 0.30,
-  bkt: 0.25,
+  bkt: 0.20,
+  cdm: 0.15,
   fcr: 0.20,
-  irt: 0.15,
-  hlr: 0.10,
+  irt: 0.10,
+  hlr: 0.05,
 } as const;
 
 /** Competency weight keys */
@@ -108,6 +117,7 @@ export interface AreaCompetency {
   signals: {
     mirt: number | null;
     bkt: number | null;
+    cdm: number | null;
     fcr: number | null;
     irt: number | null;
     hlr: number | null;
@@ -184,10 +194,11 @@ export interface DataCompleteness {
   hasFCR: boolean;
   hasBKT: boolean;
   hasHLR: boolean;
+  hasCDM: boolean;
   hasEngagement: boolean;
-  /** Overall completeness (0-1) */
+  /** Overall completeness (0-1); denominator = 7 signals */
   overallCompleteness: number;
-  /** Minimum data needed for reliable profile */
+  /** Minimum data needed for reliable profile (≥3/7 signals) */
   isReliable: boolean;
 }
 

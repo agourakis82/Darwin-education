@@ -150,12 +150,12 @@ export default function ExamResultPage() {
       }
 
       // Fetch latest learner model snapshot (Digital Twin)
-      const { data: snapshotData } = await (supabase
+      const { data: snapshotData } = await (supabase as any)
         .from('learner_model_snapshots')
         .select('*')
         .eq('user_id', user.id)
         .order('snapshot_at', { ascending: false })
-        .limit(1) as any)
+        .limit(1)
 
       if (snapshotData && (snapshotData as any[]).length > 0) {
         setSnapshot((snapshotData as any[])[0])
