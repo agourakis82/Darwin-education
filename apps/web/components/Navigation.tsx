@@ -83,16 +83,7 @@ export function Navigation({ user }: { user: UserSummary | null }) {
 
   const isAuthPage = pathname === '/login' || pathname === '/signup'
 
-  // No navigation chrome on login/signup — fullscreen auth experience
-  if (isAuthPage) return null
-
-  // Render clean marketing header for unauthenticated visitors on public marketing pages
-  if (MARKETING_ROUTES.includes(pathname) && !user) {
-    return <MarketingHeader />
-  }
-  const desktopNavItems = primaryNavItems
-  const mobileItems = allNavItems
-
+  // Hooks must always run — early returns come after
   useEffect(() => {
     setMobileMenuOpen(false)
     setMoreMenuOpen(false)
@@ -109,6 +100,16 @@ export function Navigation({ user }: { user: UserSummary | null }) {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
+  // No navigation chrome on login/signup — fullscreen auth experience
+  if (isAuthPage) return null
+
+  // Render clean marketing header for unauthenticated visitors on public marketing pages
+  if (MARKETING_ROUTES.includes(pathname) && !user) {
+    return <MarketingHeader />
+  }
+
+  const desktopNavItems = primaryNavItems
+  const mobileItems = allNavItems
   const isMoreActive = moreNavItems.some((item) => isActive(item.href))
 
   const handleSignOut = async () => {
