@@ -1,8 +1,10 @@
 name: Deploy to Vercel
 
+# Deployment is handled by Vercel's native Git integration on every push to main.
+# This workflow is kept only for manual dispatch (e.g. rollback, hotfix deploy).
+# Automatic push trigger is intentionally removed to avoid duplicate deployments
+# and CI failures from token-scope issues.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
