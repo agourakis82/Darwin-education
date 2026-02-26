@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { NextResponse } from 'next/server';
 import { triggerSearchRoutine } from '@/lib/mcp-ingestion/search';
 import { runClassificationRoutine } from '@/lib/mcp-ingestion/classifier';
