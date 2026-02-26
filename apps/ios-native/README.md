@@ -1,60 +1,107 @@
-# Darwin Education iOS Native
+# Darwin Education iOS
 
-Base do app nativo iOS em SwiftUI + UIKit para publicar na Apple App Store.
+App nativo SwiftUI (iOS 18+) para publicar na Apple App Store.
 
-## Requisitos
+## Pré-requisitos
 
-- macOS + Xcode 16+
-- XcodeGen (`brew install xcodegen`)
-- Apple Developer Program ativo
-- Deployment target: iOS 18+
+| Ferramenta | Instalação |
+|---|---|
+| Xcode 16+ | App Store do Mac |
+| XcodeGen | `brew install xcodegen` |
+| Apple Developer Program | [developer.apple.com](https://developer.apple.com) |
 
-> Observação: a extensão Swift no editor ajuda no autocomplete, mas não substitui a toolchain completa do Xcode/macOS para compilar.
+## Setup em 5 passos (primeira vez)
 
-## Gerar projeto
-
+### 1. Clone o repositório
 ```bash
-cd apps/ios-native
+git clone https://github.com/agourakis82/Darwin-education.git
+cd Darwin-education/apps/ios-native
+```
+
+### 2. Configure o segredo Supabase
+```bash
+cp Secrets.xcconfig.template Secrets.xcconfig
+```
+Abra `Secrets.xcconfig` e substitua `REPLACE_WITH_YOUR_SUPABASE_ANON_KEY` pela sua chave real (encontre em: [Supabase Dashboard → Project Settings → API → anon key](https://app.supabase.com)).
+
+> **Nunca** faça commit de `Secrets.xcconfig` — ele já está no `.gitignore`.
+
+### 3. Gere o projeto Xcode
+```bash
 xcodegen generate
+```
+Isso cria `DarwinEducation.xcodeproj` a partir do `project.yml`.
+
+### 4. Abra no Xcode
+```bash
 open DarwinEducation.xcodeproj
 ```
 
-## Checklist local de build (1-2-3)
+### 5. Configure Signing & Capabilities
+- Selecione o target **DarwinEducation** na barra lateral
+- Aba **Signing & Capabilities**
+- Em **Team**, selecione sua conta Apple Developer
+- O Bundle ID `org.darwineducation.ios` é configurável se necessário
 
-1. `swift --version` para validar a toolchain instalada.
-2. `xcodegen generate` para materializar `DarwinEducation.xcodeproj`.
-3. `open DarwinEducation.xcodeproj` e faça `Product -> Build` no simulador.
+## Rodar no simulador
 
-No Linux sem macOS não é possível validar build iOS, então use esse fluxo no seu Mac.
+`Cmd+R` → selecione qualquer simulador de iPhone
 
-## Configuracao inicial no Xcode
+## Rodar em dispositivo físico
 
-1. Em `Signing & Capabilities`, selecione seu time.
-2. Ajuste `Bundle Identifier` final.
-3. Configure chave `DARWIN_SUPABASE_ANON_KEY` nas Build Settings.
-4. Defina icone e splash.
-5. Rode no simulador e depois em dispositivo real.
+1. Conecte o iPhone via USB
+2. Confie no computador (aparece no iPhone)
+3. Selecione o dispositivo no seletor do Xcode
+4. `Cmd+R`
+
+## Publicar no TestFlight
+
+1. `Product → Archive` (selecione um dispositivo real, não simulador)
+2. Na janela **Organizer** → **Distribute App**
+3. **App Store Connect** → **Upload**
+4. Acesse [App Store Connect](https://appstoreconnect.apple.com) → TestFlight
+
+## Atualizar após mudanças em `project.yml`
+
+```bash
+xcodegen generate   # re-executa sempre que project.yml mudar
+```
+
+**Não** commit `DarwinEducation.xcodeproj/` — está no `.gitignore` e é sempre regenerado.
 
 ## Arquitetura
 
-- `DarwinEducation/App`: bootstrap, roteamento, tabs e shell global.
-- `DarwinEducation/AppState`: stores de tema, feature flags e dependencias.
-- `DarwinEducation/DesignSystem`: tokens, tema, materiais e espacamento.
-- `DarwinEducation/CoreUI`: componentes reutilizaveis, states, haptics e bridge UIKit.
-- `DarwinEducation/Data`: modelos, cliente Supabase REST e repositorios tipados.
-- `DarwinEducation/Networking`: cliente HTTP e compatibilidade com endpoints web.
-- `DarwinEducation/Features`: telas nativas (Home, Simulados, Flashcards, Conteudo, Desempenho, CIP, Trilhas, Conta).
+| Pasta | Conteúdo |
+|---|---|
+| `App/` | Entry point, RootView, RootTabView, tabs |
+| `AppState/` | AppStore, AppDependencies, ThemeStore, FeatureFlags |
+| `DesignSystem/` | DarwinTheme, tokens, espaçamento, materiais |
+| `CoreUI/` | Componentes reutilizáveis, StateViews, Haptics, UIKit bridge |
+| `Core/Auth/` | AuthService, SessionStore, KeychainStore |
+| `Data/Models/` | CDMModels, FlashcardModels, QuestionModels, FeatureModels |
+| `Data/Repositories/` | LiveRepositories, RepositoryProtocols |
+| `Networking/` | DarwinAPIClient, HTTPClient, APIError |
+| `Features/` | Home, Exams (+ Adaptive), Flashcards (+ Study), Performance (+ CDM), Content, Account |
 
-## Mapeamento Web -> iOS nativo
+## Features implementadas
 
-- `/` -> `HomeView`
-- `/simulado` -> `SimuladosView`
-- `/flashcards` -> `FlashcardsView`
-- `/desempenho` -> `PerformanceView`
-- `/(auth)/login` -> `LoginView`
+| Feature | Status | Tela |
+|---|---|---|
+| Auth (email/senha) | ✅ | `LoginView` |
+| Simulados (fixos) | ✅ | `ExamsView → ExamDetailView → ExamReviewView` |
+| **Simulado Adaptativo (CDM-CAT)** | ✅ **novo** | `AdaptiveExamView` |
+| **Flashcard Study Session** | ✅ **novo** | `FlashcardStudyView` |
+| **Diagnóstico CDM** | ✅ **novo** | `CDMDashboardView` (em Desempenho) |
+| Desempenho geral | ✅ | `PerformanceView` |
+| Conteúdo médico | ✅ | `ContentView` |
+| Conta / Tema | ✅ | `AccountView` |
+| Trilhas | 🔜 stub | `TrailsView` |
+| CIP | 🔜 stub | `CIPView` |
 
-## Observacoes
+## Variáveis de ambiente (build settings via Secrets.xcconfig)
 
-- Este scaffold evita WebView: toda UI e navegacao sao nativas SwiftUI.
-- A autenticacao usa Supabase Auth REST para login por email/senha.
-- Endpoints protegidos devem receber `Authorization: Bearer <token>`.
+| Variável | Descrição |
+|---|---|
+| `DARWIN_SUPABASE_ANON_KEY` | Chave anônima do Supabase |
+| `DARWIN_API_BASE_URL` | URL base da API web (ex: `https://darwinhub.org`) |
+| `DARWIN_SUPABASE_URL` | URL do projeto Supabase |

@@ -26,7 +26,14 @@ struct RootTabView: View {
             }
 
             NavigationStack {
-                FlashcardsView(repository: appStore.dependencies.flashcardsRepository)
+                AdaptiveExamView()
+            }
+            .tabItem {
+                Label("Adaptativo", systemImage: "brain")
+            }
+
+            NavigationStack {
+                FlashcardsView()
             }
             .tabItem {
                 Label("Flashcards", systemImage: "rectangle.stack")

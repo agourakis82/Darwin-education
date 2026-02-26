@@ -78,6 +78,62 @@ struct DarwinAPIClient {
         }
     }
 
+    // MARK: - Flashcard due cards
+
+    func fetchDueCards(accessToken: String?) async throws -> [FlashcardDueCard] {
+        let url = try makeURL(path: "/api/flashcards/due")
+        let response: FlashcardDueResponse = try await httpClient.request(
+            url,
+            headers: authHeaders(accessToken),
+            decoder: camelDecoder()
+        )
+        return response.cards
+    }
+
+    // MARK: - Flashcard review (FSRS, rating 1–4)
+
+    func submitFlashcardReview(cardId: String, rating: Int, accessToken: String?) async throws {
+        let url = try makeURL(path: "/api/flashcards/review")
+        let body = try JSONEncoder().encode(["cardId": cardId, "rating": String(rating)])
+        try await httpClient.requestVoid(url, headers: authHeaders(accessToken), body: body)
+    }
+
+    // MARK: - CDM
+
+    func fetchCDMProfile(accessToken: String?) async throws -> CDMProfileResponse {
+        let url = try makeURL(path: "/api/cdm/profile/me")
+        return try await httpClient.request(url, headers: authHeaders(accessToken), decoder: camelDecoder())
+    }
+
+    func classifyCDM(modelType: String = "dina", accessToken: String?) async throws -> CDMClassifyResponse {
+        let url = try makeURL(path: "/api/cdm/classify")
+        let body = try JSONEncoder().encode(["modelType": modelType])
+        return try await httpClient.request(
+            url,
+            method: "POST",
+            headers: authHeaders(accessToken),
+            body: body,
+            decoder: camelDecoder()
+        )
+    }
+
+    func fetchCDMNextItem(excludeIds: [String], accessToken: String?) async throws -> CDMNextItemResponse {
+        var components = URLComponents(url: try makeURL(path: "/api/cdm/next-item"), resolvingAgainstBaseURL: false)!
+        if !excludeIds.isEmpty {
+            components.queryItems = [URLQueryItem(name: "excludeIds", value: excludeIds.joined(separator: ","))]
+        }
+        guard let url = components.url else { throw APIError.invalidURL }
+        return try await httpClient.request(url, headers: authHeaders(accessToken), decoder: camelDecoder())
+    }
+
+    // MARK: - Private helpers
+
+    private func camelDecoder() -> JSONDecoder {
+        let d = JSONDecoder()
+        d.keyDecodingStrategy = .convertFromSnakeCase
+        return d
+    }
+
     private func parseLearnerProfile(from data: Data) -> LearnerProfileSummary {
         guard let dict = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any] else {
             return .placeholder

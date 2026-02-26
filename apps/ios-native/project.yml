@@ -3,6 +3,9 @@ options:
   minimumXcodeGenVersion: 2.38.0
   deploymentTarget:
     iOS: "18.0"
+configFiles:
+  Debug: Secrets.xcconfig
+  Release: Secrets.xcconfig
 settings:
   base:
     SWIFT_VERSION: 5.10
@@ -17,7 +20,7 @@ settings:
     INFOPLIST_KEY_UILaunchScreen_Generation: YES
     DARWIN_API_BASE_URL: https://darwinhub.org
     DARWIN_SUPABASE_URL: https://jpzkjkwcoudaxscrukye.supabase.co
-    DARWIN_SUPABASE_ANON_KEY: CHANGE_ME
+    DARWIN_SUPABASE_ANON_KEY: $(DARWIN_SUPABASE_ANON_KEY)
     INFOPLIST_KEY_DarwinAPIBaseURL: $(DARWIN_API_BASE_URL)
     INFOPLIST_KEY_DarwinSupabaseURL: $(DARWIN_SUPABASE_URL)
     INFOPLIST_KEY_DarwinSupabaseAnonKey: $(DARWIN_SUPABASE_ANON_KEY)

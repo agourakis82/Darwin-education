@@ -2,11 +2,7 @@ import SwiftUI
 
 struct FlashcardsView: View {
     @EnvironmentObject private var sessionStore: SessionStore
-    @StateObject private var viewModel: FlashcardsViewModel
-
-    init(repository: FlashcardsRepository) {
-        _viewModel = StateObject(wrappedValue: FlashcardsViewModel(repository: repository))
-    }
+    @StateObject private var viewModel = FlashcardsViewModel()
 
     var body: some View {
         Group {
@@ -16,26 +12,36 @@ struct FlashcardsView: View {
                 DarwinErrorView(title: "Falha ao carregar", message: errorMessage) {
                     Task { await viewModel.load(accessToken: sessionStore.accessToken) }
                 }
-            } else if viewModel.decks.isEmpty {
-                ContentUnavailableView("Sem revisoes pendentes", systemImage: "checkmark.circle")
+            } else if viewModel.deckGroups.isEmpty {
+                ContentUnavailableView("Sem revisões pendentes", systemImage: "checkmark.circle")
             } else {
                 ScrollView {
                     LazyVStack(spacing: DarwinSpacing.sm) {
-                        ForEach(viewModel.decks) { deck in
-                            DarwinCard {
-                                HStack {
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        Text(deck.title)
-                                            .font(.headline)
-                                        Text("Pendentes: \(deck.dueCount)")
-                                            .font(.subheadline)
-                                            .foregroundStyle(.secondary)
+                        ForEach(viewModel.deckGroups) { group in
+                            NavigationLink {
+                                FlashcardStudyView(
+                                    cards: group.cards,
+                                    deckTitle: group.deckName,
+                                    accessToken: sessionStore.accessToken
+                                )
+                            } label: {
+                                DarwinCard {
+                                    HStack {
+                                        VStack(alignment: .leading, spacing: 4) {
+                                            Text(group.deckName)
+                                                .font(.headline)
+                                                .foregroundStyle(.primary)
+                                            Text("\(group.dueCount) pendente\(group.dueCount == 1 ? "" : "s")")
+                                                .font(.subheadline)
+                                                .foregroundStyle(.secondary)
+                                        }
+                                        Spacer()
+                                        Image(systemName: "chevron.right")
+                                            .foregroundStyle(.tertiary)
                                     }
-                                    Spacer()
-                                    Image(systemName: "chevron.right")
-                                        .foregroundStyle(.tertiary)
                                 }
                             }
+                            .buttonStyle(.plain)
                         }
                     }
                     .padding(DarwinSpacing.md)
@@ -55,7 +61,7 @@ struct FlashcardsView: View {
 
 #Preview {
     NavigationStack {
-        FlashcardsView(repository: LiveFlashcardsRepository())
+        FlashcardsView()
             .environmentObject(SessionStore())
     }
 }
