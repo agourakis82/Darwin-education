@@ -15,9 +15,12 @@ import type {
   ENAMEDAreaClassification,
 } from './types';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+  )
+}
 
 const VALID_AREAS: ENAMEDAreaClassification[] = [
   'clinica_medica', 'cirurgia', 'ginecologia_obstetricia', 'pediatria', 'saude_coletiva',
@@ -202,7 +205,7 @@ async function processOneQuestion(
   };
 
   // Update DB
-  await supabase
+  await getSupabase()
     .from('ingested_questions')
     .update({
       area: convergence.finalArea === 'unknown' ? null : convergence.finalArea,
@@ -273,7 +276,7 @@ export async function runConvergencePipeline(options: PipelineOptions = {}): Pro
 
   while (true) {
     // Fetch next batch of unclassified questions (always offset 0 — processed ones drop out of the filter)
-    const { data: questions, error } = await supabase
+    const { data: questions, error } = await getSupabase()
       .from('ingested_questions')
       .select('*')
       .is('area', null)

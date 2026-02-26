@@ -2,16 +2,19 @@ import { createClient } from '@supabase/supabase-js';
 import { runMinimaxChat } from '../ai/minimax';
 import { runConvergencePipeline } from './convergencePipeline';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+  )
+}
 
 /**
  * Single-question classification fallback (legacy, uses only Grok).
  * Kept for backward compatibility with individual question reclassification.
  */
 export async function classifyQuestion(questionId: string) {
-  const { data: question, error: fetchError } = await supabase
+  const { data: question, error: fetchError } = await getSupabase()
     .from('ingested_questions')
     .select('*')
     .eq('id', questionId)
@@ -68,7 +71,7 @@ export async function classifyQuestion(questionId: string) {
     const validAreas = ['clinica_medica', 'cirurgia', 'ginecologia_obstetricia', 'pediatria', 'saude_coletiva'];
     const finalArea = validAreas.includes(result.area) ? result.area : 'unknown';
 
-    await supabase
+    await getSupabase()
       .from('ingested_questions')
       .update({
         area: finalArea,

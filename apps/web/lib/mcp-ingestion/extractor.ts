@@ -2,9 +2,12 @@ import { createClient } from '@supabase/supabase-js';
 import { IngestedQuestion, McpSearchResult } from './types';
 import { runMinimaxChat } from '../ai/minimax';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+  )
+}
 
 // ============================================================
 // Retry utility
@@ -318,7 +321,7 @@ export async function processExtractedLinks(
       }
 
       for (const q of extractedQuestions) {
-        const { error } = await supabase
+        const { error } = await getSupabase()
           .from('ingested_questions')
           .insert(q);
 
@@ -338,7 +341,7 @@ export async function processExtractedLinks(
 
   // Update the run count
   if (runId) {
-    await supabase
+    await getSupabase()
       .from('ingestion_runs')
       .update({ questions_extracted: totalExtracted })
       .eq('id', runId);

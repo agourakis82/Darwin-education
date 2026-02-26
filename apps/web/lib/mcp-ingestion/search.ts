@@ -2,9 +2,12 @@ import { createClient } from '@supabase/supabase-js';
 import { IngestionSource, McpSearchResult } from './types';
 import { parseGabaritoPdf, processExtractedLinks } from './extractor';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+  )
+}
 
 // ============================================================
 // FGV Portal scraper
@@ -147,7 +150,7 @@ export async function triggerSearchRoutine() {
   console.log('[MCP Ingestion] Starting search routine...');
 
   // 1. Fetch active sources
-  const { data: sources, error: sourceError } = await supabase
+  const { data: sources, error: sourceError } = await getSupabase()
     .from('ingestion_sources')
     .select('*')
     .eq('is_active', true);
@@ -159,7 +162,7 @@ export async function triggerSearchRoutine() {
 
   for (const source of sources as IngestionSource[]) {
     // 2. Create a new run
-    const { data: run, error: runError } = await supabase
+    const { data: run, error: runError } = await getSupabase()
       .from('ingestion_runs')
       .insert({
         source_id: source.id,
@@ -214,7 +217,7 @@ export async function triggerSearchRoutine() {
       }
 
       // 6. Update run with link count
-      await supabase
+      await getSupabase()
         .from('ingestion_runs')
         .update({
           links_found: uniqueLinks.length,
@@ -225,7 +228,7 @@ export async function triggerSearchRoutine() {
       const totalExtracted = await processExtractedLinks(examLinks, run.id, answerMap);
 
       // 8. Finalize run
-      await supabase
+      await getSupabase()
         .from('ingestion_runs')
         .update({
           status: 'completed',
@@ -235,7 +238,7 @@ export async function triggerSearchRoutine() {
         .eq('id', run.id);
 
       // 9. Update source last_run_at
-      await supabase
+      await getSupabase()
         .from('ingestion_sources')
         .update({ last_run_at: new Date().toISOString() })
         .eq('id', source.id);
@@ -243,7 +246,7 @@ export async function triggerSearchRoutine() {
       console.log(`[MCP Ingestion] Run completed for ${source.name}. ${totalExtracted} questions extracted.`);
     } catch (err: any) {
       console.error(`[MCP Ingestion] Run failed for ${source.name}:`, err);
-      await supabase
+      await getSupabase()
         .from('ingestion_runs')
         .update({
           status: 'failed',
