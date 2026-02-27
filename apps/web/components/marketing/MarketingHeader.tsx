@@ -10,6 +10,7 @@ import { Menu, X } from 'lucide-react'
 const marketingLinks = [
   { href: '/features', label: 'Funcionalidades' },
   { href: '/precos', label: 'Planos' },
+  { href: '/institucional', label: 'Institucional' },
   { href: '/sobre', label: 'Sobre' },
 ]
 

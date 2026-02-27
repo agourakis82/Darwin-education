@@ -43,7 +43,7 @@ export function HeroSection() {
             <motion.div variants={item}>
               <span className="inline-flex items-center gap-2 rounded-full border border-emerald-500/35 bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-300">
                 <Sparkles className="h-3.5 w-3.5" />
-                Darwin ENAMED Platform
+                Plataforma Darwin ENAMED
               </span>
             </motion.div>
 

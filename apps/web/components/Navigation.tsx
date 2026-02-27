@@ -28,7 +28,7 @@ import {
 } from 'lucide-react'
 import { MarketingHeader } from '@/components/marketing/MarketingHeader'
 
-const MARKETING_ROUTES = ['/', '/features', '/precos', '/sobre']
+const MARKETING_ROUTES = ['/', '/features', '/precos', '/sobre', '/institucional']
 
 const allNavItems = [
   { href: '/', label: 'Início', icon: Home },

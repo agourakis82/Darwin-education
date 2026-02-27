@@ -28,7 +28,7 @@ export function StatsRow({
     <section className="px-4 pb-10 md:px-6">
       <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-3 gap-3.5 md:gap-5">
-          <StatCard value={questionsCount} label="Questões ENARE" suffix="+" />
+          <StatCard value={questionsCount} label="Questões ENAMED" suffix="+" />
           <StatCard value={diseasesCount} label="Doenças (CID-10)" />
           <StatCard value={medicationsCount} label="Medicamentos (ATC)" />
         </div>

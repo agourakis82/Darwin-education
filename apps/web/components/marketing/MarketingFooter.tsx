@@ -4,6 +4,7 @@ import { BrandLogo } from '@/components/brand/BrandLogo'
 const platformLinks = [
   { href: '/features', label: 'Funcionalidades' },
   { href: '/precos', label: 'Planos' },
+  { href: '/institucional', label: 'Para Instituições' },
   { href: '/sobre', label: 'Sobre' },
 ]
 
