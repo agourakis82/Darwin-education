@@ -11,6 +11,7 @@ import { ExamTimer } from '../components/ExamTimer'
 import { QuestionNavigation } from '../components/QuestionNavigation'
 import { ExamQuestion } from '../components/ExamQuestion'
 import { Button } from '@/components/ui/Button'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Modal } from '@/components/ui/Modal'
 import { Card, CardContent } from '@/components/ui/Card'
 import { FeatureState } from '@/components/ui/FeatureState'
@@ -525,22 +526,36 @@ export default function ExamPage() {
 
             {/* Navigation Buttons */}
             <div className="flex justify-between mt-6">
-              <Button
-                variant="bordered"
-                className="darwin-nav-link"
-                onClick={previousQuestion}
-                disabled={currentQuestionIndex === 0}
+              <motion.div
+                whileHover={currentQuestionIndex !== 0 ? { x: -2 } : undefined}
+                whileTap={currentQuestionIndex !== 0 ? { scale: 0.97 } : undefined}
+                transition={spring.snappy}
               >
-                Anterior
-              </Button>
+                <Button
+                  variant="bordered"
+                  className="darwin-nav-link"
+                  onClick={previousQuestion}
+                  disabled={currentQuestionIndex === 0}
+                  leftIcon={<ChevronLeft className="w-4 h-4" />}
+                >
+                  Anterior
+                </Button>
+              </motion.div>
 
-              <Button
-                className="darwin-nav-link"
-                onClick={nextQuestion}
-                disabled={currentQuestionIndex === currentExam.questions.length - 1}
+              <motion.div
+                whileHover={currentQuestionIndex !== currentExam.questions.length - 1 ? { x: 2 } : undefined}
+                whileTap={currentQuestionIndex !== currentExam.questions.length - 1 ? { scale: 0.97 } : undefined}
+                transition={spring.snappy}
               >
-                Próxima
-              </Button>
+                <Button
+                  className="darwin-nav-link"
+                  onClick={nextQuestion}
+                  disabled={currentQuestionIndex === currentExam.questions.length - 1}
+                  rightIcon={<ChevronRight className="w-4 h-4" />}
+                >
+                  Próxima
+                </Button>
+              </motion.div>
             </div>
 
             {/* Mobile Question Navigation */}
@@ -563,22 +578,41 @@ export default function ExamPage() {
         onClose={() => !submitting && setShowSubmitModal(false)}
         title="Finalizar Simulado"
       >
-        <div className="text-label-primary">
-          <p className="mb-4">
-            Você respondeu <strong>{answeredCount}</strong> de{' '}
-            <strong>{currentExam.questions.length}</strong> questões.
-          </p>
+        <div>
+          {/* Progress pill */}
+          <div className="flex items-center justify-between p-4 darwin-panel border border-separator/30 rounded-xl mb-4">
+            <span className="text-callout text-label-secondary">Questões respondidas</span>
+            <span className="text-headline font-bold">
+              <span className="text-emerald-400">{answeredCount}</span>
+              <span className="text-label-tertiary">/{currentExam.questions.length}</span>
+            </span>
+          </div>
 
+          {/* Warning panel */}
           {answeredCount < currentExam.questions.length && (
-            <p className="text-yellow-400 mb-4">
-              Atenção: {currentExam.questions.length - answeredCount} questões não foram
-              respondidas e serão consideradas erradas.
-            </p>
+            <div className="flex items-start gap-3 p-3.5 bg-yellow-500/10 border border-yellow-500/30 rounded-xl mb-4">
+              <svg
+                className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                />
+              </svg>
+              <p className="text-callout text-yellow-300">
+                {currentExam.questions.length - answeredCount} questões não respondidas serão consideradas erradas.
+              </p>
+            </div>
           )}
 
-          <p>Deseja realmente finalizar o simulado?</p>
+          <p className="text-callout text-label-secondary mb-6">Deseja realmente finalizar o simulado?</p>
 
-          <div className="flex gap-3 mt-6">
+          <div className="flex gap-3">
             <Button
               variant="bordered"
               className="darwin-nav-link"

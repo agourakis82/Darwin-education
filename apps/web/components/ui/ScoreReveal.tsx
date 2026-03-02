@@ -105,7 +105,7 @@ export function ScoreReveal({
                 hidden: { opacity: 0, y: 16 },
                 show: { opacity: 1, y: 0, transition: spring.gentle },
               }}
-              className="bg-surface-2/50 rounded-lg p-4"
+              className="darwin-panel border border-separator/40 rounded-xl p-4"
             >
               <div className={`text-2xl font-bold tabular-nums ${stat.color || 'text-label-primary'}`}>
                 <AnimatedCounter value={stat.value} suffix={stat.suffix} duration={1} />

@@ -57,7 +57,7 @@ export function WrongItemsTable({ attemptId }: WrongItemsTableProps) {
 
   if (loading) {
     return (
-      <Card>
+      <Card variant="glass">
         <CardHeader>
           <CardTitle className="text-sm">Itens Errados — Último Simulado Adaptativo</CardTitle>
         </CardHeader>
@@ -75,7 +75,7 @@ export function WrongItemsTable({ attemptId }: WrongItemsTableProps) {
   if (items.length === 0) return null
 
   return (
-    <Card>
+    <Card variant="glass">
       <CardHeader>
         <CardTitle className="text-sm">Itens Errados — Último Simulado Adaptativo</CardTitle>
       </CardHeader>

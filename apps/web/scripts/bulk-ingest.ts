@@ -24,7 +24,12 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 async function main() {
   // Dynamic imports AFTER env is loaded (module-level code in these files reads process.env)
   const { createClient } = await import('@supabase/supabase-js');
-  const { extractQuestionsFromDocument, parseGabaritoPdf, matchAnswersToQuestions } = await import('../lib/mcp-ingestion/extractor');
+  const { extractQuestionsFromDocument, parseGabaritoPdf, matchAnswersToQuestions } = await import(
+    '../lib/mcp-ingestion/extractor'
+  );
+  const { evaluateSourceUrl, isSourceAllowedForExtraction } = await import(
+    '../lib/mcp-ingestion/sourcePolicy'
+  );
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
@@ -85,32 +90,61 @@ async function main() {
   }
 
   // 3. Separate into exam PDFs and gabarito PDFs
-  const examLinks: string[] = [];
-  const gabaritoLinks: string[] = [];
+  const examLinks: Array<{ url: string; type: 'prova' | 'gabarito' | 'unknown' }> = [];
+  const gabaritoLinks: Array<{ url: string; type: 'prova' | 'gabarito' | 'unknown' }> = [];
+  let allowCount = 0;
+  let reviewCount = 0;
+  let blockedByPolicy = 0;
 
   for (const link of pdfLinks) {
+    const policy = evaluateSourceUrl(link);
+    if (!isSourceAllowedForExtraction(policy)) {
+      blockedByPolicy++;
+      continue;
+    }
+    if (policy.decision === 'allow') allowCount++;
+    if (policy.decision === 'review') reviewCount++;
+
     // Check FILENAME only — the path contains "provas-gabaritos" for all PDFs
     const filename = decodeURIComponent(link.split('/').pop() || '').toLowerCase();
     if (filename.includes('gabarito')) {
-      gabaritoLinks.push(link);
+      gabaritoLinks.push({ url: link, type: 'gabarito' });
     } else {
-      examLinks.push(link);
+      examLinks.push({ url: link, type: 'prova' });
     }
   }
 
-  console.log(`Found ${examLinks.length} exam PDFs and ${gabaritoLinks.length} gabarito PDFs.`);
+  console.log(
+    `Found ${examLinks.length} exam PDFs and ${gabaritoLinks.length} gabarito PDFs (blocked by policy: ${blockedByPolicy}).`
+  );
+
+  await supabase
+    .from('ingestion_runs')
+    .update({
+      links_found: pdfLinks.size,
+      links_allowed: allowCount,
+      links_review: reviewCount,
+      links_blocked: blockedByPolicy,
+    })
+    .eq('id', runId);
 
   // 4. Parse gabaritos FIRST → build combined answer map
   // Process "definitivo" last so it takes priority over "preliminar"
   const sortedGabaritos = gabaritoLinks.sort((a, b) => {
-    const aIsDef = decodeURIComponent(a).toLowerCase().includes('definitivo') ? 1 : 0;
-    const bIsDef = decodeURIComponent(b).toLowerCase().includes('definitivo') ? 1 : 0;
+    const aIsDef = decodeURIComponent(a.url).toLowerCase().includes('definitivo') ? 1 : 0;
+    const bIsDef = decodeURIComponent(b.url).toLowerCase().includes('definitivo') ? 1 : 0;
     return aIsDef - bIsDef;
   });
 
   const combinedAnswers = new Map<number, number>();
-  for (const gabUrl of sortedGabaritos) {
-    const answers = await parseGabaritoPdf(gabUrl);
+  for (const gab of sortedGabaritos) {
+    const answers = await parseGabaritoPdf(gab.url, {
+      title: decodeURIComponent(gab.url.split('/').pop() || gab.url),
+      url: gab.url,
+      snippet: 'Gabarito (bulk ingestion)',
+      type: 'gabarito',
+      discoveryMethod: 'portal_index',
+    });
     for (const [num, idx] of answers) {
       combinedAnswers.set(num, idx);
     }
@@ -123,7 +157,7 @@ async function main() {
     .select('source_url');
 
   const processedUrls = new Set(existing?.map((e: any) => e.source_url) || []);
-  let remainingExams = examLinks.filter(url => !processedUrls.has(url));
+  let remainingExams = examLinks.filter((link) => !processedUrls.has(link.url));
 
   // Optionally limit for testing
   const MAX_DOCS = process.env.MAX_DOCS ? parseInt(process.env.MAX_DOCS, 10) : 0;
@@ -131,7 +165,9 @@ async function main() {
     remainingExams = remainingExams.slice(0, MAX_DOCS);
   }
 
-  console.log(`${remainingExams.length} exam PDFs to process (${examLinks.length - remainingExams.length} already processed).`);
+  console.log(
+    `${remainingExams.length} exam PDFs to process (${examLinks.length - remainingExams.length} already processed).`
+  );
 
   if (remainingExams.length === 0) {
     console.log('No new PDFs to process. Exiting.');
@@ -143,11 +179,18 @@ async function main() {
   let totalExtracted = 0;
 
   for (let i = 0; i < remainingExams.length; i++) {
-    const url = remainingExams[i];
+    const exam = remainingExams[i];
+    const url = exam.url;
     console.log(`\n--- [${i + 1}/${remainingExams.length}] ${decodeURIComponent(url.split('/').pop() || url)} ---`);
 
     try {
-      const questions = await extractQuestionsFromDocument(url, runId);
+      const questions = await extractQuestionsFromDocument(url, runId, {
+        title: decodeURIComponent(url.split('/').pop() || url),
+        url,
+        snippet: 'Prova (bulk ingestion)',
+        type: exam.type,
+        discoveryMethod: 'portal_index',
+      });
 
       // Match gabarito answers before inserting
       if (combinedAnswers.size > 0) {
@@ -192,8 +235,7 @@ async function main() {
     .update({
       status: 'completed',
       completed_at: new Date().toISOString(),
-      questions_extracted: totalExtracted,
-      links_found: remainingExams.length
+      questions_extracted: totalExtracted
     })
     .eq('id', runId);
 

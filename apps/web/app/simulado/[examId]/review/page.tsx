@@ -2,13 +2,15 @@
 
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
+import { motion, AnimatePresence } from 'framer-motion'
+import { spring } from '@/lib/motion'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { getSessionUserSummary } from '@/lib/auth/session'
 import { Button } from '@/components/ui/Button'
 import { Spinner } from '@/components/ui/Spinner'
 import { Card, CardContent } from '@/components/ui/Card'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
+import { QuestionCard } from '@/components/ui/QuestionCard'
 import { AREA_LABELS } from '@/lib/area-colors'
 import { useToast } from '@/lib/hooks/useToast'
 import type { ENAMEDQuestion, IRTParameters, QuestionOntology, DifficultyLevel } from '@darwin-education/shared'
@@ -28,6 +30,7 @@ export default function ExamReviewPage() {
   const [loading, setLoading] = useState(true)
   const [reviews, setReviews] = useState<QuestionReview[]>([])
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [direction, setDirection] = useState(1)
   const [examTitle, setExamTitle] = useState('')
   const [savingToFlashcards, setSavingToFlashcards] = useState<Set<string>>(new Set())
   const [savedFlashcards, setSavedFlashcards] = useState<Set<string>>(new Set())
@@ -44,7 +47,6 @@ export default function ExamReviewPage() {
         return
       }
 
-      // Fetch exam attempt with answers
       interface AttemptRow {
         id: string
         answers: Record<string, number>
@@ -71,7 +73,6 @@ export default function ExamReviewPage() {
         return
       }
 
-      // Fetch questions
       const { data: questions, error: questionsError } = await supabase
         .from('questions')
         .select('*')
@@ -83,7 +84,6 @@ export default function ExamReviewPage() {
         return
       }
 
-      // Transform to ENAMEDQuestion format
       const transformedQuestions: ENAMEDQuestion[] = questions.map((q: any) => ({
         id: q.id,
         bankId: q.bank_id,
@@ -113,20 +113,13 @@ export default function ExamReviewPage() {
         image_url: q.image_url ?? undefined,
       }))
 
-      // Build review array
       const reviewData: QuestionReview[] = attempt.exams.question_ids
         .map((qId: string) => {
           const question = transformedQuestions.find(q => q.id === qId)
           if (!question) return null
-
           const userAnswer = attempt.answers[qId] ?? -1
           const isCorrect = userAnswer === question.correctIndex
-
-          return {
-            question,
-            userAnswer,
-            isCorrect,
-          }
+          return { question, userAnswer, isCorrect }
         })
         .filter(Boolean) as QuestionReview[]
 
@@ -154,7 +147,6 @@ export default function ExamReviewPage() {
       const correctOption = review.question.options[review.question.correctIndex]
       const userOption = review.question.options[review.userAnswer]
 
-      // Build flashcard content
       const front = review.question.stem
       const back = [
         `**Resposta correta:** ${correctOption?.text || 'N/A'}`,
@@ -165,7 +157,6 @@ export default function ExamReviewPage() {
         review.question.explanation,
       ].filter(Boolean).join('\n')
 
-      // Use the API to create flashcard
       const response = await fetch('/api/flashcards/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -248,7 +239,7 @@ export default function ExamReviewPage() {
   return (
     <div className="min-h-screen bg-surface-0">
       {/* Top Bar */}
-      <div className="sticky top-0 z-40 bg-surface-1 border-b border-separator">
+      <div className="sticky top-0 z-40 bg-surface-1/85 backdrop-blur-xl border-b border-separator">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           <div>
             <h1 className="text-lg font-semibold text-label-primary">{examTitle}</h1>
@@ -285,20 +276,24 @@ export default function ExamReviewPage() {
       </div>
 
       <div className="max-w-4xl mx-auto px-4 py-8">
-        {/* Question Card */}
-        <Card className={`mb-6 ${
-          currentReview.isCorrect
-            ? 'border-emerald-800 bg-emerald-950/20'
-            : 'border-red-800 bg-red-950/20'
-        }`}>
-          <CardContent>
-            {/* Status Badge */}
-            <div className="flex items-center justify-between mb-4">
+        <AnimatePresence mode="wait" custom={direction}>
+          <motion.div
+            key={currentIndex}
+            custom={direction}
+            initial={{ opacity: 0, x: direction * 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: direction * -30 }}
+            transition={spring.snappy}
+            className="space-y-4"
+          >
+            {/* Status + IRT row */}
+            <div className="flex items-center justify-between">
               <div className="flex gap-2">
-                <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${
+                {/* Acertou/Errou badge */}
+                <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium border shadow-inner-shine ${
                   currentReview.isCorrect
-                    ? 'bg-emerald-900/50 text-emerald-300'
-                    : 'bg-red-900/50 text-red-300'
+                    ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
+                    : 'bg-red-500/15 text-red-300 border-red-500/30'
                 }`}>
                   {currentReview.isCorrect ? (
                     <>
@@ -352,190 +347,132 @@ export default function ExamReviewPage() {
               </div>
             </div>
 
-            {/* Question Stem */}
-            <div className="mb-6 whitespace-pre-wrap text-label-primary leading-relaxed">
-              {currentReview.question.stem}
-            </div>
-
-            {/* Options */}
-            <div className="space-y-3">
-              {currentReview.question.options.map((option, idx) => {
-                const isUserAnswer = currentReview.userAnswer === idx
-                const isCorrectAnswer = currentReview.question.correctIndex === idx
-
-                let bgColor = 'bg-surface-2/50'
-                let borderColor = 'border-separator'
-                let textColor = 'text-label-primary'
-
-                if (isCorrectAnswer) {
-                  bgColor = 'bg-emerald-900/30'
-                  borderColor = 'border-emerald-700'
-                  textColor = 'text-emerald-200'
-                } else if (isUserAnswer && !currentReview.isCorrect) {
-                  bgColor = 'bg-red-900/30'
-                  borderColor = 'border-red-700'
-                  textColor = 'text-red-200'
-                }
-
-                return (
-                  <div
-                    key={idx}
-                    className={`p-4 rounded-lg border-2 ${bgColor} ${borderColor}`}
-                  >
-                    <div className="flex items-start gap-3">
-                      <div className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-medium ${
-                        isCorrectAnswer
-                          ? 'border-emerald-500 bg-emerald-500/20 text-emerald-300'
-                          : isUserAnswer
-                          ? 'border-red-500 bg-red-500/20 text-red-300'
-                          : 'border-surface-4 text-label-secondary'
-                      }`}>
-                        {option.letter}
-                      </div>
-                      <div className="flex-1">
-                        <p className={textColor}>{option.text}</p>
-                        {isCorrectAnswer && (
-                          <div className="mt-2 text-sm text-emerald-400 flex items-center gap-1">
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                            </svg>
-                            Resposta Correta
-                          </div>
-                        )}
-                        {isUserAnswer && !currentReview.isCorrect && (
-                          <div className="mt-2 text-sm text-red-400 flex items-center gap-1">
-                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                            </svg>
-                            Sua Resposta
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Explanation Card */}
-        <Card className="mb-6 bg-surface-1/50">
-          <CardContent>
-            <h3 className="text-lg font-semibold text-label-primary mb-3 flex items-center gap-2">
-              <svg className="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-              </svg>
-              Explicação
-            </h3>
-            <div className="prose prose-sm max-w-none dark:prose-invert">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {currentReview.question.explanation || ''}
-              </ReactMarkdown>
-            </div>
+            {/* QuestionCard — replaces all custom option + explanation rendering */}
+            <QuestionCard
+              question={currentReview.question}
+              questionNumber={currentIndex + 1}
+              totalQuestions={reviews.length}
+              selectedAnswer={
+                currentReview.userAnswer >= 0
+                  ? currentReview.question.options[currentReview.userAnswer]?.text ?? null
+                  : null
+              }
+              showCorrectAnswer
+              showExplanation
+              disabled
+            />
 
             {/* References */}
             {currentReview.question.references && currentReview.question.references.length > 0 && (
-              <div className="mt-4 pt-4 border-t border-separator">
-                <h4 className="text-sm font-medium text-label-secondary mb-2">Referências:</h4>
-                <ul className="list-disc list-inside text-sm text-label-tertiary space-y-1">
+              <div
+                className="darwin-panel border border-separator/40 rounded-2xl p-5"
+                style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.08), inset 0 0.5px 0 rgba(255,255,255,0.08)' }}
+              >
+                <h4 className="text-footnote font-semibold text-label-secondary mb-2">Referências</h4>
+                <ul className="list-disc list-inside text-footnote text-label-tertiary space-y-1">
                   {currentReview.question.references.map((ref, idx) => (
                     <li key={idx}>{ref}</li>
                   ))}
                 </ul>
               </div>
             )}
-          </CardContent>
-        </Card>
 
-        {/* Save to Flashcards (only for incorrect) */}
-        {!currentReview.isCorrect && (
-          <Card className="mb-6 bg-gradient-to-r from-purple-900/20 to-blue-900/20 border-purple-800/50">
-            <CardContent>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-purple-600/20 rounded-lg flex items-center justify-center">
-                    <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
+            {/* Save to Flashcards (only for incorrect) */}
+            {!currentReview.isCorrect && (
+              <div className="p-5 rounded-2xl bg-gradient-to-r from-purple-900/20 to-blue-900/20 border border-purple-500/30">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-purple-600/20 rounded-xl flex items-center justify-center">
+                      <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h4 className="font-medium text-label-primary">Adicionar aos Flashcards</h4>
+                      <p className="text-sm text-label-secondary">
+                        Salve esta questão para revisar mais tarde
+                      </p>
+                      {flashcardStatusMessage && (
+                        <p className="text-sm text-label-primary mt-2">{flashcardStatusMessage}</p>
+                      )}
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="font-medium text-label-primary">Adicionar aos Flashcards</h4>
-                    <p className="text-sm text-label-secondary">
-                      Salve esta questão para revisar mais tarde
-                    </p>
-                    {flashcardStatusMessage && (
-                      <p className="text-sm text-label-primary mt-2">{flashcardStatusMessage}</p>
-                    )}
-                  </div>
+                  <Button
+                    onClick={() => handleSaveToFlashcards(currentReview.question.id)}
+                    disabled={savingToFlashcards.has(currentReview.question.id) || savedFlashcards.has(currentReview.question.id)}
+                    loading={savingToFlashcards.has(currentReview.question.id)}
+                  >
+                    {savedFlashcards.has(currentReview.question.id)
+                      ? 'Salvo'
+                      : savingToFlashcards.has(currentReview.question.id)
+                        ? 'Salvando...'
+                        : 'Salvar'}
+                  </Button>
                 </div>
-                <Button
-                  onClick={() => handleSaveToFlashcards(currentReview.question.id)}
-                  disabled={savingToFlashcards.has(currentReview.question.id) || savedFlashcards.has(currentReview.question.id)}
-                  loading={savingToFlashcards.has(currentReview.question.id)}
-                >
-                  {savedFlashcards.has(currentReview.question.id)
-                    ? 'Salvo'
-                    : savingToFlashcards.has(currentReview.question.id)
-                      ? 'Salvando...'
-                      : 'Salvar'}
-                </Button>
               </div>
-            </CardContent>
-          </Card>
-        )}
+            )}
 
-        {/* Navigation */}
-        <div className="flex items-center justify-between">
-          <Button
-            variant="bordered"
-            onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
-            disabled={currentIndex === 0}
-          >
-            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Anterior
-          </Button>
+            {/* Navigation */}
+            <div className="flex items-center justify-between pt-2">
+              <motion.div
+                whileHover={currentIndex !== 0 ? { x: -2 } : undefined}
+                whileTap={currentIndex !== 0 ? { scale: 0.97 } : undefined}
+                transition={spring.snappy}
+              >
+                <Button
+                  variant="bordered"
+                  onClick={() => { setDirection(-1); setCurrentIndex(prev => Math.max(0, prev - 1)) }}
+                  disabled={currentIndex === 0}
+                  leftIcon={<ChevronLeft className="w-4 h-4" />}
+                >
+                  Anterior
+                </Button>
+              </motion.div>
 
-          <div className="text-sm text-label-secondary">
-            Questão {currentIndex + 1} de {reviews.length}
-          </div>
+              <div className="text-sm text-label-secondary">
+                Questão {currentIndex + 1} de {reviews.length}
+              </div>
 
-          <Button
-            onClick={() => setCurrentIndex(prev => Math.min(reviews.length - 1, prev + 1))}
-            disabled={currentIndex === reviews.length - 1}
-          >
-            Próxima
-            <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </Button>
-        </div>
+              <motion.div
+                whileHover={currentIndex !== reviews.length - 1 ? { x: 2 } : undefined}
+                whileTap={currentIndex !== reviews.length - 1 ? { scale: 0.97 } : undefined}
+                transition={spring.snappy}
+              >
+                <Button
+                  onClick={() => { setDirection(1); setCurrentIndex(prev => Math.min(reviews.length - 1, prev + 1)) }}
+                  disabled={currentIndex === reviews.length - 1}
+                  rightIcon={<ChevronRight className="w-4 h-4" />}
+                >
+                  Próxima
+                </Button>
+              </motion.div>
+            </div>
 
-        {/* Filter Buttons */}
-        <div className="flex gap-3 mt-6">
-          <Button
-            variant="bordered"
-            size="sm"
-            onClick={() => {
-              const nextIncorrect = reviews.findIndex((r, idx) => idx > currentIndex && !r.isCorrect)
-              if (nextIncorrect !== -1) setCurrentIndex(nextIncorrect)
-            }}
-          >
-            Próxima Errada
-          </Button>
-          <Button
-            variant="bordered"
-            size="sm"
-            onClick={() => {
-              const nextCorrect = reviews.findIndex((r, idx) => idx > currentIndex && r.isCorrect)
-              if (nextCorrect !== -1) setCurrentIndex(nextCorrect)
-            }}
-          >
-            Próxima Certa
-          </Button>
-        </div>
+            {/* Filter Buttons */}
+            <div className="flex gap-3">
+              <Button
+                variant="bordered"
+                size="sm"
+                onClick={() => {
+                  const nextIncorrect = reviews.findIndex((r, idx) => idx > currentIndex && !r.isCorrect)
+                  if (nextIncorrect !== -1) { setDirection(1); setCurrentIndex(nextIncorrect) }
+                }}
+              >
+                Próxima Errada
+              </Button>
+              <Button
+                variant="bordered"
+                size="sm"
+                onClick={() => {
+                  const nextCorrect = reviews.findIndex((r, idx) => idx > currentIndex && r.isCorrect)
+                  if (nextCorrect !== -1) { setDirection(1); setCurrentIndex(nextCorrect) }
+                }}
+              >
+                Próxima Certa
+              </Button>
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   )

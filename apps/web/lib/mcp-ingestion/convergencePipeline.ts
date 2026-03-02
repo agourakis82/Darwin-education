@@ -13,6 +13,7 @@ import type {
   ConvergenceMetadata,
   PipelineStats,
   ENAMEDAreaClassification,
+  SourcePolicyDecision,
 } from './types';
 
 function getSupabase() {
@@ -22,9 +23,44 @@ function getSupabase() {
   )
 }
 
-const VALID_AREAS: ENAMEDAreaClassification[] = [
-  'clinica_medica', 'cirurgia', 'ginecologia_obstetricia', 'pediatria', 'saude_coletiva',
-];
+function safeParseCuratorNotes(value: string | null): Record<string, unknown> {
+  if (!value) return {};
+  try {
+    const parsed = JSON.parse(value) as unknown;
+    if (parsed && typeof parsed === 'object') {
+      return parsed as Record<string, unknown>;
+    }
+    return {};
+  } catch {
+    return {};
+  }
+}
+
+function readSourcePolicyDecision(notes: Record<string, unknown>): SourcePolicyDecision | null {
+  const sourcePolicy = notes.source_policy;
+  if (!sourcePolicy || typeof sourcePolicy !== 'object') return null;
+
+  const decision = String(
+    (sourcePolicy as { decision?: unknown }).decision || ''
+  ).toLowerCase();
+
+  if (decision === 'allow' || decision === 'review' || decision === 'block') {
+    return decision;
+  }
+
+  return null;
+}
+
+function sourceRequiresHumanReview(notes: Record<string, unknown>): boolean {
+  const sourcePolicy = notes.source_policy;
+  if (!sourcePolicy || typeof sourcePolicy !== 'object') return false;
+
+  const decision = readSourcePolicyDecision(notes);
+  if (decision === 'review') return true;
+
+  const requires = (sourcePolicy as { requires_human_review?: unknown; requiresHumanReview?: unknown });
+  return requires.requires_human_review === true || requires.requiresHumanReview === true;
+}
 
 // ============================================================
 // Convergence Algorithm
@@ -90,9 +126,18 @@ function resolveClassification(
 }
 
 function determineFinalStatus(
+  question: IngestedQuestion,
   convergence: ConvergenceResult,
   qualityResult: QualityLLMResult | null,
 ): IngestedQuestion['status'] {
+  const existingNotes = safeParseCuratorNotes(question.curator_notes);
+  const sourcePolicyDecision = readSourcePolicyDecision(existingNotes);
+  const mustForceReview = sourceRequiresHumanReview(existingNotes);
+
+  if (sourcePolicyDecision === 'block') {
+    return 'rejected';
+  }
+
   if (convergence.convergenceStatus === 'disagreed') {
     return 'conflict';
   }
@@ -102,12 +147,19 @@ function determineFinalStatus(
 
   if (hasCritical) return 'needs_review';
 
+  let computed: IngestedQuestion['status'];
   if (convergence.convergenceStatus === 'agreed') {
-    return qualityScore >= 60 ? 'approved' : 'needs_review';
+    computed = qualityScore >= 60 ? 'approved' : 'needs_review';
+  } else {
+    // soft_agree
+    computed = qualityScore >= 60 ? 'pending' : 'needs_review';
   }
 
-  // soft_agree
-  return qualityScore >= 60 ? 'pending' : 'needs_review';
+  if (mustForceReview) {
+    return 'needs_review';
+  }
+
+  return computed;
 }
 
 // ============================================================
@@ -178,10 +230,12 @@ async function processOneQuestion(
   }
 
   // Determine final status
-  const finalStatus = determineFinalStatus(convergence, qualityResult);
+  const finalStatus = determineFinalStatus(question, convergence, qualityResult);
 
   // Build curator_notes JSON
+  const existingNotes = safeParseCuratorNotes(question.curator_notes);
   const metadata: ConvergenceMetadata = {
+    ...(existingNotes as Record<string, unknown>),
     convergence: {
       providerA: {
         name: convergence.providerA.name,
@@ -200,7 +254,7 @@ async function processOneQuestion(
       issues: qualityResult.issues,
       model: qualityResult.model,
     } : null,
-    pipeline_version: '1.0',
+    pipeline_version: '1.1',
     processed_at: new Date().toISOString(),
   };
 

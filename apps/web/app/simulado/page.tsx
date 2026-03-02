@@ -124,10 +124,10 @@ export default async function SimuladoPage() {
         <AnimatedList className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <AnimatedItem>
           <Link href={`/montar-prova?count=${quickPreset.count}&time=${quickPreset.time}`}>
-            <Card hover className="h-full">
+            <Card variant="glass" hover className="h-full">
               <CardContent>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-emerald-600/20 rounded-lg flex items-center justify-center">
+                  <div className="w-12 h-12 bg-emerald-500/15 border border-emerald-500/25 rounded-xl flex items-center justify-center">
                     <svg className="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
@@ -146,10 +146,10 @@ export default async function SimuladoPage() {
 
           <AnimatedItem>
           <Link href={`/montar-prova?count=${fullPreset.count}&time=${fullPreset.time}`}>
-            <Card hover className="h-full">
+            <Card variant="glass" hover className="h-full">
               <CardContent>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-blue-600/20 rounded-lg flex items-center justify-center">
+                  <div className="w-12 h-12 bg-blue-500/15 border border-blue-500/25 rounded-xl flex items-center justify-center">
                     <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
@@ -168,10 +168,10 @@ export default async function SimuladoPage() {
 
           <AnimatedItem>
           <Link href="/montar-prova">
-            <Card hover className="h-full">
+            <Card variant="glass" hover className="h-full">
               <CardContent>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-purple-600/20 rounded-lg flex items-center justify-center">
+                  <div className="w-12 h-12 bg-purple-500/15 border border-purple-500/25 rounded-xl flex items-center justify-center">
                     <svg className="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
                     </svg>
@@ -188,10 +188,10 @@ export default async function SimuladoPage() {
 
           <AnimatedItem>
           <Link href="/simulado/adaptive">
-            <Card hover className="h-full">
+            <Card variant="glass" hover className="h-full">
               <CardContent>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-cyan-600/20 rounded-lg flex items-center justify-center">
+                  <div className="w-12 h-12 bg-cyan-500/15 border border-cyan-500/25 rounded-xl flex items-center justify-center">
                     <svg className="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                     </svg>
@@ -214,7 +214,7 @@ export default async function SimuladoPage() {
             <div className="space-y-4">
               {exams && exams.length > 0 ? (
                 exams.map((exam) => (
-                  <Card key={exam.id}>
+                  <Card key={exam.id} variant="glass">
                     <CardHeader>
                       <CardTitle>{exam.title}</CardTitle>
                       <CardDescription>{exam.description}</CardDescription>
@@ -243,7 +243,7 @@ export default async function SimuladoPage() {
                   </Card>
                 ))
               ) : (
-                <Card>
+                <Card variant="glass">
                   <CardContent>
                     <div className="text-center py-8">
                       <svg className="w-12 h-12 text-label-quaternary mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -261,7 +261,7 @@ export default async function SimuladoPage() {
           {/* Recent Attempts Sidebar */}
           <div>
             <h2 className="text-xl font-semibold text-label-primary mb-4">Histórico Recente</h2>
-            <Card>
+            <Card variant="glass">
               <CardContent>
                 {recentAttempts.length > 0 ? (
                   <div className="space-y-4">
@@ -272,15 +272,15 @@ export default async function SimuladoPage() {
                             {attempt.exams?.title || 'Simulado'}
                           </span>
                           {attempt.completed_at ? (
-                            <span className={`text-xs px-2 py-1 rounded-full ${
+                            <span className={`text-xs px-2 py-1 rounded-full border ${
                               attempt.passed
-                                ? 'bg-emerald-900/50 text-emerald-300'
-                                : 'bg-red-900/50 text-red-300'
+                                ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30'
+                                : 'bg-red-500/15 text-red-300 border-red-500/30'
                             }`}>
                               {attempt.passed ? 'Aprovado' : 'Reprovado'}
                             </span>
                           ) : (
-                            <span className="text-xs px-2 py-1 rounded-full bg-yellow-900/50 text-yellow-300">
+                            <span className="text-xs px-2 py-1 rounded-full border bg-yellow-500/15 text-yellow-300 border-yellow-500/30">
                               Em andamento
                             </span>
                           )}
@@ -314,7 +314,7 @@ export default async function SimuladoPage() {
             </Card>
 
             {/* Study Tips */}
-            <Card className="mt-4">
+            <Card variant="glass" className="mt-4">
               <CardHeader>
                 <CardTitle className="text-base">Dicas de Estudo</CardTitle>
               </CardHeader>

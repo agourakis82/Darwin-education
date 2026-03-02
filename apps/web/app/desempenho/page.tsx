@@ -351,7 +351,7 @@ export default function DesempenhoPage() {
             {/* Top Stats */}
             <AnimatedList className="grid grid-cols-2 md:grid-cols-4 gap-4">
               <AnimatedItem>
-                <Card>
+                <Card variant="glass">
                   <CardContent className="pt-6">
                     <div className="text-center">
                       <p className="text-3xl font-bold text-emerald-400"><AnimatedCounter value={stats?.averageScore || 0} /></p>
@@ -362,7 +362,7 @@ export default function DesempenhoPage() {
               </AnimatedItem>
 
               <AnimatedItem>
-                <Card>
+                <Card variant="glass">
                   <CardContent className="pt-6">
                     <div className="text-center">
                       <p className="text-3xl font-bold text-blue-400"><AnimatedCounter value={stats?.passRate || 0} suffix="%" /></p>
@@ -373,7 +373,7 @@ export default function DesempenhoPage() {
               </AnimatedItem>
 
               <AnimatedItem>
-                <Card>
+                <Card variant="glass">
                   <CardContent className="pt-6">
                     <div className="text-center">
                       <p className="text-3xl font-bold text-yellow-400"><AnimatedCounter value={stats?.totalExams || 0} /></p>
@@ -384,7 +384,7 @@ export default function DesempenhoPage() {
               </AnimatedItem>
 
               <AnimatedItem>
-                <Card>
+                <Card variant="glass">
                   <CardContent className="pt-6">
                     <div className="text-center">
                       <p className="text-3xl font-bold text-purple-400"><AnimatedCounter value={stats?.bestScore || 0} /></p>
@@ -401,20 +401,22 @@ export default function DesempenhoPage() {
               {/* Left Column */}
               <div className="lg:col-span-2 space-y-6">
                 {/* Score History Chart with Time Period Filter */}
-                <Card>
+                <Card variant="glass">
                   <CardHeader className="flex items-center justify-between">
                     <CardTitle>Histórico de Pontuação</CardTitle>
                     <div className="flex gap-2">
                       {(['7days', '30days', 'all'] as TimePeriod[]).map((period) => (
-                        <Button
+                        <button
                           key={period}
-                          variant={timePeriod === period ? 'secondary' : 'ghost'}
-                          size="sm"
                           onClick={() => setTimePeriod(period)}
-                          className={timePeriod === period ? 'bg-emerald-500/20 text-emerald-400' : ''}
+                          className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
+                            timePeriod === period
+                              ? 'bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 shadow-inner-shine'
+                              : 'darwin-panel border border-separator/30 text-label-secondary hover:text-label-primary'
+                          }`}
                         >
                           {period === '7days' ? '7 dias' : period === '30days' ? '30 dias' : 'Tudo'}
-                        </Button>
+                        </button>
                       ))}
                     </div>
                   </CardHeader>
@@ -430,7 +432,7 @@ export default function DesempenhoPage() {
                 </Card>
 
                 {/* Area Performance Radar */}
-                <Card>
+                <Card variant="glass">
                   <CardHeader>
                     <CardTitle>Desempenho por Área</CardTitle>
                   </CardHeader>
@@ -441,7 +443,7 @@ export default function DesempenhoPage() {
 
                 {/* Theta Trajectory (adaptive exams only) */}
                 {attempts.some((a) => typeof a.theta === 'number') && (
-                  <Card>
+                  <Card variant="glass">
                     <CardHeader>
                       <CardTitle>Trajetória de Habilidade (θ)</CardTitle>
                     </CardHeader>
@@ -481,7 +483,7 @@ export default function DesempenhoPage() {
 
             {/* Recent Attempts Table */}
             <ScrollReveal delay={0.1}>
-            <Card>
+            <Card variant="glass">
               <CardHeader>
                 <CardTitle>
                   {timePeriod === '7days' ? 'Últimos 7 dias' : timePeriod === '30days' ? 'Últimos 30 dias' : 'Todos os simulados'}
@@ -528,11 +530,11 @@ export default function DesempenhoPage() {
                               </td>
                               <td className="py-3">
                                 {attempt.passed ? (
-                                  <span className="px-2 py-1 text-xs bg-emerald-500/20 text-emerald-400 rounded-full">
+                                  <span className="px-2 py-1 text-xs bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 rounded-full">
                                     Aprovado
                                   </span>
                                 ) : (
-                                  <span className="px-2 py-1 text-xs bg-red-500/20 text-red-400 rounded-full">
+                                  <span className="px-2 py-1 text-xs bg-red-500/15 text-red-400 border border-red-500/30 rounded-full">
                                     Reprovado
                                   </span>
                                 )}

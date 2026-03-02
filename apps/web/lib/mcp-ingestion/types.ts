@@ -9,11 +9,30 @@ export interface IngestionSource {
   updated_at: Date;
 }
 
+export type SourcePolicyDecision = 'allow' | 'review' | 'block';
+
+export interface SourcePolicySnapshot {
+  policyVersion: string;
+  ruleId: string | null;
+  decision: SourcePolicyDecision;
+  domain: string;
+  canonicalUrl: string;
+  institution: string | null;
+  examType: string | null;
+  rightsClass: string;
+  requiresHumanReview: boolean;
+  reason: string;
+  allowedActions: string[];
+}
+
 export interface IngestionRun {
   id: string;
-  source_id: string;
+  source_id: string | null;
   status: 'running' | 'completed' | 'failed' | 'paused';
   links_found: number;
+  links_allowed?: number;
+  links_review?: number;
+  links_blocked?: number;
   questions_extracted: number;
   error_message: string | null;
   started_at: Date;
@@ -29,6 +48,7 @@ export interface IngestedQuestion {
   exam_type: string | null;
   
   raw_text: string | null;
+  source_raw_text_sha256?: string | null;
   stem: string;
   options: { letter: string; text: string }[];
   correct_index: number | null;
@@ -39,6 +59,16 @@ export interface IngestedQuestion {
   
   status: 'pending' | 'approved' | 'rejected' | 'conflict' | 'needs_review';
   curator_notes: string | null;
+  source_policy_version?: string | null;
+  source_policy_rule_id?: string | null;
+  source_policy_decision?: SourcePolicyDecision | null;
+  source_rights_class?: string | null;
+  source_requires_human_review?: boolean | null;
+  source_policy_reason?: string | null;
+  source_discovered_from_url?: string | null;
+  source_discovery_method?: 'portal_index' | 'domain_crawl' | 'seed_page' | 'manual' | null;
+  source_extraction_method?: string | null;
+  source_fetched_at?: string | null;
   approved_by: string | null;
   approved_at: Date | null;
   target_question_id: string | null;
@@ -52,6 +82,9 @@ export interface McpSearchResult {
   url: string;
   snippet: string;
   type?: 'prova' | 'gabarito' | 'unknown';
+  discoveredFromUrl?: string;
+  discoveryMethod?: 'portal_index' | 'domain_crawl' | 'seed_page';
+  sourcePolicy?: SourcePolicySnapshot;
 }
 
 // ============================================================
@@ -112,6 +145,7 @@ export interface ConvergenceMetadata {
   } | null;
   pipeline_version: string;
   processed_at: string;
+  [key: string]: unknown;
 }
 
 export interface PipelineStats {

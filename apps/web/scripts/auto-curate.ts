@@ -17,6 +17,25 @@ try {
 } catch {}
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
+function readSourcePolicyDecision(meta: Record<string, unknown>): 'allow' | 'review' | 'block' | null {
+  const sourcePolicy = meta.source_policy as { decision?: unknown } | undefined;
+  const decision = String(sourcePolicy?.decision || '').toLowerCase();
+  if (decision === 'allow' || decision === 'review' || decision === 'block') return decision;
+  return null;
+}
+
+function requiresLegalReview(meta: Record<string, unknown>): boolean {
+  const sourcePolicy =
+    (meta.source_policy as {
+      requires_human_review?: unknown;
+      requiresHumanReview?: unknown;
+    } | undefined) || {};
+
+  const decision = readSourcePolicyDecision(meta);
+  if (decision === 'review') return true;
+  return sourcePolicy.requires_human_review === true || sourcePolicy.requiresHumanReview === true;
+}
+
 async function main() {
   const { createClient } = await import('@supabase/supabase-js');
   const { selectProviderPair } = await import('../lib/mcp-ingestion/llmProviders');
@@ -115,6 +134,13 @@ async function main() {
           } else {
             newStatus = 'needs_review';
             qualityNeedsReview++;
+          }
+
+          const sourceDecision = readSourcePolicyDecision(meta);
+          if (sourceDecision === 'block') {
+            newStatus = 'rejected';
+          } else if (requiresLegalReview(meta) && newStatus !== 'needs_review') {
+            newStatus = 'needs_review';
           }
 
           await supabase
@@ -251,6 +277,8 @@ async function main() {
         const qualityScore = meta.quality?.score ?? 0;
         const hasCritical = (meta.quality?.issues || []).some((i: any) => i.severity === 'critical');
         const hasCorrectAnswer = q.correct_index !== null;
+        const legalReviewRequired = requiresLegalReview(meta);
+        const sourceDecision = readSourcePolicyDecision(meta);
 
         // Auto-approve criteria:
         // - Both LLMs agreed on area
@@ -267,7 +295,9 @@ async function main() {
           !hasCritical &&
           hasCorrectAnswer &&
           stemOk &&
-          optionsOk
+          optionsOk &&
+          !legalReviewRequired &&
+          sourceDecision !== 'block'
         ) {
           meta.auto_approved = true;
           meta.auto_approved_at = new Date().toISOString();

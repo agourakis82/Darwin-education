@@ -19,6 +19,24 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const BATCH_SIZE = 200;
 
+function readSourcePolicyDecision(meta: Record<string, unknown>): 'allow' | 'review' | 'block' | null {
+  const sourcePolicy = meta.source_policy as { decision?: unknown } | undefined;
+  const decision = String(sourcePolicy?.decision || '').toLowerCase();
+  if (decision === 'allow' || decision === 'review' || decision === 'block') return decision;
+  return null;
+}
+
+function requiresLegalReview(meta: Record<string, unknown>): boolean {
+  const sourcePolicy =
+    (meta.source_policy as {
+      requires_human_review?: unknown;
+      requiresHumanReview?: unknown;
+    } | undefined) || {};
+  const decision = readSourcePolicyDecision(meta);
+  if (decision === 'review') return true;
+  return sourcePolicy.requires_human_review === true || sourcePolicy.requiresHumanReview === true;
+}
+
 // Estimate IRT difficulty bucket from quality score + year
 function estimateDifficulty(q: any): string {
   const meta = (() => { try { return JSON.parse(q.curator_notes || '{}'); } catch { return {}; } })();
@@ -134,6 +152,22 @@ async function main() {
       const validAreas = ['clinica_medica', 'cirurgia', 'ginecologia_obstetricia', 'pediatria', 'saude_coletiva'];
       if (!validAreas.includes(q.area)) {
         totalSkipped++;
+        continue;
+      }
+
+      const meta = (() => { try { return JSON.parse(q.curator_notes || '{}'); } catch { return {}; } })();
+      if (readSourcePolicyDecision(meta) === 'block' || requiresLegalReview(meta)) {
+        totalSkipped++;
+        await supabase
+          .from('ingested_questions')
+          .update({
+            status: 'needs_review',
+            curator_notes: JSON.stringify({
+              ...meta,
+              skip_reason: 'legal_review_required_by_source_policy',
+            }),
+          })
+          .eq('id', q.id);
         continue;
       }
 

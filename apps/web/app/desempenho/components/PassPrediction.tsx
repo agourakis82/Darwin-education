@@ -73,7 +73,7 @@ export function PassPrediction({ theta, totalQuestions, attempts = [] }: PassPre
   }
 
   return (
-    <Card>
+    <Card variant="glass">
       <CardHeader>
         <CardTitle className="text-sm">Probabilidade de Aprovação</CardTitle>
       </CardHeader>
@@ -170,7 +170,7 @@ export function PassPrediction({ theta, totalQuestions, attempts = [] }: PassPre
         )}
 
         {/* Explanation */}
-        <div className="mt-4 p-3 bg-surface-2/50 rounded-lg">
+        <div className="mt-4 p-3 darwin-panel border border-separator/40 rounded-xl">
           <p className="text-xs text-label-secondary">
             <span className="font-medium text-label-primary">Como funciona:</span> A probabilidade é calculada
             usando TRI baseada em seu desempenho. Quanto maior seu theta, maior a probabilidade de aprovação.

@@ -2,13 +2,7 @@
 
 import { forwardRef, isValidElement, cloneElement, type ButtonHTMLAttributes, type ReactNode, type ReactElement } from 'react'
 import { Spinner } from './Spinner'
-import { clsx, type ClassValue } from 'clsx'
-import { twMerge } from 'tailwind-merge'
-
-// Utility for cleaner tailwind classes
-function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}
+import { cn } from '@/lib/cn'
 
 type ButtonVariant =
   | 'filled'      // iOS filled button (primary)

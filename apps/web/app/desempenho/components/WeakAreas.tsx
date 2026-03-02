@@ -28,7 +28,7 @@ export function WeakAreas({ performance }: WeakAreasProps) {
     const hasData = Object.values(performance).some(v => v > 0)
 
     return (
-      <Card>
+      <Card variant="glass">
         <CardHeader>
           <CardTitle className="text-sm">Áreas para Melhorar</CardTitle>
         </CardHeader>
@@ -66,14 +66,14 @@ export function WeakAreas({ performance }: WeakAreasProps) {
   }
 
   return (
-    <Card>
+    <Card variant="glass">
       <CardHeader>
         <CardTitle className="text-sm">Áreas para Melhorar</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
           {weakAreas.map(([area, score]) => (
-            <div key={area} className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg hover:border-red-500/40 transition-colors">
+            <div key={area} className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl shadow-inner-shine hover:border-red-500/40 transition-colors">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm text-label-primary font-medium">{AREA_LABELS[area]}</span>
                 <span className="text-sm font-medium text-red-400">{score}%</span>
@@ -95,7 +95,7 @@ export function WeakAreas({ performance }: WeakAreasProps) {
         <div className="mt-4 space-y-2">
           <Link
             href={`/montar-prova?areas=${weakAreas.map(([a]) => a).join(',')}`}
-            className="flex items-center justify-center gap-2 w-full py-2 px-3 bg-emerald-600 hover:bg-emerald-500 rounded-lg transition-colors text-sm text-white font-medium"
+            className="flex items-center justify-center gap-2 w-full py-2 px-3 bg-emerald-600 hover:bg-emerald-500 rounded-xl transition-colors text-sm text-white font-medium"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -104,7 +104,7 @@ export function WeakAreas({ performance }: WeakAreasProps) {
           </Link>
           <Link
             href="/trilhas"
-            className="flex items-center justify-center gap-2 w-full py-2 px-3 bg-surface-2 hover:bg-surface-3 text-label-primary rounded-lg transition-colors text-sm"
+            className="flex items-center justify-center gap-2 w-full py-2 px-3 bg-surface-2 hover:bg-surface-3 text-label-primary rounded-xl transition-colors text-sm"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
@@ -114,7 +114,7 @@ export function WeakAreas({ performance }: WeakAreasProps) {
         </div>
 
         {/* Tips */}
-        <div className="mt-4 p-3 bg-surface-2/50 rounded-lg">
+        <div className="mt-4 p-3 darwin-panel border border-separator/40 rounded-xl">
           <p className="text-xs text-label-secondary">
             <span className="font-medium text-label-primary">Dica:</span> Comece pela área com menor
             desempenho. Pratique regularmente para consolidar o conhecimento.

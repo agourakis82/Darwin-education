@@ -1,12 +1,7 @@
 'use client'
 
 import { type KeyboardEvent, type ReactNode } from 'react'
-import { clsx, type ClassValue } from 'clsx'
-import { twMerge } from 'tailwind-merge'
-
-function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}
+import { cn } from '@/lib/cn'
 
 type CardVariant = 
   | 'default'      // iOS grouped background

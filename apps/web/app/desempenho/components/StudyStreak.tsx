@@ -60,7 +60,7 @@ export function StudyStreak({ streak, lastDate, activityData = [] }: StudyStreak
   }
 
   return (
-    <Card>
+    <Card variant="glass">
       <CardHeader>
         <CardTitle className="text-sm flex items-center gap-2">
           Sequência de Estudos
@@ -119,7 +119,7 @@ export function StudyStreak({ streak, lastDate, activityData = [] }: StudyStreak
 
         {/* Motivational message */}
         {!isActive && streak > 0 && (
-          <div className="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
+          <div className="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/25 rounded-xl">
             <p className="text-xs text-yellow-400 text-center">
               Estude hoje para não perder sua sequência!
             </p>
@@ -127,7 +127,7 @@ export function StudyStreak({ streak, lastDate, activityData = [] }: StudyStreak
         )}
 
         {streak === 0 && (
-          <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+          <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/25 rounded-xl">
             <p className="text-xs text-blue-400 text-center">
               Complete um simulado ou revise flashcards para iniciar sua sequência!
             </p>

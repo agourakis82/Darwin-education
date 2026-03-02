@@ -181,10 +181,10 @@ export default function FlashcardsPage() {
             {/* Stats Overview */}
             <AnimatedList className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3">
               <AnimatedItem>
-                <Card>
+                <Card variant="glass">
                   <CardContent className="pt-6">
                     <div className="flex items-center gap-4">
-                      <div className="rounded-lg bg-emerald-500/20 p-3">
+                      <div className="rounded-xl bg-emerald-500/15 border border-emerald-500/25 p-3">
                         <svg className="h-6 w-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                         </svg>
@@ -199,10 +199,10 @@ export default function FlashcardsPage() {
               </AnimatedItem>
 
               <AnimatedItem>
-                <Card>
+                <Card variant="glass">
                   <CardContent className="pt-6">
                     <div className="flex items-center gap-4">
-                      <div className="rounded-lg bg-blue-500/20 p-3">
+                      <div className="rounded-xl bg-blue-500/15 border border-blue-500/25 p-3">
                         <svg className="h-6 w-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                         </svg>
@@ -217,10 +217,10 @@ export default function FlashcardsPage() {
               </AnimatedItem>
 
               <AnimatedItem>
-                <Card>
+                <Card variant="glass">
                   <CardContent className="pt-6">
                     <div className="flex items-center gap-4">
-                      <div className="rounded-lg bg-yellow-500/20 p-3">
+                      <div className="rounded-xl bg-yellow-500/15 border border-yellow-500/25 p-3">
                         <svg className="h-6 w-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
@@ -237,7 +237,7 @@ export default function FlashcardsPage() {
 
             {/* Quick Study */}
             {totalDue > 0 && (
-              <Card className="mb-8 border-emerald-800 bg-gradient-to-r from-emerald-900/30 to-surface-1">
+              <Card variant="glass" className="mb-8 border-emerald-500/30 bg-gradient-to-r from-emerald-900/20 to-transparent">
                 <CardContent className="py-6">
                   <div className="flex items-center justify-between">
                     <div>
@@ -267,8 +267,8 @@ export default function FlashcardsPage() {
                 onClick={() => setFilter('all')}
                 className={`darwin-focus-ring whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
                   filter === 'all'
-                    ? 'bg-emerald-600 text-white'
-                    : 'bg-surface-2 text-label-primary hover:bg-surface-3'
+                    ? 'bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 shadow-inner-shine'
+                    : 'darwin-panel border border-separator/30 text-label-primary hover:text-label-primary'
                 }`}
               >
                 Todos
@@ -279,8 +279,8 @@ export default function FlashcardsPage() {
                   onClick={() => setFilter(area)}
                   className={`darwin-focus-ring whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
                     filter === area
-                      ? 'bg-emerald-600 text-white'
-                      : 'bg-surface-2 text-label-primary hover:bg-surface-3'
+                      ? 'bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 shadow-inner-shine'
+                      : 'darwin-panel border border-separator/30 text-label-primary hover:text-label-primary'
                   }`}
                 >
                   {AREA_LABELS[area]}
@@ -304,7 +304,7 @@ export default function FlashcardsPage() {
                     {filteredSystemDecks.map((deck) => (
                       <AnimatedItem key={deck.id}>
                         <Link href={`/flashcards/${deck.id}`}>
-                          <Card className="h-full cursor-pointer border-emerald-900/50 transition-colors hover:border-emerald-800">
+                          <Card variant="glass" hover className="h-full cursor-pointer">
                             <CardHeader>
                               <div className="flex items-start justify-between">
                                 <div className="flex items-center gap-2">
@@ -361,7 +361,7 @@ export default function FlashcardsPage() {
                   {filteredUserDecks.map((deck) => (
                     <AnimatedItem key={deck.id}>
                       <Link href={`/flashcards/${deck.id}`}>
-                        <Card className="h-full cursor-pointer transition-colors hover:border-surface-4">
+                        <Card variant="glass" hover className="h-full cursor-pointer">
                           <CardHeader>
                             <div className="flex items-start justify-between">
                               <CardTitle className="text-lg">{deck.name}</CardTitle>
